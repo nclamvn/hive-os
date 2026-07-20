@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: hiveos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hiveos
+      POSTGRES_PASSWORD: hiveos
+      POSTGRES_DB: hiveos_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - hiveos_pgdata:/var/lib/postgresql/data
+      - ./scripts/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hiveos -d hiveos_dev"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  hiveos_pgdata:

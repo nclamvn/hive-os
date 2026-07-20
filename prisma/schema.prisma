@@ -1,0 +1,21 @@
+// HIVE OS — authoritative transactional store schema.
+// TIP-001 scope: infrastructure bootstrap only. Domain models (Workspace,
+// Mission, Claim, ...) arrive in their authorized TIPs.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Infrastructure marker proving the migration pipeline is deterministic and
+/// applied. Not a domain object; carries no product data.
+model SchemaBootstrap {
+  id        String   @id @default(uuid())
+  note      String
+  appliedAt DateTime @default(now()) @map("applied_at")
+
+  @@map("schema_bootstrap")
+}

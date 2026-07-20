@@ -1,0 +1,66 @@
+name: quality-gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: hiveos
+          POSTGRES_PASSWORD: hiveos
+          POSTGRES_DB: hiveos_test
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U hiveos -d hiveos_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://hiveos:hiveos@localhost:5433/hiveos_test
+      STORAGE_DRIVER: local
+      STORAGE_LOCAL_ROOT: .storage-test
+      DEMO_FIXTURES_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies (deterministic)
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Integration tests
+        run: npm run test:integration
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: npm run test:e2e
+
+      - name: Dependency audit (report only)
+        run: npm audit --audit-level=high || true

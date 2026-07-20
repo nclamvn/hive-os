@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HIVE OS
 
-## Getting Started
+Provenance-preserving operating system for Human-AI research, engineering, and
+decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
+authoritative product specification and governance documents live in
+[`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
-First, run the development server:
+Current state: **TIP-001 Foundation** — application skeleton, quality gates,
+database and storage boundaries. No product features yet; those arrive with
+later authorized TIPs (see `docs/contractor/07_TASK_GRAPH.md`).
+
+## Stack
+
+- Next.js App Router, TypeScript strict, Tailwind CSS
+- PostgreSQL + Prisma (deterministic migrations, driver adapter)
+- Zod-validated environment (`src/server/env.ts`)
+- Provider-independent object storage (`src/server/storage/`): local adapter
+  for development, S3-compatible adapter for production
+- Vitest (unit + integration), Playwright (E2E), GitHub Actions quality gates
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci                 # deterministic install (runs prisma generate)
+docker compose up -d   # dedicated Postgres on port 5433 (dev + test databases)
+npm run db:migrate     # apply committed migrations
+npm run dev            # http://localhost:3000 — placeholder shell
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copy `.env.example` to `.env` if you need non-default configuration.
+Health endpoint: `GET /api/health` (includes database connectivity).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quality commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run typecheck
+npm run lint
+npm run test              # unit + integration
+npm run test:unit
+npm run test:integration  # runs against the isolated hiveos_test database
+npm run test:e2e          # Playwright; builds and starts the app itself
+```
 
-## Learn More
+## Data boundaries
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Production data, development data, demo fixtures, and test fixtures are
+strictly separated — see [`docs/DATA_BOUNDARIES.md`](docs/DATA_BOUNDARIES.md).
+Demo fixtures never load implicitly and are rejected outright in production.
+No metric, count, or status anywhere in the product may be synthesized.

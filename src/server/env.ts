@@ -1,0 +1,95 @@
+import { z } from "zod";
+
+/**
+ * Environment schema for HIVE OS.
+ *
+ * Validation reports which variables are missing or malformed but never
+ * echoes their values — connection strings and credentials must not leak
+ * into logs, errors, or reports.
+ */
+const envSchema = z
+  .object({
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
+    DATABASE_URL: z
+      .string()
+      .min(1, "required")
+      .refine(
+        (v) => v.startsWith("postgresql://") || v.startsWith("postgres://"),
+        "must be a postgresql:// connection string",
+      ),
+    STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
+    STORAGE_LOCAL_ROOT: z.string().default(".storage"),
+    S3_ENDPOINT: z.string().optional(),
+    S3_REGION: z.string().optional(),
+    S3_BUCKET: z.string().optional(),
+    S3_ACCESS_KEY_ID: z.string().optional(),
+    S3_SECRET_ACCESS_KEY: z.string().optional(),
+    S3_FORCE_PATH_STYLE: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    DEMO_FIXTURES_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+  })
+  .superRefine((env, ctx) => {
+    if (env.STORAGE_DRIVER === "s3") {
+      const required = [
+        "S3_REGION",
+        "S3_BUCKET",
+        "S3_ACCESS_KEY_ID",
+        "S3_SECRET_ACCESS_KEY",
+      ] as const;
+      for (const key of required) {
+        if (!env[key]) {
+          ctx.addIssue({
+            code: "custom",
+            path: [key],
+            message: "required when STORAGE_DRIVER=s3",
+          });
+        }
+      }
+    }
+    if (env.DEMO_FIXTURES_ENABLED && env.NODE_ENV === "production") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["DEMO_FIXTURES_ENABLED"],
+        message: "demo fixtures must never be enabled in production",
+      });
+    }
+  });
+
+export type Env = z.infer<typeof envSchema>;
+
+/**
+ * Validate a raw environment map. Throws with variable names and issue
+ * descriptions only — never with values.
+ */
+export function parseEnv(raw: Record<string, string | undefined>): Env {
+  const result = envSchema.safeParse(raw);
+  if (!result.success) {
+    const lines = result.error.issues.map(
+      (issue) => `  - ${issue.path.join(".") || "(root)"}: ${issue.message}`,
+    );
+    throw new Error(
+      `Invalid environment configuration:\n${lines.join("\n")}`,
+    );
+  }
+  return result.data;
+}
+
+let cached: Env | undefined;
+
+/** Validated process environment (cached after first successful parse). */
+export function getEnv(): Env {
+  cached ??= parseEnv(process.env);
+  return cached;
+}
+
+/** Test-only helper to clear the cache between scenarios. */
+export function resetEnvCache(): void {
+  cached = undefined;
+}
