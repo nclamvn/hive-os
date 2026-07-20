@@ -23,6 +23,42 @@ const AUDIT_PAYLOAD_SCHEMAS = {
   "invitation.created": z.object({ email: z.string(), role }).strict(),
   "invitation.accepted": z.object({ role }).strict(),
   "invitation.revoked": z.object({ email: z.string() }).strict(),
+
+  // Mission Kernel (TIP-004). Actor/correlation live in dedicated columns.
+  "mission.created": z
+    .object({ referenceCode: z.string(), title: z.string(), assuranceProfile: z.string() })
+    .strict(),
+  "mission.transitioned": z
+    .object({ from: z.string(), to: z.string(), reason: z.string(), version: z.number().int() })
+    .strict(),
+  "mission.blocked": z
+    .object({ from: z.string(), reason: z.string(), version: z.number().int() })
+    .strict(),
+  "mission.resumed": z
+    .object({ to: z.string(), reason: z.string(), version: z.number().int() })
+    .strict(),
+  "mission.archived": z
+    .object({ from: z.string(), reason: z.string(), version: z.number().int() })
+    .strict(),
+  "contract.created": z.object({ versionNumber: z.number().int() }).strict(),
+  "contract.submitted": z.object({ versionNumber: z.number().int() }).strict(),
+  "contract.approved": z.object({ versionNumber: z.number().int() }).strict(),
+  "contract.superseded": z
+    .object({ versionNumber: z.number().int(), supersededBy: z.number().int() })
+    .strict(),
+  "obligation.started": z.object({ code: z.string() }).strict(),
+  "obligation.satisfied": z.object({ code: z.string(), reason: z.string() }).strict(),
+  "obligation.blocked": z.object({ code: z.string(), reason: z.string() }).strict(),
+  "obligation.waived": z.object({ code: z.string(), decisionId: z.string() }).strict(),
+  "gate.evaluated": z
+    .object({ code: z.string(), result: z.string(), reason: z.string(), linkedArtifactId: z.string().optional() })
+    .strict(),
+  "gate.waived": z.object({ code: z.string(), decisionId: z.string() }).strict(),
+  "decision.required": z.object({ decisionType: z.string() }).strict(),
+  "decision.resolved": z.object({ decisionType: z.string(), status: z.string() }).strict(),
+  "escalation.created": z.object({ severity: z.string(), reason: z.string() }).strict(),
+  "escalation.acknowledged": z.object({ severity: z.string() }).strict(),
+  "escalation.resolved": z.object({ severity: z.string() }).strict(),
 } as const;
 
 /** Canonical governed event types for Identity & Workspace. */
@@ -35,6 +71,27 @@ export const AuditEventType = {
   InvitationCreated: "invitation.created",
   InvitationAccepted: "invitation.accepted",
   InvitationRevoked: "invitation.revoked",
+  // Mission Kernel (TIP-004)
+  MissionCreated: "mission.created",
+  MissionTransitioned: "mission.transitioned",
+  MissionBlocked: "mission.blocked",
+  MissionResumed: "mission.resumed",
+  MissionArchived: "mission.archived",
+  ContractCreated: "contract.created",
+  ContractSubmitted: "contract.submitted",
+  ContractApproved: "contract.approved",
+  ContractSuperseded: "contract.superseded",
+  ObligationStarted: "obligation.started",
+  ObligationSatisfied: "obligation.satisfied",
+  ObligationBlocked: "obligation.blocked",
+  ObligationWaived: "obligation.waived",
+  GateEvaluated: "gate.evaluated",
+  GateWaived: "gate.waived",
+  DecisionRequired: "decision.required",
+  DecisionResolved: "decision.resolved",
+  EscalationCreated: "escalation.created",
+  EscalationAcknowledged: "escalation.acknowledged",
+  EscalationResolved: "escalation.resolved",
 } as const;
 
 export type AuditEventTypeValue =

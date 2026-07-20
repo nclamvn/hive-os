@@ -134,6 +134,7 @@ model Workspace {
   memberships Membership[]
   invitations Invitation[]
   auditEvents AuditEvent[]
+  missions    Mission[]
 
   @@map("workspace")
 }
@@ -200,4 +201,402 @@ model AuditEvent {
   @@index([workspaceId, createdAt])
   @@index([correlationId])
   @@map("audit_event")
+}
+
+// ---------------------------------------------------------------------------
+// Mission Kernel (TIP-004). Immutable contract definitions are kept separate
+// from mutable runtime state. Truth/Execution/Verification/Release are NOT
+// implemented here; later-stage transitions fail closed.
+// ---------------------------------------------------------------------------
+
+enum MissionStatus {
+  DRAFT
+  INTAKE
+  SCOPED
+  CONTRACT_REVIEW
+  APPROVED
+  EXPLORING
+  BUILDING
+  VERIFYING
+  REVIEW
+  RELEASED
+  PARTIAL
+  BLOCKED
+  REFUTED
+  CANCELLED
+  ARCHIVED
+}
+
+enum AssuranceProfile {
+  QUICK
+  PROFESSIONAL
+  RESEARCH
+  REGULATED
+}
+
+enum ContractStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  SUPERSEDED
+}
+
+enum RequirementPriority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ConstraintType {
+  TECHNICAL
+  LEGAL
+  RESOURCE
+  SCHEDULE
+  OTHER
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum MissionInputType {
+  TEXT
+  LINK
+  FILE
+  DATASET
+  OTHER
+}
+
+enum ObligationStatus {
+  OPEN
+  IN_PROGRESS
+  SATISFIED
+  WAIVED
+  BLOCKED
+}
+
+enum GateStatus {
+  OPEN
+  PASSED
+  FAILED
+  WAIVED
+}
+
+enum GateResult {
+  PASS
+  FAIL
+  INCOMPLETE
+}
+
+enum GateEvaluationMode {
+  MANUAL
+  DETERMINISTIC
+}
+
+enum ActorType {
+  HUMAN_COMMAND
+  DETERMINISTIC_KERNEL
+}
+
+enum DecisionType {
+  CONTRACT_AMENDMENT
+  SCOPE_CHANGE
+  ASSURANCE_DOWNGRADE
+  OBLIGATION_WAIVER
+  GATE_WAIVER
+  CANCELLATION
+  REFUTATION
+  RELEASE_EXCEPTION
+}
+
+enum DecisionStatus {
+  REQUIRED
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum EscalationSeverity {
+  P0
+  P1
+  P2
+  P3
+}
+
+enum EscalationStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+/// Concurrency-safe per-workspace reference-code allocator for missions.
+model WorkspaceMissionCounter {
+  workspaceId String @id @map("workspace_id")
+  nextRef     Int    @default(1) @map("next_ref")
+
+  @@map("workspace_mission_counter")
+}
+
+model Mission {
+  id                  String        @id @default(uuid())
+  workspaceId         String        @map("workspace_id")
+  referenceCode       String        @map("reference_code")
+  title               String
+  status              MissionStatus @default(DRAFT)
+  assuranceProfile    AssuranceProfile @default(PROFESSIONAL) @map("assurance_profile")
+  currentContractId   String?       @map("current_contract_id")
+  approvedContractId  String?       @map("approved_contract_id")
+  blockedFromStatus   MissionStatus? @map("blocked_from_status")
+  idempotencyKey      String?       @map("idempotency_key")
+  createdByMembershipId String      @map("created_by_membership_id")
+  createdAt           DateTime      @default(now()) @map("created_at")
+  updatedAt           DateTime      @updatedAt @map("updated_at")
+  version             Int           @default(1)
+
+  workspace   Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  contracts   MissionContract[]
+  obligations RuntimeObligation[]
+  gates       RuntimeGate[]
+  decisions   Decision[]
+  escalations Escalation[]
+
+  @@unique([workspaceId, referenceCode])
+  @@unique([workspaceId, idempotencyKey])
+  @@index([workspaceId, status])
+  @@map("mission")
+}
+
+model MissionContract {
+  id                    String         @id @default(uuid())
+  workspaceId           String         @map("workspace_id")
+  missionId             String         @map("mission_id")
+  versionNumber         Int            @map("version_number")
+  status                ContractStatus @default(DRAFT)
+  objective             String
+  scope                 String
+  successDefinition     String         @map("success_definition")
+  assuranceProfile      AssuranceProfile @map("assurance_profile")
+  supersedesContractId  String?        @map("supersedes_contract_id")
+  createdByMembershipId String         @map("created_by_membership_id")
+  submittedByMembershipId String?      @map("submitted_by_membership_id")
+  approvedByMembershipId  String?      @map("approved_by_membership_id")
+  submittedAt           DateTime?      @map("submitted_at")
+  approvedAt            DateTime?      @map("approved_at")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+  version              Int            @default(1)
+
+  mission      Mission              @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  requirements Requirement[]
+  assumptions  Assumption[]
+  constraints  Constraint[]
+  inputs       MissionInput[]
+  obligationDefs ContractObligation[]
+  gateDefs     ContractGate[]
+
+  @@unique([missionId, versionNumber])
+  @@index([workspaceId, status])
+  @@map("mission_contract")
+}
+
+model Requirement {
+  id                 String              @id @default(uuid())
+  workspaceId        String              @map("workspace_id")
+  contractId         String              @map("contract_id")
+  code               String
+  title              String
+  description        String
+  acceptanceCriteria String              @map("acceptance_criteria")
+  priority           RequirementPriority @default(MEDIUM)
+  required           Boolean             @default(true)
+
+  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@unique([contractId, code])
+  @@map("requirement")
+}
+
+model Assumption {
+  id               String  @id @default(uuid())
+  workspaceId      String  @map("workspace_id")
+  contractId       String  @map("contract_id")
+  statement        String
+  validationMethod String? @map("validation_method")
+  status           String  @default("ASSUMED")
+
+  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@map("assumption")
+}
+
+model Constraint {
+  id             String         @id @default(uuid())
+  workspaceId    String         @map("workspace_id")
+  contractId     String         @map("contract_id")
+  statement      String
+  constraintType ConstraintType @default(OTHER) @map("constraint_type")
+  severity       Severity       @default(MEDIUM)
+
+  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@map("constraint")
+}
+
+model MissionInput {
+  id               String           @id @default(uuid())
+  workspaceId      String           @map("workspace_id")
+  contractId       String           @map("contract_id")
+  label            String
+  inputType        MissionInputType @default(TEXT) @map("input_type")
+  description      String
+  storageReference String?          @map("storage_reference")
+  contentHash      String?          @map("content_hash")
+
+  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@map("mission_input")
+}
+
+model ContractObligation {
+  id          String  @id @default(uuid())
+  workspaceId String  @map("workspace_id")
+  contractId  String  @map("contract_id")
+  code        String
+  title       String
+  description String
+  weight      Int
+  required    Boolean @default(true)
+  closureRule String  @map("closure_rule")
+
+  contract MissionContract     @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  runtime  RuntimeObligation[]
+
+  @@unique([contractId, code])
+  @@map("contract_obligation")
+}
+
+model ContractGate {
+  id                  String             @id @default(uuid())
+  workspaceId         String             @map("workspace_id")
+  contractId          String             @map("contract_id")
+  code                String
+  title               String
+  requiredBeforeStatus MissionStatus     @map("required_before_status")
+  required            Boolean            @default(true)
+  evaluationMode      GateEvaluationMode @default(MANUAL) @map("evaluation_mode")
+
+  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  runtime  RuntimeGate[]
+
+  @@unique([contractId, code])
+  @@map("contract_gate")
+}
+
+model RuntimeObligation {
+  id                   String           @id @default(uuid())
+  workspaceId          String           @map("workspace_id")
+  missionId            String           @map("mission_id")
+  contractObligationId String           @map("contract_obligation_id")
+  status               ObligationStatus @default(OPEN)
+  closedByMembershipId String?          @map("closed_by_membership_id")
+  closedAt             DateTime?        @map("closed_at")
+  closureReason        String?          @map("closure_reason")
+  version              Int              @default(1)
+
+  mission           Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  contractObligation ContractObligation @relation(fields: [contractObligationId], references: [id], onDelete: Cascade)
+
+  @@unique([missionId, contractObligationId])
+  @@index([workspaceId, missionId])
+  @@map("runtime_obligation")
+}
+
+model RuntimeGate {
+  id             String     @id @default(uuid())
+  workspaceId    String     @map("workspace_id")
+  missionId      String     @map("mission_id")
+  contractGateId String     @map("contract_gate_id")
+  status         GateStatus @default(OPEN)
+  version        Int        @default(1)
+
+  mission      Mission      @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  contractGate ContractGate @relation(fields: [contractGateId], references: [id], onDelete: Cascade)
+  runs         GateRun[]
+
+  @@unique([missionId, contractGateId])
+  @@index([workspaceId, missionId])
+  @@map("runtime_gate")
+}
+
+/// Append-only evaluation attempts. INCOMPLETE never counts as PASS.
+model GateRun {
+  id             String     @id @default(uuid())
+  workspaceId    String     @map("workspace_id")
+  missionId      String     @map("mission_id")
+  runtimeGateId  String     @map("runtime_gate_id")
+  result         GateResult
+  actorType      ActorType  @map("actor_type")
+  actorId        String     @map("actor_id")
+  reason         String
+  linkedArtifactId String?  @map("linked_artifact_id")
+  createdAt      DateTime   @default(now()) @map("created_at")
+
+  runtimeGate RuntimeGate @relation(fields: [runtimeGateId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, missionId])
+  @@map("gate_run")
+}
+
+model Decision {
+  id                     String         @id @default(uuid())
+  workspaceId            String         @map("workspace_id")
+  missionId              String         @map("mission_id")
+  decisionType           DecisionType   @map("decision_type")
+  materiality            String         @default("MATERIAL")
+  status                 DecisionStatus @default(REQUIRED)
+  question               String
+  proposedAction         String         @map("proposed_action")
+  resolution             String?
+  targetKind             String?        @map("target_kind")
+  targetId               String?        @map("target_id")
+  proposedProfile        AssuranceProfile? @map("proposed_profile")
+  requestedByMembershipId String        @map("requested_by_membership_id")
+  decidedByMembershipId  String?        @map("decided_by_membership_id")
+  dueAt                  DateTime?      @map("due_at")
+  decidedAt              DateTime?      @map("decided_at")
+  createdAt              DateTime       @default(now()) @map("created_at")
+  version                Int            @default(1)
+
+  mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, status])
+  @@index([workspaceId, missionId])
+  @@map("decision")
+}
+
+model Escalation {
+  id                        String             @id @default(uuid())
+  workspaceId               String             @map("workspace_id")
+  missionId                 String             @map("mission_id")
+  severity                  EscalationSeverity
+  status                    EscalationStatus   @default(OPEN)
+  reason                    String
+  sourceType                String             @map("source_type")
+  sourceId                  String?            @map("source_id")
+  createdByMembershipId     String             @map("created_by_membership_id")
+  acknowledgedByMembershipId String?           @map("acknowledged_by_membership_id")
+  resolvedByMembershipId    String?            @map("resolved_by_membership_id")
+  createdAt                 DateTime           @default(now()) @map("created_at")
+  resolvedAt                DateTime?          @map("resolved_at")
+  version                   Int                @default(1)
+
+  mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, status])
+  @@index([workspaceId, missionId])
+  @@map("escalation")
 }

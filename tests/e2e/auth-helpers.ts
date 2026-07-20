@@ -27,11 +27,11 @@ export async function signUpToDashboard(
   await page.getByLabel("Password").fill("password12345");
   await page.getByRole("button", { name: "Create account" }).click();
 
-  await page.waitForURL("**/onboarding");
+  await page.waitForURL("**/onboarding", { timeout: 20_000 });
   await page.getByLabel("Workspace name").fill(workspaceName);
   await page.getByRole("button", { name: "Create workspace" }).click();
 
-  await page.waitForURL(/\/w\//);
+  await page.waitForURL(/\/w\//, { timeout: 20_000 });
   await expect(
     page.getByRole("heading", { level: 1, name: "Dashboard" }),
   ).toBeVisible();

@@ -1,0 +1,19 @@
+HIVE OS — TIP-004 mission immutability evidence (runtime role hiveos_app)
+
+== Approved contract requirement is frozen (UPDATE/DELETE) ==
+ERROR:  contract definitions are frozen once the contract leaves DRAFT (status=APPROVED): UPDATE on requirement
+CONTEXT:  PL/pgSQL function hiveos_contract_def_frozen() line 9 at RAISE
+ERROR:  contract definitions are frozen once the contract leaves DRAFT (status=APPROVED): DELETE on requirement
+CONTEXT:  PL/pgSQL function hiveos_contract_def_frozen() line 9 at RAISE
+== Approved contract obligation weight is frozen ==
+ERROR:  contract definitions are frozen once the contract leaves DRAFT (status=APPROVED): UPDATE on contract_obligation
+CONTEXT:  PL/pgSQL function hiveos_contract_def_frozen() line 9 at RAISE
+== gate_run is append-only for the runtime role ==
+ERROR:  permission denied for table gate_run
+ERROR:  permission denied for table gate_run
+== runtime role cannot drop the gate_run trigger ==
+ERROR:  must be owner of relation gate_run
+== runtime role CAN insert a gate_run (append) ==
+INSERT 0 1
+ append ok
+

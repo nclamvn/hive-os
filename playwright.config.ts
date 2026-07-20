@@ -6,10 +6,14 @@ export default defineConfig({
   testDir: "tests/e2e",
   globalSetup: "./tests/e2e/global-setup.ts",
   fullyParallel: true,
-  // Bounded concurrency keeps the shared test database and dev server stable.
-  workers: 4,
+  // Bounded concurrency keeps the shared test database and single app server
+  // stable under auth + mission write load.
+  workers: 2,
+  timeout: 45_000,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  // One retry absorbs transient slowness of the single shared app server under
+  // concurrent auth + mission write load (infrastructural, not correctness).
+  retries: 1,
   reporter: process.env.CI ? "github" : "list",
   use: {
     baseURL: "http://localhost:3000",

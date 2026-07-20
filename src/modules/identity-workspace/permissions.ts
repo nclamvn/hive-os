@@ -13,7 +13,23 @@ export type Capability =
   | "members.change_role"
   | "members.suspend"
   | "members.manage_owner"
-  | "audit.read";
+  | "audit.read"
+  // Mission Kernel (TIP-004)
+  | "missions.read"
+  | "missions.create"
+  | "missions.update_draft"
+  | "missions.submit_contract"
+  | "missions.approve_contract"
+  | "missions.transition"
+  | "obligations.update"
+  | "obligations.waive"
+  | "gates.evaluate"
+  | "gates.waive"
+  | "decisions.read"
+  | "decisions.request"
+  | "decisions.resolve"
+  | "escalations.read"
+  | "escalations.manage";
 
 const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "workspace.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
@@ -25,6 +41,24 @@ const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   // Granting, demoting, or removing an Owner is restricted to Owners.
   "members.manage_owner": new Set(["OWNER"]),
   "audit.read": new Set(["OWNER", "ADMIN"]),
+
+  // Mission Kernel (TIP-004). Contextual restrictions (Regulated approval,
+  // assurance downgrade) are enforced in services on top of this matrix.
+  "missions.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "missions.create": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "missions.update_draft": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "missions.submit_contract": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "missions.approve_contract": new Set(["OWNER", "ADMIN"]),
+  "missions.transition": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "obligations.update": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "obligations.waive": new Set(["OWNER", "ADMIN"]),
+  "gates.evaluate": new Set(["OWNER", "ADMIN"]),
+  "gates.waive": new Set(["OWNER", "ADMIN"]),
+  "decisions.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "decisions.request": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "decisions.resolve": new Set(["OWNER", "ADMIN"]),
+  "escalations.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "escalations.manage": new Set(["OWNER", "ADMIN"]),
 };
 
 export function hasCapability(role: Role, capability: Capability): boolean {

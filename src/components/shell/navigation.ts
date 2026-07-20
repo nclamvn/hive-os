@@ -27,7 +27,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, implemented: true },
-  { label: "Missions", icon: Target, implemented: false },
+  { label: "Missions", icon: Target, implemented: true },
   { label: "Evidence Hub", icon: FlaskConical, implemented: false },
   { label: "Claims & Insights", icon: ListChecks, implemented: false },
   { label: "Verification", icon: ShieldCheck, implemented: false },

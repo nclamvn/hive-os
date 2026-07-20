@@ -5,12 +5,14 @@ decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
 authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
-Current state: **TIP-003 Identity + Workspace + Audit** — foundation (TIP-001),
-locked design system and app shell (TIP-002), and authentication, workspaces,
-memberships, invitations, and an append-only audit log (TIP-003). Missions,
-claims, evidence, and verification arrive with later authorized TIPs (see
-`docs/contractor/07_TASK_GRAPH.md`). Identity design notes live in
-`docs/identity/`.
+Current state: **TIP-004 Mission Kernel** — foundation (TIP-001), locked design
+system and app shell (TIP-002), identity/workspace/audit (TIP-003), and the
+governed mission-contract loop: missions, versioned contracts, requirements,
+weighted obligations, gates, deterministic progress, assurance profiles,
+material decisions, escalations and a fail-closed lifecycle ending at APPROVED
+(TIP-004). Truth, execution, verification and release arrive with later
+authorized TIPs (see `docs/contractor/07_TASK_GRAPH.md`). Design notes live in
+`docs/identity/` and `docs/mission/`.
 
 ## Stack
 

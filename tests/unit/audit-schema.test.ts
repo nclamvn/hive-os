@@ -58,7 +58,7 @@ describe("audit payload contract (SEC-02)", () => {
 
   it("rejects an unknown event type", () => {
     expect(() =>
-      validateAuditPayload("mission.created" as never, {}),
+      validateAuditPayload("totally.unknown.event" as never, {}),
     ).toThrow(/unknown event type/);
   });
 });

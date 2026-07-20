@@ -53,10 +53,13 @@ test.describe("HIVE OS app shell", () => {
     const rail = page.getByTestId("sidebar-iconrail");
     await expect(rail).toBeVisible();
 
-    const missions = rail.getByRole("button", { name: /Missions/ });
-    await expect(missions).toHaveAttribute("title", /Missions/);
+    // Evidence Hub remains an unimplemented, focusable disabled control.
+    const evidence = rail.getByRole("button", { name: /Evidence Hub/ });
+    await expect(evidence).toHaveAttribute("title", /Evidence Hub/);
     const dashboard = rail.getByRole("link", { name: "Dashboard" });
     await expect(dashboard).toHaveAttribute("title", "Dashboard");
+    const missions = rail.getByRole("link", { name: "Missions" });
+    await expect(missions).toHaveAttribute("title", "Missions");
   });
 
   test("DS-05 table projection stacks below 820px", async ({ page }) => {

@@ -18,10 +18,17 @@ $$;
 GRANT USAGE ON SCHEMA public TO hiveos_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO hiveos_app;
 
--- audit_event is append-only for the runtime role: SELECT + INSERT only.
--- The role never receives UPDATE/DELETE/TRUNCATE (and cannot ALTER/own it),
--- so the append-only database trigger cannot be dropped or bypassed by it.
+-- Append-only tables for the runtime role: SELECT + INSERT only. The role
+-- never receives UPDATE/DELETE/TRUNCATE (and cannot ALTER/own them), so the
+-- append-only database triggers cannot be dropped or bypassed by it.
 REVOKE UPDATE, DELETE, TRUNCATE ON TABLE audit_event FROM hiveos_app;
+DO $$
+BEGIN
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'gate_run') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE gate_run FROM hiveos_app;
+  END IF;
+END
+$$;
 
 -- The runtime role has no business with the migration ledger.
 REVOKE ALL ON TABLE _prisma_migrations FROM hiveos_app;

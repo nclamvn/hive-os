@@ -83,15 +83,19 @@ export function SidebarContent({
               }`;
 
               if (item.implemented) {
+                const wsBase = homeHref.startsWith("/w/") ? homeHref : "/";
+                const href =
+                  item.label === "Missions" && wsBase !== "/"
+                    ? `${wsBase}/missions`
+                    : wsBase;
                 return (
                   <li key={item.label}>
                     <Link
-                      href={homeHref.startsWith("/") ? homeHref : "/"}
-                      aria-current="page"
+                      href={href}
                       aria-label={item.label}
                       title={title}
                       onClick={onNavigate}
-                      className={`${rowClass} bg-surface-selected text-ink-strong`}
+                      className={`${rowClass} text-ink-strong hover:bg-surface-subtle`}
                     >
                       <Icon className="size-[18px] shrink-0" aria-hidden="true" />
                       {iconOnly ? (

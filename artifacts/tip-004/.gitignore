@@ -1,0 +1,3 @@
+*.png
+!README.md
+!mission-db-evidence.txt
