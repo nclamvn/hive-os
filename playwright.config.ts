@@ -16,7 +16,9 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run build && npm run start",
+    // globalSetup builds in production; here we only serve, with the test env
+    // (NODE_ENV=test) so the SEC-04 guard permits disabling rate limiting.
+    command: "npm run start",
     url: "http://localhost:3000/api/health",
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

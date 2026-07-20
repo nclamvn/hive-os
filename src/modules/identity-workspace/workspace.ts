@@ -4,8 +4,26 @@ import { getDb } from "@/server/db";
 
 import { AuditEventType, type DbClient, writeAuditEvent } from "./audit";
 import type { WorkspaceContext } from "./context";
-import { ForbiddenError, InvariantError, NotFoundError } from "./errors";
+import {
+  ForbiddenError,
+  InvariantError,
+  LastOwnerError,
+  NotFoundError,
+} from "./errors";
 import { canChangeRole, type Capability, hasCapability } from "./permissions";
+
+/**
+ * Acquire the workspace's authority lock inside the current transaction.
+ * Every mutation that can reduce the count of active Owners takes this lock
+ * first, serializing concurrent authority transitions so the last-Owner
+ * invariant cannot be broken by a race.
+ */
+async function lockWorkspaceAuthority(
+  tx: DbClient,
+  workspaceId: string,
+): Promise<void> {
+  await tx.$queryRaw`SELECT id FROM "workspace" WHERE id = ${workspaceId} FOR UPDATE`;
+}
 
 export function requireCapability(
   ctx: WorkspaceContext,
@@ -98,20 +116,30 @@ export async function changeMemberRole(
   membershipId: string,
   nextRole: Role,
 ): Promise<void> {
-  const target = await loadScopedMembership(ctx, membershipId);
-
-  if (!canChangeRole(ctx.membership.role, target.role, nextRole)) {
+  // Permission gate on a pre-read (existence + fast rejection).
+  const pre = await loadScopedMembership(ctx, membershipId);
+  if (!canChangeRole(ctx.membership.role, pre.role, nextRole)) {
     throw new ForbiddenError("Not permitted to change this member's role");
   }
-  if (target.role === nextRole) return;
+  if (pre.role === nextRole) return;
 
   await getDb().$transaction(async (tx) => {
-    // Demoting the last active Owner is forbidden.
+    await lockWorkspaceAuthority(tx, ctx.workspace.id);
+
+    // Authoritative re-read under the lock.
+    const target = await tx.membership.findFirst({
+      where: { id: membershipId, workspaceId: ctx.workspace.id },
+    });
+    if (!target) throw new NotFoundError();
+    if (!canChangeRole(ctx.membership.role, target.role, nextRole)) {
+      throw new ForbiddenError("Not permitted to change this member's role");
+    }
+    if (target.role === nextRole) return;
+
+    // Demoting the last active Owner is forbidden (checked under the lock).
     if (target.role === "OWNER" && nextRole !== "OWNER") {
       const owners = await countActiveOwners(tx, ctx.workspace.id);
-      if (owners <= 1) {
-        throw new InvariantError("A workspace must keep at least one Owner");
-      }
+      if (owners <= 1) throw new LastOwnerError();
     }
     await tx.membership.update({
       where: { id: target.id },
@@ -134,19 +162,33 @@ export async function suspendMember(
   ctx: WorkspaceContext,
   membershipId: string,
 ): Promise<void> {
-  const target = await loadScopedMembership(ctx, membershipId);
+  const pre = await loadScopedMembership(ctx, membershipId);
 
   // Suspending an Owner requires Owner-management authority.
   const capability: Capability =
-    target.role === "OWNER" ? "members.manage_owner" : "members.suspend";
+    pre.role === "OWNER" ? "members.manage_owner" : "members.suspend";
   requireCapability(ctx, capability);
-  if (target.status === "SUSPENDED") return;
+  if (pre.status === "SUSPENDED") return;
 
   await getDb().$transaction(async (tx) => {
+    await lockWorkspaceAuthority(tx, ctx.workspace.id);
+
+    const target = await tx.membership.findFirst({
+      where: { id: membershipId, workspaceId: ctx.workspace.id },
+    });
+    if (!target) throw new NotFoundError();
+    // Re-check authority under the lock (role may have changed).
+    const cap: Capability =
+      target.role === "OWNER" ? "members.manage_owner" : "members.suspend";
+    if (!hasCapability(ctx.membership.role, cap)) {
+      throw new ForbiddenError(`Missing capability: ${cap}`);
+    }
+    if (target.status === "SUSPENDED") return;
+
     if (target.role === "OWNER") {
       const owners = await countActiveOwners(tx, ctx.workspace.id);
       if (owners <= 1) {
-        throw new InvariantError(
+        throw new LastOwnerError(
           "Cannot suspend the last active Owner of a workspace",
         );
       }

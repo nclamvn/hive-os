@@ -70,4 +70,26 @@ describe("email/password authentication", () => {
     // Off-site redirect targets are not trusted; only the app origin is.
     expect(auth.options.trustedOrigins).toEqual([getEnv().BETTER_AUTH_URL]);
   });
+
+  it("RATE-05 authentication runs with rate limiting enabled", async () => {
+    const env = getEnv();
+    const limited = betterAuth({
+      secret: env.BETTER_AUTH_SECRET,
+      baseURL: env.BETTER_AUTH_URL,
+      database: prismaAdapter(getDb(), { provider: "postgresql" }),
+      emailAndPassword: { enabled: true },
+      rateLimit: { enabled: true, window: 60, max: 100 },
+    });
+    expect(limited.options.rateLimit?.enabled).toBe(true);
+
+    // A first request through a rate-limited instance still succeeds.
+    const result = await limited.api.signUpEmail({
+      body: {
+        email: `rate-${Date.now()}@test.local`,
+        password: PASSWORD,
+        name: "Rate",
+      },
+    });
+    expect(result.user?.id).toBeTruthy();
+  });
 });

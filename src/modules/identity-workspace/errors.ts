@@ -29,9 +29,18 @@ export class ForbiddenError extends Error {
 
 /** Business-rule violation, e.g. removing the last active Owner. */
 export class InvariantError extends Error {
-  readonly code = "INVARIANT";
-  constructor(message: string) {
+  readonly code: string;
+  constructor(message: string, code = "INVARIANT") {
     super(message);
     this.name = "InvariantError";
+    this.code = code;
+  }
+}
+
+/** Stable domain error raised when a mutation would remove the last Owner. */
+export class LastOwnerError extends InvariantError {
+  constructor(message = "A workspace must keep at least one active Owner") {
+    super(message, "LAST_ACTIVE_OWNER");
+    this.name = "LastOwnerError";
   }
 }

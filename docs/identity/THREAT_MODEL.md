@@ -36,11 +36,33 @@ Scope: sessions, invitation tokens, cross-workspace access, audit leakage.
 ## Audit leakage & tampering
 
 - **Risk:** secrets in audit payloads; tampering with the record.
-- **Mitigations:** allowlisted payloads + fail-closed
-  `assertRedactedPayload()` (ID-18); append-only enforced by database triggers
-  rejecting UPDATE/DELETE (ID-17, evidence
-  `artifacts/tip-003/audit-immutability.txt`); audit read limited to
+- **Mitigations:** strict per-eventType schemas rejecting unknown keys
+  (SEC-02, AUD-PAYLOAD-01..05) + fail-closed `assertRedactedPayload()` (ID-18);
+  append-only enforced by **two layers** — the least-privileged runtime role
+  lacks UPDATE/DELETE on `audit_event` and cannot drop the trigger (SEC-03,
+  DB-ROLE-01..07), and database triggers reject UPDATE/DELETE for any
+  privileged role (ID-17, evidence `artifacts/tip-003/audit-immutability.txt`
+  and `artifacts/tip-003c/db-role-evidence.txt`); audit read limited to
   Owner/Admin.
+
+## Authority races & runtime privilege
+
+- **Risk:** concurrent authority transitions remove the last Owner; an
+  over-privileged runtime role bypasses protections.
+- **Mitigations:** last-Owner mutations serialize on a `SELECT … FOR UPDATE`
+  workspace-authority lock inside the transaction, then re-read and re-validate
+  under the lock (SEC-01, C-OWNER-01..03). The application connects as a
+  non-superuser role that owns nothing and cannot alter schema or triggers
+  (SEC-03).
+
+## Rate limiting
+
+- **Risk:** a misconfiguration silently disables auth rate limiting in
+  production.
+- **Mitigations:** rate limiting is enabled by default; the env schema
+  **rejects startup** when `AUTH_RATE_LIMIT_ENABLED=false` outside
+  `NODE_ENV=test` (SEC-04, RATE-01..05). Limits are tunable but default to
+  production-safe values.
 
 ## Open redirects
 

@@ -27,8 +27,13 @@ function createAuth() {
     },
     // Keep auth callbacks same-origin.
     trustedOrigins: [env.BETTER_AUTH_URL],
-    // Rate limiting is on by default; automated test runs disable it.
-    rateLimit: { enabled: env.AUTH_RATE_LIMIT_ENABLED },
+    // Rate limiting is on by default (production-safe). It can be disabled only
+    // under NODE_ENV=test (enforced by the env schema); limits are tunable.
+    rateLimit: {
+      enabled: env.AUTH_RATE_LIMIT_ENABLED,
+      window: env.AUTH_RATE_LIMIT_WINDOW,
+      max: env.AUTH_RATE_LIMIT_MAX,
+    },
     plugins: [nextCookies()],
   });
 }

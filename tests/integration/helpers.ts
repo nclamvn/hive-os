@@ -1,5 +1,7 @@
 import { randomUUID } from "node:crypto";
 
+import pg from "pg";
+
 import type { WorkspaceContext } from "@/modules/identity-workspace";
 import { provisionWorkspace } from "@/modules/identity-workspace";
 import { getDb } from "@/server/db";
@@ -19,11 +21,37 @@ export async function createUser(prefix = "user"): Promise<TestUser> {
   return user;
 }
 
-/** Remove all identity data between tests (bypasses the audit row trigger). */
+/** Run a read query as the OWNER role (for ledger/privilege checks in tests). */
+export async function ownerQuery<T = Record<string, unknown>>(
+  sql: string,
+): Promise<T[]> {
+  const url = process.env.DATABASE_MIGRATION_URL || process.env.DATABASE_URL;
+  const client = new pg.Client({ connectionString: url });
+  await client.connect();
+  try {
+    const result = await client.query(sql);
+    return result.rows as T[];
+  } finally {
+    await client.end();
+  }
+}
+
+/**
+ * Remove all identity data between tests. Runs as the OWNER role because the
+ * least-privileged runtime role deliberately cannot TRUNCATE (least privilege).
+ * TRUNCATE bypasses the per-row audit trigger.
+ */
 export async function truncateAll(): Promise<void> {
-  await getDb().$executeRawUnsafe(
-    'TRUNCATE audit_event, invitation, membership, workspace, "session", account, "user" CASCADE',
-  );
+  const url = process.env.DATABASE_MIGRATION_URL || process.env.DATABASE_URL;
+  const client = new pg.Client({ connectionString: url });
+  await client.connect();
+  try {
+    await client.query(
+      'TRUNCATE audit_event, invitation, membership, workspace, "session", account, "user" CASCADE',
+    );
+  } finally {
+    await client.end();
+  }
 }
 
 /** Provision a workspace for `user` and return their authorized OWNER context. */

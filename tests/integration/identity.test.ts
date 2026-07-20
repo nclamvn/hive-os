@@ -310,16 +310,19 @@ describe("audit", () => {
       where: { workspaceId: ctx.workspace.id },
     });
 
+    // Two defense layers: the least-privileged runtime role lacks the
+    // UPDATE/DELETE privilege ("permission denied"), and the append-only
+    // trigger blocks any role that does hold it. Either way, it fails.
     await expect(
       getDb().$executeRawUnsafe(
         `UPDATE audit_event SET event_type = 'tampered' WHERE id = '${event.id}'`,
       ),
-    ).rejects.toThrow(/append-only/);
+    ).rejects.toThrow(/append-only|permission denied/i);
     await expect(
       getDb().$executeRawUnsafe(
         `DELETE FROM audit_event WHERE id = '${event.id}'`,
       ),
-    ).rejects.toThrow(/append-only/);
+    ).rejects.toThrow(/append-only|permission denied/i);
   });
 
   it("ID-18 stored audit payloads contain no credential-like keys", async () => {

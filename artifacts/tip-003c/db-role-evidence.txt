@@ -1,0 +1,31 @@
+HIVE OS — TIP-003C least-privilege runtime DB role evidence
+Runtime role: hiveos_app (the application connection / DATABASE_URL). Passwords never printed.
+
+== DB-ROLE-01: prohibited privilege flags all false ==
+ hiveos_app | f        | f           | f             | f
+
+== DB-ROLE-02: runtime role does NOT own audit_event or its trigger function ==
+ audit_event | hiveos
+
+ hiveos_audit_event_append_only | hiveos
+
+== DB-ROLE-03: governed INSERT into audit_event succeeds as runtime role ==
+INSERT 0 1
+INSERT 0 1
+ audit rows by runtime role: 1
+
+== DB-ROLE-04: UPDATE audit_event fails ==
+ERROR:  permission denied for table audit_event
+== DB-ROLE-05: DELETE audit_event fails ==
+ERROR:  permission denied for table audit_event
+== DB-ROLE-06: dropping/disabling the trigger fails (not owner) ==
+ERROR:  must be owner of relation audit_event
+ERROR:  must be owner of table audit_event
+== DB-ROLE-07: ordinary Better Auth session lifecycle succeeds ==
+INSERT 0 1
+INSERT 0 1
+ session select ok: 1
+
+DELETE 1
+ session deleted ok: 0
+

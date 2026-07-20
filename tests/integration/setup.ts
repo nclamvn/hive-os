@@ -12,8 +12,14 @@ if (!/\/hiveos_test(\?|$)/.test(url)) {
   );
 }
 
-// Apply committed migrations deterministically before the suite runs.
+// Apply committed migrations (owner role) deterministically before the suite.
 execSync("npx prisma migrate deploy", {
+  stdio: "pipe",
+  env: process.env,
+});
+
+// Configure the least-privileged runtime role and grants (owner role).
+execSync("node scripts/db/apply-app-role.mjs", {
   stdio: "pipe",
   env: process.env,
 });

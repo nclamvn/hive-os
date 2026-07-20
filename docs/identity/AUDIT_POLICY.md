@@ -35,6 +35,28 @@ Model: `AuditEvent` (`audit_event` table). Implementation:
   workspace with audit history cannot be hard-deleted (workspaces are archived
   via `status`, never destroyed).
 
+## Event-to-schema contract (SEC-02)
+
+Each event type has one strict Zod schema (`AUDIT_PAYLOAD_SCHEMAS` in
+`audit.ts`). `.strict()` rejects unknown keys, so the event type is the only
+valid payload shape and a request-shaped object cannot pass through.
+
+| Event type | Allowed payload keys |
+|---|---|
+| `workspace.created` | `name`, `slug` |
+| `workspace.updated` | `name` |
+| `membership.created` | `role`, `via` (`onboarding`\|`invitation`) |
+| `membership.role_changed` | `from`, `to` |
+| `membership.suspended` | `role` |
+| `invitation.created` | `email`, `role` |
+| `invitation.accepted` | `role` |
+| `invitation.revoked` | `email` |
+
+`writeAuditEvent` calls `validateAuditPayload(eventType, payload)` (throws on
+unknown event type or shape/extra-key mismatch), then the fail-closed redaction
+below. Correlation and actor fields are separate columns, never part of the
+arbitrary payload input. Tests: AUD-PAYLOAD-01..05.
+
 ## Redaction (allowlist + fail-closed)
 
 - Payloads are built from an explicit safe allowlist at each call site

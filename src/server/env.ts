@@ -19,6 +19,14 @@ const envSchema = z
         (v) => v.startsWith("postgresql://") || v.startsWith("postgres://"),
         "must be a postgresql:// connection string",
       ),
+    // Owner/migration connection (used by the Prisma CLI, not app runtime).
+    DATABASE_MIGRATION_URL: z
+      .string()
+      .refine(
+        (v) => v.startsWith("postgresql://") || v.startsWith("postgres://"),
+        "must be a postgresql:// connection string",
+      )
+      .optional(),
     STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
     STORAGE_LOCAL_ROOT: z.string().default(".storage"),
     S3_ENDPOINT: z.string().optional(),
@@ -47,11 +55,14 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
-    // Auth request rate limiting; disabled only in automated test runs.
+    // Auth request rate limiting; may be disabled ONLY under NODE_ENV=test.
     AUTH_RATE_LIMIT_ENABLED: z
       .enum(["true", "false"])
       .default("true")
       .transform((v) => v === "true"),
+    // Tunable limits (requests per window seconds). Production-safe defaults.
+    AUTH_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
+    AUTH_RATE_LIMIT_WINDOW: z.coerce.number().int().positive().default(60),
   })
   .superRefine((env, ctx) => {
     if (env.STORAGE_DRIVER === "s3") {
@@ -76,6 +87,15 @@ const envSchema = z
         code: "custom",
         path: ["DEMO_FIXTURES_ENABLED"],
         message: "demo fixtures must never be enabled in production",
+      });
+    }
+    // Rate limiting may only be disabled for deterministic automated tests.
+    if (!env.AUTH_RATE_LIMIT_ENABLED && env.NODE_ENV !== "test") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["AUTH_RATE_LIMIT_ENABLED"],
+        message:
+          "auth rate limiting can only be disabled when NODE_ENV=test",
       });
     }
   });
