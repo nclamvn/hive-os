@@ -1,0 +1,8 @@
+HIVE OS — TIP-004C active-contract uniqueness evidence
+
+== partial unique index definition ==
+ CREATE UNIQUE INDEX mission_contract_one_current ON public.mission_contract USING btree (mission_id) WHERE (status = ANY (ARRAY['DRAFT'::"ContractStatus", 'IN_REVIEW'::"ContractStatus"]))
+
+== a second DRAFT/IN_REVIEW per mission is rejected by the database ==
+(demonstrated by integration CONTRACT-CURRENT-01..04; the unique index
+ guarantees at most one DRAFT/IN_REVIEW contract per mission_id)

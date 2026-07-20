@@ -1,4 +1,4 @@
-import type { AssuranceProfile, DecisionType } from "@prisma/client";
+import { type AssuranceProfile, type DecisionType, Prisma } from "@prisma/client";
 
 import type { DbClient, WorkspaceContext } from "@/modules/identity-workspace";
 import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace";
@@ -82,20 +82,32 @@ async function createAmendmentVersion(
   const nextVersion = (max._max.versionNumber ?? approved.versionNumber) + 1;
   const profile = newProfile ?? approved.assuranceProfile;
 
-  const draft = await tx.missionContract.create({
-    data: {
-      workspaceId: ctx.workspace.id,
-      missionId,
-      versionNumber: nextVersion,
-      status: "DRAFT",
-      objective: approved.objective,
-      scope: approved.scope,
-      successDefinition: approved.successDefinition,
-      assuranceProfile: profile,
-      supersedesContractId: approved.id,
-      createdByMembershipId: ctx.membership.id,
-    },
-  });
+  let draft;
+  try {
+    draft = await tx.missionContract.create({
+      data: {
+        workspaceId: ctx.workspace.id,
+        missionId,
+        versionNumber: nextVersion,
+        status: "DRAFT",
+        objective: approved.objective,
+        scope: approved.scope,
+        successDefinition: approved.successDefinition,
+        assuranceProfile: profile,
+        supersedesContractId: approved.id,
+        createdByMembershipId: ctx.membership.id,
+      },
+    });
+  } catch (error) {
+    // Partial unique index: a DRAFT/IN_REVIEW contract already exists.
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      throw new MissionError(
+        MissionErrorCode.CurrentContractExists,
+        "A draft or in-review contract already exists for this mission",
+      );
+    }
+    throw error;
+  }
   for (const r of approved.requirements) {
     await tx.requirement.create({
       data: {

@@ -14,6 +14,7 @@ export const MissionErrorCode = {
   ContractVersionConflict: "CONTRACT_VERSION_CONFLICT",
   ContractIncomplete: "CONTRACT_INCOMPLETE",
   ContractAlreadyApproved: "CONTRACT_ALREADY_APPROVED",
+  CurrentContractExists: "CURRENT_CONTRACT_EXISTS",
   IdempotencyConflict: "IDEMPOTENCY_CONFLICT",
   MaterialDecisionRequired: "MATERIAL_DECISION_REQUIRED",
   NotFound: "MISSION_NOT_FOUND",
