@@ -9,8 +9,9 @@ test("health route reports database connectivity", async ({ request }) => {
   expect(typeof body.checkedAt).toBe("string");
 });
 
-test("app shell placeholder renders", async ({ page }) => {
+test("dashboard shell renders", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "HIVE OS" })).toBeVisible();
-  await expect(page.getByText("Foundation established (TIP-001)")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+  ).toBeVisible();
 });

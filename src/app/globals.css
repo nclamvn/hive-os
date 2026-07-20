@@ -1,17 +1,137 @@
 @import "tailwindcss";
 
-/* Foundation-level tokens only. The full locked design system
-   (docs/contractor/05_DESIGN_TOKENS_LOCKED.md) is implemented in TIP-002. */
-:root {
-  --canvas: #f8f9fb;
-  --ink: #101828;
+/*
+ * HIVE OS — single semantic source of truth for the LOCKED design system.
+ * Values are transcribed from docs/contractor/05_DESIGN_TOKENS_LOCKED.md.
+ * Components MUST consume the semantic utilities generated below
+ * (bg-surface, text-ink-muted, border-line, rounded-panel, ...) and the
+ * typography/shell classes — never re-declare raw locked hex values.
+ */
+
+@theme {
+  /* Canvas and surface */
+  --color-canvas: #f8f9fb;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fbfcfd;
+  --color-surface-selected: #f0f3f8;
+
+  /* Text hierarchy */
+  --color-ink: #101828;
+  --color-ink-strong: #0b1220;
+  --color-ink-muted: #667085;
+  --color-ink-faint: #98a2b3;
+
+  /* Lines */
+  --color-line: #e4e7ec;
+  --color-line-strong: #d0d5dd;
+
+  /* Navy action hierarchy + semantic colors */
+  --color-navy-900: #102044;
+  --color-navy-800: #172b55;
+  --color-navy-700: #1f3a70;
+  --color-blue-600: #2457d6;
+
+  --color-success-600: #17865f;
+  --color-success-50: #eefaf5;
+  --color-warning-600: #c46716;
+  --color-warning-50: #fff7ed;
+  --color-danger-600: #b42318;
+  --color-danger-50: #fef3f2;
+  --color-violet-600: #7047c7;
+  --color-violet-50: #f5f2ff;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-panel: 10px;
+
+  /* Panel shadow (subtle, single token) */
+  --shadow-panel: 0 1px 2px rgba(16, 24, 40, 0.035);
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-@theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+:root {
+  /* Focus ring (locked) */
+  --focus-ring: 0 0 0 3px rgba(36, 87, 214, 0.14);
+
+  /* Shell dimensions (locked layout tokens) */
+  --shell-header: 64px;
+  --shell-sidebar: 244px;
+  --shell-iconrail: 72px;
+  --shell-rail: 372px; /* within the locked 360–380px band */
+  --shell-gutter-desktop: 30px; /* within the locked 28–32px band */
+  --shell-gutter-tablet: 20px;
+  --shell-gutter-mobile: 16px;
+  --shell-card-padding: 20px;
+  --shell-row-height: 56px; /* within the locked 54–58px band */
+}
+
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--canvas);
-  color: var(--ink);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01", "ss01";
+}
+
+/* Tabular numerals for metrics and IDs (locked). */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Locked typography scale — the canonical text roles. */
+@layer components {
+  .text-page-title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .text-section-title {
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  .text-body {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+  }
+  .text-meta {
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+  }
+  .text-eyebrow {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}
+
+/* Visible keyboard focus everywhere (locked: no state by color alone). */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-blue-600);
+  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
