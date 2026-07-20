@@ -3,7 +3,7 @@
 import { type ReactNode, useCallback, useRef, useState } from "react";
 
 import { MobileNav } from "./mobile-nav";
-import { SidebarContent } from "./sidebar-content";
+import { type SidebarAccount, SidebarContent } from "./sidebar-content";
 import { TopHeader } from "./top-header";
 
 export interface AppShellProps {
@@ -14,6 +14,14 @@ export interface AppShellProps {
   rail?: ReactNode;
   /** Full-width region beneath the canvas (metric projection). */
   footer?: ReactNode;
+  /** Real authenticated identity for the sidebar footer. */
+  account?: SidebarAccount | null;
+  /** Workspace switcher rendered under the brand. */
+  brandSlot?: ReactNode;
+  /** Sign-out control rendered in the account footer. */
+  footerSlot?: ReactNode;
+  /** Base href for the primary action / current nav item. */
+  homeHref?: string;
 }
 
 export function AppShell({
@@ -22,6 +30,10 @@ export function AppShell({
   children,
   rail,
   footer,
+  account,
+  brandSlot,
+  footerSlot,
+  homeHref,
 }: AppShellProps) {
   const [navOpen, setNavOpen] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -45,7 +57,12 @@ export function AppShell({
         className="bg-surface sticky top-0 hidden h-screen shrink-0 border-r border-line min-[1024px]:block"
         style={{ width: "var(--shell-sidebar)" }}
       >
-        <SidebarContent />
+        <SidebarContent
+          account={account}
+          brandSlot={brandSlot}
+          footerSlot={footerSlot}
+          homeHref={homeHref}
+        />
       </aside>
 
       {/* Tablet icon rail (768px–1023px) */}
@@ -55,11 +72,19 @@ export function AppShell({
         className="bg-surface sticky top-0 hidden h-screen shrink-0 border-r border-line min-[768px]:block min-[1024px]:hidden"
         style={{ width: "var(--shell-iconrail)" }}
       >
-        <SidebarContent iconOnly />
+        <SidebarContent iconOnly account={account} homeHref={homeHref} />
       </aside>
 
       {/* Mobile drawer (<768px) */}
-      <MobileNav open={navOpen} onClose={closeNav} returnFocusRef={menuRef} />
+      <MobileNav
+        open={navOpen}
+        onClose={closeNav}
+        returnFocusRef={menuRef}
+        account={account}
+        brandSlot={brandSlot}
+        footerSlot={footerSlot}
+        homeHref={homeHref}
+      />
 
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">

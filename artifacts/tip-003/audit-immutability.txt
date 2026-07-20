@@ -1,0 +1,16 @@
+HIVE OS — Audit append-only database evidence
+Generated against hiveos_test. Triggers reject UPDATE and DELETE on audit_event.
+
+$ psql -c "UPDATE audit_event SET event_type='tampered' WHERE id='ev-a';"
+ERROR:  audit_event is append-only: UPDATE is not permitted
+CONTEXT:  PL/pgSQL function hiveos_audit_event_append_only() line 3 at RAISE
+
+$ psql -c "DELETE FROM audit_event WHERE id='ev-a';"
+ERROR:  audit_event is append-only: DELETE is not permitted
+CONTEXT:  PL/pgSQL function hiveos_audit_event_append_only() line 3 at RAISE
+
+$ psql -c "\d+ audit_event" (triggers)
+Triggers:
+    audit_event_no_delete BEFORE DELETE ON audit_event FOR EACH ROW EXECUTE FUNCTION hiveos_audit_event_append_only()
+    audit_event_no_update BEFORE UPDATE ON audit_event FOR EACH ROW EXECUTE FUNCTION hiveos_audit_event_append_only()
+

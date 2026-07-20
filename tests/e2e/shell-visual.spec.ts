@@ -3,7 +3,10 @@ import path from "node:path";
 
 import { expect, test } from "@playwright/test";
 
+import { signUpToDashboard } from "./auth-helpers";
+
 // DS-12 — visual regression evidence at the four locked viewport sizes.
+// Two variants per size: exact-viewport (fullPage: false) and full-page flow.
 const ARTIFACT_DIR = path.resolve(__dirname, "../../artifacts/tip-002");
 
 const VIEWPORTS = [
@@ -17,10 +20,9 @@ test.describe("DS-12 visual regression evidence", () => {
   for (const vp of VIEWPORTS) {
     test(`captures ${vp.name}`, async ({ page }) => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
-      await page.goto("/");
+      await signUpToDashboard(page);
       await page.getByRole("heading", { name: "Start a new mission" }).waitFor();
 
-      // No unexpected horizontal overflow at any captured size.
       const overflow = await page.evaluate(
         () =>
           document.documentElement.scrollWidth -
@@ -28,9 +30,13 @@ test.describe("DS-12 visual regression evidence", () => {
       );
       expect(overflow).toBeLessThanOrEqual(1);
 
-      const file = path.join(ARTIFACT_DIR, `${vp.name}.png`);
-      await page.screenshot({ path: file, fullPage: true });
-      expect(existsSync(file)).toBe(true);
+      const viewportFile = path.join(ARTIFACT_DIR, `${vp.name}-viewport.png`);
+      await page.screenshot({ path: viewportFile, fullPage: false });
+      expect(existsSync(viewportFile)).toBe(true);
+
+      const fullFile = path.join(ARTIFACT_DIR, `${vp.name}-fullpage.png`);
+      await page.screenshot({ path: fullFile, fullPage: true });
+      expect(existsSync(fullFile)).toBe(true);
     });
   }
 });

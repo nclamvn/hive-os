@@ -5,6 +5,7 @@ import { parseEnv } from "@/server/env";
 const validBase = {
   NODE_ENV: "test",
   DATABASE_URL: "postgresql://user:pass@localhost:5433/hiveos_test",
+  BETTER_AUTH_SECRET: "test-secret-at-least-16-chars",
 };
 
 describe("environment schema", () => {

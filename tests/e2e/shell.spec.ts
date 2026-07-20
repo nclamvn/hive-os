@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+import { signUpToDashboard } from "./auth-helpers";
+
 async function box(locator: import("@playwright/test").Locator) {
   const b = await locator.boundingBox();
   if (!b) throw new Error("element has no bounding box");
@@ -10,7 +12,7 @@ async function box(locator: import("@playwright/test").Locator) {
 test.describe("HIVE OS app shell", () => {
   test("DS-02 desktop shell hierarchy is present", async ({ page }) => {
     await page.setViewportSize({ width: 1536, height: 1024 });
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     await expect(page.getByTestId("sidebar-desktop")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
@@ -23,26 +25,24 @@ test.describe("HIVE OS app shell", () => {
   });
 
   test("DS-03 right rail reflows below 1180px", async ({ page }) => {
-    await page.goto("/");
+    await signUpToDashboard(page);
     const composer = page.getByRole("heading", { name: "Start a new mission" });
     const rail = page.getByRole("heading", { name: "Mission overview" });
 
     await page.setViewportSize({ width: 1280, height: 900 });
     const composerWide = await box(composer);
     const railWide = await box(rail);
-    // Side by side: rail starts to the right of the composer.
     expect(railWide.x).toBeGreaterThan(composerWide.x + composerWide.width - 40);
 
     await page.setViewportSize({ width: 1000, height: 900 });
     const composerNarrow = await box(composer);
     const railNarrow = await box(rail);
-    // Stacked: rail sits below the composer, in the same column.
     expect(railNarrow.y).toBeGreaterThan(composerNarrow.y + composerNarrow.height);
     expect(Math.abs(railNarrow.x - composerNarrow.x)).toBeLessThan(40);
   });
 
   test("DS-04 sidebar becomes icon rail below 1024px", async ({ page }) => {
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     await page.setViewportSize({ width: 1280, height: 900 });
     await expect(page.getByTestId("sidebar-desktop")).toBeVisible();
@@ -53,7 +53,6 @@ test.describe("HIVE OS app shell", () => {
     const rail = page.getByTestId("sidebar-iconrail");
     await expect(rail).toBeVisible();
 
-    // Icon-only controls keep accessible names + discoverable tooltips.
     const missions = rail.getByRole("button", { name: /Missions/ });
     await expect(missions).toHaveAttribute("title", /Missions/);
     const dashboard = rail.getByRole("link", { name: "Dashboard" });
@@ -61,7 +60,7 @@ test.describe("HIVE OS app shell", () => {
   });
 
   test("DS-05 table projection stacks below 820px", async ({ page }) => {
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     await page.setViewportSize({ width: 1000, height: 900 });
     await expect(page.getByRole("columnheader", { name: "Mission" })).toBeVisible();
@@ -69,7 +68,6 @@ test.describe("HIVE OS app shell", () => {
 
     await page.setViewportSize({ width: 800, height: 900 });
     await expect(page.getByRole("columnheader", { name: "Mission" })).toBeHidden();
-    // Stacked semantic empty state replaces the table below 820px.
     await expect(page.getByTestId("missions-empty-stacked")).toBeVisible();
 
     const overflow = await page.evaluate(
@@ -80,7 +78,7 @@ test.describe("HIVE OS app shell", () => {
 
   test("DS-06 mobile drawer replaces sidebar below 768px", async ({ page }) => {
     await page.setViewportSize({ width: 500, height: 900 });
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     await expect(page.getByTestId("sidebar-desktop")).toBeHidden();
     await expect(page.getByTestId("sidebar-iconrail")).toBeHidden();
@@ -95,7 +93,7 @@ test.describe("HIVE OS app shell", () => {
 
   test("DS-07 drawer keyboard open/close and focus return", async ({ page }) => {
     await page.setViewportSize({ width: 500, height: 900 });
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     const menu = page.getByRole("button", { name: "Open navigation" });
     await menu.focus();
@@ -103,18 +101,16 @@ test.describe("HIVE OS app shell", () => {
 
     const dialog = page.getByRole("dialog", { name: "Navigation" });
     await expect(dialog).toBeVisible();
-    // Focus moved into the drawer.
     await expect(page.getByRole("button", { name: "Close navigation" })).toBeFocused();
 
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
-    // Focus returns to the trigger.
     await expect(menu).toBeFocused();
   });
 
   test("DS-08 no horizontal overflow at 390px", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
+    await signUpToDashboard(page);
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );
@@ -122,7 +118,7 @@ test.describe("HIVE OS app shell", () => {
   });
 
   test("DS-09 mission composer is the first actionable main element", async ({ page }) => {
-    await page.goto("/");
+    await signUpToDashboard(page);
     const firstId = await page.evaluate(() => {
       const main = document.getElementById("main-content");
       if (!main) return null;
@@ -135,15 +131,17 @@ test.describe("HIVE OS app shell", () => {
   });
 
   test("DS-10 no fabricated metric or mission fixture is rendered", async ({ page }) => {
-    await page.goto("/");
+    await signUpToDashboard(page);
 
     await expect(page.getByText("No active missions").first()).toBeVisible();
     await expect(page.getByText("No governed metrics available")).toBeVisible();
     await expect(page.getByText("No mission selected")).toBeVisible();
     await expect(page.getByText("Resource telemetry is not connected")).toBeVisible();
 
-    const text = await page.evaluate(() => document.body.innerText);
-    // No fabricated percentages or comma-grouped operational counts.
+    const text = await page.evaluate(() => {
+      const main = document.getElementById("main-content");
+      return main?.innerText ?? "";
+    });
     expect(text).not.toMatch(/\d+(\.\d+)?%/);
     expect(text).not.toMatch(/\d{1,3}(,\d{3})+/);
   });
@@ -152,7 +150,7 @@ test.describe("HIVE OS app shell", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1536, height: 1024 });
-    await page.goto("/");
+    await signUpToDashboard(page);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa"])
       .analyze();

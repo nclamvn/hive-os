@@ -30,6 +30,7 @@ describe("demo fixture boundary", () => {
   it("is disabled by default", async () => {
     restore = withEnv({
       DATABASE_URL: "postgresql://u:p@localhost:5433/hiveos_test",
+      BETTER_AUTH_SECRET: "test-secret-at-least-16-chars",
       DEMO_FIXTURES_ENABLED: "false",
     });
     expect(demoFixturesAllowed()).toBe(false);
@@ -40,6 +41,7 @@ describe("demo fixture boundary", () => {
     restore = withEnv({
       NODE_ENV: "development",
       DATABASE_URL: "postgresql://u:p@localhost:5433/hiveos_test",
+      BETTER_AUTH_SECRET: "test-secret-at-least-16-chars",
       DEMO_FIXTURES_ENABLED: "true",
     });
     expect(demoFixturesAllowed()).toBe(true);

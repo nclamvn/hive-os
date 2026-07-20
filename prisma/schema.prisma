@@ -1,6 +1,6 @@
 // HIVE OS — authoritative transactional store schema.
-// TIP-001 scope: infrastructure bootstrap only. Domain models (Workspace,
-// Mission, Claim, ...) arrive in their authorized TIPs.
+// TIP-003 scope: Identity, Workspace, and Audit. Missions, claims, evidence,
+// execution, and verification arrive in their own authorized TIPs.
 
 generator client {
   provider = "prisma-client-js"
@@ -18,4 +18,186 @@ model SchemaBootstrap {
   appliedAt DateTime @default(now()) @map("applied_at")
 
   @@map("schema_bootstrap")
+}
+
+// ---------------------------------------------------------------------------
+// Authentication-owned models (Better Auth core).
+// Field names match Better Auth's expected schema; columns are snake_cased.
+// Better Auth owns reads/writes for these; HIVE OS never fabricates rows here.
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false) @map("email_verified")
+  image         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  sessions    Session[]
+  accounts    Account[]
+  memberships Membership[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime @map("expires_at")
+  token     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  userId    String   @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  userId                String    @map("user_id")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at")
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at")
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @map("expires_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ---------------------------------------------------------------------------
+// HIVE OS-owned identity models. HIVE OS retains authority over workspace,
+// membership, invitation, permission, and audit semantics.
+// ---------------------------------------------------------------------------
+
+enum WorkspaceStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+  EXPIRED
+}
+
+model Workspace {
+  id          String          @id @default(uuid())
+  slug        String          @unique
+  name        String
+  status      WorkspaceStatus @default(ACTIVE)
+  createdById String          @map("created_by_id")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  version     Int             @default(1)
+
+  memberships Membership[]
+  invitations Invitation[]
+  auditEvents AuditEvent[]
+
+  @@map("workspace")
+}
+
+model Membership {
+  id          String           @id @default(uuid())
+  workspaceId String           @map("workspace_id")
+  userId      String           @map("user_id")
+  role        Role             @default(MEMBER)
+  status      MembershipStatus @default(ACTIVE)
+  createdById String           @map("created_by_id")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  version     Int              @default(1)
+
+  workspace           Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issuedInvitations   Invitation[] @relation("InvitationInvitedBy")
+
+  @@unique([workspaceId, userId])
+  @@index([userId])
+  @@index([workspaceId, role, status])
+  @@map("membership")
+}
+
+model Invitation {
+  id                    String           @id @default(uuid())
+  workspaceId           String           @map("workspace_id")
+  emailNormalized       String           @map("email_normalized")
+  role                  Role             @default(MEMBER)
+  tokenHash             String           @unique @map("token_hash")
+  status                InvitationStatus @default(PENDING)
+  expiresAt             DateTime         @map("expires_at")
+  invitedByMembershipId String           @map("invited_by_membership_id")
+  acceptedByUserId      String?          @map("accepted_by_user_id")
+  acceptedAt            DateTime?         @map("accepted_at")
+  createdAt             DateTime         @default(now()) @map("created_at")
+
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  invitedBy   Membership @relation("InvitationInvitedBy", fields: [invitedByMembershipId], references: [id])
+
+  @@index([workspaceId, status])
+  @@index([emailNormalized, status])
+  @@map("invitation")
+}
+
+/// Append-only. There is deliberately NO application-level update or delete
+/// path, and a database trigger (migration `audit_append_only`) rejects any
+/// UPDATE or DELETE. Payload is a redacted, schema-validated allowlist.
+model AuditEvent {
+  id                String   @id @default(uuid())
+  workspaceId       String   @map("workspace_id")
+  actorUserId       String?  @map("actor_user_id")
+  actorMembershipId String?  @map("actor_membership_id")
+  eventType         String   @map("event_type")
+  entityType        String   @map("entity_type")
+  entityId          String   @map("entity_id")
+  correlationId     String   @map("correlation_id")
+  payload           Json
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@index([correlationId])
+  @@map("audit_event")
 }

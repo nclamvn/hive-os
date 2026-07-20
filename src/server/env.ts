@@ -34,6 +34,24 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+    // --- Authentication (Better Auth) ---
+    BETTER_AUTH_SECRET: z
+      .string()
+      .min(16, "must be at least 16 characters"),
+    BETTER_AUTH_URL: z
+      .string()
+      .url("must be a valid URL")
+      .default("http://localhost:3000"),
+    // Self-sign-up defaults to disabled; production must opt in explicitly.
+    AUTH_ALLOW_SELF_SIGNUP: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    // Auth request rate limiting; disabled only in automated test runs.
+    AUTH_RATE_LIMIT_ENABLED: z
+      .enum(["true", "false"])
+      .default("true")
+      .transform((v) => v === "true"),
   })
   .superRefine((env, ctx) => {
     if (env.STORAGE_DRIVER === "s3") {

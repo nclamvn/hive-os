@@ -3,16 +3,30 @@
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-import { SidebarContent } from "./sidebar-content";
+import { type ReactNode } from "react";
+
+import { type SidebarAccount, SidebarContent } from "./sidebar-content";
 
 export interface MobileNavProps {
   open: boolean;
   onClose: () => void;
   /** Focus returns here when the drawer closes. */
   returnFocusRef: React.RefObject<HTMLButtonElement | null>;
+  account?: SidebarAccount | null;
+  brandSlot?: ReactNode;
+  footerSlot?: ReactNode;
+  homeHref?: string;
 }
 
-export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
+export function MobileNav({
+  open,
+  onClose,
+  returnFocusRef,
+  account,
+  brandSlot,
+  footerSlot,
+  homeHref,
+}: MobileNavProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -81,7 +95,13 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
           >
             <X className="size-[18px]" aria-hidden="true" />
           </button>
-          <SidebarContent onNavigate={onClose} />
+          <SidebarContent
+            onNavigate={onClose}
+            account={account}
+            brandSlot={brandSlot}
+            footerSlot={footerSlot}
+            homeHref={homeHref}
+          />
         </div>
       </div>
     </div>

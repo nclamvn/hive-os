@@ -9,9 +9,8 @@ test("health route reports database connectivity", async ({ request }) => {
   expect(typeof body.checkedAt).toBe("string");
 });
 
-test("dashboard shell renders", async ({ page }) => {
+test("unauthenticated root redirects to sign-in", async ({ page }) => {
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { level: 1, name: "Dashboard" }),
-  ).toBeVisible();
+  await page.waitForURL("**/sign-in");
+  await expect(page.getByRole("heading", { level: 1, name: "Sign in" })).toBeVisible();
 });
