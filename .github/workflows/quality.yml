@@ -23,7 +23,13 @@ jobs:
           --health-timeout 3s
           --health-retries 10
     env:
-      DATABASE_URL: postgresql://hiveos:hiveos@localhost:5433/hiveos_test
+      # Runtime connection uses the least-privileged application role; the
+      # migration/owner connection is used only for migrations + role setup.
+      DATABASE_URL: postgresql://hiveos_app:hiveos_app@localhost:5433/hiveos_test
+      DATABASE_MIGRATION_URL: postgresql://hiveos:hiveos@localhost:5433/hiveos_test
+      BETTER_AUTH_SECRET: ci-secret-at-least-16-characters
+      BETTER_AUTH_URL: http://localhost:3000
+      AUTH_ALLOW_SELF_SIGNUP: "true"
       STORAGE_DRIVER: local
       STORAGE_LOCAL_ROOT: .storage-test
       DEMO_FIXTURES_ENABLED: "false"
@@ -40,6 +46,15 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
+
+      - name: Deploy migrations (owner role)
+        run: npx prisma migrate deploy
+
+      - name: Migration status
+        run: npx prisma migrate status
+
+      - name: Configure least-privileged runtime role
+        run: node scripts/db/apply-app-role.mjs
 
       - name: Lint
         run: npm run lint
