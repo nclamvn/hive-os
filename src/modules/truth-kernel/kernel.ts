@@ -27,6 +27,12 @@ function hash(content: string): string {
   return createHash("sha256").update(content, "utf8").digest("hex");
 }
 
+function assertRequiredText(value: string, label: string): void {
+  if (!value.trim()) {
+    throw new TruthError(TruthErrorCode.Invariant, `${label} is required`);
+  }
+}
+
 const CLOSED_CLAIM_STATES: ReadonlySet<ClaimState> = new Set([
   "FALSIFIED",
   "RETRACTED",
@@ -68,9 +74,10 @@ export async function createEvidenceSource(
 ) {
   requireTruthCapability(ctx, "truth.write");
   await loadTruthMission(ctx, missionId);
-  if (!input.independenceKey.trim()) {
-    throw new TruthError(TruthErrorCode.Invariant, "Independence key is required");
-  }
+  assertRequiredText(input.title, "Evidence source title");
+  assertRequiredText(input.canonicalUri, "Canonical URI");
+  assertRequiredText(input.sourceType, "Source type");
+  assertRequiredText(input.independenceKey, "Independence key");
   return getDb().$transaction(async (tx) => {
     const source = await tx.evidenceSource.create({
       data: {
@@ -115,9 +122,7 @@ export async function captureSnapshot(
     where: { id: sourceId, workspaceId: ctx.workspace.id },
   });
   if (!source) throw new TruthError(TruthErrorCode.NotFound, "Evidence source not found");
-  if (!input.content.length) {
-    throw new TruthError(TruthErrorCode.Invariant, "Snapshot content is required");
-  }
+  assertRequiredText(input.content, "Snapshot content");
   const contentHash = hash(input.content);
   return getDb().$transaction(async (tx) => {
     const snapshot = await tx.snapshot.create({
@@ -203,6 +208,46 @@ export async function createEvidenceSpan(
       },
     });
     return span;
+  });
+}
+
+/** Resolve a human-selected quote to an exact immutable span. */
+export async function createEvidenceSpanFromQuote(
+  ctx: WorkspaceContext,
+  snapshotId: string,
+  input: { exactText: string; extractionLabel?: string },
+) {
+  requireTruthCapability(ctx, "truth.write");
+  const snapshot = await getDb().snapshot.findFirst({
+    where: { id: snapshotId, workspaceId: ctx.workspace.id },
+    select: { content: true },
+  });
+  if (!snapshot) throw new TruthError(TruthErrorCode.NotFound, "Snapshot not found");
+  const startOffset = snapshot.content.indexOf(input.exactText);
+  const repeatedAt =
+    startOffset >= 0
+      ? snapshot.content.indexOf(
+          input.exactText,
+          startOffset + input.exactText.length,
+        )
+      : -1;
+  if (!input.exactText.length || startOffset < 0) {
+    throw new TruthError(
+      TruthErrorCode.SpanMismatch,
+      "Exact quote was not found in the immutable snapshot",
+    );
+  }
+  if (repeatedAt >= 0) {
+    throw new TruthError(
+      TruthErrorCode.SpanMismatch,
+      "Exact quote occurs more than once; provide a longer unique quote",
+    );
+  }
+  return createEvidenceSpan(ctx, snapshotId, {
+    startOffset,
+    endOffset: startOffset + input.exactText.length,
+    exactText: input.exactText,
+    extractionLabel: input.extractionLabel,
   });
 }
 
@@ -299,6 +344,7 @@ async function addVersionInTransaction(
   claim: { id: string; missionId: string },
   input: VersionInput,
 ) {
+  assertRequiredText(input.statement, "Claim statement");
   const count = await tx.claimVersion.count({ where: { claimId: claim.id } });
   const links = input.evidence ?? [];
   const spans = links.length
@@ -367,6 +413,8 @@ export async function createClaim(
 ) {
   requireTruthCapability(ctx, "truth.write");
   await loadTruthMission(ctx, missionId);
+  assertRequiredText(input.claimKey, "Claim key");
+  assertRequiredText(input.statement, "Claim statement");
   if (
     !(input.evidence?.length) &&
     !input.hypothesis &&

@@ -320,6 +320,32 @@ locally before returning to billing.
 See `docs/verification/TIP-009_VERIFY_REPORT.md` through
 `docs/verification/TIP-012_VERIFY_REPORT.md`.
 
+## TIP-013 local closure update
+
+On 2026-07-23, the Owner authorized continuing the remaining local product
+architecture before returning to billing.
+
+- Evidence Hub for governed sources, immutable snapshots, and unique exact
+  spans: PASS.
+- Claims & Insights for append-only assertions, review, conflict, honest-null,
+  and provenance: PASS.
+- Truth Kernel-only mutations with trusted WorkspaceContext: PASS.
+- Blank-record, ambiguous-quote, Viewer-write, and tenant-isolation negative
+  paths: PASS.
+- Desktop and 320px responsive inspection: PASS with no horizontal overflow.
+- Unit tests: 104 passed.
+- Integration tests: 99 passed.
+- E2E tests: 52 passed.
+- Aggregate tests: 255 passed.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- No schema change was required; all 11 migrations remain current.
+- Billing and remote CI were not changed. `OBL-FND-001` remains externally
+  blocked.
+- TIP-014 Templates and Skill Registry productization is the next local
+  priority.
+
+See `docs/verification/TIP-013_VERIFY_REPORT.md`.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

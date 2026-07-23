@@ -21,12 +21,14 @@ import {
   createClaim,
   createEvidenceSource,
   createEvidenceSpan,
+  createEvidenceSpanFromQuote,
   getClaimLedger,
   listClaimProjection,
   reviewClaim,
   setTerminalClaimState,
 } from "@/modules/truth-kernel";
 import { getDb } from "@/server/db";
+import { getTruthOperationsProjection } from "@/server/truth-operations";
 
 import {
   asOwner,
@@ -375,5 +377,93 @@ describe("truth kernel", () => {
         independenceKey: "viewer",
       }),
     ).rejects.toMatchObject({ code: "TRUTH_FORBIDDEN" });
+  });
+
+  it("TK-13 resolves only a unique human-selected quote", async () => {
+    const { ctx, mission } = await approvedMission();
+    const source = await createEvidenceSource(ctx, mission.id, {
+      title: "Quoted source",
+      canonicalUri: "https://example.test/quoted",
+      sourceType: "WEB",
+      independenceKey: "quoted",
+    });
+    const snapshot = await captureSnapshot(ctx, source.id, {
+      content: "Unique governed sentence. Repeat. Repeat.",
+      capturedAt: new Date(),
+    });
+
+    await expect(
+      createEvidenceSpanFromQuote(ctx, snapshot.id, {
+        exactText: "Unique governed sentence.",
+      }),
+    ).resolves.toMatchObject({
+      startOffset: 0,
+      endOffset: 25,
+      exactText: "Unique governed sentence.",
+    });
+    await expect(
+      createEvidenceSpanFromQuote(ctx, snapshot.id, { exactText: "Repeat." }),
+    ).rejects.toMatchObject({ code: "EVIDENCE_SPAN_MISMATCH" });
+    await expect(
+      createEvidenceSpanFromQuote(ctx, snapshot.id, { exactText: "Absent" }),
+    ).rejects.toMatchObject({ code: "EVIDENCE_SPAN_MISMATCH" });
+  });
+
+  it("TK-14 rejects blank governed records before persistence", async () => {
+    const { ctx, mission } = await approvedMission();
+
+    await expect(
+      createEvidenceSource(ctx, mission.id, {
+        title: "   ",
+        canonicalUri: "https://example.test/blank",
+        sourceType: "WEB",
+        independenceKey: "blank",
+      }),
+    ).rejects.toMatchObject({ code: "TRUTH_INVARIANT" });
+    await expect(
+      createClaim(ctx, mission.id, {
+        claimKey: "blank-statement",
+        statement: " ",
+        internalOwnerMembershipId: ctx.membership.id,
+      }),
+    ).rejects.toMatchObject({ code: "TRUTH_INVARIANT" });
+    expect(
+      await getDb().evidenceSource.count({
+        where: { workspaceId: ctx.workspace.id },
+      }),
+    ).toBe(0);
+    expect(
+      await getDb().claim.count({ where: { workspaceId: ctx.workspace.id } }),
+    ).toBe(0);
+  });
+
+  it("TK-15 scopes the operations projection and exposes role capabilities", async () => {
+    const { ctx, mission } = await approvedMission();
+    await createEvidenceSource(ctx, mission.id, {
+      title: "Tenant-bound source",
+      canonicalUri: "https://example.test/tenant-bound",
+      sourceType: "WEB",
+      independenceKey: "tenant-bound",
+    });
+
+    const viewer = await createUser("truth-projection-viewer");
+    const invitation = await createInvitation(ctx, {
+      email: viewer.email,
+      role: "VIEWER",
+    });
+    await acceptInvitation(viewer, invitation.rawToken);
+    const viewerCtx = await contextForMembership(viewer, ctx.workspace.id);
+    const viewerProjection = await getTruthOperationsProjection(viewerCtx);
+    expect(viewerProjection.sources).toHaveLength(1);
+    expect(viewerProjection.permissions).toEqual({
+      canWrite: false,
+      canReview: false,
+    });
+
+    const foreignCtx = await asOwner(await createUser("truth-projection-foreign"));
+    const foreignProjection = await getTruthOperationsProjection(foreignCtx);
+    expect(foreignProjection.sources).toEqual([]);
+    expect(foreignProjection.claims).toEqual([]);
+    expect(foreignProjection.provenanceCount).toBe(0);
   });
 });

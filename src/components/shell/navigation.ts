@@ -15,22 +15,28 @@ import {
 
 /**
  * Canonical navigation affordances from docs/contractor/04_BLUEPRINT.md §9.
- * These are shell navigation labels only — their domain pages are NOT built
- * in TIP-002. Every destination except Dashboard resolves to a truthful
- * "not implemented in the current build stage" boundary.
+ * `implemented` is the product-truth boundary: live destinations are links,
+ * while planned destinations remain explicit disabled controls.
  */
 export interface NavItem {
   readonly label: string;
   readonly icon: LucideIcon;
   readonly implemented: boolean;
-  readonly segment: "" | "missions" | "control-room" | "observatory" | "reports";
+  readonly segment:
+    | ""
+    | "missions"
+    | "evidence"
+    | "claims"
+    | "control-room"
+    | "observatory"
+    | "reports";
 }
 
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, implemented: true, segment: "" },
   { label: "Missions", icon: Target, implemented: true, segment: "missions" },
-  { label: "Evidence Hub", icon: FlaskConical, implemented: false, segment: "" },
-  { label: "Claims & Insights", icon: ListChecks, implemented: false, segment: "" },
+  { label: "Evidence Hub", icon: FlaskConical, implemented: true, segment: "evidence" },
+  { label: "Claims & Insights", icon: ListChecks, implemented: true, segment: "claims" },
   { label: "Verification", icon: ShieldCheck, implemented: false, segment: "" },
   { label: "Control Room", icon: Network, implemented: true, segment: "control-room" },
   { label: "Observatory", icon: Radar, implemented: true, segment: "observatory" },

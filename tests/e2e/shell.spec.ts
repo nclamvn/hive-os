@@ -53,9 +53,10 @@ test.describe("HIVE OS app shell", () => {
     const rail = page.getByTestId("sidebar-iconrail");
     await expect(rail).toBeVisible();
 
-    // Evidence Hub remains an unimplemented, focusable disabled control.
-    const evidence = rail.getByRole("button", { name: /Evidence Hub/ });
-    await expect(evidence).toHaveAttribute("title", /Evidence Hub/);
+    const evidence = rail.getByRole("link", { name: "Evidence Hub" });
+    await expect(evidence).toHaveAttribute("title", "Evidence Hub");
+    const claims = rail.getByRole("link", { name: "Claims & Insights" });
+    await expect(claims).toHaveAttribute("title", "Claims & Insights");
     const dashboard = rail.getByRole("link", { name: "Dashboard" });
     await expect(dashboard).toHaveAttribute("title", "Dashboard");
     const missions = rail.getByRole("link", { name: "Missions" });
