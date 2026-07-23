@@ -177,13 +177,14 @@ describe("transitions", () => {
     await expect(transitionMission(ctx, m.id, "SCOPED", { reason: "s" })).resolves.toBeUndefined();
   });
 
-  it("MK-16 post-APPROVED operational transitions fail closed", async () => {
+  it("MK-16 Truth exploration is enabled while execution still fails closed", async () => {
     const ctx = await asOwner(await createUser("o"));
     const m = await scaffoldApproved(ctx);
-    await expect(transitionMission(ctx, m.id, "EXPLORING", { reason: "go" })).rejects.toMatchObject({ code: "TRUTH_KERNEL_REQUIRED" });
-    // Mission state is unchanged (no partial mutation).
+    await transitionMission(ctx, m.id, "EXPLORING", { reason: "begin truth loop" });
+    await expect(transitionMission(ctx, m.id, "BUILDING", { reason: "go" })).rejects.toMatchObject({ code: "EXECUTION_FABRIC_REQUIRED" });
+    // Failed later-kernel transition causes no partial mutation.
     const after = await getDb().mission.findUniqueOrThrow({ where: { id: m.id } });
-    expect(after.status).toBe("APPROVED");
+    expect(after.status).toBe("EXPLORING");
   });
 
   it("MK-24 direct decision-gated transitions require a material decision", async () => {

@@ -81,7 +81,7 @@ export function InviteForm({
         {token ? (
           <div className="border-warning-600/30 bg-warning-50 rounded-md border p-3">
             <p className="text-meta text-ink-strong font-medium">
-              Invitation link — shown once. Copy it now; it cannot be retrieved
+              Invitation link, shown once. Copy it now; it cannot be retrieved
               again.
             </p>
             <code className="text-meta text-ink mt-2 block break-all rounded bg-surface px-2 py-1">

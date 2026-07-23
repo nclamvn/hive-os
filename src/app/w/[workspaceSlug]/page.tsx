@@ -4,8 +4,8 @@ import { MetricProjection } from "@/components/dashboard/metric-projection";
 import { MissionComposer } from "@/components/dashboard/mission-composer";
 import { WorkflowProjection } from "@/components/dashboard/workflow-projection";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
-import { listMissions } from "@/modules/mission-kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { getDashboardProjection } from "@/server/dashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -18,15 +18,8 @@ export default async function WorkspaceHome({
   const data = await loadWorkspacePage(workspaceSlug);
   const basePath = `/w/${workspaceSlug}`;
 
-  const missions = await listMissions(data.ctx);
-  const rows: MissionRow[] = missions.map((m) => ({
-    id: m.id,
-    referenceCode: m.referenceCode,
-    title: m.title,
-    status: m.status,
-    assuranceProfile: m.assuranceProfile,
-    updatedAt: m.updatedAt.toISOString(),
-  }));
+  const projection = await getDashboardProjection(data.ctx);
+  const rows: MissionRow[] = projection.missions;
 
   return (
     <WorkspaceShell
@@ -34,11 +27,11 @@ export default async function WorkspaceHome({
       title="Dashboard"
       subtitle={
         rows.length === 0
-          ? "No missions yet — create a mission to begin."
+          ? "No missions yet. Create a mission to begin."
           : `${rows.length} mission${rows.length === 1 ? "" : "s"} in this workspace.`
       }
-      rail={<ContextRail />}
-      footer={<MetricProjection />}
+      rail={<ContextRail projection={projection} basePath={basePath} />}
+      footer={<MetricProjection metrics={projection.metrics} />}
     >
       <MissionComposer basePath={basePath} />
       <ActiveMissions missions={rows} basePath={basePath} />

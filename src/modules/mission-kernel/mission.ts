@@ -140,10 +140,10 @@ export interface TransitionOptions {
 }
 
 /**
- * Publicly executable Mission transitions: DRAFT→INTAKE, INTAKE→SCOPED, block,
- * resume, archive. Later-stage transitions fail closed. CONTRACT_REVIEW and
- * APPROVED are reached via submitContract/approveContract; decision-gated side
- * states (CANCELLED/PARTIAL/REFUTED) are reached via resolveDecision.
+ * Publicly executable Mission transitions include the kernel-governed
+ * execution, verification, and release path. CONTRACT_REVIEW and APPROVED are
+ * reached via submitContract/approveContract; decision-gated side states
+ * (CANCELLED/PARTIAL/REFUTED) are reached via resolveDecision.
  */
 export async function transitionMission(
   ctx: WorkspaceContext,
@@ -181,6 +181,160 @@ export async function transitionMission(
       case "primary":
         await internalTransition(tx, ctx, mission.id, mission.status, to, options.reason, mission.version);
         return;
+
+      case "execution": {
+        const [tipCount, unreadyTipCount, openMaterialDeviationCount, awaitingReportCount] =
+          await Promise.all([
+            tx.executionTip.count({
+              where: { workspaceId: ctx.workspace.id, missionId: mission.id },
+            }),
+            tx.executionTip.count({
+              where: {
+                workspaceId: ctx.workspace.id,
+                missionId: mission.id,
+                status: { not: "DONE" },
+              },
+            }),
+            tx.executionDeviation.count({
+              where: {
+                workspaceId: ctx.workspace.id,
+                missionId: mission.id,
+                status: "OPEN",
+                materiality: "MATERIAL",
+              },
+            }),
+            tx.agentRun.count({
+              where: {
+                workspaceId: ctx.workspace.id,
+                missionId: mission.id,
+                status: "AWAITING_REPORT",
+              },
+            }),
+          ]);
+        if (
+          tipCount === 0 ||
+          unreadyTipCount > 0 ||
+          openMaterialDeviationCount > 0 ||
+          awaitingReportCount > 0
+        ) {
+          throw new MissionError(
+            MissionErrorCode.ExecutionFabricRequired,
+            "Execution readiness requires completed TIPs, imported reports, and no open material deviations",
+          );
+        }
+        await internalTransition(
+          tx,
+          ctx,
+          mission.id,
+          mission.status,
+          to,
+          options.reason,
+          mission.version,
+        );
+        return;
+      }
+
+      case "verification": {
+        if (mission.status === "BUILDING" && to === "VERIFYING") {
+          const activeRun = await tx.verificationRun.findFirst({
+            where: {
+              workspaceId: ctx.workspace.id,
+              missionId: mission.id,
+              status: "IN_PROGRESS",
+            },
+            select: { id: true },
+          });
+          if (!activeRun) {
+            throw new MissionError(
+              MissionErrorCode.VerificationKernelRequired,
+              "Use beginVerificationRun to enter verification atomically",
+            );
+          }
+        } else {
+          const report = await tx.verificationReport.findFirst({
+            where: {
+              workspaceId: ctx.workspace.id,
+              missionId: mission.id,
+              overallStatus: { not: "NOT_READY" },
+            },
+            orderBy: { createdAt: "desc" },
+            include: {
+              verificationRun: true,
+              signoffs: true,
+            },
+          });
+          const requiresGovernance =
+            mission.assuranceProfile === "RESEARCH" ||
+            mission.assuranceProfile === "REGULATED";
+          const rejected = report?.signoffs.some(
+            (signoff) => signoff.decision === "REJECTED",
+          );
+          const approved = report?.signoffs.some(
+            (signoff) =>
+              signoff.signoffType === "VERIFICATION" &&
+              signoff.decision === "APPROVED",
+          );
+          if (
+            !report ||
+            (requiresGovernance &&
+              (report.verificationRun.independenceStatus !== "INDEPENDENT" ||
+                !approved)) ||
+            rejected
+          ) {
+            throw new MissionError(
+              MissionErrorCode.VerificationKernelRequired,
+              "Review requires a ready Verify Report, required independence, and approval with no rejected sign-off",
+            );
+          }
+        }
+        await internalTransition(
+          tx,
+          ctx,
+          mission.id,
+          mission.status,
+          to,
+          options.reason,
+          mission.version,
+        );
+        return;
+      }
+
+      case "release": {
+        const release = await tx.governedRelease.findFirst({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            status: "APPROVED",
+            manifest: { isNot: null },
+          },
+          orderBy: { approvedAt: "desc" },
+          select: { id: true },
+        });
+        const failedRequiredGateCount = await tx.runtimeGate.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            contractGate: { required: true },
+            status: { not: "PASSED" },
+          },
+        });
+        if (!release || failedRequiredGateCount > 0) {
+          throw new MissionError(
+            MissionErrorCode.ReleaseAuthorizationRequired,
+            "Release requires an approved manifest and all required runtime gates passed",
+          );
+        }
+        await internalTransition(
+          tx,
+          ctx,
+          mission.id,
+          mission.status,
+          to,
+          options.reason,
+          mission.version,
+        );
+        return;
+      }
 
       case "later":
         throw new MissionError(rule.errorCode!, `Transition ${mission.status} → ${to} requires a later kernel`);

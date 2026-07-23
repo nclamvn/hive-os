@@ -14,6 +14,75 @@ const VALID: Record<string, Record<string, unknown>> = {
   [AuditEventType.InvitationCreated]: { email: "a@b.co", role: "MEMBER" },
   [AuditEventType.InvitationAccepted]: { role: "ADMIN" },
   [AuditEventType.InvitationRevoked]: { email: "a@b.co" },
+  [AuditEventType.SkillCreated]: {
+    skillKey: "refinery",
+    activeVersion: "1.0.0",
+  },
+  [AuditEventType.SkillVersionRegistered]: {
+    skillKey: "refinery",
+    semanticVersion: "1.1.0",
+    digest: "abc123",
+  },
+  [AuditEventType.SkillVersionActivated]: {
+    skillKey: "refinery",
+    fromVersion: "1.0.0",
+    toVersion: "1.1.0",
+    reason: "Approved contract revision",
+  },
+  [AuditEventType.SkillStatusChanged]: {
+    skillKey: "refinery",
+    from: "ACTIVE",
+    to: "DEPRECATED",
+    reason: "Superseded operating method",
+  },
+  [AuditEventType.ExecutionTipCreated]: {
+    code: "TIP-007",
+    dependencyCount: 1,
+  },
+  [AuditEventType.ExecutionRunStarted]: {
+    attemptNumber: 1,
+    role: "BUILDER",
+    provider: "manual",
+    model: "external-model",
+    inputArtifactId: "artifact-id",
+  },
+  [AuditEventType.ExecutionReportImported]: {
+    result: "DONE",
+    overallStatus: "READY",
+    outputArtifactId: "artifact-id",
+    deviationCount: 0,
+    resourceRecordCount: 2,
+  },
+  [AuditEventType.ExecutionDeviationResolved]: {
+    code: "DEV-1",
+    resolution: "Accepted implementation correction",
+  },
+  [AuditEventType.VerificationScenarioCreated]: {
+    code: "VG-01",
+    kind: "REQUIREMENT",
+    required: true,
+  },
+  [AuditEventType.VerificationRunBegun]: {
+    independenceStatus: "INDEPENDENT",
+    verifierRunId: "verifier-run-id",
+  },
+  [AuditEventType.VerificationReportCompleted]: {
+    overallStatus: "READY",
+    reportArtifactId: "report-artifact-id",
+    requirementCount: 1,
+    scenarioCount: 1,
+    corruptionCount: 1,
+  },
+  [AuditEventType.GovernanceSignoffRecorded]: {
+    signoffType: "VERIFICATION",
+    decision: "APPROVED",
+  },
+  [AuditEventType.ReleaseApproved]: {
+    visibility: "PUBLIC",
+    manifestId: "manifest-id",
+    claimCount: 1,
+    artifactCount: 3,
+  },
 };
 
 describe("audit payload contract (SEC-02)", () => {

@@ -28,6 +28,43 @@ describe("permission matrix (ID-09)", () => {
     expect(hasCapability("ADMIN", "members.manage_owner")).toBe(false);
     expect(hasCapability("MEMBER", "members.manage_owner")).toBe(false);
   });
+
+  it("TIP-006 skill reads are universal and management is Owner/Admin only", () => {
+    for (const role of ALL_ROLES) {
+      expect(hasCapability(role, "skills.read")).toBe(true);
+    }
+    expect(hasCapability("OWNER", "skills.manage")).toBe(true);
+    expect(hasCapability("ADMIN", "skills.manage")).toBe(true);
+    expect(hasCapability("MEMBER", "skills.manage")).toBe(false);
+    expect(hasCapability("VIEWER", "skills.manage")).toBe(false);
+  });
+
+  it("TIP-007 execution reads are universal, operation excludes Viewer, and review is Owner/Admin", () => {
+    for (const role of ALL_ROLES) {
+      expect(hasCapability(role, "execution.read")).toBe(true);
+    }
+    expect(hasCapability("OWNER", "execution.operate")).toBe(true);
+    expect(hasCapability("ADMIN", "execution.operate")).toBe(true);
+    expect(hasCapability("MEMBER", "execution.operate")).toBe(true);
+    expect(hasCapability("VIEWER", "execution.operate")).toBe(false);
+    expect(hasCapability("OWNER", "execution.review")).toBe(true);
+    expect(hasCapability("ADMIN", "execution.review")).toBe(true);
+    expect(hasCapability("MEMBER", "execution.review")).toBe(false);
+  });
+
+  it("TIP-008 verification reads are universal while review and release approval are privileged", () => {
+    for (const role of ALL_ROLES) {
+      expect(hasCapability(role, "verification.read")).toBe(true);
+    }
+    expect(hasCapability("MEMBER", "verification.operate")).toBe(true);
+    expect(hasCapability("VIEWER", "verification.operate")).toBe(false);
+    for (const capability of ["verification.review", "release.approve"] as const) {
+      expect(hasCapability("OWNER", capability)).toBe(true);
+      expect(hasCapability("ADMIN", capability)).toBe(true);
+      expect(hasCapability("MEMBER", capability)).toBe(false);
+      expect(hasCapability("VIEWER", capability)).toBe(false);
+    }
+  });
 });
 
 describe("role transition authority (ID-10)", () => {

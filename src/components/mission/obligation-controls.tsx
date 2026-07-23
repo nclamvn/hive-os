@@ -25,7 +25,7 @@ export function ObligationControls({
   }
 
   if (status === "SATISFIED" || status === "WAIVED") {
-    return <span className="text-meta text-ink-faint" aria-hidden="true">—</span>;
+    return <span className="text-meta text-ink-faint">None</span>;
   }
 
   return (

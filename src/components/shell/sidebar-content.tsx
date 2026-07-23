@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { Hexagon, Plus, UserRound } from "lucide-react";
 
 import { NAV_ITEMS } from "./navigation";
+import { NavItemLink } from "./nav-item-link";
 
 const NOT_IMPLEMENTED = "Not implemented in the current build stage";
 
@@ -77,7 +77,7 @@ export function SidebarContent({
               const Icon = item.icon;
               const title = item.implemented
                 ? item.label
-                : `${item.label} — ${NOT_IMPLEMENTED}`;
+                : `${item.label} · ${NOT_IMPLEMENTED}`;
               const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium ${
                 iconOnly ? "justify-center px-0" : "px-3"
               }`;
@@ -85,25 +85,25 @@ export function SidebarContent({
               if (item.implemented) {
                 const wsBase = homeHref.startsWith("/w/") ? homeHref : "/";
                 const href =
-                  item.label === "Missions" && wsBase !== "/"
-                    ? `${wsBase}/missions`
+                  item.segment && wsBase !== "/"
+                    ? `${wsBase}/${item.segment}`
                     : wsBase;
                 return (
                   <li key={item.label}>
-                    <Link
+                    <NavItemLink
                       href={href}
-                      aria-label={item.label}
+                      label={item.label}
                       title={title}
-                      onClick={onNavigate}
-                      className={`${rowClass} text-ink-strong hover:bg-surface-subtle`}
+                      onNavigate={onNavigate}
+                      iconOnly={iconOnly}
                     >
                       <Icon className="size-[18px] shrink-0" aria-hidden="true" />
                       {iconOnly ? (
                         <span className="sr-only">{item.label}</span>
                       ) : (
-                        <span>{item.label}</span>
+                          <span>{item.label}</span>
                       )}
-                    </Link>
+                    </NavItemLink>
                   </li>
                 );
               }
@@ -128,8 +128,8 @@ export function SidebarContent({
                       <span className="flex-1">{item.label}</span>
                     )}
                     {!iconOnly && (
-                      <span className="text-ink-faint" aria-hidden="true">
-                        —
+                      <span className="text-meta text-ink-muted" aria-hidden="true">
+                        Planned
                       </span>
                     )}
                   </button>

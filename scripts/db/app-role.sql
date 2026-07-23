@@ -27,6 +27,35 @@ BEGIN
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'gate_run') THEN
     REVOKE UPDATE, DELETE, TRUNCATE ON TABLE gate_run FROM hiveos_app;
   END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'snapshot') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      snapshot, evidence_span, claim_version, claim_evidence, dispute,
+      honest_null_record, provenance_edge
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'skill_version') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE skill_version FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'execution_artifact') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      execution_tip_dependency, execution_artifact, completion_report,
+      resource_usage_record
+    FROM hiveos_app;
+    -- These two projections receive one governed terminal transition but are
+    -- never deleted by the runtime role.
+    REVOKE DELETE, TRUNCATE ON TABLE
+      agent_run, execution_deviation
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'verification_report') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      verification_scenario, verification_requirement_coverage,
+      verification_scenario_result, verification_technical_health,
+      corruption_test_run, verification_report, governance_signoff,
+      evidence_ceiling_assessment, governed_release, release_manifest
+    FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE verification_run FROM hiveos_app;
+  END IF;
 END
 $$;
 

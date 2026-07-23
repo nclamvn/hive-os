@@ -29,7 +29,24 @@ export type Capability =
   | "decisions.request"
   | "decisions.resolve"
   | "escalations.read"
-  | "escalations.manage";
+  | "escalations.manage"
+  // Truth Kernel (TIP-005)
+  | "truth.read"
+  | "truth.write"
+  | "truth.review"
+  | "truth.export"
+  // Skill Registry (TIP-006)
+  | "skills.read"
+  | "skills.manage"
+  // Execution Fabric (TIP-007)
+  | "execution.read"
+  | "execution.operate"
+  | "execution.review"
+  // Verification & Governance (TIP-008)
+  | "verification.read"
+  | "verification.operate"
+  | "verification.review"
+  | "release.approve";
 
 const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "workspace.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
@@ -59,6 +76,19 @@ const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "decisions.resolve": new Set(["OWNER", "ADMIN"]),
   "escalations.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
   "escalations.manage": new Set(["OWNER", "ADMIN"]),
+  "truth.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "truth.write": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "truth.review": new Set(["OWNER", "ADMIN"]),
+  "truth.export": new Set(["OWNER", "ADMIN"]),
+  "skills.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "skills.manage": new Set(["OWNER", "ADMIN"]),
+  "execution.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "execution.operate": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "execution.review": new Set(["OWNER", "ADMIN"]),
+  "verification.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "verification.operate": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "verification.review": new Set(["OWNER", "ADMIN"]),
+  "release.approve": new Set(["OWNER", "ADMIN"]),
 };
 
 export function hasCapability(role: Role, capability: Capability): boolean {

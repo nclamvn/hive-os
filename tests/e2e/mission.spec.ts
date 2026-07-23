@@ -37,14 +37,15 @@ test("MK-30 no synthetic missions, progress or metrics are rendered", async ({ p
   // Progress is unavailable before approval — never a fabricated percentage.
   await expect(page.getByText("Progress is unavailable until the contract is approved.")).toBeVisible();
 
-  // Governed metrics stay unavailable on the dashboard.
+  // Governed metrics are authoritative workspace totals, never fabricated.
   await page.goto(dashboardUrl);
-  await expect(page.getByText("No governed metrics available")).toBeVisible();
+  await expect(page.getByText("Authoritative workspace totals")).toBeVisible();
   const metricsText = await page.evaluate(() => {
     const region = document.querySelector('[aria-label="System metrics"]');
     return region?.textContent ?? "";
   });
   expect(metricsText).not.toMatch(/\d+(\.\d+)?%/);
+  expect(metricsText).toContain("Missions1");
 
   await page.goto(detailUrl); // still same-origin, real record
 });

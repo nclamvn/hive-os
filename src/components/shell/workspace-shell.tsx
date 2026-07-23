@@ -37,6 +37,7 @@ export function WorkspaceShell({
       subtitle={subtitle}
       account={{ name: ctx.user.name, email: ctx.user.email }}
       homeHref={`/w/${ctx.workspace.slug}`}
+      controlRoomHref={`/w/${ctx.workspace.slug}/control-room?find=1`}
       brandSlot={
         <WorkspaceSwitcher
           current={{ slug: ctx.workspace.slug, name: ctx.workspace.name }}

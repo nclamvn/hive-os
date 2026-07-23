@@ -121,7 +121,7 @@ test("ID-24 OBL-UI-001 workflow header stacks below 768px", async ({ page }) => 
   await signUpToDashboard(page);
 
   const title = page.getByRole("heading", { name: "HIVE OS mission workflow" });
-  const note = page.getByText("Explanatory sequence — not an active mission");
+  const note = page.getByText("Explanatory sequence, not an active mission");
   const titleBox = await title.boundingBox();
   const noteBox = await note.boundingBox();
   if (!titleBox || !noteBox) throw new Error("workflow header not found");

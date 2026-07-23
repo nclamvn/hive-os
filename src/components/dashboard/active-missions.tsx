@@ -2,10 +2,9 @@ import Link from "next/link";
 
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { EmptyState } from "@/components/ui/empty-state";
-import { StatusBadge } from "@/components/ui/status-badge";
 import { MissionStatusBadge } from "@/components/mission/mission-status-badge";
 
-const COLUMNS = ["Reference", "Mission", "Assurance", "Stage", "Updated"] as const;
+const COLUMNS = ["Reference", "Mission", "Stage", "Progress", "Next gate", "Updated"] as const;
 
 export interface MissionRow {
   id: string;
@@ -13,6 +12,8 @@ export interface MissionRow {
   title: string;
   status: string;
   assuranceProfile: string;
+  progressBasisPoints?: number | null;
+  nextGate?: string | null;
   updatedAt: string;
 }
 
@@ -70,10 +71,15 @@ export function ActiveMissions({
                       {m.title}
                     </Link>
                   </td>
-                  <td className="px-5 py-3">
-                    <StatusBadge tone="neutral">{m.assuranceProfile.toLowerCase()}</StatusBadge>
-                  </td>
                   <td className="px-5 py-3"><MissionStatusBadge status={m.status} /></td>
+                  <td className="text-meta text-ink-muted tabular px-5 py-3">
+                    {m.progressBasisPoints == null
+                      ? "Unavailable"
+                      : `${(m.progressBasisPoints / 100).toFixed(0)}%`}
+                  </td>
+                  <td className="text-meta text-ink-muted px-5 py-3">
+                    {m.nextGate ?? "No open gate"}
+                  </td>
                   <td className="text-meta text-ink-muted tabular px-5 py-3">
                     {m.updatedAt.slice(0, 10)}
                   </td>
@@ -95,7 +101,12 @@ export function ActiveMissions({
                   <Link href={`${basePath}/missions/${m.id}`} className="text-body text-ink block truncate font-medium hover:underline">
                     {m.title}
                   </Link>
-                  <span className="text-meta text-ink-muted tabular">{m.referenceCode}</span>
+                  <span className="text-meta text-ink-muted tabular">
+                    {m.referenceCode} · {m.assuranceProfile.toLowerCase()}
+                    {m.progressBasisPoints == null
+                      ? ""
+                      : ` · ${(m.progressBasisPoints / 100).toFixed(0)}%`}
+                  </span>
                 </span>
                 <MissionStatusBadge status={m.status} />
               </li>

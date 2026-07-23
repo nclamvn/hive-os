@@ -1,6 +1,6 @@
 # TIP-010 — Dashboard and Navigation
 
-Status: `DRAFT`
+Status: `READY_WITH_DEFERRED — LOCAL VERIFIED`
 
 ## Task
 

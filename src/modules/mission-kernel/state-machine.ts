@@ -8,6 +8,9 @@ import { MissionError, MissionErrorCode } from "./errors";
  */
 export type TransitionKind =
   | "primary" // publicly executable in TIP-004 (human command)
+  | "execution" // requires TIP-007 execution readiness
+  | "verification" // requires TIP-008 verification readiness
+  | "release" // requires TIP-008 governed release authorization
   | "later" // recognized but fails closed until later kernels exist
   | "block" // → BLOCKED (reason + escalation, records prior state)
   | "resume" // BLOCKED → recorded prior state
@@ -27,16 +30,30 @@ const PRIMARY: Array<[MissionStatus, MissionStatus]> = [
   ["INTAKE", "SCOPED"],
   ["SCOPED", "CONTRACT_REVIEW"],
   ["CONTRACT_REVIEW", "APPROVED"],
+  // Enabled by TIP-005: the deterministic Truth Kernel now owns exploration.
+  ["APPROVED", "EXPLORING"],
 ];
 
-// Recognized later-stage transitions that fail closed in TIP-004.
-const LATER: Array<[MissionStatus, MissionStatus, string]> = [
-  ["APPROVED", "EXPLORING", MissionErrorCode.TruthKernelRequired],
-  ["EXPLORING", "BUILDING", MissionErrorCode.ExecutionFabricRequired],
-  ["BUILDING", "VERIFYING", MissionErrorCode.VerificationKernelRequired],
-  ["VERIFYING", "REVIEW", MissionErrorCode.VerificationKernelRequired],
-  ["REVIEW", "RELEASED", MissionErrorCode.ReleaseAuthorizationRequired],
+// Execution Fabric owns this transition and checks Mission-specific readiness.
+const EXECUTION: Array<[MissionStatus, MissionStatus]> = [
+  ["EXPLORING", "BUILDING"],
 ];
+
+// Verification Governance owns these transitions and checks immutable reports,
+// verifier independence, and the assurance-profile sign-off policy.
+const VERIFICATION: Array<[MissionStatus, MissionStatus]> = [
+  ["BUILDING", "VERIFYING"],
+  ["VERIFYING", "REVIEW"],
+];
+
+// A Mission may be released only after TIP-008 creates an approved immutable
+// release and its exact manifest.
+const RELEASE: Array<[MissionStatus, MissionStatus]> = [
+  ["REVIEW", "RELEASED"],
+];
+
+// Recognized later-stage transitions that still fail closed.
+const LATER: Array<[MissionStatus, MissionStatus, string]> = [];
 
 // Active governed states that may be blocked (reason + escalation).
 const BLOCKABLE: MissionStatus[] = [
@@ -44,6 +61,10 @@ const BLOCKABLE: MissionStatus[] = [
   "SCOPED",
   "CONTRACT_REVIEW",
   "APPROVED",
+  "EXPLORING",
+  "BUILDING",
+  "VERIFYING",
+  "REVIEW",
 ];
 
 // Decision-gated side transitions (require an approved material Decision).
@@ -56,6 +77,9 @@ const DECISION: Array<[MissionStatus, MissionStatus]> = [
   ["BLOCKED", "CANCELLED"],
   ["APPROVED", "PARTIAL"],
   ["APPROVED", "REFUTED"],
+  ["EXPLORING", "CANCELLED"],
+  ["EXPLORING", "PARTIAL"],
+  ["EXPLORING", "REFUTED"],
 ];
 
 // Terminal states that may be archived.
@@ -72,6 +96,15 @@ export function classifyTransition(
 ): TransitionRule {
   if (PRIMARY.some(([f, t]) => f === from && t === to)) {
     return { kind: "primary" };
+  }
+  if (EXECUTION.some(([f, t]) => f === from && t === to)) {
+    return { kind: "execution" };
+  }
+  if (VERIFICATION.some(([f, t]) => f === from && t === to)) {
+    return { kind: "verification" };
+  }
+  if (RELEASE.some(([f, t]) => f === from && t === to)) {
+    return { kind: "release" };
   }
   const later = LATER.find(([f, t]) => f === from && t === to);
   if (later) return { kind: "later", errorCode: later[2] };
@@ -99,6 +132,15 @@ export function enumerateTransitions(): Array<{
 }> {
   const out: Array<{ from: MissionStatus; to: MissionStatus; kind: TransitionKind }> = [];
   for (const [from, to] of PRIMARY) out.push({ from, to, kind: "primary" });
+  for (const [from, to] of EXECUTION) {
+    out.push({ from, to, kind: "execution" });
+  }
+  for (const [from, to] of VERIFICATION) {
+    out.push({ from, to, kind: "verification" });
+  }
+  for (const [from, to] of RELEASE) {
+    out.push({ from, to, kind: "release" });
+  }
   for (const [from, to] of LATER) out.push({ from, to, kind: "later" });
   for (const from of BLOCKABLE) out.push({ from, to: "BLOCKED", kind: "block" });
   for (const [from, to] of DECISION) out.push({ from, to, kind: "decision" });

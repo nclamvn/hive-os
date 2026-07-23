@@ -1,6 +1,4 @@
 // HIVE OS — authoritative transactional store schema.
-// TIP-003 scope: Identity, Workspace, and Audit. Missions, claims, evidence,
-// execution, and verification arrive in their own authorized TIPs.
 
 generator client {
   provider = "prisma-client-js"
@@ -131,10 +129,28 @@ model Workspace {
   updatedAt   DateTime        @updatedAt @map("updated_at")
   version     Int             @default(1)
 
-  memberships Membership[]
-  invitations Invitation[]
-  auditEvents AuditEvent[]
-  missions    Mission[]
+  memberships                Membership[]
+  invitations                Invitation[]
+  auditEvents                AuditEvent[]
+  missions                   Mission[]
+  evidenceSources            EvidenceSource[]
+  claims                     Claim[]
+  skills                     Skill[]
+  skillVersions              SkillVersion[]
+  executionTips              ExecutionTip[]
+  executionArtifacts         ExecutionArtifact[]
+  skillRuns                  SkillRun[]
+  agentRuns                  AgentRun[]
+  completionReports          CompletionReport[]
+  executionDeviations        ExecutionDeviation[]
+  resourceUsageRecords       ResourceUsageRecord[]
+  verificationScenarios      VerificationScenario[]
+  verificationRuns           VerificationRun[]
+  verificationReports        VerificationReport[]
+  governanceSignoffs         GovernanceSignoff[]
+  evidenceCeilingAssessments EvidenceCeilingAssessment[]
+  governedReleases           GovernedRelease[]
+  releaseManifests           ReleaseManifest[]
 
   @@map("workspace")
 }
@@ -150,9 +166,9 @@ model Membership {
   updatedAt   DateTime         @updatedAt @map("updated_at")
   version     Int              @default(1)
 
-  workspace           Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  issuedInvitations   Invitation[] @relation("InvitationInvitedBy")
+  workspace         Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issuedInvitations Invitation[] @relation("InvitationInvitedBy")
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -170,11 +186,11 @@ model Invitation {
   expiresAt             DateTime         @map("expires_at")
   invitedByMembershipId String           @map("invited_by_membership_id")
   acceptedByUserId      String?          @map("accepted_by_user_id")
-  acceptedAt            DateTime?         @map("accepted_at")
+  acceptedAt            DateTime?        @map("accepted_at")
   createdAt             DateTime         @default(now()) @map("created_at")
 
-  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  invitedBy   Membership @relation("InvitationInvitedBy", fields: [invitedByMembershipId], references: [id])
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  invitedBy Membership @relation("InvitationInvitedBy", fields: [invitedByMembershipId], references: [id])
 
   @@index([workspaceId, status])
   @@index([emailNormalized, status])
@@ -342,27 +358,43 @@ model WorkspaceMissionCounter {
 }
 
 model Mission {
-  id                  String        @id @default(uuid())
-  workspaceId         String        @map("workspace_id")
-  referenceCode       String        @map("reference_code")
-  title               String
-  status              MissionStatus @default(DRAFT)
-  assuranceProfile    AssuranceProfile @default(PROFESSIONAL) @map("assurance_profile")
-  currentContractId   String?       @map("current_contract_id")
-  approvedContractId  String?       @map("approved_contract_id")
-  blockedFromStatus   MissionStatus? @map("blocked_from_status")
-  idempotencyKey      String?       @map("idempotency_key")
-  createdByMembershipId String      @map("created_by_membership_id")
-  createdAt           DateTime      @default(now()) @map("created_at")
-  updatedAt           DateTime      @updatedAt @map("updated_at")
-  version             Int           @default(1)
+  id                    String           @id @default(uuid())
+  workspaceId           String           @map("workspace_id")
+  referenceCode         String           @map("reference_code")
+  title                 String
+  status                MissionStatus    @default(DRAFT)
+  assuranceProfile      AssuranceProfile @default(PROFESSIONAL) @map("assurance_profile")
+  currentContractId     String?          @map("current_contract_id")
+  approvedContractId    String?          @map("approved_contract_id")
+  blockedFromStatus     MissionStatus?   @map("blocked_from_status")
+  idempotencyKey        String?          @map("idempotency_key")
+  createdByMembershipId String           @map("created_by_membership_id")
+  createdAt             DateTime         @default(now()) @map("created_at")
+  updatedAt             DateTime         @updatedAt @map("updated_at")
+  version               Int              @default(1)
 
-  workspace   Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  contracts   MissionContract[]
-  obligations RuntimeObligation[]
-  gates       RuntimeGate[]
-  decisions   Decision[]
-  escalations Escalation[]
+  workspace                  Workspace                   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  contracts                  MissionContract[]
+  obligations                RuntimeObligation[]
+  gates                      RuntimeGate[]
+  decisions                  Decision[]
+  escalations                Escalation[]
+  evidenceSources            EvidenceSource[]
+  claims                     Claim[]
+  executionTips              ExecutionTip[]
+  executionArtifacts         ExecutionArtifact[]
+  skillRuns                  SkillRun[]
+  agentRuns                  AgentRun[]
+  completionReports          CompletionReport[]
+  executionDeviations        ExecutionDeviation[]
+  resourceUsageRecords       ResourceUsageRecord[]
+  verificationScenarios      VerificationScenario[]
+  verificationRuns           VerificationRun[]
+  verificationReports        VerificationReport[]
+  governanceSignoffs         GovernanceSignoff[]
+  evidenceCeilingAssessments EvidenceCeilingAssessment[]
+  governedReleases           GovernedRelease[]
+  releaseManifests           ReleaseManifest[]
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
@@ -371,32 +403,32 @@ model Mission {
 }
 
 model MissionContract {
-  id                    String         @id @default(uuid())
-  workspaceId           String         @map("workspace_id")
-  missionId             String         @map("mission_id")
-  versionNumber         Int            @map("version_number")
-  status                ContractStatus @default(DRAFT)
-  objective             String
-  scope                 String
-  successDefinition     String         @map("success_definition")
-  assuranceProfile      AssuranceProfile @map("assurance_profile")
-  supersedesContractId  String?        @map("supersedes_contract_id")
-  createdByMembershipId String         @map("created_by_membership_id")
-  submittedByMembershipId String?      @map("submitted_by_membership_id")
-  approvedByMembershipId  String?      @map("approved_by_membership_id")
-  submittedAt           DateTime?      @map("submitted_at")
-  approvedAt            DateTime?      @map("approved_at")
-  createdAt             DateTime       @default(now()) @map("created_at")
-  updatedAt            DateTime       @updatedAt @map("updated_at")
-  version              Int            @default(1)
+  id                      String           @id @default(uuid())
+  workspaceId             String           @map("workspace_id")
+  missionId               String           @map("mission_id")
+  versionNumber           Int              @map("version_number")
+  status                  ContractStatus   @default(DRAFT)
+  objective               String
+  scope                   String
+  successDefinition       String           @map("success_definition")
+  assuranceProfile        AssuranceProfile @map("assurance_profile")
+  supersedesContractId    String?          @map("supersedes_contract_id")
+  createdByMembershipId   String           @map("created_by_membership_id")
+  submittedByMembershipId String?          @map("submitted_by_membership_id")
+  approvedByMembershipId  String?          @map("approved_by_membership_id")
+  submittedAt             DateTime?        @map("submitted_at")
+  approvedAt              DateTime?        @map("approved_at")
+  createdAt               DateTime         @default(now()) @map("created_at")
+  updatedAt               DateTime         @updatedAt @map("updated_at")
+  version                 Int              @default(1)
 
-  mission      Mission              @relation(fields: [missionId], references: [id], onDelete: Cascade)
-  requirements Requirement[]
-  assumptions  Assumption[]
-  constraints  Constraint[]
-  inputs       MissionInput[]
+  mission        Mission              @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  requirements   Requirement[]
+  assumptions    Assumption[]
+  constraints    Constraint[]
+  inputs         MissionInput[]
   obligationDefs ContractObligation[]
-  gateDefs     ContractGate[]
+  gateDefs       ContractGate[]
 
   @@unique([missionId, versionNumber])
   @@index([workspaceId, status])
@@ -414,7 +446,9 @@ model Requirement {
   priority           RequirementPriority @default(MEDIUM)
   required           Boolean             @default(true)
 
-  contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contract              MissionContract                   @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  verificationScenarios VerificationScenario[]
+  verificationCoverage  VerificationRequirementCoverage[]
 
   @@unique([contractId, code])
   @@map("requirement")
@@ -480,14 +514,14 @@ model ContractObligation {
 }
 
 model ContractGate {
-  id                  String             @id @default(uuid())
-  workspaceId         String             @map("workspace_id")
-  contractId          String             @map("contract_id")
-  code                String
-  title               String
-  requiredBeforeStatus MissionStatus     @map("required_before_status")
-  required            Boolean            @default(true)
-  evaluationMode      GateEvaluationMode @default(MANUAL) @map("evaluation_mode")
+  id                   String             @id @default(uuid())
+  workspaceId          String             @map("workspace_id")
+  contractId           String             @map("contract_id")
+  code                 String
+  title                String
+  requiredBeforeStatus MissionStatus      @map("required_before_status")
+  required             Boolean            @default(true)
+  evaluationMode       GateEvaluationMode @default(MANUAL) @map("evaluation_mode")
 
   contract MissionContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
   runtime  RuntimeGate[]
@@ -507,7 +541,7 @@ model RuntimeObligation {
   closureReason        String?          @map("closure_reason")
   version              Int              @default(1)
 
-  mission           Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  mission            Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
   contractObligation ContractObligation @relation(fields: [contractObligationId], references: [id], onDelete: Cascade)
 
   @@unique([missionId, contractObligationId])
@@ -534,16 +568,16 @@ model RuntimeGate {
 
 /// Append-only evaluation attempts. INCOMPLETE never counts as PASS.
 model GateRun {
-  id             String     @id @default(uuid())
-  workspaceId    String     @map("workspace_id")
-  missionId      String     @map("mission_id")
-  runtimeGateId  String     @map("runtime_gate_id")
-  result         GateResult
-  actorType      ActorType  @map("actor_type")
-  actorId        String     @map("actor_id")
-  reason         String
-  linkedArtifactId String?  @map("linked_artifact_id")
-  createdAt      DateTime   @default(now()) @map("created_at")
+  id               String     @id @default(uuid())
+  workspaceId      String     @map("workspace_id")
+  missionId        String     @map("mission_id")
+  runtimeGateId    String     @map("runtime_gate_id")
+  result           GateResult
+  actorType        ActorType  @map("actor_type")
+  actorId          String     @map("actor_id")
+  reason           String
+  linkedArtifactId String?    @map("linked_artifact_id")
+  createdAt        DateTime   @default(now()) @map("created_at")
 
   runtimeGate RuntimeGate @relation(fields: [runtimeGateId], references: [id], onDelete: Cascade)
 
@@ -552,24 +586,24 @@ model GateRun {
 }
 
 model Decision {
-  id                     String         @id @default(uuid())
-  workspaceId            String         @map("workspace_id")
-  missionId              String         @map("mission_id")
-  decisionType           DecisionType   @map("decision_type")
-  materiality            String         @default("MATERIAL")
-  status                 DecisionStatus @default(REQUIRED)
-  question               String
-  proposedAction         String         @map("proposed_action")
-  resolution             String?
-  targetKind             String?        @map("target_kind")
-  targetId               String?        @map("target_id")
-  proposedProfile        AssuranceProfile? @map("proposed_profile")
-  requestedByMembershipId String        @map("requested_by_membership_id")
-  decidedByMembershipId  String?        @map("decided_by_membership_id")
-  dueAt                  DateTime?      @map("due_at")
-  decidedAt              DateTime?      @map("decided_at")
-  createdAt              DateTime       @default(now()) @map("created_at")
-  version                Int            @default(1)
+  id                      String            @id @default(uuid())
+  workspaceId             String            @map("workspace_id")
+  missionId               String            @map("mission_id")
+  decisionType            DecisionType      @map("decision_type")
+  materiality             String            @default("MATERIAL")
+  status                  DecisionStatus    @default(REQUIRED)
+  question                String
+  proposedAction          String            @map("proposed_action")
+  resolution              String?
+  targetKind              String?           @map("target_kind")
+  targetId                String?           @map("target_id")
+  proposedProfile         AssuranceProfile? @map("proposed_profile")
+  requestedByMembershipId String            @map("requested_by_membership_id")
+  decidedByMembershipId   String?           @map("decided_by_membership_id")
+  dueAt                   DateTime?         @map("due_at")
+  decidedAt               DateTime?         @map("decided_at")
+  createdAt               DateTime          @default(now()) @map("created_at")
+  version                 Int               @default(1)
 
   mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
 
@@ -579,24 +613,883 @@ model Decision {
 }
 
 model Escalation {
-  id                        String             @id @default(uuid())
-  workspaceId               String             @map("workspace_id")
-  missionId                 String             @map("mission_id")
-  severity                  EscalationSeverity
-  status                    EscalationStatus   @default(OPEN)
-  reason                    String
-  sourceType                String             @map("source_type")
-  sourceId                  String?            @map("source_id")
-  createdByMembershipId     String             @map("created_by_membership_id")
-  acknowledgedByMembershipId String?           @map("acknowledged_by_membership_id")
-  resolvedByMembershipId    String?            @map("resolved_by_membership_id")
-  createdAt                 DateTime           @default(now()) @map("created_at")
-  resolvedAt                DateTime?          @map("resolved_at")
-  version                   Int                @default(1)
+  id                         String             @id @default(uuid())
+  workspaceId                String             @map("workspace_id")
+  missionId                  String             @map("mission_id")
+  severity                   EscalationSeverity
+  status                     EscalationStatus   @default(OPEN)
+  reason                     String
+  sourceType                 String             @map("source_type")
+  sourceId                   String?            @map("source_id")
+  createdByMembershipId      String             @map("created_by_membership_id")
+  acknowledgedByMembershipId String?            @map("acknowledged_by_membership_id")
+  resolvedByMembershipId     String?            @map("resolved_by_membership_id")
+  createdAt                  DateTime           @default(now()) @map("created_at")
+  resolvedAt                 DateTime?          @map("resolved_at")
+  version                    Int                @default(1)
 
   mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
 
   @@index([workspaceId, status])
   @@index([workspaceId, missionId])
   @@map("escalation")
+}
+
+// ---------------------------------------------------------------------------
+// Truth Kernel (TIP-005). Evidence and claim-version ledgers are immutable;
+// Claim is the governed projection recomputed from retained ledger entries.
+// ---------------------------------------------------------------------------
+
+enum AccessLevel {
+  PUBLIC
+  WORKSPACE
+  RESTRICTED
+}
+
+enum ClaimState {
+  DRAFT
+  HYPOTHESIS
+  SOURCED
+  CORROBORATED
+  DISPUTED
+  VALIDATED_BOUNDED
+  PROVED_INTERNAL
+  FALSIFIED
+  RETRACTED
+  HONEST_NULL
+}
+
+enum EvidenceRelation {
+  SUPPORTS
+  CONTRADICTS
+}
+
+enum ProvenanceRelation {
+  DERIVED_FROM
+  SUPPORTS
+  CONTRADICTS
+  SUPERSEDES
+}
+
+enum SearchCompleteness {
+  OPEN_INCOMPLETE
+  EMPTY_CERTIFIED
+}
+
+model EvidenceSource {
+  id                        String      @id @default(uuid())
+  workspaceId               String      @map("workspace_id")
+  missionId                 String      @map("mission_id")
+  title                     String
+  canonicalUri              String      @map("canonical_uri")
+  publisher                 String?
+  sourceType                String      @map("source_type")
+  independenceKey           String      @map("independence_key")
+  qualifiesForCorroboration Boolean     @default(false) @map("qualifies_for_corroboration")
+  accessLevel               AccessLevel @default(WORKSPACE) @map("access_level")
+  createdByMembershipId     String      @map("created_by_membership_id")
+  createdAt                 DateTime    @default(now()) @map("created_at")
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission   Mission    @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  snapshots Snapshot[]
+
+  @@unique([workspaceId, canonicalUri])
+  @@index([workspaceId, missionId])
+  @@map("evidence_source")
+}
+
+/// Immutable captured source content. Database triggers reject UPDATE/DELETE.
+model Snapshot {
+  id                    String   @id @default(uuid())
+  workspaceId           String   @map("workspace_id")
+  missionId             String   @map("mission_id")
+  evidenceSourceId      String   @map("evidence_source_id")
+  content               String
+  contentHash           String   @map("content_hash")
+  mediaType             String   @default("text/plain") @map("media_type")
+  storageReference      String?  @map("storage_reference")
+  capturedAt            DateTime @map("captured_at")
+  createdByMembershipId String   @map("created_by_membership_id")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  evidenceSource EvidenceSource @relation(fields: [evidenceSourceId], references: [id], onDelete: Restrict)
+  spans          EvidenceSpan[]
+
+  @@unique([evidenceSourceId, contentHash])
+  @@index([workspaceId, missionId])
+  @@map("snapshot")
+}
+
+/// Exact half-open [startOffset,endOffset) match into immutable Snapshot.content.
+model EvidenceSpan {
+  id                    String   @id @default(uuid())
+  workspaceId           String   @map("workspace_id")
+  missionId             String   @map("mission_id")
+  snapshotId            String   @map("snapshot_id")
+  startOffset           Int      @map("start_offset")
+  endOffset             Int      @map("end_offset")
+  exactText             String   @map("exact_text")
+  extractionLabel       String?  @map("extraction_label")
+  createdByMembershipId String   @map("created_by_membership_id")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  snapshot Snapshot        @relation(fields: [snapshotId], references: [id], onDelete: Restrict)
+  links    ClaimEvidence[]
+
+  @@unique([snapshotId, startOffset, endOffset])
+  @@index([workspaceId, missionId])
+  @@map("evidence_span")
+}
+
+model Claim {
+  id                        String      @id @default(uuid())
+  workspaceId               String      @map("workspace_id")
+  missionId                 String      @map("mission_id")
+  claimKey                  String      @map("claim_key")
+  state                     ClaimState  @default(DRAFT)
+  accessLevel               AccessLevel @default(WORKSPACE) @map("access_level")
+  internalOwnerMembershipId String?     @map("internal_owner_membership_id")
+  reviewCadenceDays         Int?        @map("review_cadence_days")
+  nextReviewAt              DateTime?   @map("next_review_at")
+  reviewedAt                DateTime?   @map("reviewed_at")
+  createdByMembershipId     String      @map("created_by_membership_id")
+  createdAt                 DateTime    @default(now()) @map("created_at")
+  updatedAt                 DateTime    @updatedAt @map("updated_at")
+  version                   Int         @default(1)
+
+  workspace   Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission     Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  versions    ClaimVersion[]
+  disputes    Dispute[]
+  honestNulls HonestNullRecord[]
+
+  @@unique([missionId, claimKey])
+  @@index([workspaceId, state])
+  @@map("claim")
+}
+
+/// Append-only assertion ledger. Conflicting normalized values remain retained.
+model ClaimVersion {
+  id                     String      @id @default(uuid())
+  workspaceId            String      @map("workspace_id")
+  missionId              String      @map("mission_id")
+  claimId                String      @map("claim_id")
+  versionNumber          Int         @map("version_number")
+  statement              String
+  normalizedValue        String?     @map("normalized_value")
+  falsificationCriterion String?     @map("falsification_criterion")
+  accessLevel            AccessLevel @default(WORKSPACE) @map("access_level")
+  createdByMembershipId  String      @map("created_by_membership_id")
+  createdAt              DateTime    @default(now()) @map("created_at")
+
+  claim                      Claim                       @relation(fields: [claimId], references: [id], onDelete: Restrict)
+  evidence                   ClaimEvidence[]
+  evidenceCeilingAssessments EvidenceCeilingAssessment[]
+
+  @@unique([claimId, versionNumber])
+  @@index([workspaceId, missionId])
+  @@map("claim_version")
+}
+
+model ClaimEvidence {
+  id             String           @id @default(uuid())
+  workspaceId    String           @map("workspace_id")
+  claimVersionId String           @map("claim_version_id")
+  evidenceSpanId String           @map("evidence_span_id")
+  relation       EvidenceRelation @default(SUPPORTS)
+  createdAt      DateTime         @default(now()) @map("created_at")
+
+  claimVersion ClaimVersion @relation(fields: [claimVersionId], references: [id], onDelete: Restrict)
+  evidenceSpan EvidenceSpan @relation(fields: [evidenceSpanId], references: [id], onDelete: Restrict)
+
+  @@unique([claimVersionId, evidenceSpanId, relation])
+  @@index([workspaceId])
+  @@map("claim_evidence")
+}
+
+/// Append-only record emitted whenever retained assertions conflict.
+model Dispute {
+  id                    String   @id @default(uuid())
+  workspaceId           String   @map("workspace_id")
+  missionId             String   @map("mission_id")
+  claimId               String   @map("claim_id")
+  fingerprint           String
+  reason                String
+  createdByMembershipId String   @map("created_by_membership_id")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  claim Claim @relation(fields: [claimId], references: [id], onDelete: Restrict)
+
+  @@unique([claimId, fingerprint])
+  @@index([workspaceId, missionId])
+  @@map("dispute")
+}
+
+/// Explicit human assertion; never synthesized from missing data.
+model HonestNullRecord {
+  id                     String             @id @default(uuid())
+  workspaceId            String             @map("workspace_id")
+  missionId              String             @map("mission_id")
+  claimId                String             @map("claim_id")
+  rationale              String
+  searchCompleteness     SearchCompleteness @map("search_completeness")
+  certificateReference   String?            @map("certificate_reference")
+  assertedByMembershipId String             @map("asserted_by_membership_id")
+  createdAt              DateTime           @default(now()) @map("created_at")
+
+  claim Claim @relation(fields: [claimId], references: [id], onDelete: Restrict)
+
+  @@index([workspaceId, missionId])
+  @@map("honest_null_record")
+}
+
+/// Generic immutable lineage edge between governed truth objects.
+model ProvenanceEdge {
+  id                    String             @id @default(uuid())
+  workspaceId           String             @map("workspace_id")
+  missionId             String             @map("mission_id")
+  fromKind              String             @map("from_kind")
+  fromId                String             @map("from_id")
+  toKind                String             @map("to_kind")
+  toId                  String             @map("to_id")
+  relation              ProvenanceRelation
+  createdByMembershipId String             @map("created_by_membership_id")
+  createdAt             DateTime           @default(now()) @map("created_at")
+
+  @@unique([fromKind, fromId, toKind, toId, relation])
+  @@index([workspaceId, missionId])
+  @@map("provenance_edge")
+}
+
+// ---------------------------------------------------------------------------
+// Skill Registry (TIP-006). SkillVersion is an immutable executable contract;
+// Skill is the governed projection that selects exactly one active version.
+// Execution runs and provider behavior remain outside this bounded context.
+// ---------------------------------------------------------------------------
+
+enum SkillStatus {
+  ACTIVE
+  DEPRECATED
+  ARCHIVED
+}
+
+model Skill {
+  id                    String      @id @default(uuid())
+  workspaceId           String      @map("workspace_id")
+  skillKey              String      @map("skill_key")
+  displayName           String      @map("display_name")
+  description           String
+  status                SkillStatus @default(ACTIVE)
+  activeVersionId       String      @unique @map("active_version_id")
+  createdByMembershipId String      @map("created_by_membership_id")
+  createdAt             DateTime    @default(now()) @map("created_at")
+  updatedAt             DateTime    @updatedAt @map("updated_at")
+  version               Int         @default(1)
+
+  workspace     Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  versions      SkillVersion[] @relation("SkillVersions")
+  activeVersion SkillVersion   @relation("ActiveSkillVersion", fields: [activeVersionId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, skillKey])
+  @@index([workspaceId, status])
+  @@map("skill")
+}
+
+/// Immutable, content-hashed executable contract. Database triggers reject
+/// UPDATE/DELETE; adding a version never activates it implicitly.
+model SkillVersion {
+  id                     String             @id @default(uuid())
+  workspaceId            String             @map("workspace_id")
+  skillId                String             @map("skill_id")
+  semanticVersion        String             @map("semantic_version")
+  capabilities           String[]
+  inputSchema            Json               @map("input_schema")
+  outputSchema           Json               @map("output_schema")
+  requiredEvidence       String[]           @map("required_evidence")
+  failureStates          String[]           @map("failure_states")
+  verifierBinding        Json               @map("verifier_binding")
+  resourceEstimate       Json               @map("resource_estimate")
+  assuranceCompatibility AssuranceProfile[] @map("assurance_compatibility")
+  contentHash            String             @map("content_hash")
+  createdByMembershipId  String             @map("created_by_membership_id")
+  createdAt              DateTime           @default(now()) @map("created_at")
+
+  workspace     Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  skill         Skill          @relation("SkillVersions", fields: [skillId], references: [id], onDelete: Cascade)
+  activeFor     Skill?         @relation("ActiveSkillVersion")
+  executionTips ExecutionTip[]
+  skillRuns     SkillRun[]
+
+  @@unique([skillId, semanticVersion])
+  @@unique([skillId, contentHash])
+  @@index([workspaceId, skillId])
+  @@map("skill_version")
+}
+
+// ---------------------------------------------------------------------------
+// Execution Fabric (TIP-007). Manual Bridge artifacts, reports, dependency
+// edges, attempts, and resource usage are immutable ledgers. Mutable status
+// projections never replace historical attempts or imported evidence.
+// ---------------------------------------------------------------------------
+
+enum ExecutionRole {
+  CONTRACTOR
+  BUILDER
+  VERIFIER
+}
+
+enum ExecutionTipStatus {
+  READY
+  IN_PROGRESS
+  BLOCKED
+  BLOCKED_DEVIATION
+  DONE
+  PARTIAL
+  CANCELLED
+}
+
+enum SkillRunStatus {
+  READY
+  IN_PROGRESS
+  DONE
+  PARTIAL
+  BLOCKED
+}
+
+enum AgentRunStatus {
+  AWAITING_REPORT
+  DONE
+  PARTIAL
+  BLOCKED
+}
+
+enum ExecutionArtifactKind {
+  INSTRUCTION
+  COMPLETION_REPORT
+  OUTPUT
+  RECEIPT
+}
+
+enum CompletionResult {
+  DONE
+  PARTIAL
+  BLOCKED
+}
+
+enum ExecutionOverallStatus {
+  READY
+  READY_WITH_DEFERRED
+  NOT_READY
+}
+
+enum ExecutionDeviationStatus {
+  OPEN
+  RESOLVED
+}
+
+model ExecutionTip {
+  id                    String             @id @default(uuid())
+  workspaceId           String             @map("workspace_id")
+  missionId             String             @map("mission_id")
+  skillVersionId        String             @map("skill_version_id")
+  code                  String
+  title                 String
+  description           String
+  status                ExecutionTipStatus @default(READY)
+  createdByMembershipId String             @map("created_by_membership_id")
+  createdAt             DateTime           @default(now()) @map("created_at")
+  updatedAt             DateTime           @updatedAt @map("updated_at")
+  version               Int                @default(1)
+
+  workspace        Workspace                @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission          Mission                  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  skillVersion     SkillVersion             @relation(fields: [skillVersionId], references: [id], onDelete: Restrict)
+  predecessorEdges ExecutionTipDependency[] @relation("TipDependent")
+  dependentEdges   ExecutionTipDependency[] @relation("TipPredecessor")
+  skillRuns        SkillRun[]
+  artifacts        ExecutionArtifact[]
+  deviations       ExecutionDeviation[]
+
+  @@unique([missionId, code])
+  @@index([workspaceId, missionId, status])
+  @@map("execution_tip")
+}
+
+/// Immutable directed dependency edge: predecessor must finish before dependent.
+model ExecutionTipDependency {
+  id                    String   @id @default(uuid())
+  workspaceId           String   @map("workspace_id")
+  missionId             String   @map("mission_id")
+  predecessorTipId      String   @map("predecessor_tip_id")
+  dependentTipId        String   @map("dependent_tip_id")
+  createdByMembershipId String   @map("created_by_membership_id")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  predecessor ExecutionTip @relation("TipPredecessor", fields: [predecessorTipId], references: [id], onDelete: Restrict)
+  dependent   ExecutionTip @relation("TipDependent", fields: [dependentTipId], references: [id], onDelete: Restrict)
+
+  @@unique([predecessorTipId, dependentTipId])
+  @@index([workspaceId, missionId])
+  @@map("execution_tip_dependency")
+}
+
+/// Immutable, SHA-256 addressed execution content.
+model ExecutionArtifact {
+  id                    String                @id @default(uuid())
+  workspaceId           String                @map("workspace_id")
+  missionId             String                @map("mission_id")
+  tipId                 String?               @map("tip_id")
+  kind                  ExecutionArtifactKind
+  mediaType             String                @map("media_type")
+  content               String
+  contentHash           String                @map("content_hash")
+  sizeBytes             Int                   @map("size_bytes")
+  createdByMembershipId String                @map("created_by_membership_id")
+  createdAt             DateTime              @default(now()) @map("created_at")
+
+  workspace          Workspace           @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission            Mission             @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  tip                ExecutionTip?       @relation(fields: [tipId], references: [id], onDelete: Restrict)
+  inputForRuns       AgentRun[]          @relation("RunInputArtifact")
+  outputForRun       AgentRun?           @relation("RunOutputArtifact")
+  completionReport   CompletionReport?
+  verificationReport VerificationReport?
+
+  @@index([workspaceId, contentHash])
+  @@index([workspaceId, missionId, kind])
+  @@map("execution_artifact")
+}
+
+model SkillRun {
+  id                    String         @id @default(uuid())
+  workspaceId           String         @map("workspace_id")
+  missionId             String         @map("mission_id")
+  tipId                 String         @map("tip_id")
+  skillVersionId        String         @map("skill_version_id")
+  status                SkillRunStatus @default(READY)
+  createdByMembershipId String         @map("created_by_membership_id")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @updatedAt @map("updated_at")
+  version               Int            @default(1)
+
+  workspace    Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission      Mission      @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  tip          ExecutionTip @relation(fields: [tipId], references: [id], onDelete: Restrict)
+  skillVersion SkillVersion @relation(fields: [skillVersionId], references: [id], onDelete: Restrict)
+  agentRuns    AgentRun[]
+
+  @@index([workspaceId, missionId, status])
+  @@map("skill_run")
+}
+
+/// Each row is a retained provider attempt. Retry creates another row.
+model AgentRun {
+  id                    String         @id @default(uuid())
+  workspaceId           String         @map("workspace_id")
+  missionId             String         @map("mission_id")
+  skillRunId            String         @map("skill_run_id")
+  attemptNumber         Int            @map("attempt_number")
+  executionRole         ExecutionRole  @map("execution_role")
+  providerName          String         @map("provider_name")
+  modelName             String         @map("model_name")
+  providerMode          String         @default("MANUAL_BRIDGE") @map("provider_mode")
+  status                AgentRunStatus @default(AWAITING_REPORT)
+  inputArtifactId       String         @map("input_artifact_id")
+  outputArtifactId      String?        @unique @map("output_artifact_id")
+  previousRunId         String?        @map("previous_run_id")
+  createdByMembershipId String         @map("created_by_membership_id")
+  startedAt             DateTime       @default(now()) @map("started_at")
+  completedAt           DateTime?      @map("completed_at")
+  version               Int            @default(1)
+
+  workspace            Workspace             @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission              Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  skillRun             SkillRun              @relation(fields: [skillRunId], references: [id], onDelete: Restrict)
+  inputArtifact        ExecutionArtifact     @relation("RunInputArtifact", fields: [inputArtifactId], references: [id], onDelete: Restrict)
+  outputArtifact       ExecutionArtifact?    @relation("RunOutputArtifact", fields: [outputArtifactId], references: [id], onDelete: Restrict)
+  previousRun          AgentRun?             @relation("RunRetryChain", fields: [previousRunId], references: [id], onDelete: Restrict)
+  retries              AgentRun[]            @relation("RunRetryChain")
+  completionReport     CompletionReport?
+  resourceUsageRecords ResourceUsageRecord[]
+  verifierFor          VerificationRun?
+
+  @@unique([skillRunId, attemptNumber])
+  @@index([workspaceId, missionId, status])
+  @@map("agent_run")
+}
+
+/// Strictly parsed projection linked to the immutable report artifact.
+model CompletionReport {
+  id                     String                 @id @default(uuid())
+  workspaceId            String                 @map("workspace_id")
+  missionId              String                 @map("mission_id")
+  runId                  String                 @unique @map("run_id")
+  artifactId             String                 @unique @map("artifact_id")
+  result                 CompletionResult
+  summary                String
+  requirementCoverage    Json                   @map("requirement_coverage")
+  scenarioResults        Json                   @map("scenario_results")
+  technicalHealth        Json                   @map("technical_health")
+  overallStatus          ExecutionOverallStatus @map("overall_status")
+  importedByMembershipId String                 @map("imported_by_membership_id")
+  createdAt              DateTime               @default(now()) @map("created_at")
+
+  workspace            Workspace             @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission              Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  run                  AgentRun              @relation(fields: [runId], references: [id], onDelete: Restrict)
+  artifact             ExecutionArtifact     @relation(fields: [artifactId], references: [id], onDelete: Restrict)
+  deviations           ExecutionDeviation[]
+  resourceUsageRecords ResourceUsageRecord[]
+
+  @@index([workspaceId, missionId])
+  @@map("completion_report")
+}
+
+model ExecutionDeviation {
+  id                     String                   @id @default(uuid())
+  workspaceId            String                   @map("workspace_id")
+  missionId              String                   @map("mission_id")
+  tipId                  String                   @map("tip_id")
+  reportId               String                   @map("report_id")
+  code                   String
+  title                  String
+  description            String
+  materiality            String
+  proposedResolution     String                   @map("proposed_resolution")
+  status                 ExecutionDeviationStatus @default(OPEN)
+  resolvedByMembershipId String?                  @map("resolved_by_membership_id")
+  resolution             String?
+  createdAt              DateTime                 @default(now()) @map("created_at")
+  resolvedAt             DateTime?                @map("resolved_at")
+  version                Int                      @default(1)
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission   Mission          @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  tip       ExecutionTip     @relation(fields: [tipId], references: [id], onDelete: Restrict)
+  report    CompletionReport @relation(fields: [reportId], references: [id], onDelete: Restrict)
+
+  @@unique([reportId, code])
+  @@index([workspaceId, missionId, status])
+  @@map("execution_deviation")
+}
+
+/// Immutable metering supplied by a Completion Report.
+model ResourceUsageRecord {
+  id          String   @id @default(uuid())
+  workspaceId String   @map("workspace_id")
+  missionId   String   @map("mission_id")
+  runId       String   @map("run_id")
+  reportId    String   @map("report_id")
+  metric      String
+  quantity    Int
+  unit        String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission   Mission          @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  run       AgentRun         @relation(fields: [runId], references: [id], onDelete: Restrict)
+  report    CompletionReport @relation(fields: [reportId], references: [id], onDelete: Restrict)
+
+  @@unique([reportId, metric, unit])
+  @@index([workspaceId, missionId])
+  @@map("resource_usage_record")
+}
+
+// ---------------------------------------------------------------------------
+// Verification & Governance (TIP-008). Verification evidence and release
+// manifests are immutable ledgers. Imported verifier output remains evidence
+// input; deterministic kernels own PASS, REVIEW, and RELEASED transitions.
+// ---------------------------------------------------------------------------
+
+enum VerificationScenarioKind {
+  REQUIREMENT
+  FUNCTIONAL
+  SECURITY
+  ACCESSIBILITY
+  PERFORMANCE
+  OTHER
+}
+
+enum VerificationRunStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum VerificationResult {
+  PASS
+  FAIL
+  DEFERRED
+}
+
+enum VerifierIndependenceStatus {
+  NOT_REQUIRED
+  INDEPENDENT
+  NOT_INDEPENDENT
+}
+
+enum CorruptionResult {
+  PASS
+  FAIL
+  INCONCLUSIVE
+}
+
+enum GovernanceSignoffType {
+  VERIFICATION
+  RELEASE
+}
+
+enum GovernanceDecision {
+  APPROVED
+  REJECTED
+}
+
+enum GovernedReleaseStatus {
+  APPROVED
+}
+
+enum ReleaseVisibility {
+  INTERNAL
+  PUBLIC
+}
+
+/// Immutable verification method definition.
+model VerificationScenario {
+  id                    String                   @id @default(uuid())
+  workspaceId           String                   @map("workspace_id")
+  missionId             String                   @map("mission_id")
+  requirementId         String?                  @map("requirement_id")
+  code                  String
+  title                 String
+  kind                  VerificationScenarioKind
+  method                String
+  expectedOutcome       String                   @map("expected_outcome")
+  required              Boolean                  @default(true)
+  createdByMembershipId String                   @map("created_by_membership_id")
+  createdAt             DateTime                 @default(now()) @map("created_at")
+
+  workspace   Workspace                    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission     Mission                      @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  requirement Requirement?                 @relation(fields: [requirementId], references: [id], onDelete: Restrict)
+  results     VerificationScenarioResult[]
+
+  @@unique([missionId, code])
+  @@index([workspaceId, missionId])
+  @@map("verification_scenario")
+}
+
+model VerificationRun {
+  id                    String                     @id @default(uuid())
+  workspaceId           String                     @map("workspace_id")
+  missionId             String                     @map("mission_id")
+  verifierAgentRunId    String                     @unique @map("verifier_agent_run_id")
+  status                VerificationRunStatus      @default(IN_PROGRESS)
+  independenceStatus    VerifierIndependenceStatus @map("independence_status")
+  createdByMembershipId String                     @map("created_by_membership_id")
+  createdAt             DateTime                   @default(now()) @map("created_at")
+  completedAt           DateTime?                  @map("completed_at")
+  version               Int                        @default(1)
+
+  workspace           Workspace                         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission             Mission                           @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  verifierAgentRun    AgentRun                          @relation(fields: [verifierAgentRunId], references: [id], onDelete: Restrict)
+  requirementCoverage VerificationRequirementCoverage[]
+  scenarioResults     VerificationScenarioResult[]
+  technicalHealth     VerificationTechnicalHealth?
+  corruptionRuns      CorruptionTestRun[]
+  report              VerificationReport?
+
+  @@index([workspaceId, missionId, status])
+  @@map("verification_run")
+}
+
+/// Immutable exact coverage for one approved requirement.
+model VerificationRequirementCoverage {
+  id                  String             @id @default(uuid())
+  workspaceId         String             @map("workspace_id")
+  missionId           String             @map("mission_id")
+  verificationRunId   String             @map("verification_run_id")
+  requirementId       String             @map("requirement_id")
+  result              VerificationResult
+  method              String
+  evidenceArtifactIds String[]           @map("evidence_artifact_ids")
+  createdAt           DateTime           @default(now()) @map("created_at")
+
+  verificationRun VerificationRun @relation(fields: [verificationRunId], references: [id], onDelete: Restrict)
+  requirement     Requirement     @relation(fields: [requirementId], references: [id], onDelete: Restrict)
+
+  @@unique([verificationRunId, requirementId])
+  @@index([workspaceId, missionId])
+  @@map("verification_requirement_coverage")
+}
+
+/// Immutable result for one governed scenario.
+model VerificationScenarioResult {
+  id                  String              @id @default(uuid())
+  workspaceId         String              @map("workspace_id")
+  missionId           String              @map("mission_id")
+  verificationRunId   String              @map("verification_run_id")
+  scenarioId          String              @map("scenario_id")
+  result              VerificationResult
+  severity            EscalationSeverity?
+  detail              String
+  evidenceArtifactIds String[]            @map("evidence_artifact_ids")
+  createdAt           DateTime            @default(now()) @map("created_at")
+
+  verificationRun VerificationRun      @relation(fields: [verificationRunId], references: [id], onDelete: Restrict)
+  scenario        VerificationScenario @relation(fields: [scenarioId], references: [id], onDelete: Restrict)
+
+  @@unique([verificationRunId, scenarioId])
+  @@index([workspaceId, missionId])
+  @@map("verification_scenario_result")
+}
+
+/// Immutable complete technical-health section, validated before insertion.
+model VerificationTechnicalHealth {
+  id                String   @id @default(uuid())
+  workspaceId       String   @map("workspace_id")
+  missionId         String   @map("mission_id")
+  verificationRunId String   @unique @map("verification_run_id")
+  content           Json
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  verificationRun VerificationRun @relation(fields: [verificationRunId], references: [id], onDelete: Restrict)
+
+  @@index([workspaceId, missionId])
+  @@map("verification_technical_health")
+}
+
+/// Immutable adversarial/corruption verification attempt.
+model CorruptionTestRun {
+  id                  String             @id @default(uuid())
+  workspaceId         String             @map("workspace_id")
+  missionId           String             @map("mission_id")
+  verificationRunId   String             @map("verification_run_id")
+  code                String
+  title               String
+  method              String
+  result              CorruptionResult
+  severity            EscalationSeverity
+  detail              String
+  evidenceArtifactIds String[]           @map("evidence_artifact_ids")
+  createdAt           DateTime           @default(now()) @map("created_at")
+
+  verificationRun VerificationRun @relation(fields: [verificationRunId], references: [id], onDelete: Restrict)
+
+  @@unique([verificationRunId, code])
+  @@index([workspaceId, missionId])
+  @@map("corruption_test_run")
+}
+
+/// Immutable four-section Verify Standard report.
+model VerificationReport {
+  id                    String                 @id @default(uuid())
+  workspaceId           String                 @map("workspace_id")
+  missionId             String                 @map("mission_id")
+  verificationRunId     String                 @unique @map("verification_run_id")
+  artifactId            String                 @unique @map("artifact_id")
+  requirementCoverage   Json                   @map("requirement_coverage")
+  scenarioResults       Json                   @map("scenario_results")
+  technicalHealth       Json                   @map("technical_health")
+  overallStatus         ExecutionOverallStatus @map("overall_status")
+  deferredItems         String[]               @map("deferred_items")
+  contentHash           String                 @map("content_hash")
+  createdByMembershipId String                 @map("created_by_membership_id")
+  createdAt             DateTime               @default(now()) @map("created_at")
+
+  workspace                  Workspace                   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission                    Mission                     @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  verificationRun            VerificationRun             @relation(fields: [verificationRunId], references: [id], onDelete: Restrict)
+  artifact                   ExecutionArtifact           @relation(fields: [artifactId], references: [id], onDelete: Restrict)
+  signoffs                   GovernanceSignoff[]
+  evidenceCeilingAssessments EvidenceCeilingAssessment[]
+  release                    GovernedRelease?
+
+  @@index([workspaceId, missionId, overallStatus])
+  @@map("verification_report")
+}
+
+/// Immutable human decision. Rejection is retained rather than overwritten.
+model GovernanceSignoff {
+  id                   String                @id @default(uuid())
+  workspaceId          String                @map("workspace_id")
+  missionId            String                @map("mission_id")
+  verificationReportId String                @map("verification_report_id")
+  signoffType          GovernanceSignoffType @map("signoff_type")
+  decision             GovernanceDecision
+  rationale            String
+  signedByMembershipId String                @map("signed_by_membership_id")
+  createdAt            DateTime              @default(now()) @map("created_at")
+
+  workspace          Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission            Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  verificationReport VerificationReport @relation(fields: [verificationReportId], references: [id], onDelete: Restrict)
+
+  @@unique([verificationReportId, signoffType, signedByMembershipId])
+  @@index([workspaceId, missionId, signoffType])
+  @@map("governance_signoff")
+}
+
+/// Immutable public-eligibility assessment for an exact ClaimVersion.
+model EvidenceCeilingAssessment {
+  id                   String      @id @default(uuid())
+  workspaceId          String      @map("workspace_id")
+  missionId            String      @map("mission_id")
+  verificationReportId String      @map("verification_report_id")
+  claimVersionId       String      @map("claim_version_id")
+  ceiling              AccessLevel
+  eligiblePublic       Boolean     @map("eligible_public")
+  reasons              String[]
+  createdAt            DateTime    @default(now()) @map("created_at")
+
+  workspace          Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission            Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  verificationReport VerificationReport @relation(fields: [verificationReportId], references: [id], onDelete: Restrict)
+  claimVersion       ClaimVersion       @relation(fields: [claimVersionId], references: [id], onDelete: Restrict)
+
+  @@unique([verificationReportId, claimVersionId])
+  @@index([workspaceId, missionId])
+  @@map("evidence_ceiling_assessment")
+}
+
+model GovernedRelease {
+  id                     String                @id @default(uuid())
+  workspaceId            String                @map("workspace_id")
+  missionId              String                @map("mission_id")
+  verificationReportId   String                @unique @map("verification_report_id")
+  status                 GovernedReleaseStatus @default(APPROVED)
+  visibility             ReleaseVisibility
+  approvedByMembershipId String                @map("approved_by_membership_id")
+  approvedAt             DateTime              @default(now()) @map("approved_at")
+
+  workspace          Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission            Mission            @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  verificationReport VerificationReport @relation(fields: [verificationReportId], references: [id], onDelete: Restrict)
+  manifest           ReleaseManifest?
+
+  @@index([workspaceId, missionId, status, visibility])
+  @@map("governed_release")
+}
+
+/// Immutable canonical release bundle. Observatory projections read this
+/// retained snapshot and never join mutable truth rows.
+model ReleaseManifest {
+  id                    String   @id @default(uuid())
+  workspaceId           String   @map("workspace_id")
+  missionId             String   @map("mission_id")
+  releaseId             String   @unique @map("release_id")
+  claimVersions         Json     @map("claim_versions")
+  artifacts             Json
+  methods               String[]
+  limitations           String[]
+  approverMembershipIds String[] @map("approver_membership_ids")
+  contentHash           String   @unique @map("content_hash")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  workspace Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  mission   Mission         @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  release   GovernedRelease @relation(fields: [releaseId], references: [id], onDelete: Restrict)
+
+  @@index([workspaceId, missionId])
+  @@map("release_manifest")
 }

@@ -1,10 +1,9 @@
+import { randomUUID } from "node:crypto";
+
 import { expect, type Page } from "@playwright/test";
 
-let counter = 0;
-
 export function uniqueEmail(prefix = "e2e"): string {
-  counter += 1;
-  return `${prefix}-${Date.now()}-${counter}@test.local`;
+  return `${prefix}-${randomUUID()}@test.local`;
 }
 
 export interface SignedUp {

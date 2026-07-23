@@ -14,7 +14,7 @@ export function WorkflowProjection() {
       <div className="flex flex-col gap-1 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between min-[768px]:gap-3">
         <h2 className="text-section-title text-ink">HIVE OS mission workflow</h2>
         <span className="text-meta text-ink-muted">
-          Explanatory sequence — not an active mission
+          Explanatory sequence, not an active mission
         </span>
       </div>
       <ol className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3">

@@ -137,9 +137,9 @@ test.describe("HIVE OS app shell", () => {
     await signUpToDashboard(page);
 
     await expect(page.getByText("No active missions").first()).toBeVisible();
-    await expect(page.getByText("No governed metrics available")).toBeVisible();
+    await expect(page.getByText("Authoritative workspace totals")).toBeVisible();
     await expect(page.getByText("No mission selected")).toBeVisible();
-    await expect(page.getByText("Resource telemetry is not connected")).toBeVisible();
+    await expect(page.getByText("No measured resource usage")).toBeVisible();
 
     const text = await page.evaluate(() => {
       const main = document.getElementById("main-content");

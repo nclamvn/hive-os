@@ -17,19 +17,19 @@ const ALL = [
 ] as const;
 
 describe("mission state machine (MK-34 table-driven)", () => {
-  it("primary transitions are exactly the pre-approval loop", () => {
+  it("primary transitions include the implemented truth loop entry", () => {
     expect(classifyTransition("DRAFT", "INTAKE").kind).toBe("primary");
     expect(classifyTransition("INTAKE", "SCOPED").kind).toBe("primary");
     expect(classifyTransition("SCOPED", "CONTRACT_REVIEW").kind).toBe("primary");
     expect(classifyTransition("CONTRACT_REVIEW", "APPROVED").kind).toBe("primary");
+    expect(classifyTransition("APPROVED", "EXPLORING").kind).toBe("primary");
   });
 
-  it("later-stage transitions fail closed with specific codes (MK-16)", () => {
-    expect(classifyTransition("APPROVED", "EXPLORING")).toMatchObject({ kind: "later", errorCode: "TRUTH_KERNEL_REQUIRED" });
-    expect(classifyTransition("EXPLORING", "BUILDING")).toMatchObject({ kind: "later", errorCode: "EXECUTION_FABRIC_REQUIRED" });
-    expect(classifyTransition("BUILDING", "VERIFYING")).toMatchObject({ kind: "later", errorCode: "VERIFICATION_KERNEL_REQUIRED" });
-    expect(classifyTransition("VERIFYING", "REVIEW")).toMatchObject({ kind: "later", errorCode: "VERIFICATION_KERNEL_REQUIRED" });
-    expect(classifyTransition("REVIEW", "RELEASED")).toMatchObject({ kind: "later", errorCode: "RELEASE_AUTHORIZATION_REQUIRED" });
+  it("execution and verification governance own the governed forward path", () => {
+    expect(classifyTransition("EXPLORING", "BUILDING")).toMatchObject({ kind: "execution" });
+    expect(classifyTransition("BUILDING", "VERIFYING")).toMatchObject({ kind: "verification" });
+    expect(classifyTransition("VERIFYING", "REVIEW")).toMatchObject({ kind: "verification" });
+    expect(classifyTransition("REVIEW", "RELEASED")).toMatchObject({ kind: "release" });
   });
 
   it("archived is terminal — no outgoing transition is valid", () => {
@@ -39,7 +39,7 @@ describe("mission state machine (MK-34 table-driven)", () => {
   });
 
   it("blockable states can be blocked; others cannot", () => {
-    for (const from of ["INTAKE", "SCOPED", "CONTRACT_REVIEW", "APPROVED"] as const) {
+    for (const from of ["INTAKE", "SCOPED", "CONTRACT_REVIEW", "APPROVED", "EXPLORING", "BUILDING", "VERIFYING", "REVIEW"] as const) {
       expect(classifyTransition(from, "BLOCKED").kind).toBe("block");
     }
     expect(classifyTransition("DRAFT", "BLOCKED").kind).toBe("invalid");

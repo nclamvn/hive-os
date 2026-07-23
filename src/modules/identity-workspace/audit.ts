@@ -59,6 +59,101 @@ const AUDIT_PAYLOAD_SCHEMAS = {
   "escalation.created": z.object({ severity: z.string(), reason: z.string() }).strict(),
   "escalation.acknowledged": z.object({ severity: z.string() }).strict(),
   "escalation.resolved": z.object({ severity: z.string() }).strict(),
+  // Truth Kernel (TIP-005)
+  "evidence.source_created": z.object({ title: z.string(), sourceType: z.string() }).strict(),
+  "evidence.snapshot_captured": z.object({ sourceId: z.string(), digest: z.string() }).strict(),
+  "evidence.span_created": z.object({ snapshotId: z.string(), startOffset: z.number().int(), endOffset: z.number().int() }).strict(),
+  "claim.created": z.object({ claimKey: z.string(), state: z.string() }).strict(),
+  "claim.version_added": z.object({ versionNumber: z.number().int(), state: z.string() }).strict(),
+  "claim.state_changed": z.object({ from: z.string(), to: z.string(), reason: z.string() }).strict(),
+  "claim.honest_null_asserted": z.object({ searchCompleteness: z.string() }).strict(),
+  "claim.reviewed": z.object({ accessLevel: z.string(), reason: z.string() }).strict(),
+  // Skill Registry (TIP-006)
+  "skill.created": z
+    .object({ skillKey: z.string(), activeVersion: z.string() })
+    .strict(),
+  "skill.version_registered": z
+    .object({
+      skillKey: z.string(),
+      semanticVersion: z.string(),
+      digest: z.string(),
+    })
+    .strict(),
+  "skill.version_activated": z
+    .object({
+      skillKey: z.string(),
+      fromVersion: z.string(),
+      toVersion: z.string(),
+      reason: z.string(),
+    })
+    .strict(),
+  "skill.status_changed": z
+    .object({
+      skillKey: z.string(),
+      from: z.string(),
+      to: z.string(),
+      reason: z.string(),
+    })
+    .strict(),
+  // Execution Fabric (TIP-007). Report contents remain in immutable artifacts;
+  // audit payloads carry identifiers and safe state only.
+  "execution.tip_created": z
+    .object({ code: z.string(), dependencyCount: z.number().int().nonnegative() })
+    .strict(),
+  "execution.run_started": z
+    .object({
+      attemptNumber: z.number().int().positive(),
+      role: z.string(),
+      provider: z.string(),
+      model: z.string(),
+      inputArtifactId: z.string(),
+    })
+    .strict(),
+  "execution.report_imported": z
+    .object({
+      result: z.string(),
+      overallStatus: z.string(),
+      outputArtifactId: z.string(),
+      deviationCount: z.number().int().nonnegative(),
+      resourceRecordCount: z.number().int().nonnegative(),
+    })
+    .strict(),
+  "execution.deviation_resolved": z
+    .object({ code: z.string(), resolution: z.string() })
+    .strict(),
+  // Verification & Governance (TIP-008)
+  "verification.scenario_created": z
+    .object({ code: z.string(), kind: z.string(), required: z.boolean() })
+    .strict(),
+  "verification.run_begun": z
+    .object({
+      independenceStatus: z.string(),
+      verifierRunId: z.string(),
+    })
+    .strict(),
+  "verification.report_completed": z
+    .object({
+      overallStatus: z.string(),
+      reportArtifactId: z.string(),
+      requirementCount: z.number().int().nonnegative(),
+      scenarioCount: z.number().int().nonnegative(),
+      corruptionCount: z.number().int().nonnegative(),
+    })
+    .strict(),
+  "governance.signoff_recorded": z
+    .object({
+      signoffType: z.string(),
+      decision: z.string(),
+    })
+    .strict(),
+  "release.approved": z
+    .object({
+      visibility: z.string(),
+      manifestId: z.string(),
+      claimCount: z.number().int().nonnegative(),
+      artifactCount: z.number().int().nonnegative(),
+    })
+    .strict(),
 } as const;
 
 /** Canonical governed event types for Identity & Workspace. */
@@ -92,6 +187,27 @@ export const AuditEventType = {
   EscalationCreated: "escalation.created",
   EscalationAcknowledged: "escalation.acknowledged",
   EscalationResolved: "escalation.resolved",
+  EvidenceSourceCreated: "evidence.source_created",
+  EvidenceSnapshotCaptured: "evidence.snapshot_captured",
+  EvidenceSpanCreated: "evidence.span_created",
+  ClaimCreated: "claim.created",
+  ClaimVersionAdded: "claim.version_added",
+  ClaimStateChanged: "claim.state_changed",
+  ClaimHonestNullAsserted: "claim.honest_null_asserted",
+  ClaimReviewed: "claim.reviewed",
+  SkillCreated: "skill.created",
+  SkillVersionRegistered: "skill.version_registered",
+  SkillVersionActivated: "skill.version_activated",
+  SkillStatusChanged: "skill.status_changed",
+  ExecutionTipCreated: "execution.tip_created",
+  ExecutionRunStarted: "execution.run_started",
+  ExecutionReportImported: "execution.report_imported",
+  ExecutionDeviationResolved: "execution.deviation_resolved",
+  VerificationScenarioCreated: "verification.scenario_created",
+  VerificationRunBegun: "verification.run_begun",
+  VerificationReportCompleted: "verification.report_completed",
+  GovernanceSignoffRecorded: "governance.signoff_recorded",
+  ReleaseApproved: "release.approved",
 } as const;
 
 export type AuditEventTypeValue =

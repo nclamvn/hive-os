@@ -22,6 +22,7 @@ export interface AppShellProps {
   footerSlot?: ReactNode;
   /** Base href for the primary action / current nav item. */
   homeHref?: string;
+  controlRoomHref?: string;
 }
 
 export function AppShell({
@@ -34,6 +35,7 @@ export function AppShell({
   brandSlot,
   footerSlot,
   homeHref,
+  controlRoomHref,
 }: AppShellProps) {
   const [navOpen, setNavOpen] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -88,14 +90,26 @@ export function AppShell({
 
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <TopHeader ref={menuRef} onOpenNav={openNav} title={title} subtitle={subtitle} />
+        <TopHeader
+          ref={menuRef}
+          onOpenNav={openNav}
+          title={title}
+          subtitle={subtitle}
+          controlRoomHref={controlRoomHref}
+        />
 
         <main
           id="main-content"
           tabIndex={-1}
           className="flex-1 px-4 py-5 min-[768px]:px-5 min-[1180px]:px-[var(--shell-gutter-desktop)]"
         >
-          <div className="grid grid-cols-1 gap-6 min-[1180px]:grid-cols-[minmax(0,1fr)_var(--shell-rail)] min-[1180px]:gap-[var(--shell-gutter-desktop)]">
+          <div
+            className={`grid grid-cols-1 gap-6 ${
+              rail
+                ? "min-[1180px]:grid-cols-[minmax(0,1fr)_var(--shell-rail)] min-[1180px]:gap-[var(--shell-gutter-desktop)]"
+                : ""
+            }`}
+          >
             <div className="flex min-w-0 flex-col gap-6">{children}</div>
             {rail ? (
               <div className="flex min-w-0 flex-col gap-6">{rail}</div>
