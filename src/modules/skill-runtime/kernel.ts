@@ -320,6 +320,10 @@ export async function listSkills(ctx: WorkspaceContext) {
     orderBy: { skillKey: "asc" },
     include: {
       activeVersion: true,
+      versions: {
+        orderBy: { createdAt: "asc" },
+        select: { id: true, semanticVersion: true },
+      },
       _count: { select: { versions: true } },
     },
   });

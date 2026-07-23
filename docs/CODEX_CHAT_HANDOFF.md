@@ -346,6 +346,32 @@ architecture before returning to billing.
 
 See `docs/verification/TIP-013_VERIFY_REPORT.md`.
 
+## TIP-014 local closure update
+
+On 2026-07-23, the chief-architect sequence continued with Templates and Skill
+Library productization.
+
+- Deterministic Mission contract catalog across all four assurance profiles:
+  PASS.
+- Template-to-draft prefill without auto-approval or lifecycle bypass: PASS.
+- Real workspace Skill Registry read and management surface: PASS.
+- Atomic initial registration, inert candidate version, explicit activation,
+  status lifecycle, immutable digest, and audit boundaries: PASS.
+- Viewer read-only and tenant isolation boundaries: PASS through existing
+  kernel scenarios.
+- Desktop and 320px responsive inspection: PASS with no horizontal overflow.
+- Unit tests: 106 passed.
+- Integration tests: 99 passed.
+- E2E tests: 55 passed.
+- Aggregate tests: 260 passed.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- No schema change was required; all 11 migrations remain current.
+- Billing and remote CI were not changed. `OBL-FND-001` remains externally
+  blocked.
+- TIP-015 Execution Operations is the next local priority.
+
+See `docs/verification/TIP-014_VERIFY_REPORT.md`.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

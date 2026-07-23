@@ -29,7 +29,9 @@ export interface NavItem {
     | "claims"
     | "control-room"
     | "observatory"
-    | "reports";
+    | "reports"
+    | "templates"
+    | "skills";
 }
 
 export const NAV_ITEMS: readonly NavItem[] = [
@@ -41,7 +43,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Control Room", icon: Network, implemented: true, segment: "control-room" },
   { label: "Observatory", icon: Radar, implemented: true, segment: "observatory" },
   { label: "Reports", icon: FileText, implemented: true, segment: "reports" },
-  { label: "Templates", icon: ClipboardList, implemented: false, segment: "" },
-  { label: "Skill Library", icon: Boxes, implemented: false, segment: "" },
+  { label: "Templates", icon: ClipboardList, implemented: true, segment: "templates" },
+  { label: "Skill Library", icon: Boxes, implemented: true, segment: "skills" },
   { label: "Settings", icon: Settings, implemented: false, segment: "" },
 ];
