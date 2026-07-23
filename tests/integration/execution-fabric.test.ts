@@ -26,6 +26,7 @@ import {
   type SkillContractInput,
 } from "@/modules/skill-runtime";
 import { getDb } from "@/server/db";
+import { getExecutionOperationsProjection } from "@/server/execution-operations";
 
 import {
   asOwner,
@@ -320,6 +321,9 @@ describe("Execution Fabric Manual Bridge", () => {
     await expect(issueManualRun(ctxB, tip.id, runInput)).rejects.toMatchObject({
       code: "EXECUTION_NOT_FOUND",
     });
+    const foreignProjection = await getExecutionOperationsProjection(ctxB);
+    expect(foreignProjection.tips).toEqual([]);
+    expect(foreignProjection.counts.artifacts).toBe(0);
   });
 
   it("EF-09 serializes competing report imports so exactly one succeeds", async () => {
@@ -385,6 +389,13 @@ describe("Execution Fabric Manual Bridge", () => {
     expect((await getExecutionProjection(viewer, mission.id)).disclaimer).toMatch(
       /not independent verification/i,
     );
+    const operations = await getExecutionOperationsProjection(viewer);
+    expect(operations.tips).toHaveLength(1);
+    expect(operations.permissions).toEqual({
+      canOperate: false,
+      canReview: false,
+    });
+    expect(operations.tips[0].mission.referenceCode).toBeTruthy();
     await expect(issueManualRun(viewer, tip.id, runInput)).rejects.toMatchObject(
       { code: "EXECUTION_FORBIDDEN" },
     );

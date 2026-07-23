@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   ListChecks,
   Network,
+  PlaySquare,
   type LucideIcon,
   Radar,
   Settings,
@@ -27,6 +28,7 @@ export interface NavItem {
     | "missions"
     | "evidence"
     | "claims"
+    | "execution"
     | "control-room"
     | "observatory"
     | "reports"
@@ -39,6 +41,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Missions", icon: Target, implemented: true, segment: "missions" },
   { label: "Evidence Hub", icon: FlaskConical, implemented: true, segment: "evidence" },
   { label: "Claims & Insights", icon: ListChecks, implemented: true, segment: "claims" },
+  { label: "Execution", icon: PlaySquare, implemented: true, segment: "execution" },
   { label: "Verification", icon: ShieldCheck, implemented: false, segment: "" },
   { label: "Control Room", icon: Network, implemented: true, segment: "control-room" },
   { label: "Observatory", icon: Radar, implemented: true, segment: "observatory" },

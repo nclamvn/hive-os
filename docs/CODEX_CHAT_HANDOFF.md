@@ -372,6 +372,34 @@ Library productization.
 
 See `docs/verification/TIP-014_VERIFY_REPORT.md`.
 
+## TIP-015 local closure update
+
+On 2026-07-23, the Owner explicitly authorized Execution Operations before
+Verification and Settings productization.
+
+- Full governed Manual Bridge sequence from APPROVED through execution
+  readiness and BUILDING: PASS.
+- Work-package creation with active assurance-compatible SkillVersion: PASS.
+- Immutable instruction artifacts and provider/model/role attribution: PASS.
+- Strict atomic Completion Report import and malformed-report negative path:
+  PASS.
+- Append-only retry, dependency, deviation resolution, and retained history:
+  PASS.
+- Viewer read-only and tenant-scoped projection boundaries: PASS.
+- Desktop and 320px responsive inspection: PASS with no horizontal overflow.
+- Unit tests: 106 passed.
+- Integration tests: 99 passed.
+- E2E tests: 57 passed.
+- Aggregate tests: 262 passed.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- No schema change was required; all 11 migrations remain current.
+- Provider APIs, billing and remote CI were not changed. `OBL-FND-001` remains
+  externally blocked.
+- TIP-016 Verification Operations is the next local priority, followed by
+  Settings productization.
+
+See `docs/verification/TIP-015_VERIFY_REPORT.md`.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.
