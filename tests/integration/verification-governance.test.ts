@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { AssuranceProfile } from "@prisma/client";
 
 import type { WorkspaceContext } from "@/modules/identity-workspace";
+import { updateWorkspacePolicy } from "@/modules/identity-workspace";
 import {
   createExecutionTip,
   importCompletionReport,
@@ -34,13 +35,12 @@ import {
   recordGovernanceSignoff,
 } from "@/modules/verification-governance";
 import { getDb } from "@/server/db";
-
 import {
-  asOwner,
-  createUser,
-  ownerQuery,
-  truncateAll,
-} from "./helpers";
+  exportReleaseManifest,
+  exportVerificationReport,
+} from "@/server/governed-exports";
+
+import { asOwner, createUser, ownerQuery, truncateAll } from "./helpers";
 
 beforeEach(async () => {
   await truncateAll();
@@ -107,7 +107,10 @@ async function publicSpan(
 
 async function fixture(
   profile: AssuranceProfile = "RESEARCH",
-  verifierPair = { providerName: "independent-provider", modelName: "verifier-v1" },
+  verifierPair = {
+    providerName: "independent-provider",
+    modelName: "verifier-v1",
+  },
 ) {
   const ctx = await asOwner(await createUser("verification-owner"));
   const mission = await createMission(ctx, {
@@ -279,7 +282,9 @@ describe("Verification Governance", () => {
     );
     expect(run.independenceStatus).toBe("INDEPENDENT");
     expect(
-      await getDb().mission.findUniqueOrThrow({ where: { id: data.mission.id } }),
+      await getDb().mission.findUniqueOrThrow({
+        where: { id: data.mission.id },
+      }),
     ).toMatchObject({ status: "VERIFYING" });
 
     const completed = await completeVerificationRun(
@@ -288,6 +293,23 @@ describe("Verification Governance", () => {
       verifyReport(data),
     );
     expect(completed.report.overallStatus).toBe("READY");
+    const exported = await exportVerificationReport(
+      data.ctx,
+      completed.report.id,
+    );
+    expect(exported).toMatchObject({
+      schema: "hive-os.governed-export.v1",
+      exportType: "verification-report",
+      workspace: { id: data.ctx.workspace.id },
+      report: {
+        id: completed.report.id,
+        contentHash: completed.report.contentHash,
+      },
+    });
+    const otherWorkspace = await asOwner(await createUser("verification-other"));
+    await expect(
+      exportVerificationReport(otherWorkspace, completed.report.id),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
     await recordGovernanceSignoff(data.ctx, completed.report.id, {
       signoffType: "VERIFICATION",
       decision: "APPROVED",
@@ -296,7 +318,9 @@ describe("Verification Governance", () => {
     await transitionMission(data.ctx, data.mission.id, "REVIEW", {
       reason: "verification accepted",
     });
-    expect((await getVerificationProjection(data.ctx, data.mission.id)).counts).toMatchObject({
+    expect(
+      (await getVerificationProjection(data.ctx, data.mission.id)).counts,
+    ).toMatchObject({
       scenarios: 1,
       activeRuns: 0,
       reports: 1,
@@ -319,10 +343,14 @@ describe("Verification Governance", () => {
       beginVerificationRun(data.ctx, data.mission.id, data.verifier.run.id),
     ).rejects.toMatchObject({ code: "VERIFIER_NOT_INDEPENDENT" });
     expect(
-      await getDb().verificationRun.count({ where: { missionId: data.mission.id } }),
+      await getDb().verificationRun.count({
+        where: { missionId: data.mission.id },
+      }),
     ).toBe(0);
     expect(
-      await getDb().mission.findUniqueOrThrow({ where: { id: data.mission.id } }),
+      await getDb().mission.findUniqueOrThrow({
+        where: { id: data.mission.id },
+      }),
     ).toMatchObject({ status: "BUILDING" });
   });
 
@@ -334,16 +362,26 @@ describe("Verification Governance", () => {
       data.verifier.run.id,
     );
     await expect(
-      completeVerificationRun(data.ctx, run.id, verifyReport(data, "NOT_READY")),
+      completeVerificationRun(
+        data.ctx,
+        run.id,
+        verifyReport(data, "NOT_READY"),
+      ),
     ).rejects.toMatchObject({ code: "VERIFY_REPORT_INVALID" });
     const outcomes = await Promise.allSettled([
       completeVerificationRun(data.ctx, run.id, verifyReport(data)),
       completeVerificationRun(data.ctx, run.id, verifyReport(data)),
     ]);
-    expect(outcomes.filter((outcome) => outcome.status === "fulfilled")).toHaveLength(1);
-    expect(outcomes.filter((outcome) => outcome.status === "rejected")).toHaveLength(1);
     expect(
-      await getDb().verificationReport.count({ where: { verificationRunId: run.id } }),
+      outcomes.filter((outcome) => outcome.status === "fulfilled"),
+    ).toHaveLength(1);
+    expect(
+      outcomes.filter((outcome) => outcome.status === "rejected"),
+    ).toHaveLength(1);
+    expect(
+      await getDb().verificationReport.count({
+        where: { verificationRunId: run.id },
+      }),
     ).toBe(1);
   });
 
@@ -382,6 +420,33 @@ describe("Verification Governance", () => {
       decision: "APPROVED",
       rationale: "Public methods and limitations are explicit.",
     });
+    await updateWorkspacePolicy(data.ctx, {
+      defaultAssuranceProfile: "PROFESSIONAL",
+      providerPolicyMode: "OPEN_MANUAL",
+      allowedProviders: [],
+      artifactRetentionDays: 2_555,
+      evidenceRetentionDays: 2_555,
+      auditRetentionDays: 2_555,
+      publicReleasePolicy: "INTERNAL_ONLY",
+    });
+    await expect(
+      authorizeGovernedRelease(data.ctx, data.mission.id, {
+        verificationReportId: report.id,
+        visibility: "PUBLIC",
+        claimVersionIds: [data.claimVersion.id],
+        methods: ["Independent verifier", "Corruption test"],
+        limitations: ["Bounded to retained evidence captured on 2026-07-23."],
+      }),
+    ).rejects.toMatchObject({ code: "RELEASE_BLOCKED" });
+    await updateWorkspacePolicy(data.ctx, {
+      defaultAssuranceProfile: "PROFESSIONAL",
+      providerPolicyMode: "OPEN_MANUAL",
+      allowedProviders: [],
+      artifactRetentionDays: 2_555,
+      evidenceRetentionDays: 2_555,
+      auditRetentionDays: 2_555,
+      publicReleasePolicy: "GOVERNED_PUBLIC",
+    });
     const approved = await authorizeGovernedRelease(data.ctx, data.mission.id, {
       verificationReportId: report.id,
       visibility: "PUBLIC",
@@ -390,6 +455,15 @@ describe("Verification Governance", () => {
       limitations: ["Bounded to retained evidence captured on 2026-07-23."],
     });
     expect(approved.manifest.contentHash).toMatch(/^[0-9a-f]{64}$/);
+    const exported = await exportReleaseManifest(data.ctx, approved.release.id);
+    expect(exported).toMatchObject({
+      schema: "hive-os.governed-export.v1",
+      exportType: "release-manifest",
+      release: {
+        id: approved.release.id,
+        manifest: { contentHash: approved.manifest.contentHash },
+      },
+    });
     expect(await listApprovedReleaseProjections(data.ctx)).toHaveLength(0);
     await transitionMission(data.ctx, data.mission.id, "RELEASED", {
       reason: "approved immutable release manifest",

@@ -145,41 +145,46 @@ export async function beginVerificationRun(
           "Building Mission not found",
         );
       }
-      const [tipCount, unreadyTips, awaitingReports, openDeviations, scenarios] =
-        await Promise.all([
-          tx.executionTip.count({
-            where: { workspaceId: ctx.workspace.id, missionId },
-          }),
-          tx.executionTip.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId,
-              status: { not: "DONE" },
-            },
-          }),
-          tx.agentRun.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId,
-              status: "AWAITING_REPORT",
-            },
-          }),
-          tx.executionDeviation.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId,
-              status: "OPEN",
-              materiality: "MATERIAL",
-            },
-          }),
-          tx.verificationScenario.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId,
-              required: true,
-            },
-          }),
-        ]);
+      const [
+        tipCount,
+        unreadyTips,
+        awaitingReports,
+        openDeviations,
+        scenarios,
+      ] = await Promise.all([
+        tx.executionTip.count({
+          where: { workspaceId: ctx.workspace.id, missionId },
+        }),
+        tx.executionTip.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId,
+            status: { not: "DONE" },
+          },
+        }),
+        tx.agentRun.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId,
+            status: "AWAITING_REPORT",
+          },
+        }),
+        tx.executionDeviation.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId,
+            status: "OPEN",
+            materiality: "MATERIAL",
+          },
+        }),
+        tx.verificationScenario.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId,
+            required: true,
+          },
+        }),
+      ]);
       if (
         tipCount === 0 ||
         unreadyTips > 0 ||
@@ -325,12 +330,8 @@ export async function completeVerificationRun(
         ...value.requirementCoverage.flatMap(
           (item) => item.evidenceArtifactIds,
         ),
-        ...value.scenarioResults.flatMap(
-          (item) => item.evidenceArtifactIds,
-        ),
-        ...value.corruptionTests.flatMap(
-          (item) => item.evidenceArtifactIds,
-        ),
+        ...value.scenarioResults.flatMap((item) => item.evidenceArtifactIds),
+        ...value.corruptionTests.flatMap((item) => item.evidenceArtifactIds),
       ];
       const uniqueArtifactIds = [...new Set(allArtifactIds)];
       const artifactCount = await tx.executionArtifact.count({
@@ -404,8 +405,7 @@ export async function completeVerificationRun(
             value.requirementCoverage as unknown as Prisma.InputJsonArray,
           scenarioResults:
             value.scenarioResults as unknown as Prisma.InputJsonArray,
-          technicalHealth:
-            value.technicalHealth as Prisma.InputJsonObject,
+          technicalHealth: value.technicalHealth as Prisma.InputJsonObject,
           overallStatus: computedStatus,
           deferredItems: value.deferredItems,
           contentHash: reportArtifact.contentHash,
@@ -470,10 +470,7 @@ export async function recordGovernanceSignoff(
         },
         include: { mission: true },
       });
-      if (
-        !report ||
-        !["VERIFYING", "REVIEW"].includes(report.mission.status)
-      ) {
+      if (!report || !["VERIFYING", "REVIEW"].includes(report.mission.status)) {
         throw new VerificationGovernanceError(
           VerificationGovernanceErrorCode.NotFound,
           "Reviewable VerificationReport not found",
@@ -619,13 +616,11 @@ export async function authorizeGovernedRelease(
       );
       const releaseApproved = report.signoffs.some(
         (signoff) =>
-          signoff.signoffType === "RELEASE" &&
-          signoff.decision === "APPROVED",
+          signoff.signoffType === "RELEASE" && signoff.decision === "APPROVED",
       );
       if (
         rejected ||
-        (highAssurance(mission.assuranceProfile) &&
-          !verificationApproved) ||
+        (highAssurance(mission.assuranceProfile) && !verificationApproved) ||
         (policy.requiresReleaseSignoff && !releaseApproved)
       ) {
         throw new VerificationGovernanceError(
@@ -633,19 +628,25 @@ export async function authorizeGovernedRelease(
           "Required governance sign-offs are missing or rejected",
         );
       }
-      if (
-        value.visibility === "PUBLIC" &&
-        !policy.publicReleaseEligible
-      ) {
+      if (value.visibility === "PUBLIC" && !policy.publicReleaseEligible) {
         throw new VerificationGovernanceError(
           VerificationGovernanceErrorCode.ReleaseBlocked,
           "Assurance profile is not eligible for public release",
         );
       }
-      if (
-        value.visibility === "PUBLIC" &&
-        value.claimVersionIds.length === 0
-      ) {
+      if (value.visibility === "PUBLIC") {
+        const workspacePolicy = await tx.workspacePolicy.findUnique({
+          where: { workspaceId: ctx.workspace.id },
+          select: { publicReleasePolicy: true },
+        });
+        if (workspacePolicy?.publicReleasePolicy === "INTERNAL_ONLY") {
+          throw new VerificationGovernanceError(
+            VerificationGovernanceErrorCode.ReleaseBlocked,
+            "Workspace policy permits internal releases only",
+          );
+        }
+      }
+      if (value.visibility === "PUBLIC" && value.claimVersionIds.length === 0) {
         throw new VerificationGovernanceError(
           VerificationGovernanceErrorCode.ReleaseBlocked,
           "Public release requires at least one governed ClaimVersion",
@@ -698,8 +699,7 @@ export async function authorizeGovernedRelease(
           version.claim.accessLevel,
           version.accessLevel,
           ...version.evidence.map(
-            (link) =>
-              link.evidenceSpan.snapshot.evidenceSource.accessLevel,
+            (link) => link.evidenceSpan.snapshot.evidenceSource.accessLevel,
           ),
         ];
         const ceiling = accessLevels.reduce((current, level) =>
@@ -811,9 +811,7 @@ export async function authorizeGovernedRelease(
           accessLevel: item.version.accessLevel,
           evidenceCeiling: item.ceiling,
         }))
-        .sort((a, b) =>
-          a.claimVersionId.localeCompare(b.claimVersionId),
-        );
+        .sort((a, b) => a.claimVersionId.localeCompare(b.claimVersionId));
       const manifestContent = {
         missionId,
         verificationReportId: report.id,
@@ -853,8 +851,7 @@ export async function authorizeGovernedRelease(
           workspaceId: ctx.workspace.id,
           missionId,
           releaseId: release.id,
-          claimVersions:
-            claimManifest as unknown as Prisma.InputJsonArray,
+          claimVersions: claimManifest as unknown as Prisma.InputJsonArray,
           artifacts: artifacts as unknown as Prisma.InputJsonArray,
           methods: manifestContent.methods,
           limitations: manifestContent.limitations,

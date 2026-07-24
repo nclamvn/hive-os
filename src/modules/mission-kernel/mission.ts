@@ -1,8 +1,13 @@
-import { type AssuranceProfile, type MissionStatus, Prisma } from "@prisma/client";
+import {
+  type AssuranceProfile,
+  type MissionStatus,
+  Prisma,
+} from "@prisma/client";
 
 import {
   AuditEventType,
   type DbClient,
+  getWorkspacePolicy,
   type WorkspaceContext,
   writeAuditEvent,
 } from "@/modules/identity-workspace";
@@ -34,12 +39,19 @@ export async function createMission(
   input: CreateMissionInput,
 ) {
   requireMissionCapability(ctx, "missions.create");
-  const profile = input.assuranceProfile ?? "PROFESSIONAL";
+  const profile =
+    input.assuranceProfile ??
+    (await getWorkspacePolicy(ctx)).defaultAssuranceProfile;
   const key = input.idempotencyKey ?? null;
 
   if (key) {
     const existing = await getDb().mission.findUnique({
-      where: { workspaceId_idempotencyKey: { workspaceId: ctx.workspace.id, idempotencyKey: key } },
+      where: {
+        workspaceId_idempotencyKey: {
+          workspaceId: ctx.workspace.id,
+          idempotencyKey: key,
+        },
+      },
     });
     if (existing) return existing;
   }
@@ -88,7 +100,11 @@ export async function createMission(
         entityType: "Mission",
         entityId: mission.id,
         correlationId: ctx.correlationId,
-        payload: { referenceCode, title: input.title, assuranceProfile: profile },
+        payload: {
+          referenceCode,
+          title: input.title,
+          assuranceProfile: profile,
+        },
       });
       return withContract;
     });
@@ -100,7 +116,12 @@ export async function createMission(
       error.code === "P2002"
     ) {
       const existing = await getDb().mission.findUnique({
-        where: { workspaceId_idempotencyKey: { workspaceId: ctx.workspace.id, idempotencyKey: key } },
+        where: {
+          workspaceId_idempotencyKey: {
+            workspaceId: ctx.workspace.id,
+            idempotencyKey: key,
+          },
+        },
       });
       if (existing) return existing;
     }
@@ -153,7 +174,10 @@ export async function transitionMission(
 ): Promise<void> {
   requireMissionCapability(ctx, "missions.transition");
   if (!options.reason?.trim()) {
-    throw new MissionError(MissionErrorCode.Invariant, "A transition reason is required");
+    throw new MissionError(
+      MissionErrorCode.Invariant,
+      "A transition reason is required",
+    );
   }
 
   await getDb().$transaction(async (tx) => {
@@ -162,7 +186,10 @@ export async function transitionMission(
       where: { id: missionId, workspaceId: ctx.workspace.id },
     });
     if (!mission) throw new MissionError(MissionErrorCode.NotFound);
-    if (options.expectedVersion !== undefined && mission.version !== options.expectedVersion) {
+    if (
+      options.expectedVersion !== undefined &&
+      mission.version !== options.expectedVersion
+    ) {
       throw new MissionError(MissionErrorCode.MissionVersionConflict);
     }
 
@@ -170,7 +197,10 @@ export async function transitionMission(
 
     // The forward path into review/approval goes through submit/approve, but a
     // resume back to a recorded APPROVED prior state is legitimate.
-    if (rule.kind === "primary" && (to === "CONTRACT_REVIEW" || to === "APPROVED")) {
+    if (
+      rule.kind === "primary" &&
+      (to === "CONTRACT_REVIEW" || to === "APPROVED")
+    ) {
       throw new MissionError(
         MissionErrorCode.InvalidTransition,
         "Use submitContract/approveContract for review and approval",
@@ -179,38 +209,50 @@ export async function transitionMission(
 
     switch (rule.kind) {
       case "primary":
-        await internalTransition(tx, ctx, mission.id, mission.status, to, options.reason, mission.version);
+        await internalTransition(
+          tx,
+          ctx,
+          mission.id,
+          mission.status,
+          to,
+          options.reason,
+          mission.version,
+        );
         return;
 
       case "execution": {
-        const [tipCount, unreadyTipCount, openMaterialDeviationCount, awaitingReportCount] =
-          await Promise.all([
-            tx.executionTip.count({
-              where: { workspaceId: ctx.workspace.id, missionId: mission.id },
-            }),
-            tx.executionTip.count({
-              where: {
-                workspaceId: ctx.workspace.id,
-                missionId: mission.id,
-                status: { not: "DONE" },
-              },
-            }),
-            tx.executionDeviation.count({
-              where: {
-                workspaceId: ctx.workspace.id,
-                missionId: mission.id,
-                status: "OPEN",
-                materiality: "MATERIAL",
-              },
-            }),
-            tx.agentRun.count({
-              where: {
-                workspaceId: ctx.workspace.id,
-                missionId: mission.id,
-                status: "AWAITING_REPORT",
-              },
-            }),
-          ]);
+        const [
+          tipCount,
+          unreadyTipCount,
+          openMaterialDeviationCount,
+          awaitingReportCount,
+        ] = await Promise.all([
+          tx.executionTip.count({
+            where: { workspaceId: ctx.workspace.id, missionId: mission.id },
+          }),
+          tx.executionTip.count({
+            where: {
+              workspaceId: ctx.workspace.id,
+              missionId: mission.id,
+              status: { not: "DONE" },
+            },
+          }),
+          tx.executionDeviation.count({
+            where: {
+              workspaceId: ctx.workspace.id,
+              missionId: mission.id,
+              status: "OPEN",
+              materiality: "MATERIAL",
+            },
+          }),
+          tx.agentRun.count({
+            where: {
+              workspaceId: ctx.workspace.id,
+              missionId: mission.id,
+              status: "AWAITING_REPORT",
+            },
+          }),
+        ]);
         if (
           tipCount === 0 ||
           unreadyTipCount > 0 ||
@@ -337,12 +379,19 @@ export async function transitionMission(
       }
 
       case "later":
-        throw new MissionError(rule.errorCode!, `Transition ${mission.status} → ${to} requires a later kernel`);
+        throw new MissionError(
+          rule.errorCode!,
+          `Transition ${mission.status} → ${to} requires a later kernel`,
+        );
 
       case "block": {
         await tx.mission.update({
           where: { id: mission.id },
-          data: { status: "BLOCKED", blockedFromStatus: mission.status, version: { increment: 1 } },
+          data: {
+            status: "BLOCKED",
+            blockedFromStatus: mission.status,
+            version: { increment: 1 },
+          },
         });
         const escalation = await tx.escalation.create({
           data: {
@@ -364,7 +413,11 @@ export async function transitionMission(
           entityType: "Mission",
           entityId: mission.id,
           correlationId: ctx.correlationId,
-          payload: { from: mission.status, reason: options.reason, version: mission.version },
+          payload: {
+            from: mission.status,
+            reason: options.reason,
+            version: mission.version,
+          },
         });
         await writeAuditEvent(tx, {
           workspaceId: ctx.workspace.id,
@@ -388,7 +441,11 @@ export async function transitionMission(
         }
         await tx.mission.update({
           where: { id: mission.id },
-          data: { status: to, blockedFromStatus: null, version: { increment: 1 } },
+          data: {
+            status: to,
+            blockedFromStatus: null,
+            version: { increment: 1 },
+          },
         });
         await writeAuditEvent(tx, {
           workspaceId: ctx.workspace.id,
@@ -416,7 +473,11 @@ export async function transitionMission(
           entityType: "Mission",
           entityId: mission.id,
           correlationId: ctx.correlationId,
-          payload: { from: mission.status, reason: options.reason, version: mission.version },
+          payload: {
+            from: mission.status,
+            reason: options.reason,
+            version: mission.version,
+          },
         });
         return;
       }
@@ -446,33 +507,47 @@ export async function listMissions(ctx: WorkspaceContext) {
   });
 }
 
-export async function getMissionDetail(ctx: WorkspaceContext, missionId: string) {
+export async function getMissionDetail(
+  ctx: WorkspaceContext,
+  missionId: string,
+) {
   requireMissionCapability(ctx, "missions.read");
   const mission = await loadMission(ctx, missionId);
-  const [contract, obligations, gates, decisions, escalations] = await Promise.all([
-    mission.currentContractId
-      ? getDb().missionContract.findUnique({
-          where: { id: mission.currentContractId },
-          include: { requirements: true, assumptions: true, constraints: true, inputs: true, obligationDefs: true, gateDefs: true },
-        })
-      : null,
-    getDb().runtimeObligation.findMany({
-      where: { missionId, workspaceId: ctx.workspace.id },
-      include: { contractObligation: true },
-    }),
-    getDb().runtimeGate.findMany({
-      where: { missionId, workspaceId: ctx.workspace.id },
-      include: { contractGate: true, runs: { orderBy: { createdAt: "desc" } } },
-    }),
-    getDb().decision.findMany({
-      where: { missionId, workspaceId: ctx.workspace.id },
-      orderBy: { createdAt: "desc" },
-    }),
-    getDb().escalation.findMany({
-      where: { missionId, workspaceId: ctx.workspace.id },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
+  const [contract, obligations, gates, decisions, escalations] =
+    await Promise.all([
+      mission.currentContractId
+        ? getDb().missionContract.findUnique({
+            where: { id: mission.currentContractId },
+            include: {
+              requirements: true,
+              assumptions: true,
+              constraints: true,
+              inputs: true,
+              obligationDefs: true,
+              gateDefs: true,
+            },
+          })
+        : null,
+      getDb().runtimeObligation.findMany({
+        where: { missionId, workspaceId: ctx.workspace.id },
+        include: { contractObligation: true },
+      }),
+      getDb().runtimeGate.findMany({
+        where: { missionId, workspaceId: ctx.workspace.id },
+        include: {
+          contractGate: true,
+          runs: { orderBy: { createdAt: "desc" } },
+        },
+      }),
+      getDb().decision.findMany({
+        where: { missionId, workspaceId: ctx.workspace.id },
+        orderBy: { createdAt: "desc" },
+      }),
+      getDb().escalation.findMany({
+        where: { missionId, workspaceId: ctx.workspace.id },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
   return { mission, contract, obligations, gates, decisions, escalations };
 }
 
@@ -493,6 +568,9 @@ export async function getMissionProgress(
     include: { contractObligation: true },
   });
   return computeProgress(
-    obligations.map((o) => ({ status: o.status, weight: o.contractObligation.weight })),
+    obligations.map((o) => ({
+      status: o.status,
+      weight: o.contractObligation.weight,
+    })),
   );
 }

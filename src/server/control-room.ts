@@ -56,6 +56,15 @@ export interface ControlRoomProjection {
     assuranceProfile: string;
     updatedAt: string;
   }>;
+  finderObjects: Array<{
+    id: string;
+    kind: "evidence" | "claim" | "skill" | "execution" | "verification" | "release";
+    code: string;
+    title: string;
+    description: string;
+    status: string;
+    href: string;
+  }>;
   execution: {
     mode: "MANUAL_BRIDGE";
     disclaimer: string;
@@ -118,6 +127,81 @@ export async function getControlRoomProjection(
   const workspaceId = ctx.workspace.id;
   const auditAllowed = hasCapability(ctx.membership.role, "audit.read");
   const now = new Date();
+  const finderObjectsPromise = Promise.all([
+    getDb().evidenceSource.findMany({
+      where: { workspaceId },
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        title: true,
+        sourceType: true,
+        accessLevel: true,
+        mission: { select: { referenceCode: true } },
+      },
+    }),
+    getDb().claim.findMany({
+      where: { workspaceId },
+      orderBy: { updatedAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        claimKey: true,
+        state: true,
+        mission: { select: { referenceCode: true } },
+        versions: {
+          orderBy: { versionNumber: "desc" },
+          take: 1,
+          select: { statement: true },
+        },
+      },
+    }),
+    getDb().skill.findMany({
+      where: { workspaceId },
+      orderBy: { updatedAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        skillKey: true,
+        displayName: true,
+        description: true,
+        status: true,
+      },
+    }),
+    getDb().executionTip.findMany({
+      where: { workspaceId },
+      orderBy: { updatedAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        code: true,
+        title: true,
+        description: true,
+        status: true,
+      },
+    }),
+    getDb().verificationReport.findMany({
+      where: { workspaceId },
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        overallStatus: true,
+        mission: { select: { referenceCode: true, title: true } },
+      },
+    }),
+    getDb().governedRelease.findMany({
+      where: { workspaceId },
+      orderBy: { approvedAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        status: true,
+        visibility: true,
+        mission: { select: { referenceCode: true, title: true } },
+      },
+    }),
+  ]);
 
   const [
     missions,
@@ -300,6 +384,14 @@ export async function getControlRoomProjection(
   ]);
 
   const signals: ControlRoomProjection["signals"] = [];
+  const [
+    finderEvidence,
+    finderClaims,
+    finderSkills,
+    finderTips,
+    finderReports,
+    finderReleases,
+  ] = await finderObjectsPromise;
   if (decisionsRequired > 0) {
     signals.push({
       key: "decisions",
@@ -404,6 +496,62 @@ export async function getControlRoomProjection(
       ...mission,
       updatedAt: mission.updatedAt.toISOString(),
     })),
+    finderObjects: [
+      ...finderEvidence.map((source) => ({
+        id: source.id,
+        kind: "evidence" as const,
+        code: source.mission.referenceCode,
+        title: source.title,
+        description: source.sourceType,
+        status: source.accessLevel,
+        href: "evidence",
+      })),
+      ...finderClaims.map((claim) => ({
+        id: claim.id,
+        kind: "claim" as const,
+        code: claim.claimKey,
+        title: claim.versions[0]?.statement ?? claim.claimKey,
+        description: claim.mission.referenceCode,
+        status: claim.state,
+        href: "claims",
+      })),
+      ...finderSkills.map((skill) => ({
+        id: skill.id,
+        kind: "skill" as const,
+        code: skill.skillKey,
+        title: skill.displayName,
+        description: skill.description,
+        status: skill.status,
+        href: "skills",
+      })),
+      ...finderTips.map((tip) => ({
+        id: tip.id,
+        kind: "execution" as const,
+        code: tip.code,
+        title: tip.title,
+        description: tip.description,
+        status: tip.status,
+        href: "execution",
+      })),
+      ...finderReports.map((report) => ({
+        id: report.id,
+        kind: "verification" as const,
+        code: report.mission.referenceCode,
+        title: report.mission.title,
+        description: "Verify Report",
+        status: report.overallStatus,
+        href: "reports",
+      })),
+      ...finderReleases.map((release) => ({
+        id: release.id,
+        kind: "release" as const,
+        code: release.mission.referenceCode,
+        title: release.mission.title,
+        description: `${release.visibility} release`,
+        status: release.status,
+        href: "reports",
+      })),
+    ],
     execution: {
       mode: "MANUAL_BRIDGE",
       disclaimer:

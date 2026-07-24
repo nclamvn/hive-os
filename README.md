@@ -5,14 +5,12 @@ decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
 authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
-Current state: **TIP-004 Mission Kernel** — foundation (TIP-001), locked design
-system and app shell (TIP-002), identity/workspace/audit (TIP-003), and the
-governed mission-contract loop: missions, versioned contracts, requirements,
-weighted obligations, gates, deterministic progress, assurance profiles,
-material decisions, escalations and a fail-closed lifecycle ending at APPROVED
-(TIP-004). Truth, execution, verification and release arrive with later
-authorized TIPs (see `docs/contractor/07_TASK_GRAPH.md`). Design notes live in
-`docs/identity/` and `docs/mission/`.
+Current state: **Local Release Candidate signed through TIP-019**. Identity,
+Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
+Settings, cross-surface discovery, governed exports, and local recovery are
+implemented and locally verified. Billing, remote GitHub Actions, merge and
+production deployment remain separate deferred gates. Exact evidence lives in
+[`docs/verification/TIP-019_LOCAL_RC_REPORT.md`](docs/verification/TIP-019_LOCAL_RC_REPORT.md).
 
 ## Stack
 
@@ -34,6 +32,34 @@ npm run dev            # http://localhost:3000 — placeholder shell
 
 Copy `.env.example` to `.env` if you need non-default configuration.
 Health endpoint: `GET /api/health` (includes database connectivity).
+
+## Local backup and recovery
+
+Create an integrity-manifested PostgreSQL and local object-storage backup in a
+new or empty directory:
+
+```bash
+npm run db:backup:local -- --output=/absolute/path/hiveos-backup
+```
+
+Restore only to an explicitly named target database. The confirmation must
+exactly match the database name in the target URL; system databases are
+rejected:
+
+```bash
+npm run db:restore:local -- \
+  --backup=/absolute/path/hiveos-backup \
+  --database-url=postgresql://.../hiveos_recovery \
+  --confirm-target=hiveos_recovery \
+  --storage-target=/absolute/path/restored-storage
+```
+
+Run the non-destructive release rehearsal. It creates and removes only the
+dedicated `hiveos_tip019_*_rehearsal` databases:
+
+```bash
+npm run db:rehearse:tip019
+```
 
 ## Quality commands
 

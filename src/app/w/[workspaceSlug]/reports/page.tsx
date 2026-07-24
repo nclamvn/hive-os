@@ -74,6 +74,13 @@ export default async function ReportsPage({
                       .replaceAll("_", " ")}{" "}
                     · {report.contentHash.slice(0, 16)}
                   </p>
+                  <a
+                    href={`/api/w/${workspaceSlug}/exports/verification/${report.id}`}
+                    download
+                    className="text-meta text-navy-700 border-line hover:border-line-strong mt-3 inline-flex rounded-md border px-2.5 py-1.5 font-medium"
+                  >
+                    Download Verify Report
+                  </a>
                 </li>
               ))}
             </ul>
@@ -122,6 +129,15 @@ export default async function ReportsPage({
                     {release.manifest?.limitations.length ?? 0} limitations ·{" "}
                     {release.manifest?.approverMembershipIds.length ?? 0} approvers
                   </p>
+                  {release.manifest ? (
+                    <a
+                      href={`/api/w/${workspaceSlug}/exports/release/${release.id}`}
+                      download
+                      className="text-meta text-navy-700 border-line hover:border-line-strong mt-3 inline-flex rounded-md border px-2.5 py-1.5 font-medium"
+                    >
+                      Download release manifest
+                    </a>
+                  ) : null}
                 </li>
               ))}
             </ul>

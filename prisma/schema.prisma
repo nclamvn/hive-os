@@ -119,6 +119,20 @@ enum InvitationStatus {
   EXPIRED
 }
 
+enum ProviderPolicyMode {
+  OPEN_MANUAL
+  ALLOWLIST_MANUAL
+}
+
+enum WorkspaceStorageMode {
+  DATABASE
+}
+
+enum PublicReleasePolicy {
+  INTERNAL_ONLY
+  GOVERNED_PUBLIC
+}
+
 model Workspace {
   id          String          @id @default(uuid())
   slug        String          @unique
@@ -151,8 +165,31 @@ model Workspace {
   evidenceCeilingAssessments EvidenceCeilingAssessment[]
   governedReleases           GovernedRelease[]
   releaseManifests           ReleaseManifest[]
+  policy                     WorkspacePolicy?
 
   @@map("workspace")
+}
+
+/// Workspace-scoped operating guardrails. Provider entries contain identifiers
+/// only; credentials and connection secrets are deliberately out of contract.
+model WorkspacePolicy {
+  workspaceId             String               @id @map("workspace_id")
+  defaultAssuranceProfile AssuranceProfile     @default(PROFESSIONAL) @map("default_assurance_profile")
+  providerPolicyMode      ProviderPolicyMode   @default(OPEN_MANUAL) @map("provider_policy_mode")
+  allowedProviders        Json                 @default("[]") @map("allowed_providers")
+  storageMode             WorkspaceStorageMode @default(DATABASE) @map("storage_mode")
+  artifactRetentionDays   Int                  @default(2555) @map("artifact_retention_days")
+  evidenceRetentionDays   Int                  @default(2555) @map("evidence_retention_days")
+  auditRetentionDays      Int                  @default(2555) @map("audit_retention_days")
+  publicReleasePolicy     PublicReleasePolicy  @default(GOVERNED_PUBLIC) @map("public_release_policy")
+  updatedByMembershipId   String?              @map("updated_by_membership_id")
+  createdAt               DateTime             @default(now()) @map("created_at")
+  updatedAt               DateTime             @updatedAt @map("updated_at")
+  version                 Int                  @default(1)
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@map("workspace_policy")
 }
 
 model Membership {

@@ -228,4 +228,37 @@ test.describe("HIVE OS Control Room", () => {
     await expect(sequence).toContainText("Release ceiling");
     await expect(page.getByText("No Verify Reports yet")).toBeVisible();
   });
+
+  test("CR-12 finder returns real governed records, not only navigation modules", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(page, "Finder Records");
+    await page.goto(`${dashboardUrl}/skills`);
+    await page
+      .getByText("Register a new skill contract", { exact: true })
+      .click();
+    const form = page.getByRole("form", { name: "Register skill contract" });
+    await form.getByLabel("Stable skill key").fill("finder-proof");
+    await form.getByLabel("Display name").fill("Finder Proof Contract");
+    await form
+      .getByLabel("Operator description")
+      .fill("A real governed record discoverable by the workspace finder.");
+    await form.getByLabel("Semantic version").fill("1.0.0");
+    await form.getByLabel("Verifier key").fill("deterministic-finder");
+    await form.getByLabel("Capabilities").fill("governed_search");
+    await form.getByRole("button", { name: "Save governed record" }).click();
+    await expect(page.getByText("Finder Proof Contract")).toBeVisible();
+    await expect(page.getByText("active v1.0.0")).toBeVisible();
+
+    await page.goto(`${dashboardUrl}/control-room?find=1`);
+    const dialog = page.getByRole("dialog", { name: "Find governed objects" });
+    await dialog
+      .getByRole("textbox", { name: "Find governed objects" })
+      .fill("finder-proof");
+    const record = dialog.getByRole("link", { name: /Finder Proof Contract/ });
+    await expect(record).toBeVisible();
+    await expect(record).toContainText("Skill · finder-proof · Active");
+    await record.click();
+    await expect(page).toHaveURL(/\/skills$/);
+  });
 });

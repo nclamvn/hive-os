@@ -385,6 +385,7 @@ export function ControlRoom({
         <CommandDialog
           nodes={nodes}
           missions={projection.recentMissions}
+          objects={projection.finderObjects}
           basePath={basePath}
           onClose={() => setCommandOpen(false)}
           onSelectNode={(id) => {
@@ -950,6 +951,7 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
 function CommandDialog({
   nodes,
   missions,
+  objects,
   basePath,
   onClose,
   onSelectNode,
@@ -957,6 +959,7 @@ function CommandDialog({
 }: {
   nodes: SystemNode[];
   missions: ControlRoomProjection["recentMissions"];
+  objects: ControlRoomProjection["finderObjects"];
   basePath: string;
   onClose: () => void;
   onSelectNode: (id: string) => void;
@@ -971,6 +974,11 @@ function CommandDialog({
   );
   const filteredMissions = missions.filter((mission) =>
     `${mission.referenceCode} ${mission.title}`.toLowerCase().includes(normalized),
+  );
+  const filteredObjects = objects.filter((object) =>
+    `${object.kind} ${object.code} ${object.title} ${object.description} ${object.status}`
+      .toLowerCase()
+      .includes(normalized),
   );
 
   useEffect(() => {
@@ -1043,7 +1051,7 @@ function CommandDialog({
                   data-testid="control-search-placeholder"
                   className="block min-w-0 truncate whitespace-nowrap"
                 >
-                  Search modules or recent missions
+                  Search modules, missions or governed records
                 </span>
               </span>
             ) : null}
@@ -1053,7 +1061,9 @@ function CommandDialog({
           </button>
         </div>
         <div className="overflow-y-auto p-2">
-          {filteredNodes.length === 0 && filteredMissions.length === 0 ? (
+          {filteredNodes.length === 0 &&
+          filteredMissions.length === 0 &&
+          filteredObjects.length === 0 ? (
             <EmptyState title="No matching governed objects" />
           ) : (
             <>
@@ -1094,6 +1104,28 @@ function CommandDialog({
                   ))}
                 </SearchGroup>
               ) : null}
+              {filteredObjects.length > 0 ? (
+                <SearchGroup title="Governed records">
+                  {filteredObjects.map((object) => (
+                    <Link
+                      key={`${object.kind}-${object.id}`}
+                      href={`${basePath}/${object.href}`}
+                      onClick={onClose}
+                      className="hover:bg-surface-subtle flex items-center gap-3 rounded-md px-3 py-2"
+                    >
+                      <CircleDot className="text-navy-700 size-4 shrink-0" aria-hidden="true" />
+                      <span className="min-w-0 flex-1">
+                        <span className="text-body text-ink block truncate font-medium">
+                          {object.title}
+                        </span>
+                        <span className="text-meta text-ink-muted tabular block truncate">
+                          {humanize(object.kind)} · {object.code} · {humanize(object.status)}
+                        </span>
+                      </span>
+                    </Link>
+                  ))}
+                </SearchGroup>
+              ) : null}
             </>
           )}
         </div>
@@ -1113,6 +1145,7 @@ function SearchGroup({ title, children }: { title: string; children: ReactNode }
 
 function humanize(value: string): string {
   return value
+    .toLowerCase()
     .replace(/[._]/g, " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

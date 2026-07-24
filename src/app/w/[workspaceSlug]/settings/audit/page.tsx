@@ -31,7 +31,11 @@ export default async function AuditSettingsPage({
   }
 
   return (
-    <WorkspaceShell data={data} title="Audit" subtitle={data.ctx.workspace.name}>
+    <WorkspaceShell
+      data={data}
+      title="Audit"
+      subtitle={data.ctx.workspace.name}
+    >
       <SettingsNav
         slug={workspaceSlug}
         active="audit"
@@ -39,7 +43,20 @@ export default async function AuditSettingsPage({
       />
       <Panel>
         <div className="p-[var(--shell-card-padding)] pb-3">
-          <SectionHeader title="Audit events" />
+          <SectionHeader
+            title="Audit events"
+            action={
+              hasCapability(role, "audit.read") ? (
+                <a
+                  href={`/api/w/${workspaceSlug}/exports/audit`}
+                  download
+                  className="text-meta text-navy-700 border-line hover:border-line-strong inline-flex rounded-md border px-2.5 py-1.5 font-medium"
+                >
+                  Download ledger
+                </a>
+              ) : null
+            }
+          />
         </div>
         {denied ? (
           <div className="border-t border-line">
@@ -53,39 +70,41 @@ export default async function AuditSettingsPage({
             <EmptyState title="No audit events yet" />
           </div>
         ) : (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-t border-line">
-                {["Time (UTC)", "Event", "Entity", "Actor"].map((c) => (
-                  <th
-                    key={c}
-                    scope="col"
-                    className="text-meta text-ink-muted bg-surface-subtle px-5 py-2 text-left font-medium"
-                  >
-                    {c}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((e) => (
-                <tr key={e.id} className="border-t border-line align-top">
-                  <td className="text-meta text-ink-muted tabular px-5 py-3 whitespace-nowrap">
-                    {e.createdAt.toISOString().replace("T", " ").slice(0, 19)}
-                  </td>
-                  <td className="text-body text-ink px-5 py-3 font-medium">
-                    {e.eventType}
-                  </td>
-                  <td className="text-meta text-ink-muted px-5 py-3">
-                    {e.entityType}
-                  </td>
-                  <td className="text-meta text-ink-muted tabular px-5 py-3">
-                    {e.actorUserId ? e.actorUserId.slice(0, 8) : "system"}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[680px] border-collapse">
+              <thead>
+                <tr className="border-t border-line">
+                  {["Time (UTC)", "Event", "Entity", "Actor"].map((c) => (
+                    <th
+                      key={c}
+                      scope="col"
+                      className="text-meta text-ink-muted bg-surface-subtle px-5 py-2 text-left font-medium"
+                    >
+                      {c}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {events.map((e) => (
+                  <tr key={e.id} className="border-t border-line align-top">
+                    <td className="text-meta text-ink-muted tabular px-5 py-3 whitespace-nowrap">
+                      {e.createdAt.toISOString().replace("T", " ").slice(0, 19)}
+                    </td>
+                    <td className="text-body text-ink px-5 py-3 font-medium">
+                      {e.eventType}
+                    </td>
+                    <td className="text-meta text-ink-muted px-5 py-3">
+                      {e.entityType}
+                    </td>
+                    <td className="text-meta text-ink-muted tabular px-5 py-3">
+                      {e.actorUserId ? e.actorUserId.slice(0, 8) : "system"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </Panel>
     </WorkspaceShell>

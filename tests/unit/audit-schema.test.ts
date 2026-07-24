@@ -8,6 +8,15 @@ import {
 const VALID: Record<string, Record<string, unknown>> = {
   [AuditEventType.WorkspaceCreated]: { name: "Acme", slug: "acme" },
   [AuditEventType.WorkspaceUpdated]: { name: "Acme" },
+  [AuditEventType.WorkspacePolicyUpdated]: {
+    defaultAssuranceProfile: "RESEARCH",
+    providerPolicyMode: "ALLOWLIST_MANUAL",
+    allowedProviderCount: 2,
+    artifactRetentionDays: 2555,
+    evidenceRetentionDays: 2555,
+    auditRetentionDays: 2555,
+    publicReleasePolicy: "INTERNAL_ONLY",
+  },
   [AuditEventType.MembershipCreated]: { role: "OWNER", via: "onboarding" },
   [AuditEventType.MembershipRoleChanged]: { from: "OWNER", to: "ADMIN" },
   [AuditEventType.MembershipSuspended]: { role: "MEMBER" },

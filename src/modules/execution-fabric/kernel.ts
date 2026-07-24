@@ -5,6 +5,7 @@ import { Prisma, type ExecutionArtifactKind } from "@prisma/client";
 import {
   AuditEventType,
   type DbClient,
+  enforceManualProviderPolicy,
   type WorkspaceContext,
   writeAuditEvent,
 } from "@/modules/identity-workspace";
@@ -134,9 +135,7 @@ export async function createExecutionTip(
         );
       }
       if (
-        !skillVersion.assuranceCompatibility.includes(
-          mission.assuranceProfile,
-        )
+        !skillVersion.assuranceCompatibility.includes(mission.assuranceProfile)
       ) {
         throw new ExecutionError(
           ExecutionErrorCode.Invariant,
@@ -222,6 +221,12 @@ async function startAttempt(
     previousRunId?: string;
   },
 ) {
+  await enforceManualProviderPolicy(
+    tx,
+    ctx.workspace.id,
+    input.providerName,
+    input.modelName,
+  );
   const artifact = await createArtifact(tx, ctx, {
     missionId: state.missionId,
     tipId: state.tipId,
@@ -413,8 +418,7 @@ export async function importCompletionReport(
           summary: reportValue.summary,
           requirementCoverage:
             reportValue.requirementCoverage as Prisma.InputJsonObject,
-          scenarioResults:
-            reportValue.scenarioResults as Prisma.InputJsonArray,
+          scenarioResults: reportValue.scenarioResults as Prisma.InputJsonArray,
           technicalHealth:
             reportValue.technicalHealth as Prisma.InputJsonObject,
           overallStatus: reportValue.overallStatus,
@@ -466,9 +470,7 @@ export async function importCompletionReport(
       await tx.executionTip.update({
         where: { id: run.skillRun.tipId },
         data: {
-          status: hasMaterialDeviation
-            ? "BLOCKED_DEVIATION"
-            : terminalStatus,
+          status: hasMaterialDeviation ? "BLOCKED_DEVIATION" : terminalStatus,
           version: { increment: 1 },
         },
       });

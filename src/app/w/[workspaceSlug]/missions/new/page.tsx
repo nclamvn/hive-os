@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
-import { hasCapability } from "@/modules/identity-workspace";
+import {
+  getWorkspacePolicy,
+  hasCapability,
+} from "@/modules/identity-workspace";
 import { createMissionAction } from "@/app/actions/missions";
 import { getMissionTemplate } from "@/modules/mission-templates";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
@@ -64,9 +67,14 @@ export default async function NewMissionPage({
   const template = getMissionTemplate(templateKey);
   const data = await loadWorkspacePage(workspaceSlug);
   if (!hasCapability(data.ctx.membership.role, "missions.create")) notFound();
+  const policy = await getWorkspacePolicy(data.ctx);
 
   return (
-    <WorkspaceShell data={data} title="New mission" subtitle={data.ctx.workspace.name}>
+    <WorkspaceShell
+      data={data}
+      title="New mission"
+      subtitle={data.ctx.workspace.name}
+    >
       <Panel className="p-[var(--shell-card-padding)]">
         <SectionHeader title="Define a mission" />
         <p className="text-meta text-ink-muted mt-1">
@@ -74,11 +82,25 @@ export default async function NewMissionPage({
             ? `${template.name} v${template.version} has pre-filled this editable draft. Normal review and approval still apply.`
             : "A draft contract is captured with your objective, one requirement and one weighted obligation. You can review and approve it next."}
         </p>
-        <form action={createMissionAction} className="mt-4 max-w-2xl" noValidate>
+        <form
+          action={createMissionAction}
+          className="mt-4 max-w-2xl"
+          noValidate
+        >
           <input type="hidden" name="slug" value={workspaceSlug} />
           <Field id="title" label="Mission title" />
-          <Field id="objective" label="Objective" textarea defaultValue={template?.objective} />
-          <Field id="scope" label="Scope" textarea defaultValue={template?.scope} />
+          <Field
+            id="objective"
+            label="Objective"
+            textarea
+            defaultValue={template?.objective}
+          />
+          <Field
+            id="scope"
+            label="Scope"
+            textarea
+            defaultValue={template?.scope}
+          />
           <Field
             id="successDefinition"
             label="Success definition"
@@ -87,13 +109,18 @@ export default async function NewMissionPage({
           />
 
           <div className="mb-3">
-            <label htmlFor="assuranceProfile" className="text-meta text-ink mb-1 block font-medium">
+            <label
+              htmlFor="assuranceProfile"
+              className="text-meta text-ink mb-1 block font-medium"
+            >
               Assurance profile
             </label>
             <select
               id="assuranceProfile"
               name="assuranceProfile"
-              defaultValue={template?.assuranceProfile ?? "PROFESSIONAL"}
+              defaultValue={
+                template?.assuranceProfile ?? policy.defaultAssuranceProfile
+              }
               className="text-body text-ink border-line bg-surface h-10 rounded-md border px-2"
             >
               {PROFILES.map((p) => (
@@ -105,7 +132,9 @@ export default async function NewMissionPage({
           </div>
 
           <fieldset className="border-line mt-2 rounded-md border p-3">
-            <legend className="text-meta text-ink-muted px-1">First requirement</legend>
+            <legend className="text-meta text-ink-muted px-1">
+              First requirement
+            </legend>
             <Field
               id="requirementTitle"
               label="Requirement title"
@@ -120,14 +149,19 @@ export default async function NewMissionPage({
           </fieldset>
 
           <fieldset className="border-line mt-3 rounded-md border p-3">
-            <legend className="text-meta text-ink-muted px-1">First obligation</legend>
+            <legend className="text-meta text-ink-muted px-1">
+              First obligation
+            </legend>
             <Field
               id="obligationTitle"
               label="Obligation title"
               defaultValue={template?.obligationTitle}
             />
             <div className="mb-1">
-              <label htmlFor="obligationWeight" className="text-meta text-ink mb-1 block font-medium">
+              <label
+                htmlFor="obligationWeight"
+                className="text-meta text-ink mb-1 block font-medium"
+              >
                 Weight (positive integer)
               </label>
               <input

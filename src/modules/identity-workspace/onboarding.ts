@@ -52,6 +52,9 @@ export async function provisionWorkspace(
         const ws = await tx.workspace.create({
           data: { slug, name: displayName, createdById: user.id },
         });
+        await tx.workspacePolicy.create({
+          data: { workspaceId: ws.id },
+        });
         const membership = await tx.membership.create({
           data: {
             workspaceId: ws.id,

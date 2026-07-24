@@ -30,7 +30,11 @@ export default async function MembersSettingsPage({
   const invitations = canInvite ? await listInvitations(data.ctx) : [];
 
   return (
-    <WorkspaceShell data={data} title="Members" subtitle={data.ctx.workspace.name}>
+    <WorkspaceShell
+      data={data}
+      title="Members"
+      subtitle={data.ctx.workspace.name}
+    >
       <SettingsNav
         slug={workspaceSlug}
         active="members"
@@ -53,55 +57,63 @@ export default async function MembersSettingsPage({
         <div className="p-[var(--shell-card-padding)] pb-3">
           <SectionHeader title="Members" />
         </div>
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-t border-line">
-              {["Name", "Email", "Role", "Status", ""].map((c, i) => (
-                <th
-                  key={c || `actions-${i}`}
-                  scope="col"
-                  className="text-meta text-ink-muted bg-surface-subtle px-5 py-2 text-left font-medium last:text-right"
-                >
-                  {c || <span className="sr-only">Actions</span>}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {members.map((m) => (
-              <tr key={m.membershipId} className="border-t border-line">
-                <td className="text-body text-ink px-5 py-3 font-medium">
-                  {m.name}
-                  {m.isSelf ? (
-                    <span className="text-meta text-ink-muted ml-2">(you)</span>
-                  ) : null}
-                </td>
-                <td className="text-body text-ink-muted px-5 py-3">{m.email}</td>
-                <td className="px-5 py-3">
-                  <StatusBadge tone={m.role === "OWNER" ? "info" : "neutral"}>
-                    {m.role.charAt(0) + m.role.slice(1).toLowerCase()}
-                  </StatusBadge>
-                </td>
-                <td className="px-5 py-3">
-                  <StatusBadge tone={m.status === "ACTIVE" ? "success" : "warning"}>
-                    {m.status.charAt(0) + m.status.slice(1).toLowerCase()}
-                  </StatusBadge>
-                </td>
-                <td className="px-5 py-3 text-right">
-                  <MemberRowActions
-                    slug={workspaceSlug}
-                    membershipId={m.membershipId}
-                    role={m.role}
-                    status={m.status}
-                    isSelf={m.isSelf}
-                    canManageOwner={canManageOwner}
-                    canManageOrdinary={canManageOrdinary}
-                  />
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px] border-collapse">
+            <thead>
+              <tr className="border-t border-line">
+                {["Name", "Email", "Role", "Status", ""].map((c, i) => (
+                  <th
+                    key={c || `actions-${i}`}
+                    scope="col"
+                    className="text-meta text-ink-muted bg-surface-subtle px-5 py-2 text-left font-medium last:text-right"
+                  >
+                    {c || <span className="sr-only">Actions</span>}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {members.map((m) => (
+                <tr key={m.membershipId} className="border-t border-line">
+                  <td className="text-body text-ink px-5 py-3 font-medium">
+                    {m.name}
+                    {m.isSelf ? (
+                      <span className="text-meta text-ink-muted ml-2">
+                        (you)
+                      </span>
+                    ) : null}
+                  </td>
+                  <td className="text-body text-ink-muted px-5 py-3">
+                    {m.email}
+                  </td>
+                  <td className="px-5 py-3">
+                    <StatusBadge tone={m.role === "OWNER" ? "info" : "neutral"}>
+                      {m.role.charAt(0) + m.role.slice(1).toLowerCase()}
+                    </StatusBadge>
+                  </td>
+                  <td className="px-5 py-3">
+                    <StatusBadge
+                      tone={m.status === "ACTIVE" ? "success" : "warning"}
+                    >
+                      {m.status.charAt(0) + m.status.slice(1).toLowerCase()}
+                    </StatusBadge>
+                  </td>
+                  <td className="px-5 py-3 text-right">
+                    <MemberRowActions
+                      slug={workspaceSlug}
+                      membershipId={m.membershipId}
+                      role={m.role}
+                      status={m.status}
+                      isSelf={m.isSelf}
+                      canManageOwner={canManageOwner}
+                      canManageOrdinary={canManageOrdinary}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Panel>
 
       {canInvite ? (
@@ -125,8 +137,8 @@ export default async function MembersSettingsPage({
                       {inv.emailNormalized}
                     </span>
                     <span className="text-meta text-ink-muted">
-                      {inv.role.charAt(0) + inv.role.slice(1).toLowerCase()} · expires{" "}
-                      {inv.expiresAt.toISOString().slice(0, 10)}
+                      {inv.role.charAt(0) + inv.role.slice(1).toLowerCase()} ·
+                      expires {inv.expiresAt.toISOString().slice(0, 10)}
                     </span>
                   </span>
                   <StatusBadge tone="neutral">Pending</StatusBadge>

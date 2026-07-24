@@ -400,6 +400,111 @@ Verification and Settings productization.
 
 See `docs/verification/TIP-015_VERIFY_REPORT.md`.
 
+## TIP-016 local closure update
+
+On 2026-07-24, the Owner made Local Product Complete the primary objective and
+explicitly deferred billing, remote GitHub CI, merge readiness, and deployment
+until after a locally signed Release Candidate.
+
+- Full Scenario → verifier → Verify Report → sign-off → manifest → RELEASED
+  operator sequence: PASS.
+- Deterministic independence, exact coverage, corruption, evidence ceiling and
+  runtime-gate enforcement remain kernel-owned: PASS.
+- Viewer read-only and server-side capability boundaries: PASS.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- Unit tests: 106 passed.
+- Integration tests: 99 passed.
+- E2E tests: 59 passed.
+- Aggregate tests: 264 passed.
+- Desktop and 320px responsive/accessibility gates: PASS with no horizontal
+  overflow and zero serious/critical violations.
+- No schema change was required; all 11 migrations remain current.
+- TIP-017 Settings productization is the next local priority, followed by
+  TIP-018 cross-surface closure and TIP-019 local release hardening.
+- Billing, remote CI and deployment remain outside the local critical path.
+
+See `docs/verification/TIP-016_VERIFY_REPORT.md`.
+
+## TIP-017 local closure update
+
+On 2026-07-24, the Owner accepted the TIP-016 UI and authorized continuing the
+remaining local TIPs.
+
+- Unified Settings control plane for Identity, Provider, Storage, Assurance,
+  Retention and Release: PASS.
+- Workspace-scoped policy persistence, migration backfill, authority lock and
+  append-only audit event: PASS.
+- Mission assurance default, Manual Bridge provider allowlist and public
+  release ceiling enforced by their authoritative kernels: PASS.
+- Credential-free provider identifier contract: PASS.
+- Main navigation contains zero planned destinations.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- Unit tests: 106 passed.
+- Integration tests: 102 passed.
+- E2E tests: 61 passed.
+- Aggregate tests: 269 passed.
+- 320px responsive/accessibility gate: PASS with no horizontal overflow and
+  zero serious/critical violations.
+- All 12 migrations are current in development and isolated E2E databases.
+- TIP-018 cross-surface closure is the next local priority, followed by TIP-019
+  local release hardening and Local RC sign-off.
+- Billing, remote CI, merge and deployment remain outside the local critical
+  path.
+
+See `docs/verification/TIP-017_VERIFY_REPORT.md`.
+
+## TIP-018 local closure update
+
+On 2026-07-24, the chief-architect sequence continued with cross-surface
+discovery and governed export.
+
+- Object Finder searches real Evidence, Claim, Skill, Execution, Verification
+  and Release records with workspace-scoped server projections: PASS.
+- Audit ledger, Verify Report and immutable release-manifest downloads: PASS.
+- Authentication, capability enforcement, tenant isolation and non-disclosing
+  `404` behavior: PASS.
+- Private no-store attachment responses and retained canonical evidence:
+  PASS.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- Unit tests: 106 passed.
+- Integration tests: 103 passed.
+- E2E tests: 64 passed.
+- Aggregate tests: 273 passed.
+- 320px responsive/accessibility gates remain PASS.
+- All 12 migrations remain current.
+- TIP-019 local release hardening and Local RC sign-off are the next and final
+  local priority.
+- Billing, remote CI, merge and deployment remain outside the local critical
+  path.
+
+See `docs/verification/TIP-018_VERIFY_REPORT.md`.
+
+## TIP-019 local hardening and Local RC update
+
+On 2026-07-24, local hardening completed and the Local Release Candidate was
+signed.
+
+- Integrity-manifested PostgreSQL and local-object-storage backup tooling:
+  PASS.
+- Confirmation-guarded restore with pre-mutation SHA-256 verification: PASS.
+- Fresh install across all 12 migrations and runtime privilege checks: PASS.
+- Upgrade preservation and Workspace Policy backfill: PASS.
+- Recovery rehearsal preserving counts across all 54 product tables: PASS.
+- Next.js 16.2.11 and Prisma 7.9.0 dependency upgrade: PASS.
+- `npm audit --audit-level=moderate`: zero vulnerabilities.
+- Production build, typecheck and lint: PASS with zero lint warnings.
+- Unit tests: 106 passed.
+- Integration tests: 103 passed.
+- E2E tests: 64 passed.
+- Aggregate tests: 273 passed.
+- Local warm loopback baseline: `/sign-in` 14 ms average and `/api/health`
+  11 ms average across ten requests each.
+- Local RC: SIGNED.
+- Billing, remote CI, merge and deployment remain deferred; Local RC does not
+  claim those external gates.
+
+See `docs/verification/TIP-019_LOCAL_RC_REPORT.md`.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

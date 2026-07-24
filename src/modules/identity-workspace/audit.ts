@@ -13,8 +13,21 @@ const role = z.enum(["OWNER", "ADMIN", "MEMBER", "VIEWER"]);
  * outside the payload and are never accepted as arbitrary input.
  */
 const AUDIT_PAYLOAD_SCHEMAS = {
-  "workspace.created": z.object({ name: z.string(), slug: z.string() }).strict(),
+  "workspace.created": z
+    .object({ name: z.string(), slug: z.string() })
+    .strict(),
   "workspace.updated": z.object({ name: z.string() }).strict(),
+  "workspace.policy_updated": z
+    .object({
+      defaultAssuranceProfile: z.string(),
+      providerPolicyMode: z.string(),
+      allowedProviderCount: z.number().int().nonnegative(),
+      artifactRetentionDays: z.number().int().positive(),
+      evidenceRetentionDays: z.number().int().positive(),
+      auditRetentionDays: z.number().int().positive(),
+      publicReleasePolicy: z.string(),
+    })
+    .strict(),
   "membership.created": z
     .object({ role, via: z.enum(["onboarding", "invitation"]) })
     .strict(),
@@ -26,10 +39,19 @@ const AUDIT_PAYLOAD_SCHEMAS = {
 
   // Mission Kernel (TIP-004). Actor/correlation live in dedicated columns.
   "mission.created": z
-    .object({ referenceCode: z.string(), title: z.string(), assuranceProfile: z.string() })
+    .object({
+      referenceCode: z.string(),
+      title: z.string(),
+      assuranceProfile: z.string(),
+    })
     .strict(),
   "mission.transitioned": z
-    .object({ from: z.string(), to: z.string(), reason: z.string(), version: z.number().int() })
+    .object({
+      from: z.string(),
+      to: z.string(),
+      reason: z.string(),
+      version: z.number().int(),
+    })
     .strict(),
   "mission.blocked": z
     .object({ from: z.string(), reason: z.string(), version: z.number().int() })
@@ -47,27 +69,64 @@ const AUDIT_PAYLOAD_SCHEMAS = {
     .object({ versionNumber: z.number().int(), supersededBy: z.number().int() })
     .strict(),
   "obligation.started": z.object({ code: z.string() }).strict(),
-  "obligation.satisfied": z.object({ code: z.string(), reason: z.string() }).strict(),
-  "obligation.blocked": z.object({ code: z.string(), reason: z.string() }).strict(),
-  "obligation.waived": z.object({ code: z.string(), decisionId: z.string() }).strict(),
-  "gate.evaluated": z
-    .object({ code: z.string(), result: z.string(), reason: z.string(), linkedArtifactId: z.string().optional() })
+  "obligation.satisfied": z
+    .object({ code: z.string(), reason: z.string() })
     .strict(),
-  "gate.waived": z.object({ code: z.string(), decisionId: z.string() }).strict(),
+  "obligation.blocked": z
+    .object({ code: z.string(), reason: z.string() })
+    .strict(),
+  "obligation.waived": z
+    .object({ code: z.string(), decisionId: z.string() })
+    .strict(),
+  "gate.evaluated": z
+    .object({
+      code: z.string(),
+      result: z.string(),
+      reason: z.string(),
+      linkedArtifactId: z.string().optional(),
+    })
+    .strict(),
+  "gate.waived": z
+    .object({ code: z.string(), decisionId: z.string() })
+    .strict(),
   "decision.required": z.object({ decisionType: z.string() }).strict(),
-  "decision.resolved": z.object({ decisionType: z.string(), status: z.string() }).strict(),
-  "escalation.created": z.object({ severity: z.string(), reason: z.string() }).strict(),
+  "decision.resolved": z
+    .object({ decisionType: z.string(), status: z.string() })
+    .strict(),
+  "escalation.created": z
+    .object({ severity: z.string(), reason: z.string() })
+    .strict(),
   "escalation.acknowledged": z.object({ severity: z.string() }).strict(),
   "escalation.resolved": z.object({ severity: z.string() }).strict(),
   // Truth Kernel (TIP-005)
-  "evidence.source_created": z.object({ title: z.string(), sourceType: z.string() }).strict(),
-  "evidence.snapshot_captured": z.object({ sourceId: z.string(), digest: z.string() }).strict(),
-  "evidence.span_created": z.object({ snapshotId: z.string(), startOffset: z.number().int(), endOffset: z.number().int() }).strict(),
-  "claim.created": z.object({ claimKey: z.string(), state: z.string() }).strict(),
-  "claim.version_added": z.object({ versionNumber: z.number().int(), state: z.string() }).strict(),
-  "claim.state_changed": z.object({ from: z.string(), to: z.string(), reason: z.string() }).strict(),
-  "claim.honest_null_asserted": z.object({ searchCompleteness: z.string() }).strict(),
-  "claim.reviewed": z.object({ accessLevel: z.string(), reason: z.string() }).strict(),
+  "evidence.source_created": z
+    .object({ title: z.string(), sourceType: z.string() })
+    .strict(),
+  "evidence.snapshot_captured": z
+    .object({ sourceId: z.string(), digest: z.string() })
+    .strict(),
+  "evidence.span_created": z
+    .object({
+      snapshotId: z.string(),
+      startOffset: z.number().int(),
+      endOffset: z.number().int(),
+    })
+    .strict(),
+  "claim.created": z
+    .object({ claimKey: z.string(), state: z.string() })
+    .strict(),
+  "claim.version_added": z
+    .object({ versionNumber: z.number().int(), state: z.string() })
+    .strict(),
+  "claim.state_changed": z
+    .object({ from: z.string(), to: z.string(), reason: z.string() })
+    .strict(),
+  "claim.honest_null_asserted": z
+    .object({ searchCompleteness: z.string() })
+    .strict(),
+  "claim.reviewed": z
+    .object({ accessLevel: z.string(), reason: z.string() })
+    .strict(),
   // Skill Registry (TIP-006)
   "skill.created": z
     .object({ skillKey: z.string(), activeVersion: z.string() })
@@ -98,7 +157,10 @@ const AUDIT_PAYLOAD_SCHEMAS = {
   // Execution Fabric (TIP-007). Report contents remain in immutable artifacts;
   // audit payloads carry identifiers and safe state only.
   "execution.tip_created": z
-    .object({ code: z.string(), dependencyCount: z.number().int().nonnegative() })
+    .object({
+      code: z.string(),
+      dependencyCount: z.number().int().nonnegative(),
+    })
     .strict(),
   "execution.run_started": z
     .object({
@@ -160,6 +222,7 @@ const AUDIT_PAYLOAD_SCHEMAS = {
 export const AuditEventType = {
   WorkspaceCreated: "workspace.created",
   WorkspaceUpdated: "workspace.updated",
+  WorkspacePolicyUpdated: "workspace.policy_updated",
   MembershipCreated: "membership.created",
   MembershipRoleChanged: "membership.role_changed",
   MembershipSuspended: "membership.suspended",
@@ -225,7 +288,8 @@ export interface AuditInput {
 }
 
 // Keys whose presence anywhere in a payload indicates a secret leaked in.
-const FORBIDDEN_KEY = /pass|token|secret|hash|cookie|authorization|session|credential|api[-_]?key|database[-_]?url/i;
+const FORBIDDEN_KEY =
+  /pass|token|secret|hash|cookie|authorization|session|credential|api[-_]?key|database[-_]?url/i;
 
 /**
  * Fail closed: reject any payload that contains a key resembling a credential
@@ -262,7 +326,9 @@ export function validateAuditPayload(
 ): Record<string, unknown> {
   const schema = AUDIT_PAYLOAD_SCHEMAS[eventType];
   if (!schema) {
-    throw new Error(`Audit payload rejected: unknown event type "${eventType}"`);
+    throw new Error(
+      `Audit payload rejected: unknown event type "${eventType}"`,
+    );
   }
   const result = schema.safeParse(payload);
   if (!result.success) {

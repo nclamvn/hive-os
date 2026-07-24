@@ -5,4 +5,5 @@ export * from "./audit";
 export * from "./onboarding";
 export * from "./workspace";
 export * from "./invitations";
+export * from "./policy";
 export { normalizeEmail, slugify, withRandomSuffix } from "./slug";
