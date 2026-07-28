@@ -63,8 +63,32 @@ const envSchema = z
     // Tunable limits (requests per window seconds). Production-safe defaults.
     AUTH_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
     AUTH_RATE_LIMIT_WINDOW: z.coerce.number().int().positive().default(60),
+    // Keyed digest secret for the destination throttle and IP/user-agent
+    // digests. It never stores plaintext email; required outside tests (below).
+    AUTH_THROTTLE_SECRET: z.string().min(16).optional(),
+    // --- Identity-recovery mail boundary ---
+    // `local` captures messages in a non-production sink; `smtp` delivers via a
+    // real provider. Production must use `smtp` (enforced below).
+    MAIL_DRIVER: z.enum(["local", "smtp"]).default("local"),
+    MAIL_FROM: z.string().optional(),
+    MAIL_REPLY_TO: z.string().optional(),
+    // Absolute base used to build recovery links. Must be HTTPS in production
+    // and share the Better Auth origin.
+    MAIL_BASE_URL: z.string().url().default("http://localhost:3000"),
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.coerce.number().int().positive().optional(),
+    SMTP_SECURE: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    SMTP_USERNAME: z.string().optional(),
+    SMTP_PASSWORD: z.string().optional(),
   })
   .superRefine((env, ctx) => {
+    // `next build` evaluates modules under NODE_ENV=production but is not a
+    // running deployment. Recovery/mail/throttle requirements are enforced at
+    // real runtime startup (and by tests), not while collecting build output.
+    const buildPhase = process.env.NEXT_PHASE === "phase-production-build";
     if (env.STORAGE_DRIVER === "s3") {
       const required = [
         "S3_REGION",
@@ -97,6 +121,67 @@ const envSchema = z
         message:
           "auth rate limiting can only be disabled when NODE_ENV=test",
       });
+    }
+    // The keyed throttle/digest secret is mandatory outside automated tests so
+    // identity-recovery abuse controls cannot silently run without a key.
+    if (!env.AUTH_THROTTLE_SECRET && env.NODE_ENV !== "test" && !buildPhase) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["AUTH_THROTTLE_SECRET"],
+        message: "required (min 16 chars) unless NODE_ENV=test",
+      });
+    }
+    // Identity recovery is fail-closed in production: the local mail sink must
+    // never deliver production recovery links.
+    if (!buildPhase && env.NODE_ENV === "production" && env.MAIL_DRIVER === "local") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["MAIL_DRIVER"],
+        message: "production requires MAIL_DRIVER=smtp (local sink is forbidden)",
+      });
+    }
+    // A real SMTP driver needs a host and a From address to be usable.
+    if (env.MAIL_DRIVER === "smtp") {
+      if (!env.SMTP_HOST) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["SMTP_HOST"],
+          message: "required when MAIL_DRIVER=smtp",
+        });
+      }
+      if (!env.MAIL_FROM) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["MAIL_FROM"],
+          message: "required when MAIL_DRIVER=smtp",
+        });
+      }
+    }
+    // Recovery links must be HTTPS and same-origin as the auth base in
+    // production so callbacks cannot be redirected off-site.
+    if (!buildPhase && env.NODE_ENV === "production") {
+      if (!env.MAIL_BASE_URL.startsWith("https://")) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["MAIL_BASE_URL"],
+          message: "must be an https:// URL in production",
+        });
+      } else {
+        try {
+          if (
+            new URL(env.MAIL_BASE_URL).origin !==
+            new URL(env.BETTER_AUTH_URL).origin
+          ) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["MAIL_BASE_URL"],
+              message: "must share the BETTER_AUTH_URL origin",
+            });
+          }
+        } catch {
+          // BETTER_AUTH_URL validity is enforced by its own schema rule.
+        }
+      }
     }
   });
 

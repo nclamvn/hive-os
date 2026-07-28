@@ -1,0 +1,42 @@
+import { headers } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Hexagon } from "lucide-react";
+
+import { SecuritySettings } from "@/components/auth/security-settings";
+import { auth } from "@/server/auth";
+
+export const dynamic = "force-dynamic";
+
+export default async function SecuritySettingsPage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) redirect("/sign-in");
+
+  return (
+    <main className="bg-canvas min-h-screen px-4 py-10">
+      <div className="mx-auto w-full max-w-[560px]">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Hexagon className="text-navy-800 size-6" aria-hidden="true" />
+            <span className="text-section-title text-ink-strong tracking-tight">
+              HIVE OS
+            </span>
+          </div>
+          <Link href="/" className="text-meta text-blue-600 font-medium underline">
+            Back to workspace
+          </Link>
+        </div>
+        <div className="border-line bg-surface shadow-panel rounded-panel border p-6">
+          <h1 className="text-page-title text-ink-strong mb-1">Security</h1>
+          <p className="text-body text-ink-muted mb-5">
+            Manage your password, sessions, and email verification.
+          </p>
+          <SecuritySettings
+            email={session.user.email}
+            emailVerified={session.user.emailVerified}
+          />
+        </div>
+      </div>
+    </main>
+  );
+}

@@ -42,6 +42,8 @@ describe("demo fixture boundary", () => {
       NODE_ENV: "development",
       DATABASE_URL: "postgresql://u:p@localhost:5433/hiveos_test",
       BETTER_AUTH_SECRET: "test-secret-at-least-16-chars",
+      // TIP-021A: the throttle secret is mandatory outside NODE_ENV=test.
+      AUTH_THROTTLE_SECRET: "throttle-secret-at-least-16-chars",
       DEMO_FIXTURES_ENABLED: "true",
     });
     expect(demoFixturesAllowed()).toBe(true);

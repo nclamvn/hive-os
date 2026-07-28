@@ -1,0 +1,8 @@
+# Fresh-install rehearsal on an empty database (all 13 migrations from scratch).
+  └─ 20260724090000_workspace_policy/
+    └─ migration.sql
+  └─ 20260728120000_identity_recovery/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+13

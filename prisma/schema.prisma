@@ -1530,3 +1530,66 @@ model ReleaseManifest {
   @@index([workspaceId, missionId])
   @@map("release_manifest")
 }
+
+// ---------------------------------------------------------------------------
+// TIP-021A — Identity recovery security.
+// Pre-authentication recovery events do not belong to any single workspace, so
+// they live in a dedicated append-only ledger. Throttle counters are a mutable
+// abuse-control projection keyed by a keyed digest of the destination.
+// ---------------------------------------------------------------------------
+
+enum IdentitySecurityEventType {
+  EMAIL_VERIFICATION_REQUESTED
+  EMAIL_VERIFICATION_COMPLETED
+  EMAIL_VERIFICATION_REJECTED
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_RESET_COMPLETED
+  PASSWORD_RESET_REJECTED
+  PASSWORD_CHANGED
+  SESSIONS_REVOKED
+  MAIL_DELIVERY_FAILED
+}
+
+enum IdentitySecurityOutcome {
+  SUCCESS
+  FAILURE
+  PENDING
+}
+
+/// Append-only identity security ledger. Enforced immutable by database
+/// triggers; the runtime role holds SELECT + INSERT only. Payloads carry no
+/// email address, password, raw token, recovery URL, session token, or secret.
+model IdentitySecurityEvent {
+  id              String                    @id @default(uuid())
+  userId          String?                   @map("user_id")
+  eventType       IdentitySecurityEventType @map("event_type")
+  outcome         IdentitySecurityOutcome
+  correlationId   String                    @map("correlation_id")
+  ipDigest        String?                   @map("ip_digest")
+  userAgentDigest String?                   @map("user_agent_digest")
+  payload         Json                      @default("{}")
+  createdAt       DateTime                  @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([correlationId])
+  @@map("identity_security_event")
+}
+
+/// Concurrency-safe destination + IP throttle counters (fixed window). Keyed by
+/// an HMAC digest of the normalized destination and purpose — never plaintext
+/// email. Mutable by design (atomic increment); expired rows are pruned.
+model AuthThrottleCounter {
+  id        String   @id @default(uuid())
+  digest    String
+  purpose   String
+  windowKey String   @map("window_key")
+  count     Int      @default(0)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([digest, purpose, windowKey])
+  @@index([expiresAt])
+  @@map("auth_throttle_counter")
+}

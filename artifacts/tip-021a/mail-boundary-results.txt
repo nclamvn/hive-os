@@ -1,0 +1,14 @@
+# TIP-021A dependency: nodemailer 9.0.3 (pinned, --save-exact) + @types/nodemailer (dev).
+# nodemailer 9.0.3 has NO known advisories (npm audit clean for nodemailer).
+# Pre-existing, unrelated vulnerabilities remain in the eslint-config-next and prisma
+# transitive chains (brace-expansion/minimatch, valibot); fixing them requires forbidden
+# unrelated major upgrades (eslint 10, prisma 7.9.1) and is out of TIP-021A scope.
+
+# npm audit — nodemailer section (expect empty = clean):
+(nodemailer not listed — clean)
+
+# npm audit total:
+12 vulnerabilities (3 moderate, 9 high)
+
+# Mail drivers: local sink (dev/test capture; refused in production) + generic SMTP (nodemailer 9.0.3).
+# Production fail-closed: env rejects MAIL_DRIVER=local, non-https or off-origin MAIL_BASE_URL (unit IR-30).

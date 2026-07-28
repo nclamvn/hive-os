@@ -1,0 +1,7 @@
+=== security-event-immutability.txt ===
+# Runtime role grants on identity_security_event (expect SELECT, INSERT only)
+INSERT
+SELECT
+# Append-only triggers on identity_security_event
+identity_security_event_no_delete
+identity_security_event_no_update

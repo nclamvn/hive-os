@@ -1,0 +1,3 @@
+# Anti-enumeration (IR-13/IR-14/IR-16): requestPasswordReset returns status:true for BOTH existing and unknown accounts.
+# Unknown account => zero RESET_PASSWORD mail dispatched (verified in integration).
+# Sign-up funnels new AND duplicate emails to the same /check-email outcome (UI).

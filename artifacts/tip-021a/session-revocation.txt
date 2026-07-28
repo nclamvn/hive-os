@@ -1,0 +1,2 @@
+# Session revocation (IR-25/IR-26): revokeSessionsOnPasswordReset=true.
+# Integration 'IR-19/.../IR-26' verifies: after reset, prior sessions=0, no implicit session, old password fails, new works.

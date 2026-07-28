@@ -56,6 +56,13 @@ BEGIN
     FROM hiveos_app;
     REVOKE DELETE, TRUNCATE ON TABLE verification_run FROM hiveos_app;
   END IF;
+  -- TIP-021A: the identity security ledger is append-only for the runtime role
+  -- (SELECT + INSERT only); it never receives UPDATE/DELETE/TRUNCATE, so its
+  -- append-only triggers cannot be bypassed. auth_throttle_counter keeps full
+  -- DML (atomic increment + expiry pruning).
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'identity_security_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE identity_security_event FROM hiveos_app;
+  END IF;
 END
 $$;
 

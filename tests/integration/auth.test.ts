@@ -57,6 +57,9 @@ describe("email/password authentication", () => {
     await auth.api.signUpEmail({
       body: { email, password: PASSWORD, name: "Sign In" },
     });
+    // TIP-021A requires a verified email before a session; verify directly so
+    // this test stays focused on credential correctness.
+    await getDb().user.update({ where: { email }, data: { emailVerified: true } });
 
     const ok = await auth.api.signInEmail({ body: { email, password: PASSWORD } });
     expect(ok.user?.email).toBe(email);

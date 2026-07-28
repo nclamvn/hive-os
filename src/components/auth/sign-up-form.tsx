@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Field, FormError } from "./auth-card";
+import { PasswordField } from "./auth-fields";
+
+const MIN = 12;
+const MAX = 128;
 
 export function SignUpForm() {
   const router = useRouter();
@@ -15,20 +19,22 @@ export function SignUpForm() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    setBusy(true);
     const form = new FormData(event.currentTarget);
-    const { error } = await authClient.signUp.email({
-      name: String(form.get("name") ?? ""),
-      email: String(form.get("email") ?? ""),
-      password: String(form.get("password") ?? ""),
-    });
-    if (error) {
-      setError(error.message ?? "Unable to create account");
-      setBusy(false);
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+    if (password.length < MIN || password.length > MAX) {
+      setError(`Password must be between ${MIN} and ${MAX} characters.`);
       return;
     }
-    // New identity is authenticated; onboarding provisions the workspace.
-    router.push("/onboarding");
+    setBusy(true);
+    // Verification is required, so no session is created here. The result is
+    // funnelled to the same neutral check-email outcome whether the email is
+    // new or already registered — no account enumeration.
+    await authClient.signUp
+      .email({ name, email, password, callbackURL: "/verify-email" })
+      .catch(() => undefined);
+    router.push("/check-email?intent=signup");
     router.refresh();
   }
 
@@ -37,11 +43,11 @@ export function SignUpForm() {
       <FormError message={error} />
       <Field id="name" label="Name" autoComplete="name" />
       <Field id="email" label="Email" type="email" autoComplete="email" />
-      <Field
+      <PasswordField
         id="password"
         label="Password"
-        type="password"
         autoComplete="new-password"
+        requirementText={`Use ${MIN}–${MAX} characters. You'll confirm your email before signing in.`}
       />
       <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
         {busy ? "Creating account…" : "Create account"}

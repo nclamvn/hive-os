@@ -3,7 +3,13 @@ import path from "node:path";
 
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpToDashboard, uniqueEmail } from "./auth-helpers";
+import {
+  markEmailVerified,
+  signIn,
+  signUp,
+  signUpToDashboard,
+  uniqueEmail,
+} from "./auth-helpers";
 
 const DIR = path.resolve(__dirname, "../../artifacts/tip-003");
 const DESKTOP = { width: 1440, height: 900 };
@@ -26,11 +32,11 @@ test("capture sign-in", async ({ page }) => {
 
 test("capture onboarding", async ({ page }) => {
   await page.setViewportSize(DESKTOP);
-  await page.goto("/sign-up");
-  await page.getByLabel("Name").fill("Onboarding User");
-  await page.getByLabel("Email").fill(uniqueEmail("onboard"));
-  await page.getByLabel("Password").fill("password12345");
-  await page.getByRole("button", { name: "Create account" }).click();
+  // TIP-021A: reach onboarding through the verified-then-signed-in flow.
+  const email = uniqueEmail("onboard");
+  await signUp(page, email);
+  await markEmailVerified(email);
+  await signIn(page, email);
   await page.waitForURL("**/onboarding");
   await shoot(page, "onboarding-desktop");
   await page.setViewportSize(MOBILE);

@@ -1,0 +1,3 @@
+# Source scan: no code path logs a raw token or full recovery URL.
+# recovery-mail logs only purpose + correlationId; mail message text carries the link (that IS the email body).
+no console.log in src/server/auth

@@ -1,0 +1,3 @@
+# verification rows: identifier is a SHA-256 hash (base64url), never the raw reset-password:<token>
+# no identifier contains the literal 'reset-password:' prefix (hashed at rest)
+0

@@ -7,6 +7,20 @@ const base = {
   BETTER_AUTH_SECRET: "test-secret-at-least-16-chars",
 };
 
+// A production environment that satisfies the TIP-021A fail-closed rules
+// (throttle secret + real SMTP mail driver + https same-origin base), used to
+// assert unrelated rate-limit defaults under NODE_ENV=production.
+const prod = {
+  ...base,
+  NODE_ENV: "production",
+  BETTER_AUTH_URL: "https://app.example.com",
+  AUTH_THROTTLE_SECRET: "throttle-secret-at-least-16-chars",
+  MAIL_DRIVER: "smtp",
+  SMTP_HOST: "smtp.example.com",
+  MAIL_FROM: "HIVE OS <noreply@example.com>",
+  MAIL_BASE_URL: "https://app.example.com",
+};
+
 describe("production rate-limit fail-closed guard (SEC-04)", () => {
   it("RATE-01 production + disabled is rejected", () => {
     expect(() =>
@@ -30,12 +44,12 @@ describe("production rate-limit fail-closed guard (SEC-04)", () => {
   });
 
   it("RATE-04 unset defaults to enabled", () => {
-    const env = parseEnv({ ...base, NODE_ENV: "production" });
+    const env = parseEnv(prod);
     expect(env.AUTH_RATE_LIMIT_ENABLED).toBe(true);
   });
 
   it("tunable limits default to production-safe values", () => {
-    const env = parseEnv({ ...base, NODE_ENV: "production" });
+    const env = parseEnv(prod);
     expect(env.AUTH_RATE_LIMIT_MAX).toBe(100);
     expect(env.AUTH_RATE_LIMIT_WINDOW).toBe(60);
   });

@@ -1,0 +1,5 @@
+# Email verification uses a stateless signed JWT (createEmailVerificationToken).
+# It is NEVER persisted to the verification table, so the raw token cannot be read from PostgreSQL.
+# Password-reset tokens DO create a verification row, with the identifier hashed (storeIdentifier: hashed).
+# Live check — any verification row whose identifier equals a known plaintext prefix (expect 0):
+0
