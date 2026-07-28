@@ -58,6 +58,41 @@ Recent milestones:
 - TIP-007 Execution Fabric: READY_WITH_DEFERRED after local verification
 - TIP-008 Verification Governance: READY_WITH_DEFERRED after local verification
 
+### Gate reconciliation (TIP-020 Part A — LOCKED by Owner 2026-07-28)
+
+Ratified by `DEC-009` and `DEC-010` (`docs/contractor/10_DECISIONS_LOG.md`).
+This locked ledger is now the authoritative gate record; the single-axis
+statuses above are retained as the historical build trail (append-only, not
+rewritten). See `docs/contractor/tips/TIP-020_GOVERNANCE_RECONCILIATION.md`.
+
+```text
+G0 SCAN:                            PASS
+G1 BLUEPRINT:                       PASS
+G2 FOUNDATION LOCAL:                PASS
+G3 MISSION LOOP LOCAL:              PASS
+G3 REMOTE REPRODUCIBILITY:          BLOCKED_EXTERNAL   (OBL-FND-001)
+G4 TRUTH LOOP LOCAL:                PASS_PROVISIONAL
+G5 EXECUTION + VERIFICATION LOCAL:  PASS_PROVISIONAL
+G6 LOCAL RC:                        PASS_PROVISIONAL
+
+LOCAL RC:            SIGNED
+REMOTE RC:           NOT ESTABLISHED
+PRODUCTION RELEASE:  NOT AUTHORIZED
+PUBLIC RELEASE:      NOT AUTHORIZED
+```
+
+`PASS_PROVISIONAL` holds until remote CI runs green on the reviewed commit; then
+the suffix is removed and DEC-009 expires. A bare `G3: PASS` must never be
+recorded while remote reproducibility is unproven (DEC-010).
+
+Deferred obligations (preserved; not softened by the signed Local RC):
+
+```text
+OBL-FND-001  GitHub Actions remote CI   BLOCKED_EXTERNAL      (Owner dependency: billing)
+OBL-DEP-001  Dependency audit closure   OPEN                  (until closed with fresh evidence)
+OBL-DEP-002  Prisma/pg deprecation      MONITORED / ISOLATED
+```
+
 On 2026-07-23, the Owner explicitly authorized continuing TIP-005 while
 deferring the G3 billing hold. The Owner subsequently authorized TIP-006 Skill
 Registry and then authorized local-only TIP-007 Execution Fabric on 2026-07-23.
