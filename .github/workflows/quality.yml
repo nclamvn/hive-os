@@ -77,5 +77,29 @@ jobs:
       - name: E2E tests
         run: npm run test:e2e
 
-      - name: Dependency audit (report only)
-        run: npm audit --audit-level=high || true
+      - name: Dependency policy tests (DEP-GATE)
+        run: npm run test:dependency-policy
+
+      # Full audit evidence is always generated and stored — never hidden and
+      # never reduced to --omit=dev only. `|| true` lets the JSON be written even
+      # though npm audit exits non-zero when advisories exist; the policy script
+      # below (DEC-012), not npm's exit code, is the authoritative decision.
+      - name: Dependency audit (full graph, JSON)
+        run: npm audit --json > audit-full.json || true
+
+      - name: Dependency audit (runtime+build graph, JSON)
+        run: npm audit --omit=dev --json > audit-omit-dev.json || true
+
+      - name: Upload dependency audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit
+          path: |
+            audit-full.json
+            audit-omit-dev.json
+
+      # Authoritative governed decision (DEC-012 / RISK-DEP-001). No
+      # continue-on-error: a policy violation fails the job.
+      - name: Dependency policy gate
+        run: node scripts/ci/check-dependency-policy.mjs audit-full.json audit-omit-dev.json

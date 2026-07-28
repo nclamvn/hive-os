@@ -1,0 +1,31 @@
+{
+  "generatedFromCommit": "68bebda / cdd0b32",
+  "approvedAt": "2026-07-28",
+  "expiresAt": "2026-08-31",
+  "runtimeHigh": 0,
+  "runtimeCritical": 0,
+  "fullHigh": 9,
+  "fullCritical": 0,
+  "moderate": 3,
+  "knownAdvisoryIds": ["GHSA-mh99-v99m-4gvg", "GHSA-5qjj-4xww-7phc"],
+  "affectedPackages": [
+    "@eslint/config-array",
+    "@eslint/eslintrc",
+    "@prisma/dev",
+    "brace-expansion",
+    "eslint",
+    "eslint-config-next",
+    "eslint-plugin-import",
+    "eslint-plugin-jsx-a11y",
+    "eslint-plugin-react",
+    "minimatch",
+    "prisma",
+    "valibot"
+  ],
+  "classification": {
+    "runtimeHighCritical": 0,
+    "devOnlyHigh": 9,
+    "moderateTooling": 3
+  },
+  "ownerDecision": "DEC-012 / RISK-DEP-001"
+}
