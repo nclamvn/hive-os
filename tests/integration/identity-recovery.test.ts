@@ -223,6 +223,60 @@ describe("password recovery (IR-13..IR-28)", () => {
   });
 });
 
+describe("existing-account signup notice (RC-SIGNUP-01..06)", () => {
+  it("RC-SIGNUP-01/02/03/06 duplicate signup notifies the owner without enumeration", async () => {
+    const email = `rc-signup-${Date.now()}@test.local`;
+    const first = await auth.api.signUpEmail({
+      body: { email, password: PASSWORD, name: "Owner" },
+    });
+    clearCapturedMail();
+
+    // Duplicate signup: Better Auth returns a generic response (no session),
+    // indistinguishable from a new signup, and notifies the real owner.
+    const dup = await auth.api.signUpEmail({
+      body: { email, password: "totally-different-1", name: "Impostor" },
+    });
+    // RC-SIGNUP-01: neither response leaks a session token.
+    expect(first.token ?? null).toBeNull();
+    expect(dup.token ?? null).toBeNull();
+
+    const notice = findCapturedMail(email, "EXISTING_ACCOUNT_SIGNUP_NOTICE");
+    // RC-SIGNUP-02: exactly one notice.
+    expect(
+      readCapturedMail().filter((m) => m.purpose === "EXISTING_ACCOUNT_SIGNUP_NOTICE"),
+    ).toHaveLength(1);
+    // RC-SIGNUP-03: no verification email is (re)sent to the existing account.
+    expect(readCapturedMail().filter((m) => m.purpose === "VERIFY_EMAIL")).toHaveLength(0);
+    // RC-SIGNUP-06: the notice carries no action URL / token.
+    expect(notice?.actionUrl).toBeUndefined();
+    expect(notice?.text ?? "").not.toMatch(/https?:\/\//);
+  });
+
+  it("RC-SIGNUP-03 a brand-new signup receives no existing-account notice", async () => {
+    const email = `rc-new-${Date.now()}@test.local`;
+    await auth.api.signUpEmail({ body: { email, password: PASSWORD, name: "New" } });
+    expect(
+      readCapturedMail().filter((m) => m.purpose === "EXISTING_ACCOUNT_SIGNUP_NOTICE"),
+    ).toHaveLength(0);
+    expect(findCapturedMail(email, "VERIFY_EMAIL")).toBeTruthy();
+  });
+
+  it("RC-SIGNUP-04 repeated duplicate attempts are throttled", async () => {
+    const email = `rc-throttle-${Date.now()}@test.local`;
+    await auth.api.signUpEmail({ body: { email, password: PASSWORD, name: "Owner" } });
+    clearCapturedMail();
+    for (let i = 0; i < 5; i += 1) {
+      await auth.api.signUpEmail({
+        body: { email, password: `dup-attempt-${i}-x`, name: "Impostor" },
+      });
+    }
+    // 3 per 15 minutes per destination.
+    expect(
+      readCapturedMail().filter((m) => m.purpose === "EXISTING_ACCOUNT_SIGNUP_NOTICE").length,
+    ).toBeLessThanOrEqual(3);
+  });
+});
+
 describe("configuration invariants (IR-21 origin, IR-25 revoke policy)", () => {
   it("keeps auth callbacks same-origin and revokes sessions on reset", () => {
     expect(auth.options.trustedOrigins).toBeTruthy();

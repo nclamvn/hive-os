@@ -210,6 +210,27 @@ export async function onPasswordResetCompleted(args: {
   );
 }
 
+/**
+ * Better Auth `onExistingUserSignUp` handler. Someone attempted to sign up with
+ * an email that already has an account. Better Auth already returns a generic
+ * response (no enumeration); here we notify the real owner. We never send a
+ * verification email for this and never reveal anything to the requester.
+ */
+export async function onExistingAccountSignup(args: {
+  email: string;
+  userId: string;
+  request?: Request;
+}): Promise<void> {
+  const { allowed } = await consumeDestinationThrottle(
+    args.email,
+    "existing-signup-notice",
+  );
+  if (!allowed) return;
+  await dispatchOrSchedule(() =>
+    deliver(messageFor("EXISTING_ACCOUNT_SIGNUP_NOTICE", args.email), args.userId),
+  );
+}
+
 /** Better Auth `afterEmailVerification` handler. */
 export async function onEmailVerified(args: { userId: string }): Promise<void> {
   await recordSecurityEvent({

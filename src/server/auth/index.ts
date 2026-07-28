@@ -6,6 +6,7 @@ import { getDb } from "../db";
 import { getEnv } from "../env";
 import {
   onEmailVerified,
+  onExistingAccountSignup,
   onPasswordResetCompleted,
   onSendResetPassword,
   onSendVerificationEmail,
@@ -49,6 +50,15 @@ function createAuth() {
       // Fired after a successful reset: notify, revoke sessions, record events.
       onPasswordReset: async ({ user }) => {
         await onPasswordResetCompleted({ email: user.email, userId: user.id });
+      },
+      // Duplicate sign-up: Better Auth returns a generic response; we notify the
+      // real account owner off the response path. No verification email is sent.
+      onExistingUserSignUp: async ({ user }, request) => {
+        await onExistingAccountSignup({
+          email: user.email,
+          userId: user.id,
+          request,
+        });
       },
     },
     emailVerification: {

@@ -1,0 +1,6 @@
+PASS  RC-PROD-01 missing SMTP config — exited code=1
+PASS  RC-PROD-02 MAIL_DRIVER=local — exited code=1
+PASS  RC-PROD-03 http MAIL_BASE_URL — exited code=1
+PASS  RC-PROD-04 off-origin MAIL_BASE_URL — exited code=1
+PASS  RC-PROD-05 valid config — healthy
+PASS  RC-PROD-06 no secret/conn-string in output — no secret/conn-string in stdout/stderr

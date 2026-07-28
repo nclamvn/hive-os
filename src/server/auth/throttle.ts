@@ -10,7 +10,10 @@ import { destinationDigest } from "./digest";
  * requests cannot bypass the limit. Counters expire and are prunable.
  */
 
-export type ThrottlePurpose = "email-verification" | "password-reset";
+export type ThrottlePurpose =
+  | "email-verification"
+  | "password-reset"
+  | "existing-signup-notice";
 
 interface WindowSpec {
   seconds: number;
