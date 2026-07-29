@@ -48,7 +48,7 @@ export function SignInForm() {
     await authClient
       .sendVerificationEmail({
         email: unverifiedEmail,
-        callbackURL: "/verify-email",
+        callbackURL: "/verify-email?status=complete",
       })
       .catch(() => undefined);
     setResent(true);

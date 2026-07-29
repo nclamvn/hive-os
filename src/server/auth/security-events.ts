@@ -97,7 +97,14 @@ export async function recordSecurityEvent(
         payload: payload as Prisma.InputJsonValue,
       },
     });
-  } catch {
-    // Fail closed on recording, never on the auth flow.
+  } catch (error) {
+    // Keep authentication available, but never make a failed security-ledger
+    // write invisible. Only schema-safe enum values and the error class are
+    // emitted; messages can contain rejected payload values or DB details.
+    console.error("[identity-security-event] recording failed", {
+      eventType: input.eventType,
+      outcome: input.outcome,
+      errorType: error instanceof Error ? error.name : "UnknownError",
+    });
   }
 }

@@ -131,6 +131,26 @@ Current obligation:
 
 - `OBL-FND-001`: BLOCKED_EXTERNAL
 
+## TIP-021B local stabilization closure
+
+On 2026-07-29, the Owner authorized TIP-021B after the current-project X-Ray.
+The bounded local findings were closed:
+
+- Direct `/verify-email` visits no longer claim successful verification.
+- Runtime startup validation remains fail-closed without unsupported
+  `process.exit` usage in the Edge instrumentation bundle.
+- Security-event ledger failures emit sanitized operational signals while
+  remaining isolated from authentication flow availability.
+- The founding Contractor manifest is preserved separately from the tested
+  current-package manifest under DEC-013.
+- Drifted project, governance, identity, and module-boundary documentation was
+  reconciled.
+
+Local evidence: typecheck, lint, production build, dependency policy, 131 unit,
+122 integration, and 74 E2E scenarios passed. Remote reproducibility,
+production release, and public release remain unauthorized; `OBL-FND-001`
+remains `BLOCKED_EXTERNAL`.
+
 Rerun attempt 2 was triggered on 2026-07-23 against the unchanged `cb53c5e`
 commit. The `quality` job failed again with zero executed steps, so the billing
 blocker remains active.

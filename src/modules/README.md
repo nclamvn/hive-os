@@ -4,11 +4,20 @@ Modular-monolith bounded contexts from the approved Blueprint (`docs/contractor/
 TIP-001 establishes the skeleton and dependency direction only; implementations
 arrive in their authorized TIPs.
 
-Dependency direction rules:
+Dependency rules:
 
-- `src/app` (routes/UI) → `src/modules/*` → `src/server/*` (infrastructure).
-- Modules may depend on infrastructure (`src/server`), never the reverse.
-- Cross-module access goes through each module's public `index.ts`; no deep imports.
+- `src/app` contains routes and actions; it calls module public ports and
+  server-side projections/orchestrators.
+- `src/modules/*` contains bounded-context contracts and kernels. Modules may
+  use infrastructure from `src/server`.
+- `src/server/*` contains shared infrastructure plus cross-context
+  orchestrators and read projections. Those orchestrators may call module
+  public ports.
+- Cross-module and cross-layer calls use each module's public `index.ts`.
+- The one approved module-to-module contract exception is
+  `verification-governance` importing the deterministic execution report
+  schemas from `execution-fabric/contracts`; it is covered by the verification
+  contract tests and must not expand silently.
 - UI projections never become source of truth (`docs/contractor/06_DOMAIN_MODEL.md`).
 
 | Module | Bounded context | Authorized TIP |

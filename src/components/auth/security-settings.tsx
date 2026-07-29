@@ -63,7 +63,10 @@ export function SecuritySettings({
 
   async function resendVerification() {
     await authClient
-      .sendVerificationEmail({ email, callbackURL: "/verify-email" })
+      .sendVerificationEmail({
+        email,
+        callbackURL: "/verify-email?status=complete",
+      })
       .catch(() => undefined);
     setResent(true);
   }

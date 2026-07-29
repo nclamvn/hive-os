@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { auth } from "@/server/auth";
 import {
@@ -6,6 +6,11 @@ import {
   findCapturedMail,
   readCapturedMail,
 } from "@/server/auth/mail";
+import {
+  IdentitySecurityEventType,
+  IdentitySecurityOutcome,
+  recordSecurityEvent,
+} from "@/server/auth/security-events";
 import { getDb } from "@/server/db";
 
 import { ownerQuery, truncateAll } from "./helpers";
@@ -19,6 +24,10 @@ beforeEach(async () => {
     "TRUNCATE identity_security_event, auth_throttle_counter, verification CASCADE",
   );
   clearCapturedMail();
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 async function signUp(email: string) {
@@ -115,6 +124,32 @@ describe("email verification (IR-01..IR-12)", () => {
     await expect(
       getDb().$executeRawUnsafe("DELETE FROM identity_security_event"),
     ).rejects.toBeTruthy();
+  });
+
+  it("XC-05 contains a ledger write failure and emits a sanitized signal", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.spyOn(getDb().identitySecurityEvent, "create").mockRejectedValueOnce(
+      new Error("database connection detail must stay private"),
+    );
+
+    await expect(
+      recordSecurityEvent({
+        eventType: IdentitySecurityEventType.EMAIL_VERIFICATION_COMPLETED,
+        outcome: IdentitySecurityOutcome.SUCCESS,
+      }),
+    ).resolves.toBeUndefined();
+
+    expect(error).toHaveBeenCalledWith(
+      "[identity-security-event] recording failed",
+      {
+        eventType: IdentitySecurityEventType.EMAIL_VERIFICATION_COMPLETED,
+        outcome: IdentitySecurityOutcome.SUCCESS,
+        errorType: expect.any(String),
+      },
+    );
+    expect(JSON.stringify(error.mock.calls)).not.toContain(
+      "database connection detail",
+    );
   });
 });
 

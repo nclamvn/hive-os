@@ -23,7 +23,11 @@ async function capture(page: Page, name: string, url: string) {
 
 test("capture recovery surfaces (evidence)", async ({ page }) => {
   await capture(page, "sign-up-check-email", "/check-email?intent=signup");
-  await capture(page, "verify-email-success", "/verify-email");
+  await capture(
+    page,
+    "verify-email-success",
+    "/verify-email?status=complete",
+  );
   await capture(page, "forgot-password", "/forgot-password");
   await capture(page, "reset-password", "/reset-password");
 });

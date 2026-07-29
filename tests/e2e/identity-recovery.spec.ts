@@ -60,6 +60,21 @@ test("reset-password without a token fails truthfully", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("XC-01/XC-02 verify-email distinguishes direct visits from callbacks", async ({
+  page,
+}) => {
+  await page.goto("/verify-email");
+  await expect(
+    page.getByRole("heading", { name: "Verification status unavailable" }),
+  ).toBeVisible();
+  await expect(page.getByText("Email verified")).not.toBeVisible();
+
+  await page.goto("/verify-email?status=complete");
+  await expect(
+    page.getByRole("heading", { name: "Email verified" }),
+  ).toBeVisible();
+});
+
 test("IR-37 a signed-in user can change their password", async ({ page }) => {
   await signUpToDashboard(page);
   await page.goto("/settings/security");
@@ -91,6 +106,7 @@ test("IR-41/IR-43 recovery pages pass a11y and have no overflow at 320px and 390
     "/reset-password",
     "/check-email?intent=signup",
     "/verify-email",
+    "/verify-email?status=complete",
     "/verify-email?error=invalid",
   ];
   for (const route of routes) {

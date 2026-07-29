@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import {
   destinationDigest,
@@ -7,7 +7,9 @@ import {
 } from "@/server/auth/digest";
 import {
   IdentitySecurityEventType,
+  IdentitySecurityOutcome,
   parseSecurityEventPayload,
+  recordSecurityEvent,
 } from "@/server/auth/security-events";
 import { parseEnv, resetEnvCache } from "@/server/env";
 
@@ -31,6 +33,10 @@ const prodMail = {
   MAIL_FROM: "HIVE OS <noreply@example.com>",
   MAIL_BASE_URL: "https://app.example.com",
 };
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("security-event payload schemas (IR-32)", () => {
   it("accepts a valid payload", () => {
@@ -76,6 +82,33 @@ describe("security-event payload schemas (IR-32)", () => {
         { reason: "mystery" },
       ),
     ).toThrow();
+  });
+
+  it("XC-05 emits a sanitized signal while containing recording failure", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    await expect(
+      recordSecurityEvent({
+        eventType: IdentitySecurityEventType.MAIL_DELIVERY_FAILED,
+        outcome: IdentitySecurityOutcome.FAILURE,
+        payload: {
+          purpose: "VERIFY_EMAIL",
+          reason: "sensitive@example.com",
+        },
+      }),
+    ).resolves.toBeUndefined();
+
+    expect(error).toHaveBeenCalledWith(
+      "[identity-security-event] recording failed",
+      {
+        eventType: IdentitySecurityEventType.MAIL_DELIVERY_FAILED,
+        outcome: IdentitySecurityOutcome.FAILURE,
+        errorType: "Error",
+      },
+    );
+    expect(JSON.stringify(error.mock.calls)).not.toContain(
+      "sensitive@example.com",
+    );
   });
 });
 
