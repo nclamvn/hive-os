@@ -100,12 +100,15 @@ export function SidebarContent({
           href={homeHref}
           onClick={onNavigate}
           aria-label={t("common.newMission")}
-          title={t("common.newMission")}
-          className={`text-body bg-navy-800 hover:bg-navy-900 flex h-10 items-center gap-2 rounded-md font-medium text-white transition-colors ${
+          title={iconOnly ? t("common.newMission") : undefined}
+          className={`text-body text-ink-strong hover:text-ink group flex h-10 items-center gap-2 rounded-md font-medium transition-[color,transform] duration-150 hover:translate-x-0.5 ${
             iconOnly ? "justify-center px-0" : "px-3"
           }`}
         >
-          <Plus className="size-4 shrink-0" aria-hidden="true" />
+          <Plus
+            className="text-ink-muted size-4 shrink-0 transition-[color,transform] duration-150 group-hover:scale-110 group-hover:text-current"
+            aria-hidden="true"
+          />
           {!iconOnly && <span>{t("common.newMission")}</span>}
         </a>
 
@@ -127,7 +130,7 @@ export function SidebarContent({
                       const title = item.implemented
                         ? label
                         : `${label} · ${NOT_IMPLEMENTED}`;
-                      const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium ${
+                      const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium transition-[color,transform] duration-150 ${
                         iconOnly ? "justify-center px-0" : "px-3"
                       }`;
 
@@ -170,7 +173,7 @@ export function SidebarContent({
                             aria-label={title}
                             title={title}
                             onClick={(e) => e.preventDefault()}
-                            className={`${rowClass} text-ink-muted hover:bg-surface-subtle w-full cursor-not-allowed text-left`}
+                            className={`${rowClass} text-ink-muted w-full cursor-not-allowed text-left opacity-65`}
                           >
                             <Icon
                               className="text-ink-faint size-[18px] shrink-0"
