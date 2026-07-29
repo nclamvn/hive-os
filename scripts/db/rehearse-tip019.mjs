@@ -2,7 +2,14 @@ import "dotenv/config";
 
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
@@ -88,7 +95,7 @@ try {
         NOT has_table_privilege('hiveos_app', 'release_manifest', 'DELETE') AS manifest_append_only`,
     );
     if (
-      verified.rows[0].migrations !== 12 ||
+      verified.rows[0].migrations !== migrations.length ||
       !verified.rows[0].policy ||
       !verified.rows[0].audit_append_only ||
       !verified.rows[0].manifest_append_only
@@ -161,8 +168,19 @@ try {
     await upgrade.end();
   }
 
+  const storageSource = path.join(backupDir, "storage-source");
+  const storageTarget = path.join(backupDir, "storage-restored");
+  mkdirSync(path.join(storageSource, "rehearsal"), { recursive: true });
+  writeFileSync(
+    path.join(storageSource, "rehearsal", "integrity.txt"),
+    "hive-os-storage-recovery\n",
+  );
   execFileSync("node", ["scripts/db/backup-local.mjs", `--output=${backupDir}/backup`], {
-    env: { ...process.env, DATABASE_MIGRATION_URL: ownerUrl },
+    env: {
+      ...process.env,
+      DATABASE_MIGRATION_URL: ownerUrl,
+      STORAGE_LOCAL_ROOT: storageSource,
+    },
     stdio: "pipe",
   });
   const sourceCounts = await tableCounts(ownerUrl);
@@ -174,6 +192,7 @@ try {
       `--backup=${backupDir}/backup`,
       `--database-url=${urlFor(RECOVERY)}`,
       `--confirm-target=${RECOVERY}`,
+      `--storage-target=${storageTarget}`,
     ],
     { stdio: "pipe" },
   );
@@ -181,8 +200,16 @@ try {
   if (JSON.stringify(sourceCounts) !== JSON.stringify(restoredCounts)) {
     throw new Error("recovery table-count preservation failed");
   }
+  if (
+    readFileSync(
+      path.join(storageTarget, "rehearsal", "integrity.txt"),
+      "utf8",
+    ) !== "hive-os-storage-recovery\n"
+  ) {
+    throw new Error("object-storage recovery preservation failed");
+  }
   console.log(
-    `rehearse-tip019: PASS (12 fresh migrations; TIP-017 upgrade preserved; ${Object.keys(sourceCounts).length} restored tables preserved)`,
+    `rehearse-tip019: PASS (${migrations.length} fresh migrations; TIP-017 upgrade preserved; ${Object.keys(sourceCounts).length} restored tables and object storage preserved)`,
   );
 } finally {
   await drop(FRESH);

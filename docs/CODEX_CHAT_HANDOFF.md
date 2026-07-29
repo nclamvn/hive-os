@@ -151,6 +151,24 @@ Local evidence: typecheck, lint, production build, dependency policy, 131 unit,
 production release, and public release remain unauthorized; `OBL-FND-001`
 remains `BLOCKED_EXTERNAL`.
 
+## TIP-021C-A local production-contract closure
+
+On 2026-07-29, the Owner authorized the local-only, provider-neutral
+TIP-021C-A. The standalone container, environment matrix, split
+liveness/readiness, correlation/structured logging, bounded database runtime,
+S3 encryption contract, maintenance mode, recovery rehearsal, local load
+observation, and operations runbooks were locally verified.
+
+Local evidence: container user UID 1001 with no embedded `.env`; startup
+contract 8/8; 13 migrations and 56 tables plus object storage restored; 140
+unit, 123 integration, and 76 E2E scenarios completed. The one registered
+shared-server timing flake passed on retry and an isolated no-retry rerun.
+
+External staging, vendor selection, billing, domain/DNS, secrets, production
+RPO/RTO/SLO, PostgreSQL RLS, retention deletion, legal hold, production, and
+public release remain unauthorized. See
+`docs/operations/OWNER_DECISIONS_TIP-021C-B.md`.
+
 Rerun attempt 2 was triggered on 2026-07-23 against the unchanged `cb53c5e`
 commit. The `quality` job failed again with zero executed steps, so the billing
 blocker remains active.

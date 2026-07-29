@@ -22,10 +22,17 @@ beforeAll(() => {
 
 const prodBase = {
   NODE_ENV: "production",
+  DEPLOYMENT_ENV: "production",
   DATABASE_URL: "postgresql://u:p@db/hiveos",
   BETTER_AUTH_SECRET: "prod-secret-at-least-16-chars",
   BETTER_AUTH_URL: "https://app.example.com",
   AUTH_THROTTLE_SECRET: "prod-throttle-secret-16+chars",
+  STORAGE_DRIVER: "s3",
+  S3_REGION: "us-east-1",
+  S3_BUCKET: "hiveos",
+  S3_ACCESS_KEY_ID: "key",
+  S3_SECRET_ACCESS_KEY: "secret",
+  S3_SERVER_SIDE_ENCRYPTION: "AES256",
 };
 const prodMail = {
   MAIL_DRIVER: "smtp",
@@ -98,14 +105,11 @@ describe("security-event payload schemas (IR-32)", () => {
       }),
     ).resolves.toBeUndefined();
 
-    expect(error).toHaveBeenCalledWith(
-      "[identity-security-event] recording failed",
-      {
-        eventType: IdentitySecurityEventType.MAIL_DELIVERY_FAILED,
-        outcome: IdentitySecurityOutcome.FAILURE,
-        errorType: "Error",
-      },
+    expect(error).toHaveBeenCalledOnce();
+    expect(error.mock.calls[0][0]).toContain(
+      '"event":"identity_security_event.recording_failed"',
     );
+    expect(error.mock.calls[0][0]).toContain('"errorType":"Error"');
     expect(JSON.stringify(error.mock.calls)).not.toContain(
       "sensitive@example.com",
     );

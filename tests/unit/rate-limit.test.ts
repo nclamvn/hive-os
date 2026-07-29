@@ -13,12 +13,19 @@ const base = {
 const prod = {
   ...base,
   NODE_ENV: "production",
+  DEPLOYMENT_ENV: "production",
   BETTER_AUTH_URL: "https://app.example.com",
   AUTH_THROTTLE_SECRET: "throttle-secret-at-least-16-chars",
   MAIL_DRIVER: "smtp",
   SMTP_HOST: "smtp.example.com",
   MAIL_FROM: "HIVE OS <noreply@example.com>",
   MAIL_BASE_URL: "https://app.example.com",
+  STORAGE_DRIVER: "s3",
+  S3_REGION: "us-east-1",
+  S3_BUCKET: "hiveos",
+  S3_ACCESS_KEY_ID: "key",
+  S3_SECRET_ACCESS_KEY: "secret",
+  S3_SERVER_SIDE_ENCRYPTION: "AES256",
 };
 
 describe("production rate-limit fail-closed guard (SEC-04)", () => {

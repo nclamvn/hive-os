@@ -22,7 +22,7 @@ function createAuth() {
   const env = getEnv();
   return betterAuth({
     appName: "HIVE OS",
-    secret: env.BETTER_AUTH_SECRET,
+    secret: env.BETTER_AUTH_SECRET!,
     baseURL: env.BETTER_AUTH_URL,
     database: prismaAdapter(getDb(), { provider: "postgresql" }),
     emailAndPassword: {

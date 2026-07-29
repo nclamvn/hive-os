@@ -6,7 +6,8 @@ authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
 Current state: **Local Release Candidate signed through TIP-019, with
-TIP-021A identity recovery and TIP-021B stabilization locally verified**.
+TIP-021A identity recovery, TIP-021B stabilization, and TIP-021C-A
+provider-neutral production contract locally verified**.
 Identity,
 Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
 Settings, cross-surface discovery, governed exports, and local recovery are
@@ -62,6 +63,19 @@ dedicated `hiveos_tip019_*_rehearsal` databases:
 ```bash
 npm run db:rehearse:tip019
 ```
+
+## Local production contract
+
+```bash
+npm run build
+npm run test:prod-startup
+npm run test:load-local
+docker build -t hiveos:tip-021c-a .
+```
+
+The standalone artifact runs non-root and receives configuration only at
+runtime. Local load output is observation evidence, never a production SLO.
+See [`docs/operations/LOCAL_PRODUCTION_REHEARSAL.md`](docs/operations/LOCAL_PRODUCTION_REHEARSAL.md).
 
 ## Quality commands
 

@@ -23,6 +23,10 @@ export interface S3StorageConfig {
   /** Custom endpoint for S3-compatible providers (MinIO, R2, ...). */
   endpoint?: string;
   forcePathStyle?: boolean;
+  serverSideEncryption: "AES256" | "aws:kms";
+  kmsKeyId?: string;
+  /** Deterministic test seam; production always constructs the real client. */
+  client?: Pick<S3Client, "send">;
 }
 
 /**
@@ -32,8 +36,10 @@ export interface S3StorageConfig {
  */
 export class S3ObjectStorage implements ObjectStorage {
   readonly driver = "s3";
-  private readonly client: S3Client;
+  private readonly client: Pick<S3Client, "send">;
   private readonly bucket: string;
+  private readonly serverSideEncryption: "AES256" | "aws:kms";
+  private readonly kmsKeyId: string | undefined;
 
   constructor(config: S3StorageConfig) {
     const clientConfig: S3ClientConfig = {
@@ -45,8 +51,10 @@ export class S3ObjectStorage implements ObjectStorage {
       forcePathStyle: config.forcePathStyle ?? false,
     };
     if (config.endpoint) clientConfig.endpoint = config.endpoint;
-    this.client = new S3Client(clientConfig);
+    this.client = config.client ?? new S3Client(clientConfig);
     this.bucket = config.bucket;
+    this.serverSideEncryption = config.serverSideEncryption;
+    this.kmsKeyId = config.kmsKeyId;
   }
 
   async put(
@@ -61,6 +69,11 @@ export class S3ObjectStorage implements ObjectStorage {
         Key: key,
         Body: body,
         ContentType: options?.contentType,
+        ServerSideEncryption: this.serverSideEncryption,
+        SSEKMSKeyId:
+          this.serverSideEncryption === "aws:kms"
+            ? this.kmsKeyId
+            : undefined,
       }),
     );
     return {

@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 
 import { getDb } from "@/server/db";
+import { writeOperationalEvent } from "@/server/observability/operational-log";
 
 /**
  * Append-only identity security ledger writer.
@@ -101,9 +102,12 @@ export async function recordSecurityEvent(
     // Keep authentication available, but never make a failed security-ledger
     // write invisible. Only schema-safe enum values and the error class are
     // emitted; messages can contain rejected payload values or DB details.
-    console.error("[identity-security-event] recording failed", {
-      eventType: input.eventType,
-      outcome: input.outcome,
+    writeOperationalEvent({
+      level: "error",
+      event: "identity_security_event.recording_failed",
+      outcome: "failure",
+      component: "identity",
+      correlationId: input.correlationId,
       errorType: error instanceof Error ? error.name : "UnknownError",
     });
   }

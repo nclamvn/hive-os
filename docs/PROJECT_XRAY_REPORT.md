@@ -21,11 +21,11 @@ evidence rather than another product kernel.
 
 | Item | Current snapshot |
 | --- | ---: |
-| TypeScript/TSX files | 226 |
-| TypeScript/TSX lines | 28,561 |
+| TypeScript/TSX files | 233 |
+| TypeScript/TSX lines | 29,119 |
 | Domain modules | 8 |
-| Test files | 54 |
-| Markdown documents | 72 |
+| Test files | 56 |
+| Markdown documents | 81 |
 | Prisma migrations | 13 |
 
 The eight bounded contexts are identity/workspace, mission, truth, skill,
@@ -89,6 +89,13 @@ Its final local quality evidence is recorded in
 Local closure evidence: typecheck and lint passed; 131 unit, 122 integration,
 and 74 E2E scenarios passed; the production build completed without the
 unsupported Edge Runtime warning.
+
+TIP-021C-A subsequently established a locally verified, provider-neutral
+production contract: standalone non-root container, explicit deployment
+environment, split liveness/readiness, bounded DB runtime, encrypted S3 intent,
+correlation and structured logging, maintenance mode, database/object recovery,
+local non-SLO load observation, and operations runbooks. External staging and
+all production claims remain unauthorized.
 
 ## Open obligations
 

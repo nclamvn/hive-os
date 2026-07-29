@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { parseEnv } from "@/server/env";
+import { databasePoolConfig } from "@/server/db";
 
 const validBase = {
   NODE_ENV: "test",
@@ -14,6 +15,8 @@ describe("environment schema", () => {
     expect(env.STORAGE_DRIVER).toBe("local");
     expect(env.STORAGE_LOCAL_ROOT).toBe(".storage");
     expect(env.DEMO_FIXTURES_ENABLED).toBe(false);
+    expect(env.DB_POOL_MAX).toBe(10);
+    expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
   });
 
   it("rejects a missing DATABASE_URL and names the variable", () => {
@@ -51,9 +54,73 @@ describe("environment schema", () => {
       S3_ACCESS_KEY_ID: "key",
       S3_SECRET_ACCESS_KEY: "secret",
       S3_FORCE_PATH_STYLE: "true",
+      S3_SERVER_SIDE_ENCRYPTION: "AES256",
     });
     expect(env.STORAGE_DRIVER).toBe("s3");
     expect(env.S3_FORCE_PATH_STYLE).toBe(true);
+  });
+
+  it("PRC-02 requires an explicit safe production deployment contract", () => {
+    expect(() =>
+      parseEnv({
+        ...validBase,
+        NODE_ENV: "production",
+      }),
+    ).toThrowError(/DEPLOYMENT_ENV/);
+    expect(() =>
+      parseEnv({
+        ...validBase,
+        NODE_ENV: "production",
+        DEPLOYMENT_ENV: "staging",
+      }),
+    ).toThrowError(/STORAGE_DRIVER/);
+  });
+
+  it("accepts a complete provider-neutral production contract", () => {
+    const env = parseEnv({
+      ...validBase,
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "production",
+      STORAGE_DRIVER: "s3",
+      S3_REGION: "us-east-1",
+      S3_BUCKET: "hiveos-production",
+      S3_ACCESS_KEY_ID: "key",
+      S3_SECRET_ACCESS_KEY: "secret",
+      S3_SERVER_SIDE_ENCRYPTION: "AES256",
+      AUTH_THROTTLE_SECRET: "throttle-secret-at-least-16",
+      BETTER_AUTH_URL: "https://app.example.com",
+      MAIL_DRIVER: "smtp",
+      SMTP_HOST: "smtp.example.com",
+      MAIL_FROM: "HIVE OS <noreply@example.com>",
+      MAIL_BASE_URL: "https://app.example.com",
+    });
+    expect(env.DEPLOYMENT_ENV).toBe("production");
+    expect(env.STORAGE_DRIVER).toBe("s3");
+  });
+
+  it("PRC-06 rejects unsafe database pool and timeout values", () => {
+    expect(() =>
+      parseEnv({ ...validBase, DB_POOL_MAX: "0" }),
+    ).toThrowError(/DB_POOL_MAX/);
+    expect(() =>
+      parseEnv({ ...validBase, DB_STATEMENT_TIMEOUT_MS: "999999" }),
+    ).toThrowError(/DB_STATEMENT_TIMEOUT_MS/);
+  });
+
+  it("PRC-06 applies validated database pool and timeout values", () => {
+    const env = parseEnv({
+      ...validBase,
+      DB_POOL_MAX: "12",
+      DB_CONNECTION_TIMEOUT_MS: "2500",
+      DB_IDLE_TIMEOUT_MS: "45000",
+      DB_STATEMENT_TIMEOUT_MS: "20000",
+    });
+    expect(databasePoolConfig(env)).toMatchObject({
+      max: 12,
+      connectionTimeoutMillis: 2500,
+      idleTimeoutMillis: 45000,
+      statement_timeout: 20000,
+    });
   });
 
   it("forbids demo fixtures in production", () => {

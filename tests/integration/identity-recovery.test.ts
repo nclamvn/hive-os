@@ -139,14 +139,11 @@ describe("email verification (IR-01..IR-12)", () => {
       }),
     ).resolves.toBeUndefined();
 
-    expect(error).toHaveBeenCalledWith(
-      "[identity-security-event] recording failed",
-      {
-        eventType: IdentitySecurityEventType.EMAIL_VERIFICATION_COMPLETED,
-        outcome: IdentitySecurityOutcome.SUCCESS,
-        errorType: expect.any(String),
-      },
+    expect(error).toHaveBeenCalledOnce();
+    expect(error.mock.calls[0][0]).toContain(
+      '"event":"identity_security_event.recording_failed"',
     );
+    expect(error.mock.calls[0][0]).toContain('"errorType":"Error"');
     expect(JSON.stringify(error.mock.calls)).not.toContain(
       "database connection detail",
     );
