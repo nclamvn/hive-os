@@ -20,6 +20,7 @@ import {
 export interface TruthActionResult {
   ok: boolean;
   error?: string;
+  errorCode?: string;
 }
 
 const ACCESS_LEVELS: readonly AccessLevel[] = [
@@ -37,9 +38,17 @@ function accessLevel(formData: FormData): AccessLevel {
   return ACCESS_LEVELS.includes(value) ? value : "WORKSPACE";
 }
 
-function message(error: unknown): string {
-  if (error instanceof TruthError) return `${error.code}: ${error.message}`;
-  if (error instanceof Error && "code" in error) return error.message;
+function failure(error: unknown): TruthActionResult {
+  if (error instanceof TruthError) {
+    return { ok: false, errorCode: error.code, error: error.message };
+  }
+  if (error instanceof Error && "code" in error) {
+    return {
+      ok: false,
+      errorCode: String(error.code),
+      error: error.message,
+    };
+  }
   throw error;
 }
 
@@ -60,7 +69,7 @@ async function run(
     refresh(slug);
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: message(error) };
+    return failure(error);
   }
 }
 

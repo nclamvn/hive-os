@@ -13,6 +13,9 @@ import {
   releaseMissionAction,
   type VerificationActionResult,
 } from "@/app/actions/verification";
+import { usePreferences } from "@/components/preferences/preferences-provider";
+import { localizedActionError } from "@/i18n/action-errors";
+import { useVerificationCopy } from "@/i18n/use-core-copy";
 
 const field =
   "text-body text-ink border-line focus:border-line-strong h-10 w-full min-w-0 rounded-md border bg-surface-subtle px-3 outline-none";
@@ -58,12 +61,13 @@ function Select({
   options: Option[];
   optional?: boolean;
 }) {
+  const copy = useVerificationCopy();
   return (
     <div>
       <Label htmlFor={id}>{label}</Label>
       <select id={id} name={name} required={!optional} className={field}>
         <option value="">
-          {optional ? "No linked requirement" : "Select…"}
+          {optional ? copy.common.noRequirement : copy.common.select}
         </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
@@ -88,6 +92,8 @@ function GovernedForm({
   action: (data: FormData) => Promise<VerificationActionResult>;
   children: ReactNode;
 }) {
+  const copy = useVerificationCopy();
+  const { locale } = usePreferences();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<VerificationActionResult | null>(null);
@@ -114,7 +120,7 @@ function GovernedForm({
           role={result.ok ? "status" : "alert"}
           className={`text-meta ${result.ok ? "text-success-600" : "text-danger-600"}`}
         >
-          {result.ok ? success : result.error}
+          {result.ok ? success : localizedActionError(locale, result)}
         </p>
       ) : null}
       <button
@@ -122,7 +128,7 @@ function GovernedForm({
         disabled={busy}
         className="text-body bg-navy-800 hover:bg-navy-900 inline-flex min-h-10 items-center rounded-md px-4 font-medium text-white disabled:opacity-50"
       >
-        {busy ? "Saving…" : button}
+        {busy ? copy.common.saving : button}
       </button>
     </form>
   );
@@ -177,6 +183,7 @@ export function VerificationOperationsForms({
   canReview: boolean;
   canRelease: boolean;
 }) {
+  const copy = useVerificationCopy();
   const [runId, setRunId] = useState(activeRuns[0]?.id ?? "");
   const selectedTemplate = useMemo(
     () => activeRuns.find((run) => run.id === runId)?.template ?? "",
@@ -190,25 +197,19 @@ export function VerificationOperationsForms({
           id="verification-console-title"
           className="text-section-title text-ink-strong"
         >
-          Governance console
+          {copy.console.title}
         </h2>
-        <p className="text-meta text-ink-muted mt-1">
-          Each save crosses an authorized kernel boundary and retains immutable
-          evidence.
-        </p>
+        <p className="text-meta text-ink-muted mt-1">{copy.console.hint}</p>
       </div>
       <div className="space-y-3">
         {canOperate ? (
           <>
-            <Operation
-              title="Define verification scenario"
-              note="Bind a deterministic method and expected outcome to a building Mission."
-            >
+            <Operation title={copy.scenario.title} note={copy.scenario.note}>
               {buildingMissions.length ? (
                 <GovernedForm
-                  label="Define verification scenario"
-                  button="Create scenario"
-                  success="Verification scenario created"
+                  label={copy.scenario.title}
+                  button={copy.scenario.button}
+                  success={copy.scenario.success}
                   action={(data) =>
                     createVerificationScenarioAction(slug, data)
                   }
@@ -217,20 +218,22 @@ export function VerificationOperationsForms({
                     <Select
                       id="scenario-mission"
                       name="missionId"
-                      label="Building Mission"
+                      label={copy.scenario.mission}
                       options={buildingMissions}
                     />
                     <Select
                       id="scenario-requirement"
                       name="requirementId"
-                      label="Approved requirement"
+                      label={copy.scenario.requirement}
                       options={requirements}
                       optional
                     />
                   </div>
                   <div className="grid gap-3 min-[680px]:grid-cols-[180px_1fr_220px]">
                     <div>
-                      <Label htmlFor="scenario-code">Scenario code</Label>
+                      <Label htmlFor="scenario-code">
+                        {copy.scenario.code}
+                      </Label>
                       <input
                         id="scenario-code"
                         name="code"
@@ -240,7 +243,9 @@ export function VerificationOperationsForms({
                       />
                     </div>
                     <div>
-                      <Label htmlFor="scenario-title">Title</Label>
+                      <Label htmlFor="scenario-title">
+                        {copy.scenario.name}
+                      </Label>
                       <input
                         id="scenario-title"
                         name="title"
@@ -249,7 +254,9 @@ export function VerificationOperationsForms({
                       />
                     </div>
                     <div>
-                      <Label htmlFor="scenario-kind">Kind</Label>
+                      <Label htmlFor="scenario-kind">
+                        {copy.scenario.kind}
+                      </Label>
                       <select
                         id="scenario-kind"
                         name="kind"
@@ -265,14 +272,16 @@ export function VerificationOperationsForms({
                           "OTHER",
                         ].map((kind) => (
                           <option key={kind} value={kind}>
-                            {kind.toLowerCase()}
+                            {kind}
                           </option>
                         ))}
                       </select>
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="scenario-method">Verification method</Label>
+                    <Label htmlFor="scenario-method">
+                      {copy.scenario.method}
+                    </Label>
                     <textarea
                       id="scenario-method"
                       name="method"
@@ -282,7 +291,9 @@ export function VerificationOperationsForms({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="scenario-outcome">Expected outcome</Label>
+                    <Label htmlFor="scenario-outcome">
+                      {copy.scenario.outcome}
+                    </Label>
                     <textarea
                       id="scenario-outcome"
                       name="expectedOutcome"
@@ -293,64 +304,55 @@ export function VerificationOperationsForms({
                   </div>
                   <label className="text-meta text-ink inline-flex items-center gap-2">
                     <input name="required" type="checkbox" defaultChecked />
-                    Required for release
+                    {copy.scenario.required}
                   </label>
                 </GovernedForm>
               ) : (
                 <p className="text-body text-ink-muted">
-                  No building Mission is available.
+                  {copy.scenario.empty}
                 </p>
               )}
             </Operation>
 
-            <Operation
-              title="Begin independent verification"
-              note="Consumes one completed VERIFIER attempt and atomically moves the Mission to verifying."
-            >
+            <Operation title={copy.begin.title} note={copy.begin.note}>
               {buildingMissions.length && verifierAttempts.length ? (
                 <GovernedForm
-                  label="Begin independent verification"
-                  button="Begin verification"
-                  success="Verification run begun"
+                  label={copy.begin.title}
+                  button={copy.begin.button}
+                  success={copy.begin.success}
                   action={(data) => beginVerificationRunAction(slug, data)}
                 >
                   <div className="grid gap-3 min-[680px]:grid-cols-2">
                     <Select
                       id="run-mission"
                       name="missionId"
-                      label="Building Mission"
+                      label={copy.begin.mission}
                       options={buildingMissions}
                     />
                     <Select
                       id="run-verifier"
                       name="verifierAgentRunId"
-                      label="Completed verifier attempt"
+                      label={copy.begin.attempt}
                       options={verifierAttempts}
                     />
                   </div>
                 </GovernedForm>
               ) : (
-                <p className="text-body text-ink-muted">
-                  A building Mission and an unused completed VERIFIER attempt
-                  are required.
-                </p>
+                <p className="text-body text-ink-muted">{copy.begin.empty}</p>
               )}
             </Operation>
 
-            <Operation
-              title="Import four-section Verify Report"
-              note="The JSON contract must exactly cover approved requirements and required scenarios."
-            >
+            <Operation title={copy.report.title} note={copy.report.note}>
               {activeRuns.length ? (
                 <GovernedForm
                   key={runId}
-                  label="Import Verify Report"
-                  button="Complete verification"
-                  success="Immutable Verify Report created"
+                  label={copy.report.form}
+                  button={copy.report.button}
+                  success={copy.report.success}
                   action={(data) => completeVerificationRunAction(slug, data)}
                 >
                   <div>
-                    <Label htmlFor="report-run">Active verification run</Label>
+                    <Label htmlFor="report-run">{copy.report.run}</Label>
                     <select
                       id="report-run"
                       name="verificationRunId"
@@ -366,7 +368,7 @@ export function VerificationOperationsForms({
                     </select>
                   </div>
                   <div>
-                    <Label htmlFor="verify-report">Verify Report JSON</Label>
+                    <Label htmlFor="verify-report">{copy.report.json}</Label>
                     <textarea
                       id="verify-report"
                       name="report"
@@ -378,9 +380,7 @@ export function VerificationOperationsForms({
                   </div>
                 </GovernedForm>
               ) : (
-                <p className="text-body text-ink-muted">
-                  No active verification run is awaiting a report.
-                </p>
+                <p className="text-body text-ink-muted">{copy.report.empty}</p>
               )}
             </Operation>
           </>
@@ -388,49 +388,56 @@ export function VerificationOperationsForms({
 
         {canReview ? (
           <>
-            <Operation
-              title="Record governance sign-off"
-              note="Approval and rejection are immutable human decisions; later decisions do not erase history."
-            >
+            <Operation title={copy.signoff.title} note={copy.signoff.note}>
               {reviewableReports.length ? (
                 <GovernedForm
-                  label="Record governance sign-off"
-                  button="Record sign-off"
-                  success="Governance sign-off retained"
+                  label={copy.signoff.title}
+                  button={copy.signoff.button}
+                  success={copy.signoff.success}
                   action={(data) => recordGovernanceSignoffAction(slug, data)}
                 >
                   <Select
                     id="signoff-report"
                     name="verificationReportId"
-                    label="Ready Verify Report"
+                    label={copy.signoff.report}
                     options={reviewableReports}
                   />
                   <div className="grid gap-3 min-[540px]:grid-cols-2">
                     <div>
-                      <Label htmlFor="signoff-type">Sign-off type</Label>
+                      <Label htmlFor="signoff-type">{copy.signoff.type}</Label>
                       <select
                         id="signoff-type"
                         name="signoffType"
                         className={field}
                       >
-                        <option value="VERIFICATION">Verification</option>
-                        <option value="RELEASE">Release</option>
+                        <option value="VERIFICATION">
+                          {copy.signoff.verification}
+                        </option>
+                        <option value="RELEASE">{copy.signoff.release}</option>
                       </select>
                     </div>
                     <div>
-                      <Label htmlFor="signoff-decision">Decision</Label>
+                      <Label htmlFor="signoff-decision">
+                        {copy.signoff.decision}
+                      </Label>
                       <select
                         id="signoff-decision"
                         name="decision"
                         className={field}
                       >
-                        <option value="APPROVED">Approved</option>
-                        <option value="REJECTED">Rejected</option>
+                        <option value="APPROVED">
+                          {copy.signoff.approved}
+                        </option>
+                        <option value="REJECTED">
+                          {copy.signoff.rejected}
+                        </option>
                       </select>
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="signoff-rationale">Rationale</Label>
+                    <Label htmlFor="signoff-rationale">
+                      {copy.signoff.rationale}
+                    </Label>
                     <textarea
                       id="signoff-rationale"
                       name="rationale"
@@ -441,45 +448,38 @@ export function VerificationOperationsForms({
                   </div>
                 </GovernedForm>
               ) : (
-                <p className="text-body text-ink-muted">
-                  No ready Verify Report is available.
-                </p>
+                <p className="text-body text-ink-muted">{copy.signoff.empty}</p>
               )}
             </Operation>
 
-            <Operation
-              title="Move verified Mission to review"
-              note="The kernel requires a ready report, independence when applicable, and no rejection."
-            >
+            <Operation title={copy.review.title} note={copy.review.note}>
               {verifyingMissions.length ? (
                 <GovernedForm
-                  label="Move verified Mission to review"
-                  button="Enter review"
-                  success="Mission entered governance review"
+                  label={copy.review.title}
+                  button={copy.review.button}
+                  success={copy.review.success}
                   action={(data) => moveMissionToReviewAction(slug, data)}
                 >
                   <Select
                     id="review-mission"
                     name="missionId"
-                    label="Verifying Mission"
+                    label={copy.review.mission}
                     options={verifyingMissions}
                   />
                   <div>
-                    <Label htmlFor="review-reason">Reason</Label>
+                    <Label htmlFor="review-reason">{copy.common.reason}</Label>
                     <textarea
                       id="review-reason"
                       name="reason"
                       rows={2}
                       required
-                      defaultValue="Ready Verify Report and required sign-offs accepted."
+                      defaultValue={copy.review.defaultReason}
                       className={area}
                     />
                   </div>
                 </GovernedForm>
               ) : (
-                <p className="text-body text-ink-muted">
-                  No Mission is awaiting review transition.
-                </p>
+                <p className="text-body text-ink-muted">{copy.review.empty}</p>
               )}
             </Operation>
           </>
@@ -487,45 +487,46 @@ export function VerificationOperationsForms({
 
         {canRelease ? (
           <>
-            <Operation
-              title="Authorize governed release manifest"
-              note="Select exact ClaimVersion IDs. Public release fails closed on state, provenance or evidence ceiling."
-            >
+            <Operation title={copy.authorize.title} note={copy.authorize.note}>
               {reviewMissions.length && releaseReports.length ? (
                 <GovernedForm
-                  label="Authorize governed release"
-                  button="Authorize manifest"
-                  success="Immutable release manifest authorized"
+                  label={copy.authorize.form}
+                  button={copy.authorize.button}
+                  success={copy.authorize.success}
                   action={(data) => authorizeGovernedReleaseAction(slug, data)}
                 >
                   <div className="grid gap-3 min-[680px]:grid-cols-2">
                     <Select
                       id="release-mission"
                       name="missionId"
-                      label="Mission in review"
+                      label={copy.authorize.mission}
                       options={reviewMissions}
                     />
                     <Select
                       id="release-report"
                       name="verificationReportId"
-                      label="Release-ready report"
+                      label={copy.authorize.report}
                       options={releaseReports}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="release-visibility">Visibility</Label>
+                    <Label htmlFor="release-visibility">
+                      {copy.authorize.visibility}
+                    </Label>
                     <select
                       id="release-visibility"
                       name="visibility"
                       className={field}
                     >
-                      <option value="INTERNAL">Internal</option>
-                      <option value="PUBLIC">Public</option>
+                      <option value="INTERNAL">
+                        {copy.authorize.internal}
+                      </option>
+                      <option value="PUBLIC">{copy.authorize.public}</option>
                     </select>
                   </div>
                   <div>
                     <Label htmlFor="release-claims">
-                      Exact ClaimVersion IDs · one per line
+                      {copy.authorize.claims}
                     </Label>
                     <textarea
                       id="release-claims"
@@ -537,7 +538,7 @@ export function VerificationOperationsForms({
                   <div className="grid gap-3 min-[680px]:grid-cols-2">
                     <div>
                       <Label htmlFor="release-methods">
-                        Methods · one per line
+                        {copy.authorize.methods}
                       </Label>
                       <textarea
                         id="release-methods"
@@ -549,7 +550,7 @@ export function VerificationOperationsForms({
                     </div>
                     <div>
                       <Label htmlFor="release-limitations">
-                        Limitations · one per line
+                        {copy.authorize.limitations}
                       </Label>
                       <textarea
                         id="release-limitations"
@@ -563,44 +564,41 @@ export function VerificationOperationsForms({
                 </GovernedForm>
               ) : (
                 <p className="text-body text-ink-muted">
-                  No Mission and report pair is ready for release authorization.
+                  {copy.authorize.empty}
                 </p>
               )}
             </Operation>
 
-            <Operation
-              title="Release approved Mission"
-              note="Final lifecycle transition requires an immutable approved manifest and every required runtime gate passed."
-            >
+            <Operation title={copy.release.title} note={copy.release.note}>
               {releasableMissions.length ? (
                 <GovernedForm
-                  label="Release approved Mission"
-                  button="Release Mission"
-                  success="Mission released"
+                  label={copy.release.title}
+                  button={copy.release.button}
+                  success={copy.release.success}
                   action={(data) => releaseMissionAction(slug, data)}
                 >
                   <Select
                     id="final-release-mission"
                     name="missionId"
-                    label="Manifest-authorized Mission"
+                    label={copy.release.mission}
                     options={releasableMissions}
                   />
                   <div>
-                    <Label htmlFor="release-reason">Release reason</Label>
+                    <Label htmlFor="release-reason">
+                      {copy.release.reason}
+                    </Label>
                     <textarea
                       id="release-reason"
                       name="reason"
                       rows={2}
                       required
-                      defaultValue="Approved immutable release manifest and required gates accepted."
+                      defaultValue={copy.release.defaultReason}
                       className={area}
                     />
                   </div>
                 </GovernedForm>
               ) : (
-                <p className="text-body text-ink-muted">
-                  No manifest-authorized Mission is ready.
-                </p>
+                <p className="text-body text-ink-muted">{copy.release.empty}</p>
               )}
             </Operation>
           </>

@@ -21,6 +21,7 @@ import { MissionError, transitionMission } from "@/modules/mission-kernel";
 export interface ExecutionActionResult {
   ok: boolean;
   error?: string;
+  errorCode?: string;
 }
 
 const ROLES: readonly ExecutionRole[] = ["CONTRACTOR", "BUILDER", "VERIFIER"];
@@ -29,11 +30,17 @@ function text(data: FormData, key: string) {
   return String(data.get(key) ?? "").trim();
 }
 
-function message(error: unknown): string {
+function failure(error: unknown): ExecutionActionResult {
   if (error instanceof ExecutionError || error instanceof MissionError) {
-    return `${error.code}: ${error.message}`;
+    return { ok: false, errorCode: error.code, error: error.message };
   }
-  if (error instanceof Error && "code" in error) return error.message;
+  if (error instanceof Error && "code" in error) {
+    return {
+      ok: false,
+      errorCode: String(error.code),
+      error: error.message,
+    };
+  }
   throw error;
 }
 
@@ -77,7 +84,7 @@ async function run(
     revalidatePath(`/w/${slug}/missions`);
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: message(error) };
+    return failure(error);
   }
 }
 

@@ -1,30 +1,34 @@
-import { AlertTriangle, FileCheck2, FileInput, Route, Waypoints } from "lucide-react";
+import {
+  AlertTriangle,
+  FileCheck2,
+  FileInput,
+  Route,
+  Waypoints,
+} from "lucide-react";
 
 import {
   DeviationResolutionForm,
   ExecutionOperationsForms,
 } from "@/components/execution/execution-forms";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
 import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { executionCopy } from "@/i18n/execution-copy";
+import { enumLabel, formatNumber } from "@/i18n/format";
+import { getLocale } from "@/i18n/server";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getExecutionOperationsProjection } from "@/server/execution-operations";
 
 export const dynamic = "force-dynamic";
-
-function humanize(value: string) {
-  return value
-    .toLowerCase()
-    .replaceAll("_", " ")
-    .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
-}
 
 function statusTone(status: string) {
   if (["DONE", "READY"].includes(status)) return "success" as const;
   if (["BLOCKED", "BLOCKED_DEVIATION", "NOT_READY"].includes(status)) {
     return "danger" as const;
   }
-  if (["PARTIAL", "AWAITING_REPORT"].includes(status)) return "warning" as const;
+  if (["PARTIAL", "AWAITING_REPORT"].includes(status))
+    return "warning" as const;
   if (["IN_PROGRESS", "READY_WITH_DEFERRED"].includes(status)) {
     return "info" as const;
   }
@@ -38,11 +42,13 @@ export default async function ExecutionOperationsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = executionCopy[locale];
   const execution = await getExecutionOperationsProjection(data.ctx);
 
   const missionOption = (mission: (typeof execution.missions)[number]) => ({
     id: mission.id,
-    label: `${mission.referenceCode} · ${mission.title} · ${humanize(mission.assuranceProfile)}`,
+    label: `${mission.referenceCode} · ${mission.title} · ${enumLabel(locale, mission.assuranceProfile)}`,
   });
   const approvedMissions = execution.missions
     .filter((mission) => mission.status === "APPROVED")
@@ -80,7 +86,7 @@ export default async function ExecutionOperationsPage({
     .filter(({ run }) => run.status === "AWAITING_REPORT")
     .map(({ run, tip }) => ({
       id: run.id,
-      label: `${tip.code} · attempt ${run.attemptNumber} · ${run.providerName}/${run.modelName}`,
+      label: `${tip.code} · ${copy.page.attempt} ${run.attemptNumber} · ${run.providerName}/${run.modelName}`,
     }));
   const retryRuns = execution.tips.flatMap((tip) => {
     const latest = tip.skillRuns[0]?.agentRuns[0];
@@ -88,7 +94,7 @@ export default async function ExecutionOperationsPage({
     return [
       {
         id: latest.id,
-        label: `${tip.code} · attempt ${latest.attemptNumber} · ${humanize(latest.status)}`,
+        label: `${tip.code} · ${copy.page.attempt} ${latest.attemptNumber} · ${enumLabel(locale, latest.status)}`,
       },
     ];
   });
@@ -96,41 +102,37 @@ export default async function ExecutionOperationsPage({
   return (
     <WorkspaceShell
       data={data}
-      title="Execution Operations"
-      subtitle="Provider-independent work packages and immutable Manual Bridge artifacts."
+      title={copy.page.title}
+      subtitle={copy.page.subtitle}
     >
       <div className="space-y-5">
-        <Panel className="overflow-hidden">
+        <section className="instrument-panel overflow-hidden">
           <div className="p-[var(--shell-card-padding)]">
-            <p className="text-eyebrow text-navy-700">Execution authority</p>
+            <p className="text-eyebrow text-blue-600">{copy.page.authority}</p>
             <div className="mt-1 flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-3xl">
-                <h2 className="text-page-title text-ink-strong">
-                  Move work across the human boundary without losing truth.
+                <h2 className="font-serif text-ink-strong mt-2 text-[clamp(1.7rem,3vw,3rem)] leading-[1.05] tracking-[-0.035em]">
+                  {copy.page.thesis}
                 </h2>
                 <p className="text-body text-ink-muted mt-2">
                   {execution.disclaimer}
                 </p>
               </div>
-              <StatusBadge tone="info">manual bridge</StatusBadge>
+              <StatusBadge tone="info">{copy.page.bridge}</StatusBadge>
             </div>
           </div>
           <ol
-            aria-label="Manual Bridge operating sequence"
+            aria-label={copy.page.sequenceLabel}
             className="border-line grid border-t min-[760px]:grid-cols-5"
           >
-            {[
-              ["01", "Package", "Bind scope and skill"],
-              ["02", "Instruction", "Freeze exact content"],
-              ["03", "Exchange", "Operate externally"],
-              ["04", "Report", "Import strict evidence"],
-              ["05", "Readiness", "Enter building by gate"],
-            ].map(([number, title, note]) => (
+            {copy.page.sequence.map(([number, title, note]) => (
               <li
                 key={number}
                 className="border-line flex min-w-0 gap-3 border-b p-4 last:border-b-0 min-[760px]:border-r min-[760px]:border-b-0 min-[760px]:last:border-r-0"
               >
-                <span className="text-meta text-navy-700 font-mono">{number}</span>
+                <span className="text-meta text-navy-700 font-mono">
+                  {number}
+                </span>
                 <span className="min-w-0">
                   <span className="text-body text-ink-strong block font-semibold">
                     {title}
@@ -140,20 +142,21 @@ export default async function ExecutionOperationsPage({
               </li>
             ))}
           </ol>
-        </Panel>
+          <ProvenanceRail active={2} />
+        </section>
 
         <dl className="grid grid-cols-2 gap-3 min-[760px]:grid-cols-5">
           {[
-            ["Packages", execution.counts.tips],
-            ["Awaiting", execution.counts.awaitingReports],
-            ["Reports", execution.counts.reports],
-            ["Artifacts", execution.counts.artifacts],
-            ["Open deviations", execution.counts.openDeviations],
+            [copy.page.packages, execution.counts.tips],
+            [copy.page.awaiting, execution.counts.awaitingReports],
+            [copy.page.reports, execution.counts.reports],
+            [copy.page.artifacts, execution.counts.artifacts],
+            [copy.page.openDeviations, execution.counts.openDeviations],
           ].map(([label, value]) => (
             <Panel key={label} className="p-4">
               <dt className="text-meta text-ink-muted">{label}</dt>
               <dd className="text-page-title text-ink-strong mt-1 tabular">
-                {value}
+                {formatNumber(locale, Number(value))}
               </dd>
             </Panel>
           ))}
@@ -173,19 +176,22 @@ export default async function ExecutionOperationsPage({
           />
         ) : (
           <p className="text-body text-ink-muted border-line rounded-md border p-4">
-            Your role can inspect execution evidence but cannot operate runs.
+            {copy.page.readOnly}
           </p>
         )}
 
         {execution.deviations.length ? (
           <section aria-labelledby="open-deviations-title">
             <div className="mb-3 flex items-center gap-2">
-              <AlertTriangle aria-hidden="true" className="text-danger-600 size-4" />
+              <AlertTriangle
+                aria-hidden="true"
+                className="text-danger-600 size-4"
+              />
               <h2
                 id="open-deviations-title"
                 className="text-section-title text-ink-strong"
               >
-                Open execution deviations
+                {copy.page.deviationsTitle}
               </h2>
             </div>
             <div className="space-y-3">
@@ -203,13 +209,17 @@ export default async function ExecutionOperationsPage({
                         {deviation.description}
                       </p>
                       <p className="text-meta text-ink-muted mt-3">
-                        Proposed: {deviation.proposedResolution}
+                        {copy.page.proposed}: {deviation.proposedResolution}
                       </p>
                     </div>
                     <StatusBadge
-                      tone={deviation.materiality === "MATERIAL" ? "danger" : "warning"}
+                      tone={
+                        deviation.materiality === "MATERIAL"
+                          ? "danger"
+                          : "warning"
+                      }
                     >
-                      {deviation.materiality.toLowerCase()}
+                      {enumLabel(locale, deviation.materiality)}
                     </StatusBadge>
                   </div>
                   {execution.permissions.canReview ? (
@@ -236,10 +246,10 @@ export default async function ExecutionOperationsPage({
                 id="execution-ledger-title"
                 className="text-section-title text-ink-strong"
               >
-                Immutable execution ledger
+                {copy.page.ledger}
               </h2>
             </div>
-            <span className="text-meta text-ink-muted">Newest package first</span>
+            <span className="text-meta text-ink-muted">{copy.page.newest}</span>
           </div>
 
           {execution.tips.length ? (
@@ -260,13 +270,13 @@ export default async function ExecutionOperationsPage({
                         </p>
                       </div>
                       <StatusBadge tone={statusTone(tip.status)}>
-                        {humanize(tip.status)}
+                        {enumLabel(locale, tip.status)}
                       </StatusBadge>
                     </div>
 
                     <div className="border-line mt-4 grid gap-3 border-t pt-4 min-[760px]:grid-cols-3">
                       <p className="text-meta text-ink-muted">
-                        Skill{" "}
+                        {copy.page.skill}{" "}
                         <span className="text-ink">
                           {tip.skillVersion.skill.displayName} v
                           {tip.skillVersion.semanticVersion}
@@ -277,13 +287,16 @@ export default async function ExecutionOperationsPage({
                         <span className="text-ink">{tip.mission.title}</span>
                       </p>
                       <p className="text-meta text-ink-muted">
-                        Predecessors{" "}
+                        {copy.page.predecessors}{" "}
                         <span className="text-ink">
                           {tip.predecessorEdges.length
                             ? tip.predecessorEdges
-                                .map((edge) => `${edge.predecessor.code} (${humanize(edge.predecessor.status)})`)
+                                .map(
+                                  (edge) =>
+                                    `${edge.predecessor.code} (${enumLabel(locale, edge.predecessor.status)})`,
+                                )
                                 .join(", ")
-                            : "None"}
+                            : copy.page.none}
                         </span>
                       </p>
                     </div>
@@ -294,8 +307,7 @@ export default async function ExecutionOperationsPage({
                       {tip.skillRuns[0].agentRuns.map((attempt) => {
                         const coverage = attempt.completionReport
                           ?.requirementCoverage as
-                          | { implemented?: number; total?: number }
-                          | undefined;
+                          { implemented?: number; total?: number } | undefined;
                         return (
                           <li
                             key={attempt.id}
@@ -308,23 +320,30 @@ export default async function ExecutionOperationsPage({
                                 </span>
                                 <div className="min-w-0">
                                   <p className="text-body text-ink-strong font-semibold">
-                                    {humanize(attempt.executionRole)} · {attempt.providerName}
+                                    {enumLabel(locale, attempt.executionRole)} ·{" "}
+                                    {attempt.providerName}
                                   </p>
                                   <p className="text-meta text-ink-muted">
-                                    {attempt.modelName} · {attempt.providerMode.toLowerCase().replace("_", " ")}
+                                    {attempt.modelName} ·{" "}
+                                    {attempt.providerMode
+                                      .toLowerCase()
+                                      .replace("_", " ")}
                                   </p>
                                 </div>
                               </div>
                               <StatusBadge tone={statusTone(attempt.status)}>
-                                {humanize(attempt.status)}
+                                {enumLabel(locale, attempt.status)}
                               </StatusBadge>
                             </div>
 
                             <div className="mt-4 grid gap-3 min-[900px]:grid-cols-2">
                               <details className="border-line bg-surface rounded-md border p-4">
                                 <summary className="text-body text-ink-strong flex cursor-pointer items-center gap-2 font-semibold">
-                                  <FileInput aria-hidden="true" className="size-4" />
-                                  Instruction artifact
+                                  <FileInput
+                                    aria-hidden="true"
+                                    className="size-4"
+                                  />
+                                  {copy.page.instructionArtifact}
                                 </summary>
                                 <p className="text-meta text-ink-muted mt-3 break-all font-mono">
                                   SHA-256 {attempt.inputArtifact.contentHash}
@@ -334,47 +353,70 @@ export default async function ExecutionOperationsPage({
                                 </pre>
                               </details>
 
-                              {attempt.completionReport && attempt.outputArtifact ? (
+                              {attempt.completionReport &&
+                              attempt.outputArtifact ? (
                                 <details className="border-line bg-surface rounded-md border p-4">
                                   <summary className="text-body text-ink-strong flex cursor-pointer items-center gap-2 font-semibold">
-                                    <FileCheck2 aria-hidden="true" className="size-4" />
-                                    Completion Report
+                                    <FileCheck2
+                                      aria-hidden="true"
+                                      className="size-4"
+                                    />
+                                    {copy.page.completionReport}
                                   </summary>
                                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                                    <StatusBadge tone={statusTone(attempt.completionReport.result)}>
-                                      {humanize(attempt.completionReport.result)}
+                                    <StatusBadge
+                                      tone={statusTone(
+                                        attempt.completionReport.result,
+                                      )}
+                                    >
+                                      {enumLabel(
+                                        locale,
+                                        attempt.completionReport.result,
+                                      )}
                                     </StatusBadge>
-                                    <StatusBadge tone={statusTone(attempt.completionReport.overallStatus)}>
-                                      {humanize(attempt.completionReport.overallStatus)}
+                                    <StatusBadge
+                                      tone={statusTone(
+                                        attempt.completionReport.overallStatus,
+                                      )}
+                                    >
+                                      {enumLabel(
+                                        locale,
+                                        attempt.completionReport.overallStatus,
+                                      )}
                                     </StatusBadge>
                                   </div>
                                   <p className="text-body text-ink mt-3">
                                     {attempt.completionReport.summary}
                                   </p>
                                   <p className="text-meta text-ink-muted mt-2">
-                                    Coverage {coverage?.implemented ?? 0}/{coverage?.total ?? 0}
+                                    {copy.page.coverage}{" "}
+                                    {coverage?.implemented ?? 0}/
+                                    {coverage?.total ?? 0}
                                   </p>
                                   <p className="text-meta text-ink-muted mt-2 break-all font-mono">
                                     SHA-256 {attempt.outputArtifact.contentHash}
                                   </p>
-                                  {attempt.completionReport.resourceUsageRecords.length ? (
+                                  {attempt.completionReport.resourceUsageRecords
+                                    .length ? (
                                     <ul className="text-meta text-ink-muted mt-3">
-                                      {attempt.completionReport.resourceUsageRecords.map((usage) => (
-                                        <li key={usage.id}>
-                                          {usage.metric}: {usage.quantity} {usage.unit}
-                                        </li>
-                                      ))}
+                                      {attempt.completionReport.resourceUsageRecords.map(
+                                        (usage) => (
+                                          <li key={usage.id}>
+                                            {usage.metric}: {usage.quantity}{" "}
+                                            {usage.unit}
+                                          </li>
+                                        ),
+                                      )}
                                     </ul>
                                   ) : null}
                                 </details>
                               ) : (
                                 <div className="border-line bg-surface rounded-md border p-4">
                                   <p className="text-body text-ink-strong font-semibold">
-                                    Awaiting external report
+                                    {copy.page.awaitingReport}
                                   </p>
                                   <p className="text-meta text-ink-muted mt-1">
-                                    Use the exact instruction artifact, then import
-                                    the strict Completion Report above.
+                                    {copy.page.awaitingReportHint}
                                   </p>
                                 </div>
                               )}
@@ -385,9 +427,11 @@ export default async function ExecutionOperationsPage({
                     </ol>
                   ) : (
                     <div className="border-line bg-surface-subtle border-t p-5 text-center">
-                      <p className="text-body text-ink-strong">Instruction not issued</p>
+                      <p className="text-body text-ink-strong">
+                        {copy.page.instructionNotIssued}
+                      </p>
                       <p className="text-meta text-ink-muted mt-1">
-                        This work package has no provider attempt.
+                        {copy.page.instructionNotIssuedHint}
                       </p>
                     </div>
                   )}
@@ -396,13 +440,15 @@ export default async function ExecutionOperationsPage({
             </div>
           ) : (
             <Panel className="p-8 text-center">
-              <Route aria-hidden="true" className="text-ink-faint mx-auto size-6" />
+              <Route
+                aria-hidden="true"
+                className="text-ink-faint mx-auto size-6"
+              />
               <p className="text-section-title text-ink-strong mt-3">
-                No execution work packages
+                {copy.page.empty}
               </p>
               <p className="text-body text-ink-muted mt-1">
-                Open an approved Mission for exploration, then define its first
-                bounded package.
+                {copy.page.emptyHint}
               </p>
             </Panel>
           )}

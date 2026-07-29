@@ -33,6 +33,8 @@ import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ProvenanceRail } from "@/components/ui/provenance-rail";
 import { usePreferences } from "@/components/preferences/preferences-provider";
+import type { Locale } from "@/i18n/config";
+import { enumLabel } from "@/i18n/format";
 import type { ControlRoomProjection } from "@/server/control-room";
 
 type Lens = "architecture" | "operations" | "audit";
@@ -59,234 +61,424 @@ interface SystemPlane {
   nodes: SystemNode[];
 }
 
-function createPlanes(counts: ControlRoomProjection["counts"]): SystemPlane[] {
+function createPlanes(
+  counts: ControlRoomProjection["counts"],
+  locale: Locale,
+): SystemPlane[] {
   return [
     {
       id: "mission",
-      name: "Mission",
-      purpose: "Turn intent into an approved, inspectable contract.",
+      name: ct(locale, "Mission", "Nhiệm vụ"),
+      purpose: ct(
+        locale,
+        "Turn intent into an approved, inspectable contract.",
+        "Biến ý định thành hợp đồng có thể kiểm tra và phê duyệt.",
+      ),
       nodes: [
         {
           id: "mission-intake",
           code: "MSN-00",
-          title: "Mission intake",
-          description:
+          title: ct(locale, "Mission intake", "Tiếp nhận nhiệm vụ"),
+          description: ct(
+            locale,
             "Captures a bounded objective before governed work begins.",
+            "Ghi nhận mục tiêu hữu hạn trước khi công việc được quản trị bắt đầu.",
+          ),
           authority: "Mission Kernel",
-          writes: "Mission and initial contract",
-          cannot: "Approve its own contract",
+          writes: ct(
+            locale,
+            "Mission and initial contract",
+            "Nhiệm vụ và hợp đồng ban đầu",
+          ),
+          cannot: ct(
+            locale,
+            "Approve its own contract",
+            "Tự phê duyệt hợp đồng",
+          ),
           state: "available",
           metric: String(counts.missions),
-          metricLabel: "missions",
+          metricLabel: ct(locale, "missions", "nhiệm vụ"),
           icon: <Inbox aria-hidden="true" />,
         },
         {
           id: "mission-contract",
           code: "MCT-01",
-          title: "Mission contracts",
-          description:
+          title: ct(locale, "Mission contracts", "Hợp đồng nhiệm vụ"),
+          description: ct(
+            locale,
             "Versions scope, success definitions, requirements and assurance.",
+            "Quản lý phiên bản phạm vi, định nghĩa thành công, yêu cầu và bảo chứng.",
+          ),
           authority: "Mission Kernel",
-          writes: "Immutable approved contract definitions",
-          cannot: "Change approved content silently",
+          writes: ct(
+            locale,
+            "Immutable approved contract definitions",
+            "Định nghĩa hợp đồng đã duyệt bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Change approved content silently",
+            "Âm thầm thay đổi nội dung đã duyệt",
+          ),
           state: "available",
           metric: String(counts.approvedMissions),
-          metricLabel: "approved",
+          metricLabel: ct(locale, "approved", "đã duyệt"),
           icon: <ClipboardCheck aria-hidden="true" />,
         },
         {
           id: "mission-obligations",
           code: "OBL-02",
-          title: "Obligations",
-          description:
+          title: ct(locale, "Obligations", "Nghĩa vụ"),
+          description: ct(
+            locale,
             "Derives real progress from weighted contract obligations.",
+            "Dẫn xuất tiến độ thực từ nghĩa vụ hợp đồng có trọng số.",
+          ),
           authority: "Mission Kernel",
-          writes: "Runtime obligation state",
-          cannot: "Invent progress",
+          writes: ct(
+            locale,
+            "Runtime obligation state",
+            "Trạng thái nghĩa vụ runtime",
+          ),
+          cannot: ct(locale, "Invent progress", "Bịa đặt tiến độ"),
           state: "available",
           metric: String(counts.obligations),
-          metricLabel: "obligations",
+          metricLabel: ct(locale, "obligations", "nghĩa vụ"),
           icon: <ListChecks aria-hidden="true" />,
         },
         {
           id: "mission-decisions",
           code: "DEC-03",
-          title: "Decisions",
-          description:
+          title: ct(locale, "Decisions", "Quyết định"),
+          description: ct(
+            locale,
             "Records material owner choices and governed exceptions.",
-          authority: "Human command through Mission Kernel",
-          writes: "Decision ledger",
-          cannot: "Resolve without an authorized actor",
+            "Ghi nhận lựa chọn trọng yếu của chủ sở hữu và ngoại lệ được quản trị.",
+          ),
+          authority: ct(
+            locale,
+            "Human command through Mission Kernel",
+            "Con người ra lệnh qua Mission Kernel",
+          ),
+          writes: ct(locale, "Decision ledger", "Sổ cái quyết định"),
+          cannot: ct(
+            locale,
+            "Resolve without an authorized actor",
+            "Xử lý khi thiếu người có thẩm quyền",
+          ),
           state: counts.decisionsRequired > 0 ? "attention" : "available",
           metric: String(counts.decisionsRequired),
-          metricLabel: "required",
+          metricLabel: ct(locale, "required", "cần xử lý"),
           icon: <CircleDot aria-hidden="true" />,
         },
       ],
     },
     {
       id: "truth",
-      name: "Truth",
-      purpose:
+      name: ct(locale, "Truth", "Sự thật"),
+      purpose: ct(
+        locale,
         "Preserve evidence before interpretation and retain every conflict.",
+        "Giữ bằng chứng trước diễn giải và lưu mọi xung đột.",
+      ),
       nodes: [
         {
           id: "truth-sources",
           code: "SRC-10",
-          title: "Evidence sources",
-          description:
+          title: ct(locale, "Evidence sources", "Nguồn bằng chứng"),
+          description: ct(
+            locale,
             "Identifies source independence and corroboration eligibility.",
+            "Xác định tính độc lập và điều kiện đối chứng của nguồn.",
+          ),
           authority: "Truth Kernel",
-          writes: "Workspace-scoped source registry",
-          cannot: "Corroborate by source count alone",
+          writes: ct(
+            locale,
+            "Workspace-scoped source registry",
+            "Danh mục nguồn theo workspace",
+          ),
+          cannot: ct(
+            locale,
+            "Corroborate by source count alone",
+            "Đối chứng chỉ bằng số lượng nguồn",
+          ),
           state: "available",
           metric: String(counts.evidenceSources),
-          metricLabel: "sources",
+          metricLabel: ct(locale, "sources", "nguồn"),
           icon: <FileSearch aria-hidden="true" />,
         },
         {
           id: "truth-snapshots",
           code: "SNP-11",
-          title: "Snapshots and spans",
-          description: "Binds exact text spans to immutable captured content.",
-          authority: "Truth Kernel and database triggers",
-          writes: "Append-only snapshot and span ledger",
-          cannot: "Rewrite captured evidence",
+          title: ct(locale, "Snapshots and spans", "Snapshot và đoạn trích"),
+          description: ct(
+            locale,
+            "Binds exact text spans to immutable captured content.",
+            "Gắn đoạn văn chính xác với nội dung thu thập bất biến.",
+          ),
+          authority: ct(
+            locale,
+            "Truth Kernel and database triggers",
+            "Truth Kernel và trigger cơ sở dữ liệu",
+          ),
+          writes: ct(
+            locale,
+            "Append-only snapshot and span ledger",
+            "Sổ cái snapshot và đoạn trích chỉ ghi nối tiếp",
+          ),
+          cannot: ct(
+            locale,
+            "Rewrite captured evidence",
+            "Viết lại bằng chứng đã thu thập",
+          ),
           state: "available",
           metric: `${counts.snapshots} · ${counts.evidenceSpans}`,
-          metricLabel: "snapshots · spans",
+          metricLabel: ct(locale, "snapshots · spans", "snapshot · đoạn trích"),
           icon: <Archive aria-hidden="true" />,
         },
         {
           id: "truth-claims",
           code: "CLM-12",
-          title: "Claims and disputes",
-          description:
+          title: ct(locale, "Claims and disputes", "Luận điểm và tranh chấp"),
+          description: ct(
+            locale,
             "Projects claim state from retained assertion and evidence ledgers.",
-          authority: "Deterministic Truth Kernel rules",
-          writes: "Claim versions, disputes and honest-null records",
-          cannot: "Silently choose a winner",
+            "Chiếu trạng thái luận điểm từ sổ cái khẳng định và bằng chứng được lưu giữ.",
+          ),
+          authority: ct(
+            locale,
+            "Deterministic Truth Kernel rules",
+            "Quy tắc Truth Kernel tất định",
+          ),
+          writes: ct(
+            locale,
+            "Claim versions, disputes and honest-null records",
+            "Phiên bản luận điểm, tranh chấp và bản ghi honest-null",
+          ),
+          cannot: ct(
+            locale,
+            "Silently choose a winner",
+            "Âm thầm chọn bên thắng",
+          ),
           state: counts.disputes > 0 ? "attention" : "available",
           metric: `${counts.claims} · ${counts.disputes}`,
-          metricLabel: "claims · disputes",
+          metricLabel: ct(
+            locale,
+            "claims · disputes",
+            "luận điểm · tranh chấp",
+          ),
           icon: <Braces aria-hidden="true" />,
         },
         {
           id: "truth-lineage",
           code: "LIN-13",
-          title: "Provenance",
-          description:
+          title: ct(locale, "Provenance", "Nguồn gốc"),
+          description: ct(
+            locale,
             "Connects evidence spans to every derived claim version.",
-          authority: "Append-only provenance ledger",
-          writes: "Typed lineage edges",
-          cannot: "Expose restricted fields in public projections",
+            "Nối đoạn bằng chứng với mọi phiên bản luận điểm dẫn xuất.",
+          ),
+          authority: ct(
+            locale,
+            "Append-only provenance ledger",
+            "Sổ cái nguồn gốc chỉ ghi nối tiếp",
+          ),
+          writes: ct(
+            locale,
+            "Typed lineage edges",
+            "Liên kết dòng nguồn gốc có kiểu",
+          ),
+          cannot: ct(
+            locale,
+            "Expose restricted fields in public projections",
+            "Lộ trường hạn chế trong bản chiếu công khai",
+          ),
           state: "available",
           metric: String(counts.provenanceEdges),
-          metricLabel: "edges",
+          metricLabel: ct(locale, "edges", "liên kết"),
           icon: <GitBranch aria-hidden="true" />,
         },
       ],
     },
     {
       id: "execution",
-      name: "Execution",
-      purpose: "Carry immutable instructions out and governed reports back in.",
+      name: ct(locale, "Execution", "Thực thi"),
+      purpose: ct(
+        locale,
+        "Carry immutable instructions out and governed reports back in.",
+        "Đưa chỉ dẫn bất biến ra ngoài và nhận báo cáo được quản trị trở lại.",
+      ),
       nodes: [
         {
           id: "skill-registry",
           code: "SKL-20",
-          title: "Skill registry",
-          description:
+          title: ct(locale, "Skill registry", "Danh mục kỹ năng"),
+          description: ct(
+            locale,
             "Registers immutable capability contracts and activates versions explicitly.",
+            "Đăng ký hợp đồng năng lực bất biến và kích hoạt phiên bản tường minh.",
+          ),
           authority: "Deterministic Skill Registry",
-          writes: "Skill versions and the governed active-version pointer",
-          cannot: "Execute a skill or mutate Mission and Truth state",
+          writes: ct(
+            locale,
+            "Skill versions and the governed active-version pointer",
+            "Phiên bản kỹ năng và con trỏ phiên bản hoạt động được quản trị",
+          ),
+          cannot: ct(
+            locale,
+            "Execute a skill or mutate Mission and Truth state",
+            "Thực thi kỹ năng hoặc sửa trạng thái Mission và Truth",
+          ),
           state: "available",
           metric: `${counts.activeSkills} · ${counts.skillVersions}`,
-          metricLabel: "active · versions",
+          metricLabel: ct(locale, "active · versions", "hoạt động · phiên bản"),
           icon: <Sparkles aria-hidden="true" />,
         },
         {
           id: "execution-runs",
           code: "RUN-21",
-          title: "Manual bridge",
-          description:
+          title: ct(locale, "Manual bridge", "Cầu nối thủ công"),
+          description: ct(
+            locale,
             "Retains provider-attributed attempts and appends every retry.",
+            "Lưu lần thử có quy thuộc nhà cung cấp và ghi nối tiếp mọi lần thử lại.",
+          ),
           authority: "Execution Fabric with an authorized human operator",
-          writes: "Skill runs, agent attempts and strict Completion Reports",
-          cannot: "Treat a provider claim as independent verification",
+          writes: ct(
+            locale,
+            "Skill runs, agent attempts and strict Completion Reports",
+            "Lượt kỹ năng, lần thử agent và Báo cáo hoàn thành nghiêm ngặt",
+          ),
+          cannot: ct(
+            locale,
+            "Treat a provider claim as independent verification",
+            "Coi tuyên bố nhà cung cấp là kiểm chứng độc lập",
+          ),
           state:
             counts.awaitingReports > 0 || counts.openExecutionDeviations > 0
               ? "attention"
               : "available",
           metric: `${counts.awaitingReports} · ${counts.completionReports}`,
-          metricLabel: "awaiting · reports",
+          metricLabel: ct(locale, "awaiting · reports", "đang chờ · báo cáo"),
           icon: <Activity aria-hidden="true" />,
         },
         {
           id: "execution-artifacts",
           code: "ART-22",
-          title: "Execution artifacts",
-          description: "SHA-256-addresses instructions and imported reports.",
+          title: ct(locale, "Execution artifacts", "Artifact thực thi"),
+          description: ct(
+            locale,
+            "SHA-256-addresses instructions and imported reports.",
+            "Định địa chỉ SHA-256 cho chỉ dẫn và báo cáo nhập vào.",
+          ),
           authority: "Append-only Execution Fabric ledger",
-          writes: "Immutable instruction and report artifacts",
-          cannot: "Overwrite an artifact or a prior run",
+          writes: ct(
+            locale,
+            "Immutable instruction and report artifacts",
+            "Artifact chỉ dẫn và báo cáo bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Overwrite an artifact or a prior run",
+            "Ghi đè artifact hoặc lượt chạy trước",
+          ),
           state: "available",
           metric: String(counts.executionArtifacts),
-          metricLabel: "immutable artifacts",
+          metricLabel: ct(locale, "immutable artifacts", "artifact bất biến"),
           icon: <Archive aria-hidden="true" />,
         },
       ],
     },
     {
       id: "assurance",
-      name: "Assurance",
-      purpose: "Separate technical validity from permission to release.",
+      name: ct(locale, "Assurance", "Bảo chứng"),
+      purpose: ct(
+        locale,
+        "Separate technical validity from permission to release.",
+        "Tách tính hợp lệ kỹ thuật khỏi quyền phát hành.",
+      ),
       nodes: [
         {
           id: "assurance-gates",
           code: "GAT-30",
-          title: "Mission gates",
-          description: "Retains PASS, FAIL and INCOMPLETE as distinct results.",
+          title: ct(locale, "Mission gates", "Cổng nhiệm vụ"),
+          description: ct(
+            locale,
+            "Retains PASS, FAIL and INCOMPLETE as distinct results.",
+            "Giữ PASS, FAIL và INCOMPLETE là các kết quả riêng biệt.",
+          ),
           authority: "Mission Kernel",
-          writes: "Append-only gate runs",
-          cannot: "Treat INCOMPLETE as PASS",
+          writes: ct(
+            locale,
+            "Append-only gate runs",
+            "Lượt cổng chỉ ghi nối tiếp",
+          ),
+          cannot: ct(
+            locale,
+            "Treat INCOMPLETE as PASS",
+            "Coi INCOMPLETE là PASS",
+          ),
           state: "available",
           metric: `${counts.passedGates} · ${counts.runtimeGates}`,
-          metricLabel: "passed · total",
+          metricLabel: ct(locale, "passed · total", "đạt · tổng"),
           icon: <CheckCircle2 aria-hidden="true" />,
         },
         {
           id: "verification",
           code: "VER-31",
-          title: "Verification",
-          description:
+          title: ct(locale, "Verification", "Kiểm chứng"),
+          description: ct(
+            locale,
             "Binds exact coverage, required scenarios, technical health and corruption tests.",
+            "Gắn độ phủ chính xác, kịch bản bắt buộc, sức khỏe kỹ thuật và kiểm tra sai hỏng.",
+          ),
           authority: "Deterministic Verification Governance Kernel",
-          writes: "Immutable Verify Reports and verifier independence records",
-          cannot: "Convert deferred or incomplete evidence into a pass",
+          writes: ct(
+            locale,
+            "Immutable Verify Reports and verifier independence records",
+            "Báo cáo kiểm chứng bất biến và hồ sơ độc lập của người kiểm chứng",
+          ),
+          cannot: ct(
+            locale,
+            "Convert deferred or incomplete evidence into a pass",
+            "Biến bằng chứng hoãn lại hoặc chưa hoàn tất thành đạt",
+          ),
           state:
             counts.activeVerificationRuns > 0 ||
             counts.notReadyVerificationReports > 0
               ? "attention"
               : "available",
           metric: `${counts.verificationReports} · ${counts.verificationScenarios}`,
-          metricLabel: "reports · scenarios",
+          metricLabel: ct(locale, "reports · scenarios", "báo cáo · kịch bản"),
           icon: <ShieldCheck aria-hidden="true" />,
         },
         {
           id: "release-governance",
           code: "RLS-32",
-          title: "Release governance",
-          description:
+          title: ct(locale, "Release governance", "Quản trị phát hành"),
+          description: ct(
+            locale,
             "Freezes exact claims, artifacts, methods, limits and human approvals.",
+            "Đóng băng luận điểm, artifact, phương pháp, giới hạn và phê duyệt của con người.",
+          ),
           authority: "Verification Governance Kernel and authorized approvers",
-          writes:
+          writes: ct(
+            locale,
             "Evidence ceilings, sign-offs and immutable release manifests",
-          cannot: "Expose a public projection before governed release",
+            "Trần bằng chứng, phê duyệt và manifest phát hành bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Expose a public projection before governed release",
+            "Công khai bản chiếu trước phát hành được quản trị",
+          ),
           state: "available",
           metric: `${counts.governedReleases} · ${counts.releaseManifests}`,
-          metricLabel: "releases · manifests",
+          metricLabel: ct(
+            locale,
+            "releases · manifests",
+            "phát hành · manifest",
+          ),
           icon: <Network aria-hidden="true" />,
         },
       ],
@@ -303,10 +495,10 @@ export function ControlRoom({
   basePath: string;
   initialCommandOpen?: boolean;
 }) {
-  const { t } = usePreferences();
+  const { t, locale } = usePreferences();
   const planes = useMemo(
-    () => createPlanes(projection.counts),
-    [projection.counts],
+    () => createPlanes(projection.counts, locale),
+    [locale, projection.counts],
   );
   const nodes = useMemo(() => planes.flatMap((plane) => plane.nodes), [planes]);
   const [lens, setLens] = useState<Lens>("architecture");
@@ -370,7 +562,11 @@ export function ControlRoom({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           role="tablist"
-          aria-label="Control Room lens"
+          aria-label={ct(
+            locale,
+            "Control Room lens",
+            "Góc nhìn Phòng điều hành",
+          )}
           className="border-line bg-surface inline-flex rounded-md border p-1"
         >
           {(["architecture", "operations", "audit"] as const).map((item) => (
@@ -436,6 +632,7 @@ function ArchitectureLens({
   selected: SystemNode;
   onSelect: (id: string) => void;
 }) {
+  const { locale } = usePreferences();
   return (
     <Panel className="overflow-hidden">
       <div
@@ -454,7 +651,8 @@ function ArchitectureLens({
               >
                 <div>
                   <p className="text-meta text-ink-muted tabular">
-                    PLANE {String(index).padStart(2, "0")}
+                    {ct(locale, "PLANE", "LỚP")}{" "}
+                    {String(index).padStart(2, "0")}
                   </p>
                   <h3
                     id={`plane-${plane.id}`}
@@ -527,25 +725,37 @@ function SystemNodeButton({
 }
 
 function NodeState({ state }: { state: NodeState }) {
+  const { locale } = usePreferences();
   const tone =
     state === "attention"
       ? "warning"
       : state === "planned"
         ? "neutral"
         : "success";
-  return <StatusBadge tone={tone}>{state}</StatusBadge>;
+  return (
+    <StatusBadge tone={tone}>
+      {state === "attention"
+        ? ct(locale, "attention", "cần chú ý")
+        : state === "planned"
+          ? ct(locale, "planned", "dự kiến")
+          : ct(locale, "available", "sẵn sàng")}
+    </StatusBadge>
+  );
 }
 
 function NodeInspector({ node }: { node: SystemNode }) {
+  const { locale } = usePreferences();
   return (
     <aside
-      aria-label="Context inspector"
+      aria-label={ct(locale, "Context inspector", "Bộ kiểm tra ngữ cảnh")}
       aria-live="polite"
       className="border-line bg-surface-subtle border-t p-5 min-[1180px]:border-t-0 min-[1180px]:border-l"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-eyebrow text-ink-muted">Context inspector</p>
+          <p className="text-eyebrow text-ink-muted">
+            {ct(locale, "Context inspector", "Bộ kiểm tra ngữ cảnh")}
+          </p>
           <p className="text-meta text-navy-700 tabular mt-4">{node.code}</p>
           <h3 className="text-page-title text-ink-strong mt-1">{node.title}</h3>
         </div>
@@ -554,13 +764,21 @@ function NodeInspector({ node }: { node: SystemNode }) {
       <p className="text-body text-ink-muted mt-3">{node.description}</p>
 
       <dl className="border-line mt-5 divide-y border-y">
-        <InspectorRow label="Authority" value={node.authority} />
-        <InspectorRow label="Writes" value={node.writes} />
-        <InspectorRow label="Cannot" value={node.cannot} />
+        <InspectorRow
+          label={ct(locale, "Authority", "Thẩm quyền")}
+          value={node.authority}
+        />
+        <InspectorRow label={ct(locale, "Writes", "Ghi")} value={node.writes} />
+        <InspectorRow
+          label={ct(locale, "Cannot", "Không thể")}
+          value={node.cannot}
+        />
       </dl>
 
       <div className="border-line bg-surface mt-5 rounded-md border p-4">
-        <p className="text-eyebrow text-ink-muted">Current projection</p>
+        <p className="text-eyebrow text-ink-muted">
+          {ct(locale, "Current projection", "Bản chiếu hiện tại")}
+        </p>
         <p className="text-ink-strong tabular mt-2 text-2xl font-semibold">
           {node.metric}
         </p>
@@ -569,8 +787,11 @@ function NodeInspector({ node }: { node: SystemNode }) {
 
       {node.state === "planned" ? (
         <p className="text-meta text-ink-muted mt-4">
-          This boundary is visible for architectural continuity. It performs no
-          work in the current build.
+          {ct(
+            locale,
+            "This boundary is visible for architectural continuity. It performs no work in the current build.",
+            "Ranh giới này được hiển thị để bảo toàn tính liên tục kiến trúc. Nó không thực hiện công việc trong bản dựng hiện tại.",
+          )}
         </p>
       ) : null}
     </aside>
@@ -593,13 +814,29 @@ function OperationsLens({
   projection: ControlRoomProjection;
   basePath: string;
 }) {
+  const { locale } = usePreferences();
   const metrics = [
-    ["Missions", projection.counts.missions],
-    ["Exploring", projection.counts.exploringMissions],
-    ["Execution TIPs", projection.counts.executionTips],
-    ["Reports waiting", projection.counts.awaitingReports],
-    ["Verify Reports", projection.counts.verificationReports],
-    ["Governed releases", projection.counts.governedReleases],
+    [ct(locale, "Missions", "Nhiệm vụ"), projection.counts.missions],
+    [
+      ct(locale, "Exploring", "Đang khảo sát"),
+      projection.counts.exploringMissions,
+    ],
+    [
+      ct(locale, "Execution TIPs", "TIP thực thi"),
+      projection.counts.executionTips,
+    ],
+    [
+      ct(locale, "Reports waiting", "Báo cáo đang chờ"),
+      projection.counts.awaitingReports,
+    ],
+    [
+      ct(locale, "Verify Reports", "Báo cáo kiểm chứng"),
+      projection.counts.verificationReports,
+    ],
+    [
+      ct(locale, "Governed releases", "Bản phát hành được quản trị"),
+      projection.counts.governedReleases,
+    ],
   ] as const;
 
   return (
@@ -612,7 +849,7 @@ function OperationsLens({
       <div className="min-w-0 space-y-5">
         <section
           className="grid grid-cols-2 gap-3 min-[700px]:grid-cols-3 min-[1180px]:grid-cols-6"
-          aria-label="Operational counts"
+          aria-label={ct(locale, "Operational counts", "Số liệu vận hành")}
         >
           {metrics.map(([label, value]) => (
             <Panel key={label} className="p-4">
@@ -633,16 +870,28 @@ function OperationsLens({
         <Panel>
           <div className="border-line border-b px-5 py-4">
             <h3 className="text-section-title text-ink-strong">
-              Recent missions
+              {ct(locale, "Recent missions", "Nhiệm vụ gần đây")}
             </h3>
             <p className="text-meta text-ink-muted mt-0.5">
-              Ordered by authoritative update time
+              {ct(
+                locale,
+                "Ordered by authoritative update time",
+                "Sắp theo thời điểm cập nhật có thẩm quyền",
+              )}
             </p>
           </div>
           {projection.recentMissions.length === 0 ? (
             <EmptyState
-              title="No missions in this workspace"
-              hint="Create a mission from the Dashboard."
+              title={ct(
+                locale,
+                "No missions in this workspace",
+                "Workspace chưa có nhiệm vụ",
+              )}
+              hint={ct(
+                locale,
+                "Create a mission from the Dashboard.",
+                "Tạo nhiệm vụ từ trang Tổng quan.",
+              )}
             />
           ) : (
             <ul>
@@ -660,12 +909,12 @@ function OperationsLens({
                     </Link>
                     <span className="text-meta text-ink-muted tabular">
                       {mission.referenceCode} ·{" "}
-                      {mission.assuranceProfile.toLowerCase()}
+                      {enumLabel(locale, mission.assuranceProfile)}
                     </span>
                   </span>
                   <span className="flex items-center gap-3">
                     <StatusBadge tone="neutral">
-                      {mission.status.toLowerCase()}
+                      {enumLabel(locale, mission.status)}
                     </StatusBadge>
                     <span className="text-meta text-ink-muted tabular">
                       {mission.updatedAt.slice(0, 10)}
@@ -681,16 +930,28 @@ function OperationsLens({
       <Panel className="self-start">
         <div className="border-line border-b px-5 py-4">
           <h3 className="text-section-title text-ink-strong">
-            Attention signals
+            {ct(locale, "Attention signals", "Tín hiệu cần chú ý")}
           </h3>
           <p className="text-meta text-ink-muted mt-0.5">
-            Derived from governed unresolved records
+            {ct(
+              locale,
+              "Derived from governed unresolved records",
+              "Dẫn xuất từ hồ sơ được quản trị chưa xử lý",
+            )}
           </p>
         </div>
         {projection.signals.length === 0 ? (
           <EmptyState
-            title="No unresolved signals"
-            hint="No decision, dispute, escalation or review is currently due."
+            title={ct(
+              locale,
+              "No unresolved signals",
+              "Không có tín hiệu chưa xử lý",
+            )}
+            hint={ct(
+              locale,
+              "No decision, dispute, escalation or review is currently due.",
+              "Hiện không có quyết định, tranh chấp, chuyển cấp hoặc rà soát đến hạn.",
+            )}
           />
         ) : (
           <ul>
@@ -719,23 +980,28 @@ function VerificationPanel({
   verification: ControlRoomProjection["verification"];
   counts: ControlRoomProjection["counts"];
 }) {
+  const { locale } = usePreferences();
   const sequence = [
     [
       "01",
-      "Requirement coverage",
-      `${counts.verificationScenarios} governed scenarios`,
+      ct(locale, "Requirement coverage", "Độ phủ yêu cầu"),
+      `${counts.verificationScenarios} ${ct(locale, "governed scenarios", "kịch bản được quản trị")}`,
     ],
     [
       "02",
-      "Scenario results",
-      `${counts.verificationReports} immutable reports`,
+      ct(locale, "Scenario results", "Kết quả kịch bản"),
+      `${counts.verificationReports} ${ct(locale, "immutable reports", "báo cáo bất biến")}`,
     ],
     [
       "03",
-      "Technical health",
-      `${counts.notReadyVerificationReports} not ready`,
+      ct(locale, "Technical health", "Sức khỏe kỹ thuật"),
+      `${counts.notReadyVerificationReports} ${ct(locale, "not ready", "chưa sẵn sàng")}`,
     ],
-    ["04", "Release ceiling", `${counts.releaseManifests} frozen manifests`],
+    [
+      "04",
+      ct(locale, "Release ceiling", "Trần phát hành"),
+      `${counts.releaseManifests} ${ct(locale, "frozen manifests", "manifest đã đóng băng")}`,
+    ],
   ] as const;
 
   return (
@@ -743,15 +1009,21 @@ function VerificationPanel({
       <div className="border-line flex flex-col gap-3 border-b px-5 py-4 min-[700px]:flex-row min-[700px]:items-start min-[700px]:justify-between">
         <div>
           <p className="text-eyebrow text-navy-700">
-            Independent assurance corridor
+            {ct(
+              locale,
+              "Independent assurance corridor",
+              "Hành lang bảo chứng độc lập",
+            )}
           </p>
           <h3 className="text-section-title text-ink-strong mt-1">
-            Verify before release
+            {ct(locale, "Verify before release", "Kiểm chứng trước phát hành")}
           </h3>
           <p className="text-meta text-ink-muted mt-1 max-w-2xl">
-            A provider result becomes release-eligible only after exact
-            coverage, independent review, corruption checks and an explicit
-            evidence ceiling.
+            {ct(
+              locale,
+              "A provider result becomes release-eligible only after exact coverage, independent review, corruption checks and an explicit evidence ceiling.",
+              "Kết quả nhà cung cấp chỉ đủ điều kiện phát hành sau độ phủ chính xác, rà soát độc lập, kiểm tra sai hỏng và trần bằng chứng tường minh.",
+            )}
           </p>
         </div>
         <StatusBadge
@@ -762,12 +1034,16 @@ function VerificationPanel({
               : "success"
           }
         >
-          governed
+          {ct(locale, "governed", "được quản trị")}
         </StatusBadge>
       </div>
 
       <ol
-        aria-label="Verification governance sequence"
+        aria-label={ct(
+          locale,
+          "Verification governance sequence",
+          "Trình tự quản trị kiểm chứng",
+        )}
         className="border-line bg-surface-subtle grid grid-cols-1 border-b min-[720px]:grid-cols-4"
       >
         {sequence.map(([code, label, detail], index) => (
@@ -794,13 +1070,21 @@ function VerificationPanel({
             id="recent-verify-reports"
             className="text-body text-ink-strong font-semibold"
           >
-            Recent Verify Reports
+            {ct(locale, "Recent Verify Reports", "Báo cáo kiểm chứng gần đây")}
           </h4>
         </div>
         {verification.recentReports.length === 0 ? (
           <EmptyState
-            title="No Verify Reports yet"
-            hint="Reports appear only after a governed verifier run is completed."
+            title={ct(
+              locale,
+              "No Verify Reports yet",
+              "Chưa có Báo cáo kiểm chứng",
+            )}
+            hint={ct(
+              locale,
+              "Reports appear only after a governed verifier run is completed.",
+              "Báo cáo chỉ xuất hiện sau khi hoàn tất lượt kiểm chứng được quản trị.",
+            )}
           />
         ) : (
           <ul>
@@ -815,9 +1099,7 @@ function VerificationPanel({
                   </span>
                   <span className="text-meta text-ink-muted tabular block">
                     {report.missionReferenceCode} ·{" "}
-                    {report.independenceStatus
-                      .toLowerCase()
-                      .replaceAll("_", " ")}
+                    {enumLabel(locale, report.independenceStatus)}
                     {" · "}
                     {report.contentHash.slice(0, 12)}
                   </span>
@@ -832,7 +1114,7 @@ function VerificationPanel({
                           : "success"
                     }
                   >
-                    {report.overallStatus.toLowerCase().replaceAll("_", " ")}
+                    {enumLabel(locale, report.overallStatus)}
                   </StatusBadge>
                   <StatusBadge
                     tone={
@@ -843,7 +1125,8 @@ function VerificationPanel({
                         : "warning"
                     }
                   >
-                    {report.corruptionResults.length} corruption
+                    {report.corruptionResults.length}{" "}
+                    {ct(locale, "corruption", "kiểm tra sai hỏng")}
                   </StatusBadge>
                 </span>
               </li>
@@ -860,11 +1143,14 @@ function ManualBridgePanel({
 }: {
   execution: ControlRoomProjection["execution"];
 }) {
+  const { locale } = usePreferences();
   return (
     <Panel className="overflow-hidden">
       <div className="border-line flex flex-col gap-3 border-b px-5 py-4 min-[700px]:flex-row min-[700px]:items-start min-[700px]:justify-between">
         <div>
-          <p className="text-eyebrow text-navy-700">Execution handoff</p>
+          <p className="text-eyebrow text-navy-700">
+            {ct(locale, "Execution handoff", "Bàn giao thực thi")}
+          </p>
           <h3 className="text-section-title text-ink-strong mt-1">
             Manual Provider Bridge
           </h3>
@@ -878,25 +1164,41 @@ function ManualBridgePanel({
       </div>
 
       <div
-        aria-label="Manual Bridge sequence"
+        aria-label={ct(
+          locale,
+          "Manual Bridge sequence",
+          "Trình tự Manual Bridge",
+        )}
         className="border-line bg-surface-subtle grid grid-cols-1 border-b min-[720px]:grid-cols-[1fr_auto_1fr_auto_1fr]"
       >
         <BridgeStep
           code="01"
-          label="Instruction"
-          detail="Immutable SHA-256 artifact"
+          label={ct(locale, "Instruction", "Chỉ dẫn")}
+          detail={ct(
+            locale,
+            "Immutable SHA-256 artifact",
+            "Artifact SHA-256 bất biến",
+          )}
         />
         <BridgeArrow />
         <BridgeStep
           code="02"
-          label="External operator"
-          detail="Provider and model attributed"
+          label={ct(locale, "External operator", "Người vận hành bên ngoài")}
+          detail={ct(
+            locale,
+            "Provider and model attributed",
+            "Có quy thuộc nhà cung cấp và mô hình",
+          )}
         />
         <BridgeArrow />
         <BridgeStep
           code="03"
-          label="Completion Report"
-          detail="Strict schema import"
+          label={ct(locale, "Completion Report", "Báo cáo hoàn thành")}
+          detail={ct(
+            locale,
+            "Strict schema import",
+            "Nhập theo schema nghiêm ngặt",
+          )}
         />
       </div>
 
@@ -907,13 +1209,21 @@ function ManualBridgePanel({
               id="recent-execution-tips"
               className="text-body text-ink-strong font-semibold"
             >
-              Recent execution TIPs
+              {ct(locale, "Recent execution TIPs", "TIP thực thi gần đây")}
             </h4>
           </div>
           {execution.recentTips.length === 0 ? (
             <EmptyState
-              title="No execution TIPs yet"
-              hint="Execution starts only after a Mission enters exploration."
+              title={ct(
+                locale,
+                "No execution TIPs yet",
+                "Chưa có TIP thực thi",
+              )}
+              hint={ct(
+                locale,
+                "Execution starts only after a Mission enters exploration.",
+                "Thực thi chỉ bắt đầu sau khi nhiệm vụ vào giai đoạn khảo sát.",
+              )}
             />
           ) : (
             <ul>
@@ -929,8 +1239,8 @@ function ManualBridgePanel({
                     <span className="text-meta text-ink-muted tabular">
                       {tip.missionReferenceCode} · {tip.code}
                       {tip.latestAttempt
-                        ? ` · attempt ${tip.latestAttempt} · ${tip.latestRole?.toLowerCase()}`
-                        : " · not issued"}
+                        ? ` · ${ct(locale, "attempt", "lần thử")} ${tip.latestAttempt} · ${enumLabel(locale, tip.latestRole ?? "")}`
+                        : ` · ${ct(locale, "not issued", "chưa phát hành")}`}
                     </span>
                   </span>
                   <StatusBadge
@@ -944,7 +1254,7 @@ function ManualBridgePanel({
                           : "neutral"
                     }
                   >
-                    {tip.status.toLowerCase().replace("_", " ")}
+                    {enumLabel(locale, tip.status)}
                   </StatusBadge>
                 </li>
               ))}
@@ -961,13 +1271,21 @@ function ManualBridgePanel({
               id="execution-deviations"
               className="text-body text-ink-strong font-semibold"
             >
-              Deviation gate
+              {ct(locale, "Deviation gate", "Cổng sai lệch")}
             </h4>
           </div>
           {execution.openDeviations.length === 0 ? (
             <EmptyState
-              title="No open deviations"
-              hint="Dependent TIPs are not deviation-blocked."
+              title={ct(
+                locale,
+                "No open deviations",
+                "Không có sai lệch đang mở",
+              )}
+              hint={ct(
+                locale,
+                "Dependent TIPs are not deviation-blocked.",
+                "TIP phụ thuộc không bị chặn bởi sai lệch.",
+              )}
             />
           ) : (
             <ul>
@@ -987,7 +1305,7 @@ function ManualBridgePanel({
                           : "warning"
                       }
                     >
-                      {deviation.materiality.toLowerCase()}
+                      {enumLabel(locale, deviation.materiality)}
                     </StatusBadge>
                   </span>
                   <span className="text-meta text-ink-muted tabular mt-1 block">
@@ -1033,6 +1351,7 @@ function BridgeArrow() {
 }
 
 function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
+  const { locale } = usePreferences();
   return (
     <Panel
       id="control-audit"
@@ -1042,19 +1361,37 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
     >
       <div className="border-line border-b px-5 py-4">
         <h3 className="text-section-title text-ink-strong">
-          Governed event ledger
+          {ct(locale, "Governed event ledger", "Sổ cái sự kiện được quản trị")}
         </h3>
         <p className="text-meta text-ink-muted mt-0.5">
-          Recent immutable events visible to your role
+          {ct(
+            locale,
+            "Recent immutable events visible to your role",
+            "Sự kiện bất biến gần đây mà vai trò của bạn được phép xem",
+          )}
         </p>
       </div>
       {!audit.allowed ? (
         <EmptyState
-          title="Audit access is restricted"
-          hint="Only workspace owners and administrators can read the audit ledger."
+          title={ct(
+            locale,
+            "Audit access is restricted",
+            "Quyền truy cập kiểm toán bị hạn chế",
+          )}
+          hint={ct(
+            locale,
+            "Only workspace owners and administrators can read the audit ledger.",
+            "Chỉ chủ sở hữu và quản trị viên workspace có thể đọc sổ cái kiểm toán.",
+          )}
         />
       ) : audit.events.length === 0 ? (
-        <EmptyState title="No governed events recorded" />
+        <EmptyState
+          title={ct(
+            locale,
+            "No governed events recorded",
+            "Chưa ghi nhận sự kiện được quản trị",
+          )}
+        />
       ) : (
         <ul>
           {audit.events.map((event) => (
@@ -1064,7 +1401,7 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
             >
               <span className="min-w-0">
                 <span className="text-body text-ink block font-medium">
-                  {humanize(event.eventType)}
+                  {enumLabel(locale, event.eventType)}
                 </span>
                 <span className="text-meta text-ink-muted tabular block truncate">
                   {event.entityType} · {event.entityId}
@@ -1104,6 +1441,7 @@ function CommandDialog({
   onSelectNode: (id: string) => void;
   returnFocusRef: RefObject<HTMLButtonElement | null>;
 }) {
+  const { locale } = usePreferences();
   const [query, setQuery] = useState("");
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -1164,14 +1502,22 @@ function CommandDialog({
         type="button"
         className="absolute inset-0 bg-navy-900/25"
         onClick={onClose}
-        aria-label="Close object finder"
+        aria-label={ct(
+          locale,
+          "Close object finder",
+          "Đóng trình tìm đối tượng",
+        )}
         tabIndex={-1}
       />
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Find governed objects"
+        aria-label={ct(
+          locale,
+          "Find governed objects",
+          "Tìm đối tượng được quản trị",
+        )}
         className="border-line bg-surface relative z-10 flex max-h-[75vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border shadow-panel"
       >
         <div className="border-line flex min-w-0 items-center gap-3 border-b px-4">
@@ -1180,7 +1526,7 @@ function CommandDialog({
             aria-hidden="true"
           />
           <label htmlFor="control-search" className="sr-only">
-            Find governed objects
+            {ct(locale, "Find governed objects", "Tìm đối tượng được quản trị")}
           </label>
           <div className="relative h-14 min-w-0 flex-1">
             <input
@@ -1199,7 +1545,11 @@ function CommandDialog({
                   data-testid="control-search-placeholder"
                   className="block min-w-0 truncate whitespace-nowrap"
                 >
-                  Search modules, missions or governed records
+                  {ct(
+                    locale,
+                    "Search modules, missions or governed records",
+                    "Tìm mô-đun, nhiệm vụ hoặc hồ sơ được quản trị",
+                  )}
                 </span>
               </span>
             ) : null}
@@ -1207,7 +1557,11 @@ function CommandDialog({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close object finder"
+            aria-label={ct(
+              locale,
+              "Close object finder",
+              "Đóng trình tìm đối tượng",
+            )}
             className="text-ink-muted hover:bg-surface-subtle flex size-9 shrink-0 items-center justify-center rounded-md"
           >
             <X className="size-4" aria-hidden="true" />
@@ -1217,11 +1571,19 @@ function CommandDialog({
           {filteredNodes.length === 0 &&
           filteredMissions.length === 0 &&
           filteredObjects.length === 0 ? (
-            <EmptyState title="No matching governed objects" />
+            <EmptyState
+              title={ct(
+                locale,
+                "No matching governed objects",
+                "Không có đối tượng phù hợp",
+              )}
+            />
           ) : (
             <>
               {filteredNodes.length > 0 ? (
-                <SearchGroup title="System map">
+                <SearchGroup
+                  title={ct(locale, "System map", "Bản đồ hệ thống")}
+                >
                   {filteredNodes.map((node) => (
                     <button
                       key={node.id}
@@ -1246,7 +1608,9 @@ function CommandDialog({
                 </SearchGroup>
               ) : null}
               {filteredMissions.length > 0 ? (
-                <SearchGroup title="Recent missions">
+                <SearchGroup
+                  title={ct(locale, "Recent missions", "Nhiệm vụ gần đây")}
+                >
                   {filteredMissions.map((mission) => (
                     <Link
                       key={mission.id}
@@ -1271,7 +1635,9 @@ function CommandDialog({
                 </SearchGroup>
               ) : null}
               {filteredObjects.length > 0 ? (
-                <SearchGroup title="Governed records">
+                <SearchGroup
+                  title={ct(locale, "Governed records", "Hồ sơ được quản trị")}
+                >
                   {filteredObjects.map((object) => (
                     <Link
                       key={`${object.kind}-${object.id}`}
@@ -1288,8 +1654,8 @@ function CommandDialog({
                           {object.title}
                         </span>
                         <span className="text-meta text-ink-muted tabular block truncate">
-                          {humanize(object.kind)} · {object.code} ·{" "}
-                          {humanize(object.status)}
+                          {enumLabel(locale, object.kind)} · {object.code} ·{" "}
+                          {enumLabel(locale, object.status)}
                         </span>
                       </span>
                     </Link>
@@ -1319,11 +1685,8 @@ function SearchGroup({
   );
 }
 
-function humanize(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[._]/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+function ct(locale: Locale, en: string, vi: string): string {
+  return locale === "vi" ? vi : en;
 }
 
 // Keeps tab activation keyboard-operable when focus is moved with arrow keys.

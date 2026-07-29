@@ -1,8 +1,15 @@
+"use client";
+
+import { usePreferences } from "@/components/preferences/preferences-provider";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { enumLabel } from "@/i18n/format";
 
 // Map mission status to a semantic tone. Text label always present so state is
 // never communicated by color alone.
-const TONE: Record<string, "neutral" | "success" | "warning" | "danger" | "info"> = {
+const TONE: Record<
+  string,
+  "neutral" | "success" | "warning" | "danger" | "info"
+> = {
   DRAFT: "neutral",
   INTAKE: "neutral",
   SCOPED: "neutral",
@@ -20,14 +27,11 @@ const TONE: Record<string, "neutral" | "success" | "warning" | "danger" | "info"
   ARCHIVED: "neutral",
 };
 
-function label(status: string): string {
-  return status
-    .toLowerCase()
-    .split("_")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
-
 export function MissionStatusBadge({ status }: { status: string }) {
-  return <StatusBadge tone={TONE[status] ?? "neutral"}>{label(status)}</StatusBadge>;
+  const { locale } = usePreferences();
+  return (
+    <StatusBadge tone={TONE[status] ?? "neutral"}>
+      {enumLabel(locale, status)}
+    </StatusBadge>
+  );
 }

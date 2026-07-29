@@ -3,18 +3,15 @@ import { FileCheck2, Fingerprint, ShieldCheck, TestTube2 } from "lucide-react";
 import { VerificationOperationsForms } from "@/components/verification/verification-forms";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Panel } from "@/components/ui/panel";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { enumLabel, formatNumber } from "@/i18n/format";
+import { getLocale } from "@/i18n/server";
+import { verificationCopy } from "@/i18n/verification-copy";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getVerificationOperationsProjection } from "@/server/verification-operations";
 
 export const dynamic = "force-dynamic";
-
-function humanize(value: string) {
-  return value
-    .toLowerCase()
-    .replaceAll("_", " ")
-    .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
-}
 
 function tone(status: string) {
   if (["READY", "APPROVED", "RELEASED", "PASS"].includes(status)) {
@@ -47,11 +44,13 @@ export default async function VerificationOperationsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = verificationCopy[locale];
   const verification = await getVerificationOperationsProjection(data.ctx);
 
   const missionOption = (mission: (typeof verification.missions)[number]) => ({
     id: mission.id,
-    label: `${mission.referenceCode} · ${mission.title} · ${humanize(mission.assuranceProfile)}`,
+    label: `${mission.referenceCode} · ${mission.title} · ${enumLabel(locale, mission.assuranceProfile)}`,
   });
   const buildingMissions = verification.missions
     .filter((mission) => mission.status === "BUILDING")
@@ -73,11 +72,11 @@ export default async function VerificationOperationsPage({
     .map(missionOption);
   const requirements = verification.requirements.map((requirement) => ({
     id: requirement.id,
-    label: `${requirement.code} · ${requirement.title}${requirement.required ? " · required" : ""}`,
+    label: `${requirement.code} · ${requirement.title}${requirement.required ? ` · ${copy.page.required}` : ""}`,
   }));
   const verifierAttempts = verification.verifierAttempts.map((attempt) => ({
     id: attempt.id,
-    label: `${attempt.mission.referenceCode} · ${attempt.providerName}/${attempt.modelName} · attempt ${attempt.attemptNumber}`,
+    label: `${attempt.mission.referenceCode} · ${attempt.providerName}/${attempt.modelName} · ${copy.page.attempt} ${attempt.attemptNumber}`,
   }));
   const activeRuns = verification.runs
     .filter((run) => run.status === "IN_PROGRESS")
@@ -97,7 +96,7 @@ export default async function VerificationOperationsPage({
         "REPLACE-WITH-EVIDENCE-ARTIFACT-UUID";
       return {
         id: run.id,
-        label: `${run.mission.referenceCode} · ${humanize(run.independenceStatus)}`,
+        label: `${run.mission.referenceCode} · ${enumLabel(locale, run.independenceStatus)}`,
         template: JSON.stringify(
           {
             requirementCoverage: runRequirements.map((requirement) => ({
@@ -141,51 +140,42 @@ export default async function VerificationOperationsPage({
     .filter((report) => report.overallStatus !== "NOT_READY" && !report.release)
     .map((report) => ({
       id: report.id,
-      label: `${report.mission.referenceCode} · ${humanize(report.overallStatus)} · ${humanize(report.verificationRun.independenceStatus)}`,
+      label: `${report.mission.referenceCode} · ${enumLabel(locale, report.overallStatus)} · ${enumLabel(locale, report.verificationRun.independenceStatus)}`,
     }));
   const releaseReports = verification.reports
     .filter((report) => report.mission.status === "REVIEW" && !report.release)
     .map((report) => ({
       id: report.id,
-      label: `${report.mission.referenceCode} · ${humanize(report.overallStatus)}`,
+      label: `${report.mission.referenceCode} · ${enumLabel(locale, report.overallStatus)}`,
     }));
 
   return (
     <WorkspaceShell
       data={data}
-      title="Verification Operations"
-      subtitle="Independent verification, human governance and immutable release authorization."
+      title={copy.page.title}
+      subtitle={copy.page.subtitle}
     >
       <div className="space-y-5">
-        <Panel className="overflow-hidden">
+        <section className="instrument-panel overflow-hidden">
           <div className="p-[var(--shell-card-padding)]">
-            <p className="text-eyebrow text-navy-700">Release authority</p>
+            <p className="text-eyebrow text-blue-600">{copy.page.authority}</p>
             <div className="mt-1 flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-3xl">
-                <h2 className="text-page-title text-ink-strong">
-                  Evidence becomes releasable only after it survives the gate.
+                <h2 className="font-serif text-ink-strong mt-2 text-[clamp(1.7rem,3vw,3rem)] leading-[1.05] tracking-[-0.035em]">
+                  {copy.page.thesis}
                 </h2>
                 <p className="text-body text-ink-muted mt-2">
-                  Provider output remains a claim until exact coverage,
-                  technical health, corruption resistance and authorized human
-                  sign-off converge.
+                  {copy.page.thesisHint}
                 </p>
               </div>
-              <StatusBadge tone="info">deterministic governance</StatusBadge>
+              <StatusBadge tone="info">{copy.page.badge}</StatusBadge>
             </div>
           </div>
           <ol
-            aria-label="Verification and release sequence"
+            aria-label={copy.page.sequenceLabel}
             className="border-line grid border-t min-[760px]:grid-cols-6"
           >
-            {[
-              ["01", "Scenario"],
-              ["02", "Verifier"],
-              ["03", "Report"],
-              ["04", "Sign-off"],
-              ["05", "Manifest"],
-              ["06", "Release"],
-            ].map(([number, label]) => (
+            {copy.page.sequence.map(([number, label]) => (
               <li
                 key={number}
                 className="border-line flex gap-3 border-b p-4 last:border-b-0 min-[760px]:border-r min-[760px]:border-b-0 min-[760px]:last:border-r-0"
@@ -199,21 +189,22 @@ export default async function VerificationOperationsPage({
               </li>
             ))}
           </ol>
-        </Panel>
+          <ProvenanceRail active={3} />
+        </section>
 
         <dl className="grid grid-cols-2 gap-3 min-[760px]:grid-cols-6">
           {[
-            ["Scenarios", verification.counts.scenarios],
-            ["Active runs", verification.counts.activeRuns],
-            ["Reports", verification.counts.reports],
-            ["Not ready", verification.counts.notReady],
-            ["Sign-offs", verification.counts.signoffs],
-            ["Releases", verification.counts.releases],
+            [copy.page.scenarios, verification.counts.scenarios],
+            [copy.page.activeRuns, verification.counts.activeRuns],
+            [copy.page.reports, verification.counts.reports],
+            [copy.page.notReady, verification.counts.notReady],
+            [copy.page.signoffs, verification.counts.signoffs],
+            [copy.page.releases, verification.counts.releases],
           ].map(([label, value]) => (
             <Panel key={label} className="p-4">
               <dt className="text-meta text-ink-muted">{label}</dt>
               <dd className="text-page-title text-ink-strong mt-1 tabular">
-                {value}
+                {formatNumber(locale, Number(value))}
               </dd>
             </Panel>
           ))}
@@ -242,7 +233,7 @@ export default async function VerificationOperationsPage({
               id="verification-ledger-title"
               className="text-section-title text-ink-strong"
             >
-              Verification ledger
+              {copy.page.ledger}
             </h2>
           </div>
           {verification.reports.length ? (
@@ -254,31 +245,31 @@ export default async function VerificationOperationsPage({
                       <div className="min-w-0">
                         <p className="text-meta text-ink-muted">
                           {report.mission.referenceCode} ·{" "}
-                          {humanize(report.mission.assuranceProfile)}
+                          {enumLabel(locale, report.mission.assuranceProfile)}
                         </p>
                         <h3 className="text-section-title text-ink-strong mt-1">
                           {report.mission.title}
                         </h3>
                       </div>
                       <StatusBadge tone={tone(report.overallStatus)}>
-                        {humanize(report.overallStatus)}
+                        {enumLabel(locale, report.overallStatus)}
                       </StatusBadge>
                     </div>
                     <div className="mt-4 grid gap-3 min-[680px]:grid-cols-4">
                       {[
                         [
-                          "Coverage",
+                          copy.page.coverage,
                           report.verificationRun.requirementCoverage.length,
                         ],
                         [
-                          "Scenarios",
+                          copy.page.scenarios,
                           report.verificationRun.scenarioResults.length,
                         ],
                         [
-                          "Corruption",
+                          copy.page.corruption,
                           report.verificationRun.corruptionRuns.length,
                         ],
-                        ["Sign-offs", report.signoffs.length],
+                        [copy.page.signoffs, report.signoffs.length],
                       ].map(([label, value]) => (
                         <div
                           key={label}
@@ -294,7 +285,10 @@ export default async function VerificationOperationsPage({
                     <div className="border-line mt-4 grid gap-3 border-t pt-4 min-[680px]:grid-cols-3">
                       <p className="text-meta text-ink-muted flex items-center gap-2">
                         <TestTube2 aria-hidden="true" className="size-4" />
-                        {humanize(report.verificationRun.independenceStatus)}
+                        {enumLabel(
+                          locale,
+                          report.verificationRun.independenceStatus,
+                        )}
                       </p>
                       <p className="text-meta text-ink-muted flex items-center gap-2">
                         <Fingerprint aria-hidden="true" className="size-4" />
@@ -305,8 +299,8 @@ export default async function VerificationOperationsPage({
                       <p className="text-meta text-ink-muted flex items-center gap-2">
                         <FileCheck2 aria-hidden="true" className="size-4" />
                         {report.release?.manifest
-                          ? `${humanize(report.release.visibility)} manifest`
-                          : "No release manifest"}
+                          ? `${enumLabel(locale, report.release.visibility)} ${copy.page.manifest}`
+                          : copy.page.noManifest}
                       </p>
                     </div>
                   </div>
@@ -316,11 +310,10 @@ export default async function VerificationOperationsPage({
           ) : (
             <Panel className="p-6">
               <p className="text-body text-ink-strong font-semibold">
-                No Verify Report yet
+                {copy.page.empty}
               </p>
               <p className="text-body text-ink-muted mt-1">
-                Complete execution, define required scenarios and begin an
-                independent run.
+                {copy.page.emptyHint}
               </p>
             </Panel>
           )}
