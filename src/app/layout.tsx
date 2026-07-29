@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, IBM_Plex_Mono, Literata } from "next/font/google";
+import Script from "next/script";
 
 import { FocusModality } from "@/components/focus-modality";
 import { PreferencesProvider } from "@/components/preferences/preferences-provider";
@@ -56,7 +57,11 @@ export default async function RootLayout({
       className={`${body.variable} ${display.variable} ${utility.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: appearanceBootstrap }} />
+        <Script
+          id="appearance-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: appearanceBootstrap }}
+        />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <PreferencesProvider initialLocale={locale}>
