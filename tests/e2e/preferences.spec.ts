@@ -30,9 +30,9 @@ test.describe("TIP-002A locale and appearance", () => {
     await objective.fill("Preserve this objective across a locale refresh.");
 
     await page
-      .getByTestId("sidebar-desktop")
-      .getByLabel("Language", { exact: true })
-      .selectOption("vi");
+      .getByTestId("preferences-compact")
+      .getByRole("button", { name: "Language: EN" })
+      .click();
     await expect(page.locator("html")).toHaveAttribute("lang", "vi");
     await expect(
       page.getByRole("heading", { level: 1, name: "Tổng quan" }),
@@ -42,9 +42,13 @@ test.describe("TIP-002A locale and appearance", () => {
     );
 
     await page
-      .getByTestId("sidebar-desktop")
-      .getByLabel("Giao diện", { exact: true })
-      .selectOption("dark");
+      .getByTestId("preferences-compact")
+      .getByRole("button", { name: "Giao diện: Hệ thống" })
+      .click();
+    await page
+      .getByTestId("preferences-compact")
+      .getByRole("button", { name: "Giao diện: Sáng" })
+      .click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     expect(
       await page.evaluate(() => localStorage.getItem("hive-appearance")),

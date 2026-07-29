@@ -1,9 +1,15 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Hexagon, Plus, UserRound } from "lucide-react";
+import {
+  ChevronDown,
+  Hexagon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  UserRound,
+} from "lucide-react";
 
-import { PreferencesControls } from "@/components/preferences/preferences-controls";
 import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { NAV_ITEMS } from "./navigation";
@@ -24,43 +30,69 @@ export interface SidebarContentProps {
   onNavigate?: () => void;
   /** Real authenticated identity; when absent a truthful signed-out state shows. */
   account?: SidebarAccount | null;
-  /** Rendered under the brand (workspace switcher). */
-  brandSlot?: ReactNode;
-  /** Rendered in the account footer (sign-out control). */
+  /** Rendered inside the account disclosure (sign-out control). */
   footerSlot?: ReactNode;
   /** Base path for the primary "New mission" affordance. */
   homeHref?: string;
+  /** Desktop-only control for the persistent full/icon rail state. */
+  onToggleCollapsed?: () => void;
 }
 
 export function SidebarContent({
   iconOnly = false,
   onNavigate,
   account,
-  brandSlot,
   footerSlot,
   homeHref = "#mission-composer",
+  onToggleCollapsed,
 }: SidebarContentProps) {
   const { t } = usePreferences();
   return (
     <div className="flex h-full flex-col">
       {/* Brand */}
       <div
-        className={`flex items-center gap-2 border-b border-line px-4 ${iconOnly ? "justify-center" : ""}`}
+        className={`flex items-center border-b border-line px-3 ${
+          iconOnly ? "justify-center" : "gap-2"
+        }`}
         style={{ height: "var(--shell-header)" }}
       >
-        <Hexagon className="text-navy-800 size-5 shrink-0" aria-hidden="true" />
+        {!iconOnly || !onToggleCollapsed ? (
+          <Hexagon
+            className="text-ink-strong size-5 shrink-0"
+            aria-hidden="true"
+          />
+        ) : null}
         {iconOnly ? (
           <span className="sr-only">HIVE OS</span>
         ) : (
-          <span className="text-section-title text-ink-strong tracking-tight">
+          <span className="text-section-title text-ink-strong flex-1 tracking-tight">
             HIVE OS
           </span>
         )}
+        {onToggleCollapsed ? (
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            aria-label={
+              iconOnly
+                ? t("common.expandSidebar")
+                : t("common.collapseSidebar")
+            }
+            title={
+              iconOnly
+                ? t("common.expandSidebar")
+                : t("common.collapseSidebar")
+            }
+            className="text-ink-muted hover:bg-surface-subtle hover:text-ink flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
+          >
+            {iconOnly ? (
+              <PanelLeftOpen className="size-4" aria-hidden="true" />
+            ) : (
+              <PanelLeftClose className="size-4" aria-hidden="true" />
+            )}
+          </button>
+        ) : null}
       </div>
-
-      {!iconOnly && brandSlot ? (
-        <div className="border-b border-line px-3 py-3">{brandSlot}</div>
-      ) : null}
 
       <div className="flex-1 overflow-y-auto px-3 py-4">
         {/* Primary action */}
@@ -169,32 +201,45 @@ export function SidebarContent({
         </nav>
       </div>
 
-      {/* Account footer — real identity when authenticated. */}
-      <PreferencesControls compact={iconOnly} />
+      {/* Account footer — administrative actions stay behind one disclosure. */}
       <div className="border-t border-line p-3">
-        <div
-          className={`flex items-center gap-2 rounded-md px-2 py-2 ${iconOnly ? "justify-center" : ""}`}
-        >
-          <span
-            className="border-line text-ink-faint flex size-8 shrink-0 items-center justify-center rounded-full border"
-            aria-hidden="true"
+        {iconOnly ? (
+          <div
+            className="text-ink-muted flex h-10 items-center justify-center"
+            title={account ? `${account.name} · ${account.email}` : "Account"}
           >
-            <UserRound className="size-4" />
-          </span>
-          {!iconOnly && (
-            <span className="min-w-0 flex-1">
-              <span className="text-body text-ink block truncate font-medium">
-                {account ? account.name : "Not signed in"}
-              </span>
-              <span className="text-meta text-ink-muted block truncate">
-                {account ? account.email : "Sign-in arrives in a later stage"}
-              </span>
+            <UserRound className="size-[18px]" aria-hidden="true" />
+            <span className="sr-only">
+              {account ? account.name : "Not signed in"}
             </span>
-          )}
-        </div>
-        {!iconOnly && footerSlot ? (
-          <div className="mt-1">{footerSlot}</div>
-        ) : null}
+          </div>
+        ) : (
+          <details className="group">
+            <summary className="hover:bg-surface-subtle flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-2 transition-colors [&::-webkit-details-marker]:hidden">
+              <span
+                className="border-line text-ink-faint flex size-8 shrink-0 items-center justify-center rounded-full border"
+                aria-hidden="true"
+              >
+                <UserRound className="size-4" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="text-body text-ink block truncate font-medium">
+                  {account ? account.name : "Not signed in"}
+                </span>
+                <span className="text-meta text-ink-muted block truncate">
+                  {account ? account.email : "Account unavailable"}
+                </span>
+              </span>
+              <ChevronDown
+                className="text-ink-faint size-4 shrink-0 transition-transform group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+            {footerSlot ? (
+              <div className="border-line mt-1 border-t pt-2">{footerSlot}</div>
+            ) : null}
+          </details>
+        )}
       </div>
     </div>
   );

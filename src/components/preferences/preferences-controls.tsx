@@ -23,11 +23,14 @@ export function PreferencesControls({
     const ThemeIcon =
       appearance === "dark" ? Moon : appearance === "light" ? Sun : MonitorCog;
     return (
-      <div className="flex flex-col items-center gap-2 py-2">
+      <div
+        className="flex items-center gap-1"
+        data-testid="preferences-compact"
+      >
         <button
           type="button"
           onClick={() => setLocale(nextLocale)}
-          className="instrument-control flex size-9 items-center justify-center"
+          className="text-ink-muted hover:bg-surface-subtle hover:text-ink flex size-9 items-center justify-center rounded-md transition-colors"
           aria-label={`${t("common.language")}: ${locale.toUpperCase()}`}
           title={`${t("common.language")}: ${locale.toUpperCase()}`}
         >
@@ -36,7 +39,7 @@ export function PreferencesControls({
         <button
           type="button"
           onClick={() => setAppearance(cycle[appearance])}
-          className="instrument-control flex size-9 items-center justify-center"
+          className="text-ink-muted hover:bg-surface-subtle hover:text-ink flex size-9 items-center justify-center rounded-md transition-colors"
           aria-label={`${t("common.appearance")}: ${t(`common.${appearance}`)}`}
           title={`${t("common.appearance")}: ${t(`common.${appearance}`)}`}
         >

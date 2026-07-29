@@ -39,7 +39,7 @@ export function NavItemLink({
         iconOnly ? "justify-center px-0" : "px-3"
       } ${
         active
-          ? "bg-surface-selected text-navy-900"
+          ? "bg-surface-selected text-ink-strong"
           : "text-ink-strong hover:bg-surface-subtle"
       }`}
     >

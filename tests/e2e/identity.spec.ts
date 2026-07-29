@@ -4,6 +4,13 @@ import { expect, test } from "@playwright/test";
 import { signUpToDashboard, uniqueEmail } from "./auth-helpers";
 import { E2E_BASE_URL } from "./env";
 
+async function openAccountMenu(page: import("@playwright/test").Page) {
+  await page
+    .getByTestId("sidebar-desktop")
+    .locator("details > summary")
+    .click();
+}
+
 test("ID-01 allowed sign-up creates an identity and reaches the dashboard", async ({
   page,
 }) => {
@@ -19,6 +26,7 @@ test("ID-01 allowed sign-up creates an identity and reaches the dashboard", asyn
 test("ID-03 sign-out then sign-in works", async ({ page }) => {
   const { email } = await signUpToDashboard(page);
 
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -50,13 +58,16 @@ test("ID-19 the authenticated shell shows only real user and workspace state", a
   const sidebar = page.getByTestId("sidebar-desktop");
   await expect(sidebar.getByText("E2E User")).toBeVisible();
   await expect(sidebar.getByText(email)).toBeVisible();
-  await expect(sidebar.getByText("Realtime Lab")).toBeVisible();
+  await expect(sidebar.getByText("Realtime Lab")).toBeHidden();
+  await sidebar.getByText("E2E User").click();
+  await expect(sidebar.getByRole("button", { name: "Sign out" })).toBeVisible();
 });
 
 test("ID-21 a malicious next parameter cannot redirect off-site", async ({
   page,
 }) => {
   const { email } = await signUpToDashboard(page);
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -101,6 +112,7 @@ test("ID-23 sign-in and sign-out are fully keyboard operable", async ({
   page,
 }) => {
   const { email } = await signUpToDashboard(page);
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -114,6 +126,11 @@ test("ID-23 sign-in and sign-out are fully keyboard operable", async ({
   await page.waitForURL(/\/w\//);
 
   // Sign out reachable and operable by keyboard.
+  const accountSummary = page
+    .getByTestId("sidebar-desktop")
+    .locator("details > summary");
+  await accountSummary.focus();
+  await page.keyboard.press("Enter");
   const signOut = page.getByRole("button", { name: "Sign out" });
   await signOut.focus();
   await expect(signOut).toBeFocused();

@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
 
+import { PreferencesControls } from "@/components/preferences/preferences-controls";
 import { usePreferences } from "@/components/preferences/preferences-provider";
 
 export interface TopHeaderProps {
@@ -40,7 +41,7 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
           <p className="text-meta text-ink-muted truncate">{subtitle}</p>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           {controlRoomHref ? (
             <Link
               href={controlRoomHref}
@@ -101,6 +102,11 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
               <Search className="size-[18px]" aria-hidden="true" />
             </button>
           )}
+          <span
+            className="bg-line mx-1 hidden h-5 w-px min-[480px]:block"
+            aria-hidden="true"
+          />
+          <PreferencesControls compact />
         </div>
       </header>
     );

@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { X } from "lucide-react";
-
-import { type ReactNode } from "react";
 
 import { usePreferences } from "@/components/preferences/preferences-provider";
 
@@ -15,7 +13,6 @@ export interface MobileNavProps {
   /** Focus returns here when the drawer closes. */
   returnFocusRef: React.RefObject<HTMLButtonElement | null>;
   account?: SidebarAccount | null;
-  brandSlot?: ReactNode;
   footerSlot?: ReactNode;
   homeHref?: string;
 }
@@ -25,7 +22,6 @@ export function MobileNav({
   onClose,
   returnFocusRef,
   account,
-  brandSlot,
   footerSlot,
   homeHref,
 }: MobileNavProps) {
@@ -77,7 +73,7 @@ export function MobileNav({
   return (
     <div className="fixed inset-0 z-50 min-[768px]:hidden">
       <div
-        className="absolute inset-0 bg-navy-900/25"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -101,7 +97,6 @@ export function MobileNav({
           <SidebarContent
             onNavigate={onClose}
             account={account}
-            brandSlot={brandSlot}
             footerSlot={footerSlot}
             homeHref={homeHref}
           />

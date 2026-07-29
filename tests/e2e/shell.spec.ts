@@ -81,6 +81,28 @@ test.describe("HIVE OS app shell", () => {
     await expect(missions).toHaveAttribute("title", "Missions");
   });
 
+  test("DS-04A desktop sidebar collapses and expands from the brand rail", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await signUpToDashboard(page);
+
+    const sidebar = page.getByTestId("sidebar-desktop");
+    const expandedWidth = (await box(sidebar)).width;
+
+    await sidebar.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect(
+      sidebar.getByRole("button", { name: "Expand sidebar" }),
+    ).toBeVisible();
+    await expect(sidebar.getByText("HIVE OS")).toHaveClass(/sr-only/);
+    expect((await box(sidebar)).width).toBeLessThan(expandedWidth);
+
+    await sidebar.getByRole("button", { name: "Expand sidebar" }).click();
+    await expect(
+      sidebar.getByRole("button", { name: "Collapse sidebar" }),
+    ).toBeVisible();
+  });
+
   test("DS-05 table projection stacks below 820px", async ({ page }) => {
     await signUpToDashboard(page);
 

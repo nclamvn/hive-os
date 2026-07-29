@@ -69,7 +69,9 @@ describe("DS-01 locked design tokens", () => {
 
   it("declares dark semantic overrides and three type roles", () => {
     expect(css).toContain('html[data-theme="dark"]');
-    expect(css).toContain("--color-canvas: #0b1018");
+    expect(css).toContain("--color-canvas: #0d0e10");
+    expect(css).toContain("--color-surface: #131518");
+    expect(css).toContain("--color-surface-selected: #25292f");
     expect(css).toMatch(/--font-sans:\s+var\(--font-body\)/);
     expect(css).toContain("--font-serif: var(--font-display)");
     expect(css).toMatch(/--font-mono:\s+var\(--font-utility\)/);
