@@ -1,6 +1,6 @@
 "use client";
 
-import { Languages, MonitorCog, Moon, Sun } from "lucide-react";
+import { MonitorCog, Moon, Sun } from "lucide-react";
 
 import { type Appearance, usePreferences } from "./preferences-provider";
 
@@ -15,6 +15,7 @@ export function PreferencesControls({
 
   if (compact) {
     const nextLocale = locale === "vi" ? "en" : "vi";
+    const localeLabel = locale === "vi" ? "VN" : "EN";
     const cycle: Record<Appearance, Appearance> = {
       system: "light",
       light: "dark",
@@ -31,10 +32,15 @@ export function PreferencesControls({
           type="button"
           onClick={() => setLocale(nextLocale)}
           className="text-ink-muted hover:bg-surface-subtle hover:text-ink flex size-9 items-center justify-center rounded-md transition-colors"
-          aria-label={`${t("common.language")}: ${locale.toUpperCase()}`}
-          title={`${t("common.language")}: ${locale.toUpperCase()}`}
+          aria-label={`${t("common.language")}: ${localeLabel}`}
+          title={`${t("common.language")}: ${localeLabel}`}
         >
-          <Languages className="size-4" aria-hidden="true" />
+          <span
+            className="font-mono text-[11px] font-semibold tracking-[0.04em]"
+            aria-hidden="true"
+          >
+            {localeLabel}
+          </span>
         </button>
         <button
           type="button"
