@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 
 import { type ReactNode } from "react";
 
+import { usePreferences } from "@/components/preferences/preferences-provider";
+
 import { type SidebarAccount, SidebarContent } from "./sidebar-content";
 
 export interface MobileNavProps {
@@ -27,6 +29,7 @@ export function MobileNav({
   footerSlot,
   homeHref,
 }: MobileNavProps) {
+  const { t } = usePreferences();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -82,7 +85,7 @@ export function MobileNav({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation"
+        aria-label={t("common.navigation")}
         className="bg-surface absolute inset-y-0 left-0 flex w-[min(84vw,300px)] flex-col border-r border-line shadow-panel"
       >
         <div className="relative h-full">
@@ -90,7 +93,7 @@ export function MobileNav({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            aria-label="Close navigation"
+            aria-label={t("common.closeNavigation")}
             className="border-line text-ink-muted hover:bg-surface-subtle absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-md border"
           >
             <X className="size-[18px]" aria-hidden="true" />

@@ -15,29 +15,47 @@ test.describe("HIVE OS app shell", () => {
     await signUpToDashboard(page);
 
     await expect(page.getByTestId("sidebar-desktop")).toBeVisible();
-    await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
-    await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Start a new mission" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Active missions" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "HIVE OS mission workflow" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Mission overview" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "System metrics" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Dashboard" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: "Primary" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Start a new mission" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Active missions" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "HIVE OS mission workflow" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Mission overview" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "System metrics" }),
+    ).toBeVisible();
   });
 
   test("DS-03 right rail reflows below 1180px", async ({ page }) => {
     await signUpToDashboard(page);
-    const composer = page.getByRole("heading", { name: "Start a new mission" });
-    const rail = page.getByRole("heading", { name: "Mission overview" });
+    const composer = page.locator("#mission-composer");
+    const rail = page.getByTestId("dashboard-context-rail");
 
     await page.setViewportSize({ width: 1280, height: 900 });
     const composerWide = await box(composer);
     const railWide = await box(rail);
-    expect(railWide.x).toBeGreaterThan(composerWide.x + composerWide.width - 40);
+    expect(railWide.x).toBeGreaterThan(
+      composerWide.x + composerWide.width - 40,
+    );
 
     await page.setViewportSize({ width: 1000, height: 900 });
     const composerNarrow = await box(composer);
     const railNarrow = await box(rail);
-    expect(railNarrow.y).toBeGreaterThan(composerNarrow.y + composerNarrow.height);
+    expect(railNarrow.y).toBeGreaterThan(
+      composerNarrow.y + composerNarrow.height,
+    );
     expect(Math.abs(railNarrow.x - composerNarrow.x)).toBeLessThan(40);
   });
 
@@ -67,15 +85,21 @@ test.describe("HIVE OS app shell", () => {
     await signUpToDashboard(page);
 
     await page.setViewportSize({ width: 1000, height: 900 });
-    await expect(page.getByRole("columnheader", { name: "Mission" })).toBeVisible();
+    await expect(
+      page.getByRole("columnheader", { name: "Mission" }),
+    ).toBeVisible();
     await expect(page.getByTestId("missions-empty-stacked")).toBeHidden();
 
     await page.setViewportSize({ width: 800, height: 900 });
-    await expect(page.getByRole("columnheader", { name: "Mission" })).toBeHidden();
+    await expect(
+      page.getByRole("columnheader", { name: "Mission" }),
+    ).toBeHidden();
     await expect(page.getByTestId("missions-empty-stacked")).toBeVisible();
 
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(1);
   });
@@ -92,10 +116,14 @@ test.describe("HIVE OS app shell", () => {
     await expect(page.getByRole("dialog", { name: "Navigation" })).toBeHidden();
 
     await menu.click();
-    await expect(page.getByRole("dialog", { name: "Navigation" })).toBeVisible();
+    await expect(
+      page.getByRole("dialog", { name: "Navigation" }),
+    ).toBeVisible();
   });
 
-  test("DS-07 drawer keyboard open/close and focus return", async ({ page }) => {
+  test("DS-07 drawer keyboard open/close and focus return", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 500, height: 900 });
     await signUpToDashboard(page);
 
@@ -105,7 +133,9 @@ test.describe("HIVE OS app shell", () => {
 
     const dialog = page.getByRole("dialog", { name: "Navigation" });
     await expect(dialog).toBeVisible();
-    await expect(page.getByRole("button", { name: "Close navigation" })).toBeFocused();
+    await expect(
+      page.getByRole("button", { name: "Close navigation" }),
+    ).toBeFocused();
 
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
@@ -116,12 +146,16 @@ test.describe("HIVE OS app shell", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await signUpToDashboard(page);
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(1);
   });
 
-  test("DS-09 mission composer is the first actionable main element", async ({ page }) => {
+  test("DS-09 mission composer is the first actionable main element", async ({
+    page,
+  }) => {
     await signUpToDashboard(page);
     const firstId = await page.evaluate(() => {
       const main = document.getElementById("main-content");
@@ -134,11 +168,15 @@ test.describe("HIVE OS app shell", () => {
     expect(firstId).toBe("mission-objective");
   });
 
-  test("DS-10 no fabricated metric or mission fixture is rendered", async ({ page }) => {
+  test("DS-10 no fabricated metric or mission fixture is rendered", async ({
+    page,
+  }) => {
     await signUpToDashboard(page);
 
     await expect(page.getByText("No active missions").first()).toBeVisible();
-    await expect(page.getByText("Authoritative workspace totals")).toBeVisible();
+    await expect(
+      page.getByText("Authoritative workspace totals"),
+    ).toBeVisible();
     await expect(page.getByText("No mission selected")).toBeVisible();
     await expect(page.getByText("No measured resource usage")).toBeVisible();
 

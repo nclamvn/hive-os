@@ -1,10 +1,16 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { Hexagon, Plus, UserRound } from "lucide-react";
+
+import { PreferencesControls } from "@/components/preferences/preferences-controls";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { NAV_ITEMS } from "./navigation";
 import { NavItemLink } from "./nav-item-link";
 
 const NOT_IMPLEMENTED = "Not implemented in the current build stage";
+const GROUPS = ["command", "truth", "assurance", "system"] as const;
 
 export interface SidebarAccount {
   name: string;
@@ -34,6 +40,7 @@ export function SidebarContent({
   footerSlot,
   homeHref = "#mission-composer",
 }: SidebarContentProps) {
+  const { t } = usePreferences();
   return (
     <div className="flex h-full flex-col">
       {/* Brand */}
@@ -60,87 +67,110 @@ export function SidebarContent({
         <a
           href={homeHref}
           onClick={onNavigate}
-          aria-label="New mission"
-          title="New mission"
+          aria-label={t("common.newMission")}
+          title={t("common.newMission")}
           className={`text-body bg-navy-800 hover:bg-navy-900 flex h-10 items-center gap-2 rounded-md font-medium text-white transition-colors ${
             iconOnly ? "justify-center px-0" : "px-3"
           }`}
         >
           <Plus className="size-4 shrink-0" aria-hidden="true" />
-          {!iconOnly && <span>New mission</span>}
+          {!iconOnly && <span>{t("common.newMission")}</span>}
         </a>
 
         {/* Navigation */}
-        <nav aria-label="Primary" className="mt-4">
-          <ul className="flex flex-col gap-0.5">
-            {NAV_ITEMS.map((item) => {
-              const Icon = item.icon;
-              const title = item.implemented
-                ? item.label
-                : `${item.label} · ${NOT_IMPLEMENTED}`;
-              const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium ${
-                iconOnly ? "justify-center px-0" : "px-3"
-              }`;
+        <nav aria-label={t("common.primaryNavigation")} className="mt-4">
+          <div className="flex flex-col gap-4">
+            {GROUPS.map((group) => (
+              <div key={group}>
+                {!iconOnly ? (
+                  <p className="text-eyebrow text-ink-muted mb-1.5 px-3">
+                    {t(`nav.${group}`)}
+                  </p>
+                ) : null}
+                <ul className="flex flex-col gap-0.5">
+                  {NAV_ITEMS.filter((item) => item.group === group).map(
+                    (item) => {
+                      const Icon = item.icon;
+                      const label = t(item.labelKey);
+                      const title = item.implemented
+                        ? label
+                        : `${label} · ${NOT_IMPLEMENTED}`;
+                      const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium ${
+                        iconOnly ? "justify-center px-0" : "px-3"
+                      }`;
 
-              if (item.implemented) {
-                const wsBase = homeHref.startsWith("/w/") ? homeHref : "/";
-                const href =
-                  item.segment && wsBase !== "/"
-                    ? `${wsBase}/${item.segment}`
-                    : wsBase;
-                return (
-                  <li key={item.label}>
-                    <NavItemLink
-                      href={href}
-                      label={item.label}
-                      title={title}
-                      onNavigate={onNavigate}
-                      iconOnly={iconOnly}
-                    >
-                      <Icon className="size-[18px] shrink-0" aria-hidden="true" />
-                      {iconOnly ? (
-                        <span className="sr-only">{item.label}</span>
-                      ) : (
-                          <span>{item.label}</span>
-                      )}
-                    </NavItemLink>
-                  </li>
-                );
-              }
+                      if (item.implemented) {
+                        const wsBase = homeHref.startsWith("/w/")
+                          ? homeHref
+                          : "/";
+                        const href =
+                          item.segment && wsBase !== "/"
+                            ? `${wsBase}/${item.segment}`
+                            : wsBase;
+                        return (
+                          <li key={item.label}>
+                            <NavItemLink
+                              href={href}
+                              label={label}
+                              title={title}
+                              onNavigate={onNavigate}
+                              iconOnly={iconOnly}
+                            >
+                              <Icon
+                                className="size-[18px] shrink-0"
+                                aria-hidden="true"
+                              />
+                              {iconOnly ? (
+                                <span className="sr-only">{label}</span>
+                              ) : (
+                                <span>{label}</span>
+                              )}
+                            </NavItemLink>
+                          </li>
+                        );
+                      }
 
-              return (
-                <li key={item.label}>
-                  <button
-                    type="button"
-                    aria-disabled="true"
-                    aria-label={title}
-                    title={title}
-                    onClick={(e) => e.preventDefault()}
-                    className={`${rowClass} text-ink-muted hover:bg-surface-subtle w-full cursor-not-allowed text-left`}
-                  >
-                    <Icon
-                      className="text-ink-faint size-[18px] shrink-0"
-                      aria-hidden="true"
-                    />
-                    {iconOnly ? (
-                      <span className="sr-only">{item.label}</span>
-                    ) : (
-                      <span className="flex-1">{item.label}</span>
-                    )}
-                    {!iconOnly && (
-                      <span className="text-meta text-ink-muted" aria-hidden="true">
-                        Planned
-                      </span>
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+                      return (
+                        <li key={item.label}>
+                          <button
+                            type="button"
+                            aria-disabled="true"
+                            aria-label={title}
+                            title={title}
+                            onClick={(e) => e.preventDefault()}
+                            className={`${rowClass} text-ink-muted hover:bg-surface-subtle w-full cursor-not-allowed text-left`}
+                          >
+                            <Icon
+                              className="text-ink-faint size-[18px] shrink-0"
+                              aria-hidden="true"
+                            />
+                            {iconOnly ? (
+                              <span className="sr-only">{label}</span>
+                            ) : (
+                              <span className="flex-1">{label}</span>
+                            )}
+                            {!iconOnly && (
+                              <span
+                                className="text-meta text-ink-muted"
+                                aria-hidden="true"
+                              >
+                                Planned
+                              </span>
+                            )}
+                          </button>
+                        </li>
+                      );
+                    },
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
         </nav>
       </div>
 
       {/* Account footer — real identity when authenticated. */}
+      <PreferencesControls compact={iconOnly} />
       <div className="border-t border-line p-3">
         <div
           className={`flex items-center gap-2 rounded-md px-2 py-2 ${iconOnly ? "justify-center" : ""}`}

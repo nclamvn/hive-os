@@ -2,6 +2,8 @@
 
 import { type ReactNode, useCallback, useRef, useState } from "react";
 
+import { usePreferences } from "@/components/preferences/preferences-provider";
+
 import { MobileNav } from "./mobile-nav";
 import { type SidebarAccount, SidebarContent } from "./sidebar-content";
 import { TopHeader } from "./top-header";
@@ -37,6 +39,7 @@ export function AppShell({
   homeHref,
   controlRoomHref,
 }: AppShellProps) {
+  const { t } = usePreferences();
   const [navOpen, setNavOpen] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
 
@@ -49,7 +52,7 @@ export function AppShell({
         href="#main-content"
         className="text-body bg-surface text-ink border-line sr-only rounded-md border px-3 py-2 font-medium focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60]"
       >
-        Skip to content
+        {t("common.skipToContent")}
       </a>
 
       {/* Desktop sidebar (>=1024px) */}

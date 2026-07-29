@@ -20,6 +20,8 @@ import { ObligationControls } from "@/components/mission/obligation-controls";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
+import { translate, type Locale, type MessageKey } from "@/i18n/config";
 import type {
   getMissionDetail,
   getMissionProgress,
@@ -43,18 +45,26 @@ const LIFECYCLE: MissionStatus[] = [
 
 const VIEW_META: Array<{
   id: MissionView;
-  label: string;
+  labelKey: MessageKey;
   icon: ReactNode;
 }> = [
-  { id: "overview", label: "Overview", icon: <LayoutDashboard /> },
-  { id: "contract", label: "Contract", icon: <ClipboardCheck /> },
-  { id: "research", label: "Research graph", icon: <GitBranch /> },
-  { id: "evidence", label: "Evidence", icon: <FileSearch /> },
-  { id: "claims", label: "Claims", icon: <Braces /> },
-  { id: "build", label: "Build", icon: <Blocks /> },
-  { id: "verify", label: "Verify", icon: <ShieldCheck /> },
-  { id: "decisions", label: "Decisions", icon: <Scale /> },
-  { id: "release", label: "Release", icon: <Archive /> },
+  {
+    id: "overview",
+    labelKey: "mission.views.overview",
+    icon: <LayoutDashboard />,
+  },
+  {
+    id: "contract",
+    labelKey: "mission.views.contract",
+    icon: <ClipboardCheck />,
+  },
+  { id: "research", labelKey: "mission.views.research", icon: <GitBranch /> },
+  { id: "evidence", labelKey: "mission.views.evidence", icon: <FileSearch /> },
+  { id: "claims", labelKey: "mission.views.claims", icon: <Braces /> },
+  { id: "build", labelKey: "mission.views.build", icon: <Blocks /> },
+  { id: "verify", labelKey: "mission.views.verify", icon: <ShieldCheck /> },
+  { id: "decisions", labelKey: "mission.views.decisions", icon: <Scale /> },
+  { id: "release", labelKey: "mission.views.release", icon: <Archive /> },
 ];
 
 type Detail = Awaited<ReturnType<typeof getMissionDetail>>;
@@ -72,6 +82,7 @@ export function MissionWorkspace({
   canApprove,
   canResolve,
   canUpdateObligations,
+  locale,
 }: {
   detail: Detail;
   progress: Progress;
@@ -81,6 +92,7 @@ export function MissionWorkspace({
   canApprove: boolean;
   canResolve: boolean;
   canUpdateObligations: boolean;
+  locale: Locale;
 }) {
   const { mission } = detail;
   const lifecycleIndex = LIFECYCLE.indexOf(mission.status);
@@ -88,6 +100,17 @@ export function MissionWorkspace({
     lifecycleIndex >= 0 && lifecycleIndex < LIFECYCLE.length - 1
       ? LIFECYCLE[lifecycleIndex + 1]
       : null;
+  const t = (key: MessageKey) => translate(locale, key);
+  const activePlane =
+    view === "research" || view === "evidence" || view === "claims"
+      ? 1
+      : view === "build"
+        ? 2
+        : view === "verify" || view === "decisions"
+          ? 3
+          : view === "release"
+            ? 4
+            : 0;
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
@@ -108,8 +131,10 @@ export function MissionWorkspace({
                 {mission.title}
               </h2>
               <p className="text-meta text-ink-muted mt-1">
-                Governed dossier · version {mission.version}
-                {nextStage ? ` · next stage ${humanize(nextStage)}` : ""}
+                {t("mission.governedDossier")} · version {mission.version}
+                {nextStage
+                  ? ` · ${t("mission.nextStage")} ${translate(locale, `mission.stages.${nextStage}`)}`
+                  : ""}
               </p>
             </div>
             <MissionActions
@@ -119,8 +144,13 @@ export function MissionWorkspace({
               canApprove={canApprove}
             />
           </div>
-          <LifecycleRail current={mission.status} currentIndex={lifecycleIndex} />
+          <LifecycleRail
+            current={mission.status}
+            currentIndex={lifecycleIndex}
+            locale={locale}
+          />
         </div>
+        <ProvenanceRail active={activePlane} />
 
         <nav
           aria-label="Mission workspace"
@@ -139,7 +169,7 @@ export function MissionWorkspace({
                 }`}
               >
                 {item.icon}
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </div>
@@ -176,13 +206,15 @@ export function MissionWorkspace({
 function LifecycleRail({
   current,
   currentIndex,
+  locale,
 }: {
   current: MissionStatus;
   currentIndex: number;
+  locale: Locale;
 }) {
   return (
     <ol
-      aria-label="Mission lifecycle"
+      aria-label={translate(locale, "mission.lifecycle")}
       className="border-line bg-surface-subtle grid grid-cols-2 overflow-hidden rounded-md border min-[560px]:grid-cols-5 min-[1180px]:grid-cols-10"
     >
       {LIFECYCLE.map((status, index) => {
@@ -211,9 +243,9 @@ function LifecycleRail({
               className={`text-meta mt-0.5 block truncate font-medium ${
                 active ? "text-white" : reached ? "text-ink" : "text-ink-muted"
               }`}
-              title={humanize(status)}
+              title={translate(locale, `mission.stages.${status}`)}
             >
-              {humanize(status)}
+              {translate(locale, `mission.stages.${status}`)}
             </span>
           </li>
         );
@@ -245,7 +277,10 @@ function OverviewLens({
             <dl className="mt-4 grid grid-cols-1 gap-4 min-[720px]:grid-cols-3">
               <Field label="Objective" value={contract.objective} />
               <Field label="Scope" value={contract.scope} />
-              <Field label="Success definition" value={contract.successDefinition} />
+              <Field
+                label="Success definition"
+                value={contract.successDefinition}
+              />
             </dl>
           ) : (
             <EmptyState title="No contract captured" />
@@ -333,10 +368,19 @@ function OverviewLens({
         <Panel className="p-5">
           <p className="text-eyebrow text-ink-muted">Governed records</p>
           <dl className="border-line mt-3 divide-y border-y">
-            <MetricRow label="Evidence sources" value={projection.evidenceSources.length} />
+            <MetricRow
+              label="Evidence sources"
+              value={projection.evidenceSources.length}
+            />
             <MetricRow label="Claims" value={projection.claims.length} />
-            <MetricRow label="Execution TIPs" value={projection.execution.tips.length} />
-            <MetricRow label="Verify Reports" value={projection.verification.reports.length} />
+            <MetricRow
+              label="Execution TIPs"
+              value={projection.execution.tips.length}
+            />
+            <MetricRow
+              label="Verify Reports"
+              value={projection.verification.reports.length}
+            />
             <MetricRow label="Releases" value={projection.releases.length} />
           </dl>
         </Panel>
@@ -350,7 +394,10 @@ function OverviewLens({
           ) : (
             <ul className="mt-3 space-y-2">
               {gates.map((gate) => (
-                <li key={gate.id} className="flex items-center justify-between gap-3">
+                <li
+                  key={gate.id}
+                  className="flex items-center justify-between gap-3"
+                >
                   <span className="text-meta text-ink">
                     {gate.contractGate.title}
                   </span>
@@ -393,7 +440,10 @@ function ContractLens({ detail }: { detail: Detail }) {
           <dl className="mt-4 space-y-4">
             <Field label="Objective" value={contract.objective} />
             <Field label="Scope" value={contract.scope} />
-            <Field label="Success definition" value={contract.successDefinition} />
+            <Field
+              label="Success definition"
+              value={contract.successDefinition}
+            />
           </dl>
         </Panel>
         <RecordList
@@ -447,7 +497,10 @@ function ResearchLens({ projection }: { projection: Projection }) {
           Retained lineage, not a generated diagram.
         </p>
         <dl className="border-line mt-5 divide-y border-y">
-          <MetricRow label="Sources" value={projection.evidenceSources.length} />
+          <MetricRow
+            label="Sources"
+            value={projection.evidenceSources.length}
+          />
           <MetricRow label="Claims" value={projection.claims.length} />
           <MetricRow label="Edges" value={projection.provenanceEdges.length} />
           <MetricRow label="Disputes" value={projection.disputes.length} />
@@ -472,7 +525,9 @@ function ResearchLens({ projection }: { projection: Projection }) {
                 <span className="text-meta text-ink min-w-0 truncate">
                   {edge.fromKind} · {edge.fromId.slice(0, 8)}
                 </span>
-                <StatusBadge tone="neutral">{humanize(edge.relation)}</StatusBadge>
+                <StatusBadge tone="neutral">
+                  {humanize(edge.relation)}
+                </StatusBadge>
                 <span className="text-meta text-ink min-w-0 truncate text-right">
                   {edge.toKind} · {edge.toId.slice(0, 8)}
                 </span>
@@ -788,7 +843,9 @@ function DecisionsLens({
                   />
                 ) : (
                   <StatusBadge
-                    tone={decision.status === "REQUIRED" ? "warning" : "neutral"}
+                    tone={
+                      decision.status === "REQUIRED" ? "warning" : "neutral"
+                    }
                   >
                     {humanize(decision.status)}
                   </StatusBadge>
@@ -844,7 +901,8 @@ function ReleaseLens({ projection }: { projection: Projection }) {
                 <p className="text-meta text-ink-muted mt-2">
                   {jsonArrayLength(release.manifest?.claimVersions)} exact claim
                   versions · {jsonArrayLength(release.manifest?.artifacts)}{" "}
-                  artifacts · {release.manifest?.approverMembershipIds.length ?? 0}{" "}
+                  artifacts ·{" "}
+                  {release.manifest?.approverMembershipIds.length ?? 0}{" "}
                   approvers
                 </p>
               </span>
@@ -873,7 +931,12 @@ function RecordList({
 }: {
   title: string;
   empty: string;
-  items: Array<{ id: string; title: string; detail?: string | null; badge?: string }>;
+  items: Array<{
+    id: string;
+    title: string;
+    detail?: string | null;
+    badge?: string;
+  }>;
 }) {
   return (
     <Panel className="overflow-hidden">
@@ -914,7 +977,9 @@ function MetricRow({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2.5">
       <dt className="text-meta text-ink-muted">{label}</dt>
-      <dd className="text-body text-ink-strong tabular font-semibold">{value}</dd>
+      <dd className="text-body text-ink-strong tabular font-semibold">
+        {value}
+      </dd>
     </div>
   );
 }

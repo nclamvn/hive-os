@@ -11,24 +11,24 @@ const css = readFileSync(
 
 const REQUIRED_TOKENS = [
   // canvas & surface
-  "--color-canvas: #f8f9fb",
+  "--color-canvas: #f4f6f8",
   "--color-surface: #ffffff",
-  "--color-surface-subtle: #fbfcfd",
-  "--color-surface-selected: #f0f3f8",
+  "--color-surface-subtle: #f8fafc",
+  "--color-surface-selected: #eaf0fb",
   // text hierarchy
-  "--color-ink: #101828",
-  "--color-ink-strong: #0b1220",
-  "--color-ink-muted: #667085",
-  "--color-ink-faint: #98a2b3",
+  "--color-ink: #0c1424",
+  "--color-ink-strong: #08101f",
+  "--color-ink-muted: #617086",
+  "--color-ink-faint: #8b98aa",
   // lines
-  "--color-line: #e4e7ec",
-  "--color-line-strong: #d0d5dd",
+  "--color-line: #dce3eb",
+  "--color-line-strong: #c4cfdb",
   // navy + semantic
-  "--color-navy-900: #102044",
-  "--color-navy-800: #172b55",
-  "--color-navy-700: #1f3a70",
-  "--color-blue-600: #2457d6",
-  "--color-success-600: #17865f",
+  "--color-navy-900: #10244a",
+  "--color-navy-800: #17366a",
+  "--color-navy-700: #24498a",
+  "--color-blue-600: #315fe8",
+  "--color-success-600: #0b7a67",
   "--color-warning-600: #c46716",
   "--color-danger-600: #b42318",
   "--color-violet-600: #7047c7",
@@ -60,10 +60,18 @@ describe("DS-01 locked design tokens", () => {
     }
   });
 
-  it("page title is 24/32 weight 600 (locked)", () => {
+  it("page title is 26/34 weight 600 (Precision Instrument)", () => {
     const block = css.slice(css.indexOf(".text-page-title"));
-    expect(block).toMatch(/font-size:\s*24px/);
-    expect(block).toMatch(/line-height:\s*32px/);
+    expect(block).toMatch(/font-size:\s*26px/);
+    expect(block).toMatch(/line-height:\s*34px/);
     expect(block).toMatch(/font-weight:\s*600/);
+  });
+
+  it("declares dark semantic overrides and three type roles", () => {
+    expect(css).toContain('html[data-theme="dark"]');
+    expect(css).toContain("--color-canvas: #0b1018");
+    expect(css).toMatch(/--font-sans:\s+var\(--font-body\)/);
+    expect(css).toContain("--font-serif: var(--font-display)");
+    expect(css).toMatch(/--font-mono:\s+var\(--font-utility\)/);
   });
 });

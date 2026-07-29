@@ -1,3 +1,6 @@
+"use client";
+
+import { usePreferences } from "@/components/preferences/preferences-provider";
 import { Panel } from "@/components/ui/panel";
 
 /**
@@ -17,23 +20,26 @@ export function MetricProjection({
     releases: number;
   };
 }) {
+  const { t } = usePreferences();
   const values = [
-    ["Missions", metrics.missions],
-    ["Evidence sources", metrics.evidenceSources],
-    ["Claims", metrics.claims],
-    ["Verifications", metrics.verifications],
-    ["Releases", metrics.releases],
+    [t("dashboard.metrics.missions"), metrics.missions],
+    [t("dashboard.metrics.evidence"), metrics.evidenceSources],
+    [t("dashboard.metrics.claims"), metrics.claims],
+    [t("dashboard.metrics.verifications"), metrics.verifications],
+    [t("dashboard.metrics.releases"), metrics.releases],
   ] as const;
   return (
     <Panel
       role="region"
-      aria-label="System metrics"
+      aria-label={t("dashboard.systemMetrics")}
       className="p-[var(--shell-card-padding)]"
     >
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-eyebrow text-ink-muted">System metrics</h2>
+        <h2 className="text-eyebrow text-ink-muted">
+          {t("dashboard.systemMetrics")}
+        </h2>
         <span className="text-meta text-ink-muted">
-          Authoritative workspace totals
+          {t("dashboard.authoritativeTotals")}
         </span>
       </div>
 
@@ -41,11 +47,7 @@ export function MetricProjection({
         {values.map(([label, value]) => (
           <div key={label} className="flex flex-col gap-1">
             <dt className="text-meta text-ink-muted">{label}</dt>
-            <dd
-              className="text-page-title text-ink-strong tabular"
-            >
-              {value}
-            </dd>
+            <dd className="text-page-title text-ink-strong tabular">{value}</dd>
           </div>
         ))}
       </dl>

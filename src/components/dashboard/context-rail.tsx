@@ -1,3 +1,5 @@
+"use client";
+
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { EmptyState } from "@/components/ui/empty-state";
 import Link from "next/link";
@@ -5,6 +7,7 @@ import Link from "next/link";
 import { MissionStatusBadge } from "@/components/mission/mission-status-badge";
 import { StatusBadge } from "@/components/ui/status-badge";
 import type { getDashboardProjection } from "@/server/dashboard";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 /**
  * Right context rail. Every region shows a truthful empty state — no mission
@@ -17,11 +20,15 @@ export function ContextRail({
   projection: Awaited<ReturnType<typeof getDashboardProjection>>;
   basePath: string;
 }) {
+  const { t } = usePreferences();
   return (
-    <>
+    <aside
+      data-testid="dashboard-context-rail"
+      className="flex min-w-0 flex-col gap-6"
+    >
       <Panel>
         <div className="border-line border-b p-[var(--shell-card-padding)] py-3">
-          <SectionHeader title="Mission overview" eyebrow />
+          <SectionHeader title={t("dashboard.missionOverview")} eyebrow />
         </div>
         {projection.currentMission ? (
           <div className="p-4">
@@ -41,22 +48,25 @@ export function ContextRail({
           </div>
         ) : (
           <EmptyState
-            title="No mission selected"
-            hint="Create a mission to begin."
+            title={t("dashboard.noMissionSelected")}
+            hint={t("dashboard.createToBegin")}
           />
         )}
       </Panel>
 
       <Panel>
         <div className="border-line border-b p-[var(--shell-card-padding)] py-3">
-          <SectionHeader title="Recent activity" eyebrow />
+          <SectionHeader title={t("dashboard.recentActivity")} eyebrow />
         </div>
         {projection.decisions.length === 0 ? (
-          <EmptyState title="No decisions require action" />
+          <EmptyState title={t("dashboard.noDecisions")} />
         ) : (
           <ul>
             {projection.decisions.map((decision) => (
-              <li key={decision.id} className="border-line border-b p-4 last:border-b-0">
+              <li
+                key={decision.id}
+                className="border-line border-b p-4 last:border-b-0"
+              >
                 <Link
                   href={`${basePath}/missions/${decision.mission.id}?view=decisions`}
                   className="text-body text-ink-strong font-medium hover:underline"
@@ -74,14 +84,17 @@ export function ContextRail({
 
       <Panel>
         <div className="border-line border-b p-[var(--shell-card-padding)] py-3">
-          <SectionHeader title="Resource usage" eyebrow />
+          <SectionHeader title={t("dashboard.resourceUsage")} eyebrow />
         </div>
         {projection.usage.length === 0 ? (
-          <EmptyState title="No measured resource usage" />
+          <EmptyState title={t("dashboard.noUsage")} />
         ) : (
           <dl className="divide-line divide-y">
             {projection.usage.map((item) => (
-              <div key={`${item.metric}-${item.unit}`} className="flex items-center justify-between gap-3 p-4">
+              <div
+                key={`${item.metric}-${item.unit}`}
+                className="flex items-center justify-between gap-3 p-4"
+              >
                 <dt className="text-meta text-ink-muted">
                   {item.metric.replaceAll("_", " ")}
                 </dt>
@@ -95,6 +108,6 @@ export function ContextRail({
           </dl>
         )}
       </Panel>
-    </>
+    </aside>
   );
 }

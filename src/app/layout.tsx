@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Be_Vietnam_Pro, IBM_Plex_Mono, Literata } from "next/font/google";
 
 import { FocusModality } from "@/components/focus-modality";
+import { PreferencesProvider } from "@/components/preferences/preferences-provider";
+import { getLocale } from "@/i18n/server";
 
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const body = Be_Vietnam_Pro({
+  variable: "--font-body",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600"],
+});
+
+const display = Literata({
+  variable: "--font-display",
+  subsets: ["latin", "vietnamese"],
+});
+
+const utility = IBM_Plex_Mono({
+  variable: "--font-utility",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -16,16 +30,39 @@ export const metadata: Metadata = {
     "Provenance-preserving operating system for Human-AI research, engineering, and decision-making.",
 };
 
-export default function RootLayout({
+const appearanceBootstrap = `
+(() => {
+  try {
+    const preference = localStorage.getItem("hive-appearance") || "system";
+    const resolved = preference === "system"
+      ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      : preference;
+    document.documentElement.dataset.theme = resolved;
+    document.documentElement.style.colorScheme = resolved;
+  } catch (_) {}
+})();
+`;
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${body.variable} ${display.variable} ${utility.variable} h-full antialiased`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceBootstrap }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
-        <FocusModality />
-        {children}
+        <PreferencesProvider initialLocale={locale}>
+          <FocusModality />
+          {children}
+        </PreferencesProvider>
       </body>
     </html>
   );

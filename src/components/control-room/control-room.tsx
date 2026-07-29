@@ -31,6 +31,8 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 import type { ControlRoomProjection } from "@/server/control-room";
 
 type Lens = "architecture" | "operations" | "audit";
@@ -57,9 +59,7 @@ interface SystemPlane {
   nodes: SystemNode[];
 }
 
-function createPlanes(
-  counts: ControlRoomProjection["counts"],
-): SystemPlane[] {
+function createPlanes(counts: ControlRoomProjection["counts"]): SystemPlane[] {
   return [
     {
       id: "mission",
@@ -70,7 +70,8 @@ function createPlanes(
           id: "mission-intake",
           code: "MSN-00",
           title: "Mission intake",
-          description: "Captures a bounded objective before governed work begins.",
+          description:
+            "Captures a bounded objective before governed work begins.",
           authority: "Mission Kernel",
           writes: "Mission and initial contract",
           cannot: "Approve its own contract",
@@ -83,7 +84,8 @@ function createPlanes(
           id: "mission-contract",
           code: "MCT-01",
           title: "Mission contracts",
-          description: "Versions scope, success definitions, requirements and assurance.",
+          description:
+            "Versions scope, success definitions, requirements and assurance.",
           authority: "Mission Kernel",
           writes: "Immutable approved contract definitions",
           cannot: "Change approved content silently",
@@ -96,7 +98,8 @@ function createPlanes(
           id: "mission-obligations",
           code: "OBL-02",
           title: "Obligations",
-          description: "Derives real progress from weighted contract obligations.",
+          description:
+            "Derives real progress from weighted contract obligations.",
           authority: "Mission Kernel",
           writes: "Runtime obligation state",
           cannot: "Invent progress",
@@ -109,7 +112,8 @@ function createPlanes(
           id: "mission-decisions",
           code: "DEC-03",
           title: "Decisions",
-          description: "Records material owner choices and governed exceptions.",
+          description:
+            "Records material owner choices and governed exceptions.",
           authority: "Human command through Mission Kernel",
           writes: "Decision ledger",
           cannot: "Resolve without an authorized actor",
@@ -123,13 +127,15 @@ function createPlanes(
     {
       id: "truth",
       name: "Truth",
-      purpose: "Preserve evidence before interpretation and retain every conflict.",
+      purpose:
+        "Preserve evidence before interpretation and retain every conflict.",
       nodes: [
         {
           id: "truth-sources",
           code: "SRC-10",
           title: "Evidence sources",
-          description: "Identifies source independence and corroboration eligibility.",
+          description:
+            "Identifies source independence and corroboration eligibility.",
           authority: "Truth Kernel",
           writes: "Workspace-scoped source registry",
           cannot: "Corroborate by source count alone",
@@ -155,7 +161,8 @@ function createPlanes(
           id: "truth-claims",
           code: "CLM-12",
           title: "Claims and disputes",
-          description: "Projects claim state from retained assertion and evidence ledgers.",
+          description:
+            "Projects claim state from retained assertion and evidence ledgers.",
           authority: "Deterministic Truth Kernel rules",
           writes: "Claim versions, disputes and honest-null records",
           cannot: "Silently choose a winner",
@@ -168,7 +175,8 @@ function createPlanes(
           id: "truth-lineage",
           code: "LIN-13",
           title: "Provenance",
-          description: "Connects evidence spans to every derived claim version.",
+          description:
+            "Connects evidence spans to every derived claim version.",
           authority: "Append-only provenance ledger",
           writes: "Typed lineage edges",
           cannot: "Expose restricted fields in public projections",
@@ -188,7 +196,8 @@ function createPlanes(
           id: "skill-registry",
           code: "SKL-20",
           title: "Skill registry",
-          description: "Registers immutable capability contracts and activates versions explicitly.",
+          description:
+            "Registers immutable capability contracts and activates versions explicitly.",
           authority: "Deterministic Skill Registry",
           writes: "Skill versions and the governed active-version pointer",
           cannot: "Execute a skill or mutate Mission and Truth state",
@@ -201,7 +210,8 @@ function createPlanes(
           id: "execution-runs",
           code: "RUN-21",
           title: "Manual bridge",
-          description: "Retains provider-attributed attempts and appends every retry.",
+          description:
+            "Retains provider-attributed attempts and appends every retry.",
           authority: "Execution Fabric with an authorized human operator",
           writes: "Skill runs, agent attempts and strict Completion Reports",
           cannot: "Treat a provider claim as independent verification",
@@ -250,7 +260,8 @@ function createPlanes(
           id: "verification",
           code: "VER-31",
           title: "Verification",
-          description: "Binds exact coverage, required scenarios, technical health and corruption tests.",
+          description:
+            "Binds exact coverage, required scenarios, technical health and corruption tests.",
           authority: "Deterministic Verification Governance Kernel",
           writes: "Immutable Verify Reports and verifier independence records",
           cannot: "Convert deferred or incomplete evidence into a pass",
@@ -267,9 +278,11 @@ function createPlanes(
           id: "release-governance",
           code: "RLS-32",
           title: "Release governance",
-          description: "Freezes exact claims, artifacts, methods, limits and human approvals.",
+          description:
+            "Freezes exact claims, artifacts, methods, limits and human approvals.",
           authority: "Verification Governance Kernel and authorized approvers",
-          writes: "Evidence ceilings, sign-offs and immutable release manifests",
+          writes:
+            "Evidence ceilings, sign-offs and immutable release manifests",
           cannot: "Expose a public projection before governed release",
           state: "available",
           metric: `${counts.governedReleases} · ${counts.releaseManifests}`,
@@ -290,13 +303,26 @@ export function ControlRoom({
   basePath: string;
   initialCommandOpen?: boolean;
 }) {
-  const planes = useMemo(() => createPlanes(projection.counts), [projection.counts]);
+  const { t } = usePreferences();
+  const planes = useMemo(
+    () => createPlanes(projection.counts),
+    [projection.counts],
+  );
   const nodes = useMemo(() => planes.flatMap((plane) => plane.nodes), [planes]);
   const [lens, setLens] = useState<Lens>("architecture");
   const [selectedId, setSelectedId] = useState("mission-contract");
   const [commandOpen, setCommandOpen] = useState(initialCommandOpen);
   const commandTriggerRef = useRef<HTMLButtonElement>(null);
   const selected = nodes.find((node) => node.id === selectedId) ?? nodes[0];
+  const activePlane = selectedId.startsWith("mission")
+    ? 0
+    : selectedId.startsWith("truth")
+      ? 1
+      : selectedId.startsWith("skill") || selectedId.startsWith("execution")
+        ? 2
+        : selectedId.startsWith("release")
+          ? 4
+          : 3;
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -311,31 +337,34 @@ export function ControlRoom({
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
-      <section className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:items-end min-[900px]:justify-between">
-        <div className="min-w-0">
-          <p className="text-eyebrow text-navy-700">Governed system map</p>
-          <h2 className="text-ink-strong mt-1 max-w-4xl text-[clamp(1.65rem,3.4vw,2.55rem)] leading-[1.08] font-semibold tracking-[-0.035em]">
-            From intent to accountable truth.
-          </h2>
-          <p className="text-body text-ink-muted mt-2 max-w-3xl">
-            One operating view for mission state, evidence authority and the boundaries that models cannot cross.
-          </p>
+      <section className="instrument-panel overflow-hidden">
+        <div className="flex flex-col gap-6 p-5 min-[900px]:flex-row min-[900px]:items-end min-[900px]:justify-between min-[900px]:p-7">
+          <div className="min-w-0">
+            <p className="text-eyebrow text-blue-600">{t("control.eyebrow")}</p>
+            <h2 className="text-thesis text-ink-strong mt-3 max-w-4xl">
+              {t("control.thesis")}
+            </h2>
+            <p className="text-body text-ink-muted mt-2 max-w-3xl">
+              {t("control.hint")}
+            </p>
+          </div>
+          <button
+            ref={commandTriggerRef}
+            type="button"
+            onClick={() => setCommandOpen(true)}
+            className="border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink flex h-10 min-w-0 w-full items-center gap-2 rounded-md border px-3 transition-colors min-[600px]:w-auto"
+            aria-haspopup="dialog"
+          >
+            <Search className="size-4 shrink-0" aria-hidden="true" />
+            <span className="text-body min-w-0 flex-1 truncate whitespace-nowrap text-left">
+              {t("common.findGovernedObjects")}
+            </span>
+            <kbd className="text-meta border-line bg-surface-subtle shrink-0 rounded border px-1.5 py-0.5">
+              ⌘K
+            </kbd>
+          </button>
         </div>
-        <button
-          ref={commandTriggerRef}
-          type="button"
-          onClick={() => setCommandOpen(true)}
-          className="border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink flex h-10 min-w-0 w-full items-center gap-2 rounded-md border px-3 transition-colors min-[600px]:w-auto"
-          aria-haspopup="dialog"
-        >
-          <Search className="size-4 shrink-0" aria-hidden="true" />
-          <span className="text-body min-w-0 flex-1 truncate whitespace-nowrap text-left">
-            Find governed objects
-          </span>
-          <kbd className="text-meta border-line bg-surface-subtle shrink-0 rounded border px-1.5 py-0.5">
-            ⌘K
-          </kbd>
-        </button>
+        <ProvenanceRail active={activePlane} />
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -360,13 +389,11 @@ export function ControlRoom({
                   : "text-ink-muted hover:bg-surface-subtle hover:text-ink"
               }`}
             >
-              {item}
+              {t(`control.${item}`)}
             </button>
           ))}
         </div>
-        <p className="text-meta text-ink-muted">
-          Counts are workspace-scoped authoritative records
-        </p>
+        <p className="text-meta text-ink-muted">{t("control.countsNote")}</p>
       </div>
 
       {lens === "architecture" ? (
@@ -429,10 +456,15 @@ function ArchitectureLens({
                   <p className="text-meta text-ink-muted tabular">
                     PLANE {String(index).padStart(2, "0")}
                   </p>
-                  <h3 id={`plane-${plane.id}`} className="text-section-title text-ink-strong mt-0.5">
+                  <h3
+                    id={`plane-${plane.id}`}
+                    className="text-section-title text-ink-strong mt-0.5"
+                  >
                     {plane.name}
                   </h3>
-                  <p className="text-meta text-ink-muted mt-1">{plane.purpose}</p>
+                  <p className="text-meta text-ink-muted mt-1">
+                    {plane.purpose}
+                  </p>
                 </div>
                 <div className="grid min-w-0 grid-cols-1 gap-2 min-[600px]:grid-cols-2">
                   {plane.nodes.map((node) => (
@@ -477,12 +509,18 @@ function SystemNodeButton({
       </span>
       <span className="mt-2 flex items-center gap-2">
         <span className="text-navy-700 [&>svg]:size-4">{node.icon}</span>
-        <span className="text-body text-ink-strong font-semibold">{node.title}</span>
+        <span className="text-body text-ink-strong font-semibold">
+          {node.title}
+        </span>
       </span>
-      <span className="text-meta text-ink-muted mt-1.5 block">{node.description}</span>
+      <span className="text-meta text-ink-muted mt-1.5 block">
+        {node.description}
+      </span>
       <span className="border-line mt-3 flex items-end justify-between gap-2 border-t pt-2">
         <span className="text-meta text-ink-muted">{node.metricLabel}</span>
-        <span className="text-body text-ink tabular font-semibold">{node.metric}</span>
+        <span className="text-body text-ink tabular font-semibold">
+          {node.metric}
+        </span>
       </span>
     </button>
   );
@@ -490,7 +528,11 @@ function SystemNodeButton({
 
 function NodeState({ state }: { state: NodeState }) {
   const tone =
-    state === "attention" ? "warning" : state === "planned" ? "neutral" : "success";
+    state === "attention"
+      ? "warning"
+      : state === "planned"
+        ? "neutral"
+        : "success";
   return <StatusBadge tone={tone}>{state}</StatusBadge>;
 }
 
@@ -519,13 +561,16 @@ function NodeInspector({ node }: { node: SystemNode }) {
 
       <div className="border-line bg-surface mt-5 rounded-md border p-4">
         <p className="text-eyebrow text-ink-muted">Current projection</p>
-        <p className="text-ink-strong tabular mt-2 text-2xl font-semibold">{node.metric}</p>
+        <p className="text-ink-strong tabular mt-2 text-2xl font-semibold">
+          {node.metric}
+        </p>
         <p className="text-meta text-ink-muted mt-1">{node.metricLabel}</p>
       </div>
 
       {node.state === "planned" ? (
         <p className="text-meta text-ink-muted mt-4">
-          This boundary is visible for architectural continuity. It performs no work in the current build.
+          This boundary is visible for architectural continuity. It performs no
+          work in the current build.
         </p>
       ) : null}
     </aside>
@@ -565,11 +610,16 @@ function OperationsLens({
       className="grid grid-cols-1 gap-5 min-[1100px]:grid-cols-[minmax(0,1fr)_340px]"
     >
       <div className="min-w-0 space-y-5">
-        <section className="grid grid-cols-2 gap-3 min-[700px]:grid-cols-3 min-[1180px]:grid-cols-6" aria-label="Operational counts">
+        <section
+          className="grid grid-cols-2 gap-3 min-[700px]:grid-cols-3 min-[1180px]:grid-cols-6"
+          aria-label="Operational counts"
+        >
           {metrics.map(([label, value]) => (
             <Panel key={label} className="p-4">
               <p className="text-meta text-ink-muted">{label}</p>
-              <p className="text-page-title text-ink-strong tabular mt-2">{value}</p>
+              <p className="text-page-title text-ink-strong tabular mt-2">
+                {value}
+              </p>
             </Panel>
           ))}
         </section>
@@ -582,26 +632,44 @@ function OperationsLens({
 
         <Panel>
           <div className="border-line border-b px-5 py-4">
-            <h3 className="text-section-title text-ink-strong">Recent missions</h3>
-            <p className="text-meta text-ink-muted mt-0.5">Ordered by authoritative update time</p>
+            <h3 className="text-section-title text-ink-strong">
+              Recent missions
+            </h3>
+            <p className="text-meta text-ink-muted mt-0.5">
+              Ordered by authoritative update time
+            </p>
           </div>
           {projection.recentMissions.length === 0 ? (
-            <EmptyState title="No missions in this workspace" hint="Create a mission from the Dashboard." />
+            <EmptyState
+              title="No missions in this workspace"
+              hint="Create a mission from the Dashboard."
+            />
           ) : (
             <ul>
               {projection.recentMissions.map((mission) => (
-                <li key={mission.id} className="border-line flex flex-col gap-2 border-b px-5 py-3 last:border-b-0 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between">
+                <li
+                  key={mission.id}
+                  className="border-line flex flex-col gap-2 border-b px-5 py-3 last:border-b-0 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between"
+                >
                   <span className="min-w-0">
-                    <Link href={`${basePath}/missions/${mission.id}`} className="text-body text-ink-strong block truncate font-semibold hover:underline">
+                    <Link
+                      href={`${basePath}/missions/${mission.id}`}
+                      className="text-body text-ink-strong block truncate font-semibold hover:underline"
+                    >
                       {mission.title}
                     </Link>
                     <span className="text-meta text-ink-muted tabular">
-                      {mission.referenceCode} · {mission.assuranceProfile.toLowerCase()}
+                      {mission.referenceCode} ·{" "}
+                      {mission.assuranceProfile.toLowerCase()}
                     </span>
                   </span>
                   <span className="flex items-center gap-3">
-                    <StatusBadge tone="neutral">{mission.status.toLowerCase()}</StatusBadge>
-                    <span className="text-meta text-ink-muted tabular">{mission.updatedAt.slice(0, 10)}</span>
+                    <StatusBadge tone="neutral">
+                      {mission.status.toLowerCase()}
+                    </StatusBadge>
+                    <span className="text-meta text-ink-muted tabular">
+                      {mission.updatedAt.slice(0, 10)}
+                    </span>
                   </span>
                 </li>
               ))}
@@ -612,17 +680,29 @@ function OperationsLens({
 
       <Panel className="self-start">
         <div className="border-line border-b px-5 py-4">
-          <h3 className="text-section-title text-ink-strong">Attention signals</h3>
-          <p className="text-meta text-ink-muted mt-0.5">Derived from governed unresolved records</p>
+          <h3 className="text-section-title text-ink-strong">
+            Attention signals
+          </h3>
+          <p className="text-meta text-ink-muted mt-0.5">
+            Derived from governed unresolved records
+          </p>
         </div>
         {projection.signals.length === 0 ? (
-          <EmptyState title="No unresolved signals" hint="No decision, dispute, escalation or review is currently due." />
+          <EmptyState
+            title="No unresolved signals"
+            hint="No decision, dispute, escalation or review is currently due."
+          />
         ) : (
           <ul>
             {projection.signals.map((signal) => (
-              <li key={signal.key} className="border-line flex items-center justify-between gap-3 border-b px-5 py-3 last:border-b-0">
+              <li
+                key={signal.key}
+                className="border-line flex items-center justify-between gap-3 border-b px-5 py-3 last:border-b-0"
+              >
                 <span className="text-body text-ink">{signal.label}</span>
-                <StatusBadge tone={signal.tone}>{String(signal.count)}</StatusBadge>
+                <StatusBadge tone={signal.tone}>
+                  {String(signal.count)}
+                </StatusBadge>
               </li>
             ))}
           </ul>
@@ -640,9 +720,21 @@ function VerificationPanel({
   counts: ControlRoomProjection["counts"];
 }) {
   const sequence = [
-    ["01", "Requirement coverage", `${counts.verificationScenarios} governed scenarios`],
-    ["02", "Scenario results", `${counts.verificationReports} immutable reports`],
-    ["03", "Technical health", `${counts.notReadyVerificationReports} not ready`],
+    [
+      "01",
+      "Requirement coverage",
+      `${counts.verificationScenarios} governed scenarios`,
+    ],
+    [
+      "02",
+      "Scenario results",
+      `${counts.verificationReports} immutable reports`,
+    ],
+    [
+      "03",
+      "Technical health",
+      `${counts.notReadyVerificationReports} not ready`,
+    ],
     ["04", "Release ceiling", `${counts.releaseManifests} frozen manifests`],
   ] as const;
 
@@ -650,13 +742,16 @@ function VerificationPanel({
     <Panel className="overflow-hidden">
       <div className="border-line flex flex-col gap-3 border-b px-5 py-4 min-[700px]:flex-row min-[700px]:items-start min-[700px]:justify-between">
         <div>
-          <p className="text-eyebrow text-navy-700">Independent assurance corridor</p>
+          <p className="text-eyebrow text-navy-700">
+            Independent assurance corridor
+          </p>
           <h3 className="text-section-title text-ink-strong mt-1">
             Verify before release
           </h3>
           <p className="text-meta text-ink-muted mt-1 max-w-2xl">
-            A provider result becomes release-eligible only after exact coverage,
-            independent review, corruption checks and an explicit evidence ceiling.
+            A provider result becomes release-eligible only after exact
+            coverage, independent review, corruption checks and an explicit
+            evidence ceiling.
           </p>
         </div>
         <StatusBadge
@@ -679,11 +774,15 @@ function VerificationPanel({
           <li
             key={code}
             className={`relative px-5 py-4 ${
-              index > 0 ? "border-line border-t min-[720px]:border-t-0 min-[720px]:border-l" : ""
+              index > 0
+                ? "border-line border-t min-[720px]:border-t-0 min-[720px]:border-l"
+                : ""
             }`}
           >
             <p className="text-meta text-navy-700 tabular">{code}</p>
-            <p className="text-body text-ink-strong mt-1 font-semibold">{label}</p>
+            <p className="text-body text-ink-strong mt-1 font-semibold">
+              {label}
+            </p>
             <p className="text-meta text-ink-muted mt-0.5">{detail}</p>
           </li>
         ))}
@@ -715,7 +814,10 @@ function VerificationPanel({
                     {report.missionTitle}
                   </span>
                   <span className="text-meta text-ink-muted tabular block">
-                    {report.missionReferenceCode} · {report.independenceStatus.toLowerCase().replaceAll("_", " ")}
+                    {report.missionReferenceCode} ·{" "}
+                    {report.independenceStatus
+                      .toLowerCase()
+                      .replaceAll("_", " ")}
                     {" · "}
                     {report.contentHash.slice(0, 12)}
                   </span>
@@ -734,7 +836,9 @@ function VerificationPanel({
                   </StatusBadge>
                   <StatusBadge
                     tone={
-                      report.corruptionResults.every((result) => result === "PASS")
+                      report.corruptionResults.every(
+                        (result) => result === "PASS",
+                      )
                         ? "success"
                         : "warning"
                     }
@@ -768,24 +872,41 @@ function ManualBridgePanel({
             {execution.disclaimer}
           </p>
         </div>
-        <StatusBadge tone="success">{execution.mode.toLowerCase().replace("_", " ")}</StatusBadge>
+        <StatusBadge tone="success">
+          {execution.mode.toLowerCase().replace("_", " ")}
+        </StatusBadge>
       </div>
 
       <div
         aria-label="Manual Bridge sequence"
         className="border-line bg-surface-subtle grid grid-cols-1 border-b min-[720px]:grid-cols-[1fr_auto_1fr_auto_1fr]"
       >
-        <BridgeStep code="01" label="Instruction" detail="Immutable SHA-256 artifact" />
+        <BridgeStep
+          code="01"
+          label="Instruction"
+          detail="Immutable SHA-256 artifact"
+        />
         <BridgeArrow />
-        <BridgeStep code="02" label="External operator" detail="Provider and model attributed" />
+        <BridgeStep
+          code="02"
+          label="External operator"
+          detail="Provider and model attributed"
+        />
         <BridgeArrow />
-        <BridgeStep code="03" label="Completion Report" detail="Strict schema import" />
+        <BridgeStep
+          code="03"
+          label="Completion Report"
+          detail="Strict schema import"
+        />
       </div>
 
       <div className="grid grid-cols-1 min-[900px]:grid-cols-[minmax(0,1fr)_320px]">
         <section aria-labelledby="recent-execution-tips">
           <div className="border-line border-b px-5 py-3">
-            <h4 id="recent-execution-tips" className="text-body text-ink-strong font-semibold">
+            <h4
+              id="recent-execution-tips"
+              className="text-body text-ink-strong font-semibold"
+            >
               Recent execution TIPs
             </h4>
           </div>
@@ -836,7 +957,10 @@ function ManualBridgePanel({
           className="border-line border-t min-[900px]:border-t-0 min-[900px]:border-l"
         >
           <div className="border-line border-b px-5 py-3">
-            <h4 id="execution-deviations" className="text-body text-ink-strong font-semibold">
+            <h4
+              id="execution-deviations"
+              className="text-body text-ink-strong font-semibold"
+            >
               Deviation gate
             </h4>
           </div>
@@ -917,17 +1041,27 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
       className="overflow-hidden"
     >
       <div className="border-line border-b px-5 py-4">
-        <h3 className="text-section-title text-ink-strong">Governed event ledger</h3>
-        <p className="text-meta text-ink-muted mt-0.5">Recent immutable events visible to your role</p>
+        <h3 className="text-section-title text-ink-strong">
+          Governed event ledger
+        </h3>
+        <p className="text-meta text-ink-muted mt-0.5">
+          Recent immutable events visible to your role
+        </p>
       </div>
       {!audit.allowed ? (
-        <EmptyState title="Audit access is restricted" hint="Only workspace owners and administrators can read the audit ledger." />
+        <EmptyState
+          title="Audit access is restricted"
+          hint="Only workspace owners and administrators can read the audit ledger."
+        />
       ) : audit.events.length === 0 ? (
         <EmptyState title="No governed events recorded" />
       ) : (
         <ul>
           {audit.events.map((event) => (
-            <li key={event.id} className="border-line grid grid-cols-1 gap-1 border-b px-5 py-3 last:border-b-0 min-[700px]:grid-cols-[minmax(0,1fr)_180px_110px] min-[700px]:items-center min-[700px]:gap-4">
+            <li
+              key={event.id}
+              className="border-line grid grid-cols-1 gap-1 border-b px-5 py-3 last:border-b-0 min-[700px]:grid-cols-[minmax(0,1fr)_180px_110px] min-[700px]:items-center min-[700px]:gap-4"
+            >
               <span className="min-w-0">
                 <span className="text-body text-ink block font-medium">
                   {humanize(event.eventType)}
@@ -936,8 +1070,13 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
                   {event.entityType} · {event.entityId}
                 </span>
               </span>
-              <span className="text-meta text-ink-muted">{event.eventType}</span>
-              <time className="text-meta text-ink-muted tabular" dateTime={event.createdAt}>
+              <span className="text-meta text-ink-muted">
+                {event.eventType}
+              </span>
+              <time
+                className="text-meta text-ink-muted tabular"
+                dateTime={event.createdAt}
+              >
                 {event.createdAt.slice(0, 10)}
               </time>
             </li>
@@ -970,10 +1109,14 @@ function CommandDialog({
   const inputRef = useRef<HTMLInputElement>(null);
   const normalized = query.trim().toLowerCase();
   const filteredNodes = nodes.filter((node) =>
-    `${node.code} ${node.title} ${node.description}`.toLowerCase().includes(normalized),
+    `${node.code} ${node.title} ${node.description}`
+      .toLowerCase()
+      .includes(normalized),
   );
   const filteredMissions = missions.filter((mission) =>
-    `${mission.referenceCode} ${mission.title}`.toLowerCase().includes(normalized),
+    `${mission.referenceCode} ${mission.title}`
+      .toLowerCase()
+      .includes(normalized),
   );
   const filteredObjects = objects.filter((object) =>
     `${object.kind} ${object.code} ${object.title} ${object.description} ${object.status}`
@@ -1032,8 +1175,13 @@ function CommandDialog({
         className="border-line bg-surface relative z-10 flex max-h-[75vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border shadow-panel"
       >
         <div className="border-line flex min-w-0 items-center gap-3 border-b px-4">
-          <Search className="text-ink-muted size-5 shrink-0" aria-hidden="true" />
-          <label htmlFor="control-search" className="sr-only">Find governed objects</label>
+          <Search
+            className="text-ink-muted size-5 shrink-0"
+            aria-hidden="true"
+          />
+          <label htmlFor="control-search" className="sr-only">
+            Find governed objects
+          </label>
           <div className="relative h-14 min-w-0 flex-1">
             <input
               ref={inputRef}
@@ -1056,7 +1204,12 @@ function CommandDialog({
               </span>
             ) : null}
           </div>
-          <button type="button" onClick={onClose} aria-label="Close object finder" className="text-ink-muted hover:bg-surface-subtle flex size-9 shrink-0 items-center justify-center rounded-md">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close object finder"
+            className="text-ink-muted hover:bg-surface-subtle flex size-9 shrink-0 items-center justify-center rounded-md"
+          >
             <X className="size-4" aria-hidden="true" />
           </button>
         </div>
@@ -1076,10 +1229,16 @@ function CommandDialog({
                       onClick={() => onSelectNode(node.id)}
                       className="hover:bg-surface-subtle flex w-full items-center gap-3 rounded-md px-3 py-2 text-left"
                     >
-                      <span className="text-navy-700 [&>svg]:size-4">{node.icon}</span>
+                      <span className="text-navy-700 [&>svg]:size-4">
+                        {node.icon}
+                      </span>
                       <span className="min-w-0 flex-1">
-                        <span className="text-body text-ink block font-medium">{node.title}</span>
-                        <span className="text-meta text-ink-muted tabular">{node.code}</span>
+                        <span className="text-body text-ink block font-medium">
+                          {node.title}
+                        </span>
+                        <span className="text-meta text-ink-muted tabular">
+                          {node.code}
+                        </span>
                       </span>
                       <NodeState state={node.state} />
                     </button>
@@ -1095,10 +1254,17 @@ function CommandDialog({
                       onClick={onClose}
                       className="hover:bg-surface-subtle flex items-center gap-3 rounded-md px-3 py-2"
                     >
-                      <CircleDot className="text-navy-700 size-4" aria-hidden="true" />
+                      <CircleDot
+                        className="text-navy-700 size-4"
+                        aria-hidden="true"
+                      />
                       <span className="min-w-0 flex-1">
-                        <span className="text-body text-ink block truncate font-medium">{mission.title}</span>
-                        <span className="text-meta text-ink-muted tabular">{mission.referenceCode}</span>
+                        <span className="text-body text-ink block truncate font-medium">
+                          {mission.title}
+                        </span>
+                        <span className="text-meta text-ink-muted tabular">
+                          {mission.referenceCode}
+                        </span>
                       </span>
                     </Link>
                   ))}
@@ -1113,13 +1279,17 @@ function CommandDialog({
                       onClick={onClose}
                       className="hover:bg-surface-subtle flex items-center gap-3 rounded-md px-3 py-2"
                     >
-                      <CircleDot className="text-navy-700 size-4 shrink-0" aria-hidden="true" />
+                      <CircleDot
+                        className="text-navy-700 size-4 shrink-0"
+                        aria-hidden="true"
+                      />
                       <span className="min-w-0 flex-1">
                         <span className="text-body text-ink block truncate font-medium">
                           {object.title}
                         </span>
                         <span className="text-meta text-ink-muted tabular block truncate">
-                          {humanize(object.kind)} · {object.code} · {humanize(object.status)}
+                          {humanize(object.kind)} · {object.code} ·{" "}
+                          {humanize(object.status)}
                         </span>
                       </span>
                     </Link>
@@ -1134,7 +1304,13 @@ function CommandDialog({
   );
 }
 
-function SearchGroup({ title, children }: { title: string; children: ReactNode }) {
+function SearchGroup({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <section className="mb-2 last:mb-0">
       <h3 className="text-eyebrow text-ink-muted px-3 py-2">{title}</h3>
@@ -1157,13 +1333,16 @@ export function activateLensFromArrow(
 ) {
   if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
   const order: Lens[] = ["architecture", "operations", "audit"];
-  const current = order.indexOf(event.currentTarget.id.replace("lens-", "") as Lens);
+  const current = order.indexOf(
+    event.currentTarget.id.replace("lens-", "") as Lens,
+  );
   const delta = event.key === "ArrowRight" ? 1 : -1;
   const next = (current + delta + order.length) % order.length;
   event.preventDefault();
   setLens(order[next]);
-  const tabs = event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
-    '[role="tab"]',
-  );
+  const tabs =
+    event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+      '[role="tab"]',
+    );
   tabs?.[next]?.focus();
 }

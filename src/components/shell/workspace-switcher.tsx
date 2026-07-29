@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 
+import { usePreferences } from "@/components/preferences/preferences-provider";
+
 export interface WorkspaceOption {
   slug: string;
   name: string;
@@ -22,11 +24,14 @@ export function WorkspaceSwitcher({
   workspaces,
 }: WorkspaceSwitcherProps) {
   const router = useRouter();
+  const { t } = usePreferences();
 
   if (workspaces.length <= 1) {
     return (
       <div>
-        <span className="text-eyebrow text-ink-muted block">Workspace</span>
+        <span className="text-eyebrow text-ink-muted block">
+          {t("common.workspace")}
+        </span>
         <span className="text-body text-ink-strong block truncate font-medium">
           {current.name}
         </span>
@@ -36,8 +41,11 @@ export function WorkspaceSwitcher({
 
   return (
     <div>
-      <label htmlFor="workspace-switcher" className="text-eyebrow text-ink-muted block">
-        Workspace
+      <label
+        htmlFor="workspace-switcher"
+        className="text-eyebrow text-ink-muted block"
+      >
+        {t("common.workspace")}
       </label>
       <select
         id="workspace-switcher"
