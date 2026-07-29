@@ -54,6 +54,26 @@ export const MISSION_TEMPLATES: readonly MissionTemplate[] = [
     obligationWeight: 3,
   },
   {
+    key: "rtr-engineering-change",
+    version: 1,
+    domain: "Deeptech Engineering",
+    name: "RtR engineering change dossier",
+    description:
+      "A governed change and verification dossier for UAV, simulator, flight-control, gimbal or sensor-stack work.",
+    assuranceProfile: "PROFESSIONAL",
+    objective:
+      "Approve and release one bounded engineering change with an accountable decision, retained implementation evidence and independent verification.",
+    scope:
+      "Cover the named subsystem, approved interfaces, safety constraints, acceptance method and rollback boundary; exclude adjacent redesign not required by the change.",
+    successDefinition:
+      "The released change has an approved contract, traceable requirement, source evidence, execution record, independent verification, sign-off and immutable release manifest.",
+    requirementTitle: "Engineering change is verified against its approved baseline",
+    requirementCriteria:
+      "The changed subsystem satisfies the approved functional and safety acceptance method, with exact test evidence, identified configuration, observed result and verifier conclusion.",
+    obligationTitle: "Close the engineering change verification dossier",
+    obligationWeight: 4,
+  },
+  {
     key: "research-evidence-synthesis",
     version: 1,
     domain: "Research",

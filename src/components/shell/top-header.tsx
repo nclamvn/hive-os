@@ -1,6 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { PreferencesControls } from "@/components/preferences/preferences-controls";
 import { usePreferences } from "@/components/preferences/preferences-provider";
@@ -19,6 +20,17 @@ export interface TopHeaderProps {
 export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
   function TopHeader({ onOpenNav, title, subtitle, controlRoomHref }, menuRef) {
     const { t } = usePreferences();
+    const router = useRouter();
+    const [query, setQuery] = useState("");
+
+    function openFinder() {
+      if (!controlRoomHref) return;
+      const params = new URLSearchParams({ find: "1" });
+      const normalized = query.trim();
+      if (normalized) params.set("q", normalized.slice(0, 200));
+      router.push(`${controlRoomHref.split("?")[0]}?${params.toString()}`);
+    }
+
     return (
       <header
         className="bg-surface sticky top-0 z-30 flex items-center gap-3 border-b border-line px-4 min-[768px]:px-5 min-[1180px]:px-[var(--shell-gutter-desktop)]"
@@ -43,21 +55,35 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
 
         <div className="flex items-center gap-2">
           {controlRoomHref ? (
-            <Link
-              href={controlRoomHref}
-              aria-label={t("common.findGovernedObjects")}
-              title={t("common.findGovernedObjects")}
+            <form
+              role="search"
+              onSubmit={(event) => {
+                event.preventDefault();
+                openFinder();
+              }}
               className="border-line bg-surface-subtle text-ink-muted hover:border-line-strong hover:text-ink hidden h-10 items-center gap-2 rounded-md border px-3 transition-colors min-[1024px]:flex"
               style={{ width: "clamp(220px, 24vw, 320px)" }}
             >
-              <Search
-                className="text-ink-muted size-4 shrink-0"
-                aria-hidden="true"
+              <button
+                type="submit"
+                aria-label={t("common.runSearch")}
+                title={t("common.runSearch")}
+                className="text-ink-muted hover:text-ink flex size-6 shrink-0 items-center justify-center rounded"
+              >
+                <Search className="size-4" aria-hidden="true" />
+              </button>
+              <label htmlFor="workspace-search" className="sr-only">
+                {t("common.findGovernedObjects")}
+              </label>
+              <input
+                id="workspace-search"
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t("common.findObjects")}
+                className="text-body text-ink placeholder:text-ink-muted w-full min-w-0 bg-transparent outline-none"
               />
-              <span className="text-body truncate">
-                {t("common.findObjects")}
-              </span>
-            </Link>
+            </form>
           ) : (
             <div
               role="search"

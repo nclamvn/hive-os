@@ -11,7 +11,8 @@ describe("Mission template catalog", () => {
       MISSION_TEMPLATES.length,
     );
     expect(
-      MISSION_TEMPLATES.map((template) => template.assuranceProfile).sort(),
+      [...new Set(MISSION_TEMPLATES.map((template) => template.assuranceProfile))]
+        .sort(),
     ).toEqual(["PROFESSIONAL", "QUICK", "REGULATED", "RESEARCH"]);
     expect(MISSION_TEMPLATES.every((template) => template.version === 1)).toBe(
       true,
@@ -24,5 +25,16 @@ describe("Mission template catalog", () => {
     ).toBe("RESEARCH");
     expect(getMissionTemplate("unknown")).toBeUndefined();
     expect(getMissionTemplate(undefined)).toBeUndefined();
+  });
+
+  it("TIP022-TPL-01 exposes a bounded RtR engineering-change contract", () => {
+    const template = getMissionTemplate("rtr-engineering-change");
+    expect(template).toMatchObject({
+      domain: "Deeptech Engineering",
+      assuranceProfile: "PROFESSIONAL",
+      obligationWeight: 4,
+    });
+    expect(template?.successDefinition).toContain("immutable release manifest");
+    expect(template?.requirementCriteria).toContain("exact test evidence");
   });
 });

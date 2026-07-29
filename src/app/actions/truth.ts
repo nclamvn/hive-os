@@ -9,6 +9,7 @@ import { resolveWorkspaceContext } from "@/modules/identity-workspace";
 import {
   addClaimVersion,
   assertHonestNull,
+  captureEvidenceFile,
   captureSnapshot,
   createClaim,
   createEvidenceSource,
@@ -102,6 +103,24 @@ export async function captureSnapshotAction(
       mediaType: text(formData, "mediaType") || "text/plain",
     }),
   );
+}
+
+export async function uploadEvidenceFileAction(
+  slug: string,
+  formData: FormData,
+): Promise<TruthActionResult> {
+  return run(slug, async (ctx) => {
+    const file = formData.get("file");
+    if (!(file instanceof File)) {
+      throw new TruthError("TRUTH_INVARIANT", "Evidence file is required");
+    }
+    return captureEvidenceFile(ctx, text(formData, "sourceId"), {
+      bytes: new Uint8Array(await file.arrayBuffer()),
+      filename: file.name,
+      mediaType: file.type,
+      capturedAt: new Date(),
+    });
+  });
 }
 
 export async function createEvidenceSpanAction(

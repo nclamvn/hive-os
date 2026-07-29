@@ -129,11 +129,20 @@ test.describe("HIVE OS Control Room", () => {
     page,
   }) => {
     await signUpToDashboard(page, "Finder Lab");
-    await page.getByRole("link", { name: "Find governed objects" }).click();
-    await expect(page).toHaveURL(/\/control-room\?find=1$/);
+    const headerSearch = page.getByRole("searchbox", {
+      name: "Find governed objects",
+    });
+    await headerSearch.fill("mission");
+    await headerSearch.press("Enter");
+    await expect(page).toHaveURL(/\/control-room\?find=1&q=mission$/);
     await expect(
       page.getByRole("dialog", { name: "Find governed objects" }),
     ).toBeVisible();
+    await expect(
+      page
+        .getByRole("dialog", { name: "Find governed objects" })
+        .getByRole("textbox", { name: "Find governed objects" }),
+    ).toHaveValue("mission");
   });
 
   test("CR-10 finder copy stays on one line and ellipsizes when narrow", async ({

@@ -78,7 +78,10 @@ export default async function NewMissionPage({
       title={t("mission.new.title")}
       subtitle={data.ctx.workspace.name}
     >
-      <Panel className="p-[var(--shell-card-padding)]">
+      <Panel
+        data-testid="bounded-page-panel"
+        className="mx-auto w-full max-w-5xl p-[var(--shell-card-padding)]"
+      >
         <SectionHeader title={t("mission.new.define")} />
         <p className="text-meta text-ink-muted mt-1">
           {template
@@ -90,7 +93,8 @@ export default async function NewMissionPage({
         </p>
         <form
           action={createMissionAction}
-          className="mt-4 max-w-2xl"
+          data-testid="bounded-page-form"
+          className="mt-4 w-full"
           noValidate
         >
           <input type="hidden" name="slug" value={workspaceSlug} />

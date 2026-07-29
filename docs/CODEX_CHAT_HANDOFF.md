@@ -578,6 +578,30 @@ signed.
 
 See `docs/verification/TIP-019_LOCAL_RC_REPORT.md`.
 
+## TIP-022 pilot-readiness implementation update
+
+On 2026-07-29, the Owner authorized the Builder to implement the bounded
+TIP-022 RtR Real-World Pilot Readiness package before any real pilot or
+model-provider integration.
+
+- Built-in RtR engineering-change dossier template: implemented.
+- Governed PDF/CSV/TXT/JSON/Markdown/image file intake through the existing
+  local/S3 storage boundary: implemented.
+- Complete mission dossier with deterministic SHA-256 integrity manifest:
+  implemented.
+- Mission-scoped pilot measurement from authoritative ledger timestamps and
+  provenance, with honest unavailable values: implemented.
+- Controlled-environment readiness command and dry-run runbook: implemented.
+- Typecheck, lint, production build, 159 unit, 128 integration, and 82 E2E
+  scenarios passed. One existing sidebar timing scenario passed on its
+  configured retry.
+
+The current local readiness observation remains intentionally not ready until
+the Owner supplies `PILOT_WORKSPACE_SLUG` and a real functional-team
+attestation. Remote CI remains `BLOCKED_EXTERNAL`; external staging, provider
+selection, production release, and public release remain unverified or
+unauthorized.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

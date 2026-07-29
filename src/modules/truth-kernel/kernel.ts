@@ -14,9 +14,11 @@ import {
   writeAuditEvent,
 } from "@/modules/identity-workspace";
 import { getDb } from "@/server/db";
+import { getObjectStorage } from "@/server/storage";
 
 import { loadTruthMission, requireTruthCapability } from "./context";
 import { TruthError, TruthErrorCode } from "./errors";
+import { evidenceObjectKey, prepareEvidenceFile } from "./file-intake";
 import {
   assertExactSpan,
   evaluateTruth,
@@ -150,6 +152,82 @@ export async function captureSnapshot(
     });
     return snapshot;
   });
+}
+
+export async function captureEvidenceFile(
+  ctx: WorkspaceContext,
+  sourceId: string,
+  input: {
+    bytes: Uint8Array;
+    filename: string;
+    mediaType: string;
+    capturedAt: Date;
+  },
+) {
+  requireTruthCapability(ctx, "truth.write");
+  const source = await getDb().evidenceSource.findFirst({
+    where: { id: sourceId, workspaceId: ctx.workspace.id },
+  });
+  if (!source) {
+    throw new TruthError(TruthErrorCode.NotFound, "Evidence source not found");
+  }
+
+  const prepared = prepareEvidenceFile(input);
+  const storageReference = evidenceObjectKey({
+    workspaceId: ctx.workspace.id,
+    missionId: source.missionId,
+    sourceId: source.id,
+    contentHash: prepared.contentHash,
+  });
+  const storage = getObjectStorage();
+  const existingObject = await storage.head(storageReference);
+  if (!existingObject) {
+    await storage.put(storageReference, prepared.bytes, {
+      contentType: prepared.mediaType,
+    });
+  }
+
+  try {
+    return await getDb().$transaction(async (tx) => {
+      const snapshot = await tx.snapshot.create({
+        data: {
+          workspaceId: ctx.workspace.id,
+          missionId: source.missionId,
+          evidenceSourceId: source.id,
+          content: prepared.snapshotContent,
+          contentHash: prepared.contentHash,
+          mediaType: prepared.mediaType,
+          storageReference,
+          capturedAt: input.capturedAt,
+          createdByMembershipId: ctx.membership.id,
+        },
+      });
+      await writeAuditEvent(tx, {
+        workspaceId: ctx.workspace.id,
+        actorUserId: ctx.user.id,
+        actorMembershipId: ctx.membership.id,
+        eventType: AuditEventType.EvidenceSnapshotCaptured,
+        entityType: "Snapshot",
+        entityId: snapshot.id,
+        correlationId: ctx.correlationId,
+        payload: { sourceId: source.id, digest: prepared.contentHash },
+      });
+      return snapshot;
+    });
+  } catch (error) {
+    if (!existingObject) {
+      try {
+        const retainedReference = await getDb().snapshot.count({
+          where: { workspaceId: ctx.workspace.id, storageReference },
+        });
+        if (retainedReference === 0) await storage.delete(storageReference);
+      } catch {
+        // The original failure remains authoritative. Operators can reconcile
+        // an orphaned content-addressed object without risking a retained file.
+      }
+    }
+    throw error;
+  }
 }
 
 export async function createEvidenceSpan(

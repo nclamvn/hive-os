@@ -12,6 +12,7 @@ import {
   createEvidenceSpanAction,
   reviewClaimAction,
   type TruthActionResult,
+  uploadEvidenceFileAction,
 } from "@/app/actions/truth";
 import { usePreferences } from "@/components/preferences/preferences-provider";
 import { localizedActionError } from "@/i18n/action-errors";
@@ -285,6 +286,42 @@ export function EvidenceForms({
             />
           </div>
         </ActionForm>
+        <div className="border-line mt-5 border-t pt-5">
+          <p className="text-eyebrow text-navy-700">
+            {copy.evidence.fileEyebrow}
+          </p>
+          <h3 className="text-body text-ink-strong mt-1 font-semibold">
+            {copy.evidence.fileTitle}
+          </h3>
+          <p className="text-meta text-ink-muted mt-1 mb-4">
+            {copy.evidence.fileHint}
+          </p>
+          <ActionForm
+            action={(data) => uploadEvidenceFileAction(slug, data)}
+            label={copy.evidence.fileForm}
+            successMessage={copy.evidence.fileSuccess}
+          >
+            <Select
+              id="file-source"
+              name="sourceId"
+              label={copy.evidence.source}
+              options={sources}
+            />
+            <div>
+              <FieldLabel htmlFor="evidence-file">
+                {copy.evidence.fileLabel}
+              </FieldLabel>
+              <input
+                id="evidence-file"
+                name="file"
+                type="file"
+                required
+                accept=".pdf,.csv,.txt,.json,.md,.markdown,.png,.jpg,.jpeg,.webp,application/pdf,text/csv,text/plain,application/json,text/markdown,image/png,image/jpeg,image/webp"
+                className="text-meta text-ink file:bg-surface-raised file:text-ink-strong border-line w-full rounded-md border p-2 file:mr-3 file:rounded file:border-0 file:px-3 file:py-1.5 file:font-medium"
+              />
+            </div>
+          </ActionForm>
+        </div>
       </section>
 
       <section className="p-5">

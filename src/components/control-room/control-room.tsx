@@ -490,10 +490,12 @@ export function ControlRoom({
   projection,
   basePath,
   initialCommandOpen = false,
+  initialCommandQuery = "",
 }: {
   projection: ControlRoomProjection;
   basePath: string;
   initialCommandOpen?: boolean;
+  initialCommandQuery?: string;
 }) {
   const { t, locale } = usePreferences();
   const planes = useMemo(
@@ -610,6 +612,7 @@ export function ControlRoom({
           missions={projection.recentMissions}
           objects={projection.finderObjects}
           basePath={basePath}
+          initialQuery={initialCommandQuery}
           onClose={() => setCommandOpen(false)}
           onSelectNode={(id) => {
             setSelectedId(id);
@@ -1429,6 +1432,7 @@ function CommandDialog({
   missions,
   objects,
   basePath,
+  initialQuery,
   onClose,
   onSelectNode,
   returnFocusRef,
@@ -1437,12 +1441,13 @@ function CommandDialog({
   missions: ControlRoomProjection["recentMissions"];
   objects: ControlRoomProjection["finderObjects"];
   basePath: string;
+  initialQuery: string;
   onClose: () => void;
   onSelectNode: (id: string) => void;
   returnFocusRef: RefObject<HTMLButtonElement | null>;
 }) {
   const { locale } = usePreferences();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const normalized = query.trim().toLowerCase();

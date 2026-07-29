@@ -84,6 +84,42 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await expect(page.getByText("active v1.1.0")).toBeVisible();
   });
 
+  test("TIP022-UI-01 applies the RtR engineering-change pilot template", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(page, "RtR Pilot");
+    await page.goto(`${dashboardUrl}/templates`);
+    await page
+      .getByRole("link", {
+        name: "Use RtR engineering change dossier template",
+      })
+      .click();
+
+    await expect(page.getByLabel("Assurance profile")).toHaveValue(
+      "PROFESSIONAL",
+    );
+    await expect(page.getByLabel("Success definition")).toHaveValue(
+      /immutable release manifest/,
+    );
+    await page.getByLabel("Mission title").fill("Gimbal control revision");
+    await page.getByRole("button", { name: "Create mission" }).click();
+    await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
+
+    await page.goto(`${dashboardUrl}/reports`);
+    await expect(page.getByText("Gimbal control revision")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Download dossier" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Pilot measurement" }),
+    ).toBeVisible();
+    await page.getByRole("link", { name: "View pilot report" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Governed throughput eligibility" }),
+    ).toBeVisible();
+    await expect(page.getByText("not yet eligible")).toBeVisible();
+  });
+
   test("TS-08 remains overflow-free and accessible at 320px", async ({
     page,
   }) => {

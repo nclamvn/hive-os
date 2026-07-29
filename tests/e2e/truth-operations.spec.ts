@@ -1,4 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
+import { createHash } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
 
 import { signUpToDashboard } from "./auth-helpers";
@@ -38,6 +39,20 @@ test.describe("TIP-013 Truth Operations", () => {
     await source.getByRole("button", { name: "Save governed record" }).click();
     await expect(page.getByText("Calibration report").last()).toBeVisible();
 
+    const fileIntake = page.getByRole("form", {
+      name: "Attach evidence file",
+    });
+    await fileIntake.getByLabel("Evidence source").selectOption({ index: 1 });
+    await fileIntake.getByLabel("Evidence file").setInputFiles({
+      name: "bench.csv",
+      mimeType: "text/csv",
+      buffer: Buffer.from("axis,error_mm\npan,0.14\n", "utf8"),
+    });
+    await fileIntake
+      .getByRole("button", { name: "Save governed record" })
+      .click();
+    await expect(page.getByText("Evidence file retained")).toBeVisible();
+
     const snapshot = page.getByRole("form", { name: "Capture immutable snapshot" });
     await snapshot.getByLabel("Evidence source").selectOption({ index: 1 });
     await snapshot
@@ -47,7 +62,17 @@ test.describe("TIP-013 Truth Operations", () => {
     await expect(page.getByText(/SHA-256 [a-f0-9]{64}/)).toBeVisible();
 
     const span = page.getByRole("form", { name: "Retain exact evidence span" });
-    await span.getByLabel("Snapshot").selectOption({ index: 1 });
+    const manualDigest = createHash("sha256")
+      .update("The independently measured governed value is 42.")
+      .digest("hex")
+      .slice(0, 10);
+    const snapshotSelect = span.getByLabel("Snapshot");
+    await expect(snapshotSelect.locator("option")).toHaveCount(3);
+    const manualSnapshotId = await snapshotSelect
+      .locator("option")
+      .filter({ hasText: manualDigest })
+      .getAttribute("value");
+    await snapshotSelect.selectOption(manualSnapshotId!);
     await span.getByLabel("Exact quote").fill("governed value is 42");
     await span.getByRole("button", { name: "Save governed record" }).click();
     await expect(page.getByText("“governed value is 42”")).toBeVisible();

@@ -17,6 +17,7 @@ import {
 import {
   addClaimVersion,
   assertHonestNull,
+  captureEvidenceFile,
   captureSnapshot,
   createClaim,
   createEvidenceSource,
@@ -28,6 +29,7 @@ import {
   setTerminalClaimState,
 } from "@/modules/truth-kernel";
 import { getDb } from "@/server/db";
+import { getObjectStorage } from "@/server/storage";
 import { getTruthOperationsProjection } from "@/server/truth-operations";
 
 import {
@@ -93,6 +95,66 @@ async function spanFor(
 }
 
 describe("truth kernel", () => {
+  it("TIP022-FILE-I01 stores exact bytes and an immutable linked snapshot", async () => {
+    const { ctx, mission } = await approvedMission();
+    const source = await createEvidenceSource(ctx, mission.id, {
+      title: "Bench result",
+      canonicalUri: "urn:rtr:bench-result:file-001",
+      sourceType: "TEST_RESULT",
+      independenceKey: "rtr-bench-a",
+    });
+    const bytes = new TextEncoder().encode("axis,error_mm\npan,0.14\n");
+    const snapshot = await captureEvidenceFile(ctx, source.id, {
+      bytes,
+      filename: "../bench.csv",
+      mediaType: "text/csv",
+      capturedAt: new Date("2026-07-29T00:00:00.000Z"),
+    });
+
+    expect(snapshot.content).toBe("axis,error_mm\npan,0.14\n");
+    expect(snapshot.storageReference).toMatch(
+      new RegExp(
+        `^workspaces/${ctx.workspace.id}/missions/${mission.id}/evidence/${source.id}/[a-f0-9]{64}$`,
+      ),
+    );
+    expect(
+      await getObjectStorage().get(snapshot.storageReference!),
+    ).toEqual(bytes);
+    expect(
+      await getDb().auditEvent.count({
+        where: {
+          entityId: snapshot.id,
+          eventType: "evidence.snapshot_captured",
+        },
+      }),
+    ).toBe(1);
+  });
+
+  it("TIP022-FILE-I02 rejects a foreign source before writing a snapshot", async () => {
+    const { ctx, mission } = await approvedMission();
+    const source = await createEvidenceSource(ctx, mission.id, {
+      title: "Private bench result",
+      canonicalUri: "urn:rtr:bench-result:file-foreign",
+      sourceType: "TEST_RESULT",
+      independenceKey: "rtr-bench-private",
+    });
+    const foreignCtx = await asOwner(await createUser("foreign-file-owner"));
+
+    await expect(
+      captureEvidenceFile(foreignCtx, source.id, {
+        bytes: new TextEncoder().encode("private"),
+        filename: "private.txt",
+        mediaType: "text/plain",
+        capturedAt: new Date(),
+      }),
+    ).rejects.toMatchObject({ code: "TRUTH_NOT_FOUND" });
+    expect(
+      await getDb().snapshot.count({
+        where: { evidenceSourceId: source.id },
+      }),
+    ).toBe(0);
+  });
+
   it("TK-01 rejects a span that is not an exact snapshot match", async () => {
     const { ctx, mission } = await approvedMission();
     const source = await createEvidenceSource(ctx, mission.id, {

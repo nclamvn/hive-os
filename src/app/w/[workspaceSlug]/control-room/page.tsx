@@ -11,10 +11,10 @@ export default async function ControlRoomPage({
   searchParams,
 }: {
   params: Promise<{ workspaceSlug: string }>;
-  searchParams: Promise<{ find?: string }>;
+  searchParams: Promise<{ find?: string; q?: string }>;
 }) {
   const { workspaceSlug } = await params;
-  const { find } = await searchParams;
+  const { find, q } = await searchParams;
   const data = await loadWorkspacePage(workspaceSlug);
   const { t } = await getTranslator();
   const projection = await getControlRoomProjection(data.ctx);
@@ -26,9 +26,11 @@ export default async function ControlRoomPage({
       subtitle={t("control.subtitle")}
     >
       <ControlRoom
+        key={`${find ?? "0"}:${q ?? ""}`}
         projection={projection}
         basePath={`/w/${workspaceSlug}`}
         initialCommandOpen={find === "1"}
+        initialCommandQuery={q?.slice(0, 200) ?? ""}
       />
     </WorkspaceShell>
   );

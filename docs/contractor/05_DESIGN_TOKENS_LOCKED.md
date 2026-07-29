@@ -2,7 +2,7 @@
 
 Reference: `assets/hive-os-ui-locked.png`
 
-Amended by: `TIP-002A` and `DEC-015` on `2026-07-29`
+Amended by: `TIP-002A`, `TIP-002B`, and `DEC-016` on `2026-07-29`
 
 ## Visual character
 
@@ -95,6 +95,21 @@ color.
 - Grid gap: 16px standard, 24px major.
 - Header height: 64px.
 - Row height: 54–58px.
+
+## Page alignment DNA
+
+Every primary page surface must use one explicit width mode:
+
+1. **Fluid instrument canvas** for dashboards, maps, operational grids and
+   tables that materially benefit from the available width.
+2. **Centered bounded canvas** for forms, settings, reading and focused
+   workflows. Use `w-full`, an intentional `max-width`, and `margin-inline:
+   auto`.
+
+Never place a narrow, left-anchored `max-width` child inside an otherwise
+full-width empty panel. If a form is bounded, its containing panel is bounded
+and centered with it; the form then fills the usable panel width. On mobile,
+both modes become full-width within the standard page gutters.
 
 ## Responsive behavior
 
