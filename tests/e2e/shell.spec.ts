@@ -95,7 +95,9 @@ test.describe("HIVE OS app shell", () => {
       sidebar.getByRole("button", { name: "Expand sidebar" }),
     ).toBeVisible();
     await expect(sidebar.getByText("HIVE OS")).toHaveClass(/sr-only/);
-    expect((await box(sidebar)).width).toBeLessThan(expandedWidth);
+    await expect
+      .poll(async () => (await box(sidebar)).width)
+      .toBeLessThan(expandedWidth);
 
     await sidebar.getByRole("button", { name: "Expand sidebar" }).click();
     await expect(

@@ -18,6 +18,7 @@ under TIP-021A-C (RC-04).
 
 | Field | Value |
 |---|---|
+| Status | **CLOSED by TIP-022Q on 2026-07-30** |
 | Test identity | `tests/e2e/execution-operations.spec.ts:74` › TIP-015 › EO-01..08 completes the governed Manual Bridge operating loop |
 | Observed frequency | ~1 in 3 full-suite runs (2 workers); 0 in isolation |
 | Suspected mechanism | Shared single app server under concurrent auth + mission write load (workers: 2); first-step assertion (`getByText('Mission entered exploration')`) races a slow server response, not a correctness defect |
@@ -32,3 +33,11 @@ Notes: this predates TIP-021A (identity-recovery changes do not touch the
 execution surface). If it promotes to P2, the candidate fix is reduced worker
 contention or a per-test server, addressed in a dedicated test-infra task rather
 than product code.
+
+TIP-022Q reproduced the failure without retry. The action had already completed
+and the successful server refresh correctly removed the APPROVED-only form; the
+test was racing a transient success message owned by that unmounted form.
+The assertion now waits for the stable governed result—the exploration form
+becoming unavailable after the Mission leaves APPROVED. Five repeated,
+two-worker, no-retry runs passed, followed by the complete 83-scenario suite
+passing with retries disabled.

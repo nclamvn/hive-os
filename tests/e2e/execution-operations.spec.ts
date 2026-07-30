@@ -91,7 +91,10 @@ test.describe("TIP-015 Execution Operations", () => {
     });
     await exploration.getByLabel("Approved Mission").selectOption({ index: 1 });
     await exploration.getByRole("button", { name: "Open exploration" }).click();
-    await expect(page.getByText("Mission entered exploration")).toBeVisible();
+    // The successful refresh removes this form because the Mission is no
+    // longer APPROVED. Assert the stable governed state instead of racing the
+    // transient success message during the server-component refresh.
+    await expect(exploration).toBeHidden();
 
     await page
       .getByText("Define execution work package", { exact: true })
