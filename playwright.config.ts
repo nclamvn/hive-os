@@ -1,6 +1,8 @@
 import { defineConfig } from "@playwright/test";
 
-import { E2E_ENV } from "./tests/e2e/env";
+import { E2E_BASE_URL, E2E_ENV } from "./tests/e2e/env";
+
+const e2ePort = new URL(E2E_BASE_URL).port || "3000";
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -16,14 +18,14 @@ export default defineConfig({
   retries: 1,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: E2E_BASE_URL,
     trace: "on-first-retry",
   },
   webServer: {
     // globalSetup builds in production; here we only serve, with the test env
     // (NODE_ENV=test) so the SEC-04 guard permits disabling rate limiting.
-    command: "npm run start",
-    url: "http://localhost:3000/api/health",
+    command: `PORT=${e2ePort} npm run start`,
+    url: `${E2E_BASE_URL}/api/health`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
     env: { ...E2E_ENV },

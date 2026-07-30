@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { getDb } from "@/server/db";
-import { checkDatabaseHealth } from "@/server/health";
+import {
+  checkDatabaseHealth,
+  checkObjectStorageHealth,
+} from "@/server/health";
 
 import { ownerQuery } from "./helpers";
 
@@ -12,6 +15,10 @@ describe("database foundation (hiveos_test)", () => {
     if (health.status === "ok") {
       expect(health.latencyMs).toBeGreaterThanOrEqual(0);
     }
+  });
+
+  it("PRC-03 reports the configured storage dependency as ready", async () => {
+    await expect(checkObjectStorageHealth()).resolves.toEqual({ status: "ok" });
   });
 
   it("has the committed foundation migration applied", async () => {

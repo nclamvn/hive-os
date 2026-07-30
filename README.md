@@ -5,7 +5,10 @@ decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
 authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
-Current state: **Local Release Candidate signed through TIP-019**. Identity,
+Current state: **Local Release Candidate signed through TIP-019, with
+TIP-021A identity recovery, TIP-021B stabilization, and TIP-021C-A
+provider-neutral production contract locally verified**.
+Identity,
 Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
 Settings, cross-surface discovery, governed exports, and local recovery are
 implemented and locally verified. Billing, remote GitHub Actions, merge and
@@ -27,7 +30,7 @@ production deployment remain separate deferred gates. Exact evidence lives in
 npm ci                 # deterministic install (runs prisma generate)
 docker compose up -d   # dedicated Postgres on port 5433 (dev + test databases)
 npm run db:migrate     # apply committed migrations
-npm run dev            # http://localhost:3000 — placeholder shell
+npm run dev            # http://localhost:3000 — full local application
 ```
 
 Copy `.env.example` to `.env` if you need non-default configuration.
@@ -60,6 +63,19 @@ dedicated `hiveos_tip019_*_rehearsal` databases:
 ```bash
 npm run db:rehearse:tip019
 ```
+
+## Local production contract
+
+```bash
+npm run build
+npm run test:prod-startup
+npm run test:load-local
+docker build -t hiveos:tip-021c-a .
+```
+
+The standalone artifact runs non-root and receives configuration only at
+runtime. Local load output is observation evidence, never a production SLO.
+See [`docs/operations/LOCAL_PRODUCTION_REHEARSAL.md`](docs/operations/LOCAL_PRODUCTION_REHEARSAL.md).
 
 ## Quality commands
 

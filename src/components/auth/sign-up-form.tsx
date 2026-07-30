@@ -32,7 +32,12 @@ export function SignUpForm() {
     // funnelled to the same neutral check-email outcome whether the email is
     // new or already registered — no account enumeration.
     await authClient.signUp
-      .email({ name, email, password, callbackURL: "/verify-email" })
+      .email({
+        name,
+        email,
+        password,
+        callbackURL: "/verify-email?status=complete",
+      })
       .catch(() => undefined);
     router.push("/check-email?intent=signup");
     router.refresh();

@@ -20,6 +20,9 @@ import { ObligationControls } from "@/components/mission/obligation-controls";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
+import { translate, type Locale, type MessageKey } from "@/i18n/config";
+import { enumLabel } from "@/i18n/format";
 import type {
   getMissionDetail,
   getMissionProgress,
@@ -43,18 +46,26 @@ const LIFECYCLE: MissionStatus[] = [
 
 const VIEW_META: Array<{
   id: MissionView;
-  label: string;
+  labelKey: MessageKey;
   icon: ReactNode;
 }> = [
-  { id: "overview", label: "Overview", icon: <LayoutDashboard /> },
-  { id: "contract", label: "Contract", icon: <ClipboardCheck /> },
-  { id: "research", label: "Research graph", icon: <GitBranch /> },
-  { id: "evidence", label: "Evidence", icon: <FileSearch /> },
-  { id: "claims", label: "Claims", icon: <Braces /> },
-  { id: "build", label: "Build", icon: <Blocks /> },
-  { id: "verify", label: "Verify", icon: <ShieldCheck /> },
-  { id: "decisions", label: "Decisions", icon: <Scale /> },
-  { id: "release", label: "Release", icon: <Archive /> },
+  {
+    id: "overview",
+    labelKey: "mission.views.overview",
+    icon: <LayoutDashboard />,
+  },
+  {
+    id: "contract",
+    labelKey: "mission.views.contract",
+    icon: <ClipboardCheck />,
+  },
+  { id: "research", labelKey: "mission.views.research", icon: <GitBranch /> },
+  { id: "evidence", labelKey: "mission.views.evidence", icon: <FileSearch /> },
+  { id: "claims", labelKey: "mission.views.claims", icon: <Braces /> },
+  { id: "build", labelKey: "mission.views.build", icon: <Blocks /> },
+  { id: "verify", labelKey: "mission.views.verify", icon: <ShieldCheck /> },
+  { id: "decisions", labelKey: "mission.views.decisions", icon: <Scale /> },
+  { id: "release", labelKey: "mission.views.release", icon: <Archive /> },
 ];
 
 type Detail = Awaited<ReturnType<typeof getMissionDetail>>;
@@ -72,6 +83,7 @@ export function MissionWorkspace({
   canApprove,
   canResolve,
   canUpdateObligations,
+  locale,
 }: {
   detail: Detail;
   progress: Progress;
@@ -81,6 +93,7 @@ export function MissionWorkspace({
   canApprove: boolean;
   canResolve: boolean;
   canUpdateObligations: boolean;
+  locale: Locale;
 }) {
   const { mission } = detail;
   const lifecycleIndex = LIFECYCLE.indexOf(mission.status);
@@ -88,6 +101,17 @@ export function MissionWorkspace({
     lifecycleIndex >= 0 && lifecycleIndex < LIFECYCLE.length - 1
       ? LIFECYCLE[lifecycleIndex + 1]
       : null;
+  const t = (key: MessageKey) => translate(locale, key);
+  const activePlane =
+    view === "research" || view === "evidence" || view === "claims"
+      ? 1
+      : view === "build"
+        ? 2
+        : view === "verify" || view === "decisions"
+          ? 3
+          : view === "release"
+            ? 4
+            : 0;
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
@@ -101,15 +125,18 @@ export function MissionWorkspace({
                 </span>
                 <MissionStatusBadge status={mission.status} />
                 <StatusBadge tone="neutral">
-                  {mission.assuranceProfile.toLowerCase()}
+                  {enumLabel(locale, mission.assuranceProfile)}
                 </StatusBadge>
               </div>
               <h2 className="text-ink-strong mt-2 text-[clamp(1.4rem,3vw,2rem)] leading-tight font-semibold tracking-[-0.025em]">
                 {mission.title}
               </h2>
               <p className="text-meta text-ink-muted mt-1">
-                Governed dossier · version {mission.version}
-                {nextStage ? ` · next stage ${humanize(nextStage)}` : ""}
+                {t("mission.governedDossier")} ·{" "}
+                {dual(locale, "version", "phiên bản")} {mission.version}
+                {nextStage
+                  ? ` · ${t("mission.nextStage")} ${translate(locale, `mission.stages.${nextStage}`)}`
+                  : ""}
               </p>
             </div>
             <MissionActions
@@ -119,11 +146,16 @@ export function MissionWorkspace({
               canApprove={canApprove}
             />
           </div>
-          <LifecycleRail current={mission.status} currentIndex={lifecycleIndex} />
+          <LifecycleRail
+            current={mission.status}
+            currentIndex={lifecycleIndex}
+            locale={locale}
+          />
         </div>
+        <ProvenanceRail active={activePlane} />
 
         <nav
-          aria-label="Mission workspace"
+          aria-label={dual(locale, "Mission workspace", "Không gian nhiệm vụ")}
           className="border-line overflow-x-auto border-t"
         >
           <div className="flex min-w-max px-2">
@@ -139,7 +171,7 @@ export function MissionWorkspace({
                 }`}
               >
                 {item.icon}
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </div>
@@ -153,22 +185,38 @@ export function MissionWorkspace({
           projection={projection}
           canUpdateObligations={canUpdateObligations}
           basePath={basePath}
+          locale={locale}
         />
       ) : null}
-      {view === "contract" ? <ContractLens detail={detail} /> : null}
-      {view === "research" ? <ResearchLens projection={projection} /> : null}
-      {view === "evidence" ? <EvidenceLens projection={projection} /> : null}
-      {view === "claims" ? <ClaimsLens projection={projection} /> : null}
-      {view === "build" ? <BuildLens projection={projection} /> : null}
-      {view === "verify" ? <VerifyLens projection={projection} /> : null}
+      {view === "contract" ? (
+        <ContractLens detail={detail} locale={locale} />
+      ) : null}
+      {view === "research" ? (
+        <ResearchLens projection={projection} locale={locale} />
+      ) : null}
+      {view === "evidence" ? (
+        <EvidenceLens projection={projection} locale={locale} />
+      ) : null}
+      {view === "claims" ? (
+        <ClaimsLens projection={projection} locale={locale} />
+      ) : null}
+      {view === "build" ? (
+        <BuildLens projection={projection} locale={locale} />
+      ) : null}
+      {view === "verify" ? (
+        <VerifyLens projection={projection} locale={locale} />
+      ) : null}
       {view === "decisions" ? (
         <DecisionsLens
           detail={detail}
           canResolve={canResolve}
           basePath={basePath}
+          locale={locale}
         />
       ) : null}
-      {view === "release" ? <ReleaseLens projection={projection} /> : null}
+      {view === "release" ? (
+        <ReleaseLens projection={projection} locale={locale} />
+      ) : null}
     </div>
   );
 }
@@ -176,13 +224,15 @@ export function MissionWorkspace({
 function LifecycleRail({
   current,
   currentIndex,
+  locale,
 }: {
   current: MissionStatus;
   currentIndex: number;
+  locale: Locale;
 }) {
   return (
     <ol
-      aria-label="Mission lifecycle"
+      aria-label={translate(locale, "mission.lifecycle")}
       className="border-line bg-surface-subtle grid grid-cols-2 overflow-hidden rounded-md border min-[560px]:grid-cols-5 min-[1180px]:grid-cols-10"
     >
       {LIFECYCLE.map((status, index) => {
@@ -211,9 +261,9 @@ function LifecycleRail({
               className={`text-meta mt-0.5 block truncate font-medium ${
                 active ? "text-white" : reached ? "text-ink" : "text-ink-muted"
               }`}
-              title={humanize(status)}
+              title={translate(locale, `mission.stages.${status}`)}
             >
-              {humanize(status)}
+              {translate(locale, `mission.stages.${status}`)}
             </span>
           </li>
         );
@@ -228,38 +278,72 @@ function OverviewLens({
   projection,
   canUpdateObligations,
   basePath,
+  locale,
 }: {
   detail: Detail;
   progress: Progress;
   projection: Projection;
   canUpdateObligations: boolean;
   basePath: string;
+  locale: Locale;
 }) {
   const { contract, obligations, gates } = detail;
   return (
     <div className="grid min-w-0 grid-cols-1 gap-5 min-[1120px]:grid-cols-[minmax(0,1fr)_340px]">
       <div className="min-w-0 space-y-5">
         <Panel className="p-5">
-          <SectionHeader title="Mission brief" />
+          <SectionHeader
+            title={dual(locale, "Mission brief", "Tóm tắt nhiệm vụ")}
+          />
           {contract ? (
             <dl className="mt-4 grid grid-cols-1 gap-4 min-[720px]:grid-cols-3">
-              <Field label="Objective" value={contract.objective} />
-              <Field label="Scope" value={contract.scope} />
-              <Field label="Success definition" value={contract.successDefinition} />
+              <Field
+                label={dual(locale, "Objective", "Mục tiêu")}
+                value={contract.objective}
+                locale={locale}
+              />
+              <Field
+                label={dual(locale, "Scope", "Phạm vi")}
+                value={contract.scope}
+                locale={locale}
+              />
+              <Field
+                label={dual(
+                  locale,
+                  "Success definition",
+                  "Định nghĩa thành công",
+                )}
+                value={contract.successDefinition}
+                locale={locale}
+              />
             </dl>
           ) : (
-            <EmptyState title="No contract captured" />
+            <EmptyState
+              title={dual(
+                locale,
+                "No contract captured",
+                "Chưa ghi nhận hợp đồng",
+              )}
+            />
           )}
         </Panel>
 
         <Panel className="overflow-hidden">
           <div className="border-line border-b p-5">
-            <SectionHeader title="Obligations" />
+            <SectionHeader title={dual(locale, "Obligations", "Nghĩa vụ")} />
           </div>
           {obligations.length === 0 ? (
             <EmptyState
-              title="Obligations appear after approval"
-              hint="Approve the Mission contract to create governed runtime obligations."
+              title={dual(
+                locale,
+                "Obligations appear after approval",
+                "Nghĩa vụ xuất hiện sau khi phê duyệt",
+              )}
+              hint={dual(
+                locale,
+                "Approve the Mission contract to create governed runtime obligations.",
+                "Phê duyệt hợp đồng nhiệm vụ để tạo nghĩa vụ runtime được quản trị.",
+              )}
             />
           ) : (
             <ul>
@@ -274,7 +358,8 @@ function OverviewLens({
                       {obligation.contractObligation.title}
                     </span>
                     <span className="text-meta text-ink-muted">
-                      Weight {obligation.contractObligation.weight}
+                      {dual(locale, "Weight", "Trọng số")}{" "}
+                      {obligation.contractObligation.weight}
                     </span>
                   </span>
                   <span className="flex flex-wrap items-center gap-2">
@@ -287,7 +372,7 @@ function OverviewLens({
                             : "neutral"
                       }
                     >
-                      {humanize(obligation.status)}
+                      {enumLabel(locale, obligation.status)}
                     </StatusBadge>
                     {canUpdateObligations ? (
                       <ObligationControls
@@ -306,7 +391,9 @@ function OverviewLens({
 
       <div className="space-y-5">
         <Panel className="p-5">
-          <p className="text-eyebrow text-ink-muted">Derived progress</p>
+          <p className="text-eyebrow text-ink-muted">
+            {dual(locale, "Derived progress", "Tiến độ dẫn xuất")}
+          </p>
           {progress ? (
             <>
               <p className="text-ink-strong tabular mt-2 text-3xl font-semibold">
@@ -320,44 +407,76 @@ function OverviewLens({
               </div>
               <p className="text-meta text-ink-muted mt-2">
                 {progress.closedWeight} / {progress.totalWeight} weighted
-                obligations closed
+                {dual(
+                  locale,
+                  "weighted obligations closed",
+                  "nghĩa vụ có trọng số đã hoàn tất",
+                )}
               </p>
             </>
           ) : (
             <p className="text-meta text-ink-muted mt-2">
-              Progress is unavailable until the contract is approved.
+              {dual(
+                locale,
+                "Progress is unavailable until the contract is approved.",
+                "Tiến độ chưa khả dụng cho đến khi hợp đồng được phê duyệt.",
+              )}
             </p>
           )}
         </Panel>
 
         <Panel className="p-5">
-          <p className="text-eyebrow text-ink-muted">Governed records</p>
+          <p className="text-eyebrow text-ink-muted">
+            {dual(locale, "Governed records", "Hồ sơ được quản trị")}
+          </p>
           <dl className="border-line mt-3 divide-y border-y">
-            <MetricRow label="Evidence sources" value={projection.evidenceSources.length} />
-            <MetricRow label="Claims" value={projection.claims.length} />
-            <MetricRow label="Execution TIPs" value={projection.execution.tips.length} />
-            <MetricRow label="Verify Reports" value={projection.verification.reports.length} />
-            <MetricRow label="Releases" value={projection.releases.length} />
+            <MetricRow
+              label={dual(locale, "Evidence sources", "Nguồn bằng chứng")}
+              value={projection.evidenceSources.length}
+            />
+            <MetricRow
+              label={dual(locale, "Claims", "Luận điểm")}
+              value={projection.claims.length}
+            />
+            <MetricRow
+              label={dual(locale, "Execution TIPs", "TIP thực thi")}
+              value={projection.execution.tips.length}
+            />
+            <MetricRow
+              label={dual(locale, "Verify Reports", "Báo cáo kiểm chứng")}
+              value={projection.verification.reports.length}
+            />
+            <MetricRow
+              label={dual(locale, "Releases", "Bản phát hành")}
+              value={projection.releases.length}
+            />
           </dl>
         </Panel>
 
         <Panel className="p-5">
-          <SectionHeader title="Gates" />
+          <SectionHeader title={dual(locale, "Gates", "Cổng")} />
           {gates.length === 0 ? (
             <p className="text-meta text-ink-muted mt-3">
-              Gates appear after contract approval when required by assurance.
+              {dual(
+                locale,
+                "Gates appear after contract approval when required by assurance.",
+                "Cổng xuất hiện sau khi hợp đồng được phê duyệt nếu hồ sơ bảo chứng yêu cầu.",
+              )}
             </p>
           ) : (
             <ul className="mt-3 space-y-2">
               {gates.map((gate) => (
-                <li key={gate.id} className="flex items-center justify-between gap-3">
+                <li
+                  key={gate.id}
+                  className="flex items-center justify-between gap-3"
+                >
                   <span className="text-meta text-ink">
                     {gate.contractGate.title}
                   </span>
                   <StatusBadge
                     tone={gate.status === "PASSED" ? "success" : "neutral"}
                   >
-                    {humanize(gate.status)}
+                    {enumLabel(locale, gate.status)}
                   </StatusBadge>
                 </li>
               ))}
@@ -369,12 +488,14 @@ function OverviewLens({
   );
 }
 
-function ContractLens({ detail }: { detail: Detail }) {
+function ContractLens({ detail, locale }: { detail: Detail; locale: Locale }) {
   const { contract } = detail;
   if (!contract) {
     return (
       <Panel>
-        <EmptyState title="No contract captured" />
+        <EmptyState
+          title={dual(locale, "No contract captured", "Chưa ghi nhận hợp đồng")}
+        />
       </Panel>
     );
   }
@@ -383,50 +504,68 @@ function ContractLens({ detail }: { detail: Detail }) {
       <div className="space-y-5">
         <Panel className="p-5">
           <SectionHeader
-            title="Approved intent"
+            title={dual(locale, "Approved intent", "Ý định đã duyệt")}
             action={
               <StatusBadge tone="neutral">
-                v{contract.versionNumber} · {humanize(contract.status)}
+                v{contract.versionNumber} · {enumLabel(locale, contract.status)}
               </StatusBadge>
             }
           />
           <dl className="mt-4 space-y-4">
-            <Field label="Objective" value={contract.objective} />
-            <Field label="Scope" value={contract.scope} />
-            <Field label="Success definition" value={contract.successDefinition} />
+            <Field
+              label={dual(locale, "Objective", "Mục tiêu")}
+              value={contract.objective}
+              locale={locale}
+            />
+            <Field
+              label={dual(locale, "Scope", "Phạm vi")}
+              value={contract.scope}
+              locale={locale}
+            />
+            <Field
+              label={dual(
+                locale,
+                "Success definition",
+                "Định nghĩa thành công",
+              )}
+              value={contract.successDefinition}
+              locale={locale}
+            />
           </dl>
         </Panel>
         <RecordList
-          title="Requirements"
-          empty="No requirements"
+          title={dual(locale, "Requirements", "Yêu cầu")}
+          empty={dual(locale, "No requirements", "Không có yêu cầu")}
           items={contract.requirements.map((item) => ({
             id: item.id,
             title: `${item.code} · ${item.title}`,
             detail: item.acceptanceCriteria,
-            badge: item.required ? "required" : "optional",
+            badge: item.required
+              ? dual(locale, "required", "bắt buộc")
+              : dual(locale, "optional", "tùy chọn"),
           }))}
         />
       </div>
       <div className="space-y-5">
         <RecordList
-          title="Assumptions"
-          empty="No assumptions"
+          title={dual(locale, "Assumptions", "Giả định")}
+          empty={dual(locale, "No assumptions", "Không có giả định")}
           items={contract.assumptions.map((item) => ({
             id: item.id,
             title: item.statement,
           }))}
         />
         <RecordList
-          title="Constraints"
-          empty="No constraints"
+          title={dual(locale, "Constraints", "Ràng buộc")}
+          empty={dual(locale, "No constraints", "Không có ràng buộc")}
           items={contract.constraints.map((item) => ({
             id: item.id,
             title: item.statement,
           }))}
         />
         <RecordList
-          title="Inputs"
-          empty="No inputs"
+          title={dual(locale, "Inputs", "Đầu vào")}
+          empty={dual(locale, "No inputs", "Không có đầu vào")}
           items={contract.inputs.map((item) => ({
             id: item.id,
             title: item.label,
@@ -438,29 +577,67 @@ function ContractLens({ detail }: { detail: Detail }) {
   );
 }
 
-function ResearchLens({ projection }: { projection: Projection }) {
+function ResearchLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <div className="grid grid-cols-1 gap-5 min-[1080px]:grid-cols-[320px_minmax(0,1fr)]">
       <Panel className="p-5">
-        <p className="text-eyebrow text-ink-muted">Research graph</p>
+        <p className="text-eyebrow text-ink-muted">
+          {dual(locale, "Research graph", "Đồ thị nghiên cứu")}
+        </p>
         <p className="text-section-title text-ink-strong mt-1">
-          Retained lineage, not a generated diagram.
+          {dual(
+            locale,
+            "Retained lineage, not a generated diagram.",
+            "Dòng nguồn gốc được lưu giữ, không phải sơ đồ được tạo sinh.",
+          )}
         </p>
         <dl className="border-line mt-5 divide-y border-y">
-          <MetricRow label="Sources" value={projection.evidenceSources.length} />
-          <MetricRow label="Claims" value={projection.claims.length} />
-          <MetricRow label="Edges" value={projection.provenanceEdges.length} />
-          <MetricRow label="Disputes" value={projection.disputes.length} />
+          <MetricRow
+            label={dual(locale, "Sources", "Nguồn")}
+            value={projection.evidenceSources.length}
+          />
+          <MetricRow
+            label={dual(locale, "Claims", "Luận điểm")}
+            value={projection.claims.length}
+          />
+          <MetricRow
+            label={dual(locale, "Edges", "Liên kết")}
+            value={projection.provenanceEdges.length}
+          />
+          <MetricRow
+            label={dual(locale, "Disputes", "Tranh chấp")}
+            value={projection.disputes.length}
+          />
         </dl>
       </Panel>
       <Panel className="overflow-hidden">
         <div className="border-line border-b p-5">
-          <SectionHeader title="Recent provenance edges" />
+          <SectionHeader
+            title={dual(
+              locale,
+              "Recent provenance edges",
+              "Liên kết nguồn gốc gần đây",
+            )}
+          />
         </div>
         {projection.provenanceEdges.length === 0 ? (
           <EmptyState
-            title="No provenance edges yet"
-            hint="Create evidence-backed ClaimVersions to build the research graph."
+            title={dual(
+              locale,
+              "No provenance edges yet",
+              "Chưa có liên kết nguồn gốc",
+            )}
+            hint={dual(
+              locale,
+              "Create evidence-backed ClaimVersions to build the research graph.",
+              "Tạo ClaimVersion có bằng chứng để xây dựng đồ thị nghiên cứu.",
+            )}
           />
         ) : (
           <ul>
@@ -472,7 +649,9 @@ function ResearchLens({ projection }: { projection: Projection }) {
                 <span className="text-meta text-ink min-w-0 truncate">
                   {edge.fromKind} · {edge.fromId.slice(0, 8)}
                 </span>
-                <StatusBadge tone="neutral">{humanize(edge.relation)}</StatusBadge>
+                <StatusBadge tone="neutral">
+                  {enumLabel(locale, edge.relation)}
+                </StatusBadge>
                 <span className="text-meta text-ink min-w-0 truncate text-right">
                   {edge.toKind} · {edge.toId.slice(0, 8)}
                 </span>
@@ -485,23 +664,38 @@ function ResearchLens({ projection }: { projection: Projection }) {
   );
 }
 
-function EvidenceLens({ projection }: { projection: Projection }) {
+function EvidenceLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <Panel className="overflow-hidden">
       <div className="border-line border-b p-5">
         <SectionHeader
-          title="Evidence ledger"
+          title={dual(locale, "Evidence ledger", "Sổ cái bằng chứng")}
           action={
             <StatusBadge tone="neutral">
-              {projection.evidenceSources.length} sources
+              {projection.evidenceSources.length}{" "}
+              {dual(locale, "sources", "nguồn")}
             </StatusBadge>
           }
         />
       </div>
       {projection.evidenceSources.length === 0 ? (
         <EmptyState
-          title="No evidence sources yet"
-          hint="Evidence sources, immutable snapshots and exact spans appear during exploration."
+          title={dual(
+            locale,
+            "No evidence sources yet",
+            "Chưa có nguồn bằng chứng",
+          )}
+          hint={dual(
+            locale,
+            "Evidence sources, immutable snapshots and exact spans appear during exploration.",
+            "Nguồn bằng chứng, snapshot bất biến và đoạn trích chính xác xuất hiện trong giai đoạn khảo sát.",
+          )}
         />
       ) : (
         <ul className="grid grid-cols-1 min-[760px]:grid-cols-2">
@@ -515,18 +709,28 @@ function EvidenceLens({ projection }: { projection: Projection }) {
                   {source.title}
                 </span>
                 <StatusBadge tone="neutral">
-                  {source.accessLevel.toLowerCase()}
+                  {enumLabel(locale, source.accessLevel)}
                 </StatusBadge>
               </span>
               <p className="text-meta text-ink-muted mt-1">
-                {source.publisher || source.sourceType} · independence{" "}
+                {source.publisher || source.sourceType} ·{" "}
+                {dual(locale, "independence", "độc lập")}{" "}
                 {source.independenceKey}
               </p>
               <p className="text-meta text-ink-muted mt-3">
-                {source._count.snapshots} immutable snapshots ·{" "}
+                {source._count.snapshots}{" "}
+                {dual(locale, "immutable snapshots", "snapshot bất biến")} ·{" "}
                 {source.qualifiesForCorroboration
-                  ? "qualifies for corroboration"
-                  : "not a corroboration source"}
+                  ? dual(
+                      locale,
+                      "qualifies for corroboration",
+                      "đủ điều kiện đối chứng",
+                    )
+                  : dual(
+                      locale,
+                      "not a corroboration source",
+                      "không phải nguồn đối chứng",
+                    )}
               </p>
             </li>
           ))}
@@ -536,16 +740,28 @@ function EvidenceLens({ projection }: { projection: Projection }) {
   );
 }
 
-function ClaimsLens({ projection }: { projection: Projection }) {
+function ClaimsLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <Panel className="overflow-hidden">
       <div className="border-line border-b p-5">
-        <SectionHeader title="Claims and insights" />
+        <SectionHeader
+          title={dual(locale, "Claims and insights", "Luận điểm và phân tích")}
+        />
       </div>
       {projection.claims.length === 0 ? (
         <EmptyState
-          title="No claims yet"
-          hint="Create a sourced claim, an owned internal claim, or an explicit hypothesis."
+          title={dual(locale, "No claims yet", "Chưa có luận điểm")}
+          hint={dual(
+            locale,
+            "Create a sourced claim, an owned internal claim, or an explicit hypothesis.",
+            "Tạo luận điểm có nguồn, luận điểm nội bộ có chủ sở hữu hoặc giả thuyết rõ ràng.",
+          )}
         />
       ) : (
         <ul>
@@ -561,8 +777,10 @@ function ClaimsLens({ projection }: { projection: Projection }) {
                     {latest?.statement || claim.claimKey}
                   </span>
                   <span className="text-meta text-ink-muted tabular block">
-                    {claim.claimKey} · {claim._count.versions} versions ·{" "}
-                    {claim._count.disputes} disputes
+                    {claim.claimKey} · {claim._count.versions}{" "}
+                    {dual(locale, "versions", "phiên bản")} ·{" "}
+                    {claim._count.disputes}{" "}
+                    {dual(locale, "disputes", "tranh chấp")}
                   </span>
                 </span>
                 <span className="flex flex-wrap items-center gap-2">
@@ -579,10 +797,10 @@ function ClaimsLens({ projection }: { projection: Projection }) {
                           : "neutral"
                     }
                   >
-                    {humanize(claim.state)}
+                    {enumLabel(locale, claim.state)}
                   </StatusBadge>
                   <StatusBadge tone="neutral">
-                    {claim.accessLevel.toLowerCase()}
+                    {enumLabel(locale, claim.accessLevel)}
                   </StatusBadge>
                 </span>
               </li>
@@ -594,7 +812,13 @@ function ClaimsLens({ projection }: { projection: Projection }) {
   );
 }
 
-function BuildLens({ projection }: { projection: Projection }) {
+function BuildLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <div className="space-y-5">
       <Panel className="p-5">
@@ -602,7 +826,7 @@ function BuildLens({ projection }: { projection: Projection }) {
           <div>
             <p className="text-eyebrow text-navy-700">Manual Provider Bridge</p>
             <h3 className="text-section-title text-ink-strong mt-1">
-              Governed execution
+              {dual(locale, "Governed execution", "Thực thi được quản trị")}
             </h3>
             <p className="text-meta text-ink-muted mt-1">
               {projection.execution.disclaimer}
@@ -610,7 +834,8 @@ function BuildLens({ projection }: { projection: Projection }) {
           </div>
           <span className="flex flex-wrap gap-2">
             <StatusBadge tone="neutral">
-              {projection.execution.counts.artifacts} artifacts
+              {projection.execution.counts.artifacts}{" "}
+              {dual(locale, "artifacts", "artifact")}
             </StatusBadge>
             <StatusBadge
               tone={
@@ -619,19 +844,30 @@ function BuildLens({ projection }: { projection: Projection }) {
                   : "neutral"
               }
             >
-              {projection.execution.counts.awaitingReports} awaiting reports
+              {projection.execution.counts.awaitingReports}{" "}
+              {dual(locale, "awaiting reports", "báo cáo đang chờ")}
             </StatusBadge>
           </span>
         </div>
       </Panel>
       <Panel className="overflow-hidden">
         <div className="border-line border-b p-5">
-          <SectionHeader title="Execution TIPs" />
+          <SectionHeader
+            title={dual(locale, "Execution TIPs", "TIP thực thi")}
+          />
         </div>
         {projection.execution.tips.length === 0 ? (
           <EmptyState
-            title="No execution TIPs yet"
-            hint="Execution packages appear after governed exploration defines the work."
+            title={dual(
+              locale,
+              "No execution TIPs yet",
+              "Chưa có TIP thực thi",
+            )}
+            hint={dual(
+              locale,
+              "Execution packages appear after governed exploration defines the work.",
+              "Gói thực thi xuất hiện sau khi khảo sát được quản trị xác định công việc.",
+            )}
           />
         ) : (
           <ul>
@@ -650,8 +886,8 @@ function BuildLens({ projection }: { projection: Projection }) {
                       {tip.skillVersion.skill.displayName} v
                       {tip.skillVersion.semanticVersion}
                       {latest
-                        ? ` · attempt ${latest.attemptNumber} · ${latest.executionRole.toLowerCase()} · ${latest.providerName}`
-                        : " · not issued"}
+                        ? ` · ${dual(locale, "attempt", "lần thử")} ${latest.attemptNumber} · ${enumLabel(locale, latest.executionRole)} · ${latest.providerName}`
+                        : ` · ${dual(locale, "not issued", "chưa phát hành")}`}
                     </span>
                   </span>
                   <StatusBadge
@@ -664,7 +900,7 @@ function BuildLens({ projection }: { projection: Projection }) {
                           : "neutral"
                     }
                   >
-                    {humanize(tip.status)}
+                    {enumLabel(locale, tip.status)}
                   </StatusBadge>
                 </li>
               );
@@ -676,17 +912,33 @@ function BuildLens({ projection }: { projection: Projection }) {
   );
 }
 
-function VerifyLens({ projection }: { projection: Projection }) {
+function VerifyLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <div className="grid grid-cols-1 gap-5 min-[1080px]:grid-cols-[minmax(0,1fr)_340px]">
       <Panel className="overflow-hidden">
         <div className="border-line border-b p-5">
-          <SectionHeader title="Verify Reports" />
+          <SectionHeader
+            title={dual(locale, "Verify Reports", "Báo cáo kiểm chứng")}
+          />
         </div>
         {projection.verification.reports.length === 0 ? (
           <EmptyState
-            title="No Verify Reports yet"
-            hint="A report appears after a governed verifier completes exact coverage, health and corruption checks."
+            title={dual(
+              locale,
+              "No Verify Reports yet",
+              "Chưa có Báo cáo kiểm chứng",
+            )}
+            hint={dual(
+              locale,
+              "A report appears after a governed verifier completes exact coverage, health and corruption checks.",
+              "Báo cáo xuất hiện sau khi người kiểm chứng hoàn tất độ phủ chính xác, sức khỏe kỹ thuật và kiểm tra sai hỏng.",
+            )}
           />
         ) : (
           <ul>
@@ -708,13 +960,15 @@ function VerifyLens({ projection }: { projection: Projection }) {
                           : "warning"
                     }
                   >
-                    {humanize(report.overallStatus)}
+                    {enumLabel(locale, report.overallStatus)}
                   </StatusBadge>
                 </span>
                 <p className="text-meta text-ink-muted mt-2">
-                  {humanize(report.verificationRun.independenceStatus)} ·{" "}
-                  {report.verificationRun.corruptionRuns.length} corruption
-                  tests · {report.deferredItems.length} deferred
+                  {enumLabel(locale, report.verificationRun.independenceStatus)}{" "}
+                  · {report.verificationRun.corruptionRuns.length}{" "}
+                  {dual(locale, "corruption tests", "kiểm tra sai hỏng")} ·{" "}
+                  {report.deferredItems.length}{" "}
+                  {dual(locale, "deferred", "hoãn lại")}
                 </p>
               </li>
             ))}
@@ -723,21 +977,27 @@ function VerifyLens({ projection }: { projection: Projection }) {
       </Panel>
       <div className="space-y-5">
         <RecordList
-          title="Required scenarios"
-          empty="No verification scenarios"
+          title={dual(locale, "Required scenarios", "Kịch bản bắt buộc")}
+          empty={dual(
+            locale,
+            "No verification scenarios",
+            "Không có kịch bản kiểm chứng",
+          )}
           items={projection.verification.scenarios.map((scenario) => ({
             id: scenario.id,
             title: `${scenario.code} · ${scenario.title}`,
             detail: scenario.expectedOutcome,
-            badge: scenario.required ? "required" : "optional",
+            badge: scenario.required
+              ? dual(locale, "required", "bắt buộc")
+              : dual(locale, "optional", "tùy chọn"),
           }))}
         />
         <RecordList
-          title="Governance sign-offs"
-          empty="No sign-offs"
+          title={dual(locale, "Governance sign-offs", "Phê duyệt quản trị")}
+          empty={dual(locale, "No sign-offs", "Không có phê duyệt")}
           items={projection.verification.signoffs.map((signoff) => ({
             id: signoff.id,
-            title: `${humanize(signoff.signoffType)} · ${humanize(signoff.decision)}`,
+            title: `${enumLabel(locale, signoff.signoffType)} · ${enumLabel(locale, signoff.decision)}`,
             detail: signoff.rationale,
           }))}
         />
@@ -750,21 +1010,33 @@ function DecisionsLens({
   detail,
   canResolve,
   basePath,
+  locale,
 }: {
   detail: Detail;
   canResolve: boolean;
   basePath: string;
+  locale: Locale;
 }) {
   return (
     <div className="grid grid-cols-1 gap-5 min-[1040px]:grid-cols-2">
       <Panel className="overflow-hidden">
         <div className="border-line border-b p-5">
-          <SectionHeader title="Decision ledger" />
+          <SectionHeader
+            title={dual(locale, "Decision ledger", "Sổ cái quyết định")}
+          />
         </div>
         {detail.decisions.length === 0 ? (
           <EmptyState
-            title="No decisions recorded"
-            hint="Material changes and exceptions create governed Decisions."
+            title={dual(
+              locale,
+              "No decisions recorded",
+              "Chưa ghi nhận quyết định",
+            )}
+            hint={dual(
+              locale,
+              "Material changes and exceptions create governed Decisions.",
+              "Thay đổi trọng yếu và ngoại lệ tạo ra quyết định được quản trị.",
+            )}
           />
         ) : (
           <ul>
@@ -775,7 +1047,7 @@ function DecisionsLens({
               >
                 <span className="min-w-0">
                   <span className="text-body text-ink-strong block font-medium">
-                    {humanize(decision.decisionType)}
+                    {enumLabel(locale, decision.decisionType)}
                   </span>
                   <span className="text-meta text-ink-muted block">
                     {decision.question}
@@ -788,9 +1060,11 @@ function DecisionsLens({
                   />
                 ) : (
                   <StatusBadge
-                    tone={decision.status === "REQUIRED" ? "warning" : "neutral"}
+                    tone={
+                      decision.status === "REQUIRED" ? "warning" : "neutral"
+                    }
                   >
-                    {humanize(decision.status)}
+                    {enumLabel(locale, decision.status)}
                   </StatusBadge>
                 )}
               </li>
@@ -799,28 +1073,48 @@ function DecisionsLens({
         )}
       </Panel>
       <RecordList
-        title="Escalations"
-        empty="No escalations"
+        title={dual(locale, "Escalations", "Chuyển cấp")}
+        empty={dual(locale, "No escalations", "Không có chuyển cấp")}
         items={detail.escalations.map((escalation) => ({
           id: escalation.id,
           title: escalation.reason,
-          detail: `${escalation.severity} · ${humanize(escalation.status)} · ${humanize(escalation.sourceType)}`,
+          detail: `${escalation.severity} · ${enumLabel(locale, escalation.status)} · ${enumLabel(locale, escalation.sourceType)}`,
         }))}
       />
     </div>
   );
 }
 
-function ReleaseLens({ projection }: { projection: Projection }) {
+function ReleaseLens({
+  projection,
+  locale,
+}: {
+  projection: Projection;
+  locale: Locale;
+}) {
   return (
     <Panel className="overflow-hidden">
       <div className="border-line border-b p-5">
-        <SectionHeader title="Governed releases" />
+        <SectionHeader
+          title={dual(
+            locale,
+            "Governed releases",
+            "Bản phát hành được quản trị",
+          )}
+        />
       </div>
       {projection.releases.length === 0 ? (
         <EmptyState
-          title="No governed release yet"
-          hint="A release requires a ready Verify Report, required sign-offs, evidence-ceiling checks and an immutable manifest."
+          title={dual(
+            locale,
+            "No governed release yet",
+            "Chưa có bản phát hành được quản trị",
+          )}
+          hint={dual(
+            locale,
+            "A release requires a ready Verify Report, required sign-offs, evidence-ceiling checks and an immutable manifest.",
+            "Bản phát hành cần Báo cáo kiểm chứng sẵn sàng, phê duyệt bắt buộc, kiểm tra trần bằng chứng và manifest bất biến.",
+          )}
         />
       ) : (
         <ul>
@@ -832,30 +1126,40 @@ function ReleaseLens({ projection }: { projection: Projection }) {
               <span className="min-w-0">
                 <span className="flex flex-wrap items-center gap-2">
                   <StatusBadge tone="success">
-                    {humanize(release.status)}
+                    {enumLabel(locale, release.status)}
                   </StatusBadge>
                   <StatusBadge tone="neutral">
-                    {release.visibility.toLowerCase()}
+                    {enumLabel(locale, release.visibility)}
                   </StatusBadge>
                 </span>
                 <p className="text-meta text-ink-muted tabular mt-3 break-all">
-                  Manifest {release.manifest?.contentHash || "not available"}
+                  Manifest{" "}
+                  {release.manifest?.contentHash ||
+                    dual(locale, "not available", "chưa khả dụng")}
                 </p>
                 <p className="text-meta text-ink-muted mt-2">
-                  {jsonArrayLength(release.manifest?.claimVersions)} exact claim
-                  versions · {jsonArrayLength(release.manifest?.artifacts)}{" "}
-                  artifacts · {release.manifest?.approverMembershipIds.length ?? 0}{" "}
-                  approvers
+                  {jsonArrayLength(release.manifest?.claimVersions)}{" "}
+                  {dual(
+                    locale,
+                    "exact claim versions",
+                    "phiên bản luận điểm chính xác",
+                  )}{" "}
+                  · {jsonArrayLength(release.manifest?.artifacts)}{" "}
+                  {dual(locale, "artifacts", "artifact")} ·{" "}
+                  {release.manifest?.approverMembershipIds.length ?? 0}{" "}
+                  {dual(locale, "approvers", "người phê duyệt")}
                 </p>
               </span>
               <dl className="border-line divide-y border-y">
                 <TextArrayRow
-                  label="Methods"
+                  label={dual(locale, "Methods", "Phương pháp")}
                   values={release.manifest?.methods ?? []}
+                  locale={locale}
                 />
                 <TextArrayRow
-                  label="Limitations"
+                  label={dual(locale, "Limitations", "Giới hạn")}
                   values={release.manifest?.limitations ?? []}
+                  locale={locale}
                 />
               </dl>
             </li>
@@ -873,7 +1177,12 @@ function RecordList({
 }: {
   title: string;
   empty: string;
-  items: Array<{ id: string; title: string; detail?: string | null; badge?: string }>;
+  items: Array<{
+    id: string;
+    title: string;
+    detail?: string | null;
+    badge?: string;
+  }>;
 }) {
   return (
     <Panel className="overflow-hidden">
@@ -914,28 +1223,48 @@ function MetricRow({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2.5">
       <dt className="text-meta text-ink-muted">{label}</dt>
-      <dd className="text-body text-ink-strong tabular font-semibold">{value}</dd>
-    </div>
-  );
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-meta text-ink-muted">{label}</dt>
-      <dd className="text-body text-ink mt-1 whitespace-pre-wrap">
-        {value || "Not available"}
+      <dd className="text-body text-ink-strong tabular font-semibold">
+        {value}
       </dd>
     </div>
   );
 }
 
-function TextArrayRow({ label, values }: { label: string; values: string[] }) {
+function Field({
+  label,
+  value,
+  locale,
+}: {
+  label: string;
+  value: string;
+  locale: Locale;
+}) {
+  return (
+    <div>
+      <dt className="text-meta text-ink-muted">{label}</dt>
+      <dd className="text-body text-ink mt-1 whitespace-pre-wrap">
+        {value || dual(locale, "Not available", "Chưa khả dụng")}
+      </dd>
+    </div>
+  );
+}
+
+function TextArrayRow({
+  label,
+  values,
+  locale,
+}: {
+  label: string;
+  values: string[];
+  locale: Locale;
+}) {
   return (
     <div className="py-3">
       <dt className="text-meta text-ink-muted">{label}</dt>
       <dd className="text-meta text-ink mt-1">
-        {values.length > 0 ? values.join(" · ") : "Not available"}
+        {values.length > 0
+          ? values.join(" · ")
+          : dual(locale, "Not available", "Chưa khả dụng")}
       </dd>
     </div>
   );
@@ -945,9 +1274,6 @@ function jsonArrayLength(value: unknown): number {
   return Array.isArray(value) ? value.length : 0;
 }
 
-function humanize(value: string): string {
-  return value
-    .toLowerCase()
-    .replaceAll("_", " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+function dual(locale: Locale, en: string, vi: string): string {
+  return locale === "vi" ? vi : en;
 }

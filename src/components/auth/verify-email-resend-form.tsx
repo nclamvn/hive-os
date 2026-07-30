@@ -20,7 +20,10 @@ export function VerifyEmailResendForm() {
     setBusy(true);
     const email = String(new FormData(event.currentTarget).get("email") ?? "");
     await authClient
-      .sendVerificationEmail({ email, callbackURL: "/verify-email" })
+      .sendVerificationEmail({
+        email,
+        callbackURL: "/verify-email?status=complete",
+      })
       .catch(() => undefined);
     setBusy(false);
     setSubmitted(true);

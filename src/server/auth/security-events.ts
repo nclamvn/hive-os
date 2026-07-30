@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 
 import { getDb } from "@/server/db";
+import { writeOperationalEvent } from "@/server/observability/operational-log";
 
 /**
  * Append-only identity security ledger writer.
@@ -97,7 +98,17 @@ export async function recordSecurityEvent(
         payload: payload as Prisma.InputJsonValue,
       },
     });
-  } catch {
-    // Fail closed on recording, never on the auth flow.
+  } catch (error) {
+    // Keep authentication available, but never make a failed security-ledger
+    // write invisible. Only schema-safe enum values and the error class are
+    // emitted; messages can contain rejected payload values or DB details.
+    writeOperationalEvent({
+      level: "error",
+      event: "identity_security_event.recording_failed",
+      outcome: "failure",
+      component: "identity",
+      correlationId: input.correlationId,
+      errorType: error instanceof Error ? error.name : "UnknownError",
+    });
   }
 }

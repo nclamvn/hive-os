@@ -9,6 +9,7 @@ import { resolveWorkspaceContext } from "@/modules/identity-workspace";
 import {
   addClaimVersion,
   assertHonestNull,
+  captureEvidenceFile,
   captureSnapshot,
   createClaim,
   createEvidenceSource,
@@ -20,6 +21,7 @@ import {
 export interface TruthActionResult {
   ok: boolean;
   error?: string;
+  errorCode?: string;
 }
 
 const ACCESS_LEVELS: readonly AccessLevel[] = [
@@ -37,9 +39,17 @@ function accessLevel(formData: FormData): AccessLevel {
   return ACCESS_LEVELS.includes(value) ? value : "WORKSPACE";
 }
 
-function message(error: unknown): string {
-  if (error instanceof TruthError) return `${error.code}: ${error.message}`;
-  if (error instanceof Error && "code" in error) return error.message;
+function failure(error: unknown): TruthActionResult {
+  if (error instanceof TruthError) {
+    return { ok: false, errorCode: error.code, error: error.message };
+  }
+  if (error instanceof Error && "code" in error) {
+    return {
+      ok: false,
+      errorCode: String(error.code),
+      error: error.message,
+    };
+  }
   throw error;
 }
 
@@ -60,7 +70,7 @@ async function run(
     refresh(slug);
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: message(error) };
+    return failure(error);
   }
 }
 
@@ -93,6 +103,24 @@ export async function captureSnapshotAction(
       mediaType: text(formData, "mediaType") || "text/plain",
     }),
   );
+}
+
+export async function uploadEvidenceFileAction(
+  slug: string,
+  formData: FormData,
+): Promise<TruthActionResult> {
+  return run(slug, async (ctx) => {
+    const file = formData.get("file");
+    if (!(file instanceof File)) {
+      throw new TruthError("TRUTH_INVARIANT", "Evidence file is required");
+    }
+    return captureEvidenceFile(ctx, text(formData, "sourceId"), {
+      bytes: new Uint8Array(await file.arrayBuffer()),
+      filename: file.name,
+      mediaType: file.type,
+      capturedAt: new Date(),
+    });
+  });
 }
 
 export async function createEvidenceSpanAction(

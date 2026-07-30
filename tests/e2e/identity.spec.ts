@@ -2,18 +2,31 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 import { signUpToDashboard, uniqueEmail } from "./auth-helpers";
+import { E2E_BASE_URL } from "./env";
+
+async function openAccountMenu(page: import("@playwright/test").Page) {
+  await page
+    .getByTestId("sidebar-desktop")
+    .locator("details > summary")
+    .click();
+}
 
 test("ID-01 allowed sign-up creates an identity and reaches the dashboard", async ({
   page,
 }) => {
   const { email } = await signUpToDashboard(page);
-  await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
-  await expect(page.getByTestId("sidebar-desktop").getByText(email)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+  ).toBeVisible();
+  await expect(
+    page.getByTestId("sidebar-desktop").getByText(email),
+  ).toBeVisible();
 });
 
 test("ID-03 sign-out then sign-in works", async ({ page }) => {
   const { email } = await signUpToDashboard(page);
 
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -22,13 +35,19 @@ test("ID-03 sign-out then sign-in works", async ({ page }) => {
   await page.getByRole("button", { name: "Sign in" }).click();
 
   await page.waitForURL(/\/w\//);
-  await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+  ).toBeVisible();
 });
 
-test("ID-04 unauthenticated users cannot access workspace routes", async ({ page }) => {
+test("ID-04 unauthenticated users cannot access workspace routes", async ({
+  page,
+}) => {
   await page.goto("/w/some-workspace-slug");
   await page.waitForURL("**/sign-in");
-  await expect(page.getByRole("heading", { level: 1, name: "Sign in" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Sign in" }),
+  ).toBeVisible();
 });
 
 test("ID-19 the authenticated shell shows only real user and workspace state", async ({
@@ -39,11 +58,16 @@ test("ID-19 the authenticated shell shows only real user and workspace state", a
   const sidebar = page.getByTestId("sidebar-desktop");
   await expect(sidebar.getByText("E2E User")).toBeVisible();
   await expect(sidebar.getByText(email)).toBeVisible();
-  await expect(sidebar.getByText("Realtime Lab")).toBeVisible();
+  await expect(sidebar.getByText("Realtime Lab")).toBeHidden();
+  await sidebar.getByText("E2E User").click();
+  await expect(sidebar.getByRole("button", { name: "Sign out" })).toBeVisible();
 });
 
-test("ID-21 a malicious next parameter cannot redirect off-site", async ({ page }) => {
+test("ID-21 a malicious next parameter cannot redirect off-site", async ({
+  page,
+}) => {
   const { email } = await signUpToDashboard(page);
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -53,7 +77,7 @@ test("ID-21 a malicious next parameter cannot redirect off-site", async ({ page 
   await page.getByRole("button", { name: "Sign in" }).click();
 
   await page.waitForURL(/\/w\//);
-  expect(page.url().startsWith("http://localhost:3000/")).toBe(true);
+  expect(page.url().startsWith(`${E2E_BASE_URL}/`)).toBe(true);
 });
 
 test("ID-22 auth and settings surfaces have no serious/critical a11y violations", async ({
@@ -64,22 +88,31 @@ test("ID-22 auth and settings surfaces have no serious/critical a11y violations"
     .withTags(["wcag2a", "wcag2aa"])
     .analyze();
   expect(
-    signIn.violations.filter((v) => v.impact === "serious" || v.impact === "critical"),
+    signIn.violations.filter(
+      (v) => v.impact === "serious" || v.impact === "critical",
+    ),
   ).toEqual([]);
 
   const { dashboardUrl } = await signUpToDashboard(page);
   await page.goto(`${dashboardUrl}/settings/members`);
-  await expect(page.getByRole("heading", { level: 1, name: "Members" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Members" }),
+  ).toBeVisible();
   const settings = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa"])
     .analyze();
   expect(
-    settings.violations.filter((v) => v.impact === "serious" || v.impact === "critical"),
+    settings.violations.filter(
+      (v) => v.impact === "serious" || v.impact === "critical",
+    ),
   ).toEqual([]);
 });
 
-test("ID-23 sign-in and sign-out are fully keyboard operable", async ({ page }) => {
+test("ID-23 sign-in and sign-out are fully keyboard operable", async ({
+  page,
+}) => {
   const { email } = await signUpToDashboard(page);
+  await openAccountMenu(page);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.waitForURL("**/sign-in");
 
@@ -93,6 +126,11 @@ test("ID-23 sign-in and sign-out are fully keyboard operable", async ({ page }) 
   await page.waitForURL(/\/w\//);
 
   // Sign out reachable and operable by keyboard.
+  const accountSummary = page
+    .getByTestId("sidebar-desktop")
+    .locator("details > summary");
+  await accountSummary.focus();
+  await page.keyboard.press("Enter");
   const signOut = page.getByRole("button", { name: "Sign out" });
   await signOut.focus();
   await expect(signOut).toBeFocused();
@@ -116,7 +154,9 @@ test("ID-23 invitation creation surfaces a single-use link (keyboard reachable)"
   await expect(page.getByText(/\/invitations\//)).toBeVisible();
 });
 
-test("ID-24 OBL-UI-001 workflow header stacks below 768px", async ({ page }) => {
+test("ID-24 OBL-UI-001 workflow header stacks below 768px", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await signUpToDashboard(page);
 

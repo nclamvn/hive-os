@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-import { type ReactNode } from "react";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { type SidebarAccount, SidebarContent } from "./sidebar-content";
 
@@ -13,7 +13,6 @@ export interface MobileNavProps {
   /** Focus returns here when the drawer closes. */
   returnFocusRef: React.RefObject<HTMLButtonElement | null>;
   account?: SidebarAccount | null;
-  brandSlot?: ReactNode;
   footerSlot?: ReactNode;
   homeHref?: string;
 }
@@ -23,10 +22,10 @@ export function MobileNav({
   onClose,
   returnFocusRef,
   account,
-  brandSlot,
   footerSlot,
   homeHref,
 }: MobileNavProps) {
+  const { t } = usePreferences();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -74,7 +73,7 @@ export function MobileNav({
   return (
     <div className="fixed inset-0 z-50 min-[768px]:hidden">
       <div
-        className="absolute inset-0 bg-navy-900/25"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -82,7 +81,7 @@ export function MobileNav({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation"
+        aria-label={t("common.navigation")}
         className="bg-surface absolute inset-y-0 left-0 flex w-[min(84vw,300px)] flex-col border-r border-line shadow-panel"
       >
         <div className="relative h-full">
@@ -90,7 +89,7 @@ export function MobileNav({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            aria-label="Close navigation"
+            aria-label={t("common.closeNavigation")}
             className="border-line text-ink-muted hover:bg-surface-subtle absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-md border"
           >
             <X className="size-[18px]" aria-hidden="true" />
@@ -98,7 +97,6 @@ export function MobileNav({
           <SidebarContent
             onNavigate={onClose}
             account={account}
-            brandSlot={brandSlot}
             footerSlot={footerSlot}
             homeHref={homeHref}
           />

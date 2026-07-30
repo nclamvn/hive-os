@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /*
- * HIVE OS — single semantic source of truth for the LOCKED design system.
- * Values are transcribed from docs/contractor/05_DESIGN_TOKENS_LOCKED.md.
+ * HIVE OS — single semantic source of truth for the Precision Instrument
+ * design system authorized by TIP-002A.
  * Components MUST consume the semantic utilities generated below
  * (bg-surface, text-ink-muted, border-line, rounded-panel, ...) and the
  * typography/shell classes — never re-declare raw locked hex values.
@@ -10,29 +10,30 @@
 
 @theme {
   /* Canvas and surface */
-  --color-canvas: #f8f9fb;
+  --color-canvas: #f4f6f8;
   --color-surface: #ffffff;
-  --color-surface-subtle: #fbfcfd;
-  --color-surface-selected: #f0f3f8;
+  --color-surface-subtle: #f8fafc;
+  --color-surface-muted: #eef2f6;
+  --color-surface-selected: #eaf0fb;
 
   /* Text hierarchy */
-  --color-ink: #101828;
-  --color-ink-strong: #0b1220;
-  --color-ink-muted: #667085;
-  --color-ink-faint: #98a2b3;
+  --color-ink: #0c1424;
+  --color-ink-strong: #08101f;
+  --color-ink-muted: #617086;
+  --color-ink-faint: #8b98aa;
 
   /* Lines */
-  --color-line: #e4e7ec;
-  --color-line-strong: #d0d5dd;
+  --color-line: #dce3eb;
+  --color-line-strong: #c4cfdb;
 
   /* Navy action hierarchy + semantic colors */
-  --color-navy-900: #102044;
-  --color-navy-800: #172b55;
-  --color-navy-700: #1f3a70;
-  --color-blue-600: #2457d6;
+  --color-navy-900: #10244a;
+  --color-navy-800: #17366a;
+  --color-navy-700: #24498a;
+  --color-blue-600: #315fe8;
 
-  --color-success-600: #17865f;
-  --color-success-50: #eefaf5;
+  --color-success-600: #0b7a67;
+  --color-success-50: #e9f7f3;
   --color-warning-600: #c46716;
   --color-warning-50: #fff7ed;
   --color-danger-600: #b42318;
@@ -51,8 +52,12 @@
   --shadow-panel: 0 1px 2px rgba(16, 24, 40, 0.035);
 
   /* Typography */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans:
+    var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-display), ui-serif, Georgia, serif;
+  --font-mono:
+    var(--font-utility), ui-monospace, "SFMono-Regular", Consolas, monospace;
 }
 
 :root {
@@ -71,29 +76,63 @@
   --shell-row-height: 56px; /* within the locked 54–58px band */
 }
 
+html[data-theme="dark"] {
+  --color-canvas: #0d0e10;
+  --color-surface: #131518;
+  --color-surface-subtle: #191c20;
+  --color-surface-muted: #20242a;
+  --color-surface-selected: #25292f;
+
+  --color-ink: #e8edf5;
+  --color-ink-strong: #f5f7fb;
+  --color-ink-muted: #a1a6ae;
+  --color-ink-faint: #747a83;
+
+  --color-line: #2b2f35;
+  --color-line-strong: #41464e;
+
+  --color-navy-900: #24272b;
+  --color-navy-800: #34383e;
+  --color-navy-700: #b7bbc1;
+  --color-blue-600: #d4d7dc;
+
+  --color-success-600: #56c7ad;
+  --color-success-50: #112c29;
+  --color-warning-600: #f4a85e;
+  --color-warning-50: #352417;
+  --color-danger-600: #ff8d86;
+  --color-danger-50: #351d20;
+  --color-violet-600: #b49aff;
+  --color-violet-50: #281f3f;
+
+  --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.025);
+  --focus-ring: 0 0 0 3px rgba(212, 215, 220, 0.18);
+}
+
 html {
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-feature-settings: "cv01", "ss01";
+  font-feature-settings: "ss02";
 }
 
 /* Tabular numerals for metrics and IDs (locked). */
 .tabular {
   font-variant-numeric: tabular-nums;
+  font-family: var(--font-utility);
 }
 
 /* Locked typography scale — the canonical text roles. */
 @layer components {
   .text-page-title {
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 26px;
+    line-height: 34px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
   }
   .text-section-title {
     font-size: 15px;
@@ -117,6 +156,104 @@ body {
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
+
+  .text-thesis {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 4.5rem);
+    line-height: 0.98;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .instrument-panel {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .instrument-bay {
+    border-block: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+
+  .instrument-control {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-subtle);
+    color: var(--color-ink-muted);
+    transition:
+      border-color 150ms ease,
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .instrument-control:hover {
+    border-color: var(--color-line-strong);
+    background: var(--color-surface-selected);
+    color: var(--color-ink);
+  }
+
+  .instrument-select {
+    height: 34px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-subtle);
+    padding-inline: 8px;
+    color: var(--color-ink);
+    font-family: var(--font-utility);
+    font-size: 11px;
+    font-weight: 500;
+  }
+}
+
+.provenance-rail {
+  position: relative;
+}
+
+.provenance-rail::before {
+  position: absolute;
+  top: 15px;
+  right: 10%;
+  left: 10%;
+  height: 1px;
+  background: var(--color-line-strong);
+  content: "";
+}
+
+.provenance-node {
+  position: relative;
+  z-index: 1;
+}
+
+.provenance-node::before {
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin: 11px auto 8px;
+  border: 2px solid var(--color-surface);
+  border-radius: 999px;
+  background: var(--color-ink-faint);
+  box-shadow: 0 0 0 1px var(--color-line-strong);
+  content: "";
+}
+
+.provenance-node[data-active="true"]::before {
+  background: var(--color-blue-600);
+  box-shadow: 0 0 0 1px var(--color-blue-600);
+  animation: provenance-arrival 360ms ease-out both;
+}
+
+@keyframes provenance-arrival {
+  from {
+    transform: scale(0.65);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Visible keyboard focus everywhere (locked: no state by color alone). */
@@ -138,8 +275,7 @@ body {
 }
 
 /* Keyboard focus remains explicit and accessible on form controls. */
-html[data-input-modality="keyboard"]
-  :where(input, textarea, select):focus {
+html[data-input-modality="keyboard"] :where(input, textarea, select):focus {
   outline: 2px solid var(--color-blue-600);
   outline-offset: 2px;
   box-shadow: var(--focus-ring);

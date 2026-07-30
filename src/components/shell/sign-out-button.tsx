@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 export function SignOutButton() {
   const router = useRouter();
+  const { t } = usePreferences();
   const [busy, setBusy] = useState(false);
 
   async function handleSignOut() {
@@ -22,10 +24,10 @@ export function SignOutButton() {
       type="button"
       onClick={handleSignOut}
       disabled={busy}
-      className="text-meta text-ink-muted hover:bg-surface-subtle border-line flex h-8 w-full items-center gap-2 rounded-md border px-2 font-medium disabled:opacity-50"
+      className="text-meta text-ink-muted hover:bg-surface-subtle hover:text-ink flex h-9 w-full items-center gap-2 rounded-md px-2 font-medium transition-colors disabled:opacity-50"
     >
       <LogOut className="size-4" aria-hidden="true" />
-      {busy ? "Signing out…" : "Sign out"}
+      {busy ? t("common.signingOut") : t("common.signOut")}
     </button>
   );
 }

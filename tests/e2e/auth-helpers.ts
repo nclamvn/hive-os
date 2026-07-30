@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { expect, type Page } from "@playwright/test";
 import pg from "pg";
 
-import { E2E_ENV } from "./env";
+import { E2E_BASE_URL, E2E_ENV } from "./env";
 
 export function uniqueEmail(prefix = "e2e"): string {
   return `${prefix}-${randomUUID()}@test.local`;
@@ -28,9 +28,10 @@ export async function markEmailVerified(email: string): Promise<void> {
   });
   await client.connect();
   try {
-    await client.query('UPDATE "user" SET email_verified = true WHERE email = $1', [
-      email,
-    ]);
+    await client.query(
+      'UPDATE "user" SET email_verified = true WHERE email = $1',
+      [email],
+    );
   } finally {
     await client.end();
   }
@@ -61,7 +62,16 @@ export async function signIn(page: Page, email: string): Promise<void> {
 export async function signUpToDashboard(
   page: Page,
   workspaceName = "E2E Workspace",
+  locale: "vi" | "en" = "en",
 ): Promise<SignedUp> {
+  await page.context().addCookies([
+    {
+      name: "hive-locale",
+      value: locale,
+      url: E2E_BASE_URL,
+      sameSite: "Lax",
+    },
+  ]);
   const email = uniqueEmail();
   await signUp(page, email);
   await markEmailVerified(email);
@@ -73,7 +83,10 @@ export async function signUpToDashboard(
 
   await page.waitForURL(/\/w\//, { timeout: 20_000 });
   await expect(
-    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+    page.getByRole("heading", {
+      level: 1,
+      name: locale === "vi" ? "Tổng quan" : "Dashboard",
+    }),
   ).toBeVisible();
   return { email, dashboardUrl: page.url() };
 }

@@ -19,6 +19,7 @@ import {
 export interface VerificationActionResult {
   ok: boolean;
   error?: string;
+  errorCode?: string;
 }
 
 function text(data: FormData, key: string) {
@@ -32,14 +33,20 @@ function lines(data: FormData, key: string) {
     .filter(Boolean);
 }
 
-function message(error: unknown): string {
+function failure(error: unknown): VerificationActionResult {
   if (
     error instanceof VerificationGovernanceError ||
     error instanceof MissionError
   ) {
-    return `${error.code}: ${error.message}`;
+    return { ok: false, errorCode: error.code, error: error.message };
   }
-  if (error instanceof Error && "code" in error) return error.message;
+  if (error instanceof Error && "code" in error) {
+    return {
+      ok: false,
+      errorCode: String(error.code),
+      error: error.message,
+    };
+  }
   throw error;
 }
 
@@ -74,7 +81,7 @@ async function run(
     }
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: message(error) };
+    return failure(error);
   }
 }
 

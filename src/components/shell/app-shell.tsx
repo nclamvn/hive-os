@@ -1,6 +1,13 @@
 "use client";
 
-import { type ReactNode, useCallback, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
+
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { MobileNav } from "./mobile-nav";
 import { type SidebarAccount, SidebarContent } from "./sidebar-content";
@@ -16,9 +23,7 @@ export interface AppShellProps {
   footer?: ReactNode;
   /** Real authenticated identity for the sidebar footer. */
   account?: SidebarAccount | null;
-  /** Workspace switcher rendered under the brand. */
-  brandSlot?: ReactNode;
-  /** Sign-out control rendered in the account footer. */
+  /** Sign-out control rendered inside the account disclosure. */
   footerSlot?: ReactNode;
   /** Base href for the primary action / current nav item. */
   homeHref?: string;
@@ -32,16 +37,20 @@ export function AppShell({
   rail,
   footer,
   account,
-  brandSlot,
   footerSlot,
   homeHref,
   controlRoomHref,
 }: AppShellProps) {
+  const { t } = usePreferences();
   const [navOpen, setNavOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
 
   const openNav = useCallback(() => setNavOpen(true), []);
   const closeNav = useCallback(() => setNavOpen(false), []);
+  const toggleSidebar = useCallback(() => {
+    setSidebarCollapsed((current) => !current);
+  }, []);
 
   return (
     <div className="flex min-h-screen">
@@ -49,21 +58,26 @@ export function AppShell({
         href="#main-content"
         className="text-body bg-surface text-ink border-line sr-only rounded-md border px-3 py-2 font-medium focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60]"
       >
-        Skip to content
+        {t("common.skipToContent")}
       </a>
 
       {/* Desktop sidebar (>=1024px) */}
       <aside
         aria-label="Sidebar"
         data-testid="sidebar-desktop"
-        className="bg-surface sticky top-0 hidden h-screen shrink-0 border-r border-line min-[1024px]:block"
-        style={{ width: "var(--shell-sidebar)" }}
+        className="bg-surface sticky top-0 hidden h-screen shrink-0 border-r border-line transition-[width] duration-200 min-[1024px]:block"
+        style={{
+          width: sidebarCollapsed
+            ? "var(--shell-iconrail)"
+            : "var(--shell-sidebar)",
+        }}
       >
         <SidebarContent
+          iconOnly={sidebarCollapsed}
           account={account}
-          brandSlot={brandSlot}
           footerSlot={footerSlot}
           homeHref={homeHref}
+          onToggleCollapsed={toggleSidebar}
         />
       </aside>
 
@@ -83,7 +97,6 @@ export function AppShell({
         onClose={closeNav}
         returnFocusRef={menuRef}
         account={account}
-        brandSlot={brandSlot}
         footerSlot={footerSlot}
         homeHref={homeHref}
       />

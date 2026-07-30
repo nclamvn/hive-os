@@ -1,6 +1,10 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { PreferencesControls } from "@/components/preferences/preferences-controls";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 export interface TopHeaderProps {
   onOpenNav: () => void;
@@ -15,6 +19,18 @@ export interface TopHeaderProps {
  */
 export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
   function TopHeader({ onOpenNav, title, subtitle, controlRoomHref }, menuRef) {
+    const { t } = usePreferences();
+    const router = useRouter();
+    const [query, setQuery] = useState("");
+
+    function openFinder() {
+      if (!controlRoomHref) return;
+      const params = new URLSearchParams({ find: "1" });
+      const normalized = query.trim();
+      if (normalized) params.set("q", normalized.slice(0, 200));
+      router.push(`${controlRoomHref.split("?")[0]}?${params.toString()}`);
+    }
+
     return (
       <header
         className="bg-surface sticky top-0 z-30 flex items-center gap-3 border-b border-line px-4 min-[768px]:px-5 min-[1180px]:px-[var(--shell-gutter-desktop)]"
@@ -24,7 +40,7 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
           ref={menuRef}
           type="button"
           onClick={onOpenNav}
-          aria-label="Open navigation"
+          aria-label={t("common.openNavigation")}
           className="border-line text-ink-muted hover:bg-surface-subtle flex size-9 items-center justify-center rounded-md border min-[768px]:hidden"
         >
           <Menu className="size-[18px]" aria-hidden="true" />
@@ -37,25 +53,47 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
           <p className="text-meta text-ink-muted truncate">{subtitle}</p>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           {controlRoomHref ? (
-            <Link
-              href={controlRoomHref}
-              aria-label="Find governed objects"
-              title="Find governed objects"
+            <form
+              role="search"
+              onSubmit={(event) => {
+                event.preventDefault();
+                openFinder();
+              }}
               className="border-line bg-surface-subtle text-ink-muted hover:border-line-strong hover:text-ink hidden h-10 items-center gap-2 rounded-md border px-3 transition-colors min-[1024px]:flex"
               style={{ width: "clamp(220px, 24vw, 320px)" }}
             >
-              <Search className="text-ink-muted size-4 shrink-0" aria-hidden="true" />
-              <span className="text-body truncate">Find missions, claims, evidence</span>
-            </Link>
+              <button
+                type="submit"
+                aria-label={t("common.runSearch")}
+                title={t("common.runSearch")}
+                className="text-ink-muted hover:text-ink flex size-6 shrink-0 items-center justify-center rounded"
+              >
+                <Search className="size-4" aria-hidden="true" />
+              </button>
+              <label htmlFor="workspace-search" className="sr-only">
+                {t("common.findGovernedObjects")}
+              </label>
+              <input
+                id="workspace-search"
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t("common.findObjects")}
+                className="text-body text-ink placeholder:text-ink-muted w-full min-w-0 bg-transparent outline-none"
+              />
+            </form>
           ) : (
             <div
               role="search"
               className="border-line bg-surface-subtle hidden items-center gap-2 rounded-md border px-3 min-[1024px]:flex"
               style={{ height: "40px", width: "clamp(180px, 22vw, 320px)" }}
             >
-              <Search className="text-ink-faint size-4 shrink-0" aria-hidden="true" />
+              <Search
+                className="text-ink-faint size-4 shrink-0"
+                aria-hidden="true"
+              />
               <label htmlFor="global-search" className="sr-only">
                 Search
               </label>
@@ -72,8 +110,8 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
           {controlRoomHref ? (
             <Link
               href={controlRoomHref}
-              aria-label="Find governed objects"
-              title="Find governed objects"
+              aria-label={t("common.findGovernedObjects")}
+              title={t("common.findGovernedObjects")}
               className="border-line text-ink-muted flex size-9 items-center justify-center rounded-md border min-[1024px]:hidden"
             >
               <Search className="size-[18px]" aria-hidden="true" />
@@ -90,6 +128,11 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
               <Search className="size-[18px]" aria-hidden="true" />
             </button>
           )}
+          <span
+            className="bg-line mx-1 hidden h-5 w-px min-[480px]:block"
+            aria-hidden="true"
+          />
+          <PreferencesControls compact />
         </div>
       </header>
     );

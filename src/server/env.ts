@@ -12,6 +12,9 @@ const envSchema = z
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    DEPLOYMENT_ENV: z
+      .enum(["development", "test", "staging", "production"])
+      .optional(),
     DATABASE_URL: z
       .string()
       .min(1, "required")
@@ -27,6 +30,25 @@ const envSchema = z
         "must be a postgresql:// connection string",
       )
       .optional(),
+    DB_POOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
+    DB_CONNECTION_TIMEOUT_MS: z.coerce
+      .number()
+      .int()
+      .min(500)
+      .max(60_000)
+      .default(5_000),
+    DB_IDLE_TIMEOUT_MS: z.coerce
+      .number()
+      .int()
+      .min(1_000)
+      .max(300_000)
+      .default(30_000),
+    DB_STATEMENT_TIMEOUT_MS: z.coerce
+      .number()
+      .int()
+      .min(1_000)
+      .max(300_000)
+      .default(30_000),
     STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
     STORAGE_LOCAL_ROOT: z.string().default(".storage"),
     S3_ENDPOINT: z.string().optional(),
@@ -38,14 +60,21 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+    S3_SERVER_SIDE_ENCRYPTION: z.enum(["AES256", "aws:kms"]).optional(),
+    S3_KMS_KEY_ID: z.string().min(1).optional(),
     DEMO_FIXTURES_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    MAINTENANCE_MODE: z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
     // --- Authentication (Better Auth) ---
     BETTER_AUTH_SECRET: z
       .string()
-      .min(16, "must be at least 16 characters"),
+      .min(16, "must be at least 16 characters")
+      .optional(),
     BETTER_AUTH_URL: z
       .string()
       .url("must be a valid URL")
@@ -89,6 +118,50 @@ const envSchema = z
     // running deployment. Recovery/mail/throttle requirements are enforced at
     // real runtime startup (and by tests), not while collecting build output.
     const buildPhase = process.env.NEXT_PHASE === "phase-production-build";
+    const deploymentEnv =
+      env.DEPLOYMENT_ENV ??
+      (env.NODE_ENV === "test"
+        ? "test"
+        : env.NODE_ENV === "development"
+          ? "development"
+          : undefined);
+    if (!buildPhase && !env.BETTER_AUTH_SECRET) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["BETTER_AUTH_SECRET"],
+        message: "required at runtime (min 16 chars)",
+      });
+    }
+    if (!buildPhase && env.NODE_ENV === "production" && !deploymentEnv) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["DEPLOYMENT_ENV"],
+        message: "required when NODE_ENV=production",
+      });
+    }
+    if (
+      deploymentEnv &&
+      ["staging", "production"].includes(deploymentEnv) &&
+      env.NODE_ENV !== "production"
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["DEPLOYMENT_ENV"],
+        message: "staging and production require NODE_ENV=production",
+      });
+    }
+    if (
+      !buildPhase &&
+      env.NODE_ENV === "production" &&
+      deploymentEnv &&
+      !["staging", "production"].includes(deploymentEnv)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["DEPLOYMENT_ENV"],
+        message: "NODE_ENV=production requires staging or production",
+      });
+    }
     if (env.STORAGE_DRIVER === "s3") {
       const required = [
         "S3_REGION",
@@ -105,6 +178,35 @@ const envSchema = z
           });
         }
       }
+      if (!env.S3_SERVER_SIDE_ENCRYPTION) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["S3_SERVER_SIDE_ENCRYPTION"],
+          message: "required when STORAGE_DRIVER=s3",
+        });
+      }
+      if (
+        env.S3_SERVER_SIDE_ENCRYPTION === "aws:kms" &&
+        !env.S3_KMS_KEY_ID
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["S3_KMS_KEY_ID"],
+          message: "required when S3_SERVER_SIDE_ENCRYPTION=aws:kms",
+        });
+      }
+    }
+    if (
+      !buildPhase &&
+      deploymentEnv &&
+      ["staging", "production"].includes(deploymentEnv) &&
+      env.STORAGE_DRIVER !== "s3"
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["STORAGE_DRIVER"],
+        message: "staging and production require STORAGE_DRIVER=s3",
+      });
     }
     if (env.DEMO_FIXTURES_ENABLED && env.NODE_ENV === "production") {
       ctx.addIssue({

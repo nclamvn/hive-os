@@ -75,3 +75,29 @@ test("MK-33 mission views have no horizontal overflow at 390px", async ({ page }
     expect(overflow).toBeLessThanOrEqual(1);
   }
 });
+
+test("TIP002-LAYOUT-01 new mission uses a centered bounded form canvas", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1536, height: 960 });
+  const { dashboardUrl } = await signUpToDashboard(page, "Layout QA");
+  await page.goto(`${dashboardUrl}/missions/new`);
+
+  const main = page.locator("#main-content");
+  const panel = page.getByTestId("bounded-page-panel");
+  const form = page.getByTestId("bounded-page-form");
+  const [mainBox, panelBox, formBox] = await Promise.all([
+    main.boundingBox(),
+    panel.boundingBox(),
+    form.boundingBox(),
+  ]);
+  expect(mainBox).not.toBeNull();
+  expect(panelBox).not.toBeNull();
+  expect(formBox).not.toBeNull();
+
+  const mainCenter = mainBox!.x + mainBox!.width / 2;
+  const panelCenter = panelBox!.x + panelBox!.width / 2;
+  expect(Math.abs(mainCenter - panelCenter)).toBeLessThanOrEqual(1);
+  expect(panelBox!.width).toBeLessThan(mainBox!.width);
+  expect(formBox!.width).toBeGreaterThan(panelBox!.width - 50);
+});

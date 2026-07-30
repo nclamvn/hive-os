@@ -12,45 +12,71 @@ async function openControlRoom(page: import("@playwright/test").Page) {
 }
 
 test.describe("HIVE OS Control Room", () => {
-  test("CR-01 renders the canonical system map from real state", async ({ page }) => {
+  test("CR-01 renders the canonical system map from real state", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
     await expect(
       page.getByRole("heading", { name: "From intent to accountable truth." }),
     ).toBeVisible();
     for (const plane of ["Mission", "Truth", "Execution", "Assurance"]) {
-      await expect(page.getByRole("heading", { name: plane, exact: true })).toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: plane, exact: true }),
+      ).toBeVisible();
     }
-    await expect(page.getByText("available", { exact: true }).first()).toBeVisible();
-    await expect(page.getByText("Counts are workspace-scoped authoritative records")).toBeVisible();
+    await expect(
+      page.getByText("available", { exact: true }).first(),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Counts are workspace-scoped authoritative records"),
+    ).toBeVisible();
   });
 
-  test("CR-02 node selection updates the context inspector", async ({ page }) => {
+  test("CR-02 node selection updates the context inspector", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
-    const inspector = page.getByRole("complementary", { name: "Context inspector" });
-    await expect(inspector.getByRole("heading", { name: "Mission contracts" })).toBeVisible();
-    const claimsNode = page.getByRole("button", { name: /Claims and disputes/ });
+    const inspector = page.getByRole("complementary", {
+      name: "Context inspector",
+    });
+    await expect(
+      inspector.getByRole("heading", { name: "Mission contracts" }),
+    ).toBeVisible();
+    const claimsNode = page.getByRole("button", {
+      name: /Claims and disputes/,
+    });
     await claimsNode.focus();
     await page.keyboard.press("Enter");
-    await expect(inspector.getByRole("heading", { name: "Claims and disputes" })).toBeVisible();
+    await expect(
+      inspector.getByRole("heading", { name: "Claims and disputes" }),
+    ).toBeVisible();
     await expect(inspector.getByText("Silently choose a winner")).toBeVisible();
   });
 
-  test("CR-03 operations and audit lenses show honest projections", async ({ page }) => {
+  test("CR-03 operations and audit lenses show honest projections", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
     await page.getByRole("tab", { name: "operations" }).click();
-    await expect(page.getByRole("heading", { name: "Recent missions" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Recent missions" }),
+    ).toBeVisible();
     await expect(page.getByText("No missions in this workspace")).toBeVisible();
     await expect(page.getByText("No unresolved signals")).toBeVisible();
 
     await page.getByRole("tab", { name: "audit" }).click();
-    await expect(page.getByRole("heading", { name: "Governed event ledger" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Governed event ledger" }),
+    ).toBeVisible();
     await expect(page.getByText("Workspace Created")).toBeVisible();
   });
 
-  test("CR-04 object finder is keyboard operable and returns focus", async ({ page }) => {
+  test("CR-04 object finder is keyboard operable and returns focus", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
     const trigger = page.getByRole("button", { name: /Find governed objects/ });
@@ -58,21 +84,29 @@ test.describe("HIVE OS Control Room", () => {
     await page.keyboard.press("Enter");
     const dialog = page.getByRole("dialog", { name: "Find governed objects" });
     await expect(dialog).toBeVisible();
-    const search = dialog.getByRole("textbox", { name: "Find governed objects" });
+    const search = dialog.getByRole("textbox", {
+      name: "Find governed objects",
+    });
     await expect(search).toBeFocused();
     await search.fill("provenance");
-    await expect(dialog.getByRole("button", { name: /Provenance/ })).toBeVisible();
+    await expect(
+      dialog.getByRole("button", { name: /Provenance/ }),
+    ).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
     await expect(trigger).toBeFocused();
   });
 
-  test("CR-05 has no mobile overflow or serious accessibility violations", async ({ page }) => {
+  test("CR-05 has no mobile overflow or serious accessibility violations", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openControlRoom(page);
 
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(1);
 
@@ -85,17 +119,30 @@ test.describe("HIVE OS Control Room", () => {
     );
     expect(
       serious,
-      serious.map((violation) => `${violation.id}: ${violation.help}`).join("\n"),
+      serious
+        .map((violation) => `${violation.id}: ${violation.help}`)
+        .join("\n"),
     ).toEqual([]);
   });
 
-  test("CR-06 workspace header opens the real object finder", async ({ page }) => {
+  test("CR-06 workspace header opens the real object finder", async ({
+    page,
+  }) => {
     await signUpToDashboard(page, "Finder Lab");
-    await page.getByRole("link", { name: "Find governed objects" }).click();
-    await expect(page).toHaveURL(/\/control-room\?find=1$/);
+    const headerSearch = page.getByRole("searchbox", {
+      name: "Find governed objects",
+    });
+    await headerSearch.fill("mission");
+    await headerSearch.press("Enter");
+    await expect(page).toHaveURL(/\/control-room\?find=1&q=mission$/);
     await expect(
       page.getByRole("dialog", { name: "Find governed objects" }),
     ).toBeVisible();
+    await expect(
+      page
+        .getByRole("dialog", { name: "Find governed objects" })
+        .getByRole("textbox", { name: "Find governed objects" }),
+    ).toHaveValue("mission");
   });
 
   test("CR-10 finder copy stays on one line and ellipsizes when narrow", async ({
@@ -121,7 +168,9 @@ test.describe("HIVE OS Control Room", () => {
     await expect(placeholder).toHaveCSS("text-overflow", "ellipsis");
 
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(1);
   });
@@ -146,14 +195,18 @@ test.describe("HIVE OS Control Room", () => {
     await page.keyboard.press("Enter");
     await expect(search).toBeFocused();
     await expect(search).toHaveCSS("outline-style", "solid");
-    await expect(search).toHaveCSS("outline-color", "rgb(36, 87, 214)");
+    await expect(search).toHaveCSS("outline-color", "rgb(49, 95, 232)");
   });
 
-  test("CR-07 Skill Registry is operational without implying execution", async ({ page }) => {
+  test("CR-07 Skill Registry is operational without implying execution", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
     const registry = page.getByRole("button", { name: /Skill registry/ });
-    await expect(registry.getByText("available", { exact: true })).toBeVisible();
+    await expect(
+      registry.getByText("available", { exact: true }),
+    ).toBeVisible();
     await registry.click();
 
     const inspector = page.getByRole("complementary", {
@@ -170,7 +223,9 @@ test.describe("HIVE OS Control Room", () => {
     ).toBeVisible();
   });
 
-  test("CR-08 Execution Fabric exposes the Manual Bridge without implying verification", async ({ page }) => {
+  test("CR-08 Execution Fabric exposes the Manual Bridge without implying verification", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
     const bridgeNode = page.getByRole("button", { name: /Manual bridge/ });
@@ -194,18 +249,26 @@ test.describe("HIVE OS Control Room", () => {
         "Imported provider results are execution claims, not independent verification.",
       ),
     ).toBeVisible();
-    await expect(
-      page.getByLabel("Manual Bridge sequence"),
-    ).toContainText("Instruction");
+    await expect(page.getByLabel("Manual Bridge sequence")).toContainText(
+      "Instruction",
+    );
     await expect(page.getByText("No execution TIPs yet")).toBeVisible();
   });
 
-  test("CR-09 Verification Governance is operational without implying public release", async ({ page }) => {
+  test("CR-09 Verification Governance is operational without implying public release", async ({
+    page,
+  }) => {
     await openControlRoom(page);
 
-    const verification = page.getByRole("button", { name: /VER-31.*Verification/ });
-    const release = page.getByRole("button", { name: /RLS-32.*Release governance/ });
-    await expect(verification.getByText("available", { exact: true })).toBeVisible();
+    const verification = page.getByRole("button", {
+      name: /VER-31.*Verification/,
+    });
+    const release = page.getByRole("button", {
+      name: /RLS-32.*Release governance/,
+    });
+    await expect(
+      verification.getByText("available", { exact: true }),
+    ).toBeVisible();
     await expect(release.getByText("available", { exact: true })).toBeVisible();
 
     await verification.click();
@@ -216,7 +279,9 @@ test.describe("HIVE OS Control Room", () => {
       inspector.getByText("Deterministic Verification Governance Kernel"),
     ).toBeVisible();
     await expect(
-      inspector.getByText("Convert deferred or incomplete evidence into a pass"),
+      inspector.getByText(
+        "Convert deferred or incomplete evidence into a pass",
+      ),
     ).toBeVisible();
 
     await page.getByRole("tab", { name: "operations" }).click();

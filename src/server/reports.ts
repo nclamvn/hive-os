@@ -5,7 +5,7 @@ import { getDb } from "@/server/db";
 export async function getReportsProjection(ctx: WorkspaceContext) {
   requireVerificationCapability(ctx, "verification.read");
   const workspaceId = ctx.workspace.id;
-  const [reports, releases] = await Promise.all([
+  const [reports, releases, missions] = await Promise.all([
     getDb().verificationReport.findMany({
       where: { workspaceId },
       orderBy: { createdAt: "desc" },
@@ -50,6 +50,19 @@ export async function getReportsProjection(ctx: WorkspaceContext) {
         },
       },
     }),
+    getDb().mission.findMany({
+      where: { workspaceId },
+      orderBy: { updatedAt: "desc" },
+      take: 50,
+      select: {
+        id: true,
+        referenceCode: true,
+        title: true,
+        status: true,
+        assuranceProfile: true,
+        updatedAt: true,
+      },
+    }),
   ]);
-  return { reports, releases };
+  return { reports, releases, missions };
 }

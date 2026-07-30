@@ -131,6 +131,44 @@ Current obligation:
 
 - `OBL-FND-001`: BLOCKED_EXTERNAL
 
+## TIP-021B local stabilization closure
+
+On 2026-07-29, the Owner authorized TIP-021B after the current-project X-Ray.
+The bounded local findings were closed:
+
+- Direct `/verify-email` visits no longer claim successful verification.
+- Runtime startup validation remains fail-closed without unsupported
+  `process.exit` usage in the Edge instrumentation bundle.
+- Security-event ledger failures emit sanitized operational signals while
+  remaining isolated from authentication flow availability.
+- The founding Contractor manifest is preserved separately from the tested
+  current-package manifest under DEC-013.
+- Drifted project, governance, identity, and module-boundary documentation was
+  reconciled.
+
+Local evidence: typecheck, lint, production build, dependency policy, 131 unit,
+122 integration, and 74 E2E scenarios passed. Remote reproducibility,
+production release, and public release remain unauthorized; `OBL-FND-001`
+remains `BLOCKED_EXTERNAL`.
+
+## TIP-021C-A local production-contract closure
+
+On 2026-07-29, the Owner authorized the local-only, provider-neutral
+TIP-021C-A. The standalone container, environment matrix, split
+liveness/readiness, correlation/structured logging, bounded database runtime,
+S3 encryption contract, maintenance mode, recovery rehearsal, local load
+observation, and operations runbooks were locally verified.
+
+Local evidence: container user UID 1001 with no embedded `.env`; startup
+contract 8/8; 13 migrations and 56 tables plus object storage restored; 140
+unit, 123 integration, and 76 E2E scenarios completed. The one registered
+shared-server timing flake passed on retry and an isolated no-retry rerun.
+
+External staging, vendor selection, billing, domain/DNS, secrets, production
+RPO/RTO/SLO, PostgreSQL RLS, retention deletion, legal hold, production, and
+public release remain unauthorized. See
+`docs/operations/OWNER_DECISIONS_TIP-021C-B.md`.
+
 Rerun attempt 2 was triggered on 2026-07-23 against the unchanged `cb53c5e`
 commit. The `quality` job failed again with zero executed steps, so the billing
 blocker remains active.
@@ -539,6 +577,30 @@ signed.
   claim those external gates.
 
 See `docs/verification/TIP-019_LOCAL_RC_REPORT.md`.
+
+## TIP-022 pilot-readiness implementation update
+
+On 2026-07-29, the Owner authorized the Builder to implement the bounded
+TIP-022 RtR Real-World Pilot Readiness package before any real pilot or
+model-provider integration.
+
+- Built-in RtR engineering-change dossier template: implemented.
+- Governed PDF/CSV/TXT/JSON/Markdown/image file intake through the existing
+  local/S3 storage boundary: implemented.
+- Complete mission dossier with deterministic SHA-256 integrity manifest:
+  implemented.
+- Mission-scoped pilot measurement from authoritative ledger timestamps and
+  provenance, with honest unavailable values: implemented.
+- Controlled-environment readiness command and dry-run runbook: implemented.
+- Typecheck, lint, production build, 159 unit, 128 integration, and 82 E2E
+  scenarios passed. One existing sidebar timing scenario passed on its
+  configured retry.
+
+The current local readiness observation remains intentionally not ready until
+the Owner supplies `PILOT_WORKSPACE_SLUG` and a real functional-team
+attestation. Remote CI remains `BLOCKED_EXTERNAL`; external staging, provider
+selection, production release, and public release remain unverified or
+unauthorized.
 
 ## Startup checklist for every new Codex task
 

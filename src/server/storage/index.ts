@@ -19,6 +19,8 @@ export function getObjectStorage(): ObjectStorage {
       secretAccessKey: env.S3_SECRET_ACCESS_KEY!,
       endpoint: env.S3_ENDPOINT,
       forcePathStyle: env.S3_FORCE_PATH_STYLE,
+      serverSideEncryption: env.S3_SERVER_SIDE_ENCRYPTION!,
+      kmsKeyId: env.S3_KMS_KEY_ID,
     });
   } else {
     instance = new LocalObjectStorage(env.STORAGE_LOCAL_ROOT);

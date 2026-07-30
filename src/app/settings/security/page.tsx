@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Hexagon } from "lucide-react";
 
 import { SecuritySettings } from "@/components/auth/security-settings";
+import { PreferencesControls } from "@/components/preferences/preferences-controls";
 import { auth } from "@/server/auth";
 
 export const dynamic = "force-dynamic";
@@ -22,9 +23,15 @@ export default async function SecuritySettingsPage() {
               HIVE OS
             </span>
           </div>
-          <Link href="/" className="text-meta text-blue-600 font-medium underline">
+          <Link
+            href="/"
+            className="text-meta text-blue-600 font-medium underline"
+          >
             Back to workspace
           </Link>
+        </div>
+        <div className="mb-4 ml-auto w-[220px]">
+          <PreferencesControls toolbar />
         </div>
         <div className="border-line bg-surface shadow-panel rounded-panel border p-6">
           <h1 className="text-page-title text-ink-strong mb-1">Security</h1>

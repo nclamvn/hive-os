@@ -4,7 +4,6 @@ import type { WorkspacePageData } from "@/server/auth/workspace-page";
 
 import { AppShell } from "./app-shell";
 import { SignOutButton } from "./sign-out-button";
-import { WorkspaceSwitcher } from "./workspace-switcher";
 
 /**
  * Authenticated application shell for workspace routes. Renders real identity
@@ -25,11 +24,7 @@ export function WorkspaceShell({
   footer?: ReactNode;
   children: ReactNode;
 }) {
-  const { ctx, workspaces } = data;
-  const options = workspaces.map((w) => ({
-    slug: w.workspace.slug,
-    name: w.workspace.name,
-  }));
+  const { ctx } = data;
 
   return (
     <AppShell
@@ -38,12 +33,6 @@ export function WorkspaceShell({
       account={{ name: ctx.user.name, email: ctx.user.email }}
       homeHref={`/w/${ctx.workspace.slug}`}
       controlRoomHref={`/w/${ctx.workspace.slug}/control-room?find=1`}
-      brandSlot={
-        <WorkspaceSwitcher
-          current={{ slug: ctx.workspace.slug, name: ctx.workspace.name }}
-          workspaces={options}
-        />
-      }
       footerSlot={<SignOutButton />}
       rail={rail}
       footer={footer}

@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 
-import {
-  MissionWorkspace,
-} from "@/components/mission/mission-workspace";
+import { MissionWorkspace } from "@/components/mission/mission-workspace";
 import { normalizeMissionView } from "@/components/mission/workspace-views";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { hasCapability } from "@/modules/identity-workspace";
@@ -13,6 +11,7 @@ import {
 } from "@/modules/mission-kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getMissionWorkspaceProjection } from "@/server/mission-workspace";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +27,7 @@ export default async function MissionDetailPage({
     searchParams,
   ]);
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
   const view = normalizeMissionView(query.view);
 
   let detail: Awaited<ReturnType<typeof getMissionDetail>>;
@@ -70,6 +70,7 @@ export default async function MissionDetailPage({
           data.ctx.membership.role,
           "obligations.update",
         )}
+        locale={locale}
       />
     </WorkspaceShell>
   );

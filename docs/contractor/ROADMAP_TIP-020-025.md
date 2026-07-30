@@ -4,10 +4,13 @@ Status: `ACCEPTED AS STRATEGIC DIRECTION (Owner, 2026-07-28)`
 
 Recorded: `2026-07-28`
 
-This roadmap is accepted as directional intent only. It does **not** authorize
-implementation of TIP-021…TIP-025; each TIP still requires its own explicit
-Owner authorization. As of 2026-07-28 only TIP-020 Part A is authorized and
-complete; TIP-020 Part B (RRC-1) is `BLOCKED_EXTERNAL`.
+This roadmap is accepted as directional intent only. Each TIP requires explicit
+Owner authorization. TIP-021C-A was subsequently completed as a local,
+provider-neutral production contract. On 2026-07-29 the Owner authorized the
+bounded TIP-022 pilot-readiness build; this authorization does not start a real
+pilot, select external infrastructure, connect a model provider, or authorize
+production/public release. TIP-020 Part B (RRC-1) remains
+`BLOCKED_EXTERNAL`.
 
 This document captures the Owner's strategic verdict as a durable repository
 record. A governed-truth system must record its own forward strategy, not leave
@@ -64,7 +67,7 @@ account for every gate.
 `PROD-03` zero-downtime/controlled migration · `PROD-04` tenant isolation
 negative test · `PROD-05` incident drill · `PROD-06` production security review.
 
-### TIP-022 — Real-World Pilot  *(the value-creating step)*
+### TIP-022 — Real-World Pilot  *(pilot-readiness build authorized 2026-07-29)*
 Do not sell HIVE OS as a general "OS". Pick a narrow, high-pain wedge:
 
 **Governed Engineering Change & Verification Dossier** — pilot inside RtR on a
@@ -88,6 +91,12 @@ with provenance; zero silent contract edits.
 
 **North Star — Governed Decision Throughput:** released missions per month with
 complete contract, evidence, verification, and signoff.
+
+Local readiness implementation now includes the RtR engineering-change
+template, governed evidence file intake, complete mission dossier export,
+ledger-derived pilot measurement, and a fail-closed controlled-environment
+rehearsal. A real pilot remains pending a named workspace, real functional-team
+attestation, and 3–5 real missions.
 
 ### TIP-023 — Evidence Ingestion & Connectors  *(only after pilot shows where time is lost)*
 Priority candidates: Google Drive/Docs, GitHub, Slack (context, not auto-truth),

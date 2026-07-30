@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { updateObligationAction } from "@/app/actions/missions";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 export function ObligationControls({
   slug,
@@ -15,6 +16,7 @@ export function ObligationControls({
   status: string;
 }) {
   const router = useRouter();
+  const { locale } = usePreferences();
   const [busy, setBusy] = useState(false);
 
   async function set(next: "IN_PROGRESS" | "SATISFIED" | "BLOCKED") {
@@ -25,21 +27,40 @@ export function ObligationControls({
   }
 
   if (status === "SATISFIED" || status === "WAIVED") {
-    return <span className="text-meta text-ink-faint">None</span>;
+    return (
+      <span className="text-meta text-ink-faint">
+        {locale === "vi" ? "Không có" : "None"}
+      </span>
+    );
   }
 
   return (
     <div className="flex flex-wrap justify-end gap-1">
       {status !== "IN_PROGRESS" ? (
-        <button type="button" disabled={busy} onClick={() => set("IN_PROGRESS")} className="text-meta text-ink-muted border-line hover:bg-surface-subtle h-7 rounded-md border px-2">
-          Start
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => set("IN_PROGRESS")}
+          className="text-meta text-ink-muted border-line hover:bg-surface-subtle h-7 rounded-md border px-2"
+        >
+          {locale === "vi" ? "Bắt đầu" : "Start"}
         </button>
       ) : null}
-      <button type="button" disabled={busy} onClick={() => set("SATISFIED")} className="text-meta text-success-600 border-line hover:bg-success-50 h-7 rounded-md border px-2 font-medium">
-        Satisfy
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => set("SATISFIED")}
+        className="text-meta text-success-600 border-line hover:bg-success-50 h-7 rounded-md border px-2 font-medium"
+      >
+        {locale === "vi" ? "Hoàn thành" : "Satisfy"}
       </button>
-      <button type="button" disabled={busy} onClick={() => set("BLOCKED")} className="text-meta text-warning-600 border-line hover:bg-warning-50 h-7 rounded-md border px-2">
-        Block
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => set("BLOCKED")}
+        className="text-meta text-warning-600 border-line hover:bg-warning-50 h-7 rounded-md border px-2"
+      >
+        {locale === "vi" ? "Chặn" : "Block"}
       </button>
     </div>
   );

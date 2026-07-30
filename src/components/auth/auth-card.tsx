@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Hexagon } from "lucide-react";
 
+import { PreferencesControls } from "@/components/preferences/preferences-controls";
+
 export function AuthCard({
   title,
   description,
@@ -15,6 +17,9 @@ export function AuthCard({
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas px-4 py-10">
       <div className="w-full max-w-[400px]">
+        <div className="mb-4 ml-auto w-[220px]">
+          <PreferencesControls toolbar />
+        </div>
         <div className="mb-6 flex items-center justify-center gap-2">
           <Hexagon className="text-navy-800 size-6" aria-hidden="true" />
           <span className="text-section-title text-ink-strong tracking-tight">

@@ -12,15 +12,33 @@ export default async function VerifyEmailPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  // Better Auth redirects here with an `error` query on failure, otherwise the
-  // verification succeeded. The raw token is never rendered.
+  // Better Auth appends `error` on failure and returns to the explicit
+  // `status=complete` callback on success. A direct visit has neither marker
+  // and must never be presented as a successful verification.
   const failed = typeof params.error === "string" && params.error.length > 0;
+  const completed = params.status === "complete";
 
   if (failed) {
     return (
       <AuthCard
         title="Verification link invalid"
         description="This link is invalid or has expired. Request a new one below."
+        footer={
+          <Link href="/sign-in" className="text-blue-600 font-medium underline">
+            Back to sign in
+          </Link>
+        }
+      >
+        <VerifyEmailResendForm />
+      </AuthCard>
+    );
+  }
+
+  if (!completed) {
+    return (
+      <AuthCard
+        title="Verification status unavailable"
+        description="Open the verification link from your email, or request a new one below."
         footer={
           <Link href="/sign-in" className="text-blue-600 font-medium underline">
             Back to sign in

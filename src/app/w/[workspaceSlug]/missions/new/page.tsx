@@ -10,6 +10,8 @@ import {
 import { createMissionAction } from "@/app/actions/missions";
 import { getMissionTemplate } from "@/modules/mission-templates";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { enumLabel } from "@/i18n/format";
+import { getTranslator } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -66,44 +68,52 @@ export default async function NewMissionPage({
   const { template: templateKey } = await searchParams;
   const template = getMissionTemplate(templateKey);
   const data = await loadWorkspacePage(workspaceSlug);
+  const { locale, t } = await getTranslator();
   if (!hasCapability(data.ctx.membership.role, "missions.create")) notFound();
   const policy = await getWorkspacePolicy(data.ctx);
 
   return (
     <WorkspaceShell
       data={data}
-      title="New mission"
+      title={t("mission.new.title")}
       subtitle={data.ctx.workspace.name}
     >
-      <Panel className="p-[var(--shell-card-padding)]">
-        <SectionHeader title="Define a mission" />
+      <Panel
+        data-testid="bounded-page-panel"
+        className="mx-auto w-full max-w-5xl p-[var(--shell-card-padding)]"
+      >
+        <SectionHeader title={t("mission.new.define")} />
         <p className="text-meta text-ink-muted mt-1">
           {template
-            ? `${template.name} v${template.version} has pre-filled this editable draft. Normal review and approval still apply.`
-            : "A draft contract is captured with your objective, one requirement and one weighted obligation. You can review and approve it next."}
+            ? t("mission.new.templatePrefill", {
+                template: template.name,
+                version: template.version,
+              })
+            : t("mission.new.hint")}
         </p>
         <form
           action={createMissionAction}
-          className="mt-4 max-w-2xl"
+          data-testid="bounded-page-form"
+          className="mt-4 w-full"
           noValidate
         >
           <input type="hidden" name="slug" value={workspaceSlug} />
-          <Field id="title" label="Mission title" />
+          <Field id="title" label={t("mission.new.missionTitle")} />
           <Field
             id="objective"
-            label="Objective"
+            label={t("mission.new.objective")}
             textarea
             defaultValue={template?.objective}
           />
           <Field
             id="scope"
-            label="Scope"
+            label={t("mission.new.scope")}
             textarea
             defaultValue={template?.scope}
           />
           <Field
             id="successDefinition"
-            label="Success definition"
+            label={t("mission.new.success")}
             textarea
             defaultValue={template?.successDefinition}
           />
@@ -113,7 +123,7 @@ export default async function NewMissionPage({
               htmlFor="assuranceProfile"
               className="text-meta text-ink mb-1 block font-medium"
             >
-              Assurance profile
+              {t("mission.new.assurance")}
             </label>
             <select
               id="assuranceProfile"
@@ -125,7 +135,7 @@ export default async function NewMissionPage({
             >
               {PROFILES.map((p) => (
                 <option key={p} value={p}>
-                  {p.charAt(0) + p.slice(1).toLowerCase()}
+                  {enumLabel(locale, p)}
                 </option>
               ))}
             </select>
@@ -133,16 +143,16 @@ export default async function NewMissionPage({
 
           <fieldset className="border-line mt-2 rounded-md border p-3">
             <legend className="text-meta text-ink-muted px-1">
-              First requirement
+              {t("mission.new.firstRequirement")}
             </legend>
             <Field
               id="requirementTitle"
-              label="Requirement title"
+              label={t("mission.new.requirementTitle")}
               defaultValue={template?.requirementTitle}
             />
             <Field
               id="requirementCriteria"
-              label="Acceptance criteria"
+              label={t("mission.new.acceptance")}
               textarea
               defaultValue={template?.requirementCriteria}
             />
@@ -150,11 +160,11 @@ export default async function NewMissionPage({
 
           <fieldset className="border-line mt-3 rounded-md border p-3">
             <legend className="text-meta text-ink-muted px-1">
-              First obligation
+              {t("mission.new.firstObligation")}
             </legend>
             <Field
               id="obligationTitle"
-              label="Obligation title"
+              label={t("mission.new.obligationTitle")}
               defaultValue={template?.obligationTitle}
             />
             <div className="mb-1">
@@ -162,7 +172,7 @@ export default async function NewMissionPage({
                 htmlFor="obligationWeight"
                 className="text-meta text-ink mb-1 block font-medium"
               >
-                Weight (positive integer)
+                {t("mission.new.weight")}
               </label>
               <input
                 id="obligationWeight"
@@ -178,7 +188,7 @@ export default async function NewMissionPage({
 
           <div className="mt-4">
             <Button type="submit" variant="primary">
-              Create mission
+              {t("mission.new.create")}
             </Button>
           </div>
         </form>

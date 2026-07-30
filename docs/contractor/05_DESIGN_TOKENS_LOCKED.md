@@ -1,75 +1,88 @@
-# Design System — LOCKED FROM LATEST MOCK
+# Design System — PRECISION INSTRUMENT LOCKED
 
 Reference: `assets/hive-os-ui-locked.png`
 
+Amended by: `TIP-002A`, `TIP-002B`, and `DEC-016` on `2026-07-29`
+
 ## Visual character
 
-Academic, deeptech, mature, quiet, precise. The product should feel closer to a premium research instrument or institutional knowledge system than a colorful SaaS dashboard.
+Academic, deeptech, mature, quiet, and precise. HIVE OS must feel like a
+premium research instrument whose structure exposes authority and provenance,
+not a colorful SaaS dashboard or decorative science-fiction interface.
+
+The signature is the **Governed Provenance Rail**:
+
+```text
+Mission → Truth → Execution → Verification → Release
+```
+
+It represents real governed flow and never fabricates completion.
+
+## Locale and appearance defaults
+
+- Product interface supports Vietnamese and English.
+- First visit defaults to Vietnamese (`vi`); browser language does not silently
+  override this Owner decision.
+- Appearance supports `system`, `light`, and `dark`.
+- First visit defaults to `system`; explicit choices persist.
+- System mode continues tracking operating-system changes.
+- Theme resolves before first meaningful paint.
 
 ## Non-negotiables
 
-- Light theme as default.
 - No gradients.
 - No glassmorphism.
-- No neon.
+- No neon, glow, or decorative telemetry.
 - No large decorative illustrations.
-- No colored card backgrounds except extremely pale semantic tints.
+- No colored card backgrounds except restrained semantic tints.
 - No oversized rounded capsules.
 - No arbitrary shadows or floating panels.
-- No fake charts, percentages, counts, or activity.
-- Color communicates type or state, not decoration.
+- No fake charts, percentages, counts, activity, or progress.
+- Color communicates type, state, or authority, not decoration.
+- Dark mode preserves the same information hierarchy as light mode.
 
 ## Typography
 
-- Primary family: Inter, with system sans fallback.
-- Heading weight: 600, never extra-bold.
-- Body weight: 400–500.
+- Thesis/display: Literata, weight 500, used only for mission theses and key
+  research statements.
+- UI/body: Be Vietnam Pro, weight 400–600.
+- Data/utility: IBM Plex Mono, weight 400–600, used sparingly for identifiers,
+  hashes, timestamps, gates, and evidence coordinates.
 - Tabular numerals for metrics and IDs.
-- Default body: 14px / 21px.
-- Small metadata: 12px / 18px.
-- Page title: 24px / 32px, weight 600.
+- Body: 14px / 21px.
+- Metadata: 12px / 18px.
+- Page title: 26px / 34px, weight 600.
 - Section title: 15–16px / 24px, weight 600.
+- The serif must not spread into controls, tables, navigation, or body prose.
 
-## Core tokens
+## Core semantic tokens
 
-```css
-:root {
-  --canvas: #f8f9fb;
-  --surface: #ffffff;
-  --surface-subtle: #fbfcfd;
-  --surface-selected: #f0f3f8;
+| Role | Light | Dark |
+| --- | --- | --- |
+| Canvas | `#f4f6f8` | `#0b1018` |
+| Surface | `#ffffff` | `#111925` |
+| Surface subtle | `#f8fafc` | `#151f2c` |
+| Surface selected | `#eaf0fb` | `#1a2b49` |
+| Ink | `#0c1424` | `#e8edf5` |
+| Ink strong | `#08101f` | `#f5f7fb` |
+| Ink muted | `#617086` | `#9aa8ba` |
+| Line | `#dce3eb` | `#273447` |
+| Line strong | `#c4cfdb` | `#3a4a60` |
+| Authority | `#315fe8` | `#8aabff` |
+| Verified | `#0b7a67` | `#56c7ad` |
 
-  --ink: #101828;
-  --ink-strong: #0b1220;
-  --ink-muted: #667085;
-  --ink-faint: #98a2b3;
+Semantic warning, danger, and informational tokens must pass WCAG AA in both
+themes. Focus uses the authority token and must remain visible independently of
+color.
 
-  --line: #e4e7ec;
-  --line-strong: #d0d5dd;
+## Shape and surface
 
-  --navy-900: #102044;
-  --navy-800: #172b55;
-  --navy-700: #1f3a70;
-  --blue-600: #2457d6;
-
-  --success-600: #17865f;
-  --success-50: #eefaf5;
-  --warning-600: #c46716;
-  --warning-50: #fff7ed;
-  --danger-600: #b42318;
-  --danger-50: #fef3f2;
-  --violet-600: #7047c7;
-  --violet-50: #f5f2ff;
-
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 12px;
-
-  --shadow-panel: 0 1px 2px rgba(16,24,40,.035);
-  --focus-ring: 0 0 0 3px rgba(36,87,214,.14);
-}
-```
+- Small radius: 6px.
+- Control radius: 8px.
+- Panel radius: 10px.
+- Panel shadow: at most one low-opacity 1px depth cue.
+- Prefer open instrument bays, hairline rules, and semantic grouping over a
+  separate rounded card for every datum.
 
 ## Layout tokens
 
@@ -78,42 +91,40 @@ Academic, deeptech, mature, quiet, precise. The product should feel closer to a 
 - Right context rail: 360–380px when present.
 - Main content max: fluid; minimum readable center column 720px.
 - Page gutters: 28–32px desktop, 20px tablet, 16px mobile.
-- Card padding: 20px.
+- Panel padding: 20px.
 - Grid gap: 16px standard, 24px major.
 - Header height: 64px.
 - Row height: 54–58px.
 
-## Components
+## Page alignment DNA
 
-### Primary button
-Navy background, white text, 8px radius, 40px height. No gradient. Hover darkens by one token step.
+Every primary page surface must use one explicit width mode:
 
-### Secondary button
-White background, 1px line border, ink text.
+1. **Fluid instrument canvas** for dashboards, maps, operational grids and
+   tables that materially benefit from the available width.
+2. **Centered bounded canvas** for forms, settings, reading and focused
+   workflows. Use `w-full`, an intentional `max-width`, and `margin-inline:
+   auto`.
 
-### Panels
-White surface, 1px line border, 10px radius, subtle or no shadow.
-
-### Status badge
-Small text, thin border or pale tint. Do not use saturated fills.
-
-### Progress
-2–4px track. Semantic line only. Progress values are derived from closed obligations.
-
-### Icons
-Lucide-like 18–20px line icons. Dark neutral by default. Semantic color only when meaningful.
+Never place a narrow, left-anchored `max-width` child inside an otherwise
+full-width empty panel. If a form is bounded, its containing panel is bounded
+and centered with it; the form then fills the usable panel width. On mobile,
+both modes become full-width within the standard page gutters.
 
 ## Responsive behavior
 
-- Right rail moves below main content below 1180px.
-- Sidebar becomes icon rail below 1024px and drawer below 768px.
+- Right rail moves below the main content below 1180px.
+- Sidebar becomes an icon rail below 1024px and drawer below 768px.
 - Active missions table becomes stacked rows below 820px.
-- Mission composer remains the first actionable element.
+- Mission composer remains the first actionable main element.
+- The Provenance Rail remains readable without horizontal page overflow.
 
-## Accessibility
+## Accessibility and motion
 
-- WCAG AA text contrast.
+- WCAG AA text contrast in light and dark.
 - Visible keyboard focus.
 - No state communicated by color alone.
-- Tables have correct headers and mobile alternatives.
-- All status changes announced to assistive technology where dynamic.
+- Correct table headers and mobile alternatives.
+- Dynamic status changes are announced to assistive technology.
+- One restrained provenance/gate transition is allowed.
+- All information and operations remain available under reduced motion.
