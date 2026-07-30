@@ -23,6 +23,13 @@ export interface SidebarAccount {
   email: string;
 }
 
+export interface SidebarEnterpriseScope {
+  organization: string;
+  unit: string;
+  portfolio: string | null;
+  workspace: string;
+}
+
 export interface SidebarContentProps {
   /** Icon rail (tablet) collapses labels to accessible names + tooltips. */
   iconOnly?: boolean;
@@ -36,6 +43,8 @@ export interface SidebarContentProps {
   homeHref?: string;
   /** Desktop-only control for the persistent full/icon rail state. */
   onToggleCollapsed?: () => void;
+  /** Current authorized enterprise scope for the organizational navigator. */
+  enterpriseScope?: SidebarEnterpriseScope;
 }
 
 export function SidebarContent({
@@ -45,8 +54,9 @@ export function SidebarContent({
   footerSlot,
   homeHref = "#mission-composer",
   onToggleCollapsed,
+  enterpriseScope,
 }: SidebarContentProps) {
-  const { t } = usePreferences();
+  const { locale, t } = usePreferences();
   return (
     <div className="flex h-full flex-col">
       {/* Brand */}
@@ -112,18 +122,74 @@ export function SidebarContent({
           {!iconOnly && <span>{t("common.newMission")}</span>}
         </a>
 
-        {/* Navigation */}
+        {enterpriseScope && !iconOnly ? (
+          <section
+            className="mt-4 border-y border-line py-3"
+            aria-label={t("common.workspace")}
+          >
+            <p className="text-eyebrow text-ink-muted px-3">
+              {t("common.workspace")}
+            </p>
+            <ol className="mt-2">
+              {[
+                ["ORG", enterpriseScope.organization],
+                ["UNIT", enterpriseScope.unit],
+                [
+                  "PORT",
+                  enterpriseScope.portfolio ??
+                    (locale === "vi" ? "Chưa gán danh mục" : "No portfolio"),
+                ],
+                ["WORK", enterpriseScope.workspace],
+              ].map(([code, value], index) => (
+                <li
+                  key={code}
+                  className={`relative flex min-w-0 items-center gap-2 px-3 py-1.5 ${
+                    index === 3 ? "text-ink-strong" : "text-ink-muted"
+                  }`}
+                >
+                  <span
+                    className="tabular text-[8px] text-ink-muted"
+                    aria-hidden="true"
+                  >
+                    {code}
+                  </span>
+                  <span className="truncate text-[11px] font-medium">
+                    {value}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
+
+        {/* Navigation / compact module switcher on the enterprise surface. */}
         <nav aria-label={t("common.primaryNavigation")} className="mt-4">
-          <div className="flex flex-col gap-4">
-            {GROUPS.map((group) => (
+          <div
+            className={`flex flex-col ${enterpriseScope ? "gap-1" : "gap-4"}`}
+          >
+            {(enterpriseScope ? (["command"] as const) : GROUPS).map((group) => (
               <div key={group}>
                 {!iconOnly ? (
                   <p className="text-eyebrow text-ink-muted mb-1.5 px-3">
-                    {t(`nav.${group}`)}
+                    {enterpriseScope
+                      ? t("common.navigation")
+                      : t(`nav.${group}`)}
                   </p>
                 ) : null}
                 <ul className="flex flex-col gap-0.5">
-                  {NAV_ITEMS.filter((item) => item.group === group).map(
+                  {NAV_ITEMS.filter((item) =>
+                    enterpriseScope
+                      ? [
+                          "",
+                          "missions",
+                          "evidence",
+                          "execution",
+                          "verification",
+                          "reports",
+                          "settings",
+                        ].includes(item.segment)
+                      : item.group === group,
+                  ).map(
                     (item) => {
                       const Icon = item.icon;
                       const label = t(item.labelKey);

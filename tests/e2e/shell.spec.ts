@@ -16,47 +16,47 @@ test.describe("HIVE OS app shell", () => {
 
     await expect(page.getByTestId("sidebar-desktop")).toBeVisible();
     await expect(
-      page.getByRole("heading", { level: 1, name: "Dashboard" }),
+      page.getByRole("heading", { level: 1, name: "Mission Command" }),
     ).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: "Primary" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Start a new mission" }),
+      page.getByRole("heading", { name: "One scope. Every accountable trace." }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Active missions" }),
+      page.getByLabel("Active scope"),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "HIVE OS mission workflow" }),
+      page.getByRole("group", { name: "View mode" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Mission overview" }),
+      page.getByLabel("Context inspector"),
     ).toBeVisible();
     await expect(
-      page.getByRole("region", { name: "System metrics" }),
+      page.getByLabel("Operational totals"),
     ).toBeVisible();
   });
 
-  test("DS-03 right rail reflows below 1180px", async ({ page }) => {
+  test("DS-03 context inspector reflows below 1180px", async ({ page }) => {
     await signUpToDashboard(page);
-    const composer = page.locator("#mission-composer");
-    const rail = page.getByTestId("dashboard-context-rail");
+    const canvas = page.locator(".mission-command-empty");
+    const inspector = page.getByLabel("Context inspector");
 
     await page.setViewportSize({ width: 1280, height: 900 });
-    const composerWide = await box(composer);
-    const railWide = await box(rail);
-    expect(railWide.x).toBeGreaterThan(
-      composerWide.x + composerWide.width - 40,
+    const canvasWide = await box(canvas);
+    const inspectorWide = await box(inspector);
+    expect(inspectorWide.x).toBeGreaterThan(
+      canvasWide.x + canvasWide.width - 40,
     );
 
     await page.setViewportSize({ width: 1000, height: 900 });
-    const composerNarrow = await box(composer);
-    const railNarrow = await box(rail);
-    expect(railNarrow.y).toBeGreaterThan(
-      composerNarrow.y + composerNarrow.height,
+    const canvasNarrow = await box(canvas);
+    const inspectorNarrow = await box(inspector);
+    expect(inspectorNarrow.y).toBeGreaterThan(
+      canvasNarrow.y + canvasNarrow.height - 2,
     );
-    expect(Math.abs(railNarrow.x - composerNarrow.x)).toBeLessThan(40);
+    expect(Math.abs(inspectorNarrow.x - canvasNarrow.x)).toBeLessThan(40);
   });
 
   test("DS-04 sidebar becomes icon rail below 1024px", async ({ page }) => {
@@ -105,20 +105,18 @@ test.describe("HIVE OS app shell", () => {
     ).toBeVisible();
   });
 
-  test("DS-05 table projection stacks below 820px", async ({ page }) => {
+  test("DS-05 command-surface modes remain usable below 820px", async ({ page }) => {
     await signUpToDashboard(page);
-
-    await page.setViewportSize({ width: 1000, height: 900 });
-    await expect(
-      page.getByRole("columnheader", { name: "Mission" }),
-    ).toBeVisible();
-    await expect(page.getByTestId("missions-empty-stacked")).toBeHidden();
-
     await page.setViewportSize({ width: 800, height: 900 });
+    await page.getByRole("button", { name: "Grid" }).click();
+    await expect(page.getByRole("button", { name: "Grid" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByRole("button", { name: "Chronology" }).click();
     await expect(
-      page.getByRole("columnheader", { name: "Mission" }),
-    ).toBeHidden();
-    await expect(page.getByTestId("missions-empty-stacked")).toBeVisible();
+      page.getByRole("button", { name: "Chronology" }),
+    ).toHaveAttribute("aria-pressed", "true");
 
     const overflow = await page.evaluate(
       () =>
@@ -177,7 +175,7 @@ test.describe("HIVE OS app shell", () => {
     expect(overflow).toBeLessThanOrEqual(1);
   });
 
-  test("DS-09 mission composer is the first actionable main element", async ({
+  test("DS-09 governed view switcher is the first actionable main element", async ({
     page,
   }) => {
     await signUpToDashboard(page);
@@ -189,7 +187,7 @@ test.describe("HIVE OS app shell", () => {
       );
       return el?.id ?? null;
     });
-    expect(firstId).toBe("mission-objective");
+    expect(firstId).toBe("mission-view-graph");
   });
 
   test("DS-10 no fabricated metric or mission fixture is rendered", async ({
@@ -197,12 +195,14 @@ test.describe("HIVE OS app shell", () => {
   }) => {
     await signUpToDashboard(page);
 
-    await expect(page.getByText("No active missions").first()).toBeVisible();
     await expect(
-      page.getByText("Authoritative workspace totals"),
+      page.getByText("No mission matches this operational view."),
     ).toBeVisible();
-    await expect(page.getByText("No mission selected")).toBeVisible();
-    await expect(page.getByText("No measured resource usage")).toBeVisible();
+    await expect(page.getByLabel("Operational totals")).toContainText(
+      "Missions0",
+    );
+    await expect(page.getByText("No selection")).toBeVisible();
+    await expect(page.getByText("No active assignment")).toBeVisible();
 
     const text = await page.evaluate(() => {
       const main = document.getElementById("main-content");

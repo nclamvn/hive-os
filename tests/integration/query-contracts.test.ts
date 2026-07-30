@@ -10,6 +10,7 @@ import {
 import {
   listMissionPage,
   listSkillPage,
+  QueryContractError,
   searchGovernedObjects,
 } from "@/modules/query-contracts";
 import { registerSkill } from "@/modules/skill-runtime";
@@ -99,6 +100,37 @@ describe("bounded query, grid and search contracts (TIP-023C)", () => {
         })
       ).id,
     );
+  });
+
+  it("QUERY-02A treats an explicit empty ID set as an empty bounded result", async () => {
+    const owner = await asOwner(await createUser("query-empty-ids"));
+    await getDb().mission.create({
+      data: {
+        workspaceId: owner.workspace.id,
+        referenceCode: "GRID-EMPTY-GUARD",
+        title: "Must not leak into My Work",
+        createdByMembershipId: owner.membership.id,
+      },
+    });
+
+    const page = await listMissionPage(owner, {
+      ids: [],
+      includeTotalCount: true,
+    });
+
+    expect(page.nodes).toEqual([]);
+    expect(page.totalCount).toBe(0);
+  });
+
+  it("QUERY-02B rejects an unbounded mission ID set", async () => {
+    const owner = await asOwner(await createUser("query-id-bound"));
+    await expect(
+      listMissionPage(owner, {
+        ids: Array.from({ length: 101 }, () => randomUUID()),
+      }),
+    ).rejects.toMatchObject({
+      code: "INVALID_QUERY",
+    } satisfies Partial<QueryContractError>);
   });
 
   it("QUERY-03 performs capability and assurance filtering in PostgreSQL", async () => {

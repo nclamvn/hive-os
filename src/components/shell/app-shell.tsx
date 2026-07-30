@@ -10,7 +10,11 @@ import {
 import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { MobileNav } from "./mobile-nav";
-import { type SidebarAccount, SidebarContent } from "./sidebar-content";
+import {
+  type SidebarAccount,
+  SidebarContent,
+  type SidebarEnterpriseScope,
+} from "./sidebar-content";
 import { TopHeader } from "./top-header";
 
 export interface AppShellProps {
@@ -28,6 +32,7 @@ export interface AppShellProps {
   /** Base href for the primary action / current nav item. */
   homeHref?: string;
   controlRoomHref?: string;
+  enterpriseScope?: SidebarEnterpriseScope;
 }
 
 export function AppShell({
@@ -40,6 +45,7 @@ export function AppShell({
   footerSlot,
   homeHref,
   controlRoomHref,
+  enterpriseScope,
 }: AppShellProps) {
   const { t } = usePreferences();
   const [navOpen, setNavOpen] = useState(false);
@@ -78,6 +84,7 @@ export function AppShell({
           footerSlot={footerSlot}
           homeHref={homeHref}
           onToggleCollapsed={toggleSidebar}
+          enterpriseScope={enterpriseScope}
         />
       </aside>
 
@@ -99,6 +106,7 @@ export function AppShell({
         account={account}
         footerSlot={footerSlot}
         homeHref={homeHref}
+        enterpriseScope={enterpriseScope}
       />
 
       {/* Main column */}

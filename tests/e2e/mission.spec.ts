@@ -25,7 +25,7 @@ test("MK-29/32 create a mission (keyboard) and see it as a real record", async (
 
   // The dashboard lists the real mission.
   await page.goto(dashboardUrl);
-  await expect(page.getByRole("columnheader", { name: "Reference" })).toBeVisible();
+  await expect(page.getByLabel("Mission graph")).toBeVisible();
   await expect(page.getByText("Lattice cryptography review").first()).toBeVisible();
 });
 
@@ -39,13 +39,13 @@ test("MK-30 no synthetic missions, progress or metrics are rendered", async ({ p
 
   // Governed metrics are authoritative workspace totals, never fabricated.
   await page.goto(dashboardUrl);
-  await expect(page.getByText("Authoritative workspace totals")).toBeVisible();
+  await expect(page.getByLabel("Operational totals")).toBeVisible();
   const metricsText = await page.evaluate(() => {
-    const region = document.querySelector('[aria-label="System metrics"]');
+    const region = document.querySelector('[aria-label="Operational totals"]');
     return region?.textContent ?? "";
   });
   expect(metricsText).not.toMatch(/\d+(\.\d+)?%/);
-  expect(metricsText).toContain("Missions1");
+  expect(metricsText).toContain("1Missions");
 
   await page.goto(detailUrl); // still same-origin, real record
 });

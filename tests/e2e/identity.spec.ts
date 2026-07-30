@@ -16,7 +16,7 @@ test("ID-01 allowed sign-up creates an identity and reaches the dashboard", asyn
 }) => {
   const { email } = await signUpToDashboard(page);
   await expect(
-    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+    page.getByRole("heading", { level: 1, name: "Mission Command" }),
   ).toBeVisible();
   await expect(
     page.getByTestId("sidebar-desktop").getByText(email),
@@ -36,7 +36,7 @@ test("ID-03 sign-out then sign-in works", async ({ page }) => {
 
   await page.waitForURL(/\/w\//);
   await expect(
-    page.getByRole("heading", { level: 1, name: "Dashboard" }),
+    page.getByRole("heading", { level: 1, name: "Mission Command" }),
   ).toBeVisible();
 });
 
@@ -58,7 +58,9 @@ test("ID-19 the authenticated shell shows only real user and workspace state", a
   const sidebar = page.getByTestId("sidebar-desktop");
   await expect(sidebar.getByText("E2E User")).toBeVisible();
   await expect(sidebar.getByText(email)).toBeVisible();
-  await expect(sidebar.getByText("Realtime Lab")).toBeHidden();
+  await expect(
+    sidebar.getByRole("region", { name: "Workspace" }),
+  ).toContainText("Realtime Lab");
   await sidebar.getByText("E2E User").click();
   await expect(sidebar.getByRole("button", { name: "Sign out" })).toBeVisible();
 });
@@ -154,19 +156,19 @@ test("ID-23 invitation creation surfaces a single-use link (keyboard reachable)"
   await expect(page.getByText(/\/invitations\//)).toBeVisible();
 });
 
-test("ID-24 OBL-UI-001 workflow header stacks below 768px", async ({
+test("ID-24 OBL-UI-001 governed scope remains keyboard-scrollable below 768px", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await signUpToDashboard(page);
 
-  const title = page.getByRole("heading", { name: "HIVE OS mission workflow" });
-  const note = page.getByText("Explanatory sequence, not an active mission");
-  const titleBox = await title.boundingBox();
-  const noteBox = await note.boundingBox();
-  if (!titleBox || !noteBox) throw new Error("workflow header not found");
-
-  // Stacked: the note sits on a row below the title, not beside it.
-  expect(noteBox.y).toBeGreaterThan(titleBox.y + titleBox.height - 4);
-  expect(noteBox.x).toBeLessThan(titleBox.x + 40);
+  const scope = page.getByRole("region", { name: "Active scope" });
+  await expect(scope).toBeVisible();
+  await expect(scope).toHaveAttribute("tabindex", "0");
+  const geometry = await scope.evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth,
+  }));
+  expect(geometry.clientWidth).toBeLessThanOrEqual(390);
+  expect(geometry.scrollWidth).toBeGreaterThan(geometry.clientWidth);
 });

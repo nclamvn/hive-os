@@ -12,22 +12,22 @@ test.describe("TIP-002A locale and appearance", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "vi");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Tổng quan" }),
+      page.getByRole("heading", { level: 1, name: "Trung tâm điều hành" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Biến ý định thành sự thật có thể kiểm chứng.",
+        name: "Một phạm vi. Mọi dấu vết trách nhiệm.",
       }),
     ).toBeVisible();
   });
 
-  test("explicit locale and appearance persist without losing composer input", async ({
+  test("explicit locale and appearance persist without losing command-surface mode", async ({
     page,
   }) => {
     await signUpToDashboard(page, "Preference Lab", "en");
 
-    const objective = page.getByLabel("Mission objective");
-    await objective.fill("Preserve this objective across a locale refresh.");
+    await page.getByRole("button", { name: "Grid" }).click();
+    await expect(page).toHaveURL(/mode=grid/);
 
     await page
       .getByTestId("preferences-compact")
@@ -35,10 +35,11 @@ test.describe("TIP-002A locale and appearance", () => {
       .click();
     await expect(page.locator("html")).toHaveAttribute("lang", "vi");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Tổng quan" }),
+      page.getByRole("heading", { level: 1, name: "Trung tâm điều hành" }),
     ).toBeVisible();
-    await expect(page.getByLabel("Mục tiêu nhiệm vụ")).toHaveValue(
-      "Preserve this objective across a locale refresh.",
+    await expect(page.getByRole("button", { name: "Lưới" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
     );
 
     await page

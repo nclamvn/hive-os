@@ -85,7 +85,7 @@ export async function signUpToDashboard(
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: locale === "vi" ? "Tổng quan" : "Dashboard",
+      name: locale === "vi" ? "Trung tâm điều hành" : "Mission Command",
     }),
   ).toBeVisible();
   return { email, dashboardUrl: page.url() };

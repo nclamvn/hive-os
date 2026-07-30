@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { WorkspacePageData } from "@/server/auth/workspace-page";
 
 import { AppShell } from "./app-shell";
+import type { SidebarEnterpriseScope } from "./sidebar-content";
 import { SignOutButton } from "./sign-out-button";
 
 /**
@@ -16,6 +17,7 @@ export function WorkspaceShell({
   rail,
   footer,
   children,
+  enterpriseScope,
 }: {
   data: WorkspacePageData;
   title: string;
@@ -23,6 +25,7 @@ export function WorkspaceShell({
   rail?: ReactNode;
   footer?: ReactNode;
   children: ReactNode;
+  enterpriseScope?: SidebarEnterpriseScope;
 }) {
   const { ctx } = data;
 
@@ -36,6 +39,7 @@ export function WorkspaceShell({
       footerSlot={<SignOutButton />}
       rail={rail}
       footer={footer}
+      enterpriseScope={enterpriseScope}
     >
       {children}
     </AppShell>

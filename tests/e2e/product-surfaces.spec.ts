@@ -4,16 +4,15 @@ import { expect, test } from "@playwright/test";
 import { signUpToDashboard } from "./auth-helpers";
 
 test.describe("TIP-010/011 product surfaces", () => {
-  test("DB-01 Dashboard renders authoritative totals and real context rail", async ({
+  test("DB-01 Mission Command renders authoritative totals and governed context", async ({
     page,
   }) => {
     const { dashboardUrl } = await signUpToDashboard(page, "Product Surface");
-    await expect(page.getByText("Authoritative workspace totals")).toBeVisible();
-    await expect(page.getByLabel("System metrics")).toContainText("Missions0");
-    await expect(page.getByText("No mission selected")).toBeVisible();
-    await expect(page.getByText("No decisions require action")).toBeVisible();
-    await expect(page.getByText("No measured resource usage")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Observatory" })).toBeVisible();
+    await expect(page.getByLabel("Operational totals")).toContainText("Missions0");
+    await expect(page.getByLabel("Active scope")).toContainText("Product Surface");
+    await expect(page.getByText("No selection")).toBeVisible();
+    await expect(page.getByText("No mission matches this operational view.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open command palette" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Reports" })).toBeVisible();
     expect(dashboardUrl).toMatch(/\/w\//);
   });

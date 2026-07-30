@@ -200,7 +200,7 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
     });
     expect(firstDispatch.dispatched).toBe(1);
     expect(duplicateDispatch.dispatched).toBe(0);
-    const now = new Date("2026-07-30T12:00:00.000Z");
+    const now = new Date();
     const [claimed] = await claimJobs({
       organizationId: orgId,
       actorUserId: owner.user.id,
@@ -214,7 +214,7 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
         organizationId: orgId,
         actorUserId: owner.user.id,
         workerId: "worker-b",
-        now: new Date("2026-07-30T12:00:20.000Z"),
+        now: new Date(now.getTime() + 20_000),
       }),
     ).toEqual([]);
 
@@ -228,7 +228,7 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
       organizationId: orgId,
       actorUserId: owner.user.id,
       workerId: "worker-b",
-      now: new Date("2026-07-30T12:00:31.000Z"),
+      now: new Date(now.getTime() + 31_000),
     });
     expect(recovered).toMatchObject({ attempts: 2, lockedBy: "worker-b" });
     const dead = await failJob({
@@ -239,7 +239,7 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
       expectedVersion: recovered!.version,
       errorCode: "POISONED",
       errorMessage: "Deterministic handler failure",
-      now: new Date("2026-07-30T12:00:32.000Z"),
+      now: new Date(now.getTime() + 32_000),
     });
     expect(dead.status).toBe("DEAD_LETTER");
     const events = await ownerQuery<{ event_type: string }>(
@@ -267,7 +267,7 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
         },
       }),
     );
-    const now = new Date("2026-07-30T13:00:00.000Z");
+    const now = new Date();
     const [claimed] = await claimJobs({
       organizationId: orgId,
       actorUserId: owner.user.id,
@@ -287,14 +287,14 @@ describe("durable command, job and projection plane (TIP-023E)", () => {
     });
     expect(retry.status).toBe("READY");
     expect(retry.availableAt.toISOString()).toBe(
-      "2026-07-30T13:00:30.000Z",
+      new Date(now.getTime() + 30_000).toISOString(),
     );
     expect(
       await claimJobs({
         organizationId: orgId,
         actorUserId: owner.user.id,
         workerId: "early-worker",
-        now: new Date("2026-07-30T13:00:29.999Z"),
+        now: new Date(now.getTime() + 29_999),
       }),
     ).toEqual([]);
     const [second] = await claimJobs({

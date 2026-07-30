@@ -21,7 +21,11 @@ test.describe("DS-12 visual regression evidence", () => {
     test(`captures ${vp.name}`, async ({ page }) => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await signUpToDashboard(page);
-      await page.getByRole("heading", { name: "Start a new mission" }).waitFor();
+      await page
+        .getByRole("heading", {
+          name: "One scope. Every accountable trace.",
+        })
+        .waitFor();
 
       const overflow = await page.evaluate(
         () =>

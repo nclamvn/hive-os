@@ -5,7 +5,11 @@ import { X } from "lucide-react";
 
 import { usePreferences } from "@/components/preferences/preferences-provider";
 
-import { type SidebarAccount, SidebarContent } from "./sidebar-content";
+import {
+  type SidebarAccount,
+  SidebarContent,
+  type SidebarEnterpriseScope,
+} from "./sidebar-content";
 
 export interface MobileNavProps {
   open: boolean;
@@ -15,6 +19,7 @@ export interface MobileNavProps {
   account?: SidebarAccount | null;
   footerSlot?: ReactNode;
   homeHref?: string;
+  enterpriseScope?: SidebarEnterpriseScope;
 }
 
 export function MobileNav({
@@ -24,6 +29,7 @@ export function MobileNav({
   account,
   footerSlot,
   homeHref,
+  enterpriseScope,
 }: MobileNavProps) {
   const { t } = usePreferences();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -99,6 +105,7 @@ export function MobileNav({
             account={account}
             footerSlot={footerSlot}
             homeHref={homeHref}
+            enterpriseScope={enterpriseScope}
           />
         </div>
       </div>

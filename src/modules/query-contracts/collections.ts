@@ -59,6 +59,7 @@ export async function listMissionPage(
   ctx: WorkspaceContext,
   input: PageRequest &
     CountOption & {
+      ids?: string[];
       statuses?: MissionStatus[];
       assuranceProfiles?: AssuranceProfile[];
       sort?: MissionSort;
@@ -66,12 +67,20 @@ export async function listMissionPage(
 ) {
   requireMissionCapability(ctx, "missions.read");
   const first = normalizePageSize(input.first);
+  const ids = [...new Set(input.ids ?? [])];
+  if (ids.length > 100) {
+    throw new QueryContractError(
+      "Mission ID filter exceeds the bounded limit",
+      "INVALID_QUERY",
+    );
+  }
   const sort = input.sort ?? "UPDATED_DESC";
   const field = sort === "UPDATED_DESC" ? "updatedAt" : "createdAt";
   const kind = `mission:${sort.toLowerCase()}`;
   const cursor = dateCursor(kind, input.after);
   const where: Prisma.MissionWhereInput = {
     workspaceId: ctx.workspace.id,
+    ...(input.ids !== undefined ? { id: { in: ids } } : {}),
     ...(input.statuses?.length ? { status: { in: input.statuses } } : {}),
     ...(input.assuranceProfiles?.length
       ? { assuranceProfile: { in: input.assuranceProfiles } }
@@ -88,6 +97,7 @@ export async function listMissionPage(
       ? getDb().mission.count({
           where: {
             workspaceId: ctx.workspace.id,
+            ...(input.ids !== undefined ? { id: { in: ids } } : {}),
             ...(input.statuses?.length
               ? { status: { in: input.statuses } }
               : {}),
