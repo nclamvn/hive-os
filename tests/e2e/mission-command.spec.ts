@@ -36,6 +36,9 @@ test.describe("TIP-023F enterprise mission command surface", () => {
     await expect(page.getByLabel("Active scope")).toContainText(
       "Enterprise Command QA",
     );
+    await expect(
+      page.getByLabel("Active scope").locator("time"),
+    ).toHaveAttribute("datetime");
     await expect(page.getByLabel("Mission graph")).toContainText(
       "Enterprise trace mission",
     );
@@ -73,6 +76,19 @@ test.describe("TIP-023F enterprise mission command surface", () => {
       page.getByText("No mission matches this operational view."),
     ).toBeVisible();
     await expect(page.getByText("Enterprise trace mission")).toBeHidden();
+    await expect(page.getByLabel("Context inspector")).toContainText(
+      "My accountable work",
+    );
+    await expect(page.getByLabel("Context inspector")).toContainText(
+      "Query bound",
+    );
+    await page
+      .getByRole("button", { name: "Reset operational view" })
+      .click();
+    await expect(page).not.toHaveURL(/view=my-work/);
+    await expect(
+      page.locator(".mission-chronology").getByText("Enterprise trace mission"),
+    ).toBeVisible();
   });
 
   test("UI-02 remains overflow-free and accessible at 390px", async ({

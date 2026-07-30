@@ -2,7 +2,8 @@
 
 Reference: `assets/hive-os-ui-locked.png`
 
-Amended by: `TIP-002A`, `TIP-002B`, and `DEC-016` on `2026-07-29`
+Amended by: `TIP-002A`, `TIP-002B`, `DEC-016`, and `TIP-023F-R2` on
+`2026-07-30`
 
 ## Visual character
 
@@ -43,9 +44,9 @@ It represents real governed flow and never fabricates completion.
 
 ## Typography
 
-- Thesis/display: Literata, weight 500, used only for mission theses and key
-  research statements.
-- UI/body: Be Vietnam Pro, weight 400–600.
+- Product interface and display: Inter, weight 400–600. Titles, theses,
+  headings, controls and body copy use the same family in Vietnamese and
+  English.
 - Data/utility: IBM Plex Mono, weight 400–600, used sparingly for identifiers,
   hashes, timestamps, gates, and evidence coordinates.
 - Tabular numerals for metrics and IDs.
@@ -53,7 +54,7 @@ It represents real governed flow and never fabricates completion.
 - Metadata: 12px / 18px.
 - Page title: 26px / 34px, weight 600.
 - Section title: 15–16px / 24px, weight 600.
-- The serif must not spread into controls, tables, navigation, or body prose.
+- No serif face is loaded by the application.
 
 ## Core semantic tokens
 

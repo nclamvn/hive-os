@@ -47,7 +47,7 @@ export default async function ClaimsPage({
           <p className="text-eyebrow text-blue-600">{copy.claims.authority}</p>
           <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="font-serif text-ink-strong mt-2 text-[clamp(1.7rem,3vw,3rem)] leading-[1.05] tracking-[-0.035em]">
+              <h2 className="font-sans text-ink-strong mt-2 text-[clamp(1.7rem,3vw,3rem)] leading-[1.05] tracking-[-0.035em]">
                 {copy.claims.thesis}
               </h2>
               <p className="text-body text-ink-muted mt-1 max-w-3xl">

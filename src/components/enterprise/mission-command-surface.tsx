@@ -65,6 +65,17 @@ const MISSION_STATUSES = [
   "ARCHIVED",
 ] as const;
 
+function lifecycleLaneLabels(locale: "vi" | "en") {
+  return [
+    ct(locale, "Intake", "Tiếp nhận"),
+    ct(locale, "Contract", "Hợp đồng"),
+    ct(locale, "Truth", "Sự thật"),
+    ct(locale, "Execution", "Thực thi"),
+    ct(locale, "Verification", "Kiểm chứng"),
+    ct(locale, "Release", "Phát hành"),
+  ];
+}
+
 function ct(locale: "vi" | "en", en: string, vi: string) {
   return locale === "vi" ? vi : en;
 }
@@ -188,6 +199,13 @@ export function MissionCommandSurface({
     projection.missions.nodes.find(
       (mission) => mission.id === selectedMissionId,
     ) ?? null;
+  const activeSavedView =
+    projection.savedViews.find((view) => view.id === projection.view) ??
+    projection.savedViews[0];
+  const hasActiveQuery =
+    projection.view !== "all" ||
+    Boolean(initialStatus) ||
+    initialSort !== "UPDATED_DESC";
 
   function updateQuery(
     changes: Record<string, string | null>,
@@ -441,6 +459,23 @@ export function MissionCommandSurface({
                 </option>
               </select>
             </label>
+            {hasActiveQuery ? (
+              <button
+                type="button"
+                className="mission-filter-reset"
+                onClick={() =>
+                  updateQuery({
+                    view: null,
+                    status: null,
+                    sort: null,
+                    after: null,
+                  })
+                }
+              >
+                <X aria-hidden="true" />
+                {ct(locale, "Reset", "Đặt lại")}
+              </button>
+            ) : null}
           </div>
 
           <button
@@ -488,7 +523,22 @@ export function MissionCommandSurface({
           <span className="mission-freshness">
             <Activity aria-hidden="true" />
             {projection.operational.freshness.refreshedAt
-              ? ct(locale, "Projection refreshed", "Bản chiếu cập nhật")
+              ? (
+                  <>
+                    <span>
+                      {ct(locale, "Projection", "Bản chiếu")}
+                    </span>
+                    <time
+                      dateTime={projection.operational.freshness.refreshedAt}
+                      className="tabular"
+                    >
+                      {formatDate(
+                        locale,
+                        projection.operational.freshness.refreshedAt,
+                      )}
+                    </time>
+                  </>
+                )
               : ct(locale, "Freshness unavailable", "Chưa có độ mới")}
           </span>
         </div>
@@ -529,6 +579,15 @@ export function MissionCommandSurface({
                 locale={locale}
                 basePath={basePath}
                 canCreate={projection.commands["missions.create"]}
+                hasActiveQuery={hasActiveQuery}
+                onReset={() =>
+                  updateQuery({
+                    view: null,
+                    status: null,
+                    sort: null,
+                    after: null,
+                  })
+                }
               />
             ) : mode === "graph" ? (
               <MissionGraph
@@ -566,8 +625,17 @@ export function MissionCommandSurface({
 
             <div className="mission-page-ledger">
               <span>
-                {projection.missions.totalCount ?? projection.missions.nodes.length}{" "}
-                {ct(locale, "matching missions", "nhiệm vụ phù hợp")}
+                <strong className="tabular">
+                  {projection.missions.nodes.length}
+                </strong>{" "}
+                {ct(locale, "visible", "đang hiển thị")}
+                {" · "}
+                <strong className="tabular">
+                  {projection.missions.totalCount ?? "—"}
+                </strong>{" "}
+                {ct(locale, "matching", "phù hợp")}
+                {" · "}
+                {ct(locale, "bound 25", "giới hạn 25")}
               </span>
               {projection.missions.pageInfo.hasNextPage &&
               projection.missions.pageInfo.endCursor ? (
@@ -595,6 +663,15 @@ export function MissionCommandSurface({
               inbox={projection.inbox}
               basePath={basePath}
               commands={projection.commands}
+              operatingContext={{
+                viewLabel: viewLabels[projection.view],
+                viewVisibility: activeSavedView.visibility,
+                visibleCount: projection.missions.nodes.length,
+                totalCount: projection.missions.totalCount,
+                workspaceName: projection.scope.workspace.name,
+                refreshedAt:
+                  projection.operational.freshness.refreshedAt ?? null,
+              }}
               onClose={() => setInspectorOpen(false)}
               onSelect={(id) => {
                 setSelectedMissionId(id);
@@ -661,14 +738,7 @@ function MissionGraph({
   selectedMissionId: string | null;
   onSelect: (id: string) => void;
 }) {
-  const laneLabels = [
-    ct(locale, "Intake", "Tiếp nhận"),
-    ct(locale, "Contract", "Hợp đồng"),
-    ct(locale, "Truth", "Sự thật"),
-    ct(locale, "Execution", "Thực thi"),
-    ct(locale, "Verification", "Kiểm chứng"),
-    ct(locale, "Release", "Phát hành"),
-  ];
+  const laneLabels = lifecycleLaneLabels(locale);
   return (
     <div className="mission-graph" aria-label={ct(locale, "Mission graph", "Đồ thị nhiệm vụ")}>
       <div className="mission-graph-desktop">
@@ -905,39 +975,65 @@ function CommandEmptyState({
   locale,
   basePath,
   canCreate,
+  hasActiveQuery,
+  onReset,
 }: {
   locale: "vi" | "en";
   basePath: string;
   canCreate: boolean;
+  hasActiveQuery: boolean;
+  onReset: () => void;
 }) {
+  const laneLabels = lifecycleLaneLabels(locale);
+
   return (
     <div className="mission-command-empty">
-      <Target aria-hidden="true" />
-      <p className="text-eyebrow text-ink-muted">
-        {ct(locale, "Bounded mission set", "Tập nhiệm vụ hữu hạn")}
-      </p>
-      <h3>
-        {ct(
-          locale,
-          "No mission matches this operational view.",
-          "Không có nhiệm vụ phù hợp với chế độ vận hành này.",
-        )}
-      </h3>
-      <p>
-        {ct(
-          locale,
-          "Change the saved view or define a governed mission to begin the trace.",
-          "Đổi chế độ đã lưu hoặc xác định một nhiệm vụ được quản trị để bắt đầu dấu vết.",
-        )}
-      </p>
-      {canCreate ? (
-        <Link href={`${basePath}/missions/new`}>
-          <Plus aria-hidden="true" />
-          {ct(locale, "Define mission", "Xác định nhiệm vụ")}
-        </Link>
-      ) : (
-        <span>{ct(locale, "Read-only scope", "Phạm vi chỉ đọc")}</span>
-      )}
+      <div className="mission-empty-datum" aria-hidden="true">
+        <span className="mission-empty-origin">
+          <Target />
+        </span>
+        {laneLabels.map((label) => (
+          <span key={label} className="mission-empty-lane">
+            <small>{label}</small>
+            <i />
+          </span>
+        ))}
+      </div>
+      <div className="mission-empty-copy">
+        <p className="text-eyebrow text-ink-muted">
+          {ct(locale, "Bounded mission set · 0 visible", "Tập nhiệm vụ hữu hạn · 0 hiển thị")}
+        </p>
+        <h3>
+          {ct(
+            locale,
+            "No mission matches this operational view.",
+            "Không có nhiệm vụ phù hợp với chế độ vận hành này.",
+          )}
+        </h3>
+        <p>
+          {ct(
+            locale,
+            "The lifecycle remains explicit. Reset this view or define a governed mission to establish the first retained trace.",
+            "Vòng đời vẫn được biểu diễn tường minh. Đặt lại chế độ hoặc xác định một nhiệm vụ được quản trị để tạo dấu vết lưu giữ đầu tiên.",
+          )}
+        </p>
+        <div className="mission-empty-actions">
+          {hasActiveQuery ? (
+            <button type="button" onClick={onReset}>
+              <X aria-hidden="true" />
+              {ct(locale, "Reset operational view", "Đặt lại chế độ vận hành")}
+            </button>
+          ) : null}
+          {canCreate ? (
+            <Link href={`${basePath}/missions/new`}>
+              <Plus aria-hidden="true" />
+              {ct(locale, "Define mission", "Xác định nhiệm vụ")}
+            </Link>
+          ) : (
+            <span>{ct(locale, "Read-only scope", "Phạm vi chỉ đọc")}</span>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -948,6 +1044,7 @@ function MissionInspector({
   inbox,
   basePath,
   commands,
+  operatingContext,
   onClose,
   onSelect,
 }: {
@@ -956,6 +1053,14 @@ function MissionInspector({
   inbox: MissionCommandProjection["inbox"];
   basePath: string;
   commands: MissionCommandProjection["commands"];
+  operatingContext: {
+    viewLabel: string;
+    viewVisibility: string;
+    visibleCount: number;
+    totalCount: number | null;
+    workspaceName: string;
+    refreshedAt: string | null;
+  };
   onClose: () => void;
   onSelect: (id: string) => void;
 }) {
@@ -1046,13 +1151,50 @@ function MissionInspector({
           </div>
         </>
       ) : (
-        <p className="text-body text-ink-muted p-5">
-          {ct(
-            locale,
-            "Select a mission to inspect its governed context.",
-            "Chọn một nhiệm vụ để xem ngữ cảnh được quản trị.",
-          )}
-        </p>
+        <div className="mission-inspector-empty">
+          <p>
+            {ct(
+              locale,
+              "Select a mission to inspect its governed context. The facts below describe the current bounded surface.",
+              "Chọn một nhiệm vụ để xem ngữ cảnh được quản trị. Các dữ kiện dưới đây mô tả mặt phẳng hữu hạn hiện tại.",
+            )}
+          </p>
+          <dl className="mission-inspector-facts">
+            <div>
+              <dt>{ct(locale, "Active view", "Chế độ hiện tại")}</dt>
+              <dd>{operatingContext.viewLabel}</dd>
+            </div>
+            <div>
+              <dt>{ct(locale, "Visibility", "Phạm vi xem")}</dt>
+              <dd className="tabular">
+                {operatingContext.viewVisibility.toLowerCase()}
+              </dd>
+            </div>
+            <div>
+              <dt>{ct(locale, "Visible set", "Tập hiển thị")}</dt>
+              <dd className="tabular">
+                {operatingContext.visibleCount} /{" "}
+                {operatingContext.totalCount ?? "—"}
+              </dd>
+            </div>
+            <div>
+              <dt>{ct(locale, "Query bound", "Giới hạn truy vấn")}</dt>
+              <dd className="tabular">25</dd>
+            </div>
+            <div>
+              <dt>{ct(locale, "Workspace scope", "Phạm vi không gian")}</dt>
+              <dd>{operatingContext.workspaceName}</dd>
+            </div>
+            <div>
+              <dt>{ct(locale, "Projection time", "Thời điểm bản chiếu")}</dt>
+              <dd className="tabular">
+                {operatingContext.refreshedAt
+                  ? formatDate(locale, operatingContext.refreshedAt)
+                  : ct(locale, "Unavailable", "Chưa có")}
+              </dd>
+            </div>
+          </dl>
+        </div>
       )}
 
       <div className="mission-work-inbox">

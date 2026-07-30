@@ -8,6 +8,10 @@ const css = readFileSync(
   path.resolve(__dirname, "../../src/app/globals.css"),
   "utf8",
 );
+const rootLayout = readFileSync(
+  path.resolve(__dirname, "../../src/app/layout.tsx"),
+  "utf8",
+);
 
 const REQUIRED_TOKENS = [
   // canvas & surface
@@ -67,13 +71,16 @@ describe("DS-01 locked design tokens", () => {
     expect(block).toMatch(/font-weight:\s*600/);
   });
 
-  it("declares dark semantic overrides and three type roles", () => {
+  it("declares dark semantic overrides and the consolidated type roles", () => {
     expect(css).toContain('html[data-theme="dark"]');
     expect(css).toContain("--color-canvas: #0d0e10");
     expect(css).toContain("--color-surface: #131518");
     expect(css).toContain("--color-surface-selected: #25292f");
-    expect(css).toMatch(/--font-sans:\s+var\(--font-body\)/);
-    expect(css).toContain("--font-serif: var(--font-display)");
+    expect(css).toMatch(/--font-sans:\s+var\(--font-interface\)/);
+    expect(css).toMatch(/--font-serif:\s+var\(--font-interface\)/);
     expect(css).toMatch(/--font-mono:\s+var\(--font-utility\)/);
+    expect(rootLayout).toContain("IBM_Plex_Mono, Inter");
+    expect(rootLayout).not.toContain("Literata");
+    expect(rootLayout).not.toContain("Be_Vietnam_Pro");
   });
 });

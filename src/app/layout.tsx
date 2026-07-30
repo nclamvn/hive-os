@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro, IBM_Plex_Mono, Literata } from "next/font/google";
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 
 import { FocusModality } from "@/components/focus-modality";
 import { PreferencesProvider } from "@/components/preferences/preferences-provider";
@@ -7,15 +7,10 @@ import { getLocale } from "@/i18n/server";
 
 import "./globals.css";
 
-const body = Be_Vietnam_Pro({
-  variable: "--font-body",
+const interfaceFont = Inter({
+  variable: "--font-interface",
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "600"],
-});
-
-const display = Literata({
-  variable: "--font-display",
-  subsets: ["latin", "vietnamese"],
 });
 
 const utility = IBM_Plex_Mono({
@@ -53,7 +48,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${body.variable} ${display.variable} ${utility.variable} h-full antialiased`}
+      className={`${interfaceFont.variable} ${utility.variable} h-full antialiased`}
     >
       <head>
         <script
