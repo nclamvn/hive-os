@@ -74,7 +74,8 @@ export async function listWorkspacesForUser(
   const memberships = await getDb().membership.findMany({
     where: { userId, status: "ACTIVE", workspace: { status: "ACTIVE" } },
     include: { workspace: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    take: 100,
   });
   return memberships.map((m) => ({
     role: m.role,

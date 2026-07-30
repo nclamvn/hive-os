@@ -3,6 +3,8 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { Prisma, type Role } from "@prisma/client";
 
 import { getDb } from "@/server/db";
+import { setOrganizationTenant } from "@/server/tenant-context";
+import { legacyRoleToEnterpriseRole } from "@/modules/authorization/roles";
 
 import { AuditEventType, writeAuditEvent } from "./audit";
 import type { AuthenticatedUser, WorkspaceContext } from "./context";
@@ -103,7 +105,8 @@ export async function listInvitations(
   }
   const rows = await getDb().invitation.findMany({
     where: { workspaceId: ctx.workspace.id, status: "PENDING" },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 100,
   });
   return rows.map((r) => ({
     id: r.id,
@@ -205,6 +208,53 @@ export async function acceptInvitation(
         throw new ForbiddenError("This invitation has already been used");
       }
 
+      const workspace = await tx.workspace.findUniqueOrThrow({
+        where: { id: invitation.workspaceId },
+        select: { organizationId: true },
+      });
+      await setOrganizationTenant(tx, workspace.organizationId, user.id);
+      const organizationMembership = await tx.organizationMembership.upsert({
+        where: {
+          organizationId_userId: {
+            organizationId: workspace.organizationId,
+            userId: user.id,
+          },
+        },
+        create: {
+          organizationId: workspace.organizationId,
+          userId: user.id,
+          role: invitation.role,
+          status: "ACTIVE",
+          createdById: user.id,
+        },
+        update: {},
+      });
+      const existingGrant = await tx.scopedGrant.findFirst({
+        where: {
+          organizationId: workspace.organizationId,
+          subjectType: "USER",
+          subjectUserId: user.id,
+          role: legacyRoleToEnterpriseRole(invitation.role),
+          effect: "ALLOW",
+          scopeType: "ORGANIZATION",
+          status: "ACTIVE",
+        },
+        select: { id: true },
+      });
+      if (!existingGrant) {
+        await tx.scopedGrant.create({
+          data: {
+            organizationId: workspace.organizationId,
+            subjectType: "USER",
+            subjectUserId: user.id,
+            role: legacyRoleToEnterpriseRole(invitation.role),
+            effect: "ALLOW",
+            scopeType: "ORGANIZATION",
+            grantedByOrganizationMembershipId: organizationMembership.id,
+            reason: "Workspace invitation compatibility authority",
+          },
+        });
+      }
       const membership = await tx.membership.create({
         data: {
           workspaceId: invitation.workspaceId,

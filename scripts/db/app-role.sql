@@ -56,6 +56,22 @@ BEGIN
     FROM hiveos_app;
     REVOKE DELETE, TRUNCATE ON TABLE verification_run FROM hiveos_app;
   END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'workflow_approval_action') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      workflow_approval_action, sla_policy, approval_chain_definition,
+      approval_chain_step
+    FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE
+      workflow_assignment, workflow_approval_request
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'durable_job_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE durable_job_event FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE
+      command_record, outbox_event, durable_job,
+      workspace_operational_projection, portfolio_operational_projection
+    FROM hiveos_app;
+  END IF;
   -- TIP-021A: the identity security ledger is append-only for the runtime role
   -- (SELECT + INSERT only); it never receives UPDATE/DELETE/TRUNCATE, so its
   -- append-only triggers cannot be bypassed. auth_throttle_counter keeps full

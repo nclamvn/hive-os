@@ -139,6 +139,7 @@ export interface ManualRunInput {
   providerName: string;
   modelName: string;
   instruction: string;
+  performedByMembershipId?: string;
 }
 
 const tipSchema = z
@@ -157,6 +158,7 @@ const manualRunSchema = z
     providerName: z.string().trim().min(1).max(120),
     modelName: z.string().trim().min(1).max(160),
     instruction: z.string().trim().min(1).max(1_000_000),
+    performedByMembershipId: z.string().uuid().optional(),
   })
   .strict();
 

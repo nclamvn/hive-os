@@ -51,7 +51,8 @@ export async function listMembers(
   const rows = await getDb().membership.findMany({
     where: { workspaceId: ctx.workspace.id },
     include: { user: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    take: 100,
   });
   return rows.map((m) => ({
     membershipId: m.id,

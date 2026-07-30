@@ -16,7 +16,11 @@ export interface TestUser {
 export async function createUser(prefix = "user"): Promise<TestUser> {
   const id = randomUUID();
   const short = id.slice(0, 8);
-  const user = { id, name: `${prefix} ${short}`, email: `${prefix}-${short}@test.local` };
+  const user = {
+    id,
+    name: `${prefix} ${short}`,
+    email: `${prefix}-${short}@test.local`,
+  };
   await getDb().user.create({ data: user });
   return user;
 }
@@ -47,7 +51,7 @@ export async function truncateAll(): Promise<void> {
   await client.connect();
   try {
     await client.query(
-      'TRUNCATE audit_event, invitation, membership, workspace, "session", account, "user" CASCADE',
+      'TRUNCATE organization, audit_event, invitation, membership, workspace, "session", account, "user" CASCADE',
     );
   } finally {
     await client.end();

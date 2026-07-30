@@ -27,28 +27,45 @@ export async function listClaimProjection(
     target === "INTERNAL" ? "truth.read" : "truth.export",
   );
   const claims = await getDb().claim.findMany({
-    where: { workspaceId: ctx.workspace.id, missionId },
-    include: { versions: { orderBy: { versionNumber: "asc" } } },
-    orderBy: { createdAt: "asc" },
+    where: {
+      workspaceId: ctx.workspace.id,
+      missionId,
+      ...(target === "EXPORT"
+        ? { accessLevel: { not: "RESTRICTED" as const } }
+        : target === "PUBLIC"
+          ? { accessLevel: "PUBLIC" as const }
+          : {}),
+    },
+    include: {
+      versions: {
+        where:
+          target === "EXPORT"
+            ? { accessLevel: { not: "RESTRICTED" as const } }
+            : target === "PUBLIC"
+              ? { accessLevel: "PUBLIC" as const }
+              : {},
+        orderBy: { versionNumber: "asc" },
+        take: 100,
+      },
+    },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    take: 100,
   });
 
-  return claims
-    .filter((claim) => accessVisible(claim.accessLevel, target))
-    .map((claim) => ({
-      id: claim.id,
-      claimKey: claim.claimKey,
-      state: claim.state,
-      accessLevel: claim.accessLevel,
-      reviewCadenceDays: target === "INTERNAL" ? claim.reviewCadenceDays : undefined,
-      nextReviewAt: target === "INTERNAL" ? claim.nextReviewAt : undefined,
-      versions: claim.versions
-        .filter((version) => accessVisible(version.accessLevel, target))
-        .map((version) => ({
-          versionNumber: version.versionNumber,
-          statement: version.statement,
-          normalizedValue: version.normalizedValue,
-          falsificationCriterion:
-            target === "INTERNAL" ? version.falsificationCriterion : undefined,
-        })),
-    }));
+  return claims.map((claim) => ({
+    id: claim.id,
+    claimKey: claim.claimKey,
+    state: claim.state,
+    accessLevel: claim.accessLevel,
+    reviewCadenceDays:
+      target === "INTERNAL" ? claim.reviewCadenceDays : undefined,
+    nextReviewAt: target === "INTERNAL" ? claim.nextReviewAt : undefined,
+    versions: claim.versions.map((version) => ({
+      versionNumber: version.versionNumber,
+      statement: version.statement,
+      normalizedValue: version.normalizedValue,
+      falsificationCriterion:
+        target === "INTERNAL" ? version.falsificationCriterion : undefined,
+    })),
+  }));
 }

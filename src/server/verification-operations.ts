@@ -26,6 +26,7 @@ export async function getVerificationOperationsProjection(
         status: { in: ["BUILDING", "VERIFYING", "REVIEW", "RELEASED"] },
       },
       orderBy: { updatedAt: "desc" },
+      take: 100,
       select: {
         id: true,
         referenceCode: true,
@@ -50,6 +51,7 @@ export async function getVerificationOperationsProjection(
     getDb().verificationScenario.findMany({
       where: { workspaceId },
       orderBy: [{ missionId: "asc" }, { code: "asc" }],
+      take: 100,
       include: {
         mission: { select: { referenceCode: true, title: true, status: true } },
         requirement: { select: { id: true, code: true, title: true } },
@@ -58,6 +60,7 @@ export async function getVerificationOperationsProjection(
     getDb().verificationRun.findMany({
       where: { workspaceId },
       orderBy: { createdAt: "desc" },
+      take: 100,
       include: {
         mission: {
           select: {
@@ -80,6 +83,7 @@ export async function getVerificationOperationsProjection(
     getDb().verificationReport.findMany({
       where: { workspaceId },
       orderBy: { createdAt: "desc" },
+      take: 100,
       include: {
         mission: {
           select: {
@@ -93,14 +97,15 @@ export async function getVerificationOperationsProjection(
         verificationRun: {
           select: {
             independenceStatus: true,
-            requirementCoverage: { select: { result: true } },
-            scenarioResults: { select: { result: true } },
-            corruptionRuns: { select: { result: true } },
+            requirementCoverage: { select: { result: true }, take: 100 },
+            scenarioResults: { select: { result: true }, take: 100 },
+            corruptionRuns: { select: { result: true }, take: 100 },
           },
         },
-        signoffs: { orderBy: { createdAt: "asc" } },
+        signoffs: { orderBy: { createdAt: "asc" }, take: 100 },
         evidenceCeilingAssessments: {
           select: { eligiblePublic: true, ceiling: true, reasons: true },
+          take: 100,
         },
         release: {
           select: {
@@ -121,6 +126,7 @@ export async function getVerificationOperationsProjection(
         mission: { status: "BUILDING" },
       },
       orderBy: { completedAt: "desc" },
+      take: 100,
       select: {
         id: true,
         providerName: true,
@@ -135,6 +141,7 @@ export async function getVerificationOperationsProjection(
     getDb().executionArtifact.findMany({
       where: { workspaceId },
       orderBy: { createdAt: "desc" },
+      take: 100,
       select: {
         id: true,
         missionId: true,
@@ -146,6 +153,7 @@ export async function getVerificationOperationsProjection(
     getDb().claim.findMany({
       where: { workspaceId },
       orderBy: [{ missionId: "asc" }, { claimKey: "asc" }],
+      take: 100,
       select: {
         id: true,
         missionId: true,
@@ -173,6 +181,7 @@ export async function getVerificationOperationsProjection(
     ? await getDb().requirement.findMany({
         where: { workspaceId, contractId: { in: contractIds } },
         orderBy: [{ contractId: "asc" }, { code: "asc" }],
+        take: 100,
         select: {
           id: true,
           contractId: true,

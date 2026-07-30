@@ -46,7 +46,16 @@ export type Capability =
   | "verification.read"
   | "verification.operate"
   | "verification.review"
-  | "release.approve";
+  | "release.approve"
+  // Enterprise Workflow (TIP-023D)
+  | "workflow.read"
+  | "workflow.request"
+  | "workflow.manage"
+  | "workflow.approve"
+  | "jobs.read"
+  | "jobs.manage"
+  | "projections.read"
+  | "projections.manage";
 
 const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "workspace.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
@@ -89,6 +98,14 @@ const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "verification.operate": new Set(["OWNER", "ADMIN", "MEMBER"]),
   "verification.review": new Set(["OWNER", "ADMIN"]),
   "release.approve": new Set(["OWNER", "ADMIN"]),
+  "workflow.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "workflow.request": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "workflow.manage": new Set(["OWNER", "ADMIN"]),
+  "workflow.approve": new Set(["OWNER", "ADMIN"]),
+  "jobs.read": new Set(["OWNER", "ADMIN"]),
+  "jobs.manage": new Set(["OWNER", "ADMIN"]),
+  "projections.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "projections.manage": new Set(["OWNER", "ADMIN"]),
 };
 
 export function hasCapability(role: Role, capability: Capability): boolean {

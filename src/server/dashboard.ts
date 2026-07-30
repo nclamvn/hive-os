@@ -16,11 +16,12 @@ export async function getDashboardProjection(ctx: WorkspaceContext) {
       orderBy: { updatedAt: "desc" },
       take: 12,
       include: {
-        obligations: { include: { contractObligation: true } },
+        obligations: { include: { contractObligation: true }, take: 100 },
         gates: {
           where: { status: { not: "PASSED" } },
           orderBy: { contractGate: { code: "asc" } },
           include: { contractGate: true },
+          take: 100,
         },
       },
     }),
@@ -49,6 +50,7 @@ export async function getDashboardProjection(ctx: WorkspaceContext) {
       where: { workspaceId },
       _sum: { quantity: true },
       orderBy: [{ metric: "asc" }, { unit: "asc" }],
+      take: 100,
     }),
   ]);
 

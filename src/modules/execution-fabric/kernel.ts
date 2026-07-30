@@ -227,6 +227,22 @@ async function startAttempt(
     input.providerName,
     input.modelName,
   );
+  if (input.performedByMembershipId) {
+    const performer = await tx.membership.findFirst({
+      where: {
+        id: input.performedByMembershipId,
+        workspaceId: ctx.workspace.id,
+        status: "ACTIVE",
+      },
+      select: { id: true },
+    });
+    if (!performer) {
+      throw new ExecutionError(
+        ExecutionErrorCode.InvalidInput,
+        "Named performer is not an active Workspace member",
+      );
+    }
+  }
   const artifact = await createArtifact(tx, ctx, {
     missionId: state.missionId,
     tipId: state.tipId,
@@ -246,6 +262,7 @@ async function startAttempt(
       inputArtifactId: artifact.id,
       previousRunId: state.previousRunId,
       createdByMembershipId: ctx.membership.id,
+      performedByMembershipId: input.performedByMembershipId,
     },
   });
   await tx.skillRun.update({

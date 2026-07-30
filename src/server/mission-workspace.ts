@@ -42,6 +42,7 @@ export async function getMissionWorkspaceProjection(
     getDb().evidenceSource.findMany({
       where,
       orderBy: { createdAt: "asc" },
+      take: 100,
       select: {
         id: true,
         title: true,
@@ -57,6 +58,7 @@ export async function getMissionWorkspaceProjection(
     getDb().claim.findMany({
       where,
       orderBy: { createdAt: "asc" },
+      take: 100,
       select: {
         id: true,
         claimKey: true,
@@ -95,6 +97,7 @@ export async function getMissionWorkspaceProjection(
     getDb().dispute.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      take: 100,
       select: {
         id: true,
         reason: true,
@@ -105,6 +108,7 @@ export async function getMissionWorkspaceProjection(
     getDb().executionTip.findMany({
       where,
       orderBy: [{ createdAt: "asc" }, { code: "asc" }],
+      take: 100,
       select: {
         id: true,
         code: true,
@@ -118,6 +122,7 @@ export async function getMissionWorkspaceProjection(
           },
         },
         predecessorEdges: {
+          take: 100,
           select: {
             predecessor: { select: { code: true, status: true } },
           },
@@ -143,6 +148,7 @@ export async function getMissionWorkspaceProjection(
     getDb().executionDeviation.findMany({
       where: { ...where, status: "OPEN" },
       orderBy: { createdAt: "asc" },
+      take: 100,
       select: {
         id: true,
         code: true,
@@ -161,6 +167,7 @@ export async function getMissionWorkspaceProjection(
     getDb().verificationScenario.findMany({
       where,
       orderBy: { createdAt: "asc" },
+      take: 100,
       select: {
         id: true,
         code: true,
@@ -173,6 +180,7 @@ export async function getMissionWorkspaceProjection(
     getDb().verificationRun.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      take: 100,
       select: {
         id: true,
         status: true,
@@ -184,6 +192,7 @@ export async function getMissionWorkspaceProjection(
     getDb().verificationReport.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      take: 100,
       select: {
         id: true,
         overallStatus: true,
@@ -195,6 +204,7 @@ export async function getMissionWorkspaceProjection(
             independenceStatus: true,
             corruptionRuns: {
               select: { code: true, result: true, severity: true },
+              take: 100,
             },
           },
         },
@@ -203,6 +213,7 @@ export async function getMissionWorkspaceProjection(
     getDb().governanceSignoff.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      take: 100,
       select: {
         id: true,
         signoffType: true,
@@ -214,6 +225,7 @@ export async function getMissionWorkspaceProjection(
     getDb().governedRelease.findMany({
       where,
       orderBy: { approvedAt: "desc" },
+      take: 100,
       select: {
         id: true,
         status: true,

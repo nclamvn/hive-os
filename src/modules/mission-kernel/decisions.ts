@@ -279,6 +279,7 @@ export async function listDecisionsRequired(ctx: WorkspaceContext) {
   requireMissionCapability(ctx, "decisions.read");
   return getDb().decision.findMany({
     where: { workspaceId: ctx.workspace.id, status: "REQUIRED" },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 100,
   });
 }

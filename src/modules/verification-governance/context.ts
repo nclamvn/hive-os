@@ -3,6 +3,10 @@ import type {
   WorkspaceContext,
 } from "@/modules/identity-workspace";
 import { hasCapability } from "@/modules/identity-workspace";
+import {
+  AuthorizationError,
+  requireWorkspaceAuthorization,
+} from "@/modules/authorization";
 
 import {
   VerificationGovernanceError,
@@ -18,5 +22,23 @@ export function requireVerificationCapability(
       VerificationGovernanceErrorCode.Forbidden,
       `Missing capability: ${capability}`,
     );
+  }
+}
+
+export async function requireScopedVerificationCapability(
+  ctx: WorkspaceContext,
+  capability: Capability,
+  missionId: string,
+): Promise<void> {
+  try {
+    await requireWorkspaceAuthorization(ctx, capability, missionId);
+  } catch (error) {
+    if (error instanceof AuthorizationError) {
+      throw new VerificationGovernanceError(
+        VerificationGovernanceErrorCode.Forbidden,
+        `Scoped authorization denied: ${error.reasonCodes.join(",")}`,
+      );
+    }
+    throw error;
   }
 }

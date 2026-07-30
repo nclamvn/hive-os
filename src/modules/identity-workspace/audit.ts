@@ -17,6 +17,41 @@ const AUDIT_PAYLOAD_SCHEMAS = {
     .object({ name: z.string(), slug: z.string() })
     .strict(),
   "workspace.updated": z.object({ name: z.string() }).strict(),
+  "organization.provisioned": z
+    .object({
+      name: z.string(),
+      slug: z.string(),
+      rootUnitId: z.string(),
+    })
+    .strict(),
+  "organization.unit_created": z
+    .object({
+      unitKey: z.string(),
+      name: z.string(),
+      type: z.string(),
+      parentId: z.string(),
+    })
+    .strict(),
+  "organization.unit_moved": z
+    .object({
+      fromParentId: z.string(),
+      toParentId: z.string(),
+      version: z.number().int().positive(),
+    })
+    .strict(),
+  "organization.portfolio_created": z
+    .object({
+      portfolioKey: z.string(),
+      name: z.string(),
+      orgUnitId: z.string(),
+    })
+    .strict(),
+  "organization.group_created": z
+    .object({ groupKey: z.string(), name: z.string() })
+    .strict(),
+  "organization.group_member_added": z
+    .object({ groupId: z.string(), organizationMembershipId: z.string() })
+    .strict(),
   "workspace.policy_updated": z
     .object({
       defaultAssuranceProfile: z.string(),
@@ -26,6 +61,24 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       evidenceRetentionDays: z.number().int().positive(),
       auditRetentionDays: z.number().int().positive(),
       publicReleasePolicy: z.string(),
+    })
+    .strict(),
+  "authorization.grant_created": z
+    .object({
+      role: z.string(),
+      effect: z.string(),
+      scopeType: z.string(),
+      subjectType: z.string(),
+    })
+    .strict(),
+  "authorization.grant_revoked": z
+    .object({ reason: z.string(), version: z.number().int().positive() })
+    .strict(),
+  "authorization.denied": z
+    .object({
+      capability: z.string(),
+      reasonCodes: z.array(z.string()).max(8),
+      policyVersion: z.number().int().nonnegative(),
     })
     .strict(),
   "membership.created": z
@@ -98,6 +151,90 @@ const AUDIT_PAYLOAD_SCHEMAS = {
     .strict(),
   "escalation.acknowledged": z.object({ severity: z.string() }).strict(),
   "escalation.resolved": z.object({ severity: z.string() }).strict(),
+  // Enterprise Workflow (TIP-023D)
+  "workflow.assignment_created": z
+    .object({
+      targetType: z.string(),
+      targetId: z.string(),
+      accountabilityRole: z.string(),
+      assigneeOrganizationMembershipId: z.string(),
+      dueAt: z.string().nullable(),
+      slaPolicyVersion: z.number().int().nullable(),
+    })
+    .strict(),
+  "workflow.assignment_ended": z
+    .object({
+      targetType: z.string(),
+      targetId: z.string(),
+      replacementAssignmentId: z.string().nullable(),
+      reason: z.string(),
+    })
+    .strict(),
+  "workflow.sla_policy_created": z
+    .object({
+      policyKey: z.string(),
+      targetType: z.string(),
+      version: z.number().int(),
+    })
+    .strict(),
+  "workflow.sla_escalated": z
+    .object({
+      assignmentId: z.string(),
+      dueAt: z.string(),
+      severity: z.string(),
+    })
+    .strict(),
+  "workflow.approval_chain_created": z
+    .object({
+      chainKey: z.string(),
+      workflowType: z.string(),
+      stepCount: z.number().int(),
+      version: z.number().int(),
+    })
+    .strict(),
+  "workflow.approval_requested": z
+    .object({
+      chainDefinitionId: z.string(),
+      targetType: z.string(),
+      targetId: z.string(),
+    })
+    .strict(),
+  "workflow.approval_action_recorded": z
+    .object({
+      stepSequence: z.number().int(),
+      decision: z.string(),
+      requestStatus: z.string(),
+    })
+    .strict(),
+  // Durable Command, Job and Projection Plane (TIP-023E)
+  "command.succeeded": z
+    .object({
+      commandType: z.string(),
+      commandId: z.string(),
+      outboxEventId: z.string(),
+    })
+    .strict(),
+  "command.failed": z
+    .object({
+      commandType: z.string(),
+      commandId: z.string(),
+      errorCode: z.string(),
+    })
+    .strict(),
+  "job.dead_letter_disposed": z
+    .object({
+      jobId: z.string(),
+      action: z.enum(["REQUEUE", "CANCEL"]),
+      reason: z.string(),
+    })
+    .strict(),
+  "projection.rebuilt": z
+    .object({
+      projectionKey: z.string(),
+      jobId: z.string(),
+      sourceWatermarkAt: z.string(),
+    })
+    .strict(),
   // Truth Kernel (TIP-005)
   "evidence.source_created": z
     .object({ title: z.string(), sourceType: z.string() })
@@ -222,6 +359,15 @@ const AUDIT_PAYLOAD_SCHEMAS = {
 export const AuditEventType = {
   WorkspaceCreated: "workspace.created",
   WorkspaceUpdated: "workspace.updated",
+  OrganizationProvisioned: "organization.provisioned",
+  OrganizationUnitCreated: "organization.unit_created",
+  OrganizationUnitMoved: "organization.unit_moved",
+  OrganizationPortfolioCreated: "organization.portfolio_created",
+  OrganizationGroupCreated: "organization.group_created",
+  OrganizationGroupMemberAdded: "organization.group_member_added",
+  AuthorizationGrantCreated: "authorization.grant_created",
+  AuthorizationGrantRevoked: "authorization.grant_revoked",
+  AuthorizationDenied: "authorization.denied",
   WorkspacePolicyUpdated: "workspace.policy_updated",
   MembershipCreated: "membership.created",
   MembershipRoleChanged: "membership.role_changed",
@@ -250,6 +396,17 @@ export const AuditEventType = {
   EscalationCreated: "escalation.created",
   EscalationAcknowledged: "escalation.acknowledged",
   EscalationResolved: "escalation.resolved",
+  WorkflowAssignmentCreated: "workflow.assignment_created",
+  WorkflowAssignmentEnded: "workflow.assignment_ended",
+  WorkflowSlaPolicyCreated: "workflow.sla_policy_created",
+  WorkflowSlaEscalated: "workflow.sla_escalated",
+  WorkflowApprovalChainCreated: "workflow.approval_chain_created",
+  WorkflowApprovalRequested: "workflow.approval_requested",
+  WorkflowApprovalActionRecorded: "workflow.approval_action_recorded",
+  CommandSucceeded: "command.succeeded",
+  CommandFailed: "command.failed",
+  JobDeadLetterDisposed: "job.dead_letter_disposed",
+  ProjectionRebuilt: "projection.rebuilt",
   EvidenceSourceCreated: "evidence.source_created",
   EvidenceSnapshotCaptured: "evidence.snapshot_captured",
   EvidenceSpanCreated: "evidence.span_created",

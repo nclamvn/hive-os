@@ -28,7 +28,10 @@ import {
   validateScenario,
   validateVerificationReport,
 } from "./contracts";
-import { requireVerificationCapability } from "./context";
+import {
+  requireScopedVerificationCapability,
+  requireVerificationCapability,
+} from "./context";
 import {
   VerificationGovernanceError,
   VerificationGovernanceErrorCode,
@@ -453,6 +456,17 @@ export async function recordGovernanceSignoff(
   },
 ) {
   requireVerificationCapability(ctx, "verification.review");
+  const scopedReport = await getDb().verificationReport.findFirst({
+    where: { id: verificationReportId, workspaceId: ctx.workspace.id },
+    select: { missionId: true },
+  });
+  if (scopedReport) {
+    await requireScopedVerificationCapability(
+      ctx,
+      "verification.review",
+      scopedReport.missionId,
+    );
+  }
   const rationale = input.rationale?.trim();
   if (!rationale) {
     throw new VerificationGovernanceError(
@@ -544,6 +558,7 @@ export async function authorizeGovernedRelease(
   input: AuthorizeReleaseInput,
 ) {
   requireVerificationCapability(ctx, "release.approve");
+  await requireScopedVerificationCapability(ctx, "release.approve", missionId);
   const value = validateReleaseInput(input);
 
   try {

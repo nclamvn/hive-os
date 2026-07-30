@@ -17,6 +17,7 @@ export async function getExecutionProjection(
       getDb().executionTip.findMany({
         where,
         orderBy: [{ createdAt: "asc" }, { code: "asc" }],
+        take: 100,
         include: {
           skillVersion: {
             select: {
@@ -41,7 +42,8 @@ export async function getExecutionProjection(
       }),
       getDb().executionDeviation.findMany({
         where: { ...where, status: "OPEN" },
-        orderBy: { createdAt: "asc" },
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        take: 100,
         include: { tip: { select: { code: true, title: true } } },
       }),
       getDb().agentRun.count({

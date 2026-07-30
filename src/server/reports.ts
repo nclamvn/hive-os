@@ -8,7 +8,8 @@ export async function getReportsProjection(ctx: WorkspaceContext) {
   const [reports, releases, missions] = await Promise.all([
     getDb().verificationReport.findMany({
       where: { workspaceId },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: 100,
       select: {
         id: true,
         overallStatus: true,
@@ -21,14 +22,15 @@ export async function getReportsProjection(ctx: WorkspaceContext) {
         verificationRun: {
           select: {
             independenceStatus: true,
-            corruptionRuns: { select: { result: true } },
+            corruptionRuns: { select: { result: true }, take: 100 },
           },
         },
       },
     }),
     getDb().governedRelease.findMany({
       where: { workspaceId },
-      orderBy: { approvedAt: "desc" },
+      orderBy: [{ approvedAt: "desc" }, { id: "asc" }],
+      take: 100,
       select: {
         id: true,
         status: true,

@@ -503,7 +503,8 @@ export async function listMissions(ctx: WorkspaceContext) {
   requireMissionCapability(ctx, "missions.read");
   return getDb().mission.findMany({
     where: { workspaceId: ctx.workspace.id },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 100,
   });
 }
 
@@ -531,21 +532,30 @@ export async function getMissionDetail(
       getDb().runtimeObligation.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
         include: { contractObligation: true },
+        orderBy: { id: "asc" },
+        take: 100,
       }),
       getDb().runtimeGate.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
         include: {
           contractGate: true,
-          runs: { orderBy: { createdAt: "desc" } },
+          runs: {
+            orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+            take: 100,
+          },
         },
+        orderBy: { id: "asc" },
+        take: 100,
       }),
       getDb().decision.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        take: 100,
       }),
       getDb().escalation.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        take: 100,
       }),
     ]);
   return { mission, contract, obligations, gates, decisions, escalations };

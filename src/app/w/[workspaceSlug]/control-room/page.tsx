@@ -17,7 +17,7 @@ export default async function ControlRoomPage({
   const { find, q } = await searchParams;
   const data = await loadWorkspacePage(workspaceSlug);
   const { t } = await getTranslator();
-  const projection = await getControlRoomProjection(data.ctx);
+  const projection = await getControlRoomProjection(data.ctx, q);
 
   return (
     <WorkspaceShell

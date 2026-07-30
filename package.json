@@ -24,7 +24,12 @@
     "db:bootstrap": "prisma migrate deploy && node scripts/db/apply-app-role.mjs",
     "db:backup:local": "node scripts/db/backup-local.mjs",
     "db:restore:local": "node scripts/db/restore-local.mjs",
-    "db:rehearse:tip019": "node scripts/db/rehearse-tip019.mjs"
+    "db:rehearse:tip019": "node scripts/db/rehearse-tip019.mjs",
+    "db:rehearse:tip023a": "node scripts/db/rehearse-tip023a.mjs",
+    "db:rehearse:tip023b": "node scripts/db/rehearse-tip023b.mjs",
+    "db:rehearse:tip023c": "node scripts/db/rehearse-tip023c.mjs",
+    "db:rehearse:tip023d": "node scripts/db/rehearse-tip023d.mjs",
+    "db:rehearse:tip023e": "node scripts/db/rehearse-tip023e.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1090.0",
