@@ -29,7 +29,12 @@ COPY scripts/build ./scripts/build
 COPY src ./src
 # Better Auth initializes while Next collects routes. This non-secret,
 # build-scoped placeholder is never copied as runtime configuration.
-RUN BETTER_AUTH_SECRET=build-only-placeholder-never-runtime npm run build
+# Cross-architecture release builders cannot execute Turbopack's native host
+# binary reliably. Next.js 16 explicitly supports Webpack as the production
+# build fallback; the resulting standalone runtime contract is unchanged.
+RUN BETTER_AUTH_SECRET=build-only-placeholder-never-runtime npx next build --webpack \
+  && node scripts/build/scrub-standalone-env.mjs \
+  && node scripts/build/prepare-standalone-assets.mjs
 
 FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS runner
 ARG VCS_REF=unknown
