@@ -2,6 +2,18 @@ name: staging-images
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - codex/tip-023a-organization-graph
+    paths:
+      - Dockerfile
+      - package.json
+      - package-lock.json
+      - prisma/**
+      - scripts/build/**
+      - scripts/db/**
+      - src/**
+      - .github/workflows/staging-images.yml
 
 permissions:
   contents: read
