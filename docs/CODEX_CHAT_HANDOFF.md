@@ -687,6 +687,30 @@ generator, independent answer verifier, cloud service or production accuracy
 claim is included. The initial four-case fixture proves contract behavior only
 and must not be represented as an enterprise benchmark.
 
+## TIP-021C-B AWS managed staging update
+
+On 2026-08-04, the Owner authorized AWS Singapore with a USD 20/month gross
+ceiling. Managed staging is live at
+`https://d366nm3yse819q.cloudfront.net` from immutable commit
+`90b63a6b2b37c9f5420ea9f2f2201f12bf64d948`.
+
+- Five consecutive external liveness/readiness samples passed `200/200`; root
+  redirects to `/sign-in`, which returns 200.
+- CloudFront is deployed with explicit IPv6-only origin connectivity. Caddy
+  holds the origin certificate; the application container uses host networking
+  to reach private IPv4 PostgreSQL and IPv6 AWS service endpoints.
+- Managed PostgreSQL 16.14 is private with backup retention; `hiveos_app` is
+  `NOSUPERUSER`, `NOCREATEDB`, `NOCREATEROLE`, `NOBYPASSRLS`.
+- The runtime S3 credential passed put/head/get/delete with `AES256`; the bucket
+  is private, versioned and lifecycle bounded.
+- AWS Budget `hiveos-staging-monthly` is USD 20 with credits excluded.
+
+Status is `READY_WITH_DEFERRED`, not production-ready. SES has no verified
+identity, so email verification/recovery and authenticated onboarding remain
+fail-closed. Authenticated cross-tenant smoke, constrained 30–60 minute soak,
+managed backup/restore and projection rebuild remain TIP-021C-C work. See
+`docs/verification/TIP-021C-B_MANAGED_STAGING_REPORT.md`.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

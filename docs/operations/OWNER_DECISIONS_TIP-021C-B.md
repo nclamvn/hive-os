@@ -1,6 +1,6 @@
 # Owner Decisions for AWS Managed Staging
 
-Status: `APPROVED — IMPLEMENTATION IN PROGRESS`
+Status: `APPROVED — MANAGED STAGING LIVE, CERTIFICATION DEFERRED`
 
 Owner authorization: 2026-08-04. AWS resource creation is limited to the
 Singapore region and a measured monthly cost ceiling of USD 20. Production and
@@ -43,9 +43,15 @@ contract.
 | Budget ceiling | AWS Budget `hiveos-staging-monthly`, USD 20/month, credits excluded from budget accounting |
 
 Fixed monthly run rate is USD 18.50 before the small usage-based S3, Secrets
-Manager and network request charges. The deployment must remain low traffic so
-those variable charges stay below USD 1.50. Lightsail CDN is excluded because
-its USD 2.50 fixed plan would exceed the ceiling.
+Manager, ECR, CloudFront and network request charges. The deployment must remain
+low traffic. AWS Budget excludes credits and remains the accounting guard;
+budget alerts do not hard-stop resources. Lightsail CDN is excluded because its
+USD 2.50 fixed plan would exceed the ceiling.
+
+The live staging edge is `https://d366nm3yse819q.cloudfront.net`. CloudFront is
+configured with cache disabled and IPv6-only origin connectivity to the
+temporary `sslip.io` Caddy origin. This is staging evidence, not an approved
+production DNS boundary.
 
 ## Honest certification boundary
 
