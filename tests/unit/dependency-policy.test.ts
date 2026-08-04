@@ -17,8 +17,8 @@ const evaluateDependencyPolicy = rawEvaluate as (args: {
 // --- Synthetic audit fixtures (TEST FIXTURES ONLY — not real audit output) ---
 const BASELINE = {
   expiresAt: "2026-08-31",
-  fullHigh: 9,
-  knownAdvisoryIds: ["GHSA-mh99-v99m-4gvg", "GHSA-5qjj-4xww-7phc"],
+  fullHigh: 0,
+  knownAdvisoryIds: [],
 };
 
 function audit(v: Record<string, number>, vulnerabilities = {}) {
@@ -38,18 +38,10 @@ function audit(v: Record<string, number>, vulnerabilities = {}) {
   };
 }
 
-// The approved baseline: 9 dev-only high, 0 runtime high/critical, 3 moderate.
-const FULL_OK = audit(
-  { high: 9, moderate: 3, total: 12 },
-  {
-    "brace-expansion": {
-      severity: "high",
-      via: [{ source: 1, severity: "high", url: "https://x/GHSA-mh99-v99m-4gvg" }],
-    },
-  },
-);
-const OMIT_DEV_OK = audit({ moderate: 3, total: 3 });
-const NOW = "2026-07-29";
+// TIP-023S approved baseline: zero findings in both dependency graphs.
+const FULL_OK = audit({ total: 0 });
+const OMIT_DEV_OK = audit({ total: 0 });
+const NOW = "2026-08-04";
 
 describe("dependency policy gate (DEC-012)", () => {
   it("DEP-GATE-01 the current approved baseline passes", () => {
@@ -77,7 +69,7 @@ describe("dependency policy gate (DEC-012)", () => {
   it("DEP-GATE-03 any critical fails", () => {
     const r = evaluateDependencyPolicy({
       baseline: BASELINE,
-      fullAudit: audit({ high: 9, critical: 1, total: 10 }),
+      fullAudit: audit({ critical: 1, total: 1 }),
       omitDevAudit: OMIT_DEV_OK,
       now: NOW,
     });
@@ -89,7 +81,7 @@ describe("dependency policy gate (DEC-012)", () => {
     const r = evaluateDependencyPolicy({
       baseline: BASELINE,
       fullAudit: audit(
-        { high: 9, moderate: 3, total: 12 },
+        { high: 1, total: 1 },
         {
           "new-pkg": {
             severity: "high",
@@ -107,7 +99,7 @@ describe("dependency policy gate (DEC-012)", () => {
   it("DEP-GATE-05 an increased high count fails", () => {
     const r = evaluateDependencyPolicy({
       baseline: BASELINE,
-      fullAudit: audit({ high: 10, total: 10 }),
+      fullAudit: audit({ high: 1, total: 1 }),
       omitDevAudit: OMIT_DEV_OK,
       now: NOW,
     });
@@ -140,10 +132,10 @@ describe("dependency policy gate (DEC-012)", () => {
   it("DEP-GATE-08 moderate findings remain visible in the summary", () => {
     const r = evaluateDependencyPolicy({
       baseline: BASELINE,
-      fullAudit: FULL_OK,
-      omitDevAudit: OMIT_DEV_OK,
+      fullAudit: audit({ moderate: 2, total: 2 }),
+      omitDevAudit: audit({ moderate: 1, total: 1 }),
       now: NOW,
     });
-    expect(r.summary.moderate).toBe(3);
+    expect(r.summary.moderate).toBe(2);
   });
 });

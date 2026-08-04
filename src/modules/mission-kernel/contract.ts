@@ -222,13 +222,32 @@ export interface Completeness {
   issues: string[];
 }
 
+const MAX_CONTRACT_DEFINITION_ROWS = 10_000;
+
 export async function evaluateCompleteness(
   tx: Tx,
   contractId: string,
 ): Promise<Completeness> {
   const contract = await tx.missionContract.findUniqueOrThrow({
     where: { id: contractId },
-    include: { requirements: true, obligationDefs: true, gateDefs: true },
+  });
+  // Prisma may expand relation includes into concurrent queries. Interactive
+  // transactions use a single pg client, so load each relation explicitly and
+  // sequentially to preserve the driver's one-query-at-a-time contract.
+  const requirements = await tx.requirement.findMany({
+    where: { contractId },
+    select: { code: true },
+    take: MAX_CONTRACT_DEFINITION_ROWS + 1,
+  });
+  const obligationDefs = await tx.contractObligation.findMany({
+    where: { contractId },
+    select: { code: true, weight: true },
+    take: MAX_CONTRACT_DEFINITION_ROWS + 1,
+  });
+  const gateDefs = await tx.contractGate.findMany({
+    where: { contractId },
+    select: { code: true },
+    take: MAX_CONTRACT_DEFINITION_ROWS + 1,
   });
   const policy = assurancePolicy(contract.assuranceProfile);
   const issues: string[] = [];
@@ -236,21 +255,28 @@ export async function evaluateCompleteness(
   if (!contract.objective.trim()) issues.push("objective is empty");
   if (!contract.scope.trim()) issues.push("scope is empty");
   if (!contract.successDefinition.trim()) issues.push("success definition is empty");
+  if (
+    requirements.length > MAX_CONTRACT_DEFINITION_ROWS ||
+    obligationDefs.length > MAX_CONTRACT_DEFINITION_ROWS ||
+    gateDefs.length > MAX_CONTRACT_DEFINITION_ROWS
+  ) {
+    issues.push("contract definition row limit exceeded");
+  }
 
-  const requiredRequirements = contract.requirements.length;
+  const requiredRequirements = requirements.length;
   if (requiredRequirements < policy.minRequirements) {
     issues.push(`at least ${policy.minRequirements} requirement(s) needed`);
   }
-  if (contract.obligationDefs.length < policy.minObligations) {
+  if (obligationDefs.length < policy.minObligations) {
     issues.push(`at least ${policy.minObligations} obligation(s) needed`);
   }
-  const totalWeight = contract.obligationDefs.reduce((s, o) => s + o.weight, 0);
+  const totalWeight = obligationDefs.reduce((s, o) => s + o.weight, 0);
   if (totalWeight <= 0) issues.push("total obligation weight must be > 0");
 
   // Duplicate codes (Prisma unique also guards, this yields a friendly error).
-  assertNoDuplicates(contract.requirements.map((r) => r.code), issues, "requirement");
-  assertNoDuplicates(contract.obligationDefs.map((o) => o.code), issues, "obligation");
-  assertNoDuplicates(contract.gateDefs.map((g) => g.code), issues, "gate");
+  assertNoDuplicates(requirements.map((r) => r.code), issues, "requirement");
+  assertNoDuplicates(obligationDefs.map((o) => o.code), issues, "obligation");
+  assertNoDuplicates(gateDefs.map((g) => g.code), issues, "gate");
 
   return { ok: issues.length === 0, issues };
 }
@@ -345,7 +371,6 @@ export async function approveContract(
 
     const contract = await tx.missionContract.findFirst({
       where: { missionId, status: "IN_REVIEW" },
-      include: { obligationDefs: true, gateDefs: true },
     });
     if (!contract) {
       // Already approved? Fail closed without duplicating anything.
@@ -360,6 +385,15 @@ export async function approveContract(
     if (mission.status !== "CONTRACT_REVIEW") {
       throw new MissionError(MissionErrorCode.InvalidTransition, "Mission is not in review");
     }
+
+    const obligationDefs = await tx.contractObligation.findMany({
+      where: { contractId: contract.id },
+      take: MAX_CONTRACT_DEFINITION_ROWS + 1,
+    });
+    const gateDefs = await tx.contractGate.findMany({
+      where: { contractId: contract.id },
+      take: MAX_CONTRACT_DEFINITION_ROWS + 1,
+    });
 
     // Regulated missions may only be approved by an Owner.
     const policy = assurancePolicy(contract.assuranceProfile);
@@ -386,7 +420,7 @@ export async function approveContract(
     });
 
     // Runtime obligations + gates from immutable definitions.
-    for (const def of contract.obligationDefs) {
+    for (const def of obligationDefs) {
       await tx.runtimeObligation.create({
         data: {
           workspaceId: ctx.workspace.id,
@@ -396,7 +430,7 @@ export async function approveContract(
         },
       });
     }
-    for (const def of contract.gateDefs) {
+    for (const def of gateDefs) {
       await tx.runtimeGate.create({
         data: {
           workspaceId: ctx.workspace.id,

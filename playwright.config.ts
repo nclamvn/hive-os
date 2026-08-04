@@ -22,9 +22,11 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    // globalSetup builds in production; here we only serve, with the test env
-    // (NODE_ENV=test) so the SEC-04 guard permits disabling rate limiting.
-    command: `PORT=${e2ePort} npm run start`,
+    // Serve the production standalone build through the test-only launcher.
+    // Next's generated server hard-sets NODE_ENV=production; the launcher
+    // retains NODE_ENV=test for the isolated E2E data/mail/throttle boundary
+    // without weakening the shipped `npm start` fail-closed contract.
+    command: `PORT=${e2ePort} node scripts/test/start-e2e-standalone.mjs`,
     url: `${E2E_BASE_URL}/api/health`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

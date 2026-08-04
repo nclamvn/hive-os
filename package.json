@@ -4,16 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build/scrub-standalone-env.mjs",
-    "start": "next start",
+    "build": "next build && node scripts/build/scrub-standalone-env.mjs && node scripts/build/prepare-standalone-assets.mjs",
+    "start": "node .next/standalone/server.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "vitest run --project unit",
     "test:integration": "vitest run --project integration",
+    "test:integration:strict": "node --throw-deprecation ./node_modules/vitest/vitest.mjs run --project integration",
     "test:dependency-policy": "vitest run --project unit tests/unit/dependency-policy.test.ts",
     "check:dependency-policy": "node scripts/ci/check-dependency-policy.mjs",
-    "test:e2e": "npm run build && playwright test",
+    "test:e2e": "npm run build && node --throw-deprecation ./node_modules/@playwright/test/cli.js test",
     "test:prod-startup": "node scripts/test/prod-fail-closed.mjs",
     "test:load-local": "node scripts/test/load-baseline.mjs",
     "pilot:readiness": "node scripts/operations/pilot-readiness.mjs",
@@ -33,8 +34,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1090.0",
-    "@prisma/adapter-pg": "7.9.0",
-    "@prisma/client": "7.9.0",
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
     "better-auth": "1.6.23",
     "lucide-react": "1.25.0",
     "next": "16.2.11",
@@ -55,14 +56,14 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "pg": "8.22.0",
-    "prisma": "7.9.0",
+    "prisma": "7.9.1",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "4.1.10"
   },
   "overrides": {
     "find-my-way": "9.7.0",
-    "postcss": "8.5.22",
+    "postcss": "8.5.25",
     "sharp": "0.35.3"
   }
 }

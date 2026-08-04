@@ -26,26 +26,25 @@ never silently ignored; it is classified, capped, and time-boxed.
 
 Moderate findings do not fail the gate but must remain visible in the output.
 
-## Current accepted baseline (a ceiling, not a target)
+## Current baseline (a ceiling, not a target)
 
 | Metric | Value |
 |---|---|
 | runtime high/critical | 0 |
-| full high | 9 (dev-only, ESLint chain) |
+| full high | 0 |
 | full critical | 0 |
-| moderate | 3 (prisma/valibot tooling) |
-| risk record | RISK-DEP-001 |
-| expiry | 2026-08-31 or before Production Release |
+| moderate | 0 |
+| risk record | none open; RISK-DEP-001 closed by TIP-023S |
+| review date | 2026-08-31 |
 
-The 9 highs share root advisory `GHSA-mh99-v99m-4gvg` (brace-expansion/minimatch)
-reached only through the ESLint toolchain. They are identical at the base commit
-`ef9abfd`; TIP-021A introduced none (nodemailer pinned to the clean 9.0.3).
+TIP-023S replaced the former accepted-risk graph with patched Prisma, PostCSS,
+`fast-uri` and both installed `brace-expansion` lines. Fresh full and
+runtime audits report zero findings. No advisory was added to the allowlist and
+the fail-closed rules above are unchanged.
 
 ## Expiry and escalation
 
-When `RISK-DEP-001` expires (2026-08-31 or the first Production Release), the
-gate fails until the dev-only highs are remediated. Remediation is the proposed
-**TIP-DEPS-001** (ESLint 10 upgrade), which becomes **mandatory** at that point
-and requires its own Owner authorization. It is not authorized now: a breaking
-lint-stack major upgrade must not be done merely to zero the count while there is
-no runtime exposure and remote reproducibility is the larger constraint.
+`RISK-DEP-001` is closed. The retained 2026-08-31 date is now a zero-baseline
+review checkpoint rather than permission to ship a known advisory. The gate
+still fails after that date until a fresh reviewed baseline is recorded; it
+also fails immediately if any high or critical advisory reappears.

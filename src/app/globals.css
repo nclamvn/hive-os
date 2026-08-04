@@ -615,7 +615,7 @@ html[data-input-modality="keyboard"] :where(input, textarea, select):focus {
 }
 
 .mission-freshness span {
-  color: var(--color-ink-faint);
+  color: var(--color-ink-muted);
   text-transform: uppercase;
 }
 

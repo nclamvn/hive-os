@@ -221,38 +221,32 @@ export async function transitionMission(
         return;
 
       case "execution": {
-        const [
-          tipCount,
-          unreadyTipCount,
-          openMaterialDeviationCount,
-          awaitingReportCount,
-        ] = await Promise.all([
-          tx.executionTip.count({
-            where: { workspaceId: ctx.workspace.id, missionId: mission.id },
-          }),
-          tx.executionTip.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId: mission.id,
-              status: { not: "DONE" },
-            },
-          }),
-          tx.executionDeviation.count({
+        const tipCount = await tx.executionTip.count({
+          where: { workspaceId: ctx.workspace.id, missionId: mission.id },
+        });
+        const unreadyTipCount = await tx.executionTip.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            status: { not: "DONE" },
+          },
+        });
+        const openMaterialDeviationCount =
+          await tx.executionDeviation.count({
             where: {
               workspaceId: ctx.workspace.id,
               missionId: mission.id,
               status: "OPEN",
               materiality: "MATERIAL",
             },
-          }),
-          tx.agentRun.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId: mission.id,
-              status: "AWAITING_REPORT",
-            },
-          }),
-        ]);
+          });
+        const awaitingReportCount = await tx.agentRun.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            status: "AWAITING_REPORT",
+          },
+        });
         if (
           tipCount === 0 ||
           unreadyTipCount > 0 ||

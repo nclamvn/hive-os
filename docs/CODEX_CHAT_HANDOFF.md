@@ -70,13 +70,13 @@ G0 SCAN:                            PASS
 G1 BLUEPRINT:                       PASS
 G2 FOUNDATION LOCAL:                PASS
 G3 MISSION LOOP LOCAL:              PASS
-G3 REMOTE REPRODUCIBILITY:          BLOCKED_EXTERNAL   (OBL-FND-001)
+G3 REMOTE REPRODUCIBILITY:          RECHECK_PENDING    (OBL-FND-001)
 G4 TRUTH LOOP LOCAL:                PASS_PROVISIONAL
 G5 EXECUTION + VERIFICATION LOCAL:  PASS_PROVISIONAL
 G6 LOCAL RC:                        PASS_PROVISIONAL
 
 LOCAL RC:            SIGNED
-REMOTE RC:           NOT ESTABLISHED
+REMOTE RC:           PENDING NEW QUALITY RUN
 PRODUCTION RELEASE:  NOT AUTHORIZED
 PUBLIC RELEASE:      NOT AUTHORIZED
 ```
@@ -88,9 +88,9 @@ recorded while remote reproducibility is unproven (DEC-010).
 Deferred obligations (preserved; not softened by the signed Local RC):
 
 ```text
-OBL-FND-001  GitHub Actions remote CI   BLOCKED_EXTERNAL      (Owner dependency: billing)
-OBL-DEP-001  Dependency audit closure   OPEN                  (until closed with fresh evidence)
-OBL-DEP-002  Prisma/pg deprecation      MONITORED / ISOLATED
+OBL-FND-001  GitHub Actions remote CI   RECHECK_PENDING       (Owner reports billing corrected 2026-08-04)
+OBL-DEP-001  Dependency audit closure   CLOSED                (TIP-023S, fresh zero-finding audits)
+OBL-DEP-002  Prisma/pg deprecation      CLOSED_LOCAL          (TIP-023S-R1 strict gates)
 ```
 
 On 2026-07-23, the Owner explicitly authorized continuing TIP-005 while
@@ -112,9 +112,10 @@ v0.2 mock as an interaction reference. The resulting HIVE OS Control Room keeps
 the locked light design system, uses real workspace-scoped projections, and
 marks later bounded contexts as `Planned`. See `docs/ui/CONTROL_ROOM.md`.
 
-## Current blocker
+## Historical blocker and current recheck
 
-GitHub Actions did not start because of an Owner account billing problem:
+Earlier GitHub Actions runs did not start because of an Owner account billing
+problem:
 
 `The job was not started because recent account payments have failed or your
 spending limit needs to be increased.`
@@ -124,12 +125,14 @@ Relevant workflow runs:
 - `29735234751` for `cb53c5e`
 - `29735087402` for `e47d25c`
 
-The `quality-gates` workflow is configured, but the job had no executed steps.
-Therefore remote reproducibility remains unproven.
+The `quality-gates` workflow was configured, but those historical jobs had no
+executed steps. On 2026-08-04 the Owner reported billing corrected and
+authorized TIP-023S-R1. Remote reproducibility remains unproven only until the
+new pushed commit completes every workflow step.
 
 Current obligation:
 
-- `OBL-FND-001`: BLOCKED_EXTERNAL
+- `OBL-FND-001`: RECHECK_PENDING
 
 ## TIP-021B local stabilization closure
 
@@ -577,6 +580,28 @@ signed.
   claim those external gates.
 
 See `docs/verification/TIP-019_LOCAL_RC_REPORT.md`.
+
+## TIP-023S dependency-security closure update
+
+On 2026-08-04, the Owner authorized an isolated dependency closure after fresh
+registry advisories caused DEC-012 to fail. Prisma runtime, adapter and CLI
+packages were aligned on 7.9.1; PostCSS, `fast-uri` and both installed
+`brace-expansion` lines were patched without a major framework or lint-stack
+upgrade. Fresh full and runtime audits report zero vulnerabilities, so
+RISK-DEP-001 is closed and the accepted high-advisory ceiling is reset to zero.
+The Owner reports the former billing blocker corrected. Remote reproducibility
+is now `RECHECK_PENDING` under TIP-023S-R1 rather than claimed from the old
+zero-step runs.
+
+## TIP-023S-R1 pg and remote-obligation update
+
+On 2026-08-04, the Owner authorized closure of the two remaining obligations.
+The Prisma/pg concurrency warning was traced to relation fan-out and explicit
+parallel calls sharing one PoolClient. A per-client FIFO plus bounded sequential
+kernel reads now preserves pool concurrency while enforcing the pg 9 contract.
+Strict integration (157/157) and strict E2E (85/85) promote deprecations to
+errors and pass locally. `OBL-DEP-002` is closed locally; `OBL-FND-001` awaits
+the new GitHub Actions evidence on the exact pushed SHA.
 
 ## TIP-022 pilot-readiness implementation update
 

@@ -54,6 +54,8 @@ function highAssurance(profile: AssuranceProfile): boolean {
   return profile === "RESEARCH" || profile === "REGULATED";
 }
 
+const MAX_RELEASE_RELATION_ROWS = 10_000;
+
 export async function createVerificationScenario(
   ctx: WorkspaceContext,
   missionId: string,
@@ -148,46 +150,38 @@ export async function beginVerificationRun(
           "Building Mission not found",
         );
       }
-      const [
-        tipCount,
-        unreadyTips,
-        awaitingReports,
-        openDeviations,
-        scenarios,
-      ] = await Promise.all([
-        tx.executionTip.count({
-          where: { workspaceId: ctx.workspace.id, missionId },
-        }),
-        tx.executionTip.count({
-          where: {
-            workspaceId: ctx.workspace.id,
-            missionId,
-            status: { not: "DONE" },
-          },
-        }),
-        tx.agentRun.count({
-          where: {
-            workspaceId: ctx.workspace.id,
-            missionId,
-            status: "AWAITING_REPORT",
-          },
-        }),
-        tx.executionDeviation.count({
-          where: {
-            workspaceId: ctx.workspace.id,
-            missionId,
-            status: "OPEN",
-            materiality: "MATERIAL",
-          },
-        }),
-        tx.verificationScenario.count({
-          where: {
-            workspaceId: ctx.workspace.id,
-            missionId,
-            required: true,
-          },
-        }),
-      ]);
+      const tipCount = await tx.executionTip.count({
+        where: { workspaceId: ctx.workspace.id, missionId },
+      });
+      const unreadyTips = await tx.executionTip.count({
+        where: {
+          workspaceId: ctx.workspace.id,
+          missionId,
+          status: { not: "DONE" },
+        },
+      });
+      const awaitingReports = await tx.agentRun.count({
+        where: {
+          workspaceId: ctx.workspace.id,
+          missionId,
+          status: "AWAITING_REPORT",
+        },
+      });
+      const openDeviations = await tx.executionDeviation.count({
+        where: {
+          workspaceId: ctx.workspace.id,
+          missionId,
+          status: "OPEN",
+          materiality: "MATERIAL",
+        },
+      });
+      const scenarios = await tx.verificationScenario.count({
+        where: {
+          workspaceId: ctx.workspace.id,
+          missionId,
+          required: true,
+        },
+      });
       if (
         tipCount === 0 ||
         unreadyTips > 0 ||
@@ -304,19 +298,17 @@ export async function completeVerificationRun(
           "Active VerificationRun not found",
         );
       }
-      const [requirements, scenarios] = await Promise.all([
-        tx.requirement.findMany({
-          where: {
-            workspaceId: ctx.workspace.id,
-            contractId: run.mission.approvedContractId ?? "",
-          },
-          select: { id: true, required: true },
-        }),
-        tx.verificationScenario.findMany({
-          where: { workspaceId: ctx.workspace.id, missionId: run.missionId },
-          select: { id: true, required: true },
-        }),
-      ]);
+      const requirements = await tx.requirement.findMany({
+        where: {
+          workspaceId: ctx.workspace.id,
+          contractId: run.mission.approvedContractId ?? "",
+        },
+        select: { id: true, required: true },
+      });
+      const scenarios = await tx.verificationScenario.findMany({
+        where: { workspaceId: ctx.workspace.id, missionId: run.missionId },
+        select: { id: true, required: true },
+      });
       const computedStatus = computeVerificationStatus(
         value,
         requirements,
@@ -593,17 +585,6 @@ export async function authorizeGovernedRelease(
           missionId,
           overallStatus: { not: "NOT_READY" },
         },
-        include: {
-          verificationRun: {
-            include: {
-              verifierAgentRun: true,
-              requirementCoverage: true,
-              scenarioResults: true,
-              corruptionRuns: true,
-            },
-          },
-          signoffs: true,
-        },
       });
       if (!report) {
         throw new VerificationGovernanceError(
@@ -611,9 +592,43 @@ export async function authorizeGovernedRelease(
           "Release-ready VerificationReport not found",
         );
       }
+      const verificationRun = await tx.verificationRun.findUniqueOrThrow({
+        where: { id: report.verificationRunId },
+      });
+      const verifierAgentRun = await tx.agentRun.findUniqueOrThrow({
+        where: { id: verificationRun.verifierAgentRunId },
+      });
+      const requirementCoverage =
+        await tx.verificationRequirementCoverage.findMany({
+          where: { verificationRunId: verificationRun.id },
+          take: MAX_RELEASE_RELATION_ROWS + 1,
+        });
+      const scenarioResults = await tx.verificationScenarioResult.findMany({
+        where: { verificationRunId: verificationRun.id },
+        take: MAX_RELEASE_RELATION_ROWS + 1,
+      });
+      const corruptionRuns = await tx.corruptionTestRun.findMany({
+        where: { verificationRunId: verificationRun.id },
+        take: MAX_RELEASE_RELATION_ROWS + 1,
+      });
+      const signoffs = await tx.governanceSignoff.findMany({
+        where: { verificationReportId: report.id },
+        take: MAX_RELEASE_RELATION_ROWS + 1,
+      });
+      if (
+        requirementCoverage.length > MAX_RELEASE_RELATION_ROWS ||
+        scenarioResults.length > MAX_RELEASE_RELATION_ROWS ||
+        corruptionRuns.length > MAX_RELEASE_RELATION_ROWS ||
+        signoffs.length > MAX_RELEASE_RELATION_ROWS
+      ) {
+        throw new VerificationGovernanceError(
+          VerificationGovernanceErrorCode.ReleaseBlocked,
+          "Release verification relation row limit exceeded",
+        );
+      }
       if (
         highAssurance(mission.assuranceProfile) &&
-        report.verificationRun.independenceStatus !== "INDEPENDENT"
+        verificationRun.independenceStatus !== "INDEPENDENT"
       ) {
         throw new VerificationGovernanceError(
           VerificationGovernanceErrorCode.ReleaseBlocked,
@@ -621,15 +636,15 @@ export async function authorizeGovernedRelease(
         );
       }
       const policy = assurancePolicy(mission.assuranceProfile);
-      const rejected = report.signoffs.some(
+      const rejected = signoffs.some(
         (signoff) => signoff.decision === "REJECTED",
       );
-      const verificationApproved = report.signoffs.some(
+      const verificationApproved = signoffs.some(
         (signoff) =>
           signoff.signoffType === "VERIFICATION" &&
           signoff.decision === "APPROVED",
       );
-      const releaseApproved = report.signoffs.some(
+      const releaseApproved = signoffs.some(
         (signoff) =>
           signoff.signoffType === "RELEASE" && signoff.decision === "APPROVED",
       );
@@ -668,46 +683,148 @@ export async function authorizeGovernedRelease(
         );
       }
 
-      const claimVersions = await tx.claimVersion.findMany({
+      const claimVersionRows = await tx.claimVersion.findMany({
         where: {
           id: { in: value.claimVersionIds },
           workspaceId: ctx.workspace.id,
           missionId,
         },
-        include: {
-          claim: {
-            include: {
-              versions: {
-                orderBy: { versionNumber: "desc" },
-                take: 1,
-                select: { id: true },
-              },
-              honestNulls: {
-                orderBy: { createdAt: "desc" },
-                take: 1,
-              },
-            },
-          },
-          evidence: {
-            where: { relation: "SUPPORTS" },
-            include: {
-              evidenceSpan: {
-                include: {
-                  snapshot: {
-                    include: { evidenceSource: true },
-                  },
-                },
-              },
-            },
-          },
-        },
+        take: value.claimVersionIds.length,
       });
-      if (claimVersions.length !== value.claimVersionIds.length) {
+      if (claimVersionRows.length !== value.claimVersionIds.length) {
         throw new VerificationGovernanceError(
           VerificationGovernanceErrorCode.NotFound,
           "One or more release ClaimVersions were not found",
         );
       }
+      const claimIds = [...new Set(claimVersionRows.map((version) => version.claimId))];
+      const claims = await tx.claim.findMany({
+        where: { id: { in: claimIds }, workspaceId: ctx.workspace.id, missionId },
+        take: claimIds.length,
+      });
+      const latestVersionRows = await tx.claimVersion.findMany({
+        where: { claimId: { in: claimIds }, workspaceId: ctx.workspace.id, missionId },
+        orderBy: { versionNumber: "desc" },
+        distinct: ["claimId"],
+        select: { id: true, claimId: true },
+        take: claimIds.length,
+      });
+      const honestNullRows = await tx.honestNullRecord.findMany({
+        where: { claimId: { in: claimIds }, workspaceId: ctx.workspace.id, missionId },
+        orderBy: { createdAt: "desc" },
+        distinct: ["claimId"],
+        take: claimIds.length,
+      });
+      const evidenceLinks = await tx.claimEvidence.findMany({
+        where: {
+          claimVersionId: { in: claimVersionRows.map((version) => version.id) },
+          workspaceId: ctx.workspace.id,
+          relation: "SUPPORTS",
+        },
+        take: MAX_RELEASE_RELATION_ROWS + 1,
+      });
+      if (evidenceLinks.length > MAX_RELEASE_RELATION_ROWS) {
+        throw new VerificationGovernanceError(
+          VerificationGovernanceErrorCode.ReleaseBlocked,
+          "Release evidence relation row limit exceeded",
+        );
+      }
+      const spans = evidenceLinks.length
+        ? await tx.evidenceSpan.findMany({
+            where: {
+              id: { in: evidenceLinks.map((link) => link.evidenceSpanId) },
+              workspaceId: ctx.workspace.id,
+              missionId,
+            },
+            take: evidenceLinks.length,
+          })
+        : [];
+      const snapshots = spans.length
+        ? await tx.snapshot.findMany({
+            where: {
+              id: { in: spans.map((span) => span.snapshotId) },
+              workspaceId: ctx.workspace.id,
+              missionId,
+            },
+            take: spans.length,
+          })
+        : [];
+      const sources = snapshots.length
+        ? await tx.evidenceSource.findMany({
+            where: {
+              id: { in: snapshots.map((snapshot) => snapshot.evidenceSourceId) },
+              workspaceId: ctx.workspace.id,
+              missionId,
+            },
+            take: snapshots.length,
+          })
+        : [];
+      const latestVersionByClaim = new Map<string, { id: string }>();
+      for (const version of latestVersionRows) {
+        if (!latestVersionByClaim.has(version.claimId)) {
+          latestVersionByClaim.set(version.claimId, { id: version.id });
+        }
+      }
+      const honestNullByClaim = new Map<string, (typeof honestNullRows)[number]>();
+      for (const honestNull of honestNullRows) {
+        if (!honestNullByClaim.has(honestNull.claimId)) {
+          honestNullByClaim.set(honestNull.claimId, honestNull);
+        }
+      }
+      const claimById = new Map(claims.map((claim) => [claim.id, claim]));
+      const sourceById = new Map(sources.map((source) => [source.id, source]));
+      const snapshotById = new Map(
+        snapshots.map((snapshot) => [
+          snapshot.id,
+          {
+            ...snapshot,
+            evidenceSource: sourceById.get(snapshot.evidenceSourceId)!,
+          },
+        ]),
+      );
+      const spanById = new Map(
+        spans.map((span) => [
+          span.id,
+          { ...span, snapshot: snapshotById.get(span.snapshotId)! },
+        ]),
+      );
+      const evidenceByVersion = new Map<string, Array<(typeof evidenceLinks)[number] & {
+        evidenceSpan: (typeof spanById extends Map<string, infer T> ? T : never);
+      }>>();
+      for (const link of evidenceLinks) {
+        const evidenceSpan = spanById.get(link.evidenceSpanId);
+        if (!evidenceSpan?.snapshot.evidenceSource) {
+          throw new VerificationGovernanceError(
+            VerificationGovernanceErrorCode.NotFound,
+            "Release evidence provenance was not found",
+          );
+        }
+        const rows = evidenceByVersion.get(link.claimVersionId) ?? [];
+        rows.push({ ...link, evidenceSpan });
+        evidenceByVersion.set(link.claimVersionId, rows);
+      }
+      const claimVersions = claimVersionRows.map((version) => {
+        const claim = claimById.get(version.claimId);
+        if (!claim) {
+          throw new VerificationGovernanceError(
+            VerificationGovernanceErrorCode.NotFound,
+            "Release claim was not found",
+          );
+        }
+        return {
+          ...version,
+          claim: {
+            ...claim,
+            versions: latestVersionByClaim.has(claim.id)
+              ? [latestVersionByClaim.get(claim.id)!]
+              : [],
+            honestNulls: honestNullByClaim.has(claim.id)
+              ? [honestNullByClaim.get(claim.id)!]
+              : [],
+          },
+          evidence: evidenceByVersion.get(version.id) ?? [],
+        };
+      });
 
       const assessments = claimVersions.map((version) => {
         const accessLevels: AccessLevel[] = [
@@ -771,18 +888,18 @@ export async function authorizeGovernedRelease(
         );
       }
 
-      const verifier = report.verificationRun.verifierAgentRun;
+      const verifier = verifierAgentRun;
       const referencedArtifactIds = new Set([
         report.artifactId,
         verifier.inputArtifactId,
         ...(verifier.outputArtifactId ? [verifier.outputArtifactId] : []),
-        ...report.verificationRun.requirementCoverage.flatMap(
+        ...requirementCoverage.flatMap(
           (item) => item.evidenceArtifactIds,
         ),
-        ...report.verificationRun.scenarioResults.flatMap(
+        ...scenarioResults.flatMap(
           (item) => item.evidenceArtifactIds,
         ),
-        ...report.verificationRun.corruptionRuns.flatMap(
+        ...corruptionRuns.flatMap(
           (item) => item.evidenceArtifactIds,
         ),
       ]);
@@ -810,7 +927,7 @@ export async function authorizeGovernedRelease(
       const approverMembershipIds = [
         ...new Set([
           ctx.membership.id,
-          ...report.signoffs
+          ...signoffs
             .filter((signoff) => signoff.decision === "APPROVED")
             .map((signoff) => signoff.signedByMembershipId),
         ]),
@@ -875,10 +992,25 @@ export async function authorizeGovernedRelease(
         },
       });
 
-      const gates = await tx.runtimeGate.findMany({
+      const gateRows = await tx.runtimeGate.findMany({
         where: { workspaceId: ctx.workspace.id, missionId },
-        include: { contractGate: true },
       });
+      const contractGates = gateRows.length
+        ? await tx.contractGate.findMany({
+            where: {
+              id: { in: gateRows.map((gate) => gate.contractGateId) },
+              workspaceId: ctx.workspace.id,
+            },
+            take: gateRows.length,
+          })
+        : [];
+      const contractGateById = new Map(
+        contractGates.map((gate) => [gate.id, gate]),
+      );
+      const gates = gateRows.map((gate) => ({
+        ...gate,
+        contractGate: contractGateById.get(gate.contractGateId)!,
+      }));
       for (const gate of gates.filter(
         (item) =>
           item.status === "OPEN" &&

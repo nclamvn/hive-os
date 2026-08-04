@@ -1,31 +1,18 @@
 {
-  "generatedFromCommit": "68bebda / cdd0b32",
-  "approvedAt": "2026-07-28",
+  "generatedFromCommit": "TIP-023S pre-commit evidence",
+  "approvedAt": "2026-08-04",
   "expiresAt": "2026-08-31",
   "runtimeHigh": 0,
   "runtimeCritical": 0,
-  "fullHigh": 9,
+  "fullHigh": 0,
   "fullCritical": 0,
-  "moderate": 3,
-  "knownAdvisoryIds": ["GHSA-mh99-v99m-4gvg", "GHSA-5qjj-4xww-7phc"],
-  "affectedPackages": [
-    "@eslint/config-array",
-    "@eslint/eslintrc",
-    "@prisma/dev",
-    "brace-expansion",
-    "eslint",
-    "eslint-config-next",
-    "eslint-plugin-import",
-    "eslint-plugin-jsx-a11y",
-    "eslint-plugin-react",
-    "minimatch",
-    "prisma",
-    "valibot"
-  ],
+  "moderate": 0,
+  "knownAdvisoryIds": [],
+  "affectedPackages": [],
   "classification": {
     "runtimeHighCritical": 0,
-    "devOnlyHigh": 9,
-    "moderateTooling": 3
+    "devOnlyHigh": 0,
+    "moderateTooling": 0
   },
-  "ownerDecision": "DEC-012 / RISK-DEP-001"
+  "ownerDecision": "DEC-012 / DEC-024; RISK-DEP-001 closed by TIP-023S"
 }

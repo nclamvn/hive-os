@@ -28,7 +28,6 @@ const APPROVED_UNBOUNDED = new Set([
   "src/modules/truth-kernel/kernel.ts:tx.evidenceSpan",
   "src/modules/verification-governance/kernel.ts:tx.requirement",
   "src/modules/verification-governance/kernel.ts:tx.verificationScenario",
-  "src/modules/verification-governance/kernel.ts:tx.claimVersion",
   "src/modules/verification-governance/kernel.ts:tx.executionArtifact",
   "src/modules/verification-governance/kernel.ts:tx.runtimeGate",
   "src/server/governed-exports.ts:getDb().provenanceEdge",

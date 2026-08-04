@@ -28,30 +28,33 @@ describe("Enterprise organization graph (TIP-023A)", () => {
       await withOrganizationTenant(
         workspace.organizationId,
         ctx.user.id,
-        (tx) =>
-          Promise.all([
-            tx.organization.findUnique({
-              where: { id: workspace.organizationId },
-            }),
-            tx.orgUnit.findUnique({ where: { id: workspace.orgUnitId } }),
-            tx.orgUnitClosure.findUnique({
-              where: {
-                organizationId_ancestorId_descendantId: {
-                  organizationId: workspace.organizationId,
-                  ancestorId: workspace.orgUnitId,
-                  descendantId: workspace.orgUnitId,
-                },
+        async (tx) => {
+          const organization = await tx.organization.findUnique({
+            where: { id: workspace.organizationId },
+          });
+          const root = await tx.orgUnit.findUnique({
+            where: { id: workspace.orgUnitId },
+          });
+          const closure = await tx.orgUnitClosure.findUnique({
+            where: {
+              organizationId_ancestorId_descendantId: {
+                organizationId: workspace.organizationId,
+                ancestorId: workspace.orgUnitId,
+                descendantId: workspace.orgUnitId,
               },
-            }),
-            tx.organizationMembership.findUnique({
+            },
+          });
+          const organizationMembership =
+            await tx.organizationMembership.findUnique({
               where: {
                 organizationId_userId: {
                   organizationId: workspace.organizationId,
                   userId: ctx.user.id,
                 },
               },
-            }),
-          ]),
+            });
+          return [organization, root, closure, organizationMembership] as const;
+        },
       );
 
     expect(organization).toMatchObject({

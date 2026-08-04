@@ -4,7 +4,7 @@
  * created in development or production stores.
  */
 export const E2E_BASE_URL =
-  process.env.HIVE_E2E_BASE_URL ?? "http://localhost:3000";
+  process.env.HIVE_E2E_BASE_URL ?? "http://localhost:3108";
 
 export const E2E_ENV = {
   // The E2E app is an automated-test scenario: NODE_ENV=test lets the SEC-04

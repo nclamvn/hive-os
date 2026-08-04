@@ -73,18 +73,36 @@ export async function listObligationAccountability(
     };
     const rows = await tx.runtimeObligation.findMany({
       where,
-      include: { contractObligation: true },
       orderBy: [
         { contractObligation: { code: "asc" } },
         { id: "asc" },
       ],
       take: first + 1,
     });
+    const definitions = rows.length
+      ? await tx.contractObligation.findMany({
+          where: { id: { in: rows.map((row) => row.contractObligationId) } },
+          take: rows.length,
+        })
+      : [];
+    const definitionById = new Map(
+      definitions.map((definition) => [definition.id, definition]),
+    );
+    const obligationRows = rows.map((row) => {
+      const contractObligation = definitionById.get(row.contractObligationId);
+      if (!contractObligation) {
+        throw new WorkflowError(
+          "NOT_FOUND",
+          "Contract obligation definition not found",
+        );
+      }
+      return { ...row, contractObligation };
+    });
     const totalCount = input.includeTotalCount
       ? await tx.runtimeObligation.count({ where: baseWhere })
       : undefined;
-    const visibleRows = rows.slice(0, first);
-    const assignments = visibleRows.length
+    const visibleRows = obligationRows.slice(0, first);
+    const assignmentRows = visibleRows.length
       ? await tx.workflowAssignment.findMany({
           where: {
             organizationId,
@@ -94,24 +112,65 @@ export async function listObligationAccountability(
             accountabilityRole: "ACCOUNTABLE",
             status: "ACTIVE",
           },
-          include: {
-            assignee: {
-              select: {
-                id: true,
-                userId: true,
-                user: { select: { name: true, email: true } },
-              },
-            },
-            slaPolicy: true,
-          },
           orderBy: { id: "asc" },
           take: visibleRows.length,
         })
       : [];
+    const assignees = assignmentRows.length
+      ? await tx.organizationMembership.findMany({
+          where: {
+            organizationId,
+            id: {
+              in: assignmentRows.map(
+                (assignment) => assignment.assigneeOrganizationMembershipId,
+              ),
+            },
+          },
+          select: { id: true, userId: true },
+          take: assignmentRows.length,
+        })
+      : [];
+    const users = assignees.length
+      ? await tx.user.findMany({
+          where: { id: { in: assignees.map((assignee) => assignee.userId) } },
+          select: { id: true, name: true, email: true },
+          take: assignees.length,
+        })
+      : [];
+    const policies = assignmentRows.some((assignment) => assignment.slaPolicyId)
+      ? await tx.slaPolicy.findMany({
+          where: {
+            organizationId,
+            id: {
+              in: assignmentRows.flatMap((assignment) =>
+                assignment.slaPolicyId ? [assignment.slaPolicyId] : [],
+              ),
+            },
+          },
+          take: assignmentRows.length,
+        })
+      : [];
+    const userById = new Map(users.map((user) => [user.id, user]));
+    const assigneeById = new Map(
+      assignees.map((assignee) => [
+        assignee.id,
+        { ...assignee, user: userById.get(assignee.userId)! },
+      ]),
+    );
+    const policyById = new Map(policies.map((policy) => [policy.id, policy]));
+    const assignments = assignmentRows.map((assignment) => ({
+      ...assignment,
+      assignee: assigneeById.get(
+        assignment.assigneeOrganizationMembershipId,
+      )!,
+      slaPolicy: assignment.slaPolicyId
+        ? (policyById.get(assignment.slaPolicyId) ?? null)
+        : null,
+    }));
     const assignmentByTarget = new Map(
       assignments.map((assignment) => [assignment.targetId, assignment]),
     );
-    const projected = rows.map((row) => {
+    const projected = obligationRows.map((row) => {
       const assignment = assignmentByTarget.get(row.id) ?? null;
       return {
         obligation: row,
@@ -301,7 +360,7 @@ export async function getWorkInbox(
           }
         : { dueAt: null, id: { gt: cursor.id } }
       : {};
-    const rows = await tx.workflowAssignment.findMany({
+    const assignmentRows = await tx.workflowAssignment.findMany({
       where: {
         organizationId,
         workspaceId: ctx.workspace.id,
@@ -309,22 +368,84 @@ export async function getWorkInbox(
         status: "ACTIVE",
         ...seek,
       },
-      include: {
-        mission: { select: { referenceCode: true, title: true } },
-        assignee: {
-          select: {
-            id: true,
-            userId: true,
-            user: { select: { name: true, email: true } },
-          },
-        },
-        slaPolicy: true,
-      },
       orderBy: [
         { dueAt: { sort: "asc", nulls: "last" } },
         { id: "asc" },
       ],
       take: first + 1,
+    });
+    const missions = assignmentRows.length
+      ? await tx.mission.findMany({
+          where: {
+            workspaceId: ctx.workspace.id,
+            id: { in: assignmentRows.map((assignment) => assignment.missionId) },
+          },
+          select: { id: true, referenceCode: true, title: true },
+          take: assignmentRows.length,
+        })
+      : [];
+    const assignees = assignmentRows.length
+      ? await tx.organizationMembership.findMany({
+          where: {
+            organizationId,
+            id: {
+              in: assignmentRows.map(
+                (assignment) => assignment.assigneeOrganizationMembershipId,
+              ),
+            },
+          },
+          select: { id: true, userId: true },
+          take: assignmentRows.length,
+        })
+      : [];
+    const users = assignees.length
+      ? await tx.user.findMany({
+          where: { id: { in: assignees.map((assignee) => assignee.userId) } },
+          select: { id: true, name: true, email: true },
+          take: assignees.length,
+        })
+      : [];
+    const policies = assignmentRows.some((assignment) => assignment.slaPolicyId)
+      ? await tx.slaPolicy.findMany({
+          where: {
+            organizationId,
+            id: {
+              in: assignmentRows.flatMap((assignment) =>
+                assignment.slaPolicyId ? [assignment.slaPolicyId] : [],
+              ),
+            },
+          },
+          take: assignmentRows.length,
+        })
+      : [];
+    const missionById = new Map(missions.map((mission) => [mission.id, mission]));
+    const userById = new Map(users.map((user) => [user.id, user]));
+    const assigneeById = new Map(
+      assignees.map((assignee) => [
+        assignee.id,
+        { ...assignee, user: userById.get(assignee.userId)! },
+      ]),
+    );
+    const policyById = new Map(policies.map((policy) => [policy.id, policy]));
+    const rows: InboxAssignment[] = assignmentRows.map((assignment) => {
+      const mission = missionById.get(assignment.missionId);
+      const assignee = assigneeById.get(
+        assignment.assigneeOrganizationMembershipId,
+      );
+      if (!mission || !assignee?.user) {
+        throw new WorkflowError("NOT_FOUND", "Workflow assignment relation not found");
+      }
+      return {
+        ...assignment,
+        mission: {
+          referenceCode: mission.referenceCode,
+          title: mission.title,
+        },
+        assignee,
+        slaPolicy: assignment.slaPolicyId
+          ? (policyById.get(assignment.slaPolicyId) ?? null)
+          : null,
+      };
     });
     const completion = await targetCompletion(
       tx,

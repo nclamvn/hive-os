@@ -56,23 +56,21 @@ export async function getOrganizationHierarchy(
   await requireWorkspaceAuthorization(ctx, "workspace.read");
   const bounded = Math.max(1, Math.min(limit, MAX_TREE_ROWS));
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
-    const [organization, unitRows] = await Promise.all([
-      tx.organization.findUniqueOrThrow({
-        where: { id: organizationId },
-        select: {
-          id: true,
-          slug: true,
-          name: true,
-          status: true,
-          version: true,
-        },
-      }),
-      tx.orgUnit.findMany({
-        where: { organizationId },
-        orderBy: [{ type: "asc" }, { unitKey: "asc" }, { id: "asc" }],
-        take: bounded + 1,
-      }),
-    ]);
+    const organization = await tx.organization.findUniqueOrThrow({
+      where: { id: organizationId },
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        status: true,
+        version: true,
+      },
+    });
+    const unitRows = await tx.orgUnit.findMany({
+      where: { organizationId },
+      orderBy: [{ type: "asc" }, { unitKey: "asc" }, { id: "asc" }],
+      take: bounded + 1,
+    });
     const units = unitRows.slice(0, bounded);
     const visibleIds = units.map((unit) => unit.id);
     const pathRows = await tx.orgUnitClosure.findMany({
@@ -155,15 +153,13 @@ export async function moveOrgUnit(
   await requireWorkspaceAuthorization(ctx, "workspace.update");
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
     await lockOrganization(organizationId, tx);
-    const [unit, parent] = await Promise.all([
-      tx.orgUnit.findFirst({
-        where: { id: input.unitId, organizationId },
-      }),
-      tx.orgUnit.findFirst({
-        where: { id: input.parentId, organizationId },
-        select: { id: true },
-      }),
-    ]);
+    const unit = await tx.orgUnit.findFirst({
+      where: { id: input.unitId, organizationId },
+    });
+    const parent = await tx.orgUnit.findFirst({
+      where: { id: input.parentId, organizationId },
+      select: { id: true },
+    });
     if (!unit || !parent) throw new NotFoundError();
     if (unit.type === "ROOT") {
       throw new InvariantError("The root organizational unit cannot be moved");
@@ -268,16 +264,14 @@ export async function addOrganizationGroupMember(
   await requireWorkspaceAuthorization(ctx, "members.change_role");
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
     await lockOrganization(organizationId, tx);
-    const [group, membership] = await Promise.all([
-      tx.organizationGroup.findFirst({
-        where: { id: input.groupId, organizationId },
-        select: { id: true },
-      }),
-      tx.organizationMembership.findFirst({
-        where: { id: input.organizationMembershipId, organizationId },
-        select: { id: true },
-      }),
-    ]);
+    const group = await tx.organizationGroup.findFirst({
+      where: { id: input.groupId, organizationId },
+      select: { id: true },
+    });
+    const membership = await tx.organizationMembership.findFirst({
+      where: { id: input.organizationMembershipId, organizationId },
+      select: { id: true },
+    });
     if (!group || !membership) throw new NotFoundError();
     const row = await tx.organizationGroupMembership.upsert({
       where: {
@@ -316,19 +310,17 @@ export async function listOrganizationCollections(ctx: WorkspaceContext) {
   const organizationId = await organizationScope(ctx);
   await requireWorkspaceAuthorization(ctx, "workspace.read");
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
-    const [portfolios, groups] = await Promise.all([
-      tx.portfolio.findMany({
-        where: { organizationId },
-        orderBy: [{ portfolioKey: "asc" }, { id: "asc" }],
-        take: MAX_COLLECTION_ROWS,
-      }),
-      tx.organizationGroup.findMany({
-        where: { organizationId },
-        orderBy: [{ groupKey: "asc" }, { id: "asc" }],
-        take: MAX_COLLECTION_ROWS,
-        include: { _count: { select: { memberships: true } } },
-      }),
-    ]);
+    const portfolios = await tx.portfolio.findMany({
+      where: { organizationId },
+      orderBy: [{ portfolioKey: "asc" }, { id: "asc" }],
+      take: MAX_COLLECTION_ROWS,
+    });
+    const groups = await tx.organizationGroup.findMany({
+      where: { organizationId },
+      orderBy: [{ groupKey: "asc" }, { id: "asc" }],
+      take: MAX_COLLECTION_ROWS,
+      include: { _count: { select: { memberships: true } } },
+    });
     return { portfolios, groups, limit: MAX_COLLECTION_ROWS };
   });
 }

@@ -1,6 +1,6 @@
 # HIVE OS — Enterprise Core Task Graph
 
-Status: `APPROVED — TIP-023A, TIP-023B AND TIP-023C LOCALLY VERIFIED`
+Status: `APPROVED — TIP-023A THROUGH TIP-023F, TIP-023S AND TIP-023S-R1 LOCALLY VERIFIED`
 
 Recorded: `2026-07-30`
 
@@ -22,6 +22,14 @@ TIP-023D + TIP-023E + TIP-023F
 Only after TIP-023H:
     TIP-024 Connectors → TIP-025 Governed AI
 ```
+
+`TIP-023S` is an authorized P0 security interlock after TIP-023F. It closes the
+fresh dependency regression and local quality-gate drift without changing the
+TIP-023G → TIP-023H dependency sequence.
+
+`TIP-023S-R1` closes the pg concurrent-query defect locally with strict
+deprecation gates. Its remote-reproducibility half remains pending until the
+quality workflow is green on the exact pushed commit.
 
 ## TIP-023A — Organization Graph and Compatibility Migration
 
