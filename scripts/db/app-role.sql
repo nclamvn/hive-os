@@ -1,15 +1,16 @@
 -- Least-privilege runtime role for the HIVE OS application.
 -- Applied by the OWNER connection AFTER migrations (tables must exist).
--- The password here is a local-only development fixture (same class as the
--- container's POSTGRES_PASSWORD); production supplies its own credentials.
+-- Authentication material is deliberately absent from this committed file.
+-- apply-app-role.mjs sets the password from the runtime DATABASE_URL after the
+-- role and grants have been established through the owner connection.
 
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'hiveos_app') THEN
-    CREATE ROLE hiveos_app LOGIN PASSWORD 'hiveos_app'
+    CREATE ROLE hiveos_app LOGIN
       NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   ELSE
-    ALTER ROLE hiveos_app LOGIN PASSWORD 'hiveos_app'
+    ALTER ROLE hiveos_app LOGIN
       NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   END IF;
 END

@@ -8,6 +8,13 @@ COPY prisma ./prisma
 COPY prisma.config.ts ./
 RUN npm ci
 
+FROM deps AS migrator
+ARG VCS_REF=unknown
+LABEL org.opencontainers.image.revision=$VCS_REF
+COPY scripts/db ./scripts/db
+USER node
+CMD ["npm", "run", "db:bootstrap"]
+
 FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -25,6 +32,8 @@ COPY src ./src
 RUN BETTER_AUTH_SECRET=build-only-placeholder-never-runtime npm run build
 
 FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS runner
+ARG VCS_REF=unknown
+LABEL org.opencontainers.image.revision=$VCS_REF
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
