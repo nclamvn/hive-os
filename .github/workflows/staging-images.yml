@@ -1,0 +1,54 @@
+name: staging-images
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: staging-images
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure short-lived AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::217358003879:role/hiveos-staging-github-build
+          aws-region: ap-southeast-1
+
+      - name: Log in to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build and publish migration image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrator
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-migrator:${{ github.sha }}
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-migrator:staging
+
+      - name: Build and publish runtime image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: runner
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:${{ github.sha }}
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:staging
