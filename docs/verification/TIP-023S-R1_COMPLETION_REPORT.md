@@ -1,6 +1,6 @@
 # COMPLETION REPORT — TIP-023S-R1
 
-Status: `LOCAL COMPLETE — REMOTE VERIFICATION PENDING`
+Status: `DONE`
 
 Completed locally: `2026-08-04`
 
@@ -12,8 +12,9 @@ application-level parallel calls now obey a one-query-at-a-time contract for
 each checked-out PoolClient. Pool-level concurrency remains available across
 different clients.
 
-`OBL-DEP-002` is technically closed by strict integration and E2E evidence.
-`OBL-FND-001` remains pending until GitHub Actions passes on the pushed commit.
+`OBL-DEP-002` is closed by strict integration and E2E evidence.
+`OBL-FND-001` is closed by GitHub Actions run `30891944749` on exact SHA
+`e7fe2155363f3567ce9670b087407b8795b8f906`.
 
 ## Implementation
 
@@ -45,10 +46,16 @@ different clients.
 ## Scope integrity
 
 The 60 pre-existing modified visual artifacts under `artifacts/tip-002a`,
-`artifacts/tip-002b` and `artifacts/tip-008` are excluded from staging and the
-planned push. E2E-generated TIP-021A screenshots were restored after testing.
+`artifacts/tip-002b` and `artifacts/tip-008` were excluded from commit
+`e7fe215`. E2E-generated TIP-021A screenshots were restored after testing.
 
-## Remaining gate
+## Remote evidence
 
-Push the reviewed commit, inspect every GitHub Actions step, and retain the run
-URL and exact SHA before changing `OBL-FND-001` to `CLOSED`.
+- Workflow: `quality-gates`
+- Run: `30891944749`
+- Job: `91935828257`
+- Exact SHA: `e7fe2155363f3567ce9670b087407b8795b8f906`
+- Duration: 9m51s
+- Result: all 22 workflow steps PASS, including strict integration, strict E2E,
+  both dependency audits, retained artifact upload and dependency policy gate.
+- URL: <https://github.com/nclamvn/hive-os/actions/runs/30891944749>

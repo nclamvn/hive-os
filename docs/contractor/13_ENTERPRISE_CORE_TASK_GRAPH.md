@@ -1,6 +1,6 @@
 # HIVE OS — Enterprise Core Task Graph
 
-Status: `APPROVED — TIP-023A THROUGH TIP-023F, TIP-023S AND TIP-023S-R1 LOCALLY VERIFIED`
+Status: `APPROVED — TIP-023A THROUGH TIP-023F LOCALLY VERIFIED; TIP-023S/R1 REMOTELY VERIFIED`
 
 Recorded: `2026-07-30`
 
@@ -27,9 +27,9 @@ Only after TIP-023H:
 fresh dependency regression and local quality-gate drift without changing the
 TIP-023G → TIP-023H dependency sequence.
 
-`TIP-023S-R1` closes the pg concurrent-query defect locally with strict
-deprecation gates. Its remote-reproducibility half remains pending until the
-quality workflow is green on the exact pushed commit.
+`TIP-023S-R1` closes the pg concurrent-query defect with strict deprecation
+gates and closes remote quality reproducibility through GitHub Actions run
+`30891944749` on exact SHA `e7fe2155363f3567ce9670b087407b8795b8f906`.
 
 ## TIP-023A — Organization Graph and Compatibility Migration
 

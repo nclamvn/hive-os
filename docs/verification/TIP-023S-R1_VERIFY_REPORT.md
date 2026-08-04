@@ -1,6 +1,6 @@
 # VERIFY REPORT — TIP-023S-R1 Remote and pg Obligation Closure
 
-Status: `LOCAL PASS — REMOTE PENDING`
+Status: `PASS`
 
 Verified locally: `2026-08-04`
 
@@ -11,10 +11,10 @@ Verified locally: `2026-08-04`
 | R1-01 identify exact warning source | PASS | Prisma relation fan-out and explicit `Promise.all` overlapped calls on one pg client |
 | R1-02 preserve transaction semantics | PASS | Sequential bounded reads plus per-client FIFO; locks and RLS retained |
 | R1-03 zero integration deprecations | PASS | `test:integration:strict`, 157/157 |
-| R1-04 preserve TIP-023S gates | PASS LOCALLY | Static, unit baseline, build, startup, audit and E2E evidence retained |
-| R1-05 exclude visual artifacts | PASS PRE-STAGE | 60 pre-existing PNG modifications remain outside authorized scope |
-| R1-06 remote workflow on exact SHA | PENDING | Requires pushed commit and GitHub Actions run |
-| R1-07 close obligations from evidence | PARTIAL | `OBL-DEP-002` locally proven; `OBL-FND-001` awaits remote run |
+| R1-04 preserve TIP-023S gates | PASS | Static, unit baseline, build, startup, audit and E2E evidence retained locally and remotely |
+| R1-05 exclude visual artifacts | PASS | Commit `e7fe215` contains none of the 60 pre-existing PNG modifications |
+| R1-06 remote workflow on exact SHA | PASS | Run `30891944749`, SHA `e7fe2155363f3567ce9670b087407b8795b8f906`, all 22 steps green |
+| R1-07 close obligations from evidence | PASS | `OBL-DEP-002` and `OBL-FND-001` CLOSED |
 
 ## Adversarial verification
 
@@ -39,8 +39,9 @@ promoted to fatal errors.
 | Dependency policy | PASS, zero accepted findings |
 | Registry audit | PASS, 0 vulnerabilities |
 
-## Current conclusion
+## Conclusion
 
-`OBL-DEP-002` has a code-level closure and a permanent regression gate. Remote
-reproducibility is not yet claimed. Final status becomes `PASS` only after the
-quality workflow is green on the exact pushed SHA.
+`OBL-DEP-002` has a code-level closure and permanent regression gates.
+`OBL-FND-001` is closed from a clean GitHub-hosted runner that installed,
+migrated, tested, built, exercised startup and E2E, audited dependencies and
+passed the governed dependency policy on the exact implementation SHA.

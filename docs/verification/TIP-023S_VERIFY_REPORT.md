@@ -2,9 +2,9 @@
 
 Status: `READY WITH EXTERNAL DEFERRED`
 
-Status addendum (2026-08-04): TIP-023S-R1 closes `OBL-DEP-002` locally with
-strict deprecation gates and moves `OBL-FND-001` from billing-blocked to remote
-recheck pending. This report retains its original TIP-023S conclusion below.
+Status addendum (2026-08-04): TIP-023S-R1 closes `OBL-DEP-002` with strict
+deprecation gates and closes `OBL-FND-001` through green GitHub Actions run
+`30891944749`. This report retains its original TIP-023S conclusion below.
 
 Verified: `2026-08-04`
 

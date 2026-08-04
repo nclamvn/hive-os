@@ -11,9 +11,9 @@ provider-neutral production contract locally verified**.
 Identity,
 Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
 Settings, cross-surface discovery, governed exports, and local recovery are
-implemented and locally verified. The Owner reports billing corrected; a new
-remote GitHub Actions run, merge and production deployment remain separate
-gates. Exact evidence lives in
+implemented and locally verified. Remote quality reproducibility passed on
+GitHub Actions run `30891944749`; merge, RC packaging and production deployment
+remain separate gates. Exact evidence lives in
 [`docs/verification/TIP-019_LOCAL_RC_REPORT.md`](docs/verification/TIP-019_LOCAL_RC_REPORT.md).
 
 ## Stack

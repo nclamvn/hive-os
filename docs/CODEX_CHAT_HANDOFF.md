@@ -70,13 +70,13 @@ G0 SCAN:                            PASS
 G1 BLUEPRINT:                       PASS
 G2 FOUNDATION LOCAL:                PASS
 G3 MISSION LOOP LOCAL:              PASS
-G3 REMOTE REPRODUCIBILITY:          RECHECK_PENDING    (OBL-FND-001)
-G4 TRUTH LOOP LOCAL:                PASS_PROVISIONAL
-G5 EXECUTION + VERIFICATION LOCAL:  PASS_PROVISIONAL
-G6 LOCAL RC:                        PASS_PROVISIONAL
+G3 REMOTE REPRODUCIBILITY:          PASS               (run 30891944749)
+G4 TRUTH LOOP LOCAL:                PASS
+G5 EXECUTION + VERIFICATION LOCAL:  PASS
+G6 LOCAL RC:                        PASS
 
 LOCAL RC:            SIGNED
-REMOTE RC:           PENDING NEW QUALITY RUN
+REMOTE RC:           NOT ESTABLISHED (packaging gates remain)
 PRODUCTION RELEASE:  NOT AUTHORIZED
 PUBLIC RELEASE:      NOT AUTHORIZED
 ```
@@ -88,9 +88,9 @@ recorded while remote reproducibility is unproven (DEC-010).
 Deferred obligations (preserved; not softened by the signed Local RC):
 
 ```text
-OBL-FND-001  GitHub Actions remote CI   RECHECK_PENDING       (Owner reports billing corrected 2026-08-04)
+OBL-FND-001  GitHub Actions remote CI   CLOSED                (run 30891944749, SHA e7fe2155363f3567ce9670b087407b8795b8f906)
 OBL-DEP-001  Dependency audit closure   CLOSED                (TIP-023S, fresh zero-finding audits)
-OBL-DEP-002  Prisma/pg deprecation      CLOSED_LOCAL          (TIP-023S-R1 strict gates)
+OBL-DEP-002  Prisma/pg deprecation      CLOSED                (TIP-023S-R1 strict local + remote gates)
 ```
 
 On 2026-07-23, the Owner explicitly authorized continuing TIP-005 while
@@ -112,7 +112,7 @@ v0.2 mock as an interaction reference. The resulting HIVE OS Control Room keeps
 the locked light design system, uses real workspace-scoped projections, and
 marks later bounded contexts as `Planned`. See `docs/ui/CONTROL_ROOM.md`.
 
-## Historical blocker and current recheck
+## Historical billing blocker — closed
 
 Earlier GitHub Actions runs did not start because of an Owner account billing
 problem:
@@ -127,12 +127,12 @@ Relevant workflow runs:
 
 The `quality-gates` workflow was configured, but those historical jobs had no
 executed steps. On 2026-08-04 the Owner reported billing corrected and
-authorized TIP-023S-R1. Remote reproducibility remains unproven only until the
-new pushed commit completes every workflow step.
+authorized TIP-023S-R1. Run `30891944749` then completed all steps successfully
+on exact SHA `e7fe2155363f3567ce9670b087407b8795b8f906`.
 
 Current obligation:
 
-- `OBL-FND-001`: RECHECK_PENDING
+- `OBL-FND-001`: CLOSED
 
 ## TIP-021B local stabilization closure
 
@@ -589,9 +589,8 @@ packages were aligned on 7.9.1; PostCSS, `fast-uri` and both installed
 `brace-expansion` lines were patched without a major framework or lint-stack
 upgrade. Fresh full and runtime audits report zero vulnerabilities, so
 RISK-DEP-001 is closed and the accepted high-advisory ceiling is reset to zero.
-The Owner reports the former billing blocker corrected. Remote reproducibility
-is now `RECHECK_PENDING` under TIP-023S-R1 rather than claimed from the old
-zero-step runs.
+The former billing blocker is closed by new green evidence, not inferred from
+the old zero-step runs.
 
 ## TIP-023S-R1 pg and remote-obligation update
 
@@ -600,8 +599,8 @@ The Prisma/pg concurrency warning was traced to relation fan-out and explicit
 parallel calls sharing one PoolClient. A per-client FIFO plus bounded sequential
 kernel reads now preserves pool concurrency while enforcing the pg 9 contract.
 Strict integration (157/157) and strict E2E (85/85) promote deprecations to
-errors and pass locally. `OBL-DEP-002` is closed locally; `OBL-FND-001` awaits
-the new GitHub Actions evidence on the exact pushed SHA.
+errors and pass locally and remotely. Both `OBL-DEP-002` and `OBL-FND-001` are
+closed by run `30891944749` on the exact implementation SHA.
 
 ## TIP-022 pilot-readiness implementation update
 

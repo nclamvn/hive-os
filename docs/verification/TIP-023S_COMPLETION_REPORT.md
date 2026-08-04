@@ -3,8 +3,8 @@
 **STATUS:** DONE
 
 > Status addendum (2026-08-04): the two deferred items below are superseded by
-> TIP-023S-R1. The pg defect is closed locally; GitHub Actions is awaiting a new
-> run after the Owner-reported billing correction.
+> TIP-023S-R1. Both obligations are closed by strict local evidence and GitHub
+> Actions run `30891944749` on exact SHA `e7fe2155363f3567ce9670b087407b8795b8f906`.
 
 ## Files changed
 

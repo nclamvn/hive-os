@@ -7,7 +7,7 @@
 - Modules: PostgreSQL Transaction Runtime, CI/Reproducibility Governance
 - Depends on: TIP-023S
 - Priority: P0 release gate
-- Status: `AUTHORIZED BY OWNER — 2026-08-04`
+- Status: `COMPLETE — 2026-08-04`
 
 ## Owner direction
 
