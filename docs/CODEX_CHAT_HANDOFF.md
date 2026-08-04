@@ -673,6 +673,20 @@ TIP-023H establishes local Enterprise Core certification only. Production
 SLOs, cloud capacity, staging, production and public release remain separate
 decisions.
 
+## TIP-024A query-trust foundation update
+
+On 2026-08-04, after reviewing the query-intelligence architecture of a
+comparable enterprise project, the Owner authorized the next bounded local
+step. TIP-024A introduces strict analyzer, trusted-scope, registry-candidate,
+QueryPlan and golden-evaluation contracts. Analyzer output cannot select tenant
+scope or permissions; unknown and ambiguous entities fail closed; every plan
+is read-only/non-authoritative and requires authorization again at retrieval.
+
+No provider API, persistent ontology, embedding index, reranker, answer
+generator, independent answer verifier, cloud service or production accuracy
+claim is included. The initial four-case fixture proves contract behavior only
+and must not be represented as an enterprise benchmark.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

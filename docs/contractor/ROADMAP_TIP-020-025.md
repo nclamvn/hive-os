@@ -121,6 +121,12 @@ hash, importer identity, extraction version, provenance to the original record.
 
 ### TIP-024 — Governed AI Copilot _(superseded number; capability deferred)_
 
+TIP-024A Query Trust Foundation was authorized on 2026-08-04 as a bounded,
+provider-free prerequisite. It adds strict QueryPlan, trusted-scope,
+registry-candidate, uncertainty-disposition and golden-evaluation contracts.
+It does not start the AI Copilot, persist an enterprise ontology, select a
+retrieval engine or claim enterprise question-answering accuracy.
+
 Highest-value tasks: extract requirements from spec; detect conflicting
 requirements; propose claims from evidence; find unsourced claims; surface
 supporting/contradicting sources; propose falsification criteria; assess missing

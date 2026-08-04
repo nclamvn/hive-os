@@ -37,3 +37,4 @@ Dependency rules:
 | `projections/`             | Incremental Workspace/Portfolio read models and watermarks | TIP-023E       |
 | `lifecycle/`               | Legal hold and governed object-body disposition             | TIP-023G       |
 | `dossier-export/`          | Resumable bounded dossier parts and final manifest           | TIP-023G       |
+| `query-intelligence/`      | QueryPlan trust boundary and golden evaluation contracts     | TIP-024A       |

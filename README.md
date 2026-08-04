@@ -7,7 +7,8 @@ authoritative product specification and governance documents live in
 
 Current state: **Local Release Candidate signed through TIP-019, with
 TIP-021A identity recovery, TIP-021B stabilization, TIP-021C-A production
-contract, and Enterprise Core TIP-023A through TIP-023H locally verified**.
+contract, Enterprise Core TIP-023A through TIP-023H locally verified, and a
+provider-free TIP-024A Query Trust foundation implemented**.
 Identity,
 Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
 Settings, cross-surface discovery, asynchronous bounded dossier exports,
@@ -16,6 +17,10 @@ implemented and locally verified. Remote quality reproducibility passed on
 GitHub Actions run `30891944749`; merge, RC packaging and production deployment
 remain separate gates. Exact evidence lives in
 [`docs/verification/TIP-019_LOCAL_RC_REPORT.md`](docs/verification/TIP-019_LOCAL_RC_REPORT.md).
+
+TIP-024A defines strict, read-only QueryPlan and golden-evaluation contracts.
+It does not connect a model provider, implement an enterprise ontology, or
+claim production question-answering accuracy.
 
 ## Stack
 
