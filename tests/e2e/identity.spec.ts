@@ -62,7 +62,16 @@ test("ID-19 the authenticated shell shows only real user and workspace state", a
     sidebar.getByRole("region", { name: "Workspace" }),
   ).toContainText("Realtime Lab");
   await sidebar.getByText("E2E User").click();
+  const accountSecurity = sidebar.getByRole("link", {
+    name: "Account security",
+  });
+  await expect(accountSecurity).toBeVisible();
   await expect(sidebar.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await accountSecurity.click();
+  await expect(page).toHaveURL(/\/settings\/security$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Security" }),
+  ).toBeVisible();
 });
 
 test("ID-21 a malicious next parameter cannot redirect off-site", async ({
