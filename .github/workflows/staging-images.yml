@@ -10,6 +10,7 @@ on:
       - package.json
       - package-lock.json
       - prisma/**
+      - public/**
       - scripts/build/**
       - scripts/db/**
       - src/**
