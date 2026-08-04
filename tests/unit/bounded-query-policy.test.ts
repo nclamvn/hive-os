@@ -18,8 +18,7 @@ function listFilesRecursively(root: string): string[] {
 }
 
 // These reads are resource-local or input-bounded correctness operations, not
-// tenant collection ports. Export exceptions remain visible until TIP-023G
-// replaces whole-dossier construction with cursor-streamed jobs.
+// tenant collection ports.
 const APPROVED_UNBOUNDED = new Set([
   "src/modules/execution-fabric/kernel.ts:tx.executionTipDependency",
   "src/modules/execution-fabric/kernel.ts:tx.executionTip",
@@ -30,8 +29,6 @@ const APPROVED_UNBOUNDED = new Set([
   "src/modules/verification-governance/kernel.ts:tx.verificationScenario",
   "src/modules/verification-governance/kernel.ts:tx.executionArtifact",
   "src/modules/verification-governance/kernel.ts:tx.runtimeGate",
-  "src/server/governed-exports.ts:getDb().provenanceEdge",
-  "src/server/governed-exports.ts:getDb().auditEvent",
   "src/server/pilot-measurement.ts:getDb().auditEvent",
   "src/server/pilot-measurement.ts:getDb().provenanceEdge",
 ]);

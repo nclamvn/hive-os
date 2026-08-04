@@ -35,3 +35,5 @@ Dependency rules:
 | `workflow-accountability/` | Assignment, SLA, approval chains and bounded work inbox   | TIP-023D       |
 | `command-runtime/`         | Idempotent commands, outbox, leases and dead letters      | TIP-023E       |
 | `projections/`             | Incremental Workspace/Portfolio read models and watermarks | TIP-023E       |
+| `lifecycle/`               | Legal hold and governed object-body disposition             | TIP-023G       |
+| `dossier-export/`          | Resumable bounded dossier parts and final manifest           | TIP-023G       |

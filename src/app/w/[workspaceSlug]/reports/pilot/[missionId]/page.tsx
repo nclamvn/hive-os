@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { DossierExportControl } from "@/components/exports/dossier-export-control";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -81,13 +82,9 @@ export default async function PilotReportPage({
             >
               Download measurement JSON
             </a>
-            <a
-              href={`/api/w/${workspaceSlug}/exports/mission/${missionId}`}
-              download
-              className="text-meta text-navy-700 border-line hover:border-line-strong inline-flex rounded-md border px-3 py-2 font-medium"
-            >
-              Download complete dossier
-            </a>
+            <DossierExportControl
+              endpoint={`/api/w/${workspaceSlug}/exports/mission/${missionId}`}
+            />
             <Link
               href={`/w/${workspaceSlug}/missions/${missionId}`}
               className="text-meta text-ink-strong inline-flex px-3 py-2 font-medium"

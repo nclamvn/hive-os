@@ -1,6 +1,6 @@
 # HIVE OS — Enterprise Core Task Graph
 
-Status: `APPROVED — TIP-023A THROUGH TIP-023F LOCALLY VERIFIED; TIP-023S/R1 REMOTELY VERIFIED`
+Status: `APPROVED — TIP-023A THROUGH TIP-023H LOCALLY VERIFIED; TIP-023S/R1 REMOTELY VERIFIED`
 
 Recorded: `2026-07-30`
 
@@ -153,6 +153,7 @@ Acceptance floor:
 **Priority:** P1
 **Depends on:** TIP-023D, TIP-023E, TIP-023F
 **Requirements:** ENT-011, ENT-016, ENT-017
+**Status:** LOCALLY VERIFIED — 2026-08-04
 
 Implement governed retention evaluation, legal hold, archive candidates,
 controlled deletion, resumable streaming dossier generation, projection
@@ -172,6 +173,7 @@ Acceptance floor:
 **Priority:** P0 release gate
 **Depends on:** TIP-023G
 **Requirements:** ENT-018
+**Status:** LOCALLY CERTIFIED — 2026-08-04
 
 Create deterministic large datasets and certify read, write, concurrency,
 isolation, worker recovery, hot-tenant, projection rebuild, export and recovery

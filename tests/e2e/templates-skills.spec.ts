@@ -108,7 +108,7 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await page.goto(`${dashboardUrl}/reports`);
     await expect(page.getByText("Gimbal control revision")).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Download dossier" }),
+      page.getByRole("button", { name: "Build dossier" }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Pilot measurement" }),

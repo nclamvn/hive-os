@@ -235,6 +235,28 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       sourceWatermarkAt: z.string(),
     })
     .strict(),
+  // Lifecycle, streaming exports and observability (TIP-023G)
+  "lifecycle.legal_hold_placed": z
+    .object({ scope: z.string(), missionId: z.string().nullable() })
+    .strict(),
+  "lifecycle.legal_hold_released": z
+    .object({ scope: z.string(), missionId: z.string().nullable() })
+    .strict(),
+  "lifecycle.disposition_created": z
+    .object({ snapshotId: z.string(), eligibleAt: z.string() })
+    .strict(),
+  "lifecycle.disposition_approved": z
+    .object({ snapshotId: z.string(), policyVersion: z.number().int() })
+    .strict(),
+  "lifecycle.disposition_executed": z
+    .object({ snapshotId: z.string(), objectBodyRemoved: z.boolean() })
+    .strict(),
+  "export.dossier_requested": z
+    .object({ exportId: z.string(), missionId: z.string() })
+    .strict(),
+  "export.dossier_completed": z
+    .object({ exportId: z.string(), partCount: z.number().int(), rowCount: z.number().int() })
+    .strict(),
   // Truth Kernel (TIP-005)
   "evidence.source_created": z
     .object({ title: z.string(), sourceType: z.string() })
@@ -407,6 +429,13 @@ export const AuditEventType = {
   CommandFailed: "command.failed",
   JobDeadLetterDisposed: "job.dead_letter_disposed",
   ProjectionRebuilt: "projection.rebuilt",
+  LegalHoldPlaced: "lifecycle.legal_hold_placed",
+  LegalHoldReleased: "lifecycle.legal_hold_released",
+  LifecycleDispositionCreated: "lifecycle.disposition_created",
+  LifecycleDispositionApproved: "lifecycle.disposition_approved",
+  LifecycleDispositionExecuted: "lifecycle.disposition_executed",
+  DossierExportRequested: "export.dossier_requested",
+  DossierExportCompleted: "export.dossier_completed",
   EvidenceSourceCreated: "evidence.source_created",
   EvidenceSnapshotCaptured: "evidence.snapshot_captured",
   EvidenceSpanCreated: "evidence.span_created",

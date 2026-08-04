@@ -66,6 +66,25 @@ describe("production contract", () => {
     });
   });
 
+  it("OBS-01 retains bounded numeric operational evidence", () => {
+    const info = vi.spyOn(console, "info").mockImplementation(() => undefined);
+    writeOperationalEvent({
+      level: "info",
+      event: "worker.cycle",
+      outcome: "success",
+      correlationId: "cycle-1",
+      component: "organization_worker",
+      durationMs: 12.7,
+      count: 4,
+      queueDepth: 2,
+    });
+    expect(JSON.parse(String(info.mock.calls[0][0]))).toMatchObject({
+      durationMs: 13,
+      count: 4,
+      queueDepth: 2,
+    });
+  });
+
   it("PRC-11 maintenance mode blocks user traffic but preserves health", () => {
     process.env.MAINTENANCE_MODE = "true";
     const blocked = proxy(new NextRequest("http://localhost/sign-in"));

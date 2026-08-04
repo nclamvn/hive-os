@@ -105,6 +105,7 @@ export async function claimJobs(input: {
   organizationId: string;
   actorUserId: string;
   workerId: string;
+  jobTypes?: string[];
   first?: number;
   leaseSeconds?: number;
   now?: Date;
@@ -118,6 +119,12 @@ export async function claimJobs(input: {
     3_600,
   );
   const now = input.now ?? new Date();
+  const jobTypes = (input.jobTypes ?? []).map((jobType) =>
+    text(jobType, "Job type", 120),
+  );
+  if (jobTypes.length > 20) {
+    throw new CommandRuntimeError("INVALID_INPUT", "At most 20 Job types are allowed");
+  }
   const leaseExpiresAt = new Date(now.getTime() + leaseSeconds * 1_000);
   return withOrganizationTenant(
     input.organizationId,
@@ -129,6 +136,7 @@ export async function claimJobs(input: {
         SELECT id, workspace_id, attempts
         FROM durable_job
         WHERE organization_id = ${input.organizationId}
+          ${jobTypes.length ? Prisma.sql`AND job_type IN (${Prisma.join(jobTypes)})` : Prisma.empty}
           AND status = 'RUNNING'
           AND lease_expires_at <= ${now}
           AND attempts >= max_attempts
@@ -166,6 +174,7 @@ export async function claimJobs(input: {
         SELECT id
         FROM durable_job
         WHERE organization_id = ${input.organizationId}
+          ${jobTypes.length ? Prisma.sql`AND job_type IN (${Prisma.join(jobTypes)})` : Prisma.empty}
           AND attempts < max_attempts
           AND (
             (status = 'READY' AND available_at <= ${now})
@@ -271,6 +280,52 @@ export async function completeJob(input: {
   );
 }
 
+export async function heartbeatJob(input: {
+  organizationId: string;
+  actorUserId: string;
+  workerId: string;
+  jobId: string;
+  expectedVersion: number;
+  leaseSeconds?: number;
+  now?: Date;
+}) {
+  const workerId = text(input.workerId, "Worker id", 120);
+  const leaseSeconds = integer(
+    input.leaseSeconds ?? 300,
+    "Lease duration",
+    5,
+    3_600,
+  );
+  const now = input.now ?? new Date();
+  return withOrganizationTenant(
+    input.organizationId,
+    input.actorUserId,
+    async (tx) => {
+      const updated = await tx.durableJob.updateMany({
+        where: {
+          id: input.jobId,
+          organizationId: input.organizationId,
+          status: "RUNNING",
+          lockedBy: workerId,
+          version: input.expectedVersion,
+          leaseExpiresAt: { gt: now },
+        },
+        data: {
+          leaseExpiresAt: new Date(now.getTime() + leaseSeconds * 1_000),
+          version: { increment: 1 },
+        },
+      });
+      if (updated.count !== 1) {
+        throw new CommandRuntimeError(
+          "LEASE_CONFLICT",
+          "Job lease or version is no longer valid",
+        );
+      }
+      return tx.durableJob.findUniqueOrThrow({ where: { id: input.jobId } });
+    },
+  );
+}
+
 export async function failJob(input: {
   organizationId: string;
   actorUserId: string;
@@ -279,6 +334,7 @@ export async function failJob(input: {
   expectedVersion: number;
   errorCode: string;
   errorMessage: string;
+  retryable?: boolean;
   now?: Date;
 }) {
   const workerId = text(input.workerId, "Worker id", 120);
@@ -310,7 +366,7 @@ export async function failJob(input: {
           "Job lease or version is no longer valid",
         );
       }
-      const deadLetter = job.attempts >= job.maxAttempts;
+      const deadLetter = input.retryable === false || job.attempts >= job.maxAttempts;
       const retryDelayMs = Math.min(
         3_600_000,
         30_000 * 2 ** Math.max(0, job.attempts - 1),

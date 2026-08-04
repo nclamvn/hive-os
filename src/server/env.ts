@@ -49,6 +49,7 @@ const envSchema = z
       .min(1_000)
       .max(300_000)
       .default(30_000),
+    DB_SLOW_QUERY_MS: z.coerce.number().int().min(10).max(300_000).default(1_000),
     STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
     STORAGE_LOCAL_ROOT: z.string().default(".storage"),
     S3_ENDPOINT: z.string().optional(),

@@ -47,6 +47,10 @@ export const ENTERPRISE_CAPABILITIES = [
   "jobs.manage",
   "projections.read",
   "projections.manage",
+  "lifecycle.read",
+  "lifecycle.manage",
+  "exports.request",
+  "exports.read",
 ] as const satisfies readonly Capability[];
 
 const all = new Set<Capability>(ENTERPRISE_CAPABILITIES);
@@ -97,6 +101,8 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "jobs.read",
     "jobs.manage",
     "projections.manage",
+    "exports.request",
+    "exports.read",
   ]),
   MISSION_OWNER: new Set([
     ...contributor,
@@ -110,6 +116,8 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "jobs.read",
     "jobs.manage",
     "projections.manage",
+    "exports.request",
+    "exports.read",
   ]),
   CONTRIBUTOR: contributor,
   BUILDER: new Set([...read, "truth.write", "execution.operate"]),
@@ -126,7 +134,14 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "release.approve",
     "workflow.approve",
   ]),
-  AUDITOR: new Set([...read, "audit.read", "truth.export"]),
+  AUDITOR: new Set([
+    ...read,
+    "audit.read",
+    "truth.export",
+    "lifecycle.read",
+    "exports.request",
+    "exports.read",
+  ]),
   VIEWER: read,
 };
 

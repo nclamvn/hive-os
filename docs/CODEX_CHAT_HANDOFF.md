@@ -626,6 +626,53 @@ attestation. Remote CI remains `BLOCKED_EXTERNAL`; external staging, provider
 selection, production release, and public release remain unverified or
 unauthorized.
 
+## TIP-023G lifecycle and dossier-plane update
+
+On 2026-08-04, the Owner authorized the Builder to close the lifecycle,
+large-dossier and worker-observability boundary before enterprise scale
+certification.
+
+- Legal holds and two-person lifecycle dispositions preserve immutable
+  Snapshot metadata, hashes, provenance and audit while allowing only an
+  eligible retained object body to be removed.
+- Organization, Workspace and Mission root deletion fails closed at the
+  PostgreSQL boundary.
+- Dossier requests use the retained command, outbox and leased-job plane;
+  canonical JSONL parts are byte bounded, hashed and resumable, and the
+  manifest is published last.
+- A tenant-scoped monotonic source revision invalidates an export when any
+  included Mission record changes after its boundary was captured.
+- Worker cycles are Organization-scoped, query pages are bounded, and
+  operational/slow-query events exclude SQL, parameters, content and secrets.
+- TIP-023H remains the next release gate for million-row, 100-way contention,
+  multi-process worker, hot-tenant, 60-minute soak and recovery certification.
+
+## TIP-023H enterprise-scale certification update
+
+On 2026-08-04, the Owner authorized the final Enterprise Core scale gate and
+automatic commit/push after closure.
+
+- Deterministic fixture: 1,000,000 append-only ledger rows, 10,000 governed
+  Missions and stable fingerprint `a845f683244c6249168797a290e06209`.
+- Contention: 100 simultaneous logical writes through a 64-connection runtime
+  pool retained exactly one command identity with zero rejected transaction.
+- Hot tenant: 19,586 Organization A operations ran while Organization B
+  observed zero foreign rows and retained 887 own probe writes.
+- Workers: four independent OS processes completed 1,000 jobs exactly once,
+  with 1,000 unique terminal events and no non-terminal job.
+- Continuous soak: 3,601.03 seconds, 1,062,570 mixed operations, zero operation
+  errors, 361 samples and maximum sample gap 11 seconds. Local observed p95 was
+  10.92 ms and p99 15.44 ms; these are explicitly non-SLO values.
+- Recovery: integrity-verified backup/restore preserved 1,000,000 ledger rows
+  and 10,000 Missions; the real projection rebuild returned READY with 10,000
+  Missions and a new watermark.
+- A prior run was rejected because host sleep produced a 1,006-second gap. The
+  certification harness now enforces continuity and uses a local power guard.
+
+TIP-023H establishes local Enterprise Core certification only. Production
+SLOs, cloud capacity, staging, production and public release remain separate
+decisions.
+
 ## Startup checklist for every new Codex task
 
 1. Read `AGENTS.md`.

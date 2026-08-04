@@ -5,6 +5,9 @@ export interface OperationalEvent {
   correlationId?: string;
   errorType?: string;
   component?: string;
+  durationMs?: number;
+  count?: number;
+  queueDepth?: number;
 }
 
 const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
@@ -18,6 +21,10 @@ function safe(value: string | undefined): string | undefined {
  * accepts no arbitrary message, URL, address, token, or environment value.
  */
 export function writeOperationalEvent(input: OperationalEvent): void {
+  const metric = (value: number | undefined) =>
+    value !== undefined && Number.isFinite(value) && value >= 0
+      ? Math.round(value)
+      : undefined;
   const record = {
     timestamp: new Date().toISOString(),
     level: input.level,
@@ -26,6 +33,9 @@ export function writeOperationalEvent(input: OperationalEvent): void {
     correlationId: safe(input.correlationId),
     errorType: safe(input.errorType),
     component: safe(input.component),
+    durationMs: metric(input.durationMs),
+    count: metric(input.count),
+    queueDepth: metric(input.queueDepth),
   };
   const line = JSON.stringify(record);
   if (input.level === "error") console.error(line);

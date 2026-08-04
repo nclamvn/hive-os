@@ -6,11 +6,12 @@ authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
 Current state: **Local Release Candidate signed through TIP-019, with
-TIP-021A identity recovery, TIP-021B stabilization, and TIP-021C-A
-provider-neutral production contract locally verified**.
+TIP-021A identity recovery, TIP-021B stabilization, TIP-021C-A production
+contract, and Enterprise Core TIP-023A through TIP-023H locally verified**.
 Identity,
 Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
-Settings, cross-surface discovery, governed exports, and local recovery are
+Settings, cross-surface discovery, asynchronous bounded dossier exports,
+governed lifecycle disposition, and local recovery are
 implemented and locally verified. Remote quality reproducibility passed on
 GitHub Actions run `30891944749`; merge, RC packaging and production deployment
 remain separate gates. Exact evidence lives in

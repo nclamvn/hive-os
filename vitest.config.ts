@@ -28,6 +28,15 @@ export default defineConfig({
           fileParallelism: false,
         },
       },
+      {
+        extends: true,
+        test: {
+          name: "scale",
+          environment: "node",
+          include: ["tests/scale/**/*.test.ts"],
+          fileParallelism: false,
+        },
+      },
     ],
   },
 });

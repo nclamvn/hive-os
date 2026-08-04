@@ -4,6 +4,7 @@ import pg, { type PoolClient } from "pg";
 
 import { getEnv } from "./env";
 import type { Env } from "./env";
+import { writeOperationalEvent } from "./observability/operational-log";
 
 /**
  * Prisma client singleton. Next.js dev-mode hot reload re-evaluates modules,
@@ -19,11 +20,22 @@ const serializedClients = new WeakSet<PoolClient>();
  * Pool-level concurrency is unchanged: different checked-out clients continue
  * to execute in parallel.
  */
-function serializeClientQueries(client: PoolClient): PoolClient {
+function serializeClientQueries(client: PoolClient, slowQueryMs: number): PoolClient {
   if (serializedClients.has(client)) return client;
   serializedClients.add(client);
   const query = client.query.bind(client);
   let tail: Promise<unknown> = Promise.resolve();
+  const observe = (started: number, failed = false) => {
+    const durationMs = performance.now() - started;
+    if (durationMs < slowQueryMs) return;
+    writeOperationalEvent({
+      level: failed ? "warn" : "info",
+      event: "database.query.slow",
+      outcome: failed ? "failure" : "success",
+      component: "postgresql",
+      durationMs,
+    });
+  };
 
   client.query = ((...args: unknown[]) => {
     const callback =
@@ -35,23 +47,41 @@ function serializeClientQueries(client: PoolClient): PoolClient {
       const operation = tail.then(
         () =>
           new Promise<void>((resolve) => {
-            Reflect.apply(query, client, [
-              ...args,
-              (...values: unknown[]) => {
-                try {
-                  callback(...values);
-                } finally {
-                  resolve();
-                }
-              },
-            ]);
+            const started = performance.now();
+            try {
+              Reflect.apply(query, client, [
+                ...args,
+                (...values: unknown[]) => {
+                  try {
+                    observe(started, values[0] instanceof Error);
+                    callback(...values);
+                  } finally {
+                    resolve();
+                  }
+                },
+              ]);
+            } catch (error) {
+              observe(started, true);
+              resolve();
+              throw error;
+            }
           }),
       );
       tail = operation.catch(() => undefined);
       return undefined;
     }
 
-    const operation = tail.then(() => Reflect.apply(query, client, args));
+    const operation = tail.then(async () => {
+      const started = performance.now();
+      try {
+        const result = await Reflect.apply(query, client, args);
+        observe(started);
+        return result;
+      } catch (error) {
+        observe(started, true);
+        throw error;
+      }
+    });
     tail = operation.then(
       () => undefined,
       () => undefined,
@@ -62,7 +92,7 @@ function serializeClientQueries(client: PoolClient): PoolClient {
   return client;
 }
 
-function serializedPool(config: pg.PoolConfig): pg.Pool {
+function serializedPool(config: pg.PoolConfig, slowQueryMs: number): pg.Pool {
   const pool = new pg.Pool(config);
   const connect = pool.connect.bind(pool);
   pool.connect = ((...args: unknown[]) => {
@@ -71,19 +101,19 @@ function serializedPool(config: pg.PoolConfig): pg.Pool {
       return connect((error, client, release) =>
         callback(
           error,
-          client ? serializeClientQueries(client) : client,
+          client ? serializeClientQueries(client, slowQueryMs) : client,
           release,
         ),
       );
     }
-    return connect().then(serializeClientQueries);
+    return connect().then((client) => serializeClientQueries(client, slowQueryMs));
   }) as typeof pool.connect;
   return pool;
 }
 
 function createClient(): PrismaClient {
   const env = getEnv();
-  const adapter = new PrismaPg(serializedPool(databasePoolConfig(env)), {
+  const adapter = new PrismaPg(serializedPool(databasePoolConfig(env), env.DB_SLOW_QUERY_MS), {
     disposeExternalPool: true,
   });
   return new PrismaClient({ adapter });

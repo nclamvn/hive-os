@@ -1,0 +1,3411 @@
+{
+  "schema": "hive-os.enterprise-scale-certification.v1",
+  "classification": "LOCAL_CERTIFICATION_NON_SLO",
+  "startedAt": "2026-08-04T11:50:23.055Z",
+  "completedAt": "2026-08-04T12:51:06.614Z",
+  "environment": {
+    "node": "v24.14.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "powerGuard": "caffeinate:-dimsu",
+    "cpuCount": 10,
+    "totalMemoryBytes": 34359738368
+  },
+  "parameters": {
+    "ledgerRows": 1000000,
+    "missionRows": 10000,
+    "contention": 100,
+    "jobs": 1000,
+    "workerProcesses": 4,
+    "requestedSoakSeconds": 3600
+  },
+  "gates": {
+    "SCALE-01": "PASS",
+    "CONC-01": "PASS",
+    "TEN-01": "PASS",
+    "WORK-01": "PASS",
+    "SOAK-01": "PASS",
+    "REC-01": "PASS"
+  },
+  "observations": {
+    "fixture": {
+      "ledger_rows": 1000000,
+      "mission_rows": 10000,
+      "fingerprint": "a845f683244c6249168797a290e06209",
+      "durationMs": 20077
+    },
+    "contention": {
+      "logicalContenders": 100,
+      "physicalPoolMax": 64,
+      "inserted": 1,
+      "retained": 1,
+      "rejected": 0,
+      "durationMs": 147
+    },
+    "tenantIsolation": {
+      "durationSeconds": 5,
+      "hotOperations": 19586,
+      "foreignRowsObserved": 0,
+      "tenantBProbeWrites": 887
+    },
+    "workers": {
+      "processes": 4,
+      "jobs": 1000,
+      "workers": [
+        {
+          "workerId": "tip023h-worker-1",
+          "processed": 250
+        },
+        {
+          "workerId": "tip023h-worker-2",
+          "processed": 250
+        },
+        {
+          "workerId": "tip023h-worker-3",
+          "processed": 250
+        },
+        {
+          "workerId": "tip023h-worker-4",
+          "processed": 250
+        }
+      ],
+      "succeeded": 1000,
+      "non_terminal": 0,
+      "invalid_attempts": 0,
+      "success_events": 1000,
+      "duplicate_terminal_events": 0,
+      "durationMs": 167
+    },
+    "soak": {
+      "requestedDurationSeconds": 3600,
+      "actualDurationSeconds": 3601.03,
+      "startedAt": "2026-08-04T11:50:50.645Z",
+      "endedAt": "2026-08-04T12:50:51.699Z",
+      "operations": 1062570,
+      "reads": 956313,
+      "writes": 106257,
+      "errors": 0,
+      "observedOperationsPerSecond": 295.07,
+      "latencyMs": {
+        "count": 1062570,
+        "averageMs": 5.97,
+        "p50Ms": 4.37,
+        "p95Ms": 10.92,
+        "p99Ms": 15.44,
+        "maxMs": 269.82,
+        "sampleSize": 50000
+      },
+      "harnessCpuTimeMicros": 239691761,
+      "peakHarnessRssBytes": 196984832,
+      "continuity": {
+        "maxIntervalGapSeconds": 11,
+        "expectedMinimumSamples": 324,
+        "retainedSamples": 361
+      },
+      "intervals": [
+        {
+          "elapsedSeconds": 10,
+          "operations": 2968,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 146489344,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 20,
+          "operations": 5985,
+          "errors": 0,
+          "harnessCpuPercent": 6.97,
+          "harnessRssBytes": 164560896,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 30,
+          "operations": 9037,
+          "errors": 0,
+          "harnessCpuPercent": 6.57,
+          "harnessRssBytes": 164593664,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 40,
+          "operations": 12045,
+          "errors": 0,
+          "harnessCpuPercent": 5.5,
+          "harnessRssBytes": 164708352,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 50,
+          "operations": 15116,
+          "errors": 0,
+          "harnessCpuPercent": 5.22,
+          "harnessRssBytes": 165167104,
+          "databaseConnections": 10,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 60,
+          "operations": 18172,
+          "errors": 0,
+          "harnessCpuPercent": 4.67,
+          "harnessRssBytes": 165576704,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 70,
+          "operations": 21228,
+          "errors": 0,
+          "harnessCpuPercent": 5.73,
+          "harnessRssBytes": 165707776,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 80,
+          "operations": 24302,
+          "errors": 0,
+          "harnessCpuPercent": 6.75,
+          "harnessRssBytes": 165986304,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 90,
+          "operations": 27334,
+          "errors": 0,
+          "harnessCpuPercent": 4.81,
+          "harnessRssBytes": 160169984,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 100,
+          "operations": 30342,
+          "errors": 0,
+          "harnessCpuPercent": 4.31,
+          "harnessRssBytes": 160186368,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 110,
+          "operations": 33366,
+          "errors": 0,
+          "harnessCpuPercent": 4.52,
+          "harnessRssBytes": 160088064,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 120,
+          "operations": 36438,
+          "errors": 0,
+          "harnessCpuPercent": 4.61,
+          "harnessRssBytes": 160677888,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 130,
+          "operations": 39307,
+          "errors": 0,
+          "harnessCpuPercent": 4.78,
+          "harnessRssBytes": 160677888,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 140,
+          "operations": 42411,
+          "errors": 0,
+          "harnessCpuPercent": 4.63,
+          "harnessRssBytes": 160333824,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 150,
+          "operations": 45426,
+          "errors": 0,
+          "harnessCpuPercent": 4.85,
+          "harnessRssBytes": 160169984,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 160,
+          "operations": 48465,
+          "errors": 0,
+          "harnessCpuPercent": 6.34,
+          "harnessRssBytes": 160186368,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 170,
+          "operations": 51449,
+          "errors": 0,
+          "harnessCpuPercent": 4.61,
+          "harnessRssBytes": 160219136,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 180,
+          "operations": 54283,
+          "errors": 0,
+          "harnessCpuPercent": 4.95,
+          "harnessRssBytes": 160268288,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 190,
+          "operations": 57179,
+          "errors": 0,
+          "harnessCpuPercent": 5.81,
+          "harnessRssBytes": 160284672,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 200,
+          "operations": 59177,
+          "errors": 0,
+          "harnessCpuPercent": 5.27,
+          "harnessRssBytes": 160301056,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 210,
+          "operations": 61180,
+          "errors": 0,
+          "harnessCpuPercent": 5.34,
+          "harnessRssBytes": 160333824,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 220,
+          "operations": 63453,
+          "errors": 0,
+          "harnessCpuPercent": 5.47,
+          "harnessRssBytes": 160350208,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 230,
+          "operations": 66453,
+          "errors": 0,
+          "harnessCpuPercent": 6.63,
+          "harnessRssBytes": 160645120,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 240,
+          "operations": 69365,
+          "errors": 0,
+          "harnessCpuPercent": 7.1,
+          "harnessRssBytes": 160661504,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 250,
+          "operations": 72309,
+          "errors": 0,
+          "harnessCpuPercent": 6.94,
+          "harnessRssBytes": 160677888,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 260,
+          "operations": 75205,
+          "errors": 0,
+          "harnessCpuPercent": 7.1,
+          "harnessRssBytes": 160710656,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 270,
+          "operations": 78181,
+          "errors": 0,
+          "harnessCpuPercent": 7.46,
+          "harnessRssBytes": 161103872,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 280,
+          "operations": 81149,
+          "errors": 0,
+          "harnessCpuPercent": 7.25,
+          "harnessRssBytes": 161136640,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 290,
+          "operations": 84085,
+          "errors": 0,
+          "harnessCpuPercent": 7.88,
+          "harnessRssBytes": 161153024,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 300,
+          "operations": 87069,
+          "errors": 0,
+          "harnessCpuPercent": 7.05,
+          "harnessRssBytes": 161153024,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 310,
+          "operations": 89941,
+          "errors": 0,
+          "harnessCpuPercent": 7.22,
+          "harnessRssBytes": 161153024,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 320,
+          "operations": 92837,
+          "errors": 0,
+          "harnessCpuPercent": 7.09,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 330,
+          "operations": 95805,
+          "errors": 0,
+          "harnessCpuPercent": 7.97,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 340,
+          "operations": 98758,
+          "errors": 0,
+          "harnessCpuPercent": 7.99,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 350,
+          "operations": 101783,
+          "errors": 0,
+          "harnessCpuPercent": 7.94,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 360,
+          "operations": 104815,
+          "errors": 0,
+          "harnessCpuPercent": 7.94,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 370,
+          "operations": 107727,
+          "errors": 0,
+          "harnessCpuPercent": 8.24,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 380,
+          "operations": 110736,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 390,
+          "operations": 113799,
+          "errors": 0,
+          "harnessCpuPercent": 6.43,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 400,
+          "operations": 116949,
+          "errors": 0,
+          "harnessCpuPercent": 5.45,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 410,
+          "operations": 119907,
+          "errors": 0,
+          "harnessCpuPercent": 5.48,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 420,
+          "operations": 122899,
+          "errors": 0,
+          "harnessCpuPercent": 6.33,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 430,
+          "operations": 126042,
+          "errors": 0,
+          "harnessCpuPercent": 5.78,
+          "harnessRssBytes": 160759808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 440,
+          "operations": 129218,
+          "errors": 0,
+          "harnessCpuPercent": 6.84,
+          "harnessRssBytes": 163381248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 450,
+          "operations": 132354,
+          "errors": 0,
+          "harnessCpuPercent": 6.8,
+          "harnessRssBytes": 177864704,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 460,
+          "operations": 135466,
+          "errors": 0,
+          "harnessCpuPercent": 6.8,
+          "harnessRssBytes": 188071936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 470,
+          "operations": 138645,
+          "errors": 0,
+          "harnessCpuPercent": 6.94,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 480,
+          "operations": 141806,
+          "errors": 0,
+          "harnessCpuPercent": 7.2,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 490,
+          "operations": 144966,
+          "errors": 0,
+          "harnessCpuPercent": 7.3,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 500,
+          "operations": 148110,
+          "errors": 0,
+          "harnessCpuPercent": 6.96,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 510,
+          "operations": 151287,
+          "errors": 0,
+          "harnessCpuPercent": 6.84,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 520,
+          "operations": 154455,
+          "errors": 0,
+          "harnessCpuPercent": 6.94,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 530,
+          "operations": 157639,
+          "errors": 0,
+          "harnessCpuPercent": 5.97,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 540,
+          "operations": 160641,
+          "errors": 0,
+          "harnessCpuPercent": 7.22,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 550,
+          "operations": 163633,
+          "errors": 0,
+          "harnessCpuPercent": 7.74,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 560,
+          "operations": 166723,
+          "errors": 0,
+          "harnessCpuPercent": 7.13,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 570,
+          "operations": 169715,
+          "errors": 0,
+          "harnessCpuPercent": 6.2,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 580,
+          "operations": 172724,
+          "errors": 0,
+          "harnessCpuPercent": 6.36,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 590,
+          "operations": 175846,
+          "errors": 0,
+          "harnessCpuPercent": 7,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 600,
+          "operations": 178783,
+          "errors": 0,
+          "harnessCpuPercent": 7.03,
+          "harnessRssBytes": 188137472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 610,
+          "operations": 181735,
+          "errors": 0,
+          "harnessCpuPercent": 6.92,
+          "harnessRssBytes": 188153856,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 620,
+          "operations": 184791,
+          "errors": 0,
+          "harnessCpuPercent": 6.51,
+          "harnessRssBytes": 188153856,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 630,
+          "operations": 187759,
+          "errors": 0,
+          "harnessCpuPercent": 6.67,
+          "harnessRssBytes": 188153856,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 640,
+          "operations": 190743,
+          "errors": 0,
+          "harnessCpuPercent": 6.51,
+          "harnessRssBytes": 188153856,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 650,
+          "operations": 193680,
+          "errors": 0,
+          "harnessCpuPercent": 6.66,
+          "harnessRssBytes": 188153856,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 660,
+          "operations": 195854,
+          "errors": 0,
+          "harnessCpuPercent": 5.18,
+          "harnessRssBytes": 188104704,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 670,
+          "operations": 197641,
+          "errors": 0,
+          "harnessCpuPercent": 4.84,
+          "harnessRssBytes": 184156160,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 680,
+          "operations": 199423,
+          "errors": 0,
+          "harnessCpuPercent": 5.19,
+          "harnessRssBytes": 185450496,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 690,
+          "operations": 202398,
+          "errors": 0,
+          "harnessCpuPercent": 5.85,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 700,
+          "operations": 205475,
+          "errors": 0,
+          "harnessCpuPercent": 6.81,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 710,
+          "operations": 208483,
+          "errors": 0,
+          "harnessCpuPercent": 7.23,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 720,
+          "operations": 211475,
+          "errors": 0,
+          "harnessCpuPercent": 7.43,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 730,
+          "operations": 214411,
+          "errors": 0,
+          "harnessCpuPercent": 6.6,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 740,
+          "operations": 217387,
+          "errors": 0,
+          "harnessCpuPercent": 6.43,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 750,
+          "operations": 220323,
+          "errors": 0,
+          "harnessCpuPercent": 7.78,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 760,
+          "operations": 223243,
+          "errors": 0,
+          "harnessCpuPercent": 8.24,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 770,
+          "operations": 226228,
+          "errors": 0,
+          "harnessCpuPercent": 7.92,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 780,
+          "operations": 229075,
+          "errors": 0,
+          "harnessCpuPercent": 7.66,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 790,
+          "operations": 231947,
+          "errors": 0,
+          "harnessCpuPercent": 8.11,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 800,
+          "operations": 234991,
+          "errors": 0,
+          "harnessCpuPercent": 6.93,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 810,
+          "operations": 237915,
+          "errors": 0,
+          "harnessCpuPercent": 7.08,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 820,
+          "operations": 240875,
+          "errors": 0,
+          "harnessCpuPercent": 7.17,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 830,
+          "operations": 243859,
+          "errors": 0,
+          "harnessCpuPercent": 7.17,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 840,
+          "operations": 246723,
+          "errors": 0,
+          "harnessCpuPercent": 7.52,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 850,
+          "operations": 249691,
+          "errors": 0,
+          "harnessCpuPercent": 6.89,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 860,
+          "operations": 252771,
+          "errors": 0,
+          "harnessCpuPercent": 6.77,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 870,
+          "operations": 255860,
+          "errors": 0,
+          "harnessCpuPercent": 6.91,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 880,
+          "operations": 259014,
+          "errors": 0,
+          "harnessCpuPercent": 6.89,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 890,
+          "operations": 261966,
+          "errors": 0,
+          "harnessCpuPercent": 7.43,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 900,
+          "operations": 265063,
+          "errors": 0,
+          "harnessCpuPercent": 7.5,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 910,
+          "operations": 268196,
+          "errors": 0,
+          "harnessCpuPercent": 6.18,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 920,
+          "operations": 271196,
+          "errors": 0,
+          "harnessCpuPercent": 7.08,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 930,
+          "operations": 274236,
+          "errors": 0,
+          "harnessCpuPercent": 7.1,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 940,
+          "operations": 277228,
+          "errors": 0,
+          "harnessCpuPercent": 7.35,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 950,
+          "operations": 280175,
+          "errors": 0,
+          "harnessCpuPercent": 7.63,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 960,
+          "operations": 283160,
+          "errors": 0,
+          "harnessCpuPercent": 7.33,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 970,
+          "operations": 286171,
+          "errors": 0,
+          "harnessCpuPercent": 7.38,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 980,
+          "operations": 289131,
+          "errors": 0,
+          "harnessCpuPercent": 8.1,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 990,
+          "operations": 292143,
+          "errors": 0,
+          "harnessCpuPercent": 8.26,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1000,
+          "operations": 295065,
+          "errors": 0,
+          "harnessCpuPercent": 8.54,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1010,
+          "operations": 297953,
+          "errors": 0,
+          "harnessCpuPercent": 8.46,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1020,
+          "operations": 300953,
+          "errors": 0,
+          "harnessCpuPercent": 8.23,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1030,
+          "operations": 303953,
+          "errors": 0,
+          "harnessCpuPercent": 8.37,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1040,
+          "operations": 306889,
+          "errors": 0,
+          "harnessCpuPercent": 8.15,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1050,
+          "operations": 309865,
+          "errors": 0,
+          "harnessCpuPercent": 8.23,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1060,
+          "operations": 312857,
+          "errors": 0,
+          "harnessCpuPercent": 8.47,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1070,
+          "operations": 315926,
+          "errors": 0,
+          "harnessCpuPercent": 8.47,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1080,
+          "operations": 318886,
+          "errors": 0,
+          "harnessCpuPercent": 8.33,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1090,
+          "operations": 321902,
+          "errors": 0,
+          "harnessCpuPercent": 7.24,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1100,
+          "operations": 324894,
+          "errors": 0,
+          "harnessCpuPercent": 7,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1110,
+          "operations": 327870,
+          "errors": 0,
+          "harnessCpuPercent": 6.91,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1120,
+          "operations": 330719,
+          "errors": 0,
+          "harnessCpuPercent": 7.93,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1130,
+          "operations": 333662,
+          "errors": 0,
+          "harnessCpuPercent": 7.83,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1140,
+          "operations": 336614,
+          "errors": 0,
+          "harnessCpuPercent": 8.04,
+          "harnessRssBytes": 188121088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1150,
+          "operations": 339532,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1160,
+          "operations": 342476,
+          "errors": 0,
+          "harnessCpuPercent": 7.98,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1170,
+          "operations": 345348,
+          "errors": 0,
+          "harnessCpuPercent": 7.85,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1180,
+          "operations": 348284,
+          "errors": 0,
+          "harnessCpuPercent": 7.13,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1190,
+          "operations": 351276,
+          "errors": 0,
+          "harnessCpuPercent": 7.13,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1200,
+          "operations": 354220,
+          "errors": 0,
+          "harnessCpuPercent": 7.72,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1210,
+          "operations": 357172,
+          "errors": 0,
+          "harnessCpuPercent": 7.77,
+          "harnessRssBytes": 188088320,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1220,
+          "operations": 360076,
+          "errors": 0,
+          "harnessCpuPercent": 7.5,
+          "harnessRssBytes": 188104704,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1230,
+          "operations": 363012,
+          "errors": 0,
+          "harnessCpuPercent": 6.82,
+          "harnessRssBytes": 188170240,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1240,
+          "operations": 366060,
+          "errors": 0,
+          "harnessCpuPercent": 4.99,
+          "harnessRssBytes": 188203008,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1250,
+          "operations": 369044,
+          "errors": 0,
+          "harnessCpuPercent": 5.29,
+          "harnessRssBytes": 188350464,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1260,
+          "operations": 372036,
+          "errors": 0,
+          "harnessCpuPercent": 6.04,
+          "harnessRssBytes": 196968448,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1270,
+          "operations": 374972,
+          "errors": 0,
+          "harnessCpuPercent": 6.04,
+          "harnessRssBytes": 196968448,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1280,
+          "operations": 377988,
+          "errors": 0,
+          "harnessCpuPercent": 6.3,
+          "harnessRssBytes": 196968448,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1290,
+          "operations": 380987,
+          "errors": 0,
+          "harnessCpuPercent": 6.57,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1300,
+          "operations": 384004,
+          "errors": 0,
+          "harnessCpuPercent": 6.81,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1310,
+          "operations": 387079,
+          "errors": 0,
+          "harnessCpuPercent": 6.2,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1320,
+          "operations": 390156,
+          "errors": 0,
+          "harnessCpuPercent": 7.36,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1330,
+          "operations": 393070,
+          "errors": 0,
+          "harnessCpuPercent": 7.28,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1340,
+          "operations": 396036,
+          "errors": 0,
+          "harnessCpuPercent": 5.68,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1350,
+          "operations": 399060,
+          "errors": 0,
+          "harnessCpuPercent": 6.54,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1360,
+          "operations": 402036,
+          "errors": 0,
+          "harnessCpuPercent": 8.02,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1370,
+          "operations": 405028,
+          "errors": 0,
+          "harnessCpuPercent": 8.03,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1380,
+          "operations": 408036,
+          "errors": 0,
+          "harnessCpuPercent": 5.6,
+          "harnessRssBytes": 196984832,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1390,
+          "operations": 411054,
+          "errors": 0,
+          "harnessCpuPercent": 4.47,
+          "harnessRssBytes": 185843712,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1400,
+          "operations": 414102,
+          "errors": 0,
+          "harnessCpuPercent": 4.38,
+          "harnessRssBytes": 185909248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1410,
+          "operations": 417174,
+          "errors": 0,
+          "harnessCpuPercent": 4.35,
+          "harnessRssBytes": 184926208,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1420,
+          "operations": 420222,
+          "errors": 0,
+          "harnessCpuPercent": 4.32,
+          "harnessRssBytes": 184827904,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1430,
+          "operations": 423229,
+          "errors": 0,
+          "harnessCpuPercent": 4.46,
+          "harnessRssBytes": 184893440,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1440,
+          "operations": 426221,
+          "errors": 0,
+          "harnessCpuPercent": 4.4,
+          "harnessRssBytes": 184893440,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1450,
+          "operations": 429126,
+          "errors": 0,
+          "harnessCpuPercent": 4.73,
+          "harnessRssBytes": 184418304,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1461,
+          "operations": 432150,
+          "errors": 0,
+          "harnessCpuPercent": 4.31,
+          "harnessRssBytes": 184451072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1471,
+          "operations": 435214,
+          "errors": 0,
+          "harnessCpuPercent": 4.45,
+          "harnessRssBytes": 184483840,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1481,
+          "operations": 438239,
+          "errors": 0,
+          "harnessCpuPercent": 5.16,
+          "harnessRssBytes": 184500224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1491,
+          "operations": 441328,
+          "errors": 0,
+          "harnessCpuPercent": 5.34,
+          "harnessRssBytes": 184532992,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1501,
+          "operations": 444344,
+          "errors": 0,
+          "harnessCpuPercent": 4.55,
+          "harnessRssBytes": 184549376,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1511,
+          "operations": 447194,
+          "errors": 0,
+          "harnessCpuPercent": 4.63,
+          "harnessRssBytes": 184582144,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1521,
+          "operations": 450242,
+          "errors": 0,
+          "harnessCpuPercent": 5.03,
+          "harnessRssBytes": 184598528,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1531,
+          "operations": 453290,
+          "errors": 0,
+          "harnessCpuPercent": 5.18,
+          "harnessRssBytes": 184614912,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1541,
+          "operations": 456348,
+          "errors": 0,
+          "harnessCpuPercent": 5.38,
+          "harnessRssBytes": 184647680,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1551,
+          "operations": 459317,
+          "errors": 0,
+          "harnessCpuPercent": 5.32,
+          "harnessRssBytes": 184664064,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1561,
+          "operations": 462317,
+          "errors": 0,
+          "harnessCpuPercent": 4.89,
+          "harnessRssBytes": 184713216,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1571,
+          "operations": 464289,
+          "errors": 0,
+          "harnessCpuPercent": 5.1,
+          "harnessRssBytes": 171966464,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1581,
+          "operations": 466232,
+          "errors": 0,
+          "harnessCpuPercent": 4.85,
+          "harnessRssBytes": 173031424,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1591,
+          "operations": 468214,
+          "errors": 0,
+          "harnessCpuPercent": 4.64,
+          "harnessRssBytes": 184483840,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1601,
+          "operations": 471223,
+          "errors": 0,
+          "harnessCpuPercent": 4.66,
+          "harnessRssBytes": 184516608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1611,
+          "operations": 474263,
+          "errors": 0,
+          "harnessCpuPercent": 4.83,
+          "harnessRssBytes": 184565760,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1621,
+          "operations": 476535,
+          "errors": 0,
+          "harnessCpuPercent": 4.81,
+          "harnessRssBytes": 184434688,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1631,
+          "operations": 479519,
+          "errors": 0,
+          "harnessCpuPercent": 5.06,
+          "harnessRssBytes": 184434688,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1641,
+          "operations": 482606,
+          "errors": 0,
+          "harnessCpuPercent": 5.05,
+          "harnessRssBytes": 184434688,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1651,
+          "operations": 484743,
+          "errors": 0,
+          "harnessCpuPercent": 4.75,
+          "harnessRssBytes": 180846592,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1661,
+          "operations": 486632,
+          "errors": 0,
+          "harnessCpuPercent": 4.6,
+          "harnessRssBytes": 180781056,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1671,
+          "operations": 488149,
+          "errors": 0,
+          "harnessCpuPercent": 4.11,
+          "harnessRssBytes": 180584448,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1681,
+          "operations": 490879,
+          "errors": 0,
+          "harnessCpuPercent": 4.77,
+          "harnessRssBytes": 180568064,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1691,
+          "operations": 493823,
+          "errors": 0,
+          "harnessCpuPercent": 5.07,
+          "harnessRssBytes": 180912128,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1701,
+          "operations": 496703,
+          "errors": 0,
+          "harnessCpuPercent": 5.68,
+          "harnessRssBytes": 180912128,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1711,
+          "operations": 499503,
+          "errors": 0,
+          "harnessCpuPercent": 7.33,
+          "harnessRssBytes": 180928512,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1721,
+          "operations": 502287,
+          "errors": 0,
+          "harnessCpuPercent": 7.96,
+          "harnessRssBytes": 180928512,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1731,
+          "operations": 505142,
+          "errors": 0,
+          "harnessCpuPercent": 7.59,
+          "harnessRssBytes": 181239808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1741,
+          "operations": 507849,
+          "errors": 0,
+          "harnessCpuPercent": 8.04,
+          "harnessRssBytes": 181239808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1751,
+          "operations": 510649,
+          "errors": 0,
+          "harnessCpuPercent": 8.08,
+          "harnessRssBytes": 181239808,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1761,
+          "operations": 513449,
+          "errors": 0,
+          "harnessCpuPercent": 8.05,
+          "harnessRssBytes": 181256192,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1771,
+          "operations": 516193,
+          "errors": 0,
+          "harnessCpuPercent": 7.95,
+          "harnessRssBytes": 181256192,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1781,
+          "operations": 519161,
+          "errors": 0,
+          "harnessCpuPercent": 6.86,
+          "harnessRssBytes": 181288960,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1791,
+          "operations": 522177,
+          "errors": 0,
+          "harnessCpuPercent": 6.94,
+          "harnessRssBytes": 181305344,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1801,
+          "operations": 525242,
+          "errors": 0,
+          "harnessCpuPercent": 6.66,
+          "harnessRssBytes": 181354496,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1811,
+          "operations": 528298,
+          "errors": 0,
+          "harnessCpuPercent": 5.92,
+          "harnessRssBytes": 181370880,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1821,
+          "operations": 531298,
+          "errors": 0,
+          "harnessCpuPercent": 6.6,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1831,
+          "operations": 534298,
+          "errors": 0,
+          "harnessCpuPercent": 6.99,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1841,
+          "operations": 537314,
+          "errors": 0,
+          "harnessCpuPercent": 6.18,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1851,
+          "operations": 540338,
+          "errors": 0,
+          "harnessCpuPercent": 7.15,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1861,
+          "operations": 543379,
+          "errors": 0,
+          "harnessCpuPercent": 7.35,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1871,
+          "operations": 546323,
+          "errors": 0,
+          "harnessCpuPercent": 6.67,
+          "harnessRssBytes": 181436416,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1881,
+          "operations": 549347,
+          "errors": 0,
+          "harnessCpuPercent": 6.4,
+          "harnessRssBytes": 181436416,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1891,
+          "operations": 552395,
+          "errors": 0,
+          "harnessCpuPercent": 6.54,
+          "harnessRssBytes": 181436416,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1901,
+          "operations": 555427,
+          "errors": 0,
+          "harnessCpuPercent": 7.3,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1911,
+          "operations": 558443,
+          "errors": 0,
+          "harnessCpuPercent": 6.92,
+          "harnessRssBytes": 181764096,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1921,
+          "operations": 561299,
+          "errors": 0,
+          "harnessCpuPercent": 7.78,
+          "harnessRssBytes": 181780480,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1931,
+          "operations": 564259,
+          "errors": 0,
+          "harnessCpuPercent": 6.63,
+          "harnessRssBytes": 181780480,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1941,
+          "operations": 567283,
+          "errors": 0,
+          "harnessCpuPercent": 7.19,
+          "harnessRssBytes": 181780480,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1951,
+          "operations": 570299,
+          "errors": 0,
+          "harnessCpuPercent": 6.49,
+          "harnessRssBytes": 181780480,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1961,
+          "operations": 573331,
+          "errors": 0,
+          "harnessCpuPercent": 5.9,
+          "harnessRssBytes": 181780480,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1971,
+          "operations": 576372,
+          "errors": 0,
+          "harnessCpuPercent": 5.75,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1981,
+          "operations": 579316,
+          "errors": 0,
+          "harnessCpuPercent": 6.43,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 1991,
+          "operations": 582292,
+          "errors": 0,
+          "harnessCpuPercent": 6.86,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2001,
+          "operations": 585372,
+          "errors": 0,
+          "harnessCpuPercent": 5.94,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2011,
+          "operations": 588308,
+          "errors": 0,
+          "harnessCpuPercent": 7.42,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2021,
+          "operations": 591324,
+          "errors": 0,
+          "harnessCpuPercent": 7.21,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2031,
+          "operations": 594276,
+          "errors": 0,
+          "harnessCpuPercent": 7.44,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2041,
+          "operations": 597276,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2051,
+          "operations": 600292,
+          "errors": 0,
+          "harnessCpuPercent": 7.07,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2061,
+          "operations": 603292,
+          "errors": 0,
+          "harnessCpuPercent": 7.38,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2071,
+          "operations": 606340,
+          "errors": 0,
+          "harnessCpuPercent": 7.15,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2081,
+          "operations": 609260,
+          "errors": 0,
+          "harnessCpuPercent": 7.67,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2091,
+          "operations": 612260,
+          "errors": 0,
+          "harnessCpuPercent": 7.19,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2101,
+          "operations": 615237,
+          "errors": 0,
+          "harnessCpuPercent": 6.81,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2111,
+          "operations": 618236,
+          "errors": 0,
+          "harnessCpuPercent": 6.4,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2121,
+          "operations": 621258,
+          "errors": 0,
+          "harnessCpuPercent": 6.9,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2131,
+          "operations": 624308,
+          "errors": 0,
+          "harnessCpuPercent": 5.45,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2141,
+          "operations": 627284,
+          "errors": 0,
+          "harnessCpuPercent": 6.84,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2151,
+          "operations": 630220,
+          "errors": 0,
+          "harnessCpuPercent": 8.01,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2161,
+          "operations": 633260,
+          "errors": 0,
+          "harnessCpuPercent": 5.94,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2171,
+          "operations": 636324,
+          "errors": 0,
+          "harnessCpuPercent": 4.64,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2181,
+          "operations": 639293,
+          "errors": 0,
+          "harnessCpuPercent": 8.24,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2191,
+          "operations": 642261,
+          "errors": 0,
+          "harnessCpuPercent": 7.03,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2201,
+          "operations": 645325,
+          "errors": 0,
+          "harnessCpuPercent": 7.14,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2211,
+          "operations": 648381,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2221,
+          "operations": 651429,
+          "errors": 0,
+          "harnessCpuPercent": 7.02,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2231,
+          "operations": 654397,
+          "errors": 0,
+          "harnessCpuPercent": 7.08,
+          "harnessRssBytes": 181878784,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2241,
+          "operations": 657245,
+          "errors": 0,
+          "harnessCpuPercent": 7.53,
+          "harnessRssBytes": 181895168,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2251,
+          "operations": 660165,
+          "errors": 0,
+          "harnessCpuPercent": 7.04,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2261,
+          "operations": 663157,
+          "errors": 0,
+          "harnessCpuPercent": 6.29,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2271,
+          "operations": 666221,
+          "errors": 0,
+          "harnessCpuPercent": 7.31,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2281,
+          "operations": 669253,
+          "errors": 0,
+          "harnessCpuPercent": 5.76,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2291,
+          "operations": 672229,
+          "errors": 0,
+          "harnessCpuPercent": 5.63,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2301,
+          "operations": 675285,
+          "errors": 0,
+          "harnessCpuPercent": 6.29,
+          "harnessRssBytes": 181927936,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2311,
+          "operations": 678325,
+          "errors": 0,
+          "harnessCpuPercent": 6.28,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2321,
+          "operations": 681365,
+          "errors": 0,
+          "harnessCpuPercent": 6.86,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2331,
+          "operations": 684413,
+          "errors": 0,
+          "harnessCpuPercent": 7.34,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2341,
+          "operations": 687261,
+          "errors": 0,
+          "harnessCpuPercent": 7.26,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2351,
+          "operations": 690207,
+          "errors": 0,
+          "harnessCpuPercent": 6.85,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2361,
+          "operations": 693239,
+          "errors": 0,
+          "harnessCpuPercent": 6.28,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2371,
+          "operations": 696247,
+          "errors": 0,
+          "harnessCpuPercent": 6.7,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2381,
+          "operations": 699239,
+          "errors": 0,
+          "harnessCpuPercent": 7.78,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2391,
+          "operations": 702231,
+          "errors": 0,
+          "harnessCpuPercent": 7.18,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2401,
+          "operations": 705247,
+          "errors": 0,
+          "harnessCpuPercent": 5.27,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2411,
+          "operations": 708255,
+          "errors": 0,
+          "harnessCpuPercent": 7.03,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2421,
+          "operations": 711255,
+          "errors": 0,
+          "harnessCpuPercent": 7.94,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2431,
+          "operations": 714295,
+          "errors": 0,
+          "harnessCpuPercent": 7.34,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2441,
+          "operations": 717191,
+          "errors": 0,
+          "harnessCpuPercent": 8.08,
+          "harnessRssBytes": 181993472,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2451,
+          "operations": 720127,
+          "errors": 0,
+          "harnessCpuPercent": 8.15,
+          "harnessRssBytes": 182124544,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2461,
+          "operations": 723095,
+          "errors": 0,
+          "harnessCpuPercent": 6.88,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2471,
+          "operations": 726135,
+          "errors": 0,
+          "harnessCpuPercent": 6.77,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2481,
+          "operations": 729159,
+          "errors": 0,
+          "harnessCpuPercent": 7.21,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2491,
+          "operations": 732167,
+          "errors": 0,
+          "harnessCpuPercent": 6.54,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2501,
+          "operations": 735095,
+          "errors": 0,
+          "harnessCpuPercent": 7.13,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2511,
+          "operations": 738007,
+          "errors": 0,
+          "harnessCpuPercent": 7.03,
+          "harnessRssBytes": 182157312,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2521,
+          "operations": 741031,
+          "errors": 0,
+          "harnessCpuPercent": 7.07,
+          "harnessRssBytes": 182173696,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2531,
+          "operations": 744063,
+          "errors": 0,
+          "harnessCpuPercent": 6.87,
+          "harnessRssBytes": 182173696,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2541,
+          "operations": 747079,
+          "errors": 0,
+          "harnessCpuPercent": 7.12,
+          "harnessRssBytes": 182173696,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2551,
+          "operations": 750039,
+          "errors": 0,
+          "harnessCpuPercent": 7.39,
+          "harnessRssBytes": 182206464,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2561,
+          "operations": 752999,
+          "errors": 0,
+          "harnessCpuPercent": 6.49,
+          "harnessRssBytes": 182206464,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2571,
+          "operations": 756055,
+          "errors": 0,
+          "harnessCpuPercent": 6.64,
+          "harnessRssBytes": 182206464,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2581,
+          "operations": 759072,
+          "errors": 0,
+          "harnessCpuPercent": 6.72,
+          "harnessRssBytes": 182239232,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2591,
+          "operations": 762120,
+          "errors": 0,
+          "harnessCpuPercent": 6.57,
+          "harnessRssBytes": 182239232,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2601,
+          "operations": 765160,
+          "errors": 0,
+          "harnessCpuPercent": 5.65,
+          "harnessRssBytes": 182255616,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2611,
+          "operations": 768113,
+          "errors": 0,
+          "harnessCpuPercent": 7.05,
+          "harnessRssBytes": 182255616,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2621,
+          "operations": 771145,
+          "errors": 0,
+          "harnessCpuPercent": 5.64,
+          "harnessRssBytes": 182353920,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2631,
+          "operations": 774185,
+          "errors": 0,
+          "harnessCpuPercent": 5.22,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2641,
+          "operations": 777145,
+          "errors": 0,
+          "harnessCpuPercent": 6.37,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2651,
+          "operations": 780073,
+          "errors": 0,
+          "harnessCpuPercent": 7.22,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2661,
+          "operations": 783041,
+          "errors": 0,
+          "harnessCpuPercent": 6.53,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2671,
+          "operations": 785977,
+          "errors": 0,
+          "harnessCpuPercent": 7.23,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2681,
+          "operations": 789033,
+          "errors": 0,
+          "harnessCpuPercent": 7.04,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2691,
+          "operations": 792001,
+          "errors": 0,
+          "harnessCpuPercent": 7.92,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2701,
+          "operations": 794929,
+          "errors": 0,
+          "harnessCpuPercent": 7.82,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2711,
+          "operations": 797897,
+          "errors": 0,
+          "harnessCpuPercent": 7.39,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2721,
+          "operations": 800849,
+          "errors": 0,
+          "harnessCpuPercent": 8.02,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2731,
+          "operations": 803785,
+          "errors": 0,
+          "harnessCpuPercent": 8.16,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2741,
+          "operations": 806713,
+          "errors": 0,
+          "harnessCpuPercent": 6.98,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2751,
+          "operations": 809689,
+          "errors": 0,
+          "harnessCpuPercent": 7.5,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2761,
+          "operations": 812553,
+          "errors": 0,
+          "harnessCpuPercent": 7.61,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2771,
+          "operations": 815381,
+          "errors": 0,
+          "harnessCpuPercent": 7.66,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2781,
+          "operations": 818337,
+          "errors": 0,
+          "harnessCpuPercent": 7.71,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2791,
+          "operations": 821289,
+          "errors": 0,
+          "harnessCpuPercent": 7.21,
+          "harnessRssBytes": 182468608,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2801,
+          "operations": 824329,
+          "errors": 0,
+          "harnessCpuPercent": 4.74,
+          "harnessRssBytes": 182452224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2811,
+          "operations": 827369,
+          "errors": 0,
+          "harnessCpuPercent": 4.41,
+          "harnessRssBytes": 182452224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2821,
+          "operations": 830354,
+          "errors": 0,
+          "harnessCpuPercent": 6.42,
+          "harnessRssBytes": 182452224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2831,
+          "operations": 833401,
+          "errors": 0,
+          "harnessCpuPercent": 4.89,
+          "harnessRssBytes": 182452224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2841,
+          "operations": 836474,
+          "errors": 0,
+          "harnessCpuPercent": 4.69,
+          "harnessRssBytes": 182452224,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2851,
+          "operations": 839538,
+          "errors": 0,
+          "harnessCpuPercent": 4.87,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2861,
+          "operations": 842411,
+          "errors": 0,
+          "harnessCpuPercent": 6.87,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2871,
+          "operations": 845307,
+          "errors": 0,
+          "harnessCpuPercent": 6.01,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2881,
+          "operations": 848267,
+          "errors": 0,
+          "harnessCpuPercent": 7.79,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2891,
+          "operations": 851283,
+          "errors": 0,
+          "harnessCpuPercent": 5.79,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2901,
+          "operations": 854283,
+          "errors": 0,
+          "harnessCpuPercent": 7.65,
+          "harnessRssBytes": 182403072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2911,
+          "operations": 857307,
+          "errors": 0,
+          "harnessCpuPercent": 4.41,
+          "harnessRssBytes": 180355072,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2921,
+          "operations": 860307,
+          "errors": 0,
+          "harnessCpuPercent": 4.49,
+          "harnessRssBytes": 179765248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2931,
+          "operations": 863372,
+          "errors": 0,
+          "harnessCpuPercent": 4.8,
+          "harnessRssBytes": 180224000,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2941,
+          "operations": 866468,
+          "errors": 0,
+          "harnessCpuPercent": 4.47,
+          "harnessRssBytes": 180273152,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2951,
+          "operations": 869390,
+          "errors": 0,
+          "harnessCpuPercent": 4.75,
+          "harnessRssBytes": 179994624,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2961,
+          "operations": 872362,
+          "errors": 0,
+          "harnessCpuPercent": 4.51,
+          "harnessRssBytes": 180060160,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2971,
+          "operations": 875418,
+          "errors": 0,
+          "harnessCpuPercent": 4.43,
+          "harnessRssBytes": 180928512,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2981,
+          "operations": 878458,
+          "errors": 0,
+          "harnessCpuPercent": 4.72,
+          "harnessRssBytes": 181125120,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 2991,
+          "operations": 881458,
+          "errors": 0,
+          "harnessCpuPercent": 6.17,
+          "harnessRssBytes": 181354496,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3001,
+          "operations": 884450,
+          "errors": 0,
+          "harnessCpuPercent": 6.63,
+          "harnessRssBytes": 181403648,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3011,
+          "operations": 887345,
+          "errors": 0,
+          "harnessCpuPercent": 7.41,
+          "harnessRssBytes": 181436416,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3021,
+          "operations": 890330,
+          "errors": 0,
+          "harnessCpuPercent": 6.92,
+          "harnessRssBytes": 181452800,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3031,
+          "operations": 893346,
+          "errors": 0,
+          "harnessCpuPercent": 6.99,
+          "harnessRssBytes": 181485568,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3041,
+          "operations": 896315,
+          "errors": 0,
+          "harnessCpuPercent": 7.39,
+          "harnessRssBytes": 181567488,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3051,
+          "operations": 899292,
+          "errors": 0,
+          "harnessCpuPercent": 7.58,
+          "harnessRssBytes": 181616640,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3061,
+          "operations": 902236,
+          "errors": 0,
+          "harnessCpuPercent": 6.53,
+          "harnessRssBytes": 181633024,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3071,
+          "operations": 905236,
+          "errors": 0,
+          "harnessCpuPercent": 6.64,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3081,
+          "operations": 908236,
+          "errors": 0,
+          "harnessCpuPercent": 7.07,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3091,
+          "operations": 911262,
+          "errors": 0,
+          "harnessCpuPercent": 6.88,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3101,
+          "operations": 914278,
+          "errors": 0,
+          "harnessCpuPercent": 6.88,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3111,
+          "operations": 917270,
+          "errors": 0,
+          "harnessCpuPercent": 7.59,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3121,
+          "operations": 920177,
+          "errors": 0,
+          "harnessCpuPercent": 7.48,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3131,
+          "operations": 923089,
+          "errors": 0,
+          "harnessCpuPercent": 6.73,
+          "harnessRssBytes": 181649408,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3141,
+          "operations": 926017,
+          "errors": 0,
+          "harnessCpuPercent": 7.51,
+          "harnessRssBytes": 181665792,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3151,
+          "operations": 928945,
+          "errors": 0,
+          "harnessCpuPercent": 7.44,
+          "harnessRssBytes": 181665792,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3161,
+          "operations": 931905,
+          "errors": 0,
+          "harnessCpuPercent": 7.52,
+          "harnessRssBytes": 181665792,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3171,
+          "operations": 934889,
+          "errors": 0,
+          "harnessCpuPercent": 7.29,
+          "harnessRssBytes": 181665792,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3181,
+          "operations": 937825,
+          "errors": 0,
+          "harnessCpuPercent": 7.12,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3191,
+          "operations": 940833,
+          "errors": 0,
+          "harnessCpuPercent": 7.01,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3201,
+          "operations": 943817,
+          "errors": 0,
+          "harnessCpuPercent": 7.4,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3211,
+          "operations": 946737,
+          "errors": 0,
+          "harnessCpuPercent": 7.72,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3221,
+          "operations": 949665,
+          "errors": 0,
+          "harnessCpuPercent": 7.54,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3231,
+          "operations": 952625,
+          "errors": 0,
+          "harnessCpuPercent": 7.65,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3241,
+          "operations": 955561,
+          "errors": 0,
+          "harnessCpuPercent": 7.36,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3251,
+          "operations": 958521,
+          "errors": 0,
+          "harnessCpuPercent": 6.6,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3261,
+          "operations": 961457,
+          "errors": 0,
+          "harnessCpuPercent": 7.07,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3271,
+          "operations": 964326,
+          "errors": 0,
+          "harnessCpuPercent": 7.19,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3281,
+          "operations": 967273,
+          "errors": 0,
+          "harnessCpuPercent": 6.78,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3291,
+          "operations": 970313,
+          "errors": 0,
+          "harnessCpuPercent": 7.54,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3301,
+          "operations": 973265,
+          "errors": 0,
+          "harnessCpuPercent": 7.42,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3311,
+          "operations": 976201,
+          "errors": 0,
+          "harnessCpuPercent": 7.32,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3321,
+          "operations": 979201,
+          "errors": 0,
+          "harnessCpuPercent": 7.28,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3331,
+          "operations": 982137,
+          "errors": 0,
+          "harnessCpuPercent": 7.88,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3341,
+          "operations": 985137,
+          "errors": 0,
+          "harnessCpuPercent": 7.77,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3351,
+          "operations": 988081,
+          "errors": 0,
+          "harnessCpuPercent": 7.69,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3361,
+          "operations": 991057,
+          "errors": 0,
+          "harnessCpuPercent": 6.95,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3371,
+          "operations": 993977,
+          "errors": 0,
+          "harnessCpuPercent": 7.13,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3381,
+          "operations": 996793,
+          "errors": 0,
+          "harnessCpuPercent": 7.33,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3391,
+          "operations": 999657,
+          "errors": 0,
+          "harnessCpuPercent": 7.21,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3401,
+          "operations": 1002489,
+          "errors": 0,
+          "harnessCpuPercent": 7.52,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3411,
+          "operations": 1005506,
+          "errors": 0,
+          "harnessCpuPercent": 6.69,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3421,
+          "operations": 1008530,
+          "errors": 0,
+          "harnessCpuPercent": 6.26,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3431,
+          "operations": 1011606,
+          "errors": 0,
+          "harnessCpuPercent": 6.26,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3441,
+          "operations": 1014615,
+          "errors": 0,
+          "harnessCpuPercent": 6.54,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3451,
+          "operations": 1017647,
+          "errors": 0,
+          "harnessCpuPercent": 6.63,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3461,
+          "operations": 1020750,
+          "errors": 0,
+          "harnessCpuPercent": 6.36,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3471,
+          "operations": 1023811,
+          "errors": 0,
+          "harnessCpuPercent": 6.13,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3481,
+          "operations": 1026843,
+          "errors": 0,
+          "harnessCpuPercent": 6.01,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3491,
+          "operations": 1029908,
+          "errors": 0,
+          "harnessCpuPercent": 6.39,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3501,
+          "operations": 1033059,
+          "errors": 0,
+          "harnessCpuPercent": 5.83,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3511,
+          "operations": 1036179,
+          "errors": 0,
+          "harnessCpuPercent": 6.57,
+          "harnessRssBytes": 181714944,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3521,
+          "operations": 1039143,
+          "errors": 0,
+          "harnessCpuPercent": 7.27,
+          "harnessRssBytes": 181731328,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3531,
+          "operations": 1042217,
+          "errors": 0,
+          "harnessCpuPercent": 6.95,
+          "harnessRssBytes": 181747712,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3541,
+          "operations": 1045209,
+          "errors": 0,
+          "harnessCpuPercent": 7.85,
+          "harnessRssBytes": 181747712,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3551,
+          "operations": 1048161,
+          "errors": 0,
+          "harnessCpuPercent": 8.31,
+          "harnessRssBytes": 181813248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3561,
+          "operations": 1051081,
+          "errors": 0,
+          "harnessCpuPercent": 7.18,
+          "harnessRssBytes": 181813248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3571,
+          "operations": 1053985,
+          "errors": 0,
+          "harnessCpuPercent": 7.26,
+          "harnessRssBytes": 181813248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3581,
+          "operations": 1056961,
+          "errors": 0,
+          "harnessCpuPercent": 7.81,
+          "harnessRssBytes": 181813248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3591,
+          "operations": 1059961,
+          "errors": 0,
+          "harnessCpuPercent": 7.82,
+          "harnessRssBytes": 181813248,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3600,
+          "operations": 1062570,
+          "errors": 0,
+          "harnessCpuPercent": 8.05,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        },
+        {
+          "elapsedSeconds": 3601,
+          "operations": 1062570,
+          "errors": 0,
+          "harnessCpuPercent": 0.08,
+          "harnessRssBytes": 181977088,
+          "databaseConnections": 9,
+          "queueDepth": 0
+        }
+      ]
+    },
+    "recovery": {
+      "backupSizeBytes": 17603472,
+      "backupSha256": "837977c2e40ef3e7272232064a74c9d4be55e30352acc6460024e3573464e4c9",
+      "sourceCounts": {
+        "ledger": 1000000,
+        "missions": 10000
+      },
+      "restoredCounts": {
+        "ledger": 1000000,
+        "missions": 10000
+      },
+      "projection": {
+        "status": "READY",
+        "counts": {
+          "claims": 0,
+          "skills": 0,
+          "disputes": 0,
+          "missions": 10000,
+          "snapshots": 0,
+          "honestNulls": 0,
+          "obligations": 0,
+          "passedGates": 0,
+          "activeSkills": 0,
+          "runtimeGates": 0,
+          "evidenceSpans": 0,
+          "executionTips": 0,
+          "skillVersions": 0,
+          "awaitingReports": 0,
+          "evidenceSources": 0,
+          "openEscalations": 0,
+          "provenanceEdges": 0,
+          "approvedMissions": 0,
+          "governedReleases": 0,
+          "releaseManifests": 0,
+          "completionReports": 0,
+          "decisionsRequired": 0,
+          "exploringMissions": 0,
+          "executionArtifacts": 0,
+          "governanceSignoffs": 0,
+          "activeExecutionTips": 0,
+          "verificationReports": 0,
+          "verificationScenarios": 0,
+          "activeVerificationRuns": 0,
+          "openExecutionDeviations": 0,
+          "evidenceCeilingAssessments": 0,
+          "notReadyVerificationReports": 0
+        },
+        "source_watermark_at": "2026-08-04T05:51:06.553Z",
+        "last_job_id": "tip023h-recovery-rebuild"
+      }
+    }
+  },
+  "failures": [],
+  "overallStatus": "PASS"
+}

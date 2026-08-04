@@ -55,7 +55,12 @@ export type Capability =
   | "jobs.read"
   | "jobs.manage"
   | "projections.read"
-  | "projections.manage";
+  | "projections.manage"
+  // Lifecycle and asynchronous exports (TIP-023G)
+  | "lifecycle.read"
+  | "lifecycle.manage"
+  | "exports.request"
+  | "exports.read";
 
 const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "workspace.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
@@ -106,6 +111,10 @@ const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "jobs.manage": new Set(["OWNER", "ADMIN"]),
   "projections.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
   "projections.manage": new Set(["OWNER", "ADMIN"]),
+  "lifecycle.read": new Set(["OWNER", "ADMIN"]),
+  "lifecycle.manage": new Set(["OWNER", "ADMIN"]),
+  "exports.request": new Set(["OWNER", "ADMIN"]),
+  "exports.read": new Set(["OWNER", "ADMIN"]),
 };
 
 export function hasCapability(role: Role, capability: Capability): boolean {

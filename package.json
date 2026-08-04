@@ -17,6 +17,9 @@
     "test:e2e": "npm run build && node --throw-deprecation ./node_modules/@playwright/test/cli.js test",
     "test:prod-startup": "node scripts/test/prod-fail-closed.mjs",
     "test:load-local": "node scripts/test/load-baseline.mjs",
+    "test:scale-projection": "vitest run --project scale",
+    "scale:smoke": "node scripts/scale/tip023h-certify.mjs --confirm-run=TIP-023H --duration-seconds=5 --report=/tmp/hiveos-tip023h-smoke.json",
+    "scale:certify": "node scripts/scale/tip023h-certify.mjs --confirm-run=TIP-023H",
     "pilot:readiness": "node scripts/operations/pilot-readiness.mjs",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
@@ -30,7 +33,8 @@
     "db:rehearse:tip023b": "node scripts/db/rehearse-tip023b.mjs",
     "db:rehearse:tip023c": "node scripts/db/rehearse-tip023c.mjs",
     "db:rehearse:tip023d": "node scripts/db/rehearse-tip023d.mjs",
-    "db:rehearse:tip023e": "node scripts/db/rehearse-tip023e.mjs"
+    "db:rehearse:tip023e": "node scripts/db/rehearse-tip023e.mjs",
+    "db:rehearse:tip023g": "node scripts/db/rehearse-tip023g.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1090.0",

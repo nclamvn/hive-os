@@ -17,6 +17,7 @@ describe("environment schema", () => {
     expect(env.DEMO_FIXTURES_ENABLED).toBe(false);
     expect(env.DB_POOL_MAX).toBe(10);
     expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
+    expect(env.DB_SLOW_QUERY_MS).toBe(1_000);
   });
 
   it("rejects a missing DATABASE_URL and names the variable", () => {
@@ -114,6 +115,7 @@ describe("environment schema", () => {
       DB_CONNECTION_TIMEOUT_MS: "2500",
       DB_IDLE_TIMEOUT_MS: "45000",
       DB_STATEMENT_TIMEOUT_MS: "20000",
+      DB_SLOW_QUERY_MS: "750",
     });
     expect(databasePoolConfig(env)).toMatchObject({
       max: 12,

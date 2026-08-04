@@ -259,6 +259,31 @@ enum ProjectionStatus {
   FAILED
 }
 
+enum LegalHoldStatus {
+  ACTIVE
+  RELEASED
+}
+
+enum LegalHoldScope {
+  WORKSPACE
+  MISSION
+}
+
+enum LifecycleDispositionStatus {
+  CANDIDATE
+  BLOCKED
+  APPROVED
+  EXECUTED
+  CANCELLED
+}
+
+enum DossierExportStatus {
+  READY
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
 model Organization {
   id          String          @id @default(uuid())
   slug        String          @unique
@@ -269,26 +294,31 @@ model Organization {
   updatedAt   DateTime        @updatedAt @map("updated_at")
   version     Int             @default(1)
 
-  memberships          OrganizationMembership[]
-  units                OrgUnit[]
-  portfolios           Portfolio[]
-  groups               OrganizationGroup[]
-  workspaces           Workspace[]
-  orgUnitClosures      OrgUnitClosure[]
-  policy               OrganizationPolicy?
-  scopedGrants         ScopedGrant[]
-  workflowAssignments  WorkflowAssignment[]
-  slaPolicies          SlaPolicy[]
-  approvalChains       ApprovalChainDefinition[]
-  approvalSteps        ApprovalChainStep[]
-  approvalRequests     WorkflowApprovalRequest[]
-  approvalActions      WorkflowApprovalAction[]
-  commands             CommandRecord[]
-  outboxEvents         OutboxEvent[]
-  durableJobs          DurableJob[]
-  jobEvents            DurableJobEvent[]
-  workspaceProjections WorkspaceOperationalProjection[]
-  portfolioProjections PortfolioOperationalProjection[]
+  memberships            OrganizationMembership[]
+  units                  OrgUnit[]
+  portfolios             Portfolio[]
+  groups                 OrganizationGroup[]
+  workspaces             Workspace[]
+  orgUnitClosures        OrgUnitClosure[]
+  policy                 OrganizationPolicy?
+  scopedGrants           ScopedGrant[]
+  workflowAssignments    WorkflowAssignment[]
+  slaPolicies            SlaPolicy[]
+  approvalChains         ApprovalChainDefinition[]
+  approvalSteps          ApprovalChainStep[]
+  approvalRequests       WorkflowApprovalRequest[]
+  approvalActions        WorkflowApprovalAction[]
+  commands               CommandRecord[]
+  outboxEvents           OutboxEvent[]
+  durableJobs            DurableJob[]
+  jobEvents              DurableJobEvent[]
+  workspaceProjections   WorkspaceOperationalProjection[]
+  portfolioProjections   PortfolioOperationalProjection[]
+  legalHolds             LegalHold[]
+  lifecycleDispositions  LifecycleDisposition[]
+  dossierExports         DossierExport[]
+  dossierExportParts     DossierExportPart[]
+  missionSourceRevisions MissionSourceRevision[]
 
   @@map("organization")
 }
@@ -319,6 +349,12 @@ model OrganizationMembership {
   approvalActions             WorkflowApprovalAction[]      @relation("ApprovalActionActor")
   commandsIssued              CommandRecord[]               @relation("CommandActor")
   jobDispositions             DurableJobEvent[]             @relation("JobEventActor")
+  legalHoldsPlaced            LegalHold[]                   @relation("LegalHoldPlacer")
+  legalHoldsReleased          LegalHold[]                   @relation("LegalHoldReleaser")
+  lifecycleCandidatesCreated  LifecycleDisposition[]        @relation("LifecycleCandidateCreator")
+  lifecycleCandidatesApproved LifecycleDisposition[]        @relation("LifecycleCandidateApprover")
+  lifecycleCandidatesExecuted LifecycleDisposition[]        @relation("LifecycleCandidateExecutor")
+  dossierExportsRequested     DossierExport[]               @relation("DossierExportRequester")
 
   @@unique([organizationId, userId])
   @@unique([organizationId, id])
@@ -807,6 +843,153 @@ model PortfolioOperationalProjection {
   @@map("portfolio_operational_projection")
 }
 
+model LegalHold {
+  id                                 String          @id @default(uuid())
+  organizationId                     String          @map("organization_id")
+  workspaceId                        String          @map("workspace_id")
+  missionId                          String?         @map("mission_id")
+  scope                              LegalHoldScope
+  reason                             String
+  status                             LegalHoldStatus @default(ACTIVE)
+  placedByOrganizationMembershipId   String          @map("placed_by_organization_membership_id")
+  releasedByOrganizationMembershipId String?         @map("released_by_organization_membership_id")
+  placedAt                           DateTime        @default(now()) @map("placed_at")
+  releasedAt                         DateTime?       @map("released_at")
+  releaseReason                      String?         @map("release_reason")
+  version                            Int             @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission?                @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  placedBy     OrganizationMembership  @relation("LegalHoldPlacer", fields: [organizationId, placedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  releasedBy   OrganizationMembership? @relation("LegalHoldReleaser", fields: [organizationId, releasedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, status, placedAt, id])
+  @@index([organizationId, missionId, status])
+  @@map("legal_hold")
+}
+
+model LifecycleDisposition {
+  id                                  String                     @id @default(uuid())
+  organizationId                      String                     @map("organization_id")
+  workspaceId                         String                     @map("workspace_id")
+  missionId                           String                     @map("mission_id")
+  snapshotId                          String                     @map("snapshot_id")
+  storageReference                    String                     @map("storage_reference")
+  contentHash                         String                     @map("content_hash")
+  policyVersion                       Int                        @map("policy_version")
+  eligibleAt                          DateTime                   @map("eligible_at")
+  status                              LifecycleDispositionStatus @default(CANDIDATE)
+  blockedReason                       String?                    @map("blocked_reason")
+  requestedByOrganizationMembershipId String                     @map("requested_by_organization_membership_id")
+  approvedByOrganizationMembershipId  String?                    @map("approved_by_organization_membership_id")
+  executedByOrganizationMembershipId  String?                    @map("executed_by_organization_membership_id")
+  requestReason                       String                     @map("request_reason")
+  approvalReason                      String?                    @map("approval_reason")
+  executionReason                     String?                    @map("execution_reason")
+  createdAt                           DateTime                   @default(now()) @map("created_at")
+  approvedAt                          DateTime?                  @map("approved_at")
+  executedAt                          DateTime?                  @map("executed_at")
+  version                             Int                        @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                 @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  snapshot     Snapshot                @relation(fields: [snapshotId], references: [id], onDelete: Restrict)
+  requestedBy  OrganizationMembership  @relation("LifecycleCandidateCreator", fields: [organizationId, requestedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  approvedBy   OrganizationMembership? @relation("LifecycleCandidateApprover", fields: [organizationId, approvedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  executedBy   OrganizationMembership? @relation("LifecycleCandidateExecutor", fields: [organizationId, executedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@unique([snapshotId])
+  @@index([organizationId, workspaceId, status, eligibleAt, id])
+  @@index([organizationId, missionId, status])
+  @@map("lifecycle_disposition")
+}
+
+model DossierExport {
+  id                                  String              @id @default(uuid())
+  organizationId                      String              @map("organization_id")
+  workspaceId                         String              @map("workspace_id")
+  missionId                           String              @map("mission_id")
+  requestedByOrganizationMembershipId String              @map("requested_by_organization_membership_id")
+  commandId                           String              @unique @map("command_id")
+  jobId                               String?             @unique @map("job_id")
+  status                              DossierExportStatus @default(READY)
+  snapshotAt                          DateTime            @map("snapshot_at")
+  missionVersion                      Int                 @map("mission_version")
+  sourceRevision                      BigInt              @default(0) @map("source_revision")
+  nextSection                         Int                 @default(0) @map("next_section")
+  nextCursor                          String?             @map("next_cursor")
+  partCount                           Int                 @default(0) @map("part_count")
+  rowCount                            Int                 @default(0) @map("row_count")
+  totalBytes                          BigInt              @default(0) @map("total_bytes")
+  manifestStorageKey                  String?             @map("manifest_storage_key")
+  manifestHash                        String?             @map("manifest_hash")
+  failureCode                         String?             @map("failure_code")
+  failureMessage                      String?             @map("failure_message")
+  createdAt                           DateTime            @default(now()) @map("created_at")
+  startedAt                           DateTime?           @map("started_at")
+  completedAt                         DateTime?           @map("completed_at")
+  version                             Int                 @default(1)
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace              @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy  OrganizationMembership @relation("DossierExportRequester", fields: [organizationId, requestedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  parts        DossierExportPart[]
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, status, createdAt, id])
+  @@index([organizationId, missionId, createdAt, id])
+  @@map("dossier_export")
+}
+
+/// Monotonic consistency fence for every mission-scoped dossier source mutation.
+model MissionSourceRevision {
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  missionId      String   @map("mission_id")
+  revision       BigInt   @default(0)
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission      @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+
+  @@id([workspaceId, missionId])
+  @@unique([organizationId, workspaceId, missionId])
+  @@index([organizationId, workspaceId])
+  @@map("mission_source_revision")
+}
+
+model DossierExportPart {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  exportId       String   @map("export_id")
+  sequence       Int
+  section        String
+  firstRowId     String?  @map("first_row_id")
+  lastRowId      String?  @map("last_row_id")
+  rowCount       Int      @map("row_count")
+  storageKey     String   @map("storage_key")
+  contentHash    String   @map("content_hash")
+  sizeBytes      Int      @map("size_bytes")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace     @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  export       DossierExport @relation(fields: [organizationId, exportId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([exportId, sequence])
+  @@unique([organizationId, storageKey])
+  @@unique([organizationId, id])
+  @@index([organizationId, exportId, sequence])
+  @@map("dossier_export_part")
+}
+
 model Workspace {
   id             String          @id @default(uuid())
   organizationId String          @map("organization_id")
@@ -857,6 +1040,11 @@ model Workspace {
   durableJobs                DurableJob[]
   jobEvents                  DurableJobEvent[]
   operationalProjection      WorkspaceOperationalProjection?
+  legalHolds                 LegalHold[]
+  lifecycleDispositions      LifecycleDisposition[]
+  dossierExports             DossierExport[]
+  dossierExportParts         DossierExportPart[]
+  missionSourceRevisions     MissionSourceRevision[]
 
   @@unique([organizationId, id])
   @@index([organizationId, orgUnitId, status])
@@ -1130,6 +1318,10 @@ model Mission {
   releaseManifests           ReleaseManifest[]
   workflowAssignments        WorkflowAssignment[]
   workflowApprovalRequests   WorkflowApprovalRequest[]
+  legalHolds                 LegalHold[]
+  lifecycleDispositions      LifecycleDisposition[]
+  dossierExports             DossierExport[]
+  sourceRevision             MissionSourceRevision?
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
@@ -1449,8 +1641,9 @@ model Snapshot {
   createdByMembershipId String   @map("created_by_membership_id")
   createdAt             DateTime @default(now()) @map("created_at")
 
-  evidenceSource EvidenceSource @relation(fields: [evidenceSourceId], references: [id], onDelete: Restrict)
-  spans          EvidenceSpan[]
+  evidenceSource       EvidenceSource        @relation(fields: [evidenceSourceId], references: [id], onDelete: Restrict)
+  spans                EvidenceSpan[]
+  lifecycleDisposition LifecycleDisposition?
 
   @@unique([evidenceSourceId, contentHash])
   @@index([workspaceId, missionId])

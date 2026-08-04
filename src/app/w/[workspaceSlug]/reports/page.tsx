@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { DossierExportControl } from "@/components/exports/dossier-export-control";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Panel, SectionHeader } from "@/components/ui/panel";
@@ -72,13 +73,10 @@ export default async function ReportsPage({
                     >
                       View pilot report
                     </Link>
-                    <a
-                      href={`/api/w/${workspaceSlug}/exports/mission/${mission.id}`}
-                      download
-                      className="text-meta text-navy-700 border-line hover:border-line-strong inline-flex rounded-md border px-2.5 py-1.5 font-medium"
-                    >
-                      Download dossier
-                    </a>
+                    <DossierExportControl
+                      compact
+                      endpoint={`/api/w/${workspaceSlug}/exports/mission/${mission.id}`}
+                    />
                     <a
                       href={`/api/w/${workspaceSlug}/exports/pilot/${mission.id}`}
                       download

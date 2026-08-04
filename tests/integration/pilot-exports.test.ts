@@ -1,6 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { canonicalJson, sha256 } from "@/modules/execution-fabric";
+import { claimJobs, dispatchOutboxBatch } from "@/modules/command-runtime";
+import {
+  executeMissionDossierExportJob,
+  DOSSIER_PART_MAX_BYTES,
+  getMissionDossierExport,
+  readMissionDossierManifest,
+  readMissionDossierPart,
+  requestMissionDossierExport,
+} from "@/modules/dossier-export";
 import {
   addObligation,
   addRequirement,
@@ -10,8 +18,10 @@ import {
   transitionMission,
 } from "@/modules/mission-kernel";
 import { createEvidenceSource, captureSnapshot } from "@/modules/truth-kernel";
-import { exportMissionDossier } from "@/server/governed-exports";
+import { getDb } from "@/server/db";
 import { getPilotMeasurementReport } from "@/server/pilot-measurement";
+import { withOrganizationTenant } from "@/server/tenant-context";
+import { runOrganizationWorkerCycle } from "@/server/workers/organization-cycle";
 
 import { asOwner, createUser, truncateAll } from "./helpers";
 
@@ -54,24 +64,68 @@ async function pilotMission() {
     content: "Revision B must retain bounded stability.",
     capturedAt: new Date("2026-07-29T00:00:00.000Z"),
   });
-  return { ctx, mission };
+  return { ctx, mission, source };
 }
 
 describe("TIP-022 governed pilot exports", () => {
   it("DOSSIER-I01 exports a stable complete mission envelope", async () => {
     const { ctx, mission } = await pilotMission();
-    const first = await exportMissionDossier(ctx, mission.id);
-    const second = await exportMissionDossier(ctx, mission.id);
-
-    expect(first.schema).toBe("hive-os.mission-dossier.v1");
-    expect(first.dossier.mission.id).toBe(mission.id);
-    expect(first.dossier.mission.contracts).toHaveLength(1);
-    expect(first.dossier.mission.evidenceSources[0].snapshots).toHaveLength(1);
-    expect(first.dossier.auditEvents.length).toBeGreaterThan(0);
-    expect(first.integrity.contentHash).toBe(second.integrity.contentHash);
-    expect(first.integrity.contentHash).toBe(
-      sha256(canonicalJson(first.dossier)),
-    );
+    const first = await requestMissionDossierExport(ctx, {
+      missionId: mission.id,
+      idempotencyKey: "pilot-dossier-stable",
+    });
+    const duplicate = await requestMissionDossierExport(ctx, {
+      missionId: mission.id,
+      idempotencyKey: "pilot-dossier-stable",
+    });
+    expect(first).toEqual(duplicate);
+    expect(first.status).toBe("SUCCEEDED");
+    if (first.status !== "SUCCEEDED") throw new Error("request failed");
+    const exportId = String(first.outcome.exportId);
+    const organization = await getDb().workspace.findUniqueOrThrow({
+      where: { id: ctx.workspace.id },
+      select: { organizationId: true },
+    });
+    await dispatchOutboxBatch({
+      organizationId: organization.organizationId,
+      actorUserId: ctx.user.id,
+      workerId: "pilot-dispatcher",
+    });
+    const [job] = await claimJobs({
+      organizationId: organization.organizationId,
+      actorUserId: ctx.user.id,
+      workerId: "pilot-worker",
+      jobTypes: ["export.mission.dossier"],
+      leaseSeconds: 300,
+    });
+    expect(job).toBeDefined();
+    await executeMissionDossierExportJob({
+      organizationId: organization.organizationId,
+      actorUserId: ctx.user.id,
+      workerId: "pilot-worker",
+      jobId: job!.id,
+      expectedVersion: job!.version,
+      correlationId: ctx.correlationId,
+    });
+    const completed = await getMissionDossierExport(ctx, exportId);
+    expect(completed).toMatchObject({ status: "SUCCEEDED", manifestAvailable: true });
+    const manifest = JSON.parse(
+      Buffer.from(await readMissionDossierManifest(ctx, exportId)).toString("utf8"),
+    ) as { schema: string; missionId: string; partCount: number };
+    expect(manifest).toMatchObject({
+      schema: "hive-os.mission-dossier-manifest.v2",
+      missionId: mission.id,
+      partCount: completed.partCount,
+    });
+    const firstPart = await readMissionDossierPart(ctx, exportId, 0);
+    expect(Buffer.from(firstPart.body).toString("utf8")).toContain(mission.id);
+    expect(
+      await withOrganizationTenant(
+        organization.organizationId,
+        ctx.user.id,
+        (tx) => tx.dossierExport.count({ where: { missionId: mission.id } }),
+      ),
+    ).toBe(1);
   });
 
   it("DOSSIER-I02 and PILOT-I02 fail closed across workspaces", async () => {
@@ -79,11 +133,94 @@ describe("TIP-022 governed pilot exports", () => {
     const foreignCtx = await asOwner(await createUser("pilot-foreign"));
 
     await expect(
-      exportMissionDossier(foreignCtx, mission.id),
-    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+      requestMissionDossierExport(foreignCtx, {
+        missionId: mission.id,
+        idempotencyKey: "foreign-dossier",
+      }),
+    ).rejects.toMatchObject({ code: "SCOPED_AUTHORIZATION_DENIED" });
     await expect(
       getPilotMeasurementReport(foreignCtx, mission.id),
     ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("EXP-02/03 and OBS-01 chunk a large row and publish the manifest last", async () => {
+    const { ctx, mission, source } = await pilotMission();
+    await captureSnapshot(ctx, source.id, {
+      content: "x".repeat(DOSSIER_PART_MAX_BYTES + 16_384),
+      capturedAt: new Date("2026-07-30T00:00:00.000Z"),
+    });
+    const requested = await requestMissionDossierExport(ctx, {
+      missionId: mission.id,
+      idempotencyKey: "pilot-dossier-large-row",
+    });
+    if (requested.status !== "SUCCEEDED") throw new Error("request failed");
+    const exportId = String(requested.outcome.exportId);
+    expect(await getMissionDossierExport(ctx, exportId)).toMatchObject({
+      status: "READY",
+      manifestAvailable: false,
+    });
+    await expect(
+      readMissionDossierManifest(ctx, exportId),
+    ).rejects.toMatchObject({ code: "INVALID_TRANSITION" });
+    const organization = await getDb().workspace.findUniqueOrThrow({
+      where: { id: ctx.workspace.id },
+      select: { organizationId: true },
+    });
+    const cycle = await runOrganizationWorkerCycle({
+      organizationId: organization.organizationId,
+      actorUserId: ctx.user.id,
+      workerId: "bounded-export-worker",
+      correlationId: ctx.correlationId,
+      claimFirst: 5,
+    });
+    expect(cycle).toMatchObject({ succeeded: 1, failed: 0 });
+    const completed = await getMissionDossierExport(ctx, exportId);
+    expect(completed).toMatchObject({ status: "SUCCEEDED", manifestAvailable: true });
+    expect(completed.partCount).toBeGreaterThan(1);
+    const sizes = await withOrganizationTenant(
+      organization.organizationId,
+      ctx.user.id,
+      (tx) =>
+        tx.dossierExportPart.findMany({
+          where: { exportId },
+          select: { sizeBytes: true },
+          orderBy: { sequence: "asc" },
+          take: 10_000,
+        }),
+    );
+    expect(sizes.every((part) => part.sizeBytes <= DOSSIER_PART_MAX_BYTES)).toBe(true);
+  });
+
+  it("EXP-04 fails closed when a related source changes after capture", async () => {
+    const { ctx, mission, source } = await pilotMission();
+    const requested = await requestMissionDossierExport(ctx, {
+      missionId: mission.id,
+      idempotencyKey: "pilot-dossier-consistency-fence",
+    });
+    if (requested.status !== "SUCCEEDED") throw new Error("request failed");
+    const exportId = String(requested.outcome.exportId);
+
+    await captureSnapshot(ctx, source.id, {
+      content: "A post-boundary evidence mutation must invalidate the export.",
+      capturedAt: new Date("2026-07-31T00:00:00.000Z"),
+    });
+    const organization = await getDb().workspace.findUniqueOrThrow({
+      where: { id: ctx.workspace.id },
+      select: { organizationId: true },
+    });
+    const cycle = await runOrganizationWorkerCycle({
+      organizationId: organization.organizationId,
+      actorUserId: ctx.user.id,
+      workerId: "consistency-fence-worker",
+      correlationId: ctx.correlationId,
+    });
+
+    expect(cycle).toMatchObject({ succeeded: 0, failed: 1 });
+    expect(await getMissionDossierExport(ctx, exportId)).toMatchObject({
+      status: "FAILED",
+      failureCode: "SOURCE_CHANGED",
+      manifestAvailable: false,
+    });
   });
 
   it("PILOT-I01 reports only derivable measures and honest unavailable fields", async () => {
