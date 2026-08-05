@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "classification": "MANAGED_STAGING_BOUNDED_NON_SLO",
+  "baseUrl": "https://d366nm3yse819q.cloudfront.net",
+  "startedAt": "2026-08-05T02:54:12.994Z",
+  "finishedAt": "2026-08-05T03:24:13.057Z",
+  "requestedDurationSeconds": 1800,
+  "elapsedSeconds": 1800.063,
+  "concurrency": 5,
+  "requests": 84768,
+  "requestsPerSecond": 47.09,
+  "maxCompletionGapMs": 9558.72,
+  "totalTransportErrors": 29,
+  "total5xx": 0,
+  "endpoints": {
+    "/api/health/live": {
+      "count": 28247,
+      "p50Ms": 70.65,
+      "p95Ms": 181.86,
+      "p99Ms": 581.36,
+      "maxMs": 7340.96,
+      "statuses": {
+        "200": 28247
+      },
+      "transportErrors": 9
+    },
+    "/api/health/ready": {
+      "count": 28245,
+      "p50Ms": 83.03,
+      "p95Ms": 203.31,
+      "p99Ms": 596.81,
+      "maxMs": 7588.55,
+      "statuses": {
+        "200": 28245
+      },
+      "transportErrors": 11
+    },
+    "/sign-in": {
+      "count": 28247,
+      "p50Ms": 78.19,
+      "p95Ms": 204.22,
+      "p99Ms": 595.41,
+      "maxMs": 7542.01,
+      "statuses": {
+        "200": 28247
+      },
+      "transportErrors": 9
+    }
+  },
+  "passed": false
+}

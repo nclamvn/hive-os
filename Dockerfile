@@ -1,3 +1,5 @@
+FROM postgres:16-bookworm@sha256:c584152ee009674cdf8360f6292577bcf93953790e0fe742aa9d337d0b0f25ae AS postgres16-client
+
 FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS deps
 WORKDIR /app
 RUN apt-get update \
@@ -12,6 +14,9 @@ RUN npm ci
 FROM deps AS migrator
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.revision=$VCS_REF
+COPY --from=postgres16-client /usr/lib/postgresql/16 /usr/lib/postgresql/16
+COPY --from=postgres16-client /usr/share/postgresql/16 /usr/share/postgresql/16
+ENV PATH="/usr/lib/postgresql/16/bin:${PATH}"
 COPY scripts/db ./scripts/db
 COPY tsconfig.json vitest.config.ts ./
 COPY src ./src

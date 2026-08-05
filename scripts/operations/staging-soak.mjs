@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { setTimeout as wait } from "node:timers/promises";
 
 function parseArgs(argv) {
   const values = new Map();
@@ -38,6 +39,16 @@ function summarize(samples) {
   };
 }
 
+function classifyTransportError(error) {
+  if (!(error instanceof Error)) return "UNKNOWN";
+  const cause = error.cause;
+  const causeCode =
+    cause && typeof cause === "object" && "code" in cause
+      ? String(cause.code)
+      : "";
+  return [error.name || "Error", causeCode].filter(Boolean).join(":");
+}
+
 const args = parseArgs(process.argv.slice(2));
 const baseUrl = new URL(args.get("base-url") ?? "");
 if (baseUrl.protocol !== "https:") {
@@ -51,6 +62,7 @@ const durationSeconds = positiveInteger(
 );
 const concurrency = positiveInteger(args.get("concurrency"), 5, "concurrency");
 const timeoutMs = positiveInteger(args.get("timeout-ms"), 15_000, "timeout-ms");
+const paceMs = positiveInteger(args.get("pace-ms"), 500, "pace-ms");
 const reportPath = path.resolve(
   args.get("report") ?? "/tmp/hiveos-staging-soak.json",
 );
@@ -60,7 +72,7 @@ const deadline = performance.now() + durationSeconds * 1_000;
 const observations = Object.fromEntries(
   endpoints.map((endpoint) => [
     endpoint,
-    { latencies: [], statuses: {}, errors: 0 },
+    { latencies: [], statuses: {}, errors: 0, errorKinds: {} },
   ]),
 );
 let requests = 0;
@@ -88,8 +100,11 @@ async function worker(workerId) {
       observation.statuses[response.status] =
         (observation.statuses[response.status] ?? 0) + 1;
       await response.body?.cancel();
-    } catch {
+    } catch (error) {
       observation.errors += 1;
+      const errorKind = classifyTransportError(error);
+      observation.errorKinds[errorKind] =
+        (observation.errorKinds[errorKind] ?? 0) + 1;
     } finally {
       clearTimeout(timeout);
       requests += 1;
@@ -100,6 +115,7 @@ async function worker(workerId) {
       );
       lastCompletion = completed;
     }
+    if (performance.now() < deadline) await wait(paceMs);
   }
 }
 
@@ -124,6 +140,7 @@ const endpointResults = Object.fromEntries(
       ...summarize(value.latencies),
       statuses: value.statuses,
       transportErrors: value.errors,
+      transportErrorKinds: value.errorKinds,
     },
   ]),
 );
@@ -143,7 +160,7 @@ const total5xx = Object.values(observations).reduce(
 );
 
 const report = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   classification: "MANAGED_STAGING_BOUNDED_NON_SLO",
   baseUrl: baseUrl.origin,
   startedAt: startedAt.toISOString(),
@@ -151,6 +168,7 @@ const report = {
   requestedDurationSeconds: durationSeconds,
   elapsedSeconds,
   concurrency,
+  paceMs,
   requests,
   requestsPerSecond: Number((requests / elapsedSeconds).toFixed(2)),
   maxCompletionGapMs: Number(maxCompletionGapMs.toFixed(2)),
