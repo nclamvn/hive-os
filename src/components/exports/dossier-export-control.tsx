@@ -9,12 +9,36 @@ type State =
   | { phase: "ready"; exportId: string }
   | { phase: "failed"; message: string };
 
+export interface DossierExportCopy {
+  unavailable: string;
+  statusUnavailable: string;
+  rejected: string;
+  failed: string;
+  download: string;
+  requesting: string;
+  building: string;
+  build: string;
+}
+
+const defaultCopy: DossierExportCopy = {
+  unavailable: "Export unavailable",
+  statusUnavailable: "Export status unavailable",
+  rejected: "Export request rejected",
+  failed: "Export request failed",
+  download: "Download dossier manifest",
+  requesting: "Requesting…",
+  building: "Building dossier…",
+  build: "Build dossier",
+};
+
 export function DossierExportControl({
   endpoint,
   compact = false,
+  copy = defaultCopy,
 }: {
   endpoint: string;
   compact?: boolean;
+  copy?: DossierExportCopy;
 }) {
   const [state, setState] = useState<State>({ phase: "idle" });
   const pollCount = useRef(0);
@@ -34,17 +58,17 @@ export function DossierExportControl({
           setState({ phase: "ready", exportId });
         } else if (response.status !== 202) {
           window.clearInterval(timer);
-          setState({ phase: "failed", message: "Export unavailable" });
+          setState({ phase: "failed", message: copy.unavailable });
         } else if (pollCount.current >= 30) {
           window.clearInterval(timer);
         }
       } catch {
         window.clearInterval(timer);
-        setState({ phase: "failed", message: "Export status unavailable" });
+        setState({ phase: "failed", message: copy.statusUnavailable });
       }
     }, 2_000);
     return () => window.clearInterval(timer);
-  }, [endpoint, state]);
+  }, [copy, endpoint, state]);
 
   async function requestExport() {
     setState({ phase: "requesting" });
@@ -61,13 +85,13 @@ export function DossierExportControl({
       };
       const exportId = result.outcome?.exportId;
       if (!response.ok || result.status !== "SUCCEEDED" || !exportId) {
-        throw new Error(result.error || "Export request rejected");
+        throw new Error(copy.rejected);
       }
       setState({ phase: "processing", exportId });
     } catch (error) {
       setState({
         phase: "failed",
-        message: error instanceof Error ? error.message : "Export request failed",
+        message: error instanceof Error ? error.message : copy.failed,
       });
     }
   }
@@ -83,7 +107,7 @@ export function DossierExportControl({
         download
         className={className}
       >
-        Download dossier manifest
+        {copy.download}
       </a>
     );
   }
@@ -96,10 +120,10 @@ export function DossierExportControl({
         onClick={requestExport}
       >
         {state.phase === "requesting"
-          ? "Requesting…"
+          ? copy.requesting
           : state.phase === "processing"
-            ? "Building dossier…"
-            : "Build dossier"}
+            ? copy.building
+            : copy.build}
       </button>
       {state.phase === "failed" ? (
         <span className="text-caption text-danger-700">{state.message}</span>
