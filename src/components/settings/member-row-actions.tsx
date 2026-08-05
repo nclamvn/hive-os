@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import type { Role } from "@prisma/client";
 
 import { changeRoleAction, suspendMemberAction } from "@/app/actions/identity";
+import type { Locale } from "@/i18n/config";
+import { settingsValueLabel, type SettingsCopy } from "@/i18n/settings-copy";
 
 export function MemberRowActions({
   slug,
@@ -15,6 +17,8 @@ export function MemberRowActions({
   isSelf,
   canManageOwner,
   canManageOrdinary,
+  locale,
+  copy,
 }: {
   slug: string;
   membershipId: string;
@@ -23,6 +27,8 @@ export function MemberRowActions({
   isSelf: boolean;
   canManageOwner: boolean;
   canManageOrdinary: boolean;
+  locale: Locale;
+  copy: SettingsCopy["members"];
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +47,12 @@ export function MemberRowActions({
     const result = await changeRoleAction(slug, membershipId, next);
     setBusy(false);
     if (result.ok) router.refresh();
-    else setError(result.error ?? "Could not change role");
+    else
+      setError(
+        locale === "en"
+          ? (result.error ?? copy.changeRoleError)
+          : copy.changeRoleError,
+      );
   }
 
   async function onSuspend() {
@@ -50,21 +61,26 @@ export function MemberRowActions({
     const result = await suspendMemberAction(slug, membershipId);
     setBusy(false);
     if (result.ok) router.refresh();
-    else setError(result.error ?? "Could not suspend member");
+    else
+      setError(
+        locale === "en"
+          ? (result.error ?? copy.suspendError)
+          : copy.suspendError,
+      );
   }
 
   if (status === "SUSPENDED") {
-    return <span className="text-meta text-ink-faint">Suspended</span>;
+    return <span className="text-meta text-ink-faint">{copy.suspended}</span>;
   }
 
   if (!canEdit) {
-    return <span className="text-meta text-ink-faint">None</span>;
+    return <span className="text-meta text-ink-faint">{copy.none}</span>;
   }
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-2">
       <label className="sr-only" htmlFor={`role-${membershipId}`}>
-        Role
+        {copy.role}
       </label>
       <select
         id={`role-${membershipId}`}
@@ -75,7 +91,7 @@ export function MemberRowActions({
       >
         {roleOptions.map((r) => (
           <option key={r} value={r}>
-            {r.charAt(0) + r.slice(1).toLowerCase()}
+            {settingsValueLabel(locale, r)}
           </option>
         ))}
       </select>
@@ -83,13 +99,16 @@ export function MemberRowActions({
         type="button"
         onClick={onSuspend}
         disabled={busy || isSelf}
-        title={isSelf ? "You cannot suspend yourself" : "Suspend member"}
+        title={isSelf ? copy.cannotSuspendSelf : copy.suspendMember}
         className="text-meta text-danger-600 border-line hover:bg-danger-50 h-8 rounded-md border px-2 font-medium disabled:opacity-40"
       >
-        Suspend
+        {copy.suspend}
       </button>
       {error ? (
-        <span role="alert" className="text-meta text-danger-600 w-full text-right">
+        <span
+          role="alert"
+          className="text-meta text-danger-600 w-full text-right"
+        >
           {error}
         </span>
       ) : null}

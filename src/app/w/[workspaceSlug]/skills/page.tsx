@@ -6,6 +6,8 @@ import {
   SkillGovernanceForms,
 } from "@/components/skills/skill-forms";
 import { Panel } from "@/components/ui/panel";
+import { skillsCopy, skillValueLabel } from "@/i18n/skills-copy";
+import { getLocale } from "@/i18n/server";
 import { hasCapability } from "@/modules/identity-workspace";
 import { listSkills } from "@/modules/skill-runtime";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
@@ -19,6 +21,8 @@ export default async function SkillLibraryPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = skillsCopy[locale];
   const skills = await listSkills(data.ctx);
   const canManage = hasCapability(data.ctx.membership.role, "skills.manage");
   const active = skills.filter((skill) => skill.status === "ACTIVE").length;
@@ -26,32 +30,30 @@ export default async function SkillLibraryPage({
   return (
     <WorkspaceShell
       data={data}
-      title="Skill Library"
-      subtitle="Immutable capability contracts for governed execution."
+      title={copy.page.title}
+      subtitle={copy.page.subtitle}
     >
       <div className="space-y-5">
         <Panel className="p-[var(--shell-card-padding)]">
-          <p className="text-eyebrow text-navy-700">Capability authority</p>
+          <p className="text-eyebrow text-navy-700">{copy.page.eyebrow}</p>
           <div className="mt-1 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
               <h2 className="text-page-title text-ink-strong">
-                Know what can run before anything runs.
+                {copy.page.heading}
               </h2>
               <p className="text-body text-ink-muted mt-2">
-                Registry entries declare capabilities, evidence duties,
-                failure states, verifier binding and resource ceilings. This
-                library does not execute providers.
+                {copy.page.description}
               </p>
             </div>
             <dl className="text-meta text-ink-muted flex gap-5">
               <div>
-                <dt>Registered</dt>
+                <dt>{copy.page.registered}</dt>
                 <dd className="text-section-title text-ink-strong tabular">
                   {skills.length}
                 </dd>
               </div>
               <div>
-                <dt>Active</dt>
+                <dt>{copy.page.active}</dt>
                 <dd className="text-section-title text-ink-strong tabular">
                   {active}
                 </dd>
@@ -63,26 +65,34 @@ export default async function SkillLibraryPage({
         {canManage ? (
           <details className="border-line bg-surface rounded-panel border p-5">
             <summary className="text-section-title text-ink-strong cursor-pointer font-semibold">
-              Register a new skill contract
+              {copy.page.registerTitle}
             </summary>
             <p className="text-body text-ink-muted mt-2 mb-5 max-w-3xl">
-              Initial registration is atomic: the skill and immutable v1
-              contract become active together.
+              {copy.page.registerHint}
             </p>
-            <RegisterSkillForm slug={workspaceSlug} />
+            <RegisterSkillForm
+              slug={workspaceSlug}
+              locale={locale}
+              copy={copy.form}
+            />
           </details>
         ) : (
           <p className="text-body text-ink-muted border-line rounded-md border p-4">
-            Your role can inspect contracts but cannot manage the registry.
+            {copy.page.readOnlyNotice}
           </p>
         )}
 
         <section aria-labelledby="registry-title">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <h2 id="registry-title" className="text-section-title text-ink-strong">
-              Workspace registry
+            <h2
+              id="registry-title"
+              className="text-section-title text-ink-strong"
+            >
+              {copy.page.registry}
             </h2>
-            <span className="text-meta text-ink-muted">Stable key order</span>
+            <span className="text-meta text-ink-muted">
+              {copy.page.stableOrder}
+            </span>
           </div>
 
           {skills.length ? (
@@ -119,41 +129,54 @@ export default async function SkillLibraryPage({
                         </div>
                         <div className="flex shrink-0 items-center gap-2">
                           <span className="border-line text-meta rounded-md border px-2 py-1">
-                            {skill.status.toLowerCase()}
+                            {skillValueLabel(locale, skill.status)}
                           </span>
                           <span className="bg-success-50 text-success-700 text-meta rounded-md px-2 py-1 font-medium">
-                            active v{version.semanticVersion}
+                            {copy.page.activeVersion}
+                            {version.semanticVersion}
                           </span>
                         </div>
                       </div>
 
                       <dl className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                         <div>
-                          <dt className="text-meta text-ink-muted">Capabilities</dt>
+                          <dt className="text-meta text-ink-muted">
+                            {copy.page.capabilities}
+                          </dt>
                           <dd className="text-body text-ink mt-1 break-words">
                             {version.capabilities.join(", ")}
                           </dd>
                         </div>
                         <div>
-                          <dt className="text-meta text-ink-muted">Assurance</dt>
+                          <dt className="text-meta text-ink-muted">
+                            {copy.page.assurance}
+                          </dt>
                           <dd className="text-body text-ink mt-1">
                             {version.assuranceCompatibility
                               .map((profile) =>
-                                profile.charAt(0) + profile.slice(1).toLowerCase(),
+                                skillValueLabel(locale, profile),
                               )
                               .join(", ")}
                           </dd>
                         </div>
                         <div>
-                          <dt className="text-meta text-ink-muted">Verifier</dt>
+                          <dt className="text-meta text-ink-muted">
+                            {copy.page.verifier}
+                          </dt>
                           <dd className="text-body text-ink mt-1">
-                            {verifier.kind?.toLowerCase()} · {verifier.verifierKey}
+                            {verifier.kind
+                              ? skillValueLabel(locale, verifier.kind)
+                              : null}{" "}
+                            · {verifier.verifierKey}
                           </dd>
                         </div>
                         <div>
-                          <dt className="text-meta text-ink-muted">Resource ceiling</dt>
+                          <dt className="text-meta text-ink-muted">
+                            {copy.page.resourceCeiling}
+                          </dt>
                           <dd className="text-body text-ink mt-1">
-                            {estimate.maxDurationSeconds}s · {estimate.maxMemoryMb} MB
+                            {estimate.maxDurationSeconds}s ·{" "}
+                            {estimate.maxMemoryMb} MB
                           </dd>
                         </div>
                       </dl>
@@ -163,8 +186,10 @@ export default async function SkillLibraryPage({
                           SHA-256 {version.contentHash}
                         </p>
                         <p className="text-meta text-ink-muted">
-                          {skill._count.versions} immutable version
-                          {skill._count.versions === 1 ? "" : "s"}
+                          {skill._count.versions}{" "}
+                          {skill._count.versions === 1
+                            ? copy.page.immutableVersion
+                            : copy.page.immutableVersions}
                         </p>
                       </div>
                     </div>
@@ -172,7 +197,7 @@ export default async function SkillLibraryPage({
                     {canManage ? (
                       <details className="border-line bg-surface-subtle border-t px-5 py-4">
                         <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-                          Contract governance
+                          {copy.page.governance}
                         </summary>
                         <div className="mt-5">
                           <SkillGovernanceForms
@@ -183,13 +208,15 @@ export default async function SkillLibraryPage({
                             status={skill.status}
                             activeVersionId={skill.activeVersionId}
                             versions={skill.versions ?? [skill.activeVersion]}
+                            locale={locale}
+                            copy={copy.form}
                           />
                         </div>
                       </details>
                     ) : (
                       <div className="border-line text-meta text-ink-muted flex items-center gap-2 border-t px-5 py-4">
                         <ShieldCheck aria-hidden="true" className="size-4" />
-                        Read-only governed contract
+                        {copy.page.governedReadOnly}
                       </div>
                     )}
                   </Panel>
@@ -199,12 +226,10 @@ export default async function SkillLibraryPage({
           ) : (
             <Panel className="p-8 text-center">
               <p className="text-section-title text-ink-strong">
-                No registered skill contracts
+                {copy.page.empty}
               </p>
               <p className="text-body text-ink-muted mt-1">
-                {canManage
-                  ? "Register the first bounded capability contract above."
-                  : "An Owner or Admin must register the first bounded capability contract."}
+                {canManage ? copy.page.emptyManager : copy.page.emptyViewer}
               </p>
             </Panel>
           )}

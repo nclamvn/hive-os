@@ -59,6 +59,53 @@ test.describe("TIP-017 Settings Productization", () => {
     ).toEqual([]);
   });
 
+  test("L10N-SET-01 Vietnamese localizes settings and every settings tab", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(
+      page,
+      "Cài đặt tiếng Việt",
+      "vi",
+    );
+    await page.goto(`${dashboardUrl}/settings`);
+
+    await expect(
+      page.getByRole("heading", {
+        name: "Xác định quyền hạn trước khi công việc bắt đầu.",
+      }),
+    ).toBeVisible();
+    const form = page.getByRole("form", {
+      name: "Chính sách vận hành của không gian làm việc",
+    });
+    await expect(
+      form.getByLabel("Hồ sơ bảo chứng mặc định cho nhiệm vụ"),
+    ).toBeVisible();
+    await expect(
+      form.getByRole("button", { name: "Lưu chính sách vận hành" }),
+    ).toBeVisible();
+    await expect(page.getByText("Workspace control plane")).toHaveCount(0);
+
+    await page.goto(`${dashboardUrl}/settings/workspace`);
+    await expect(
+      page.getByRole("heading", { name: "Hồ sơ không gian làm việc" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Tên không gian làm việc")).toBeVisible();
+
+    await page.goto(`${dashboardUrl}/settings/members`);
+    await expect(
+      page.getByRole("heading", { name: "Mời thành viên" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Tạo lời mời" }),
+    ).toBeVisible();
+
+    await page.goto(`${dashboardUrl}/settings/audit`);
+    await expect(
+      page.getByRole("heading", { name: "Sự kiện kiểm toán" }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Tải sổ cái" })).toBeVisible();
+  });
+
   test("SET-03 audit ledger export is authenticated and workspace-scoped", async ({
     page,
   }) => {

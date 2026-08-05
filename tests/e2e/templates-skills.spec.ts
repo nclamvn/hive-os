@@ -120,6 +120,38 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await expect(page.getByText("active v1.1.0")).toBeVisible();
   });
 
+  test("L10N-SKL-01 Vietnamese localizes the skill registry and forms", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(
+      page,
+      "Kỹ năng tiếng Việt",
+      "vi",
+    );
+    await page.goto(`${dashboardUrl}/skills`);
+
+    await expect(
+      page.getByRole("heading", {
+        name: "Biết rõ năng lực nào được phép chạy trước khi thực thi.",
+      }),
+    ).toBeVisible();
+    await expect(page.getByText("Skill Library", { exact: true })).toHaveCount(
+      0,
+    );
+
+    await page
+      .getByText("Đăng ký hợp đồng kỹ năng mới", { exact: true })
+      .click();
+    const register = page.getByRole("form", {
+      name: "Đăng ký hợp đồng kỹ năng",
+    });
+    await expect(register.getByLabel("Khóa kỹ năng ổn định")).toBeVisible();
+    await expect(register.getByLabel("JSON Schema đầu vào")).toBeVisible();
+    await expect(
+      register.getByRole("button", { name: "Lưu bản ghi có quản trị" }),
+    ).toBeVisible();
+  });
+
   test("TIP022-UI-01 applies the RtR engineering-change pilot template", async ({
     page,
   }) => {

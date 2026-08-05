@@ -10,15 +10,26 @@ import {
   registerSkillVersionAction,
   type SkillActionResult,
 } from "@/app/actions/skills";
+import type { Locale } from "@/i18n/config";
+import { skillValueLabel, type SkillsCopy } from "@/i18n/skills-copy";
 
 const field =
   "text-body text-ink border-line focus:border-line-strong h-10 w-full min-w-0 rounded-md border bg-surface-subtle px-3 outline-none";
 const area =
   "text-body text-ink border-line focus:border-line-strong w-full min-w-0 resize-y rounded-md border bg-surface-subtle px-3 py-2 outline-none";
 
-function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) {
+function Label({
+  htmlFor,
+  children,
+}: {
+  htmlFor: string;
+  children: ReactNode;
+}) {
   return (
-    <label htmlFor={htmlFor} className="text-meta text-ink mb-1 block font-medium">
+    <label
+      htmlFor={htmlFor}
+      className="text-meta text-ink mb-1 block font-medium"
+    >
       {children}
     </label>
   );
@@ -29,11 +40,15 @@ function GovernedForm({
   action,
   success,
   children,
+  locale,
+  copy,
 }: {
   label: string;
   action: (data: FormData) => Promise<SkillActionResult>;
   success: string;
   children: ReactNode;
+  locale: Locale;
+  copy: SkillsCopy["form"];
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -61,7 +76,11 @@ function GovernedForm({
           role={result.ok ? "status" : "alert"}
           className={`text-meta ${result.ok ? "text-success-600" : "text-danger-600"}`}
         >
-          {result.ok ? success : result.error}
+          {result.ok
+            ? success
+            : locale === "en"
+              ? result.error
+              : copy.actionError}
         </p>
       ) : null}
       <button
@@ -69,18 +88,26 @@ function GovernedForm({
         disabled={busy}
         className="text-body bg-navy-800 hover:bg-navy-900 inline-flex min-h-10 items-center rounded-md px-4 font-medium text-white disabled:opacity-50"
       >
-        {busy ? "Saving…" : "Save governed record"}
+        {busy ? copy.saving : copy.save}
       </button>
     </form>
   );
 }
 
-function ContractFields({ prefix }: { prefix: string }) {
+function ContractFields({
+  prefix,
+  locale,
+  copy,
+}: {
+  prefix: string;
+  locale: Locale;
+  copy: SkillsCopy["form"];
+}) {
   return (
     <>
       <div className="grid gap-3 min-[520px]:grid-cols-2">
         <div>
-          <Label htmlFor={`${prefix}-version`}>Semantic version</Label>
+          <Label htmlFor={`${prefix}-version`}>{copy.semanticVersion}</Label>
           <input
             id={`${prefix}-version`}
             name="semanticVersion"
@@ -90,7 +117,7 @@ function ContractFields({ prefix }: { prefix: string }) {
           />
         </div>
         <div>
-          <Label htmlFor={`${prefix}-verifier-key`}>Verifier key</Label>
+          <Label htmlFor={`${prefix}-verifier-key`}>{copy.verifierKey}</Label>
           <input
             id={`${prefix}-verifier-key`}
             name="verifierKey"
@@ -101,7 +128,7 @@ function ContractFields({ prefix }: { prefix: string }) {
         </div>
       </div>
       <div>
-        <Label htmlFor={`${prefix}-capabilities`}>Capabilities</Label>
+        <Label htmlFor={`${prefix}-capabilities`}>{copy.capabilities}</Label>
         <textarea
           id={`${prefix}-capabilities`}
           name="capabilities"
@@ -113,7 +140,7 @@ function ContractFields({ prefix }: { prefix: string }) {
       </div>
       <div className="grid gap-3 min-[520px]:grid-cols-2">
         <div>
-          <Label htmlFor={`${prefix}-evidence`}>Required evidence</Label>
+          <Label htmlFor={`${prefix}-evidence`}>{copy.requiredEvidence}</Label>
           <textarea
             id={`${prefix}-evidence`}
             name="requiredEvidence"
@@ -124,7 +151,7 @@ function ContractFields({ prefix }: { prefix: string }) {
           />
         </div>
         <div>
-          <Label htmlFor={`${prefix}-failure`}>Failure states</Label>
+          <Label htmlFor={`${prefix}-failure`}>{copy.failureStates}</Label>
           <textarea
             id={`${prefix}-failure`}
             name="failureStates"
@@ -137,7 +164,7 @@ function ContractFields({ prefix }: { prefix: string }) {
       </div>
       <div className="grid gap-3 min-[520px]:grid-cols-2">
         <div>
-          <Label htmlFor={`${prefix}-input-schema`}>Input JSON Schema</Label>
+          <Label htmlFor={`${prefix}-input-schema`}>{copy.inputSchema}</Label>
           <textarea
             id={`${prefix}-input-schema`}
             name="inputSchema"
@@ -148,7 +175,7 @@ function ContractFields({ prefix }: { prefix: string }) {
           />
         </div>
         <div>
-          <Label htmlFor={`${prefix}-output-schema`}>Output JSON Schema</Label>
+          <Label htmlFor={`${prefix}-output-schema`}>{copy.outputSchema}</Label>
           <textarea
             id={`${prefix}-output-schema`}
             name="outputSchema"
@@ -161,20 +188,20 @@ function ContractFields({ prefix }: { prefix: string }) {
       </div>
       <div className="grid gap-3 min-[520px]:grid-cols-3">
         <div>
-          <Label htmlFor={`${prefix}-verifier-kind`}>Verifier kind</Label>
+          <Label htmlFor={`${prefix}-verifier-kind`}>{copy.verifierKind}</Label>
           <select
             id={`${prefix}-verifier-kind`}
             name="verifierKind"
             defaultValue="DETERMINISTIC"
             className={field}
           >
-            <option value="DETERMINISTIC">Deterministic</option>
-            <option value="HUMAN">Human</option>
-            <option value="EXTERNAL">External</option>
+            <option value="DETERMINISTIC">{copy.deterministic}</option>
+            <option value="HUMAN">{copy.human}</option>
+            <option value="EXTERNAL">{copy.external}</option>
           </select>
         </div>
         <div>
-          <Label htmlFor={`${prefix}-duration`}>Max seconds</Label>
+          <Label htmlFor={`${prefix}-duration`}>{copy.maxSeconds}</Label>
           <input
             id={`${prefix}-duration`}
             name="maxDurationSeconds"
@@ -186,7 +213,7 @@ function ContractFields({ prefix }: { prefix: string }) {
           />
         </div>
         <div>
-          <Label htmlFor={`${prefix}-memory`}>Max memory MB</Label>
+          <Label htmlFor={`${prefix}-memory`}>{copy.maxMemory}</Label>
           <input
             id={`${prefix}-memory`}
             name="maxMemoryMb"
@@ -200,18 +227,21 @@ function ContractFields({ prefix }: { prefix: string }) {
       </div>
       <fieldset>
         <legend className="text-meta text-ink mb-2 font-medium">
-          Assurance compatibility
+          {copy.assuranceCompatibility}
         </legend>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
           {["QUICK", "PROFESSIONAL", "RESEARCH", "REGULATED"].map((profile) => (
-            <label key={profile} className="text-meta text-ink flex items-center gap-2">
+            <label
+              key={profile}
+              className="text-meta text-ink flex items-center gap-2"
+            >
               <input
                 type="checkbox"
                 name="assuranceCompatibility"
                 value={profile}
                 defaultChecked={profile === "PROFESSIONAL"}
               />
-              {profile.charAt(0) + profile.slice(1).toLowerCase()}
+              {skillValueLabel(locale, profile)}
             </label>
           ))}
         </div>
@@ -220,28 +250,55 @@ function ContractFields({ prefix }: { prefix: string }) {
   );
 }
 
-export function RegisterSkillForm({ slug }: { slug: string }) {
+export function RegisterSkillForm({
+  slug,
+  locale,
+  copy,
+}: {
+  slug: string;
+  locale: Locale;
+  copy: SkillsCopy["form"];
+}) {
   return (
     <GovernedForm
-      label="Register skill contract"
+      label={copy.registerLabel}
       action={(data) => registerSkillAction(slug, data)}
-      success="Skill and active v1 contract registered"
+      success={copy.registerSuccess}
+      locale={locale}
+      copy={copy}
     >
       <div className="grid gap-3 min-[520px]:grid-cols-2">
         <div>
-          <Label htmlFor="skill-key">Stable skill key</Label>
-          <input id="skill-key" name="skillKey" required placeholder="refinery" className={field} />
+          <Label htmlFor="skill-key">{copy.skillKey}</Label>
+          <input
+            id="skill-key"
+            name="skillKey"
+            required
+            placeholder="refinery"
+            className={field}
+          />
         </div>
         <div>
-          <Label htmlFor="skill-name">Display name</Label>
-          <input id="skill-name" name="displayName" required className={field} />
+          <Label htmlFor="skill-name">{copy.displayName}</Label>
+          <input
+            id="skill-name"
+            name="displayName"
+            required
+            className={field}
+          />
         </div>
       </div>
       <div>
-        <Label htmlFor="skill-description">Operator description</Label>
-        <textarea id="skill-description" name="description" required rows={3} className={area} />
+        <Label htmlFor="skill-description">{copy.description}</Label>
+        <textarea
+          id="skill-description"
+          name="description"
+          required
+          rows={3}
+          className={area}
+        />
       </div>
-      <ContractFields prefix="initial" />
+      <ContractFields prefix="initial" locale={locale} copy={copy} />
     </GovernedForm>
   );
 }
@@ -259,6 +316,8 @@ export function SkillGovernanceForms({
   status,
   activeVersionId,
   versions,
+  locale,
+  copy,
 }: {
   slug: string;
   skillId: string;
@@ -267,22 +326,32 @@ export function SkillGovernanceForms({
   status: "ACTIVE" | "DEPRECATED" | "ARCHIVED";
   activeVersionId: string;
   versions: VersionOption[];
+  locale: Locale;
+  copy: SkillsCopy["form"];
 }) {
-  const candidates = versions.filter((candidate) => candidate.id !== activeVersionId);
+  const candidates = versions.filter(
+    (candidate) => candidate.id !== activeVersionId,
+  );
 
   return (
     <div className="grid gap-5 xl:grid-cols-2">
       {status !== "ARCHIVED" ? (
         <section>
           <h4 className="text-body text-ink-strong mb-3 font-semibold">
-            Register inert candidate
+            {copy.registerCandidate}
           </h4>
           <GovernedForm
-            label={`Register version for ${skillKey}`}
+            label={`${copy.registerVersionLabel} ${skillKey}`}
             action={(data) => registerSkillVersionAction(slug, skillId, data)}
-            success="Candidate version registered without activation"
+            success={copy.registerVersionSuccess}
+            locale={locale}
+            copy={copy}
           >
-            <ContractFields prefix={`candidate-${skillId}`} />
+            <ContractFields
+              prefix={`candidate-${skillId}`}
+              locale={locale}
+              copy={copy}
+            />
           </GovernedForm>
         </section>
       ) : null}
@@ -291,16 +360,20 @@ export function SkillGovernanceForms({
         {candidates.length && status !== "ARCHIVED" ? (
           <section>
             <h4 className="text-body text-ink-strong mb-3 font-semibold">
-              Activate candidate
+              {copy.activateCandidate}
             </h4>
             <GovernedForm
-              label={`Activate version for ${skillKey}`}
+              label={`${copy.activateLabel} ${skillKey}`}
               action={(data) => activateSkillVersionAction(slug, skillId, data)}
-              success="Candidate explicitly activated"
+              success={copy.activateSuccess}
+              locale={locale}
+              copy={copy}
             >
               <input type="hidden" name="expectedVersion" value={version} />
               <div>
-                <Label htmlFor={`activate-${skillId}`}>Candidate version</Label>
+                <Label htmlFor={`activate-${skillId}`}>
+                  {copy.candidateVersion}
+                </Label>
                 <select
                   id={`activate-${skillId}`}
                   name="skillVersionId"
@@ -315,7 +388,9 @@ export function SkillGovernanceForms({
                 </select>
               </div>
               <div>
-                <Label htmlFor={`activate-reason-${skillId}`}>Activation reason</Label>
+                <Label htmlFor={`activate-reason-${skillId}`}>
+                  {copy.activationReason}
+                </Label>
                 <textarea
                   id={`activate-reason-${skillId}`}
                   name="reason"
@@ -331,28 +406,36 @@ export function SkillGovernanceForms({
         {status !== "ARCHIVED" ? (
           <section>
             <h4 className="text-body text-ink-strong mb-3 font-semibold">
-              Change lifecycle status
+              {copy.lifecycle}
             </h4>
             <GovernedForm
-              label={`Change status for ${skillKey}`}
+              label={`${copy.changeStatusLabel} ${skillKey}`}
               action={(data) => changeSkillStatusAction(slug, skillId, data)}
-              success="Skill status changed"
+              success={copy.changeStatusSuccess}
+              locale={locale}
+              copy={copy}
             >
               <input type="hidden" name="expectedVersion" value={version} />
               <div>
-                <Label htmlFor={`status-${skillId}`}>Next status</Label>
-                <select id={`status-${skillId}`} name="status" className={field}>
+                <Label htmlFor={`status-${skillId}`}>{copy.nextStatus}</Label>
+                <select
+                  id={`status-${skillId}`}
+                  name="status"
+                  className={field}
+                >
                   {(["ACTIVE", "DEPRECATED", "ARCHIVED"] as const)
                     .filter((next) => next !== status)
                     .map((next) => (
                       <option key={next} value={next}>
-                        {next.charAt(0) + next.slice(1).toLowerCase()}
+                        {skillValueLabel(locale, next)}
                       </option>
                     ))}
                 </select>
               </div>
               <div>
-                <Label htmlFor={`status-reason-${skillId}`}>Governance reason</Label>
+                <Label htmlFor={`status-reason-${skillId}`}>
+                  {copy.governanceReason}
+                </Label>
                 <textarea
                   id={`status-reason-${skillId}`}
                   name="reason"
@@ -364,9 +447,7 @@ export function SkillGovernanceForms({
             </GovernedForm>
           </section>
         ) : (
-          <p className="text-body text-ink-muted">
-            Archived skill families are terminal and cannot be reopened.
-          </p>
+          <p className="text-body text-ink-muted">{copy.archived}</p>
         )}
       </div>
     </div>

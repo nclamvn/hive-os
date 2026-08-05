@@ -1,0 +1,311 @@
+import type { Locale } from "./config";
+import type { DeepCopy } from "./copy-types";
+
+const en = {
+  nav: {
+    label: "Settings",
+    policy: "Operating policy",
+    workspace: "Workspace",
+    members: "Members",
+    audit: "Audit",
+  },
+  policy: {
+    pageTitle: "Settings",
+    pageSubtitle:
+      "Workspace authority, operating guardrails and retained accountability.",
+    eyebrow: "Workspace control plane",
+    title: "Define what this workspace may do before work begins.",
+    description:
+      "Defaults accelerate drafting. Provider and release ceilings remain enforced by deterministic kernels, and every policy change is attributed in the audit ledger.",
+    version: "version",
+    cells: {
+      identity: "Identity",
+      active: "active",
+      enforced: "enforced",
+      provider: "Provider",
+      openManual: "Open manual bridge",
+      allowlisted: "allowlisted",
+      kernelGate: "kernel gate",
+      storage: "Storage",
+      workspaceDatabase: "Workspace database",
+      local: "local",
+      assurance: "Assurance",
+      draftDefault: "draft default",
+      retention: "Retention",
+      days: "days",
+      minimum: "minimum",
+      release: "Release",
+    },
+    effectiveTitle: "Effective operating policy",
+    effectiveDescription:
+      "Storage is fixed to the local workspace database. External credentials remain outside HIVE OS policy records.",
+    accountabilityLabel: "Settings accountability",
+    authority: "Authority",
+    authorityDescription:
+      "Owners and Admins may update operating policy. Release and membership restrictions remain capability-specific.",
+    auditContinuity: "Audit continuity",
+    auditRetained: "append-only workspace events retained",
+    secretBoundary: "Secret boundary",
+    identifiersOnly: "Identifiers, never credentials",
+    secretDescription:
+      "Provider policy accepts names and model identifiers only. API keys and tokens do not belong in settings, prompts or artifacts.",
+    form: {
+      label: "Workspace operating policy",
+      defaultAssurance: "Default Mission assurance",
+      defaultAssuranceHint:
+        "Prefills new drafts; authors may still choose a stricter profile.",
+      publicRelease: "Public release ceiling",
+      governedPublic: "Governed public",
+      internalOnly: "Internal only",
+      publicReleaseHint:
+        "Internal only blocks public manifests inside the release kernel.",
+      providerPolicy: "Manual provider policy",
+      openManual: "Open manual bridge",
+      allowlistManual: "Allowlist manual bridge",
+      allowedProviders: "Allowed provider and model identifiers",
+      allowedProvidersHint:
+        "One provider per line. Identifiers only; never enter API keys, tokens or connection secrets.",
+      retentionTitle: "Minimum retention guardrails",
+      retentionHint:
+        "These values declare the minimum preservation window. They do not schedule deletion of immutable governed records.",
+      artifacts: "Artifacts",
+      evidence: "Evidence",
+      audit: "Audit",
+      days: "days",
+      saved: "Operating policy saved",
+      saving: "Saving…",
+      save: "Save operating policy",
+      readOnly: "Your role can inspect effective policy but cannot change it.",
+      defaultAssuranceSummary: "Default assurance",
+      providerPolicySummary: "Provider policy",
+      artifactRetention: "Artifact retention",
+      evidenceRetention: "Evidence retention",
+      auditRetention: "Audit retention",
+      publicReleaseSummary: "Public release",
+      daysMinimum: "days minimum",
+      actionError:
+        "Could not save the operating policy. Review the values and try again.",
+    },
+  },
+  workspace: {
+    pageTitle: "Workspace settings",
+    sectionTitle: "Workspace profile",
+    name: "Workspace name",
+    readOnly: "Your role cannot change workspace settings.",
+    updateError: "Could not update workspace",
+    saving: "Saving…",
+    save: "Save changes",
+    saved: "Saved",
+  },
+  members: {
+    pageTitle: "Members",
+    inviteTitle: "Invite a member",
+    inviteHint:
+      "The invitation link is shown once at creation and is never stored.",
+    email: "Email",
+    role: "Role",
+    creating: "Creating…",
+    create: "Create invitation",
+    createError: "Could not create invitation",
+    tokenNotice:
+      "Invitation link, shown once. Copy it now; it cannot be retrieved again.",
+    tableTitle: "Members",
+    name: "Name",
+    status: "Status",
+    actions: "Actions",
+    you: "you",
+    pendingTitle: "Pending invitations",
+    noPending: "No pending invitations",
+    expires: "expires",
+    pending: "Pending",
+    suspended: "Suspended",
+    none: "None",
+    suspend: "Suspend",
+    cannotSuspendSelf: "You cannot suspend yourself",
+    suspendMember: "Suspend member",
+    changeRoleError: "Could not change role",
+    suspendError: "Could not suspend member",
+  },
+  audit: {
+    pageTitle: "Audit",
+    events: "Audit events",
+    download: "Download ledger",
+    denied: "You do not have access to the audit log",
+    deniedHint: "Audit visibility is limited to Owners and Admins.",
+    empty: "No audit events yet",
+    time: "Time (UTC)",
+    event: "Event",
+    entity: "Entity",
+    actor: "Actor",
+    system: "system",
+  },
+} as const;
+
+const vi: DeepCopy<typeof en> = {
+  nav: {
+    label: "Cài đặt",
+    policy: "Chính sách vận hành",
+    workspace: "Không gian làm việc",
+    members: "Thành viên",
+    audit: "Kiểm toán",
+  },
+  policy: {
+    pageTitle: "Cài đặt",
+    pageSubtitle:
+      "Thẩm quyền không gian làm việc, nguyên tắc vận hành và trách nhiệm giải trình được lưu giữ.",
+    eyebrow: "Mặt phẳng kiểm soát không gian làm việc",
+    title: "Xác định quyền hạn trước khi công việc bắt đầu.",
+    description:
+      "Giá trị mặc định giúp soạn thảo nhanh hơn. Trần nhà cung cấp và phát hành vẫn được các kernel tất định kiểm soát, đồng thời mọi thay đổi chính sách đều được quy trách nhiệm trong sổ cái kiểm toán.",
+    version: "phiên bản",
+    cells: {
+      identity: "Danh tính",
+      active: "đang hoạt động",
+      enforced: "được thực thi",
+      provider: "Nhà cung cấp",
+      openManual: "Cầu nối thủ công mở",
+      allowlisted: "trong danh sách cho phép",
+      kernelGate: "cổng kiểm soát kernel",
+      storage: "Lưu trữ",
+      workspaceDatabase: "CSDL không gian làm việc",
+      local: "cục bộ",
+      assurance: "Bảo chứng",
+      draftDefault: "mặc định cho bản nháp",
+      retention: "Lưu giữ",
+      days: "ngày",
+      minimum: "tối thiểu",
+      release: "Phát hành",
+    },
+    effectiveTitle: "Chính sách vận hành có hiệu lực",
+    effectiveDescription:
+      "Dữ liệu được cố định tại cơ sở dữ liệu của không gian làm việc. Thông tin xác thực bên ngoài không được đưa vào bản ghi chính sách HIVE OS.",
+    accountabilityLabel: "Trách nhiệm giải trình của phần cài đặt",
+    authority: "Thẩm quyền",
+    authorityDescription:
+      "Chủ sở hữu và Quản trị viên có thể cập nhật chính sách vận hành. Giới hạn phát hành và thành viên vẫn phụ thuộc từng năng lực được cấp.",
+    auditContinuity: "Tính liên tục của kiểm toán",
+    auditRetained: "sự kiện chỉ ghi nối tiếp được lưu giữ",
+    secretBoundary: "Ranh giới bí mật",
+    identifiersOnly: "Chỉ định danh, không thông tin xác thực",
+    secretDescription:
+      "Chính sách nhà cung cấp chỉ nhận tên và định danh mô hình. Không đưa khóa API hoặc token vào cài đặt, prompt hay sản phẩm công việc.",
+    form: {
+      label: "Chính sách vận hành của không gian làm việc",
+      defaultAssurance: "Hồ sơ bảo chứng mặc định cho nhiệm vụ",
+      defaultAssuranceHint:
+        "Điền trước cho bản nháp mới; người soạn vẫn có thể chọn hồ sơ nghiêm ngặt hơn.",
+      publicRelease: "Trần phát hành công khai",
+      governedPublic: "Công khai có quản trị",
+      internalOnly: "Chỉ nội bộ",
+      publicReleaseHint:
+        "Chế độ Chỉ nội bộ chặn manifest công khai ngay trong kernel phát hành.",
+      providerPolicy: "Chính sách nhà cung cấp thủ công",
+      openManual: "Cầu nối thủ công mở",
+      allowlistManual: "Cầu nối thủ công theo danh sách cho phép",
+      allowedProviders: "Định danh nhà cung cấp và mô hình được phép",
+      allowedProvidersHint:
+        "Mỗi dòng một nhà cung cấp. Chỉ nhập định danh; tuyệt đối không nhập khóa API, token hay bí mật kết nối.",
+      retentionTitle: "Nguyên tắc lưu giữ tối thiểu",
+      retentionHint:
+        "Các giá trị này quy định thời gian bảo quản tối thiểu. Chúng không lên lịch xóa bản ghi có quản trị bất biến.",
+      artifacts: "Sản phẩm công việc",
+      evidence: "Bằng chứng",
+      audit: "Kiểm toán",
+      days: "ngày",
+      saved: "Đã lưu chính sách vận hành",
+      saving: "Đang lưu…",
+      save: "Lưu chính sách vận hành",
+      readOnly:
+        "Vai trò của bạn có thể xem chính sách có hiệu lực nhưng không thể thay đổi.",
+      defaultAssuranceSummary: "Bảo chứng mặc định",
+      providerPolicySummary: "Chính sách nhà cung cấp",
+      artifactRetention: "Lưu giữ sản phẩm công việc",
+      evidenceRetention: "Lưu giữ bằng chứng",
+      auditRetention: "Lưu giữ kiểm toán",
+      publicReleaseSummary: "Phát hành công khai",
+      daysMinimum: "ngày tối thiểu",
+      actionError:
+        "Không thể lưu chính sách vận hành. Hãy kiểm tra các giá trị và thử lại.",
+    },
+  },
+  workspace: {
+    pageTitle: "Cài đặt không gian làm việc",
+    sectionTitle: "Hồ sơ không gian làm việc",
+    name: "Tên không gian làm việc",
+    readOnly: "Vai trò của bạn không thể thay đổi cài đặt không gian làm việc.",
+    updateError: "Không thể cập nhật không gian làm việc",
+    saving: "Đang lưu…",
+    save: "Lưu thay đổi",
+    saved: "Đã lưu",
+  },
+  members: {
+    pageTitle: "Thành viên",
+    inviteTitle: "Mời thành viên",
+    inviteHint:
+      "Liên kết mời chỉ hiển thị một lần khi tạo và không được lưu trữ.",
+    email: "Email",
+    role: "Vai trò",
+    creating: "Đang tạo…",
+    create: "Tạo lời mời",
+    createError: "Không thể tạo lời mời",
+    tokenNotice:
+      "Liên kết mời chỉ hiển thị lần này. Hãy sao chép ngay vì không thể truy xuất lại.",
+    tableTitle: "Thành viên",
+    name: "Tên",
+    status: "Trạng thái",
+    actions: "Thao tác",
+    you: "bạn",
+    pendingTitle: "Lời mời đang chờ",
+    noPending: "Không có lời mời đang chờ",
+    expires: "hết hạn",
+    pending: "Đang chờ",
+    suspended: "Đã đình chỉ",
+    none: "Không có",
+    suspend: "Đình chỉ",
+    cannotSuspendSelf: "Bạn không thể tự đình chỉ chính mình",
+    suspendMember: "Đình chỉ thành viên",
+    changeRoleError: "Không thể đổi vai trò",
+    suspendError: "Không thể đình chỉ thành viên",
+  },
+  audit: {
+    pageTitle: "Kiểm toán",
+    events: "Sự kiện kiểm toán",
+    download: "Tải sổ cái",
+    denied: "Bạn không có quyền truy cập nhật ký kiểm toán",
+    deniedHint: "Nhật ký kiểm toán chỉ dành cho Chủ sở hữu và Quản trị viên.",
+    empty: "Chưa có sự kiện kiểm toán",
+    time: "Thời gian (UTC)",
+    event: "Sự kiện",
+    entity: "Thực thể",
+    actor: "Chủ thể",
+    system: "hệ thống",
+  },
+};
+
+export const settingsCopy = { en, vi };
+export type SettingsCopy = DeepCopy<typeof en>;
+
+const viValues: Record<string, string> = {
+  OWNER: "Chủ sở hữu",
+  ADMIN: "Quản trị viên",
+  MEMBER: "Thành viên",
+  VIEWER: "Người xem",
+  ACTIVE: "Đang hoạt động",
+  SUSPENDED: "Đã đình chỉ",
+  QUICK: "Nhanh",
+  PROFESSIONAL: "Chuyên nghiệp",
+  RESEARCH: "Nghiên cứu",
+  REGULATED: "Có kiểm soát",
+  OPEN_MANUAL: "Cầu nối thủ công mở",
+  ALLOWLIST_MANUAL: "Cầu nối thủ công theo danh sách cho phép",
+  GOVERNED_PUBLIC: "Công khai có quản trị",
+  INTERNAL_ONLY: "Chỉ nội bộ",
+};
+
+export function settingsValueLabel(locale: Locale, value: string): string {
+  if (locale === "vi" && viValues[value]) return viValues[value];
+  return value
+    .toLowerCase()
+    .replaceAll("_", " ")
+    .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
+}

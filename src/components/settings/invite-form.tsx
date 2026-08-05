@@ -6,13 +6,19 @@ import { useRouter } from "next/navigation";
 import { inviteMemberAction } from "@/app/actions/identity";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/auth/auth-card";
+import type { Locale } from "@/i18n/config";
+import { settingsValueLabel, type SettingsCopy } from "@/i18n/settings-copy";
 
 export function InviteForm({
   slug,
   canInviteOwner,
+  locale,
+  copy,
 }: {
   slug: string;
   canInviteOwner: boolean;
+  locale: Locale;
+  copy: SettingsCopy["members"];
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -28,23 +34,35 @@ export function InviteForm({
     setError(null);
     setToken(null);
     setBusy(true);
-    const result = await inviteMemberAction(slug, new FormData(event.currentTarget));
+    const result = await inviteMemberAction(
+      slug,
+      new FormData(event.currentTarget),
+    );
     setBusy(false);
     if (result.ok && result.token) {
       setToken(result.token);
       event.currentTarget.reset();
       router.refresh();
     } else {
-      setError(result.error ?? "Could not create invitation");
+      setError(
+        locale === "en" ? (result.error ?? copy.createError) : copy.createError,
+      );
     }
   }
 
   return (
     <div>
-      <form onSubmit={onSubmit} noValidate className="flex flex-wrap items-end gap-3">
+      <form
+        onSubmit={onSubmit}
+        noValidate
+        className="flex flex-wrap items-end gap-3"
+      >
         <div className="min-w-[220px] flex-1">
-          <label htmlFor="invite-email" className="text-meta text-ink mb-1 block font-medium">
-            Email
+          <label
+            htmlFor="invite-email"
+            className="text-meta text-ink mb-1 block font-medium"
+          >
+            {copy.email}
           </label>
           <input
             id="invite-email"
@@ -55,8 +73,11 @@ export function InviteForm({
           />
         </div>
         <div>
-          <label htmlFor="invite-role" className="text-meta text-ink mb-1 block font-medium">
-            Role
+          <label
+            htmlFor="invite-role"
+            className="text-meta text-ink mb-1 block font-medium"
+          >
+            {copy.role}
           </label>
           <select
             id="invite-role"
@@ -66,13 +87,13 @@ export function InviteForm({
           >
             {roles.map((r) => (
               <option key={r} value={r}>
-                {r.charAt(0) + r.slice(1).toLowerCase()}
+                {settingsValueLabel(locale, r)}
               </option>
             ))}
           </select>
         </div>
         <Button type="submit" variant="primary" disabled={busy}>
-          {busy ? "Creating…" : "Create invitation"}
+          {busy ? copy.creating : copy.create}
         </Button>
       </form>
 
@@ -81,8 +102,7 @@ export function InviteForm({
         {token ? (
           <div className="border-warning-600/30 bg-warning-50 rounded-md border p-3">
             <p className="text-meta text-ink-strong font-medium">
-              Invitation link, shown once. Copy it now; it cannot be retrieved
-              again.
+              {copy.tokenNotice}
             </p>
             <code className="text-meta text-ink mt-2 block break-all rounded bg-surface px-2 py-1">
               {`${typeof window !== "undefined" ? window.location.origin : ""}/invitations/${token}`}
