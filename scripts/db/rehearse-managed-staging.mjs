@@ -31,12 +31,32 @@ target.pathname = `/${TARGET_DATABASE}`;
 target.search = "";
 
 function run(binary, args, options = {}) {
-  const output = execFileSync(binary, args, {
-    encoding: "utf8",
-    maxBuffer: 16 * 1024 * 1024,
-    ...options,
-  });
-  return typeof output === "string" ? output.trim() : "";
+  try {
+    const output = execFileSync(binary, args, {
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      ...options,
+    });
+    return typeof output === "string" ? output.trim() : "";
+  } catch (error) {
+    const details = [
+      error instanceof Error ? error.message : String(error),
+      error && typeof error === "object" && "stdout" in error
+        ? String(error.stdout ?? "")
+        : "",
+      error && typeof error === "object" && "stderr" in error
+        ? String(error.stderr ?? "")
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+      .replaceAll(sourceUrl, "[REDACTED_DATABASE_URL]")
+      .replaceAll(target.toString(), "[REDACTED_RECOVERY_DATABASE_URL]")
+      .replace(/postgres(?:ql)?:\/\/\S+/g, "[REDACTED_DATABASE_URL]");
+    throw new Error(
+      `managed-recovery: ${binary} failed\n${details.slice(-8_000)}`,
+    );
+  }
 }
 
 function inventory(databaseUrl) {
@@ -104,7 +124,7 @@ try {
       )::text FROM workspace ORDER BY created_at, id LIMIT 1;`,
     ]),
   );
-  run(
+  const projectionVerification = run(
     "npx",
     [
       "vitest",
@@ -114,9 +134,15 @@ try {
       "tests/scale/managed-staging-recovery.test.ts",
     ],
     {
-      stdio: "inherit",
       env: {
         ...process.env,
+        NODE_ENV: "test",
+        DEPLOYMENT_ENV: "test",
+        BETTER_AUTH_SECRET: "tip024q-managed-recovery-only",
+        BETTER_AUTH_URL: "http://localhost:3000",
+        STORAGE_DRIVER: "local",
+        MAIL_DRIVER: "local",
+        MAIL_BASE_URL: "http://localhost:3000",
         DATABASE_URL: target.toString(),
         DATABASE_MIGRATION_URL: target.toString(),
         TIP024Q_ORGANIZATION_ID: identifiers.organizationId,
@@ -126,6 +152,9 @@ try {
       },
     },
   );
+  if (projectionVerification) {
+    process.stdout.write(`${projectionVerification}\n`);
+  }
 
   process.stdout.write(
     `${JSON.stringify({
