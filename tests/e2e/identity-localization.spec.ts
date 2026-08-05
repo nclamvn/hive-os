@@ -100,6 +100,8 @@ test("L10N-03 sign-in controls, brand, panel and footer share one center axis", 
   await page.setViewportSize({ width: 1156, height: 900 });
   await setLocale(page, "vi");
   await page.goto("/sign-in");
+  await expect(page.getByLabel("Ngôn ngữ")).toHaveValue("vi");
+  await expect(page.getByRole("option", { name: "VN" })).toBeAttached();
 
   const shell = await page.getByTestId("auth-shell").boundingBox();
   expect(shell).not.toBeNull();

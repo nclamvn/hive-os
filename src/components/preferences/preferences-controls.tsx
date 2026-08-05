@@ -73,7 +73,7 @@ export function PreferencesControls({
           className="instrument-select mt-1 w-full"
           aria-label={t("common.language")}
         >
-          <option value="vi">VI</option>
+          <option value="vi">VN</option>
           <option value="en">EN</option>
         </select>
       </label>
