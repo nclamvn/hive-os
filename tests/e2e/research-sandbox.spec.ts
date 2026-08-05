@@ -21,7 +21,7 @@ test("TIP-024B-E2E-01 queues a bounded research request without claiming a worke
   await createMission(page, dashboardUrl);
   await page.goto(`${dashboardUrl}/research`);
   await expect(page.getByRole("heading", { name: "AI proposes. Evidence decides. Humans approve." })).toBeVisible();
-  await expect(page.getByText("No provider worker is connected.")).toBeVisible();
+  await expect(page.getByText("Workers execute asynchronously. Runs stay queued until a configured adapter claims them.")).toBeVisible();
   await page.getByLabel("Research question").fill("What retained evidence is required?");
   await page.getByLabel("Scope and exclusion criteria").fill("Official protocols; exclude unsupported summaries.");
   await page.getByLabel("Query plan, one query per line").fill("retained UAV evidence protocol");
