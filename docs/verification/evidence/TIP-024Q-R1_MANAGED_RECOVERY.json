@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "classification": "MANAGED_STAGING_ISOLATED_RECOVERY",
+  "revision": "5c73448a5897339f359764b425581f181a32b582",
+  "sourceDatabase": "hiveos_staging",
+  "targetDatabase": "hiveos_recovery_tip024q_r1",
+  "dump": {
+    "sizeBytes": 467551,
+    "sha256": "dedf276a019cd16057e7dfef137b234ea5c2ae6c094276931fdf9ee4003eae57"
+  },
+  "before": {
+    "organizations": 1,
+    "workspaces": 1,
+    "missions": 0,
+    "auditEvents": 3,
+    "projections": 1,
+    "migrations": 25
+  },
+  "restored": {
+    "organizations": 1,
+    "workspaces": 1,
+    "missions": 0,
+    "auditEvents": 3,
+    "projections": 1,
+    "migrations": 25
+  },
+  "projectionTest": {
+    "testFilesPassed": 1,
+    "testsPassed": 1,
+    "testDurationMs": 2596,
+    "projectionRebuild": "PASS"
+  },
+  "liveDatasetMutated": false,
+  "temporaryDatabaseRemaining": 0,
+  "temporaryCredentialShredded": true,
+  "passed": true
+}

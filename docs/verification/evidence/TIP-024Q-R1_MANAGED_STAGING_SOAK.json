@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "classification": "MANAGED_STAGING_BOUNDED_NON_SLO",
+  "executionPlane": "AWS_LIGHTSAIL_EXTERNAL_CLOUDFRONT_ROUTE",
+  "baseUrl": "https://d366nm3yse819q.cloudfront.net",
+  "revision": "5c73448a5897339f359764b425581f181a32b582",
+  "startedAt": "2026-08-05T06:05:02.653Z",
+  "finishedAt": "2026-08-05T06:35:02.833Z",
+  "requestedDurationSeconds": 1800,
+  "elapsedSeconds": 1800.18,
+  "concurrency": 1,
+  "paceMs": 1000,
+  "requests": 1745,
+  "requestsPerSecond": 0.97,
+  "maxCompletionGapMs": 2886.64,
+  "totalTransportErrors": 0,
+  "total5xx": 0,
+  "endpoints": {
+    "/api/health/live": {
+      "count": 582,
+      "p50Ms": 17.61,
+      "p95Ms": 33.09,
+      "p99Ms": 135.23,
+      "maxMs": 280.63,
+      "statuses": { "200": 582 },
+      "transportErrors": 0,
+      "transportErrorKinds": {}
+    },
+    "/api/health/ready": {
+      "count": 582,
+      "p50Ms": 27.79,
+      "p95Ms": 46.71,
+      "p99Ms": 213.63,
+      "maxMs": 1614.31,
+      "statuses": { "200": 582 },
+      "transportErrors": 0,
+      "transportErrorKinds": {}
+    },
+    "/sign-in": {
+      "count": 581,
+      "p50Ms": 24.98,
+      "p95Ms": 47.35,
+      "p99Ms": 158.06,
+      "maxMs": 1805.7,
+      "statuses": { "200": 581 },
+      "transportErrors": 0,
+      "transportErrorKinds": {}
+    }
+  },
+  "runtime": {
+    "restartCount": 0,
+    "oomKilled": false,
+    "status": "running",
+    "memoryLimitBytes": 377487360,
+    "endMemoryMiB": 57.04,
+    "endMemoryPercent": 15.84,
+    "cloudwatchCpuSamples": 6,
+    "cloudwatchAverageCpuPercent": 1.8379667943649878,
+    "cloudwatchMaxCpuPercent": 5.562124265183433
+  },
+  "passed": true
+}
