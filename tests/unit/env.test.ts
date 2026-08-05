@@ -18,6 +18,19 @@ describe("environment schema", () => {
     expect(env.DB_POOL_MAX).toBe(10);
     expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
     expect(env.DB_SLOW_QUERY_MS).toBe(1_000);
+    expect(env.RESEARCH_WORKER_ENABLED).toBe(false);
+  });
+
+  it("TIP-024C fails closed when a worker adapter lacks credentials or a pinned runtime registry", () => {
+    expect(() => parseEnv({
+      ...validBase,
+      RESEARCH_WORKER_ENABLED: "true",
+      RESEARCH_OPENAI_ENABLED: "true",
+    })).toThrow(/RESEARCH_WORKER_ORGANIZATION_ID[\s\S]*RESEARCH_WORKER_ACTOR_USER_ID[\s\S]*OPENAI_API_KEY/);
+    expect(() => parseEnv({
+      ...validBase,
+      SANDBOX_DOCKER_ENABLED: "true",
+    })).toThrow(/SANDBOX_RUNTIME_REGISTRY_JSON/);
   });
 
   it("rejects a missing DATABASE_URL and names the variable", () => {

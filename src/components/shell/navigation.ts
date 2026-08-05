@@ -2,6 +2,7 @@ import {
   Boxes,
   ClipboardList,
   FileText,
+  FilePenLine,
   FlaskConical,
   LayoutDashboard,
   ListChecks,
@@ -9,6 +10,7 @@ import {
   PlaySquare,
   type LucideIcon,
   Radar,
+  Microscope,
   Settings,
   ShieldCheck,
   Target,
@@ -30,6 +32,8 @@ export interface NavItem {
   readonly segment:
     | ""
     | "missions"
+    | "authoring"
+    | "research"
     | "evidence"
     | "claims"
     | "execution"
@@ -58,6 +62,22 @@ export const NAV_ITEMS: readonly NavItem[] = [
     icon: Target,
     implemented: true,
     segment: "missions",
+  },
+  {
+    label: "Governed authoring",
+    labelKey: "nav.authoring",
+    group: "command",
+    icon: FilePenLine,
+    implemented: true,
+    segment: "authoring",
+  },
+  {
+    label: "Research Lab",
+    labelKey: "nav.research",
+    group: "truth",
+    icon: Microscope,
+    implemented: true,
+    segment: "research",
   },
   {
     label: "Evidence Hub",

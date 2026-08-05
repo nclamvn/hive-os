@@ -92,6 +92,72 @@ const VALID: Record<string, Record<string, unknown>> = {
     claimCount: 1,
     artifactCount: 3,
   },
+  [AuditEventType.AuthoringDocumentCreated]: {
+    documentKey: "DOC-1234ABCD",
+    documentType: "RESEARCH_PROPOSAL",
+    missionId: "mission-id",
+    revisionNumber: 1,
+  },
+  [AuditEventType.AuthoringRevisionCreated]: {
+    revisionNumber: 2,
+    digest: "a".repeat(64),
+    qualityStatus: "PASS",
+    blockerCount: 0,
+    warningCount: 0,
+  },
+  [AuditEventType.AuthoringExported]: {
+    revisionNumber: 2,
+    format: "PDF",
+    digest: "a".repeat(64),
+  },
+  [AuditEventType.ResearchRequested]: {
+    runId: "research-run",
+    missionId: "mission-id",
+    provider: "manual-research",
+    model: "research-v1",
+  },
+  [AuditEventType.ResearchCompleted]: {
+    runId: "research-run",
+    sourceCount: 2,
+    findingCount: 3,
+    resultDigest: "b".repeat(64),
+  },
+  [AuditEventType.ResearchReviewed]: {
+    runId: "research-run",
+    decision: "APPROVED",
+    acceptedCount: 2,
+    rejectedCount: 1,
+    flaggedCount: 0,
+    resultDigest: "c".repeat(64),
+  },
+  [AuditEventType.SandboxRequested]: {
+    runId: "sandbox-run",
+    missionId: "mission-id",
+    kind: "JUPYTER",
+    runtimeId: "jupyter-python",
+    networkPolicy: "DENY_ALL",
+  },
+  [AuditEventType.SandboxCompleted]: {
+    runId: "sandbox-run",
+    outputDigest: "d".repeat(64),
+    outputBytes: 1024,
+    isolationAttestation: {
+      engine: "docker",
+      imageReference: "example.invalid/runtime@sha256:" + "1".repeat(64),
+      imageDigest: "sha256:" + "1".repeat(64),
+      networkMode: "none",
+      readOnlyRootfs: true,
+      noNewPrivileges: true,
+      capDropAll: true,
+      pidsLimit: 128,
+      metricBasis: "ENFORCED_CEILING",
+    },
+  },
+  [AuditEventType.SandboxReviewed]: {
+    runId: "sandbox-run",
+    decision: "APPROVED",
+    outputDigest: "d".repeat(64),
+  },
 };
 
 describe("audit payload contract (SEC-02)", () => {

@@ -82,6 +82,16 @@ BEGIN
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'mission_source_revision') THEN
     REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON TABLE mission_source_revision FROM hiveos_app;
   END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'authoring_revision') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE authoring_revision FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE authoring_document FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'research_source_snapshot') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      research_source_snapshot, research_finding, research_finding_decision
+    FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE research_run, computation_run FROM hiveos_app;
+  END IF;
   -- TIP-021A: the identity security ledger is append-only for the runtime role
   -- (SELECT + INSERT only); it never receives UPDATE/DELETE/TRUNCATE, so its
   -- append-only triggers cannot be bypassed. auth_throttle_counter keeps full

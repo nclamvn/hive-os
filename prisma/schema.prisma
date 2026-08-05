@@ -284,6 +284,73 @@ enum DossierExportStatus {
   FAILED
 }
 
+enum AuthoringDocumentType {
+  RESEARCH_PROPOSAL
+  TECHNICAL_PROPOSAL
+  CLIENT_PROPOSAL
+  COURSE_DOSSIER
+  RESEARCH_PAPER
+  OTHER
+}
+
+enum AuthoringDocumentStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ResearchRunStatus {
+  QUEUED
+  RUNNING
+  AWAITING_REVIEW
+  APPROVED
+  REJECTED
+  FAILED
+  CANCELLED
+}
+
+enum ResearchProvenance {
+  VERIFIED_PRIMARY
+  CLAIM
+  FLAGGED
+}
+
+enum ResearchFindingKind {
+  SUPPORTING
+  CONFLICTING
+  CONTEXT
+  HONEST_NULL
+}
+
+enum ResearchDecision {
+  ACCEPTED
+  REJECTED
+  FLAGGED
+}
+
+enum ComputationKind {
+  LATEX_BUILD
+  CAS
+  JUPYTER
+}
+
+enum ComputationRunStatus {
+  QUEUED
+  RUNNING
+  AWAITING_REVIEW
+  APPROVED
+  REJECTED
+  FAILED
+  CANCELLED
+}
+
+enum SandboxNetworkPolicy {
+  DENY_ALL
+  ALLOWLIST
+}
+
 model Organization {
   id          String          @id @default(uuid())
   slug        String          @unique
@@ -319,6 +386,13 @@ model Organization {
   dossierExports         DossierExport[]
   dossierExportParts     DossierExportPart[]
   missionSourceRevisions MissionSourceRevision[]
+  authoringDocuments     AuthoringDocument[]
+  authoringRevisions     AuthoringRevision[]
+  researchRuns           ResearchRun[]
+  researchSources        ResearchSourceSnapshot[]
+  researchFindings       ResearchFinding[]
+  researchDecisions      ResearchFindingDecision[]
+  computationRuns        ComputationRun[]
 
   @@map("organization")
 }
@@ -1045,6 +1119,13 @@ model Workspace {
   dossierExports             DossierExport[]
   dossierExportParts         DossierExportPart[]
   missionSourceRevisions     MissionSourceRevision[]
+  authoringDocuments         AuthoringDocument[]
+  authoringRevisions         AuthoringRevision[]
+  researchRuns               ResearchRun[]
+  researchSources            ResearchSourceSnapshot[]
+  researchFindings           ResearchFinding[]
+  researchDecisions          ResearchFindingDecision[]
+  computationRuns            ComputationRun[]
 
   @@unique([organizationId, id])
   @@index([organizationId, orgUnitId, status])
@@ -1085,10 +1166,17 @@ model Membership {
   updatedAt   DateTime         @updatedAt @map("updated_at")
   version     Int              @default(1)
 
-  workspace          Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  issuedInvitations  Invitation[] @relation("InvitationInvitedBy")
-  performedAgentRuns AgentRun[]   @relation("AgentRunPerformer")
+  workspace             Workspace                 @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user                  User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issuedInvitations     Invitation[]              @relation("InvitationInvitedBy")
+  performedAgentRuns    AgentRun[]                @relation("AgentRunPerformer")
+  authoredDocuments     AuthoringDocument[]       @relation("AuthoringDocumentCreator")
+  authoredRevisions     AuthoringRevision[]       @relation("AuthoringRevisionCreator")
+  requestedResearch     ResearchRun[]             @relation("ResearchRunRequester")
+  reviewedResearch      ResearchRun[]             @relation("ResearchRunReviewer")
+  researchDecisions     ResearchFindingDecision[] @relation("ResearchDecisionReviewer")
+  requestedComputations ComputationRun[]          @relation("ComputationRunRequester")
+  reviewedComputations  ComputationRun[]          @relation("ComputationRunReviewer")
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -1322,6 +1410,13 @@ model Mission {
   lifecycleDispositions      LifecycleDisposition[]
   dossierExports             DossierExport[]
   sourceRevision             MissionSourceRevision?
+  authoringDocuments         AuthoringDocument[]
+  authoringRevisions         AuthoringRevision[]
+  researchRuns               ResearchRun[]
+  researchSources            ResearchSourceSnapshot[]
+  researchFindings           ResearchFinding[]
+  researchDecisions          ResearchFindingDecision[]
+  computationRuns            ComputationRun[]
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
@@ -2424,6 +2519,258 @@ model ReleaseManifest {
 
   @@index([workspaceId, missionId])
   @@map("release_manifest")
+}
+
+// ---------------------------------------------------------------------------
+// Governed Authoring. The mutable document row selects an immutable revision;
+// revision content is strict-schema JSON and content-hashed before retention.
+// ---------------------------------------------------------------------------
+
+model AuthoringDocument {
+  id                    String                  @id @default(uuid())
+  organizationId        String                  @map("organization_id")
+  workspaceId           String                  @map("workspace_id")
+  missionId             String                  @map("mission_id")
+  documentKey           String                  @map("document_key")
+  title                 String
+  documentType          AuthoringDocumentType   @map("document_type")
+  status                AuthoringDocumentStatus @default(DRAFT)
+  currentRevisionNumber Int                     @default(1) @map("current_revision_number")
+  createdByMembershipId String                  @map("created_by_membership_id")
+  createdAt             DateTime                @default(now()) @map("created_at")
+  updatedAt             DateTime                @updatedAt @map("updated_at")
+  version               Int                     @default(1)
+
+  organization    Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace       Workspace           @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission         Mission             @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  createdBy       Membership          @relation("AuthoringDocumentCreator", fields: [createdByMembershipId], references: [id], onDelete: Restrict)
+  revisions       AuthoringRevision[]
+  researchRuns    ResearchRun[]
+  computationRuns ComputationRun[]
+
+  @@unique([workspaceId, documentKey])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status])
+  @@index([workspaceId, missionId, updatedAt])
+  @@map("authoring_document")
+}
+
+/// Append-only retained authoring state. UPDATE and DELETE are rejected by a
+/// database trigger; a change always creates the next numbered revision.
+model AuthoringRevision {
+  id                     String   @id @default(uuid())
+  organizationId         String   @map("organization_id")
+  workspaceId            String   @map("workspace_id")
+  missionId              String   @map("mission_id")
+  documentId             String   @map("document_id")
+  revisionNumber         Int      @map("revision_number")
+  title                  String
+  abstract               String
+  sections               Json
+  citations              Json
+  computationalArtifacts Json     @default("[]") @map("computational_artifacts")
+  qualityReport          Json     @map("quality_report")
+  contentHash            String   @map("content_hash")
+  changeSummary          String   @map("change_summary")
+  createdByMembershipId  String   @map("created_by_membership_id")
+  createdAt              DateTime @default(now()) @map("created_at")
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace         @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission           @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document     AuthoringDocument @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  createdBy    Membership        @relation("AuthoringRevisionCreator", fields: [createdByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([documentId, revisionNumber])
+  @@unique([documentId, contentHash])
+  @@index([organizationId, workspaceId, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("authoring_revision")
+}
+
+// ---------------------------------------------------------------------------
+// TIP-024B — Governed Research Agent and Computational Sandbox.
+// Workers are provider-neutral adapters. Captured sources, findings, review
+// decisions and completed output manifests are retained as immutable records.
+// ---------------------------------------------------------------------------
+
+model ResearchRun {
+  id                      String            @id @default(uuid())
+  organizationId          String            @map("organization_id")
+  workspaceId             String            @map("workspace_id")
+  missionId               String            @map("mission_id")
+  documentId              String?           @map("document_id")
+  question                String
+  scope                   String
+  sourcePolicy            Json              @map("source_policy")
+  queryPlan               Json              @map("query_plan")
+  providerName            String            @map("provider_name")
+  modelName               String            @map("model_name")
+  status                  ResearchRunStatus @default(QUEUED)
+  commandId               String            @unique @map("command_id")
+  jobId                   String?           @unique @map("job_id")
+  requestedByMembershipId String            @map("requested_by_membership_id")
+  reviewedByMembershipId  String?           @map("reviewed_by_membership_id")
+  reviewRationale         String?           @map("review_rationale")
+  approvedDigest          String?           @map("approved_digest")
+  failureCode             String?           @map("failure_code")
+  startedAt               DateTime?         @map("started_at")
+  completedAt             DateTime?         @map("completed_at")
+  reviewedAt              DateTime?         @map("reviewed_at")
+  createdAt               DateTime          @default(now()) @map("created_at")
+  updatedAt               DateTime          @updatedAt @map("updated_at")
+  version                 Int               @default(1)
+
+  organization             Organization              @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace                Workspace                 @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission                  Mission                   @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document                 AuthoringDocument?        @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy              Membership                @relation("ResearchRunRequester", fields: [requestedByMembershipId], references: [id], onDelete: Restrict)
+  reviewedBy               Membership?               @relation("ResearchRunReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+  sources                  ResearchSourceSnapshot[]
+  findings                 ResearchFinding[]
+  computations             ComputationRun[]
+  researchFindingDecisions ResearchFindingDecision[]
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("research_run")
+}
+
+/// Immutable source body captured by a research worker. A digest mismatch or
+/// an invalid exact excerpt causes the entire worker result to fail closed.
+model ResearchSourceSnapshot {
+  id             String             @id @default(uuid())
+  organizationId String             @map("organization_id")
+  workspaceId    String             @map("workspace_id")
+  missionId      String             @map("mission_id")
+  researchRunId  String             @map("research_run_id")
+  canonicalUri   String             @map("canonical_uri")
+  title          String
+  publisher      String
+  mediaType      String             @map("media_type")
+  content        String
+  contentDigest  String             @map("content_digest")
+  provenance     ResearchProvenance
+  capturedAt     DateTime           @map("captured_at")
+  createdAt      DateTime           @default(now()) @map("created_at")
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace         @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission           @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun       @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  findings     ResearchFinding[]
+
+  @@unique([researchRunId, canonicalUri, contentDigest])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, researchRunId, capturedAt])
+  @@map("research_source_snapshot")
+}
+
+/// Immutable claim-sized result bound to an exact span in a captured source.
+model ResearchFinding {
+  id             String              @id @default(uuid())
+  organizationId String              @map("organization_id")
+  workspaceId    String              @map("workspace_id")
+  missionId      String              @map("mission_id")
+  researchRunId  String              @map("research_run_id")
+  sourceId       String?             @map("source_id")
+  findingKey     String              @map("finding_key")
+  kind           ResearchFindingKind
+  claim          String
+  exactExcerpt   String              @map("exact_excerpt")
+  startOffset    Int?                @map("start_offset")
+  endOffset      Int?                @map("end_offset")
+  confidence     Decimal             @db.Decimal(5, 4)
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  organization Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace                @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                  @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun              @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  source       ResearchSourceSnapshot?  @relation(fields: [workspaceId, sourceId], references: [workspaceId, id], onDelete: Restrict)
+  decision     ResearchFindingDecision?
+
+  @@unique([researchRunId, findingKey])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, researchRunId, kind])
+  @@map("research_finding")
+}
+
+/// One immutable human decision per finding. The research agent cannot create
+/// this row and the requester cannot review their own run.
+model ResearchFindingDecision {
+  id                     String           @id @default(uuid())
+  organizationId         String           @map("organization_id")
+  workspaceId            String           @map("workspace_id")
+  missionId              String           @map("mission_id")
+  researchRunId          String           @map("research_run_id")
+  findingId              String           @unique @map("finding_id")
+  decision               ResearchDecision
+  rationale              String
+  reviewedByMembershipId String           @map("reviewed_by_membership_id")
+  createdAt              DateTime         @default(now()) @map("created_at")
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace       @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission         @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun     @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  finding      ResearchFinding @relation(fields: [workspaceId, findingId], references: [workspaceId, id], onDelete: Restrict)
+  reviewedBy   Membership      @relation("ResearchDecisionReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, findingId])
+  @@index([organizationId, workspaceId, researchRunId, createdAt])
+  @@map("research_finding_decision")
+}
+
+model ComputationRun {
+  id                      String               @id @default(uuid())
+  organizationId          String               @map("organization_id")
+  workspaceId             String               @map("workspace_id")
+  missionId               String               @map("mission_id")
+  documentId              String?              @map("document_id")
+  researchRunId           String?              @map("research_run_id")
+  kind                    ComputationKind
+  runtimeId               String               @map("runtime_id")
+  runtimeVersion          String               @map("runtime_version")
+  entrypoint              String
+  networkPolicy           SandboxNetworkPolicy @default(DENY_ALL) @map("network_policy")
+  networkAllowlist        Json                 @default("[]") @map("network_allowlist")
+  resourceLimits          Json                 @map("resource_limits")
+  inputReference          String               @map("input_reference")
+  inputDigest             String               @map("input_digest")
+  status                  ComputationRunStatus @default(QUEUED)
+  commandId               String               @unique @map("command_id")
+  jobId                   String?              @unique @map("job_id")
+  outputReference         String?              @map("output_reference")
+  outputDigest            String?              @map("output_digest")
+  outputMediaType         String?              @map("output_media_type")
+  outputBytes             Int?                 @map("output_bytes")
+  requestedByMembershipId String               @map("requested_by_membership_id")
+  reviewedByMembershipId  String?              @map("reviewed_by_membership_id")
+  reviewRationale         String?              @map("review_rationale")
+  failureCode             String?              @map("failure_code")
+  startedAt               DateTime?            @map("started_at")
+  completedAt             DateTime?            @map("completed_at")
+  reviewedAt              DateTime?            @map("reviewed_at")
+  createdAt               DateTime             @default(now()) @map("created_at")
+  updatedAt               DateTime             @updatedAt @map("updated_at")
+  version                 Int                  @default(1)
+
+  organization Organization       @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace          @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission            @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document     AuthoringDocument? @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun?       @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy  Membership         @relation("ComputationRunRequester", fields: [requestedByMembershipId], references: [id], onDelete: Restrict)
+  reviewedBy   Membership?        @relation("ComputationRunReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("computation_run")
 }
 
 // ---------------------------------------------------------------------------

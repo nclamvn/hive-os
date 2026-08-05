@@ -37,6 +37,16 @@ export default defineConfig({
           fileParallelism: false,
         },
       },
+      {
+        extends: true,
+        test: {
+          name: "container",
+          environment: "node",
+          include: ["tests/container/**/*.test.ts"],
+          fileParallelism: false,
+          testTimeout: 30_000,
+        },
+      },
     ],
   },
 });

@@ -375,6 +375,92 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       artifactCount: z.number().int().nonnegative(),
     })
     .strict(),
+  "authoring.document_created": z
+    .object({
+      documentKey: z.string(),
+      documentType: z.string(),
+      missionId: z.string(),
+      revisionNumber: z.number().int().positive(),
+    })
+    .strict(),
+  "authoring.revision_created": z
+    .object({
+      revisionNumber: z.number().int().positive(),
+      digest: z.string().regex(/^[a-f0-9]{64}$/),
+      qualityStatus: z.string(),
+      blockerCount: z.number().int().nonnegative(),
+      warningCount: z.number().int().nonnegative(),
+    })
+    .strict(),
+  "authoring.exported": z
+    .object({
+      revisionNumber: z.number().int().positive(),
+      format: z.enum(["DOCX", "PDF"]),
+      digest: z.string().regex(/^[a-f0-9]{64}$/),
+    })
+    .strict(),
+  "research.requested": z
+    .object({
+      runId: z.string(),
+      missionId: z.string(),
+      provider: z.string(),
+      model: z.string(),
+    })
+    .strict(),
+  "research.completed": z
+    .object({
+      runId: z.string(),
+      sourceCount: z.number().int().nonnegative(),
+      findingCount: z.number().int().nonnegative(),
+      resultDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    })
+    .strict(),
+  "research.reviewed": z
+    .object({
+      runId: z.string(),
+      decision: z.enum(["APPROVED", "REJECTED"]),
+      acceptedCount: z.number().int().nonnegative(),
+      rejectedCount: z.number().int().nonnegative(),
+      flaggedCount: z.number().int().nonnegative(),
+      resultDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    })
+    .strict(),
+  "sandbox.requested": z
+    .object({
+      runId: z.string(),
+      missionId: z.string(),
+      kind: z.string(),
+      runtimeId: z.string(),
+      networkPolicy: z.string(),
+    })
+    .strict(),
+  "sandbox.completed": z
+    .object({
+      runId: z.string(),
+      outputDigest: z.string().regex(/^[a-f0-9]{64}$/),
+      outputBytes: z.number().int().nonnegative(),
+      isolationAttestation: z
+        .object({
+          engine: z.literal("docker"),
+          imageReference: z.string(),
+          imageDigest: z.string().regex(/^sha256:[a-f0-9]{64}$/),
+          networkMode: z.literal("none"),
+          readOnlyRootfs: z.literal(true),
+          noNewPrivileges: z.literal(true),
+          capDropAll: z.literal(true),
+          pidsLimit: z.number().int().positive(),
+          metricBasis: z.literal("ENFORCED_CEILING"),
+        })
+        .strict(),
+    })
+    .strict(),
+  "sandbox.reviewed": z
+    .object({
+      runId: z.string(),
+      decision: z.enum(["APPROVED", "REJECTED"]),
+      outputDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    })
+    .strict(),
 } as const;
 
 /** Canonical governed event types for Identity & Workspace. */
@@ -457,6 +543,15 @@ export const AuditEventType = {
   VerificationReportCompleted: "verification.report_completed",
   GovernanceSignoffRecorded: "governance.signoff_recorded",
   ReleaseApproved: "release.approved",
+  AuthoringDocumentCreated: "authoring.document_created",
+  AuthoringRevisionCreated: "authoring.revision_created",
+  AuthoringExported: "authoring.exported",
+  ResearchRequested: "research.requested",
+  ResearchCompleted: "research.completed",
+  ResearchReviewed: "research.reviewed",
+  SandboxRequested: "sandbox.requested",
+  SandboxCompleted: "sandbox.completed",
+  SandboxReviewed: "sandbox.reviewed",
 } as const;
 
 export type AuditEventTypeValue =

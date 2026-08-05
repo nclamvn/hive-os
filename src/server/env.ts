@@ -113,6 +113,27 @@ const envSchema = z
       .transform((v) => v === "true"),
     SMTP_USERNAME: z.string().optional(),
     SMTP_PASSWORD: z.string().optional(),
+    // --- TIP-024C governed research / isolated computation worker ---
+    RESEARCH_WORKER_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    RESEARCH_OPENAI_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    SANDBOX_DOCKER_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    OPENAI_API_KEY: z.string().min(1).optional(),
+    OPENAI_PROJECT: z.string().min(1).optional(),
+    RESEARCH_WORKER_ORGANIZATION_ID: z.string().uuid().optional(),
+    RESEARCH_WORKER_ACTOR_USER_ID: z.string().min(1).max(200).optional(),
+    RESEARCH_WORKER_ID: z.string().min(1).max(120).default("research-sandbox-worker"),
+    RESEARCH_WORKER_POLL_MS: z.coerce.number().int().min(250).max(60_000).default(2_000),
+    RESEARCH_WORKER_CLAIM_FIRST: z.coerce.number().int().min(1).max(20).default(4),
+    SANDBOX_RUNTIME_REGISTRY_JSON: z.string().optional(),
   })
   .superRefine((env, ctx) => {
     // `next build` evaluates modules under NODE_ENV=production but is not a
@@ -285,6 +306,23 @@ const envSchema = z
           // BETTER_AUTH_URL validity is enforced by its own schema rule.
         }
       }
+    }
+    if (!buildPhase && env.RESEARCH_WORKER_ENABLED) {
+      if (!env.RESEARCH_OPENAI_ENABLED && !env.SANDBOX_DOCKER_ENABLED) {
+        ctx.addIssue({ code: "custom", path: ["RESEARCH_WORKER_ENABLED"], message: "requires at least one enabled adapter" });
+      }
+      if (!env.RESEARCH_WORKER_ORGANIZATION_ID) {
+        ctx.addIssue({ code: "custom", path: ["RESEARCH_WORKER_ORGANIZATION_ID"], message: "required when the research worker is enabled" });
+      }
+      if (!env.RESEARCH_WORKER_ACTOR_USER_ID) {
+        ctx.addIssue({ code: "custom", path: ["RESEARCH_WORKER_ACTOR_USER_ID"], message: "required when the research worker is enabled" });
+      }
+    }
+    if (!buildPhase && env.RESEARCH_OPENAI_ENABLED && !env.OPENAI_API_KEY) {
+      ctx.addIssue({ code: "custom", path: ["OPENAI_API_KEY"], message: "required when the OpenAI research adapter is enabled" });
+    }
+    if (!buildPhase && env.SANDBOX_DOCKER_ENABLED && !env.SANDBOX_RUNTIME_REGISTRY_JSON) {
+      ctx.addIssue({ code: "custom", path: ["SANDBOX_RUNTIME_REGISTRY_JSON"], message: "required when the Docker sandbox adapter is enabled" });
     }
   });
 

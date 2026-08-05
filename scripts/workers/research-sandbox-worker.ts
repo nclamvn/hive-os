@@ -1,0 +1,36 @@
+import { randomUUID } from "node:crypto";
+
+import { getEnv } from "../../src/server/env";
+import { parseDockerRuntimeRegistry } from "../../src/modules/research-sandbox/adapters/runtime-registry";
+import {
+  runResearchSandboxWorkerCycle,
+} from "../../src/server/workers/research-sandbox-cycle";
+
+const env = getEnv();
+if (!env.RESEARCH_WORKER_ENABLED) throw new Error("RESEARCH_WORKER_ENABLED must be true");
+
+let stopping = false;
+process.on("SIGINT", () => { stopping = true; });
+process.on("SIGTERM", () => { stopping = true; });
+
+const config = {
+  organizationId: env.RESEARCH_WORKER_ORGANIZATION_ID!,
+  actorUserId: env.RESEARCH_WORKER_ACTOR_USER_ID!,
+  workerId: env.RESEARCH_WORKER_ID,
+  openai: env.RESEARCH_OPENAI_ENABLED
+    ? { apiKey: env.OPENAI_API_KEY!, projectId: env.OPENAI_PROJECT }
+    : undefined,
+  dockerRuntimes: env.SANDBOX_DOCKER_ENABLED
+    ? parseDockerRuntimeRegistry(env.SANDBOX_RUNTIME_REGISTRY_JSON!)
+    : undefined,
+  claimFirst: env.RESEARCH_WORKER_CLAIM_FIRST,
+};
+
+while (!stopping) {
+  const result = await runResearchSandboxWorkerCycle({
+    ...config,
+    correlationId: randomUUID(),
+  });
+  process.stdout.write(`${JSON.stringify({ event: "research_sandbox_worker_cycle", ...result })}\n`);
+  if (!stopping) await new Promise((resolve) => setTimeout(resolve, env.RESEARCH_WORKER_POLL_MS));
+}

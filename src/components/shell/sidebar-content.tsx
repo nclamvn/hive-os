@@ -182,6 +182,8 @@ export function SidebarContent({
                       ? [
                           "",
                           "missions",
+                          "authoring",
+                          "research",
                           "evidence",
                           "execution",
                           "verification",

@@ -60,7 +60,16 @@ export type Capability =
   | "lifecycle.read"
   | "lifecycle.manage"
   | "exports.request"
-  | "exports.read";
+  | "exports.read"
+  // Governed Authoring
+  | "authoring.read"
+  | "authoring.write"
+  | "authoring.export"
+  | "research.read"
+  | "research.request"
+  | "research.review"
+  | "sandbox.request"
+  | "sandbox.review";
 
 const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "workspace.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
@@ -115,6 +124,14 @@ const MATRIX: Record<Capability, ReadonlySet<Role>> = {
   "lifecycle.manage": new Set(["OWNER", "ADMIN"]),
   "exports.request": new Set(["OWNER", "ADMIN"]),
   "exports.read": new Set(["OWNER", "ADMIN"]),
+  "authoring.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "authoring.write": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "authoring.export": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "research.read": new Set(["OWNER", "ADMIN", "MEMBER", "VIEWER"]),
+  "research.request": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "research.review": new Set(["OWNER", "ADMIN"]),
+  "sandbox.request": new Set(["OWNER", "ADMIN", "MEMBER"]),
+  "sandbox.review": new Set(["OWNER", "ADMIN"]),
 };
 
 export function hasCapability(role: Role, capability: Capability): boolean {

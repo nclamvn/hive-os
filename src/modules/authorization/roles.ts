@@ -51,6 +51,14 @@ export const ENTERPRISE_CAPABILITIES = [
   "lifecycle.manage",
   "exports.request",
   "exports.read",
+  "authoring.read",
+  "authoring.write",
+  "authoring.export",
+  "research.read",
+  "research.request",
+  "research.review",
+  "sandbox.request",
+  "sandbox.review",
 ] as const satisfies readonly Capability[];
 
 const all = new Set<Capability>(ENTERPRISE_CAPABILITIES);
@@ -66,6 +74,8 @@ const read = new Set<Capability>([
   "verification.read",
   "workflow.read",
   "projections.read",
+  "authoring.read",
+  "research.read",
 ]);
 const contributor = new Set<Capability>([
   ...read,
@@ -79,6 +89,10 @@ const contributor = new Set<Capability>([
   "execution.operate",
   "verification.operate",
   "workflow.request",
+  "authoring.write",
+  "authoring.export",
+  "research.request",
+  "sandbox.request",
 ]);
 
 export const ENTERPRISE_ROLE_CAPABILITIES: Record<
@@ -103,6 +117,8 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "projections.manage",
     "exports.request",
     "exports.read",
+    "research.review",
+    "sandbox.review",
   ]),
   MISSION_OWNER: new Set([
     ...contributor,
@@ -118,6 +134,8 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "projections.manage",
     "exports.request",
     "exports.read",
+    "research.review",
+    "sandbox.review",
   ]),
   CONTRIBUTOR: contributor,
   BUILDER: new Set([...read, "truth.write", "execution.operate"]),
@@ -127,6 +145,8 @@ export const ENTERPRISE_ROLE_CAPABILITIES: Record<
     "verification.operate",
     "verification.review",
     "workflow.approve",
+    "research.review",
+    "sandbox.review",
   ]),
   RELEASE_APPROVER: new Set([
     ...read,
