@@ -16,6 +16,20 @@ export interface SignedUp {
   dashboardUrl: string;
 }
 
+export async function setLocale(
+  page: Page,
+  locale: "vi" | "en",
+): Promise<void> {
+  await page.context().addCookies([
+    {
+      name: "hive-locale",
+      value: locale,
+      url: E2E_BASE_URL,
+      sameSite: "Lax",
+    },
+  ]);
+}
+
 /**
  * Mark a credential user's email verified directly in the test database.
  * TIP-021A requires a verified email before a session; E2E flows that need an
@@ -38,21 +52,45 @@ export async function markEmailVerified(email: string): Promise<void> {
 }
 
 /** Fill and submit the sign-up form; lands on the neutral check-email page. */
-export async function signUp(page: Page, email: string): Promise<void> {
+export async function signUp(
+  page: Page,
+  email: string,
+  locale: "vi" | "en" = "en",
+): Promise<void> {
+  await setLocale(page, locale);
   await page.goto("/sign-up");
-  await page.getByLabel("Name").fill("E2E User");
+  await page
+    .getByLabel(locale === "vi" ? "Họ và tên" : "Name")
+    .fill("E2E User");
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(E2E_PASSWORD);
-  await page.getByRole("button", { name: "Create account" }).click();
+  await page
+    .getByLabel(locale === "vi" ? "Mật khẩu" : "Password", { exact: true })
+    .fill(E2E_PASSWORD);
+  await page
+    .getByRole("button", {
+      name: locale === "vi" ? "Tạo tài khoản" : "Create account",
+    })
+    .click();
   await page.waitForURL(/\/check-email/, { timeout: 20_000 });
 }
 
 /** Sign in an existing verified user via the sign-in form. */
-export async function signIn(page: Page, email: string): Promise<void> {
+export async function signIn(
+  page: Page,
+  email: string,
+  locale: "vi" | "en" = "en",
+): Promise<void> {
+  await setLocale(page, locale);
   await page.goto("/sign-in");
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(E2E_PASSWORD);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page
+    .getByLabel(locale === "vi" ? "Mật khẩu" : "Password", { exact: true })
+    .fill(E2E_PASSWORD);
+  await page
+    .getByRole("button", {
+      name: locale === "vi" ? "Đăng nhập" : "Sign in",
+    })
+    .click();
 }
 
 /**
@@ -64,22 +102,20 @@ export async function signUpToDashboard(
   workspaceName = "E2E Workspace",
   locale: "vi" | "en" = "en",
 ): Promise<SignedUp> {
-  await page.context().addCookies([
-    {
-      name: "hive-locale",
-      value: locale,
-      url: E2E_BASE_URL,
-      sameSite: "Lax",
-    },
-  ]);
   const email = uniqueEmail();
-  await signUp(page, email);
+  await signUp(page, email, locale);
   await markEmailVerified(email);
-  await signIn(page, email);
+  await signIn(page, email, locale);
 
   await page.waitForURL("**/onboarding", { timeout: 20_000 });
-  await page.getByLabel("Workspace name").fill(workspaceName);
-  await page.getByRole("button", { name: "Create workspace" }).click();
+  await page
+    .getByLabel(locale === "vi" ? "Tên không gian làm việc" : "Workspace name")
+    .fill(workspaceName);
+  await page
+    .getByRole("button", {
+      name: locale === "vi" ? "Tạo không gian làm việc" : "Create workspace",
+    })
+    .click();
 
   await page.waitForURL(/\/w\//, { timeout: 20_000 });
   await expect(

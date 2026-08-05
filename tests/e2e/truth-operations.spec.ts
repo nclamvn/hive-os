@@ -59,13 +59,15 @@ test.describe("TIP-013 Truth Operations", () => {
       .getByLabel("Captured content")
       .fill("The independently measured governed value is 42.");
     await snapshot.getByRole("button", { name: "Save governed record" }).click();
-    await expect(page.getByText(/SHA-256 [a-f0-9]{64}/)).toBeVisible();
+    const manualSnapshotHash = createHash("sha256")
+      .update("The independently measured governed value is 42.")
+      .digest("hex");
+    await expect(
+      page.getByText(`SHA-256 ${manualSnapshotHash}`, { exact: true }),
+    ).toBeVisible();
 
     const span = page.getByRole("form", { name: "Retain exact evidence span" });
-    const manualDigest = createHash("sha256")
-      .update("The independently measured governed value is 42.")
-      .digest("hex")
-      .slice(0, 10);
+    const manualDigest = manualSnapshotHash.slice(0, 10);
     const snapshotSelect = span.getByLabel("Snapshot");
     await expect(snapshotSelect.locator("option")).toHaveCount(3);
     const manualSnapshotId = await snapshotSelect

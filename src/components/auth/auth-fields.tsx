@@ -3,6 +3,8 @@
 import { type ReactNode, useId, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
+import { useAuthCopy } from "@/i18n/use-core-copy";
+
 /**
  * Accessible auth field primitives shared by recovery forms: a password field
  * with an accessible show/hide toggle and pre-submission requirement text, plus
@@ -20,6 +22,7 @@ export function PasswordField({
   autoComplete: string;
   requirementText?: string;
 }) {
+  const copy = useAuthCopy();
   const [visible, setVisible] = useState(false);
   const hintId = useId();
   return (
@@ -46,7 +49,7 @@ export function PasswordField({
           {/* Accessible name via visually-hidden text (not aria-label) so form
               label queries never collide with the "Password" field label. */}
           <span className="sr-only">
-            {visible ? "Hide password" : "Show password"}
+            {visible ? copy.common.hidePassword : copy.common.showPassword}
           </span>
           {visible ? (
             <EyeOff className="size-4" aria-hidden="true" />

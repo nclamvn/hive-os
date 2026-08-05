@@ -35,13 +35,13 @@ test("PRC-04 correlation IDs are validated and propagated", async ({
   const malformed = await request.get("/api/health/live", {
     headers: { "x-correlation-id": "unsafe value with spaces" },
   });
-  expect(malformed.headers()["x-correlation-id"]).toMatch(
-    /^[0-9a-f-]{36}$/,
-  );
+  expect(malformed.headers()["x-correlation-id"]).toMatch(/^[0-9a-f-]{36}$/);
 });
 
 test("unauthenticated root redirects to sign-in", async ({ page }) => {
   await page.goto("/");
   await page.waitForURL("**/sign-in");
-  await expect(page.getByRole("heading", { level: 1, name: "Sign in" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Đăng nhập" }),
+  ).toBeVisible();
 });

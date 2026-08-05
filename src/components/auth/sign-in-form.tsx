@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field, FormError } from "./auth-card";
 import { FormStatus } from "./auth-fields";
 
 export function SignInForm() {
+  const copy = useAuthCopy();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
@@ -30,13 +32,12 @@ export function SignInForm() {
     setBusy(false);
     if (signInError) {
       const unverified =
-        signInError.status === 403 ||
-        /verif/i.test(signInError.message ?? "");
+        signInError.status === 403 || /verif/i.test(signInError.message ?? "");
       if (unverified) {
         setUnverifiedEmail(email);
         return;
       }
-      setError(signInError.message ?? "Unable to sign in");
+      setError(copy.signIn.unable);
       return;
     }
     router.push("/");
@@ -57,14 +58,9 @@ export function SignInForm() {
   if (unverifiedEmail) {
     return (
       <div>
-        <FormStatus>
-          Your email isn&apos;t verified yet. Check your inbox for the
-          confirmation link to finish signing in.
-        </FormStatus>
+        <FormStatus>{copy.signIn.unverified}</FormStatus>
         {resent ? (
-          <FormStatus>
-            If this account still needs verification, a new link is on its way.
-          </FormStatus>
+          <FormStatus>{copy.signIn.resent}</FormStatus>
         ) : (
           <Button
             type="button"
@@ -72,7 +68,7 @@ export function SignInForm() {
             onClick={resend}
             className="w-full"
           >
-            Resend verification email
+            {copy.signIn.resend}
           </Button>
         )}
       </div>
@@ -82,10 +78,15 @@ export function SignInForm() {
   return (
     <form onSubmit={onSubmit} noValidate>
       <FormError message={error} />
-      <Field id="email" label="Email" type="email" autoComplete="email" />
+      <Field
+        id="email"
+        label={copy.common.email}
+        type="email"
+        autoComplete="email"
+      />
       <Field
         id="password"
-        label="Password"
+        label={copy.common.password}
         type="password"
         autoComplete="current-password"
       />
@@ -94,11 +95,16 @@ export function SignInForm() {
           href="/forgot-password"
           className="text-meta text-blue-600 font-medium underline"
         >
-          Forgot password?
+          {copy.signIn.forgotPassword}
         </Link>
       </div>
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Signing in…" : "Sign in"}
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="mt-2 w-full"
+      >
+        {busy ? copy.signIn.busy : copy.signIn.submit}
       </Button>
     </form>
   );

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { formatAuthCopy } from "@/i18n/auth-copy";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field, FormError } from "./auth-card";
 import { PasswordField } from "./auth-fields";
 
@@ -12,6 +14,7 @@ const MIN = 12;
 const MAX = 128;
 
 export function SignUpForm() {
+  const copy = useAuthCopy();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -24,7 +27,7 @@ export function SignUpForm() {
     const email = String(form.get("email") ?? "");
     const password = String(form.get("password") ?? "");
     if (password.length < MIN || password.length > MAX) {
-      setError(`Password must be between ${MIN} and ${MAX} characters.`);
+      setError(formatAuthCopy(copy.signUp.rangeError, { min: MIN, max: MAX }));
       return;
     }
     setBusy(true);
@@ -46,16 +49,29 @@ export function SignUpForm() {
   return (
     <form onSubmit={onSubmit} noValidate>
       <FormError message={error} />
-      <Field id="name" label="Name" autoComplete="name" />
-      <Field id="email" label="Email" type="email" autoComplete="email" />
+      <Field id="name" label={copy.common.name} autoComplete="name" />
+      <Field
+        id="email"
+        label={copy.common.email}
+        type="email"
+        autoComplete="email"
+      />
       <PasswordField
         id="password"
-        label="Password"
+        label={copy.common.password}
         autoComplete="new-password"
-        requirementText={`Use ${MIN}–${MAX} characters. You'll confirm your email before signing in.`}
+        requirementText={formatAuthCopy(copy.signUp.requirement, {
+          min: MIN,
+          max: MAX,
+        })}
       />
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Creating account…" : "Create account"}
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="mt-2 w-full"
+      >
+        {busy ? copy.signUp.busy : copy.signUp.submit}
       </Button>
     </form>
   );

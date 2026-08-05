@@ -5,12 +5,15 @@ import { Button } from "@/components/ui/button";
 import { createWorkspaceAction } from "@/app/actions/identity";
 import { listWorkspacesForUser } from "@/modules/identity-workspace";
 import { currentUser } from "@/server/auth/session";
+import { authCopy } from "@/i18n/auth-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function OnboardingPage() {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
+  const copy = authCopy[await getLocale()];
 
   // Idempotent: if a workspace already exists, go straight to it.
   const workspaces = await listWorkspacesForUser(user.id);
@@ -18,13 +21,17 @@ export default async function OnboardingPage() {
 
   return (
     <AuthCard
-      title="Create your workspace"
-      description="Name the workspace where your missions will live. You will be its owner."
+      title={copy.onboarding.title}
+      description={copy.onboarding.description}
     >
       <form action={createWorkspaceAction} noValidate>
-        <Field id="name" label="Workspace name" autoComplete="organization" />
+        <Field
+          id="name"
+          label={copy.onboarding.name}
+          autoComplete="organization"
+        />
         <Button type="submit" variant="primary" className="mt-2 w-full">
-          Create workspace
+          {copy.onboarding.submit}
         </Button>
       </form>
     </AuthCard>

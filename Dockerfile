@@ -2,6 +2,7 @@ FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9
 WORKDIR /app
 RUN apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates openssl \
+    postgresql-client \
   && rm -rf /var/lib/apt/lists/*
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
@@ -12,6 +13,9 @@ FROM deps AS migrator
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.revision=$VCS_REF
 COPY scripts/db ./scripts/db
+COPY tsconfig.json vitest.config.ts ./
+COPY src ./src
+COPY tests/scale ./tests/scale
 USER node
 CMD ["npm", "run", "db:bootstrap"]
 

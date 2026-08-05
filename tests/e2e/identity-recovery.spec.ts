@@ -4,11 +4,16 @@ import { expect, test } from "@playwright/test";
 import {
   E2E_PASSWORD,
   markEmailVerified,
+  setLocale,
   signIn,
   signUp,
   signUpToDashboard,
   uniqueEmail,
 } from "./auth-helpers";
+
+test.beforeEach(async ({ page }) => {
+  await setLocale(page, "en");
+});
 
 async function expectNoSeriousA11y(page: import("@playwright/test").Page) {
   const results = await new AxeBuilder({ page })

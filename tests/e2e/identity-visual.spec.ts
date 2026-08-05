@@ -5,6 +5,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 import {
   markEmailVerified,
+  setLocale,
   signIn,
   signUp,
   signUpToDashboard,
@@ -22,6 +23,7 @@ async function shoot(page: Page, name: string) {
 }
 
 test("capture sign-in", async ({ page }) => {
+  await setLocale(page, "en");
   await page.setViewportSize(DESKTOP);
   await page.goto("/sign-in");
   await page.getByRole("heading", { level: 1, name: "Sign in" }).waitFor();
@@ -48,7 +50,9 @@ test("capture workspace settings, members, audit", async ({ page }) => {
   const { dashboardUrl } = await signUpToDashboard(page, "Evidence Lab");
 
   await page.goto(`${dashboardUrl}/settings/workspace`);
-  await page.getByRole("heading", { level: 1, name: "Workspace settings" }).waitFor();
+  await page
+    .getByRole("heading", { level: 1, name: "Workspace settings" })
+    .waitFor();
   await shoot(page, "settings-workspace-desktop");
   await page.setViewportSize(MOBILE);
   await shoot(page, "settings-workspace-mobile");

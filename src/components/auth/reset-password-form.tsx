@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { formatAuthCopy } from "@/i18n/auth-copy";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { FormError } from "./auth-card";
 import { PasswordField } from "./auth-fields";
 
@@ -18,6 +20,7 @@ const MAX = 128;
  * user to sign-in; no implicit session is created here.
  */
 export function ResetPasswordForm({ token }: { token: string | null }) {
+  const copy = useAuthCopy();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -25,12 +28,12 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
   if (!token) {
     return (
       <div>
-        <FormError message="This reset link is missing or invalid. Request a new one." />
+        <FormError message={copy.resetPassword.missing} />
         <Link
           href="/forgot-password"
           className="text-blue-600 font-medium underline"
         >
-          Request a new reset link
+          {copy.resetPassword.requestNew}
         </Link>
       </div>
     );
@@ -43,11 +46,13 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
     const password = String(form.get("password") ?? "");
     const confirm = String(form.get("confirm") ?? "");
     if (password.length < MIN || password.length > MAX) {
-      setError(`Password must be between ${MIN} and ${MAX} characters.`);
+      setError(
+        formatAuthCopy(copy.resetPassword.rangeError, { min: MIN, max: MAX }),
+      );
       return;
     }
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError(copy.resetPassword.mismatch);
       return;
     }
     setBusy(true);
@@ -57,7 +62,7 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
     });
     if (resetError) {
       setBusy(false);
-      setError("This reset link has expired or already been used. Request a new one.");
+      setError(copy.resetPassword.expired);
       return;
     }
     router.push("/sign-in?reset=1");
@@ -69,17 +74,25 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
       <FormError message={error} />
       <PasswordField
         id="password"
-        label="New password"
+        label={copy.resetPassword.newPassword}
         autoComplete="new-password"
-        requirementText={`Use ${MIN}–${MAX} characters.`}
+        requirementText={formatAuthCopy(copy.common.passwordRange, {
+          min: MIN,
+          max: MAX,
+        })}
       />
       <PasswordField
         id="confirm"
-        label="Confirm new password"
+        label={copy.resetPassword.confirm}
         autoComplete="new-password"
       />
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Updating…" : "Update password"}
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="mt-2 w-full"
+      >
+        {busy ? copy.resetPassword.busy : copy.resetPassword.submit}
       </Button>
     </form>
   );

@@ -46,7 +46,7 @@ test("ID-04 unauthenticated users cannot access workspace routes", async ({
   await page.goto("/w/some-workspace-slug");
   await page.waitForURL("**/sign-in");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Sign in" }),
+    page.getByRole("heading", { level: 1, name: "Đăng nhập" }),
   ).toBeVisible();
 });
 

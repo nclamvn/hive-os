@@ -5,7 +5,10 @@
 artifacts
 docs
 node_modules
-tests
+tests/*
+!tests/scale
+tests/scale/*
+!tests/scale/managed-staging-recovery.test.ts
 test-results
 playwright-report
 .env

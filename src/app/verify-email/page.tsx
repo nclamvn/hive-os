@@ -3,6 +3,8 @@ import Link from "next/link";
 import { AuthCard } from "@/components/auth/auth-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { VerifyEmailResendForm } from "@/components/auth/verify-email-resend-form";
+import { authCopy } from "@/i18n/auth-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +14,7 @@ export default async function VerifyEmailPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
+  const copy = authCopy[await getLocale()];
   // Better Auth appends `error` on failure and returns to the explicit
   // `status=complete` callback on success. A direct visit has neither marker
   // and must never be presented as a successful verification.
@@ -21,11 +24,11 @@ export default async function VerifyEmailPage({
   if (failed) {
     return (
       <AuthCard
-        title="Verification link invalid"
-        description="This link is invalid or has expired. Request a new one below."
+        title={copy.verifyEmail.invalidTitle}
+        description={copy.verifyEmail.invalidDescription}
         footer={
           <Link href="/sign-in" className="text-blue-600 font-medium underline">
-            Back to sign in
+            {copy.common.backToSignIn}
           </Link>
         }
       >
@@ -37,11 +40,11 @@ export default async function VerifyEmailPage({
   if (!completed) {
     return (
       <AuthCard
-        title="Verification status unavailable"
-        description="Open the verification link from your email, or request a new one below."
+        title={copy.verifyEmail.unavailableTitle}
+        description={copy.verifyEmail.unavailableDescription}
         footer={
           <Link href="/sign-in" className="text-blue-600 font-medium underline">
-            Back to sign in
+            {copy.common.backToSignIn}
           </Link>
         }
       >
@@ -52,16 +55,16 @@ export default async function VerifyEmailPage({
 
   return (
     <AuthCard
-      title="Email verified"
+      title={copy.verifyEmail.verifiedTitle}
       footer={
         <Link href="/sign-in" className="text-blue-600 font-medium underline">
-          Continue to sign in
+          {copy.verifyEmail.continue}
         </Link>
       }
     >
       <EmptyState
-        title="Your email is confirmed"
-        hint="You can now sign in to your HIVE OS workspace."
+        title={copy.verifyEmail.confirmed}
+        hint={copy.verifyEmail.confirmedHint}
       />
     </AuthCard>
   );
