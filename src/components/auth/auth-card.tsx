@@ -16,17 +16,26 @@ export function AuthCard({
 }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas px-4 py-10">
-      <div className="w-full max-w-[400px]">
-        <div className="mb-4 ml-auto w-[220px]">
+      <div className="w-full max-w-[400px]" data-testid="auth-shell">
+        <div
+          className="mb-5 flex justify-center"
+          data-testid="auth-preferences"
+        >
           <PreferencesControls toolbar />
         </div>
-        <div className="mb-6 flex items-center justify-center gap-2">
+        <div
+          className="mb-6 flex items-center justify-center gap-2"
+          data-testid="auth-brand"
+        >
           <Hexagon className="text-navy-800 size-6" aria-hidden="true" />
           <span className="text-section-title text-ink-strong tracking-tight">
             HIVE OS
           </span>
         </div>
-        <div className="border-line bg-surface shadow-panel rounded-panel border p-6">
+        <div
+          className="border-line bg-surface shadow-panel rounded-panel border p-6"
+          data-testid="auth-panel"
+        >
           <h1 className="text-page-title text-ink-strong">{title}</h1>
           {description ? (
             <p className="text-body text-ink-muted mt-1">{description}</p>
@@ -34,7 +43,10 @@ export function AuthCard({
           <div className="mt-5">{children}</div>
         </div>
         {footer ? (
-          <div className="text-meta text-ink-muted mt-4 text-center">
+          <div
+            className="text-meta text-ink-muted mt-4 text-center"
+            data-testid="auth-footer"
+          >
             {footer}
           </div>
         ) : null}

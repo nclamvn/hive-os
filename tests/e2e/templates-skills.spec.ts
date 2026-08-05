@@ -27,10 +27,40 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await page.getByLabel("Mission title").fill("Evidence synthesis QA");
     await page.getByRole("button", { name: "Create mission" }).click();
     await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
-    await expect(page.getByText("Scoped", { exact: true }).first()).toBeVisible();
+    await expect(
+      page.getByText("Scoped", { exact: true }).first(),
+    ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Submit for review" }),
     ).toBeVisible();
+  });
+
+  test("L10N-TPL-01 Vietnamese localizes the catalog and template draft", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(
+      page,
+      "Mẫu tiếng Việt",
+      "vi",
+    );
+    await page.goto(`${dashboardUrl}/templates`);
+    await expect(
+      page.getByRole("heading", {
+        name: "Khởi đầu có quản trị. Luôn có thể chỉnh sửa.",
+      }),
+    ).toBeVisible();
+    await expect(page.getByText("Rapid operational brief")).toHaveCount(0);
+    await page
+      .getByRole("link", {
+        name: "Dùng mẫu Tổng hợp bằng chứng nghiên cứu",
+      })
+      .click();
+
+    await expect(page.getByLabel("Hồ sơ bảo chứng")).toHaveValue("RESEARCH");
+    await expect(page.getByLabel("Mục tiêu")).toHaveValue(
+      "Trả lời câu hỏi nghiên cứu bằng quy trình tổng hợp bằng chứng có thể tái lập.",
+    );
+    await expect(page.getByLabel("Tên nhiệm vụ")).toHaveValue("");
   });
 
   test("TS-03/05 registers, versions and explicitly activates a skill", async ({
@@ -55,7 +85,9 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await register
       .getByLabel("Capabilities")
       .fill("evidence_ingestion, deterministic_registry");
-    await register.getByRole("button", { name: "Save governed record" }).click();
+    await register
+      .getByRole("button", { name: "Save governed record" })
+      .click();
     await expect(page.getByText("Evidence Refinery")).toBeVisible();
     await expect(page.getByText("active v1.0.0")).toBeVisible();
 
@@ -68,7 +100,9 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await candidate
       .getByLabel("Capabilities")
       .fill("evidence_ingestion, deterministic_registry, registry_audit");
-    await candidate.getByRole("button", { name: "Save governed record" }).click();
+    await candidate
+      .getByRole("button", { name: "Save governed record" })
+      .click();
     await expect(page.getByText("2 immutable versions")).toBeVisible();
 
     const activation = page.getByRole("form", {
@@ -80,7 +114,9 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await activation
       .getByLabel("Activation reason")
       .fill("Approved registry audit capability.");
-    await activation.getByRole("button", { name: "Save governed record" }).click();
+    await activation
+      .getByRole("button", { name: "Save governed record" })
+      .click();
     await expect(page.getByText("active v1.1.0")).toBeVisible();
   });
 

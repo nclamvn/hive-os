@@ -12,6 +12,7 @@ import { getMissionTemplate } from "@/modules/mission-templates";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { enumLabel } from "@/i18n/format";
 import { getTranslator } from "@/i18n/server";
+import { localizeMissionTemplate } from "@/i18n/template-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -66,9 +67,12 @@ export default async function NewMissionPage({
 }) {
   const { workspaceSlug } = await params;
   const { template: templateKey } = await searchParams;
-  const template = getMissionTemplate(templateKey);
+  const catalogTemplate = getMissionTemplate(templateKey);
   const data = await loadWorkspacePage(workspaceSlug);
   const { locale, t } = await getTranslator();
+  const template = catalogTemplate
+    ? localizeMissionTemplate(catalogTemplate, locale)
+    : undefined;
   if (!hasCapability(data.ctx.membership.role, "missions.create")) notFound();
   const policy = await getWorkspacePolicy(data.ctx);
 

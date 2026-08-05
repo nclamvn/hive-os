@@ -93,3 +93,27 @@ test("L10N-02 Vietnamese onboarding and account security retain localized states
   ).toBeVisible();
   await expect(page.getByText("Your email address is verified.")).toBeVisible();
 });
+
+test("L10N-03 sign-in controls, brand, panel and footer share one center axis", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1156, height: 900 });
+  await setLocale(page, "vi");
+  await page.goto("/sign-in");
+
+  const shell = await page.getByTestId("auth-shell").boundingBox();
+  expect(shell).not.toBeNull();
+  const shellCenter = shell!.x + shell!.width / 2;
+  for (const testId of [
+    "auth-preferences",
+    "auth-brand",
+    "auth-panel",
+    "auth-footer",
+  ]) {
+    const box = await page.getByTestId(testId).boundingBox();
+    expect(box).not.toBeNull();
+    expect(Math.abs(box!.x + box!.width / 2 - shellCenter)).toBeLessThanOrEqual(
+      1,
+    );
+  }
+});
