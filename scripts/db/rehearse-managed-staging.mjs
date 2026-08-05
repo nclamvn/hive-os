@@ -28,7 +28,10 @@ if (!sourceDatabase || sourceDatabase === TARGET_DATABASE) {
 }
 const target = new URL(sourceUrl);
 target.pathname = `/${TARGET_DATABASE}`;
-target.search = "";
+// Preserve managed-PostgreSQL transport parameters (for example
+// sslmode=verify-full). Removing them makes node-postgres retry the restored
+// database without the source connection's TLS contract, even though the
+// administrative psql/pg_restore steps can still succeed.
 
 function run(binary, args, options = {}) {
   try {
