@@ -10,8 +10,18 @@ BEGIN
     CREATE ROLE hiveos_app LOGIN
       NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   ELSE
+    -- Managed PostgreSQL owner roles are deliberately not SUPERUSER. PostgreSQL
+    -- therefore rejects `ALTER ROLE ... NOSUPERUSER` even when the target is
+    -- already non-superuser. Assert the invariant first, then alter only the
+    -- attributes a managed owner is allowed to govern.
+    IF EXISTS (
+      SELECT FROM pg_roles
+      WHERE rolname = 'hiveos_app' AND rolsuper
+    ) THEN
+      RAISE EXCEPTION 'hiveos_app must not be a superuser';
+    END IF;
     ALTER ROLE hiveos_app LOGIN
-      NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
+      NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   END IF;
 END
 $$;
