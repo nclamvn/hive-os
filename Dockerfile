@@ -24,6 +24,21 @@ COPY tests/scale ./tests/scale
 USER node
 CMD ["npm", "run", "db:bootstrap"]
 
+FROM deps AS worker
+ARG VCS_REF=unknown
+LABEL org.opencontainers.image.revision=$VCS_REF
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY tsconfig.json ./
+COPY src ./src
+COPY scripts/workers ./scripts/workers
+# The worker is a separate unprivileged process. It receives runtime secrets
+# only at container start and never shares the web application's filesystem.
+RUN npm prune --omit=dev
+USER node
+CMD ["npm", "run", "worker:research-sandbox"]
+
 FROM node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1

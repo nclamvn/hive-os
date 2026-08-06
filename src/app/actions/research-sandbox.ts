@@ -20,11 +20,13 @@ function lines(value: FormDataEntryValue | null) {
 
 export async function requestResearchRunAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "");
+  const question = String(formData.get("question") ?? "").trim();
+  const requestedQueries = lines(formData.get("queries"));
   const ctx = await resolveWorkspaceContext(await headers(), slug);
   await requestResearchRun(ctx, {
     missionId: String(formData.get("missionId") ?? ""),
     documentId: String(formData.get("documentId") ?? "") || null,
-    question: String(formData.get("question") ?? ""),
+    question,
     scope: String(formData.get("scope") ?? ""),
     providerName: String(formData.get("providerName") ?? ""),
     modelName: String(formData.get("modelName") ?? ""),
@@ -35,7 +37,9 @@ export async function requestResearchRunAction(formData: FormData) {
       maxSources: Number(formData.get("maxSources") ?? 20),
     },
     queryPlan: {
-      queries: lines(formData.get("queries")),
+      // The guided path uses the bounded research question as its first query.
+      // Operators can still supply an explicit plan in advanced controls.
+      queries: requestedQueries.length ? requestedQueries : [question],
       languages: formData.get("language") === "en" ? ["en"] : ["vi", "en"],
     },
     idempotencyKey: String(formData.get("idempotencyKey") ?? ""),

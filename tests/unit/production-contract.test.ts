@@ -37,6 +37,20 @@ describe("production contract", () => {
     expect(packageJson.scripts.build).toContain("scrub-standalone-env.mjs");
   });
 
+  it("TIP-024D packages the research worker as a separate non-root image", () => {
+    const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
+    const workflow = readFileSync(
+      path.join(root, ".github/workflows/staging-images.yml"),
+      "utf8",
+    );
+    expect(dockerfile).toContain("FROM deps AS worker");
+    expect(dockerfile).toMatch(
+      /FROM deps AS worker[\s\S]*USER node[\s\S]*CMD \["npm", "run", "worker:research-sandbox"\]/,
+    );
+    expect(workflow).toContain("target: worker");
+    expect(workflow).toContain("hiveos-staging-worker:${{ github.sha }}");
+  });
+
   it("PRC-04 accepts bounded correlation IDs and replaces malformed input", () => {
     expect(isValidCorrelationId("request_01:pilot")).toBe(true);
     expect(isValidCorrelationId("unsafe value")).toBe(false);

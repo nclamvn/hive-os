@@ -13,6 +13,7 @@ on:
       - public/**
       - scripts/build/**
       - scripts/db/**
+      - scripts/workers/**
       - src/**
       - .github/workflows/staging-images.yml
 
@@ -75,3 +76,15 @@ jobs:
           tags: |
             ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:${{ github.sha }}
             ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:staging
+
+      - name: Build and publish research worker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: worker
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-worker:${{ github.sha }}
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-worker:staging

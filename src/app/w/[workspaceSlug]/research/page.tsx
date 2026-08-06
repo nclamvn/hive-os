@@ -1,7 +1,17 @@
 import { randomUUID } from "node:crypto";
 
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  Circle,
+  Clock3,
+  FileSearch,
+  FlaskConical,
+} from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CheckCircle2, Clock3 } from "lucide-react";
 
 import {
   requestComputationRunAction,
@@ -9,9 +19,12 @@ import {
   reviewComputationRunAction,
   reviewResearchRunAction,
 } from "@/app/actions/research-sandbox";
+import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/i18n/format";
 import { getResearchCopy } from "@/i18n/research-copy";
 import { getTranslator } from "@/i18n/server";
 import { hasCapability } from "@/modules/identity-workspace";
@@ -24,13 +37,56 @@ import { loadWorkspacePage } from "@/server/auth/workspace-page";
 
 export const dynamic = "force-dynamic";
 
-const inputClass = "text-body text-ink border-line mt-1 min-h-10 w-full rounded-md border bg-surface px-3 py-2 outline-none focus:border-line-strong";
+const inputClass =
+  "text-body text-ink border-line mt-1 min-h-11 w-full rounded-md border bg-surface px-3 py-2 outline-none transition-colors focus:border-line-strong";
 
-function statusTone(status: string) {
-  if (status === "APPROVED") return "text-emerald-700 dark:text-emerald-300";
-  if (["FAILED", "REJECTED", "CANCELLED"].includes(status)) return "text-red-700 dark:text-red-300";
-  if (status === "AWAITING_REVIEW") return "text-amber-700 dark:text-amber-300";
-  return "text-ink-muted";
+const terminalStatuses = new Set([
+  "APPROVED",
+  "REJECTED",
+  "FAILED",
+  "CANCELLED",
+]);
+
+function statusTone(status: string): "neutral" | "success" | "warning" | "danger" | "info" {
+  if (status === "APPROVED") return "success";
+  if (["FAILED", "REJECTED", "CANCELLED"].includes(status)) return "danger";
+  if (status === "AWAITING_REVIEW") return "warning";
+  if (status === "RUNNING") return "info";
+  return "neutral";
+}
+
+function workflowStage(status?: string) {
+  if (!status) return 0;
+  if (["QUEUED", "RUNNING", "FAILED", "CANCELLED"].includes(status)) return 1;
+  if (["AWAITING_REVIEW", "REJECTED"].includes(status)) return 2;
+  return 3;
+}
+
+function workerSignal(run: {
+  status: string;
+  createdAt: Date;
+  job: null | {
+    status: string;
+    leaseExpiresAt: Date | null;
+  };
+}) {
+  if (["APPROVED", "REJECTED", "FAILED", "CANCELLED"].includes(run.status)) {
+    return "COMPLETE" as const;
+  }
+  if (run.status === "AWAITING_REVIEW") return "HUMAN" as const;
+  if (
+    run.status === "RUNNING" &&
+    run.job?.status === "RUNNING" &&
+    run.job.leaseExpiresAt &&
+    run.job.leaseExpiresAt.getTime() > Date.now()
+  ) {
+    return "ACTIVE" as const;
+  }
+  if (run.status === "RUNNING") return "STALLED" as const;
+  if (!run.job && Date.now() - run.createdAt.getTime() < 15_000) {
+    return "DISPATCHING" as const;
+  }
+  return "WAITING" as const;
 }
 
 export default async function ResearchPage({
@@ -45,6 +101,7 @@ export default async function ResearchPage({
   const { locale } = await getTranslator();
   const copy = getResearchCopy(locale);
   if (!hasCapability(data.ctx.membership.role, "research.read")) notFound();
+
   const [runs, computations, targets] = await Promise.all([
     listResearchRuns(data.ctx),
     listComputationRuns(data.ctx),
@@ -57,101 +114,552 @@ export default async function ResearchPage({
     (mission) => mission.id === query.missionId,
   )
     ? query.missionId
-    : undefined;
+    : targets.missions[0]?.id;
+  const selectedMission = targets.missions.find(
+    (mission) => mission.id === selectedMissionId,
+  );
+  const latestRun = runs[0];
+  const latestWorkerSignal = latestRun ? workerSignal(latestRun) : null;
+  const currentStage = workflowStage(latestRun?.status);
+  const hasActiveWork = [...runs, ...computations].some(
+    (run) => !terminalStatuses.has(run.status) && run.status !== "AWAITING_REVIEW",
+  );
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
       <Panel className="overflow-hidden">
-        <div className="grid gap-6 p-5 min-[980px]:grid-cols-[minmax(0,1fr)_380px] min-[980px]:p-7">
-          <div>
+        <div className="grid min-[1040px]:grid-cols-[minmax(0,1fr)_390px]">
+          <div className="p-5 min-[980px]:p-7">
             <p className="text-eyebrow text-ink-muted">{copy.eyebrow}</p>
-            <h1 className="text-thesis text-ink-strong mt-3 max-w-4xl">{copy.thesis}</h1>
-            <p className="text-body text-ink-muted mt-4 max-w-3xl">{copy.hint}</p>
-            <ol className="border-line mt-6 grid border-y sm:grid-cols-4" aria-label={copy.provenance}>
-              {copy.stages.map((stage, index) => (
-                <li key={stage} className="border-line relative py-4 sm:border-r sm:px-4 sm:first:pl-0 sm:last:border-r-0">
-                  <span className="text-meta text-ink-muted font-medium tabular">0{index + 1}</span>
-                  <p className="text-meta text-ink-strong mt-2 font-semibold">{stage}</p>
-                </li>
-              ))}
-            </ol>
+            <h1 className="text-page-title text-ink-strong mt-3 max-w-3xl">
+              {copy.thesis}
+            </h1>
+            <p className="text-body text-ink-muted mt-3 max-w-3xl">{copy.hint}</p>
+            {selectedMission ? (
+              <div className="border-line mt-6 border-l-2 pl-4">
+                <p className="text-meta text-ink-muted tabular">
+                  {selectedMission.referenceCode}
+                </p>
+                <p className="text-body text-ink-strong mt-1 font-semibold">
+                  {selectedMission.title}
+                </p>
+              </div>
+            ) : null}
           </div>
-          <div className="border-line bg-surface-subtle rounded-lg border p-4">
-            <div className="flex gap-3"><Clock3 className="text-ink-muted mt-0.5 size-4 shrink-0" /><div><p className="text-meta text-ink-strong font-semibold tabular">{runs.length} · {computations.length}</p><p className="text-meta text-ink-muted mt-1">{copy.workerNotice}</p></div></div>
-          </div>
+
+          <aside className="border-line bg-surface-subtle border-t p-5 min-[1040px]:border-t-0 min-[1040px]:border-l min-[1040px]:p-7">
+            <div className="flex items-start gap-3">
+              <div className="border-line bg-surface grid size-9 shrink-0 place-items-center rounded-md border">
+                <Clock3 className="text-ink-muted size-4" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
+                <p className="text-body text-ink-strong mt-2 font-semibold">
+                  {latestRun
+                    ? copy.statusLabels[latestRun.status]
+                    : copy.startResearch}
+                </p>
+                {latestWorkerSignal ? (
+                  <p className="text-meta text-ink-muted mt-2">
+                    {copy.workerSignal}: {copy.workerSignals[latestWorkerSignal]}
+                  </p>
+                ) : null}
+                <p className="text-meta text-ink-muted mt-2">
+                  {latestRun
+                    ? copy.nextActions[latestRun.status]
+                    : copy.newResearchHint}
+                </p>
+              </div>
+            </div>
+            {canRequest ? (
+              <a
+                href="#new-research"
+                className="text-body text-ink-strong border-line hover:border-line-strong mt-5 inline-flex min-h-10 items-center gap-2 rounded-md border bg-surface px-4 font-medium transition-colors"
+              >
+                {copy.startResearch}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </a>
+            ) : null}
+          </aside>
         </div>
+
+        <ol
+          className="border-line grid border-t sm:grid-cols-4"
+          aria-label={copy.provenance}
+        >
+          {copy.stages.map((stage, index) => {
+            const isComplete = index < currentStage;
+            const isCurrent = index === currentStage;
+            return (
+              <li
+                key={stage}
+                aria-current={isCurrent ? "step" : undefined}
+                className={`border-line relative flex gap-3 px-5 py-4 sm:border-r sm:last:border-r-0 ${
+                  isCurrent ? "bg-surface-subtle" : ""
+                }`}
+              >
+                <span
+                  className={`border-line mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border ${
+                    isComplete
+                      ? "bg-ink-strong text-surface"
+                      : isCurrent
+                        ? "border-line-strong bg-surface text-ink-strong"
+                        : "text-ink-faint"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {isComplete ? <Check className="size-3.5" /> : <Circle className="size-2" />}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-meta text-ink-strong font-semibold">{stage}</p>
+                  <p className="text-meta text-ink-muted mt-1">
+                    {copy.stageDescriptions[index]}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
       </Panel>
 
       {canRequest ? (
-        <Panel className="p-5 min-[980px]:p-7">
-          <SectionHeader title={copy.newResearch} />
-          <form action={requestResearchRunAction} className="mt-4 grid gap-4 min-[900px]:grid-cols-2">
+        <Panel id="new-research" className="scroll-mt-24 overflow-hidden">
+          <div className="border-line border-b p-5 min-[980px]:p-7">
+            <SectionHeader title={copy.newResearch} />
+            <p className="text-body text-ink-muted mt-2 max-w-3xl">
+              {copy.newResearchHint}
+            </p>
+          </div>
+          <form action={requestResearchRunAction}>
             <input type="hidden" name="slug" value={workspaceSlug} />
-            <input type="hidden" name="idempotencyKey" value={`research:${randomUUID()}`} />
-            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" required defaultValue={selectedMissionId} className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
-            <label className="text-meta text-ink font-medium">{copy.document}<select name="documentId" className={inputClass}><option value="">{copy.noDocument}</option>{targets.documents.map((document) => <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>)}</select></label>
-            <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.question}<textarea name="question" required rows={3} maxLength={8000} className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.scope}<textarea name="scope" required rows={3} maxLength={8000} className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.provider}<input name="providerName" required defaultValue="openai" className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.model}<input name="modelName" required defaultValue="gpt-5.6-sol" className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.queries}<textarea name="queries" required rows={3} className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.allowedDomains}<textarea name="allowedDomains" rows={3} className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.primaryDomains}<textarea name="primaryDomains" rows={3} className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.maxSources}<input name="maxSources" type="number" min={1} max={50} defaultValue={20} className={inputClass} /></label>
-            <label className="text-body text-ink flex items-center gap-2 self-end pb-2"><input name="requirePrimary" type="checkbox" />{copy.requirePrimary}</label>
-            <div className="min-[900px]:col-span-2"><Button type="submit" variant="primary">{copy.queue}</Button></div>
+            <input
+              type="hidden"
+              name="idempotencyKey"
+              value={`research:${randomUUID()}`}
+            />
+            <input type="hidden" name="language" value={locale} />
+            <input type="hidden" name="providerName" value="openai" />
+            <input type="hidden" name="modelName" value="gpt-5.6-sol" />
+
+            <div className="grid gap-5 p-5 min-[900px]:grid-cols-2 min-[980px]:p-7">
+              <label className="text-meta text-ink font-medium">
+                {copy.mission}
+                <select
+                  name="missionId"
+                  required
+                  defaultValue={selectedMissionId}
+                  className={inputClass}
+                >
+                  {targets.missions.map((mission) => (
+                    <option key={mission.id} value={mission.id}>
+                      {mission.referenceCode} · {mission.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.document}
+                <select name="documentId" className={inputClass}>
+                  <option value="">{copy.noDocument}</option>
+                  {targets.documents.map((document) => (
+                    <option key={document.id} value={document.id}>
+                      {document.documentKey} · {document.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                {copy.question}
+                <textarea
+                  name="question"
+                  required
+                  rows={3}
+                  maxLength={8000}
+                  aria-describedby="research-question-hint"
+                  className={inputClass}
+                />
+                <span id="research-question-hint" className="text-meta text-ink-muted mt-1.5 block font-normal">
+                  {copy.questionHint}
+                </span>
+              </label>
+              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                {copy.scope}
+                <textarea
+                  name="scope"
+                  required
+                  rows={3}
+                  maxLength={8000}
+                  aria-describedby="research-scope-hint"
+                  className={inputClass}
+                />
+                <span id="research-scope-hint" className="text-meta text-ink-muted mt-1.5 block font-normal">
+                  {copy.scopeHint}
+                </span>
+              </label>
+            </div>
+
+            <details className="group border-line border-t">
+              <summary className="text-body text-ink hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
+                <span>
+                  {copy.advancedSources}
+                  <span className="text-meta text-ink-muted mt-1 block font-normal">
+                    {copy.advancedSourcesHint}
+                  </span>
+                </span>
+                <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <div className="border-line bg-surface-subtle grid gap-4 border-t p-5 min-[900px]:grid-cols-2 min-[980px]:px-7">
+                <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                  {copy.queries}
+                  <textarea name="queries" rows={3} className={inputClass} />
+                </label>
+                <label className="text-meta text-ink font-medium">
+                  {copy.allowedDomains}
+                  <textarea name="allowedDomains" rows={3} className={inputClass} />
+                </label>
+                <label className="text-meta text-ink font-medium">
+                  {copy.primaryDomains}
+                  <textarea name="primaryDomains" rows={3} className={inputClass} />
+                </label>
+                <label className="text-meta text-ink font-medium">
+                  {copy.maxSources}
+                  <input
+                    name="maxSources"
+                    type="number"
+                    min={1}
+                    max={50}
+                    defaultValue={20}
+                    className={inputClass}
+                  />
+                </label>
+                <label className="text-body text-ink flex min-h-11 items-center gap-2 self-end">
+                  <input name="requirePrimary" type="checkbox" />
+                  {copy.requirePrimary}
+                </label>
+                <label className="text-meta text-ink font-medium">
+                  {copy.provider}
+                  <input name="providerDisplay" disabled value="OpenAI" className={inputClass} />
+                </label>
+                <label className="text-meta text-ink font-medium">
+                  {copy.model}
+                  <input name="modelDisplay" disabled value="GPT-5.6 Sol" className={inputClass} />
+                </label>
+              </div>
+            </details>
+
+            <div className="border-line flex flex-wrap items-center justify-between gap-3 border-t p-5 min-[980px]:px-7">
+              <p className="text-meta text-ink-muted max-w-2xl">{copy.workerNotice}</p>
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={!targets.missions.length}
+              >
+                <FileSearch className="size-4" aria-hidden="true" />
+                {copy.queue}
+              </Button>
+            </div>
           </form>
         </Panel>
       ) : null}
 
       <section aria-labelledby="research-runs">
-        <SectionHeader id="research-runs" title={copy.runs} />
+        <SectionHeader
+          id="research-runs"
+          title={copy.runs}
+          action={
+            <ResearchLiveRefresh
+              active={hasActiveWork}
+              activeLabel={copy.liveActive}
+              idleLabel={copy.liveIdle}
+              refreshLabel={copy.refresh}
+              updatedLabel={copy.refreshedAt}
+            />
+          }
+        />
         <div className="mt-3 space-y-3">
-          {runs.length ? runs.map((run) => (
-            <Panel key={run.id} className="overflow-hidden">
-              <div className="flex flex-wrap items-start justify-between gap-4 p-5">
-                <div className="min-w-0"><p className="text-eyebrow text-ink-muted">{run.mission.referenceCode} · {run.providerName}/{run.modelName}</p><h2 className="text-section-title text-ink-strong mt-2">{run.question}</h2><p className="text-body text-ink-muted mt-2 line-clamp-2">{run.scope}</p></div>
-                <span className={`text-meta font-semibold ${statusTone(run.status)}`}>{copy.status}: {run.status}</span>
+          {runs.length ? (
+            runs.map((run) => (
+              <Panel key={run.id} className="overflow-hidden">
+                <div className="grid min-[980px]:grid-cols-[minmax(0,1fr)_320px]">
+                  <div className="min-w-0 p-5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-eyebrow text-ink-muted">
+                        {run.mission.referenceCode} · {run.providerName}/{run.modelName}
+                      </p>
+                      <StatusBadge tone={statusTone(run.status)}>
+                        {copy.statusLabels[run.status]}
+                      </StatusBadge>
+                    </div>
+                    <h2 className="text-section-title text-ink-strong mt-3">
+                      {run.question}
+                    </h2>
+                    <p className="text-body text-ink-muted mt-2 line-clamp-3">
+                      {run.scope}
+                    </p>
+                    <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                      <span>{run.sources.length} {copy.source}</span>
+                      <span>{run.findings.length} {copy.finding}</span>
+                      <span className="tabular">{copy.updatedAt}: {formatDateTime(locale, run.updatedAt)}</span>
+                    </div>
+                  </div>
+                  <aside className="border-line bg-surface-subtle border-t p-5 min-[980px]:border-t-0 min-[980px]:border-l">
+                    <p className="text-meta text-ink-muted mb-4 flex items-center gap-2">
+                      <span
+                        className={`size-2 rounded-full ${
+                          workerSignal(run) === "ACTIVE"
+                            ? "bg-success-600"
+                            : workerSignal(run) === "STALLED" || workerSignal(run) === "WAITING"
+                              ? "bg-warning-600"
+                              : "bg-ink-faint"
+                        }`}
+                        aria-hidden="true"
+                      />
+                      {copy.workerSignal}: {copy.workerSignals[workerSignal(run)]}
+                    </p>
+                    <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
+                    <p className="text-body text-ink mt-2">{copy.nextActions[run.status]}</p>
+                    {run.failureCode ? (
+                      <p className="text-meta text-danger-700 dark:text-danger-300 mt-3 font-medium">
+                        {copy.failureCode}: {run.failureCode}
+                      </p>
+                    ) : null}
+                    {run.status === "APPROVED" ? (
+                      <Link
+                        href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
+                        className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold"
+                      >
+                        {copy.useInAuthoring}
+                        <ArrowRight className="size-4" aria-hidden="true" />
+                      </Link>
+                    ) : null}
+                  </aside>
+                </div>
+
+                <div className="border-line grid border-t sm:grid-cols-3">
+                  <div className="p-4 sm:border-r sm:border-line">
+                    <p className="text-meta text-ink-muted">{run.sources.length} {copy.source}</p>
+                  </div>
+                  <div className="p-4 sm:border-r sm:border-line">
+                    <p className="text-meta text-ink-muted">{run.findings.length} {copy.finding}</p>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-meta text-ink-muted tabular">
+                      {run.approvedDigest
+                        ? `${run.approvedDigest.slice(0, 16)}…`
+                        : copy.digestPending}
+                    </p>
+                  </div>
+                </div>
+
+                {run.sources.length ? (
+                  <div className="border-line border-t p-5">
+                    <p className="text-eyebrow text-ink-muted mb-3">{copy.provenance}</p>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {run.sources.map((source) => (
+                        <a
+                          key={source.id}
+                          href={source.canonicalUri}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="border-line hover:border-line-strong rounded-md border p-3 transition-colors"
+                        >
+                          <p className="text-body text-ink font-medium">{source.title}</p>
+                          <p className="text-meta text-ink-muted mt-1">
+                            {source.publisher} · {source.provenance}
+                          </p>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {run.findings.length ? (
+                  <div className="border-line border-t p-5">
+                    <div className="space-y-3">
+                      {run.findings.map((finding) => (
+                        <article key={finding.id} className="border-line rounded-md border p-4">
+                          <div className="flex justify-between gap-3">
+                            <p className="text-body text-ink-strong font-medium">{finding.claim}</p>
+                            <span className="text-meta text-ink-muted">{finding.kind}</span>
+                          </div>
+                          {finding.exactExcerpt ? (
+                            <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
+                              {finding.exactExcerpt}
+                            </blockquote>
+                          ) : null}
+                          {finding.decision ? (
+                            <p className="text-meta text-ink-muted mt-3">
+                              {finding.decision.decision} · {finding.decision.rationale}
+                            </p>
+                          ) : null}
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {canReview &&
+                run.status === "AWAITING_REVIEW" &&
+                run.requestedByMembershipId !== data.ctx.membership.id ? (
+                  <form action={reviewResearchRunAction} className="border-line bg-surface-subtle border-t p-5">
+                    <input type="hidden" name="slug" value={workspaceSlug} />
+                    <input type="hidden" name="runId" value={run.id} />
+                    <SectionHeader title={copy.review} />
+                    <div className="mt-3 space-y-3">
+                      {run.findings.map((finding) => (
+                        <div key={finding.id} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_160px]">
+                          <input type="hidden" name="findingId" value={finding.id} />
+                          <input
+                            required
+                            name={`rationale:${finding.id}`}
+                            placeholder={copy.rationale}
+                            className={inputClass}
+                          />
+                          <select name={`decision:${finding.id}`} className={inputClass}>
+                            <option value="ACCEPTED">{copy.accept}</option>
+                            <option value="REJECTED">{copy.reject}</option>
+                            <option value="FLAGGED">{copy.flag}</option>
+                          </select>
+                        </div>
+                      ))}
+                    </div>
+                    <textarea
+                      name="runRationale"
+                      required
+                      placeholder={copy.rationale}
+                      rows={2}
+                      className={`${inputClass} mt-4`}
+                    />
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Button name="runDecision" value="APPROVED" type="submit" variant="primary">
+                        {copy.approveRun}
+                      </Button>
+                      <Button name="runDecision" value="REJECTED" type="submit">
+                        {copy.rejectRun}
+                      </Button>
+                    </div>
+                  </form>
+                ) : null}
+              </Panel>
+            ))
+          ) : (
+            <Panel className="flex min-h-56 flex-col items-center justify-center p-6 text-center">
+              <div className="border-line bg-surface-subtle grid size-11 place-items-center rounded-full border">
+                <FileSearch className="text-ink-muted size-5" aria-hidden="true" />
               </div>
-              <div className="border-line grid border-t sm:grid-cols-3">
-                <div className="p-4 sm:border-r sm:border-line"><p className="text-meta text-ink-muted">{run.sources.length} {copy.source}</p></div>
-                <div className="p-4 sm:border-r sm:border-line"><p className="text-meta text-ink-muted">{run.findings.length} {copy.finding}</p></div>
-                <div className="p-4"><p className="text-meta text-ink-muted tabular">{run.approvedDigest ? run.approvedDigest.slice(0, 16) + "…" : "Digest pending"}</p></div>
-              </div>
-              {run.sources.length ? <div className="border-line border-t p-5"><p className="text-eyebrow text-ink-muted mb-3">{copy.provenance}</p><div className="grid gap-2 sm:grid-cols-2">{run.sources.map((source) => <a key={source.id} href={source.canonicalUri} target="_blank" rel="noreferrer" className="border-line hover:border-line-strong rounded-md border p-3"><p className="text-body text-ink font-medium">{source.title}</p><p className="text-meta text-ink-muted mt-1">{source.publisher} · {source.provenance}</p></a>)}</div></div> : null}
-              {run.findings.length ? <div className="border-line border-t p-5"><div className="space-y-3">{run.findings.map((finding) => <article key={finding.id} className="border-line rounded-md border p-4"><div className="flex justify-between gap-3"><p className="text-body text-ink-strong font-medium">{finding.claim}</p><span className="text-meta text-ink-muted">{finding.kind}</span></div>{finding.exactExcerpt ? <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">{finding.exactExcerpt}</blockquote> : null}{finding.decision ? <p className="text-meta text-ink-muted mt-3">{finding.decision.decision} · {finding.decision.rationale}</p> : null}</article>)}</div></div> : null}
-              {canReview && run.status === "AWAITING_REVIEW" && run.requestedByMembershipId !== data.ctx.membership.id ? (
-                <form action={reviewResearchRunAction} className="border-line bg-surface-subtle border-t p-5">
-                  <input type="hidden" name="slug" value={workspaceSlug} /><input type="hidden" name="runId" value={run.id} />
-                  <SectionHeader title={copy.review} />
-                  <div className="mt-3 space-y-3">{run.findings.map((finding) => <div key={finding.id} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_160px]"><input type="hidden" name="findingId" value={finding.id} /><input required name={`rationale:${finding.id}`} placeholder={copy.rationale} className={inputClass} /><select name={`decision:${finding.id}`} className={inputClass}><option value="ACCEPTED">{copy.accept}</option><option value="REJECTED">{copy.reject}</option><option value="FLAGGED">{copy.flag}</option></select></div>)}</div>
-                  <textarea name="runRationale" required placeholder={copy.rationale} rows={2} className={`${inputClass} mt-4`} />
-                  <div className="mt-3 flex flex-wrap gap-2"><Button name="runDecision" value="APPROVED" type="submit" variant="primary">{copy.approveRun}</Button><Button name="runDecision" value="REJECTED" type="submit">{copy.rejectRun}</Button></div>
-                </form>
+              <p className="text-section-title text-ink mt-4">{copy.empty}</p>
+              <p className="text-body text-ink-muted mt-2 max-w-xl">{copy.emptyHint}</p>
+              {canRequest ? (
+                <a href="#new-research" className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold">
+                  {copy.startResearch}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </a>
               ) : null}
             </Panel>
-          )) : <Panel className="flex min-h-40 items-center justify-center p-6"><p className="text-body text-ink-muted">{copy.empty}</p></Panel>}
+          )}
         </div>
       </section>
 
       {canCompute ? (
-        <Panel className="p-5 min-[980px]:p-7">
-          <SectionHeader title={copy.sandbox} />
-          <p className="text-body text-ink-muted mt-2">{copy.sandboxHint}</p>
-          <form action={requestComputationRunAction} className="mt-4 grid gap-4 min-[900px]:grid-cols-2">
-            <input type="hidden" name="slug" value={workspaceSlug} /><input type="hidden" name="idempotencyKey" value={`sandbox:${randomUUID()}`} />
-            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" defaultValue={selectedMissionId} className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
-            <label className="text-meta text-ink font-medium">{copy.document}<select name="documentId" className={inputClass}><option value="">{copy.noDocument}</option>{targets.documents.map((document) => <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>)}</select></label>
-            <label className="text-meta text-ink font-medium">{copy.runtime}<div className="grid grid-cols-2 gap-2"><input name="runtimeId" required defaultValue="jupyter-python" className={inputClass} /><input name="runtimeVersion" required defaultValue="3.12" className={inputClass} /></div></label>
-            <label className="text-meta text-ink font-medium">Kind<select name="kind" className={inputClass}><option value="JUPYTER">Jupyter</option><option value="CAS">CAS</option><option value="LATEX_BUILD">LaTeX</option></select></label>
-            <label className="text-meta text-ink font-medium">{copy.inputRef}<input name="inputReference" required placeholder="s3://… or artifact://…" className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium">{copy.inputDigest}<input name="inputDigest" required pattern="[a-f0-9]{64}" className={inputClass} /></label>
-            <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.entrypoint}<input name="entrypoint" required defaultValue="main.ipynb" className={inputClass} /></label>
-            <input type="hidden" name="maxCpuMillis" value="120000" /><input type="hidden" name="maxWallSeconds" value="300" /><input type="hidden" name="maxMemoryMb" value="1024" /><input type="hidden" name="maxOutputBytes" value="10000000" />
-            <div className="min-[900px]:col-span-2"><Button type="submit" variant="primary">{copy.requestCompute}</Button></div>
-          </form>
-          {computations.length ? <div className="border-line mt-6 divide-y divide-line border-y">{computations.map((run) => <div key={run.id} className="py-4"><div className="flex flex-wrap justify-between gap-3"><div><p className="text-body text-ink-strong font-medium">{run.kind} · {run.runtimeId}/{run.runtimeVersion}</p><p className="text-meta text-ink-muted mt-1">{run.mission.referenceCode} · DENY_ALL · {run.outputBytes ?? 0} bytes</p></div><span className={`text-meta font-semibold ${statusTone(run.status)}`}>{run.status}</span></div>{canReview && run.status === "AWAITING_REVIEW" && run.requestedByMembershipId !== data.ctx.membership.id ? <form action={reviewComputationRunAction} className="mt-3 flex flex-wrap gap-2"><input type="hidden" name="slug" value={workspaceSlug} /><input type="hidden" name="runId" value={run.id} /><input name="rationale" required placeholder={copy.rationale} className={`${inputClass} !mt-0 flex-1`} /><Button name="decision" value="APPROVED" type="submit" variant="primary"><CheckCircle2 className="size-4" />{copy.accept}</Button><Button name="decision" value="REJECTED" type="submit">{copy.reject}</Button></form> : null}</div>)}</div> : null}
-        </Panel>
+        <details className="group border-line bg-surface shadow-panel rounded-panel overflow-hidden border">
+          <summary className="hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 p-5 transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
+            <span className="flex min-w-0 items-center gap-3">
+              <span className="border-line grid size-9 shrink-0 place-items-center rounded-md border">
+                <FlaskConical className="text-ink-muted size-4" aria-hidden="true" />
+              </span>
+              <span>
+                <span className="text-section-title text-ink block">{copy.sandbox}</span>
+                <span className="text-meta text-ink-muted mt-1 block">{copy.sandboxSummary}</span>
+              </span>
+            </span>
+            <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <div className="border-line border-t p-5 min-[980px]:p-7">
+            <p className="text-body text-ink-muted max-w-4xl">{copy.sandboxHint}</p>
+            <form action={requestComputationRunAction} className="mt-5 grid gap-4 min-[900px]:grid-cols-2">
+              <input type="hidden" name="slug" value={workspaceSlug} />
+              <input type="hidden" name="idempotencyKey" value={`sandbox:${randomUUID()}`} />
+              <label className="text-meta text-ink font-medium">
+                {copy.mission}
+                <select name="missionId" defaultValue={selectedMissionId} className={inputClass}>
+                  {targets.missions.map((mission) => (
+                    <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.document}
+                <select name="documentId" className={inputClass}>
+                  <option value="">{copy.noDocument}</option>
+                  {targets.documents.map((document) => (
+                    <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.runtime}
+                <span className="grid grid-cols-2 gap-2">
+                  <input name="runtimeId" required defaultValue="jupyter-python" className={inputClass} />
+                  <input name="runtimeVersion" required defaultValue="3.12" className={inputClass} />
+                </span>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.computeKind}
+                <select name="kind" className={inputClass}>
+                  <option value="JUPYTER">Jupyter</option>
+                  <option value="CAS">CAS</option>
+                  <option value="LATEX_BUILD">LaTeX</option>
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.inputRef}
+                <input name="inputReference" required placeholder="artifact://…" className={inputClass} />
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.inputDigest}
+                <input name="inputDigest" required pattern="[a-f0-9]{64}" className={inputClass} />
+              </label>
+              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                {copy.entrypoint}
+                <input name="entrypoint" required defaultValue="main.ipynb" className={inputClass} />
+              </label>
+              <input type="hidden" name="maxCpuMillis" value="120000" />
+              <input type="hidden" name="maxWallSeconds" value="300" />
+              <input type="hidden" name="maxMemoryMb" value="1024" />
+              <input type="hidden" name="maxOutputBytes" value="10000000" />
+              <div className="min-[900px]:col-span-2">
+                <Button type="submit" variant="primary">{copy.requestCompute}</Button>
+              </div>
+            </form>
+
+            {computations.length ? (
+              <div className="border-line mt-6 divide-y divide-line border-y">
+                {computations.map((run) => (
+                  <div key={run.id} className="py-4">
+                    <div className="flex flex-wrap justify-between gap-3">
+                      <div>
+                        <p className="text-body text-ink-strong font-medium">{run.kind} · {run.runtimeId}/{run.runtimeVersion}</p>
+                        <p className="text-meta text-ink-muted mt-1">{run.mission.referenceCode} · {copy.networkDenied} · {run.outputBytes ?? 0} bytes</p>
+                      </div>
+                      <StatusBadge tone={statusTone(run.status)}>{copy.statusLabels[run.status]}</StatusBadge>
+                    </div>
+                    {canReview && run.status === "AWAITING_REVIEW" && run.requestedByMembershipId !== data.ctx.membership.id ? (
+                      <form action={reviewComputationRunAction} className="mt-3 flex flex-wrap gap-2">
+                        <input type="hidden" name="slug" value={workspaceSlug} />
+                        <input type="hidden" name="runId" value={run.id} />
+                        <input name="rationale" required placeholder={copy.rationale} className={`${inputClass} !mt-0 flex-1`} />
+                        <Button name="decision" value="APPROVED" type="submit" variant="primary">
+                          <CheckCircle2 className="size-4" />{copy.accept}
+                        </Button>
+                        <Button name="decision" value="REJECTED" type="submit">{copy.reject}</Button>
+                      </form>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </details>
       ) : null}
     </WorkspaceShell>
   );

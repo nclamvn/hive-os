@@ -30,8 +30,8 @@ function invalid(message: string): never {
 export async function listResearchRuns(ctx: WorkspaceContext) {
   await requireWorkspaceAuthorization(ctx, "research.read");
   const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
-  return withOrganizationTenant(organizationId, ctx.user.id, (tx) =>
-    tx.researchRun.findMany({
+  return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
+    const runs = await tx.researchRun.findMany({
       where: { organizationId, workspaceId: ctx.workspace.id },
       include: {
         mission: { select: { referenceCode: true, title: true } },
@@ -45,8 +45,25 @@ export async function listResearchRuns(ctx: WorkspaceContext) {
       },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 100,
-    }),
-  );
+    });
+    const jobIds = runs.flatMap((run) => (run.jobId ? [run.jobId] : []));
+    const jobs = jobIds.length
+      ? await tx.durableJob.findMany({
+          where: { organizationId, id: { in: jobIds } },
+          take: jobIds.length,
+          select: {
+            id: true,
+            status: true,
+            leaseExpiresAt: true,
+          },
+        })
+      : [];
+    const jobById = new Map(jobs.map((job) => [job.id, job]));
+    return runs.map((run) => ({
+      ...run,
+      job: run.jobId ? (jobById.get(run.jobId) ?? null) : null,
+    }));
+  });
 }
 
 export async function listResearchTargets(ctx: WorkspaceContext) {

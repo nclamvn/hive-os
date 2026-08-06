@@ -26,6 +26,16 @@ const config = {
   claimFirst: env.RESEARCH_WORKER_CLAIM_FIRST,
 };
 
+process.stdout.write(`${JSON.stringify({
+  event: "research_sandbox_worker_started",
+  workerId: config.workerId,
+  organizationId: config.organizationId,
+  researchAdapterEnabled: Boolean(config.openai),
+  sandboxAdapterEnabled: Boolean(config.dockerRuntimes?.length),
+  claimFirst: config.claimFirst,
+  pollMs: env.RESEARCH_WORKER_POLL_MS,
+})}\n`);
+
 while (!stopping) {
   const result = await runResearchSandboxWorkerCycle({
     ...config,
@@ -34,3 +44,8 @@ while (!stopping) {
   process.stdout.write(`${JSON.stringify({ event: "research_sandbox_worker_cycle", ...result })}\n`);
   if (!stopping) await new Promise((resolve) => setTimeout(resolve, env.RESEARCH_WORKER_POLL_MS));
 }
+
+process.stdout.write(`${JSON.stringify({
+  event: "research_sandbox_worker_stopped",
+  workerId: config.workerId,
+})}\n`);

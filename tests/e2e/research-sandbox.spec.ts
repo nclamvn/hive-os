@@ -16,22 +16,26 @@ async function createMission(page: Page, dashboardUrl: string) {
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
 }
 
-test("TIP-024B-E2E-01 queues a bounded research request without claiming a worker exists", async ({ page }) => {
+test("TIP-024D-E2E-01 guides a bounded research request and reports the honest worker state", async ({ page }) => {
   const { dashboardUrl } = await signUpToDashboard(page, "Research QA");
   await createMission(page, dashboardUrl);
   await page.goto(`${dashboardUrl}/research`);
-  await expect(page.getByRole("heading", { name: "AI proposes. Evidence decides. Humans approve." })).toBeVisible();
-  await expect(page.getByText("Workers execute asynchronously. Runs stay queued until a configured adapter claims them.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Know what to do. Know what the system is doing." })).toBeVisible();
+  await expect(page.getByText("A worker claims work automatically after the research adapter is activated.")).toBeVisible();
+  await expect(page.getByLabel("Query plan, one query per line")).not.toBeVisible();
+  await expect(page.getByText("Open advanced Jupyter, CAS, or LaTeX tools")).toBeVisible();
+  await expect(page.getByLabel("Immutable input reference")).not.toBeVisible();
   await page.getByLabel("Research question").fill("What retained evidence is required?");
   await page.getByLabel("Scope and exclusion criteria").fill("Official protocols; exclude unsupported summaries.");
-  await page.getByLabel("Query plan, one query per line").fill("retained UAV evidence protocol");
-  await page.getByRole("button", { name: "Queue research" }).click();
-  await expect(page.getByText("QUEUED").first()).toBeVisible();
+  await page.getByRole("button", { name: "Assign to worker" }).click();
+  await expect(page.getByText("Waiting for worker").first()).toBeVisible();
+  await expect(page.getByText("Live tracking, refreshing every 5 seconds")).toBeVisible();
+  await expect(page.getByText(/The worker will claim this automatically/).first()).toBeVisible();
   const scan = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
   expect(scan.violations.filter((item) => item.impact === "serious" || item.impact === "critical")).toEqual([]);
 });
 
-test("TIP-024B-E2E-02 research lab has no horizontal overflow on mobile", async ({ page }) => {
+test("TIP-024D-E2E-02 guided research has no horizontal overflow on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const { dashboardUrl } = await signUpToDashboard(page, "Research Mobile");
   await createMission(page, dashboardUrl);
