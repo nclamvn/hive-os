@@ -85,7 +85,7 @@ test.describe("TIP-009 Mission Workspace", () => {
     await expect(page.getByText("Manual work in progress")).toBeVisible();
     await expect(page.getByText("NO BACKGROUND JOB")).toBeVisible();
     await expect(page.getByText("In progress", { exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Open Research Lab/ })).toHaveAttribute(
+    await expect(page.getByRole("link", { name: /Open Research/ })).toHaveAttribute(
       "href",
       /\/research\?missionId=/,
     );
