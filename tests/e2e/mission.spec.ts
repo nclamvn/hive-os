@@ -25,7 +25,7 @@ test("MK-29/32 create a mission (keyboard) and see it as a real record", async (
 
   // The dashboard lists the real mission.
   await page.goto(dashboardUrl);
-  await expect(page.getByLabel("Mission graph")).toBeVisible();
+  await expect(page.locator(".mission-grid > table")).toBeVisible();
   await expect(page.getByText("Lattice cryptography review").first()).toBeVisible();
 });
 
