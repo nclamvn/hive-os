@@ -164,7 +164,7 @@ export function MissionOperationStatus({
                     ? "bg-warning-50 text-warning-600"
                     : isLive
                       ? "bg-violet-50 text-violet-600"
-                      : "bg-surface-muted text-ink-muted"
+                      : "bg-surface-muted text-ink"
                 }`}
               >
                 {copy.badge}
@@ -178,13 +178,13 @@ export function MissionOperationStatus({
 
         <dl className="border-line grid grid-cols-2 border-y min-[820px]:border-y-0 min-[820px]:border-l">
           <div className="py-2 pr-3 min-[820px]:py-0 min-[820px]:pl-4">
-            <dt className="text-eyebrow text-ink-faint">
+            <dt className="text-eyebrow text-ink-muted font-medium">
               {locale === "vi" ? "Tín hiệu gần nhất" : "Latest signal"}
             </dt>
             <dd className="text-meta text-ink mt-1 tabular">{signal}</dd>
           </div>
           <div className="border-line border-l py-2 pl-3 min-[820px]:py-0 min-[820px]:pl-4">
-            <dt className="text-eyebrow text-ink-faint">
+            <dt className="text-eyebrow text-ink-muted font-medium">
               {locale === "vi" ? "Lần thử" : "Attempt"}
             </dt>
             <dd className="text-meta text-ink mt-1 tabular">
