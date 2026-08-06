@@ -53,7 +53,25 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      - name: Detect existing immutable images
+        id: images
+        shell: bash
+        run: |
+          set -euo pipefail
+          for image in migrator app worker; do
+            repository="hiveos-staging-${image}"
+            if aws ecr describe-images \
+              --repository-name "${repository}" \
+              --image-ids "imageTag=${GITHUB_SHA}" \
+              >/dev/null 2>&1; then
+              echo "${image}_exists=true" >> "${GITHUB_OUTPUT}"
+            else
+              echo "${image}_exists=false" >> "${GITHUB_OUTPUT}"
+            fi
+          done
+
       - name: Build and publish migration image
+        if: steps.images.outputs.migrator_exists != 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -63,9 +81,9 @@ jobs:
           build-args: VCS_REF=${{ github.sha }}
           tags: |
             ${{ steps.ecr.outputs.registry }}/hiveos-staging-migrator:${{ github.sha }}
-            ${{ steps.ecr.outputs.registry }}/hiveos-staging-migrator:staging
 
       - name: Build and publish runtime image
+        if: steps.images.outputs.app_exists != 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -75,9 +93,9 @@ jobs:
           build-args: VCS_REF=${{ github.sha }}
           tags: |
             ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:${{ github.sha }}
-            ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:staging
 
       - name: Build and publish research worker image
+        if: steps.images.outputs.worker_exists != 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -87,4 +105,23 @@ jobs:
           build-args: VCS_REF=${{ github.sha }}
           tags: |
             ${{ steps.ecr.outputs.registry }}/hiveos-staging-worker:${{ github.sha }}
-            ${{ steps.ecr.outputs.registry }}/hiveos-staging-worker:staging
+
+      - name: Promote immutable images to staging
+        shell: bash
+        run: |
+          set -euo pipefail
+          for image in migrator app worker; do
+            repository="hiveos-staging-${image}"
+            manifest="$(aws ecr batch-get-image \
+              --repository-name "${repository}" \
+              --image-ids "imageTag=${GITHUB_SHA}" \
+              --query 'images[0].imageManifest' \
+              --output text)"
+            test -n "${manifest}"
+            test "${manifest}" != "None"
+            aws ecr put-image \
+              --repository-name "${repository}" \
+              --image-tag staging \
+              --image-manifest "${manifest}" \
+              >/dev/null
+          done
