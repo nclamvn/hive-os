@@ -18,6 +18,23 @@ staging node. It does not authorize a second fixed-price compute service.
 - `RESEARCH_WORKER_CLAIM_FIRST=1` on the 512 MiB staging node.
 - `RESEARCH_WORKER_POLL_MS=5000` on staging to bound idle database traffic.
 
+The actor must be a `SERVICE` principal, not a human Owner reused for
+convenience. Provision it once with the migration role and an explicit human
+Owner/Admin authorizer:
+
+```bash
+npm run service-principal:provision -- \
+  --confirm=TIP-024D \
+  --organization-id=<organization-uuid> \
+  --workspace-id=<workspace-uuid> \
+  --authorized-by-user-id=<human-owner-or-admin-user-id> \
+  --actor-key=research-worker
+```
+
+The command is idempotent and emits only non-secret identifiers. PostgreSQL
+prevents a service principal from acquiring an Account, Session, Owner/Admin
+membership or any scoped role other than `BUILDER`.
+
 Copy the existing PostgreSQL CA bundle into the same read-only mount used by
 the web container and retain `NODE_EXTRA_CA_CERTS`. Do not set
 `NODE_TLS_REJECT_UNAUTHORIZED=0`.
@@ -55,17 +72,19 @@ registry.
 
 ## Activation checks
 
-1. Confirm the first log record is `research_sandbox_worker_started` with the
+1. Confirm the bound actor has `principal_type=SERVICE`, zero Accounts, zero
+   Sessions and an active non-administrative Organization membership.
+2. Confirm the first log record is `research_sandbox_worker_started` with the
    expected organization, worker ID, claim ceiling and adapter booleans.
-2. Create one bounded research dossier in the UI.
-3. Confirm the UI changes from `QUEUED` to `RUNNING` without manual database
+3. Create one bounded research dossier in the UI.
+4. Confirm the UI changes from `QUEUED` to `RUNNING` without manual database
    edits.
-4. Confirm the cycle log records one claimed job and no secret, prompt, source
+5. Confirm the cycle log records one claimed job and no secret, prompt, source
    body or provider response.
-5. Confirm the dossier reaches `AWAITING_REVIEW` with retained sources or an
+6. Confirm the dossier reaches `AWAITING_REVIEW` with retained sources or an
    honest-null finding.
-6. Confirm the requester cannot independently approve their own dossier.
-7. Record commit, worker image digest, organization, service actor, start time,
+7. Confirm the requester cannot independently approve their own dossier.
+8. Record commit, worker image digest, organization, service actor, start time,
    final job state and API usage from the provider console.
 
 ## Failure and rollback

@@ -48,6 +48,12 @@ Worker startup fails closed unless:
 - the OpenAI adapter has a runtime API key when enabled;
 - the Docker sandbox has a digest-pinned registry when enabled.
 
+The worker identity is a credentialless `SERVICE` principal. Database guards
+deny authentication Accounts/Sessions, administrative memberships and broad
+scoped roles even if an operator or later application path attempts to assign
+them. Provisioning is explicit, idempotent and attributed to a human
+Owner/Admin in the append-only audit ledger.
+
 OpenAI API credentials are read only by the worker. They are not accepted by
 the web form and are not retained in command, audit, source or finding data.
 

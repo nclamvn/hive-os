@@ -19,19 +19,26 @@ model SchemaBootstrap {
 }
 
 // ---------------------------------------------------------------------------
-// Authentication-owned models (Better Auth core).
-// Field names match Better Auth's expected schema; columns are snake_cased.
-// Better Auth owns reads/writes for these; HIVE OS never fabricates rows here.
+// Identity-root models. Better Auth owns HUMAN users, accounts, sessions and
+// verification records. HIVE OS may provision credentialless SERVICE users
+// through the audited operator script only; database guards prevent those
+// principals from receiving credentials, sessions or administrative roles.
 // ---------------------------------------------------------------------------
 
+enum PrincipalType {
+  HUMAN
+  SERVICE
+}
+
 model User {
-  id            String   @id
+  id            String        @id
   name          String
-  email         String   @unique
-  emailVerified Boolean  @default(false) @map("email_verified")
+  email         String        @unique
+  emailVerified Boolean       @default(false) @map("email_verified")
+  principalType PrincipalType @default(HUMAN) @map("principal_type")
   image         String?
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
 
   sessions                Session[]
   accounts                Account[]
