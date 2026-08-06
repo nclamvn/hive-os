@@ -15,16 +15,24 @@ const tones: Record<Tone, { bg: string; dot: string }> = {
 
 export interface StatusBadgeProps {
   tone?: Tone;
+  live?: boolean;
   children: ReactNode;
 }
 
-export function StatusBadge({ tone = "neutral", children }: StatusBadgeProps) {
+export function StatusBadge({
+  tone = "neutral",
+  live = false,
+  children,
+}: StatusBadgeProps) {
   const { bg, dot } = tones[tone];
   return (
     <span
       className={`text-meta text-ink border-line inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 font-medium ${bg}`}
     >
-      <span className={`size-1.5 shrink-0 rounded-full ${dot}`} aria-hidden="true" />
+      <span
+        className={`size-1.5 shrink-0 rounded-full ${dot} ${live ? `research-live-dot research-live-dot-${tone}` : ""}`}
+        aria-hidden="true"
+      />
       {children}
     </span>
   );

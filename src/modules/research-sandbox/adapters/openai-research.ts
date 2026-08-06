@@ -1,6 +1,6 @@
 import { resolve4, resolve6 } from "node:dns/promises";
 import { request as httpsRequest } from "node:https";
-import { isIP } from "node:net";
+import { isIP, type LookupFunction } from "node:net";
 
 import { z } from "zod";
 
@@ -104,15 +104,29 @@ export class OpenAIResearchProvider implements ResearchProvider {
     const sourceByCanonicalUrl = new Map<string, ResearchProviderResult["sources"][number]>();
 
     for (const proposed of boundedSources) {
-      const proposedUrl = canonicalizeUrl(new URL(proposed.url));
+      let proposedUrl: URL;
+      try {
+        proposedUrl = canonicalizeUrl(new URL(proposed.url));
+      } catch {
+        continue;
+      }
       if (!consultedUrls.has(proposedUrl.href)) {
         continue;
       }
       if (!domainAllowed(proposedUrl.hostname, input.sourcePolicy.allowedDomains)) {
         continue;
       }
-      const loaded = await this.sourceLoader(proposedUrl);
-      const finalUrl = canonicalizeUrl(loaded.finalUrl);
+      let loaded: Awaited<ReturnType<NonNullable<OpenAIResearchProviderOptions["sourceLoader"]>>>;
+      let finalUrl: URL;
+      try {
+        loaded = await this.sourceLoader(proposedUrl);
+        finalUrl = canonicalizeUrl(loaded.finalUrl);
+      } catch {
+        // A proposed source is not evidence until the collector can retain it.
+        // Inaccessible, unsafe, oversized or unsupported sources are omitted;
+        // they must not erase other independently retained evidence.
+        continue;
+      }
       if (!consultedUrls.has(proposedUrl.href) || !domainAllowed(finalUrl.hostname, input.sourcePolicy.allowedDomains)) {
         continue;
       }
@@ -372,14 +386,13 @@ export async function loadPublicTextSource(
 ): Promise<{ body: string; mediaType: string; finalUrl: URL }> {
   const safeUrl = canonicalizeUrl(url);
   const addresses = await resolvePublicAddresses(safeUrl.hostname);
-  const address = addresses[0]!;
   return new Promise((resolve, reject) => {
     const request = httpsRequest(
       safeUrl,
       {
         method: "GET",
         headers: { accept: "text/html, text/plain;q=0.9", "accept-encoding": "identity", "user-agent": "HIVE-OS-Research-Collector/1.0" },
-        lookup: (_hostname, _options, callback) => callback(null, address.address, address.family),
+        lookup: createPinnedLookup(addresses),
       },
       (response) => {
         const status = response.statusCode ?? 0;
@@ -412,6 +425,34 @@ export async function loadPublicTextSource(
     request.on("error", reject);
     request.end();
   });
+}
+
+/**
+ * Keep the post-validation connection pinned to the addresses we inspected.
+ * Node 20+ can request `all: true` for automatic family selection; returning
+ * the legacy single-address callback shape in that case produces an undefined
+ * address inside the socket and fails before any source can be retained.
+ */
+export function createPinnedLookup(
+  addresses: Array<{ address: string; family: 4 | 6 }>,
+): LookupFunction {
+  if (!addresses.length) {
+    throw new ResearchSandboxError(
+      "INVALID_INPUT",
+      "Research source DNS returned no pinned address",
+    );
+  }
+  return (_hostname, options, callback) => {
+    if (options.all) {
+      callback(
+        null,
+        addresses.map(({ address, family }) => ({ address, family })),
+      );
+      return;
+    }
+    const address = addresses[0]!;
+    callback(null, address.address, address.family);
+  };
 }
 
 async function resolvePublicAddresses(hostname: string): Promise<Array<{ address: string; family: 4 | 6 }>> {

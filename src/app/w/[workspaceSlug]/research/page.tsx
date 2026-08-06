@@ -289,7 +289,10 @@ export default async function ResearchPage({
                       <p className="text-eyebrow text-ink-muted">
                         {run.mission.referenceCode}
                       </p>
-                      <StatusBadge tone={statusTone(run.status)}>
+                      <StatusBadge
+                        tone={statusTone(run.status)}
+                        live={workerSignal(run) === "ACTIVE"}
+                      >
                         {copy.statusLabels[run.status]}
                       </StatusBadge>
                     </div>
@@ -307,7 +310,7 @@ export default async function ResearchPage({
                       <span
                         className={`size-2 rounded-full ${
                           workerSignal(run) === "ACTIVE"
-                            ? "bg-success-600"
+                            ? "research-live-dot research-live-dot-success bg-success-600"
                             : workerSignal(run) === "STALLED" || workerSignal(run) === "WAITING"
                               ? "bg-warning-600"
                               : "bg-ink-faint"
@@ -474,7 +477,7 @@ export default async function ResearchPage({
       </section>
 
       {canCompute && !expertMode ? (
-        <div className="mx-auto flex w-full max-w-5xl justify-end">
+        <div className="flex w-full justify-end">
           <Link
             href={`/w/${workspaceSlug}/research?${new URLSearchParams({
               ...(selectedMissionId ? { missionId: selectedMissionId } : {}),

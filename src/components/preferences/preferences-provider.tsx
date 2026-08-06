@@ -5,7 +5,7 @@ import {
   type ReactNode,
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
@@ -57,7 +57,7 @@ export function PreferencesProvider({
   const [locale, setLocaleState] = useState(initialLocale);
   const [appearance, setAppearanceState] = useState<Appearance>("system");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const stored = window.localStorage.getItem("hive-appearance");
     const next = isAppearance(stored) ? stored : "system";
     applyAppearance(next);

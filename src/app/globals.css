@@ -303,6 +303,34 @@ body {
   }
 }
 
+/* Quiet liveness telemetry for a worker lease that is verifiably active. */
+.research-live-dot {
+  --research-live-color: var(--color-success-600);
+  position: relative;
+  animation: research-live-breathe 1.9s ease-out infinite;
+}
+
+.research-live-dot-info {
+  --research-live-color: var(--color-violet-600);
+}
+
+.research-live-dot-success {
+  --research-live-color: var(--color-success-600);
+}
+
+@keyframes research-live-breathe {
+  0%,
+  100% {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--research-live-color) 32%, transparent);
+  }
+  55% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
 /* Visible keyboard focus everywhere (locked: no state by color alone). */
 :where(
   a,
@@ -330,6 +358,10 @@ html[data-input-modality="keyboard"] :where(input, textarea, select):focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .research-live-dot {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

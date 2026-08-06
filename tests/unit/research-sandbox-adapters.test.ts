@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  createPinnedLookup,
   loadPublicTextSource,
   OpenAIResearchProvider,
 } from "@/modules/research-sandbox/adapters/openai-research";
@@ -62,8 +63,71 @@ describe("TIP-024C research adapter", () => {
     expect(result.findings).toEqual([expect.objectContaining({ kind: "HONEST_NULL", sourceKey: null })]);
   });
 
+  it("omits an inaccessible consulted source without discarding retained evidence", async () => {
+    const blockedUrl = "https://blocked.example/report";
+    const provider = new OpenAIResearchProvider({
+      apiKey: "test-only",
+      modelName: request.modelName,
+      apiFetch: async () => new Response(JSON.stringify({
+        id: "resp_test",
+        status: "completed",
+        output: [
+          { type: "web_search_call", action: { type: "search", sources: [{ url: blockedUrl }, { url: consultedUrl }] } },
+          { type: "message", content: [{ type: "output_text", text: JSON.stringify({
+            sources: [
+              { url: blockedUrl, title: "Blocked", publisher: "Blocked", sourceClass: "SECONDARY" },
+              { url: consultedUrl, title: "Protocol", publisher: "Authority", sourceClass: "PRIMARY" },
+            ],
+            findings: [
+              { key: "blocked", kind: "CONTEXT", claim: "Unavailable", sourceUrl: blockedUrl, exactExcerpt: "unavailable", confidence: 0.2 },
+              { key: "retained", kind: "SUPPORTING", claim: "Logs are required.", sourceUrl: consultedUrl, exactExcerpt: "retained field log", confidence: 0.95 },
+            ],
+          }), annotations: [] }] },
+        ],
+      }), { status: 200, headers: { "content-type": "application/json" } }),
+      sourceLoader: async (url) => {
+        if (url.href === blockedUrl) throw new Error("source refused collection");
+        return { body: "The protocol requires a retained field log.", mediaType: "text/plain", finalUrl: url };
+      },
+    });
+
+    const result = await provider.execute({
+      ...request,
+      sourcePolicy: { ...request.sourcePolicy, allowedDomains: [], primaryDomains: [] },
+    });
+    expect(result.sources).toHaveLength(1);
+    expect(result.sources[0]?.canonicalUri).toBe(consultedUrl);
+    expect(result.findings).toEqual([
+      expect.objectContaining({ key: "retained", sourceKey: "source-1" }),
+    ]);
+  });
+
   it("rejects loopback sources before an HTTP connection is attempted", async () => {
     await expect(loadPublicTextSource(new URL("https://127.0.0.1/private"))).rejects.toThrow(/private|reserved/i);
+  });
+
+  it("returns the pinned address shape requested by modern Node clients", async () => {
+    const lookup = createPinnedLookup([
+      { address: "203.0.113.10", family: 4 },
+      { address: "2001:db8::10", family: 6 },
+    ]);
+
+    await expect(new Promise((resolve, reject) => {
+      lookup("authority.example", { all: true }, (error, addresses) => {
+        if (error) reject(error);
+        else resolve(addresses);
+      });
+    })).resolves.toEqual([
+      { address: "203.0.113.10", family: 4 },
+      { address: "2001:db8::10", family: 6 },
+    ]);
+
+    await expect(new Promise((resolve, reject) => {
+      lookup("authority.example", { all: false }, (error, address, family) => {
+        if (error) reject(error);
+        else resolve({ address, family });
+      });
+    })).resolves.toEqual({ address: "203.0.113.10", family: 4 });
   });
 });
 

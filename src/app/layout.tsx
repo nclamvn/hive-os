@@ -25,19 +25,6 @@ export const metadata: Metadata = {
     "Provenance-preserving operating system for Human-AI research, engineering, and decision-making.",
 };
 
-const appearanceBootstrap = `
-(() => {
-  try {
-    const preference = localStorage.getItem("hive-appearance") || "system";
-    const resolved = preference === "system"
-      ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-      : preference;
-    document.documentElement.dataset.theme = resolved;
-    document.documentElement.style.colorScheme = resolved;
-  } catch (_) {}
-})();
-`;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -50,13 +37,6 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${interfaceFont.variable} ${utility.variable} h-full antialiased`}
     >
-      <head>
-        <script
-          async
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: appearanceBootstrap }}
-        />
-      </head>
       <body className="min-h-full flex flex-col font-sans">
         <PreferencesProvider initialLocale={locale}>
           <FocusModality />
