@@ -202,7 +202,7 @@ export function MissionOperationStatus({
             href={`/w/${slug}/research?missionId=${missionId}`}
             className="text-meta text-ink group inline-flex items-center gap-1 font-medium underline decoration-line-strong underline-offset-4"
           >
-            {locale === "vi" ? "Mở Phòng nghiên cứu" : "Open Research Lab"}
+            {locale === "vi" ? "Mở Nghiên cứu" : "Open Research"}
             <ArrowUpRight
               className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               aria-hidden="true"

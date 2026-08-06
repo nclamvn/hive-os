@@ -2,13 +2,11 @@ import { randomUUID } from "node:crypto";
 
 import {
   ArrowRight,
-  Check,
   CheckCircle2,
   ChevronDown,
-  Circle,
-  Clock3,
   FileSearch,
   FlaskConical,
+  Settings2,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -56,13 +54,6 @@ function statusTone(status: string): "neutral" | "success" | "warning" | "danger
   return "neutral";
 }
 
-function workflowStage(status?: string) {
-  if (!status) return 0;
-  if (["QUEUED", "RUNNING", "FAILED", "CANCELLED"].includes(status)) return 1;
-  if (["AWAITING_REVIEW", "REJECTED"].includes(status)) return 2;
-  return 3;
-}
-
 function workerSignal(run: {
   status: string;
   createdAt: Date;
@@ -95,7 +86,7 @@ export default async function ResearchPage({
   searchParams,
 }: {
   params: Promise<{ workspaceSlug: string }>;
-  searchParams: Promise<{ missionId?: string }>;
+  searchParams: Promise<{ missionId?: string; advanced?: string }>;
 }) {
   const [{ workspaceSlug }, query] = await Promise.all([params, searchParams]);
   const data = await loadWorkspacePage(workspaceSlug);
@@ -120,119 +111,31 @@ export default async function ResearchPage({
   const selectedMission = targets.missions.find(
     (mission) => mission.id === selectedMissionId,
   );
-  const latestRun = runs[0];
-  const latestWorkerSignal = latestRun ? workerSignal(latestRun) : null;
-  const currentStage = workflowStage(latestRun?.status);
+  const expertMode = query.advanced === "1";
   const hasActiveWork = [...runs, ...computations].some(
     (run) => !terminalStatuses.has(run.status) && run.status !== "AWAITING_REVIEW",
   );
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
-      <Panel className="overflow-hidden">
-        <div className="grid min-[1040px]:grid-cols-[minmax(0,1fr)_390px]">
-          <div className="p-5 min-[980px]:p-7">
-            <p className="text-eyebrow text-ink-muted">{copy.eyebrow}</p>
-            <h1 className="text-page-title text-ink-strong mt-3 max-w-3xl">
-              {copy.thesis}
-            </h1>
-            <p className="text-body text-ink-muted mt-3 max-w-3xl">{copy.hint}</p>
-            {selectedMission ? (
-              <div className="border-line mt-6 border-l-2 pl-4">
-                <p className="text-meta text-ink-muted tabular">
-                  {selectedMission.referenceCode}
-                </p>
-                <p className="text-body text-ink-strong mt-1 font-semibold">
-                  {selectedMission.title}
-                </p>
-              </div>
-            ) : null}
-          </div>
-
-          <aside className="border-line bg-surface-subtle border-t p-5 min-[1040px]:border-t-0 min-[1040px]:border-l min-[1040px]:p-7">
-            <div className="flex items-start gap-3">
-              <div className="border-line bg-surface grid size-9 shrink-0 place-items-center rounded-md border">
-                <Clock3 className="text-ink-muted size-4" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
-                <p className="text-body text-ink-strong mt-2 font-semibold">
-                  {latestRun
-                    ? copy.statusLabels[latestRun.status]
-                    : copy.startResearch}
-                </p>
-                {latestWorkerSignal ? (
-                  <p className="text-meta text-ink-muted mt-2">
-                    {copy.workerSignal}: {copy.workerSignals[latestWorkerSignal]}
-                  </p>
-                ) : null}
-                <p className="text-meta text-ink-muted mt-2">
-                  {latestRun
-                    ? copy.nextActions[latestRun.status]
-                    : copy.newResearchHint}
-                </p>
-              </div>
-            </div>
-            {canRequest ? (
-              <a
-                href="#new-research"
-                className="text-body text-ink-strong border-line hover:border-line-strong mt-5 inline-flex min-h-10 items-center gap-2 rounded-md border bg-surface px-4 font-medium transition-colors"
-              >
-                {copy.startResearch}
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </a>
-            ) : null}
-          </aside>
+      <section id="new-research" className="mx-auto w-full max-w-5xl scroll-mt-24">
+        <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
+          {selectedMission ? (
+            <p className="text-meta text-ink-muted mb-3 tabular">
+              {selectedMission.referenceCode} · {selectedMission.title}
+            </p>
+          ) : null}
+          <h1 className="text-page-title text-ink-strong max-w-3xl">
+            {copy.intentTitle}
+          </h1>
+          <p className="text-body text-ink-muted mt-3 max-w-3xl">
+            {copy.intentHint}
+          </p>
         </div>
 
-        <ol
-          className="border-line grid border-t sm:grid-cols-4"
-          aria-label={copy.provenance}
-        >
-          {copy.stages.map((stage, index) => {
-            const isComplete = index < currentStage;
-            const isCurrent = index === currentStage;
-            return (
-              <li
-                key={stage}
-                aria-current={isCurrent ? "step" : undefined}
-                className={`border-line relative flex gap-3 px-5 py-4 sm:border-r sm:last:border-r-0 ${
-                  isCurrent ? "bg-surface-subtle" : ""
-                }`}
-              >
-                <span
-                  className={`border-line mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border ${
-                    isComplete
-                      ? "bg-ink-strong text-surface"
-                      : isCurrent
-                        ? "border-line-strong bg-surface text-ink-strong"
-                        : "text-ink-faint"
-                  }`}
-                  aria-hidden="true"
-                >
-                  {isComplete ? <Check className="size-3.5" /> : <Circle className="size-2" />}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-meta text-ink-strong font-semibold">{stage}</p>
-                  <p className="text-meta text-ink-muted mt-1">
-                    {copy.stageDescriptions[index]}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-      </Panel>
-
-      {canRequest ? (
-        <Panel id="new-research" className="scroll-mt-24 overflow-hidden">
-          <div className="border-line border-b p-5 min-[980px]:p-7">
-            <SectionHeader title={copy.newResearch} />
-            <p className="text-body text-ink-muted mt-2 max-w-3xl">
-              {copy.newResearchHint}
-            </p>
-          </div>
-          <form action={requestResearchRunAction}>
+        {canRequest && selectedMission ? (
+          <Panel className="overflow-hidden border-line-strong">
+            <form action={requestResearchRunAction}>
             <input type="hidden" name="slug" value={workspaceSlug} />
             <input
               type="hidden"
@@ -243,59 +146,21 @@ export default async function ResearchPage({
             <input type="hidden" name="providerName" value="openai" />
             <input type="hidden" name="modelName" value="gpt-5.6-sol" />
 
-            <div className="grid gap-5 p-5 min-[900px]:grid-cols-2 min-[980px]:p-7">
-              <label className="text-meta text-ink font-medium">
-                {copy.mission}
-                <select
-                  name="missionId"
-                  required
-                  defaultValue={selectedMissionId}
-                  className={inputClass}
-                >
-                  {targets.missions.map((mission) => (
-                    <option key={mission.id} value={mission.id}>
-                      {mission.referenceCode} · {mission.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-meta text-ink font-medium">
-                {copy.document}
-                <select name="documentId" className={inputClass}>
-                  <option value="">{copy.noDocument}</option>
-                  {targets.documents.map((document) => (
-                    <option key={document.id} value={document.id}>
-                      {document.documentKey} · {document.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
-                {copy.question}
+            <div className="p-5 min-[980px]:p-7">
+              <label className="text-body text-ink font-semibold">
+                {copy.intentLabel}
                 <textarea
-                  name="question"
+                  name="intent"
                   required
-                  rows={3}
+                  rows={6}
                   maxLength={8000}
-                  aria-describedby="research-question-hint"
-                  className={inputClass}
+                  autoFocus
+                  placeholder={copy.intentPlaceholder}
+                  aria-describedby="research-intent-hint"
+                  className={`${inputClass} text-section-title mt-3 min-h-40 resize-y font-normal leading-relaxed`}
                 />
-                <span id="research-question-hint" className="text-meta text-ink-muted mt-1.5 block font-normal">
-                  {copy.questionHint}
-                </span>
-              </label>
-              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
-                {copy.scope}
-                <textarea
-                  name="scope"
-                  required
-                  rows={3}
-                  maxLength={8000}
-                  aria-describedby="research-scope-hint"
-                  className={inputClass}
-                />
-                <span id="research-scope-hint" className="text-meta text-ink-muted mt-1.5 block font-normal">
-                  {copy.scopeHint}
+                <span id="research-intent-hint" className="text-meta text-ink-muted mt-3 block max-w-3xl font-normal">
+                  {copy.automaticGuardrails}
                 </span>
               </label>
             </div>
@@ -303,71 +168,107 @@ export default async function ResearchPage({
             <details className="group border-line border-t">
               <summary className="text-body text-ink hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
                 <span>
-                  {copy.advancedSources}
+                  {copy.context}
                   <span className="text-meta text-ink-muted mt-1 block font-normal">
-                    {copy.advancedSourcesHint}
+                    {copy.contextHint}
                   </span>
                 </span>
                 <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
               </summary>
               <div className="border-line bg-surface-subtle grid gap-4 border-t p-5 min-[900px]:grid-cols-2 min-[980px]:px-7">
-                <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
-                  {copy.queries}
-                  <textarea name="queries" rows={3} className={inputClass} />
+                <label className="text-meta text-ink font-medium">
+                  {copy.mission}
+                  <select name="missionId" required defaultValue={selectedMissionId} className={inputClass}>
+                    {targets.missions.map((mission) => (
+                      <option key={mission.id} value={mission.id}>
+                        {mission.referenceCode} · {mission.title}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label className="text-meta text-ink font-medium">
-                  {copy.allowedDomains}
-                  <textarea name="allowedDomains" rows={3} className={inputClass} />
-                </label>
-                <label className="text-meta text-ink font-medium">
-                  {copy.primaryDomains}
-                  <textarea name="primaryDomains" rows={3} className={inputClass} />
-                </label>
-                <label className="text-meta text-ink font-medium">
-                  {copy.maxSources}
-                  <input
-                    name="maxSources"
-                    type="number"
-                    min={1}
-                    max={50}
-                    defaultValue={20}
-                    className={inputClass}
-                  />
-                </label>
-                <label className="text-body text-ink flex min-h-11 items-center gap-2 self-end">
-                  <input name="requirePrimary" type="checkbox" />
-                  {copy.requirePrimary}
-                </label>
-                <label className="text-meta text-ink font-medium">
-                  {copy.provider}
-                  <input name="providerDisplay" disabled value="OpenAI" className={inputClass} />
-                </label>
-                <label className="text-meta text-ink font-medium">
-                  {copy.model}
-                  <input name="modelDisplay" disabled value="GPT-5.6 Sol" className={inputClass} />
+                  {copy.document}
+                  <select name="documentId" className={inputClass}>
+                    <option value="">{copy.noDocument}</option>
+                    {targets.documents.map((document) => (
+                      <option key={document.id} value={document.id}>
+                        {document.documentKey} · {document.title}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
             </details>
 
-            <div className="border-line flex flex-wrap items-center justify-between gap-3 border-t p-5 min-[980px]:px-7">
-              <p className="text-meta text-ink-muted max-w-2xl">{copy.workerNotice}</p>
+            {expertMode ? (
+              <details open className="group border-line border-t">
+                <summary className="text-body text-ink hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
+                  <span>{copy.advancedSources}</span>
+                  <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <div className="border-line bg-surface-subtle grid gap-4 border-t p-5 min-[900px]:grid-cols-2 min-[980px]:px-7">
+                  <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                    {copy.queries}
+                    <textarea name="queries" rows={3} className={inputClass} />
+                  </label>
+                  <label className="text-meta text-ink font-medium">
+                    {copy.allowedDomains}
+                    <textarea name="allowedDomains" rows={3} className={inputClass} />
+                  </label>
+                  <label className="text-meta text-ink font-medium">
+                    {copy.primaryDomains}
+                    <textarea name="primaryDomains" rows={3} className={inputClass} />
+                  </label>
+                  <label className="text-meta text-ink font-medium">
+                    {copy.maxSources}
+                    <input
+                      name="maxSources"
+                      type="number"
+                      min={1}
+                      max={50}
+                      defaultValue={20}
+                      className={inputClass}
+                    />
+                  </label>
+                  <label className="text-body text-ink flex min-h-11 items-center gap-2 self-end">
+                    <input name="requirePrimary" type="checkbox" />
+                    {copy.requirePrimary}
+                  </label>
+                </div>
+              </details>
+            ) : null}
+
+            <div className="border-line flex border-t p-5 min-[980px]:px-7">
               <Button
                 type="submit"
                 variant="primary"
                 disabled={!targets.missions.length}
+                className="w-full sm:ml-auto sm:w-auto"
               >
                 <FileSearch className="size-4" aria-hidden="true" />
-                {copy.queue}
+                {copy.startResearch}
               </Button>
             </div>
-          </form>
-        </Panel>
-      ) : null}
+            </form>
+          </Panel>
+        ) : canRequest ? (
+          <Panel className="p-6 sm:p-8">
+            <p className="text-section-title text-ink-strong">{copy.noMission}</p>
+            <Link
+              href={`/w/${workspaceSlug}/missions/new`}
+              className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold"
+            >
+              {copy.createMission}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+          </Panel>
+        ) : null}
+      </section>
 
       <section aria-labelledby="research-runs">
         <SectionHeader
           id="research-runs"
-          title={copy.runs}
+          title={copy.recentWork}
           action={
             <ResearchLiveRefresh
               active={hasActiveWork}
@@ -386,7 +287,7 @@ export default async function ResearchPage({
                   <div className="min-w-0 p-5">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-eyebrow text-ink-muted">
-                        {run.mission.referenceCode} · {run.providerName}/{run.modelName}
+                        {run.mission.referenceCode}
                       </p>
                       <StatusBadge tone={statusTone(run.status)}>
                         {copy.statusLabels[run.status]}
@@ -395,9 +296,6 @@ export default async function ResearchPage({
                     <h2 className="text-section-title text-ink-strong mt-3">
                       {run.question}
                     </h2>
-                    <p className="text-body text-ink-muted mt-2 line-clamp-3">
-                      {run.scope}
-                    </p>
                     <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
                       <span>{run.sources.length} {copy.source}</span>
                       <span>{run.findings.length} {copy.finding}</span>
@@ -473,22 +371,6 @@ export default async function ResearchPage({
                       </div>
                     ) : null}
                   </aside>
-                </div>
-
-                <div className="border-line grid border-t sm:grid-cols-3">
-                  <div className="p-4 sm:border-r sm:border-line">
-                    <p className="text-meta text-ink-muted">{run.sources.length} {copy.source}</p>
-                  </div>
-                  <div className="p-4 sm:border-r sm:border-line">
-                    <p className="text-meta text-ink-muted">{run.findings.length} {copy.finding}</p>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-meta text-ink-muted tabular">
-                      {run.approvedDigest
-                        ? `${run.approvedDigest.slice(0, 16)}…`
-                        : copy.digestPending}
-                    </p>
-                  </div>
                 </div>
 
                 {run.sources.length ? (
@@ -583,26 +465,35 @@ export default async function ResearchPage({
               </Panel>
             ))
           ) : (
-            <Panel className="flex min-h-56 flex-col items-center justify-center p-6 text-center">
-              <div className="border-line bg-surface-subtle grid size-11 place-items-center rounded-full border">
-                <FileSearch className="text-ink-muted size-5" aria-hidden="true" />
-              </div>
-              <p className="text-section-title text-ink mt-4">{copy.empty}</p>
+            <Panel className="flex min-h-36 flex-col items-center justify-center p-6 text-center">
+              <p className="text-section-title text-ink">{copy.empty}</p>
               <p className="text-body text-ink-muted mt-2 max-w-xl">{copy.emptyHint}</p>
-              {canRequest ? (
-                <a href="#new-research" className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold">
-                  {copy.startResearch}
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </a>
-              ) : null}
             </Panel>
           )}
         </div>
       </section>
 
-      {canCompute ? (
+      {canCompute && !expertMode ? (
+        <div className="mx-auto flex w-full max-w-5xl justify-end">
+          <Link
+            href={`/w/${workspaceSlug}/research?${new URLSearchParams({
+              ...(selectedMissionId ? { missionId: selectedMissionId } : {}),
+              advanced: "1",
+            }).toString()}#expert-tools`}
+            className="text-meta text-ink-muted hover:text-ink inline-flex min-h-10 items-center gap-2 transition-colors"
+          >
+            <Settings2 className="size-4" aria-hidden="true" />
+            <span>
+              {copy.advancedTools}
+              <span className="sr-only"> · {copy.advancedToolsHint}</span>
+            </span>
+          </Link>
+        </div>
+      ) : null}
+
+      {canCompute && expertMode ? (
         <details className="group border-line bg-surface shadow-panel rounded-panel overflow-hidden border">
-          <summary className="hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 p-5 transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
+          <summary id="expert-tools" className="hover:bg-surface-subtle flex scroll-mt-24 cursor-pointer list-none items-center justify-between gap-4 p-5 transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
             <span className="flex min-w-0 items-center gap-3">
               <span className="border-line grid size-9 shrink-0 place-items-center rounded-md border">
                 <FlaskConical className="text-ink-muted size-4" aria-hidden="true" />

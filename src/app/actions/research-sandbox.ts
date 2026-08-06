@@ -22,16 +22,24 @@ function lines(value: FormDataEntryValue | null) {
 
 export async function requestResearchRunAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "");
-  const question = String(formData.get("question") ?? "").trim();
+  const language = formData.get("language") === "en" ? "en" : "vi";
+  const question = String(
+    formData.get("intent") ?? formData.get("question") ?? "",
+  ).trim();
+  const explicitScope = String(formData.get("scope") ?? "").trim();
   const requestedQueries = lines(formData.get("queries"));
   const ctx = await resolveWorkspaceContext(await headers(), slug);
   await requestResearchRun(ctx, {
     missionId: String(formData.get("missionId") ?? ""),
     documentId: String(formData.get("documentId") ?? "") || null,
     question,
-    scope: String(formData.get("scope") ?? ""),
-    providerName: String(formData.get("providerName") ?? ""),
-    modelName: String(formData.get("modelName") ?? ""),
+    scope:
+      explicitScope ||
+      (language === "en"
+        ? "Find, compare, and synthesize the evidence needed to complete the request. Prefer original sources and state uncertainty, conflicts, and missing evidence explicitly."
+        : "Tìm, đối chiếu và tổng hợp bằng chứng cần thiết để hoàn thành yêu cầu. Ưu tiên nguồn gốc; nêu rõ điểm chưa chắc chắn, mâu thuẫn và bằng chứng còn thiếu."),
+    providerName: String(formData.get("providerName") ?? "openai") || "openai",
+    modelName: String(formData.get("modelName") ?? "gpt-5.6-sol") || "gpt-5.6-sol",
     sourcePolicy: {
       allowedDomains: lines(formData.get("allowedDomains")),
       primaryDomains: lines(formData.get("primaryDomains")),
@@ -42,7 +50,7 @@ export async function requestResearchRunAction(formData: FormData) {
       // The guided path uses the bounded research question as its first query.
       // Operators can still supply an explicit plan in advanced controls.
       queries: requestedQueries.length ? requestedQueries : [question],
-      languages: formData.get("language") === "en" ? ["en"] : ["vi", "en"],
+      languages: language === "en" ? ["en"] : ["vi", "en"],
     },
     idempotencyKey: String(formData.get("idempotencyKey") ?? ""),
   });

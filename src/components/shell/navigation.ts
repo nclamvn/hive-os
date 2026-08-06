@@ -72,7 +72,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
     segment: "authoring",
   },
   {
-    label: "Research Lab",
+    label: "Research",
     labelKey: "nav.research",
     group: "truth",
     icon: Microscope,

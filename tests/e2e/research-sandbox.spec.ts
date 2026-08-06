@@ -146,32 +146,43 @@ async function seedApprovedResearch(email: string) {
   }
 }
 
-test("TIP-024D-E2E-01 guides a bounded research request and reports the honest worker state", async ({ page }) => {
+test("TIP-024F-E2E-01 starts governed research from one plain-language intent", async ({ page }) => {
   const { dashboardUrl } = await signUpToDashboard(page, "Research QA");
   await createMission(page, dashboardUrl);
   await page.goto(`${dashboardUrl}/research`);
-  await expect(page.getByRole("heading", { name: "Know what to do. Know what the system is doing." })).toBeVisible();
-  await expect(page.getByText("A worker claims work automatically after the research adapter is activated.")).toBeVisible();
-  await expect(page.getByLabel("Query plan, one query per line")).not.toBeVisible();
-  await expect(page.getByText("Open advanced Jupyter, CAS, or LaTeX tools")).toBeVisible();
-  await expect(page.getByLabel("Immutable input reference")).not.toBeVisible();
-  await page.getByLabel("Research question").fill("What retained evidence is required?");
-  await page.getByLabel("Scope and exclusion criteria").fill("Official protocols; exclude unsupported summaries.");
-  await page.getByRole("button", { name: "Assign to worker" }).click();
-  await expect(page.getByText("Waiting for worker").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What do you want to finish?" })).toBeVisible();
+  await expect(page.getByLabel("Outcome you need")).toBeVisible();
+  await expect(page.getByLabel("Query plan, one query per line")).toHaveCount(0);
+  await expect(page.getByLabel("Immutable input reference")).toHaveCount(0);
+  await expect(page.getByLabel("Runtime environment")).toHaveCount(0);
+  await page.getByLabel("Outcome you need").fill("Determine the retained evidence required for an accountable UAV inspection.");
+  await page.getByRole("button", { name: "Start research" }).click();
+  await expect(page.getByText("Waiting to start").first()).toBeVisible();
   await expect(page.getByText("Live tracking, refreshing every 5 seconds")).toBeVisible();
-  await expect(page.getByText(/The worker will claim this automatically/).first()).toBeVisible();
+  await expect(page.getByText(/The request has been recorded and will start automatically/).first()).toBeVisible();
   const scan = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
   expect(scan.violations.filter((item) => item.impact === "serious" || item.impact === "critical")).toEqual([]);
 });
 
-test("TIP-024D-E2E-02 guided research has no horizontal overflow on mobile", async ({ page }) => {
+test("TIP-024F-E2E-02 intent workspace has no horizontal overflow on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const { dashboardUrl } = await signUpToDashboard(page, "Research Mobile");
   await createMission(page, dashboardUrl);
   await page.goto(`${dashboardUrl}/research`);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
+});
+
+test("TIP-024F-E2E-03 expert controls require an explicit expert-mode transition", async ({ page }) => {
+  const { dashboardUrl } = await signUpToDashboard(page, "Research Expert");
+  await createMission(page, dashboardUrl);
+  await page.goto(`${dashboardUrl}/research`);
+  await expect(page.getByLabel("Runtime environment")).toHaveCount(0);
+  await page.getByRole("link", { name: /Expert tools/ }).click();
+  await expect(page).toHaveURL(/advanced=1/);
+  await expect(page.getByLabel("Query plan, one query per line")).toBeVisible();
+  await page.getByText("Open advanced Jupyter, CAS, or LaTeX tools").click();
+  await expect(page.getByLabel("Runtime environment")).toBeVisible();
 });
 
 test("TIP-024E-E2E-01 imports an approved dossier into a traceable authoring revision", async ({ page }) => {
