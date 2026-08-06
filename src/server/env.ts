@@ -9,6 +9,9 @@ import { z } from "zod";
  */
 const envSchema = z
   .object({
+    RUNTIME_COMPONENT: z
+      .enum(["web", "research-worker"])
+      .default("web"),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -140,6 +143,7 @@ const envSchema = z
     // running deployment. Recovery/mail/throttle requirements are enforced at
     // real runtime startup (and by tests), not while collecting build output.
     const buildPhase = process.env.NEXT_PHASE === "phase-production-build";
+    const researchWorker = env.RUNTIME_COMPONENT === "research-worker";
     const deploymentEnv =
       env.DEPLOYMENT_ENV ??
       (env.NODE_ENV === "test"
@@ -147,7 +151,7 @@ const envSchema = z
         : env.NODE_ENV === "development"
           ? "development"
           : undefined);
-    if (!buildPhase && !env.BETTER_AUTH_SECRET) {
+    if (!buildPhase && !researchWorker && !env.BETTER_AUTH_SECRET) {
       ctx.addIssue({
         code: "custom",
         path: ["BETTER_AUTH_SECRET"],
@@ -222,7 +226,8 @@ const envSchema = z
       !buildPhase &&
       deploymentEnv &&
       ["staging", "production"].includes(deploymentEnv) &&
-      env.STORAGE_DRIVER !== "s3"
+      env.STORAGE_DRIVER !== "s3" &&
+      (!researchWorker || env.SANDBOX_DOCKER_ENABLED)
     ) {
       ctx.addIssue({
         code: "custom",
@@ -238,7 +243,11 @@ const envSchema = z
       });
     }
     // Rate limiting may only be disabled for deterministic automated tests.
-    if (!env.AUTH_RATE_LIMIT_ENABLED && env.NODE_ENV !== "test") {
+    if (
+      !researchWorker &&
+      !env.AUTH_RATE_LIMIT_ENABLED &&
+      env.NODE_ENV !== "test"
+    ) {
       ctx.addIssue({
         code: "custom",
         path: ["AUTH_RATE_LIMIT_ENABLED"],
@@ -248,7 +257,12 @@ const envSchema = z
     }
     // The keyed throttle/digest secret is mandatory outside automated tests so
     // identity-recovery abuse controls cannot silently run without a key.
-    if (!env.AUTH_THROTTLE_SECRET && env.NODE_ENV !== "test" && !buildPhase) {
+    if (
+      !researchWorker &&
+      !env.AUTH_THROTTLE_SECRET &&
+      env.NODE_ENV !== "test" &&
+      !buildPhase
+    ) {
       ctx.addIssue({
         code: "custom",
         path: ["AUTH_THROTTLE_SECRET"],
@@ -257,7 +271,12 @@ const envSchema = z
     }
     // Identity recovery is fail-closed in production: the local mail sink must
     // never deliver production recovery links.
-    if (!buildPhase && env.NODE_ENV === "production" && env.MAIL_DRIVER === "local") {
+    if (
+      !researchWorker &&
+      !buildPhase &&
+      env.NODE_ENV === "production" &&
+      env.MAIL_DRIVER === "local"
+    ) {
       ctx.addIssue({
         code: "custom",
         path: ["MAIL_DRIVER"],
@@ -265,7 +284,7 @@ const envSchema = z
       });
     }
     // A real SMTP driver needs a host and a From address to be usable.
-    if (env.MAIL_DRIVER === "smtp") {
+    if (!researchWorker && env.MAIL_DRIVER === "smtp") {
       if (!env.SMTP_HOST) {
         ctx.addIssue({
           code: "custom",
@@ -283,7 +302,7 @@ const envSchema = z
     }
     // Recovery links must be HTTPS and same-origin as the auth base in
     // production so callbacks cannot be redirected off-site.
-    if (!buildPhase && env.NODE_ENV === "production") {
+    if (!researchWorker && !buildPhase && env.NODE_ENV === "production") {
       if (!env.MAIL_BASE_URL.startsWith("https://")) {
         ctx.addIssue({
           code: "custom",

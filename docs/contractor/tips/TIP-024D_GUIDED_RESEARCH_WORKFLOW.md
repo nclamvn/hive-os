@@ -54,6 +54,11 @@ scoped roles even if an operator or later application path attempts to assign
 them. Provisioning is explicit, idempotent and attributed to a human
 Owner/Admin in the append-only audit ledger.
 
+`RUNTIME_COMPONENT=research-worker` selects a dedicated environment contract.
+A research-only worker is not given Better Auth, recovery-mail, migration or
+object-storage credentials; only its tenant-scoped database URL and enabled
+provider credential cross the worker boundary.
+
 OpenAI API credentials are read only by the worker. They are not accepted by
 the web form and are not retained in command, audit, source or finding data.
 

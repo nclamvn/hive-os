@@ -19,6 +19,27 @@ describe("environment schema", () => {
     expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
     expect(env.DB_SLOW_QUERY_MS).toBe(1_000);
     expect(env.RESEARCH_WORKER_ENABLED).toBe(false);
+    expect(env.RUNTIME_COMPONENT).toBe("web");
+  });
+
+  it("TIP-024D accepts a research-only production worker without web or mail secrets", () => {
+    const env = parseEnv({
+      RUNTIME_COMPONENT: "research-worker",
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "staging",
+      DATABASE_URL: "postgresql://worker:pass@database.example.com:5432/hiveos",
+      RESEARCH_WORKER_ENABLED: "true",
+      RESEARCH_OPENAI_ENABLED: "true",
+      RESEARCH_WORKER_ORGANIZATION_ID: "962e9399-d7ed-4410-a72e-37001e1fa28c",
+      RESEARCH_WORKER_ACTOR_USER_ID: "svc_research_worker",
+      OPENAI_API_KEY: "provider-secret",
+    });
+
+    expect(env.RUNTIME_COMPONENT).toBe("research-worker");
+    expect(env.STORAGE_DRIVER).toBe("local");
+    expect(env.BETTER_AUTH_SECRET).toBeUndefined();
+    expect(env.AUTH_THROTTLE_SECRET).toBeUndefined();
+    expect(env.SMTP_PASSWORD).toBeUndefined();
   });
 
   it("TIP-024C fails closed when a worker adapter lacks credentials or a pinned runtime registry", () => {

@@ -7,6 +7,9 @@ import {
 } from "../../src/server/workers/research-sandbox-cycle";
 
 const env = getEnv();
+if (env.RUNTIME_COMPONENT !== "research-worker") {
+  throw new Error("RUNTIME_COMPONENT must be research-worker");
+}
 if (!env.RESEARCH_WORKER_ENABLED) throw new Error("RESEARCH_WORKER_ENABLED must be true");
 
 let stopping = false;

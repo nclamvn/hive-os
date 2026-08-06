@@ -7,6 +7,8 @@ staging node. It does not authorize a second fixed-price compute service.
 
 - `DATABASE_URL`: the existing least-privileged application role, with TLS
   verification unchanged.
+- `RUNTIME_COMPONENT=research-worker`. This selects the worker-only validation
+  contract and rejects accidental startup through the web runtime contract.
 - `RESEARCH_WORKER_ENABLED=true`.
 - `RESEARCH_OPENAI_ENABLED=true`.
 - `RESEARCH_WORKER_ORGANIZATION_ID`: the exact organization UUID this worker
@@ -38,6 +40,12 @@ membership or any scoped role other than `BUILDER`.
 Copy the existing PostgreSQL CA bundle into the same read-only mount used by
 the web container and retain `NODE_EXTRA_CA_CERTS`. Do not set
 `NODE_TLS_REJECT_UNAUTHORIZED=0`.
+
+The worker environment must not contain `BETTER_AUTH_SECRET`,
+`AUTH_THROTTLE_SECRET`, SMTP credentials, migration credentials or S3
+credentials when only the research adapter is enabled. The worker runtime
+schema intentionally accepts a research-only production environment without
+those web-plane secrets.
 
 ## Start contract
 
