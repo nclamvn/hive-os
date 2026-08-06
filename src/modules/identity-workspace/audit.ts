@@ -392,6 +392,16 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       warningCount: z.number().int().nonnegative(),
     })
     .strict(),
+  "authoring.research_imported": z
+    .object({
+      documentId: z.string(),
+      runId: z.string(),
+      revisionNumber: z.number().int().positive(),
+      approvedDigest: z.string().regex(/^[a-f0-9]{64}$/),
+      sourceCount: z.number().int().nonnegative(),
+      findingCount: z.number().int().positive(),
+    })
+    .strict(),
   "authoring.exported": z
     .object({
       revisionNumber: z.number().int().positive(),
@@ -545,6 +555,7 @@ export const AuditEventType = {
   ReleaseApproved: "release.approved",
   AuthoringDocumentCreated: "authoring.document_created",
   AuthoringRevisionCreated: "authoring.revision_created",
+  AuthoringResearchImported: "authoring.research_imported",
   AuthoringExported: "authoring.exported",
   ResearchRequested: "research.requested",
   ResearchCompleted: "research.completed",

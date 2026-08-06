@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 
 import {
   requestComputationRunAction,
+  importApprovedResearchBundleAction,
   requestResearchRunAction,
   reviewComputationRunAction,
   reviewResearchRunAction,
@@ -110,6 +111,7 @@ export default async function ResearchPage({
   const canRequest = hasCapability(data.ctx.membership.role, "research.request");
   const canReview = hasCapability(data.ctx.membership.role, "research.review");
   const canCompute = hasCapability(data.ctx.membership.role, "sandbox.request");
+  const canAuthor = hasCapability(data.ctx.membership.role, "authoring.write");
   const selectedMissionId = targets.missions.some(
     (mission) => mission.id === query.missionId,
   )
@@ -423,14 +425,52 @@ export default async function ResearchPage({
                         {copy.failureCode}: {run.failureCode}
                       </p>
                     ) : null}
-                    {run.status === "APPROVED" ? (
-                      <Link
-                        href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
-                        className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold"
-                      >
-                        {copy.useInAuthoring}
-                        <ArrowRight className="size-4" aria-hidden="true" />
-                      </Link>
+                    {run.status === "APPROVED" && canAuthor ? (
+                      <div className="border-line mt-4 border-t pt-4">
+                        <p className="text-meta text-ink-muted">{copy.importResearchHint}</p>
+                        {run.documentId ? (
+                          <form action={importApprovedResearchBundleAction} className="mt-3">
+                            <input type="hidden" name="slug" value={workspaceSlug} />
+                            <input type="hidden" name="locale" value={locale} />
+                            <input type="hidden" name="runId" value={run.id} />
+                            <input type="hidden" name="documentId" value={run.documentId} />
+                            <Button type="submit" variant="primary" className="w-full">
+                              {copy.importResearch}
+                              <ArrowRight className="size-4" aria-hidden="true" />
+                            </Button>
+                          </form>
+                        ) : targets.documents.some((document) => document.missionId === run.missionId) ? (
+                          <form action={importApprovedResearchBundleAction} className="mt-3">
+                            <input type="hidden" name="slug" value={workspaceSlug} />
+                            <input type="hidden" name="locale" value={locale} />
+                            <input type="hidden" name="runId" value={run.id} />
+                            <label className="text-meta text-ink font-medium">
+                              {copy.chooseTargetDocument}
+                              <select name="documentId" required className={inputClass}>
+                                {targets.documents
+                                  .filter((document) => document.missionId === run.missionId)
+                                  .map((document) => (
+                                    <option key={document.id} value={document.id}>
+                                      {document.documentKey} · {document.title}
+                                    </option>
+                                  ))}
+                              </select>
+                            </label>
+                            <Button type="submit" variant="primary" className="mt-3 w-full">
+                              {copy.importResearch}
+                              <ArrowRight className="size-4" aria-hidden="true" />
+                            </Button>
+                          </form>
+                        ) : (
+                          <Link
+                            href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
+                            className="text-body text-ink-strong mt-3 inline-flex min-h-10 items-center gap-2 font-semibold"
+                          >
+                            {copy.createTargetDocument}
+                            <ArrowRight className="size-4" aria-hidden="true" />
+                          </Link>
+                        )}
+                      </div>
                     ) : null}
                   </aside>
                 </div>

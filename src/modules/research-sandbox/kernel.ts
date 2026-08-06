@@ -302,6 +302,9 @@ export async function getApprovedResearchBundle(ctx: WorkspaceContext, runId: st
     if (reviewedDigest(run) !== run.approvedDigest) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Research publish digest is stale or corrupted");
     return {
       runId: run.id,
+      missionId: run.missionId,
+      documentId: run.documentId,
+      question: run.question,
       digest: run.approvedDigest,
       sources: run.sources.map((source) => ({
         id: source.id,

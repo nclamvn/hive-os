@@ -13,6 +13,7 @@ import {
   Plus,
   Save,
   ShieldAlert,
+  ShieldCheck,
   Trash2,
 } from "lucide-react";
 
@@ -116,6 +117,10 @@ export function AuthoringWorkspace(props: Props) {
     () => assessAuthoringQuality(props.documentType, content),
     [content, props.documentType],
   );
+  const retainedResearchSectionKeys = useMemo(
+    () => new Set(content.researchImports.flatMap((item) => item.sectionKeys)),
+    [content.researchImports],
+  );
 
   function updateSelected(patch: Partial<(typeof content.sections)[number]>) {
     setContent((current) => ({
@@ -145,6 +150,8 @@ export function AuthoringWorkspace(props: Props) {
 
   function removeSection() {
     if (content.sections.length <= 1) return;
+    if (!selected) return;
+    if (retainedResearchSectionKeys.has(selected.key)) return;
     const next = content.sections.filter((_, index) => index !== selectedIndex);
     setContent((current) => ({ ...current, sections: next }));
     setSelectedKey(next[Math.max(0, selectedIndex - 1)]?.key ?? next[0].key);
@@ -166,6 +173,9 @@ export function AuthoringWorkspace(props: Props) {
       year: "",
       publisher: "",
       evidenceSourceId: null,
+      researchRunId: null,
+      researchSourceId: null,
+      sourceDigest: null,
     };
     setContent((current) => ({
       ...current,
@@ -198,6 +208,9 @@ export function AuthoringWorkspace(props: Props) {
             ? `Snapshot SHA-256 ${source.snapshots[0].contentHash}`
             : "",
           evidenceSourceId: source.id,
+          researchRunId: null,
+          researchSourceId: null,
+          sourceDigest: source.snapshots[0]?.contentHash ?? null,
         },
       ],
     }));
@@ -327,7 +340,11 @@ export function AuthoringWorkspace(props: Props) {
               aria-label={copy.removeSection}
               title={copy.removeSection}
               onClick={removeSection}
-              disabled={!props.canWrite || content.sections.length <= 1}
+              disabled={
+                !props.canWrite ||
+                content.sections.length <= 1 ||
+                retainedResearchSectionKeys.has(selected?.key ?? "")
+              }
               className="text-ink-muted hover:bg-red-500/10 hover:text-red-600 disabled:opacity-30 flex size-9 items-center justify-center rounded-md"
             >
               <Trash2 className="size-4" />
@@ -524,13 +541,18 @@ export function AuthoringWorkspace(props: Props) {
                   <li key={`${citation.key}-${index}`} className="border-line bg-surface-subtle rounded-md border p-2.5">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-meta text-ink font-medium">[@{citation.key}] {citation.title}</p>
-                      {props.canWrite ? (
+                      {props.canWrite && !citation.researchRunId ? (
                         <button type="button" aria-label="Remove citation" onClick={() => setContent((current) => ({ ...current, citations: current.citations.filter((_, itemIndex) => itemIndex !== index) }))} className="text-ink-muted hover:text-red-600">
                           <Trash2 className="size-3.5" />
                         </button>
                       ) : null}
                     </div>
                     <p className="text-[11px] text-ink-muted mt-1 break-all">{citation.canonicalUri}</p>
+                    {citation.researchRunId ? (
+                      <p className="text-[10px] text-ink-muted mt-1 font-mono">
+                        {copy.approvedDigest}: {citation.sourceDigest?.slice(0, 16)}…
+                      </p>
+                    ) : null}
                   </li>
                 ))}
               </ul>
@@ -555,6 +577,27 @@ export function AuthoringWorkspace(props: Props) {
           </summary>
           <div className="border-line border-t p-4">
             <p className="text-meta text-ink-muted">{copy.researchToolsHint}</p>
+            {content.researchImports.length ? (
+              <div className="border-line mt-3 border-b pb-3">
+                <p className="text-meta text-ink flex items-center gap-2 font-medium">
+                  <ShieldCheck className="size-4" aria-hidden="true" />
+                  {copy.approvedResearch}
+                </p>
+                <p className="text-[11px] text-ink-muted mt-1">{copy.approvedResearchHint}</p>
+                <ul className="mt-2 space-y-2">
+                  {content.researchImports.map((researchImport) => (
+                    <li key={researchImport.runId} className="border-line bg-surface-subtle rounded-md border p-2.5">
+                      <p className="text-meta text-ink font-medium">
+                        {researchImport.findingIds.length} {props.locale === "vi" ? "phát hiện đã duyệt" : "approved findings"}
+                      </p>
+                      <p className="text-[10px] text-ink-muted mt-1 font-mono">
+                        {copy.approvedDigest}: {researchImport.approvedDigest.slice(0, 16)}…
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             {content.computationalArtifacts.length ? (
               <ul className="mt-3 space-y-2">
                 {content.computationalArtifacts.map((artifact, index) => (

@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import type { AuthoringContent } from "@/modules/authoring/contracts";
+import {
+  authoringContentSchema,
+  type AuthoringContent,
+} from "@/modules/authoring/contracts";
 import { hashAuthoringContent } from "@/modules/authoring/content-hash";
 import { diffAuthoringContent } from "@/modules/authoring/diff";
 import {
@@ -50,9 +53,13 @@ function publishableContent(): AuthoringContent {
         canonicalUri: "https://example.com/source-1",
         locator: "Mục 3",
         evidenceSourceId: null,
+        researchRunId: null,
+        researchSourceId: null,
+        sourceDigest: null,
       },
     ],
     computationalArtifacts: [],
+    researchImports: [],
   };
 }
 
@@ -119,6 +126,43 @@ describe("governed authoring quality", () => {
     const diff = diffAuthoringContent(before, after);
     expect(diff.changedSectionCount).toBe(1);
     expect(diff.sections[0]).toMatchObject({ status: "MODIFIED", wordDelta: 8 });
+  });
+
+  it("retains approved research provenance as an inseparable content contract", () => {
+    const content = publishableContent();
+    const runId = "run-approved-1";
+    const sourceId = "source-approved-1";
+    content.sections.push({
+      key: "research-run-1",
+      heading: "Bằng chứng nghiên cứu đã duyệt",
+      kind: "EVIDENCE",
+      body: "Kết luận đã được rà soát [@research-source].",
+    });
+    content.citations.push({
+      key: "research-source",
+      title: "Nguồn nghiên cứu",
+      authors: "",
+      year: "2026",
+      publisher: "Cơ quan chuyên môn",
+      canonicalUri: "https://example.com/research-source",
+      locator: `Research snapshot SHA-256 ${"c".repeat(64)}`,
+      evidenceSourceId: null,
+      researchRunId: runId,
+      researchSourceId: sourceId,
+      sourceDigest: "c".repeat(64),
+    });
+    content.researchImports.push({
+      runId,
+      approvedDigest: "d".repeat(64),
+      sectionKeys: ["research-run-1"],
+      sourceIds: [sourceId],
+      findingIds: ["finding-approved-1"],
+    });
+    expect(authoringContentSchema.safeParse(content).success).toBe(true);
+    content.citations = content.citations.filter(
+      (citation) => citation.researchSourceId !== sourceId,
+    );
+    expect(authoringContentSchema.safeParse(content).success).toBe(false);
   });
 
   it("renders publishable Vietnamese DOCX and PDF files", async () => {

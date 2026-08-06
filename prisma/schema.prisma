@@ -2577,6 +2577,7 @@ model AuthoringRevision {
   sections               Json
   citations              Json
   computationalArtifacts Json     @default("[]") @map("computational_artifacts")
+  researchImports        Json     @default("[]") @map("research_imports")
   qualityReport          Json     @map("quality_report")
   contentHash            String   @map("content_hash")
   changeSummary          String   @map("change_summary")

@@ -9,12 +9,14 @@ import {
   type WorkspaceContext,
   writeAuditEvent,
 } from "@/modules/identity-workspace";
+import { getApprovedResearchBundle } from "@/modules/research-sandbox/kernel";
 import { getDb } from "@/server/db";
 import { withOrganizationTenant } from "@/server/tenant-context";
 
 import {
   authoringContentSchema,
   createAuthoringDocumentSchema,
+  importApprovedResearchSchema,
   qualityReportSchema,
   saveAuthoringRevisionSchema,
   type AuthoringContent,
@@ -44,6 +46,7 @@ function parseContent(row: {
   sections: Prisma.JsonValue;
   citations: Prisma.JsonValue;
   computationalArtifacts: Prisma.JsonValue;
+  researchImports: Prisma.JsonValue;
 }): AuthoringContent {
   const result = authoringContentSchema.safeParse({
     title: row.title,
@@ -51,6 +54,7 @@ function parseContent(row: {
     sections: row.sections,
     citations: row.citations,
     computationalArtifacts: row.computationalArtifacts,
+    researchImports: row.researchImports,
   });
   if (!result.success) {
     throw new AuthoringError(
@@ -70,6 +74,43 @@ function parseQuality(value: Prisma.JsonValue) {
     );
   }
   return result.data;
+}
+
+function assertRetainedResearchProvenance(
+  previous: AuthoringContent,
+  next: AuthoringContent,
+) {
+  for (const retained of previous.researchImports) {
+    const candidate = next.researchImports.find(
+      (item) => item.runId === retained.runId,
+    );
+    if (!candidate || JSON.stringify(candidate) !== JSON.stringify(retained)) {
+      throw new AuthoringError(
+        "AUTHORING_CONFLICT",
+        "Approved research provenance cannot be removed or rewritten",
+      );
+    }
+  }
+  for (const retained of previous.citations.filter(
+    (citation) => citation.researchRunId,
+  )) {
+    const candidate = next.citations.find(
+      (citation) =>
+        citation.researchRunId === retained.researchRunId &&
+        citation.researchSourceId === retained.researchSourceId,
+    );
+    if (
+      !candidate ||
+      candidate.key !== retained.key ||
+      candidate.canonicalUri !== retained.canonicalUri ||
+      candidate.sourceDigest !== retained.sourceDigest
+    ) {
+      throw new AuthoringError(
+        "AUTHORING_CONFLICT",
+        "Approved research source identity cannot be removed or rewritten",
+      );
+    }
+  }
 }
 
 export async function listAuthoringMissions(ctx: WorkspaceContext) {
@@ -141,6 +182,7 @@ export async function createAuthoringDocument(
       ),
       citations: [],
       computationalArtifacts: [],
+      researchImports: [],
     };
     const quality = assessAuthoringQuality(input.data.documentType, content);
     const contentHash = hashAuthoringContent(content);
@@ -168,6 +210,7 @@ export async function createAuthoringDocument(
         citations: content.citations as Prisma.InputJsonValue,
         computationalArtifacts:
           content.computationalArtifacts as Prisma.InputJsonValue,
+        researchImports: content.researchImports as Prisma.InputJsonValue,
         qualityReport: quality as Prisma.InputJsonValue,
         contentHash,
         changeSummary:
@@ -295,7 +338,21 @@ export async function saveAuthoringRevision(
       sections: input.data.sections,
       citations: input.data.citations,
       computationalArtifacts: input.data.computationalArtifacts,
+      researchImports: input.data.researchImports,
     };
+    const retainedRevision = await tx.authoringRevision.findFirst({
+      where: {
+        documentId: document.id,
+        revisionNumber: document.currentRevisionNumber,
+      },
+    });
+    if (!retainedRevision) {
+      throw new AuthoringError(
+        "AUTHORING_NOT_FOUND",
+        "Current retained revision not found",
+      );
+    }
+    assertRetainedResearchProvenance(parseContent(retainedRevision), content);
     const contentHash = hashAuthoringContent(content);
     const duplicate = await tx.authoringRevision.findFirst({
       where: { documentId: document.id, contentHash },
@@ -325,6 +382,7 @@ export async function saveAuthoringRevision(
         citations: content.citations as Prisma.InputJsonValue,
         computationalArtifacts:
           content.computationalArtifacts as Prisma.InputJsonValue,
+        researchImports: content.researchImports as Prisma.InputJsonValue,
         qualityReport: quality as Prisma.InputJsonValue,
         contentHash,
         changeSummary: input.data.changeSummary,
@@ -356,6 +414,281 @@ export async function saveAuthoringRevision(
       },
     });
     return { revisionNumber, quality };
+  });
+}
+
+function researchCitationKey(
+  runId: string,
+  sourceId: string,
+  occupied: Set<string>,
+) {
+  const base = `research-${runId.replace(/-/g, "").slice(0, 8)}-${sourceId.replace(/-/g, "").slice(0, 8)}`;
+  let key = base;
+  let suffix = 2;
+  while (occupied.has(key.toLowerCase())) {
+    key = `${base}-${suffix}`;
+    suffix += 1;
+  }
+  occupied.add(key.toLowerCase());
+  return key;
+}
+
+function researchSections(
+  runId: string,
+  question: string,
+  locale: "vi" | "en",
+  paragraphs: string[],
+) {
+  const chunks: string[] = [];
+  let current = locale === "vi"
+    ? `Câu hỏi nghiên cứu: ${question}`
+    : `Research question: ${question}`;
+  for (const paragraph of paragraphs) {
+    const candidate = `${current}\n\n${paragraph}`;
+    if (candidate.length > 90_000 && current.trim()) {
+      chunks.push(current);
+      current = paragraph;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.trim()) chunks.push(current);
+  const prefix = `research-${runId.replace(/-/g, "").slice(0, 12)}`;
+  return chunks.map((body, index) => ({
+    key: `${prefix}-${index + 1}`,
+    heading:
+      locale === "vi"
+        ? `Bằng chứng nghiên cứu đã duyệt${chunks.length > 1 ? `, phần ${index + 1}` : ""}`
+        : `Approved research evidence${chunks.length > 1 ? `, part ${index + 1}` : ""}`,
+    kind: "EVIDENCE" as const,
+    body,
+  }));
+}
+
+/**
+ * TIP-024E: materialize an independently approved research bundle into one
+ * immutable authoring revision. The bundle digest and retained IDs travel
+ * with the revision; repeated imports of the same run are a no-op.
+ */
+export async function importApprovedResearchBundle(
+  ctx: WorkspaceContext,
+  rawInput: unknown,
+) {
+  requireCapability(ctx, "authoring.write");
+  const input = importApprovedResearchSchema.safeParse(rawInput);
+  if (!input.success) {
+    throw new AuthoringError(
+      "INVALID_AUTHORING_INPUT",
+      "Research import violates the authoring bridge contract",
+    );
+  }
+  const bundle = await getApprovedResearchBundle(ctx, input.data.runId);
+  const organizationId = await scope(ctx);
+  return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
+    await tx.$queryRaw`SELECT id FROM "authoring_document" WHERE id = ${input.data.documentId} AND organization_id = ${organizationId} FOR UPDATE`;
+    const document = await tx.authoringDocument.findFirst({
+      where: {
+        id: input.data.documentId,
+        organizationId,
+        workspaceId: ctx.workspace.id,
+      },
+    });
+    if (!document) {
+      throw new AuthoringError("AUTHORING_NOT_FOUND", "Target document not found");
+    }
+    if (document.missionId !== bundle.missionId) {
+      throw new AuthoringError(
+        "AUTHORING_CONFLICT",
+        "Approved research and target document belong to different Missions",
+      );
+    }
+    if (bundle.documentId && bundle.documentId !== document.id) {
+      throw new AuthoringError(
+        "AUTHORING_CONFLICT",
+        "Approved research is bound to a different target document",
+      );
+    }
+    const revision = await tx.authoringRevision.findFirst({
+      where: { documentId: document.id },
+      orderBy: { revisionNumber: "desc" },
+    });
+    if (!revision) {
+      throw new AuthoringError("AUTHORING_NOT_FOUND", "Target document has no retained revision");
+    }
+    const current = parseContent(revision);
+    const priorImport = current.researchImports.find(
+      (item) => item.runId === bundle.runId,
+    );
+    if (priorImport) {
+      if (priorImport.approvedDigest !== bundle.digest) {
+        throw new AuthoringError(
+          "AUTHORING_CONFLICT",
+          "The retained research import digest no longer matches the approved bundle",
+        );
+      }
+      return {
+        documentId: document.id,
+        revisionNumber: revision.revisionNumber,
+        alreadyImported: true,
+        sectionKeys: priorImport.sectionKeys,
+      };
+    }
+
+    const sourceById = new Map(bundle.sources.map((source) => [source.id, source]));
+    const referencedSourceIds = [
+      ...new Set(
+        bundle.findings.flatMap((finding) =>
+          finding.sourceId ? [finding.sourceId] : [],
+        ),
+      ),
+    ].sort();
+    const occupiedKeys = new Set(current.citations.map((citation) => citation.key.toLowerCase()));
+    const citationKeyBySourceId = new Map<string, string>();
+    const importedCitations = referencedSourceIds.map((sourceId) => {
+      const source = sourceById.get(sourceId);
+      if (!source) {
+        throw new AuthoringError(
+          "AUTHORING_CONFLICT",
+          "An accepted finding references a source outside the approved bundle",
+        );
+      }
+      const key = researchCitationKey(bundle.runId, source.id, occupiedKeys);
+      citationKeyBySourceId.set(source.id, key);
+      return {
+        key,
+        title: source.title,
+        authors: "",
+        year: String(source.capturedAt.getUTCFullYear()),
+        publisher: source.publisher,
+        canonicalUri: source.canonicalUri,
+        locator: `Research snapshot SHA-256 ${source.contentDigest}`,
+        evidenceSourceId: null,
+        researchRunId: bundle.runId,
+        researchSourceId: source.id,
+        sourceDigest: source.contentDigest,
+      };
+    });
+    const paragraphs = bundle.findings.map((finding, index) => {
+      const citationKey = finding.sourceId
+        ? citationKeyBySourceId.get(finding.sourceId)
+        : null;
+      const marker = citationKey ? ` [@${citationKey}]` : "";
+      const honestNull = finding.kind === "HONEST_NULL"
+        ? input.data.locale === "vi" ? "Khoảng trống bằng chứng: " : "Evidence gap: "
+        : "";
+      return `${index + 1}. ${honestNull}${finding.claim}${marker}`;
+    });
+    const importedSections = researchSections(
+      bundle.runId,
+      bundle.question,
+      input.data.locale,
+      paragraphs,
+    );
+    if (current.sections.length + importedSections.length > 64) {
+      throw new AuthoringError(
+        "INVALID_AUTHORING_INPUT",
+        "Research import would exceed the document section ceiling",
+      );
+    }
+    if (current.citations.length + importedCitations.length > 512) {
+      throw new AuthoringError(
+        "INVALID_AUTHORING_INPUT",
+        "Research import would exceed the document citation ceiling",
+      );
+    }
+    if (current.researchImports.length >= 64) {
+      throw new AuthoringError(
+        "INVALID_AUTHORING_INPUT",
+        "Research import would exceed the retained bundle ceiling",
+      );
+    }
+    const content: AuthoringContent = {
+      ...current,
+      sections: [...current.sections, ...importedSections],
+      citations: [...current.citations, ...importedCitations],
+      researchImports: [
+        ...current.researchImports,
+        {
+          runId: bundle.runId,
+          approvedDigest: bundle.digest,
+          sectionKeys: importedSections.map((section) => section.key),
+          sourceIds: referencedSourceIds,
+          findingIds: bundle.findings.map((finding) => finding.id).sort(),
+        },
+      ],
+    };
+    const parsedContent = authoringContentSchema.parse(content);
+    const quality = assessAuthoringQuality(
+      document.documentType as AuthoringDocumentType,
+      parsedContent,
+    );
+    const contentHash = hashAuthoringContent(parsedContent);
+    const revisionNumber = revision.revisionNumber + 1;
+    const created = await tx.authoringRevision.create({
+      data: {
+        organizationId,
+        workspaceId: ctx.workspace.id,
+        missionId: document.missionId,
+        documentId: document.id,
+        revisionNumber,
+        title: parsedContent.title,
+        abstract: parsedContent.abstract,
+        sections: parsedContent.sections as Prisma.InputJsonValue,
+        citations: parsedContent.citations as Prisma.InputJsonValue,
+        computationalArtifacts: parsedContent.computationalArtifacts as Prisma.InputJsonValue,
+        researchImports: parsedContent.researchImports as Prisma.InputJsonValue,
+        qualityReport: quality as Prisma.InputJsonValue,
+        contentHash,
+        changeSummary:
+          input.data.locale === "vi"
+            ? "Nhập hồ sơ nghiên cứu đã duyệt"
+            : "Imported approved research dossier",
+        createdByMembershipId: ctx.membership.id,
+      },
+    });
+    await tx.authoringDocument.update({
+      where: { id: document.id },
+      data: { currentRevisionNumber: revisionNumber, version: { increment: 1 } },
+    });
+    await writeAuditEvent(tx, {
+      workspaceId: ctx.workspace.id,
+      actorUserId: ctx.user.id,
+      actorMembershipId: ctx.membership.id,
+      eventType: AuditEventType.AuthoringRevisionCreated,
+      entityType: "AuthoringRevision",
+      entityId: created.id,
+      correlationId: ctx.correlationId,
+      payload: {
+        revisionNumber,
+        digest: contentHash,
+        qualityStatus: quality.status,
+        blockerCount: quality.blockerCount,
+        warningCount: quality.warningCount,
+      },
+    });
+    await writeAuditEvent(tx, {
+      workspaceId: ctx.workspace.id,
+      actorUserId: ctx.user.id,
+      actorMembershipId: ctx.membership.id,
+      eventType: AuditEventType.AuthoringResearchImported,
+      entityType: "AuthoringDocument",
+      entityId: document.id,
+      correlationId: ctx.correlationId,
+      payload: {
+        documentId: document.id,
+        runId: bundle.runId,
+        revisionNumber,
+        approvedDigest: bundle.digest,
+        sourceCount: referencedSourceIds.length,
+        findingCount: bundle.findings.length,
+      },
+    });
+    return {
+      documentId: document.id,
+      revisionNumber,
+      alreadyImported: false,
+      sectionKeys: importedSections.map((section) => section.key),
+    };
   });
 }
 

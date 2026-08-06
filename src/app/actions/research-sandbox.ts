@@ -2,7 +2,9 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
+import { importApprovedResearchBundle } from "@/modules/authoring";
 import {
   requestComputationRun,
   requestResearchRun,
@@ -63,6 +65,21 @@ export async function reviewResearchRunAction(formData: FormData) {
     })),
   });
   revalidatePath(`/w/${slug}/research`);
+}
+
+export async function importApprovedResearchBundleAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  const result = await importApprovedResearchBundle(ctx, {
+    runId: String(formData.get("runId") ?? ""),
+    documentId: String(formData.get("documentId") ?? ""),
+    locale: String(formData.get("locale") ?? "vi"),
+  });
+  revalidatePath(`/w/${slug}/research`);
+  revalidatePath(`/w/${slug}/authoring/${result.documentId}`);
+  redirect(
+    `/w/${slug}/authoring/${result.documentId}?researchImport=${result.alreadyImported ? "existing" : "created"}`,
+  );
 }
 
 export async function requestComputationRunAction(formData: FormData) {

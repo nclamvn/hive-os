@@ -3,6 +3,12 @@ import { randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { claimJobs, dispatchOutboxBatch } from "@/modules/command-runtime";
+import {
+  createAuthoringDocument,
+  getAuthoringDocument,
+  importApprovedResearchBundle,
+  saveAuthoringRevision,
+} from "@/modules/authoring";
 import { createMission } from "@/modules/mission-kernel";
 import {
   executeResearchJob,
@@ -66,11 +72,17 @@ describe("TIP-024B governed research and sandbox persistence", () => {
     const reviewer = await addAdmin(owner);
     const workspace = await getDb().workspace.findUniqueOrThrow({ where: { id: owner.workspace.id } });
     const mission = await createMission(owner, { title: "UAV forest evidence" });
+    const document = await createAuthoringDocument(owner, {
+      missionId: mission.id,
+      title: "UAV inspection proposal",
+      documentType: "RESEARCH_PROPOSAL",
+      locale: "en",
+    });
     const body = "The primary protocol requires georeferenced imagery and a retained field log.";
     const excerpt = "georeferenced imagery";
     const requested = await requestResearchRun(owner, {
       missionId: mission.id,
-      documentId: null,
+      documentId: document.id,
       question: "Which evidence is required for accountable UAV inspection?",
       scope: "Primary operational protocols only.",
       providerName: "test-research",
@@ -86,6 +98,13 @@ describe("TIP-024B governed research and sandbox persistence", () => {
     });
     expect(requested.status).toBe("SUCCEEDED");
     const runId = String(requested.status === "SUCCEEDED" ? requested.outcome.runId : "");
+    await expect(
+      importApprovedResearchBundle(reviewer, {
+        runId,
+        documentId: document.id,
+        locale: "en",
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
 
     await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "dispatcher" });
     const [job] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "research-worker", jobTypes: ["research.run.execute"] });
@@ -128,6 +147,65 @@ describe("TIP-024B governed research and sandbox persistence", () => {
     const bundle = await getApprovedResearchBundle(reviewer, runId);
     expect(bundle.digest).toMatch(/^[a-f0-9]{64}$/);
     expect(bundle.findings).toHaveLength(1);
+    const imported = await importApprovedResearchBundle(reviewer, {
+      runId,
+      documentId: document.id,
+      locale: "en",
+    });
+    expect(imported).toMatchObject({
+      documentId: document.id,
+      revisionNumber: 2,
+      alreadyImported: false,
+    });
+    const authoring = await getAuthoringDocument(reviewer, document.id);
+    expect(authoring.current?.content.researchImports).toEqual([
+      expect.objectContaining({
+        runId,
+        approvedDigest: bundle.digest,
+        findingIds: [retained.findings[0]!.id],
+      }),
+    ]);
+    expect(authoring.current?.content.citations).toEqual([
+      expect.objectContaining({
+        canonicalUri: "https://authority.example/protocol",
+        researchRunId: runId,
+        researchSourceId: bundle.sources[0]!.id,
+        sourceDigest: bundle.sources[0]!.contentDigest,
+      }),
+    ]);
+    expect(authoring.current?.content.sections.at(-1)?.body).toContain(
+      "Georeferenced imagery is required. [@research-",
+    );
+    const stripped = structuredClone(authoring.current!.content);
+    stripped.researchImports = [];
+    await expect(
+      saveAuthoringRevision(reviewer, {
+        ...stripped,
+        documentId: document.id,
+        expectedRevisionNumber: 2,
+        changeSummary: "Attempt to strip approved provenance",
+      }),
+    ).rejects.toMatchObject({ code: "AUTHORING_CONFLICT" });
+    const repeated = await importApprovedResearchBundle(reviewer, {
+      runId,
+      documentId: document.id,
+      locale: "en",
+    });
+    expect(repeated).toMatchObject({ revisionNumber: 2, alreadyImported: true });
+    expect((await getAuthoringDocument(reviewer, document.id)).currentRevisionNumber).toBe(2);
+    const otherDocument = await createAuthoringDocument(owner, {
+      missionId: mission.id,
+      title: "Different bound target",
+      documentType: "RESEARCH_PROPOSAL",
+      locale: "en",
+    });
+    await expect(
+      importApprovedResearchBundle(reviewer, {
+        runId,
+        documentId: otherDocument.id,
+        locale: "en",
+      }),
+    ).rejects.toMatchObject({ code: "AUTHORING_CONFLICT" });
     await expect(
       ownerQuery(`UPDATE research_finding SET claim = 'tampered' WHERE id = '${retained.findings[0]!.id}'`),
     ).rejects.toThrow(/append-only/i);

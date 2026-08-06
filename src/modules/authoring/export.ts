@@ -110,6 +110,25 @@ export async function renderAuthoringDocx(
       ),
     );
   }
+  if (content.researchImports.length) {
+    children.push(
+      new Paragraph({
+        text: "Nguồn gốc nghiên cứu / Research provenance",
+        heading: HeadingLevel.HEADING_1,
+      }),
+      ...content.researchImports.map(
+        (researchImport) =>
+          new Paragraph({
+            spacing: { after: 120, line: 290 },
+            children: [
+              new TextRun({ text: `Research run: ${researchImport.runId}`, bold: true }),
+              new TextRun({ text: `\nApproved SHA-256: ${researchImport.approvedDigest}`, font: "Courier New" }),
+              new TextRun({ text: `\n${researchImport.sourceIds.length} sources · ${researchImport.findingIds.length} findings` }),
+            ],
+          }),
+      ),
+    );
+  }
   if (content.computationalArtifacts.length) {
     children.push(
       new Paragraph({
@@ -260,6 +279,17 @@ export async function renderAuthoringPdf(
         pdf.font("Body").fontSize(9.5).fillColor("#111827").text(citationText(citation), {
           lineGap: 2.5,
         });
+        pdf.moveDown(0.45);
+      }
+    }
+    if (content.researchImports.length) {
+      pdf.moveDown(0.7);
+      pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text("Nguồn gốc nghiên cứu / Research provenance");
+      pdf.moveDown(0.5);
+      for (const researchImport of content.researchImports) {
+        pdf.font("Bold").fontSize(9.5).fillColor("#111827").text(`Research run: ${researchImport.runId}`);
+        pdf.font("Body").fontSize(8).fillColor("#4B5563").text(`Approved SHA-256: ${researchImport.approvedDigest}`);
+        pdf.font("Body").fontSize(9).fillColor("#111827").text(`${researchImport.sourceIds.length} sources · ${researchImport.findingIds.length} findings`);
         pdf.moveDown(0.45);
       }
     }

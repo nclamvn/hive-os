@@ -50,6 +50,9 @@ const content: AuthoringContent = {
       canonicalUri: "https://example.com/uav-survey-protocol",
       locator: "Mục 2 và Mục 5",
       evidenceSourceId: null,
+      researchRunId: null,
+      researchSourceId: null,
+      sourceDigest: null,
     },
   ],
   computationalArtifacts: [
@@ -62,6 +65,7 @@ const content: AuthoringContent = {
       verifierNote: "Notebook được chạy trong môi trường tách biệt và lưu kết quả kiểm chứng.",
     },
   ],
+  researchImports: [],
 };
 
 const quality = assessAuthoringQuality("RESEARCH_PROPOSAL", content);

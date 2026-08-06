@@ -58,6 +58,13 @@ export const authoringCitationSchema = z
     canonicalUri: z.string().trim().url().max(2_000),
     locator: z.string().trim().max(240).default(""),
     evidenceSourceId: z.string().trim().max(128).nullable().default(null),
+    researchRunId: z.string().trim().max(160).nullable().default(null),
+    researchSourceId: z.string().trim().max(160).nullable().default(null),
+    sourceDigest: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .nullable()
+      .default(null),
   })
   .strict();
 
@@ -69,6 +76,16 @@ export const computationalArtifactSchema = z
     contentHash: z.string().regex(/^[a-f0-9]{64}$/),
     mediaType: z.string().trim().min(1).max(160),
     verifierNote: z.string().trim().max(2_000).default(""),
+  })
+  .strict();
+
+export const authoringResearchImportSchema = z
+  .object({
+    runId: z.string().trim().min(1).max(160),
+    approvedDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    sectionKeys: z.array(sectionKey).min(1).max(64),
+    sourceIds: z.array(z.string().trim().min(1).max(160)).max(50),
+    findingIds: z.array(z.string().trim().min(1).max(160)).min(1).max(500),
   })
   .strict();
 
@@ -102,6 +119,7 @@ export const authoringContentSchema = z
     sections: z.array(authoringSectionSchema).min(1).max(64),
     citations: z.array(authoringCitationSchema).max(512),
     computationalArtifacts: z.array(computationalArtifactSchema).max(64),
+    researchImports: z.array(authoringResearchImportSchema).max(64).default([]),
   })
   .strict()
   .superRefine((value, ctx) => {
@@ -123,6 +141,32 @@ export const authoringContentSchema = z
         message: "Citation keys must be unique",
       });
     }
+    const sections = new Set(value.sections.map((section) => section.key));
+    for (const [index, researchImport] of value.researchImports.entries()) {
+      for (const importedSection of researchImport.sectionKeys) {
+        if (!sections.has(importedSection)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["researchImports", index, "sectionKeys"],
+            message: "Research import section provenance is incomplete",
+          });
+        }
+      }
+      for (const sourceId of researchImport.sourceIds) {
+        if (!value.citations.some(
+          (citation) =>
+            citation.researchRunId === researchImport.runId &&
+            citation.researchSourceId === sourceId &&
+            citation.sourceDigest,
+        )) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["researchImports", index, "sourceIds"],
+            message: "Research import source provenance is incomplete",
+          });
+        }
+      }
+    }
   });
 
 export const createAuthoringDocumentSchema = z
@@ -140,10 +184,21 @@ export const saveAuthoringRevisionSchema = authoringContentSchema.extend({
   changeSummary: z.string().trim().min(1).max(1_000),
 });
 
+export const importApprovedResearchSchema = z
+  .object({
+    runId: z.string().trim().min(1).max(160),
+    documentId: z.string().trim().min(1).max(160),
+    locale: z.enum(["vi", "en"]).default("vi"),
+  })
+  .strict();
+
 export type AuthoringSection = z.infer<typeof authoringSectionSchema>;
 export type AuthoringCitation = z.infer<typeof authoringCitationSchema>;
 export type ComputationalArtifact = z.infer<
   typeof computationalArtifactSchema
+>;
+export type AuthoringResearchImport = z.infer<
+  typeof authoringResearchImportSchema
 >;
 export type AuthoringContent = z.infer<typeof authoringContentSchema>;
 export type AuthoringQualityReport = z.infer<typeof qualityReportSchema>;
