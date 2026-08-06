@@ -6,11 +6,8 @@ import {
   organizationIdForWorkspace,
   requireWorkspaceAuthorization,
 } from "@/modules/authorization";
-import {
-  AuditEventType,
-  type WorkspaceContext,
-  writeAuditEvent,
-} from "@/modules/identity-workspace";
+import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace/audit";
+import type { WorkspaceContext } from "@/modules/identity-workspace/context";
 import {
   type TenantTransaction,
   withOrganizationTenant,

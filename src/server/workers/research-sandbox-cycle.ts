@@ -1,11 +1,17 @@
-import { claimJobs, dispatchOutboxBatch, failJob } from "@/modules/command-runtime";
+import {
+  claimJobs,
+  failJob,
+} from "@/modules/command-runtime/jobs";
+import { dispatchOutboxBatch } from "@/modules/command-runtime/kernel";
 import {
   DockerSandboxExecutor,
+  type DockerRuntimeDefinition,
+} from "@/modules/research-sandbox/adapters/docker-sandbox";
+import { OpenAIResearchProvider } from "@/modules/research-sandbox/adapters/openai-research";
+import {
   executeResearchJob,
   executeSandboxJob,
-  OpenAIResearchProvider,
-  type DockerRuntimeDefinition,
-} from "@/modules/research-sandbox";
+} from "@/modules/research-sandbox/worker";
 import { getObjectStorage } from "@/server/storage";
 import { withOrganizationTenant } from "@/server/tenant-context";
 

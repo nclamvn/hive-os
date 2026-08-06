@@ -1,9 +1,6 @@
-import { completeJob, failJob } from "@/modules/command-runtime";
-import {
-  AuditEventType,
-  enforceManualProviderPolicy,
-  writeAuditEvent,
-} from "@/modules/identity-workspace";
+import { completeJob, failJob } from "@/modules/command-runtime/jobs";
+import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace/audit";
+import { enforceManualProviderPolicy } from "@/modules/identity-workspace/policy";
 import { withOrganizationTenant } from "@/server/tenant-context";
 
 import {

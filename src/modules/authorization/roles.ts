@@ -1,6 +1,6 @@
 import type { EnterpriseRole, Role } from "@prisma/client";
 
-import type { Capability } from "@/modules/identity-workspace";
+import type { Capability } from "@/modules/identity-workspace/permissions";
 
 export const ENTERPRISE_CAPABILITIES = [
   "workspace.read",

@@ -39,6 +39,12 @@ describe("production contract", () => {
 
   it("TIP-024D packages the research worker as a separate non-root image", () => {
     const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
+    const packageJson = JSON.parse(
+      readFileSync(path.join(root, "package.json"), "utf8"),
+    ) as {
+      dependencies: Record<string, string>;
+      devDependencies: Record<string, string>;
+    };
     const workflow = readFileSync(
       path.join(root, ".github/workflows/staging-images.yml"),
       "utf8",
@@ -47,6 +53,10 @@ describe("production contract", () => {
     expect(dockerfile).toMatch(
       /FROM deps AS worker[\s\S]*USER node[\s\S]*CMD \["npm", "run", "worker:research-sandbox"\]/,
     );
+    expect(dockerfile).toContain("./node_modules/.bin/tsx --version");
+    expect(dockerfile).toContain("--validate-startup-contract=TIP-024D");
+    expect(packageJson.dependencies.tsx).toBe("4.23.8");
+    expect(packageJson.devDependencies.tsx).toBeUndefined();
     expect(workflow).toContain("target: worker");
     expect(workflow).toContain("hiveos-staging-worker:${{ github.sha }}");
   });

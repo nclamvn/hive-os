@@ -4,11 +4,8 @@ import {
   organizationIdForWorkspace,
   requireWorkspaceAuthorization,
 } from "@/modules/authorization";
-import {
-  AuditEventType,
-  type WorkspaceContext,
-  writeAuditEvent,
-} from "@/modules/identity-workspace";
+import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace/audit";
+import type { WorkspaceContext } from "@/modules/identity-workspace/context";
 import {
   decodeCursor,
   encodeCursor,
@@ -16,7 +13,7 @@ import {
   type PageRequest,
   QueryContractError,
   toConnection,
-} from "@/modules/query-contracts";
+} from "@/modules/query-contracts/primitives";
 import { withOrganizationTenant } from "@/server/tenant-context";
 
 import { CommandRuntimeError } from "./errors";

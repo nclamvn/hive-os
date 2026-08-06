@@ -1,6 +1,6 @@
 import type { Prisma } from "@prisma/client";
 
-import type { Capability } from "@/modules/identity-workspace";
+import type { Capability } from "@/modules/identity-workspace/permissions";
 import type { TenantTransaction } from "@/server/tenant-context";
 
 export interface CommandEnvelope {

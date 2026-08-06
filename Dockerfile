@@ -35,7 +35,17 @@ COPY src ./src
 COPY scripts/workers ./scripts/workers
 # The worker is a separate unprivileged process. It receives runtime secrets
 # only at container start and never shares the web application's filesystem.
-RUN npm prune --omit=dev
+RUN npm prune --omit=dev \
+  && ./node_modules/.bin/tsx --version \
+  && RUNTIME_COMPONENT=research-worker \
+    NODE_ENV=test \
+    DATABASE_URL=postgresql://worker:worker@localhost:5432/hiveos \
+    RESEARCH_WORKER_ENABLED=true \
+    RESEARCH_OPENAI_ENABLED=true \
+    RESEARCH_WORKER_ORGANIZATION_ID=962e9399-d7ed-4410-a72e-37001e1fa28c \
+    RESEARCH_WORKER_ACTOR_USER_ID=svc_image_contract \
+    OPENAI_API_KEY=image-contract-only \
+    npm run worker:research-sandbox -- --validate-startup-contract=TIP-024D
 USER node
 CMD ["npm", "run", "worker:research-sandbox"]
 

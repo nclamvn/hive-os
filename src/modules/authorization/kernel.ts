@@ -4,11 +4,9 @@ import type {
   GrantScopeType,
 } from "@prisma/client";
 
-import type {
-  Capability,
-  WorkspaceContext,
-} from "@/modules/identity-workspace";
-import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace";
+import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace/audit";
+import type { WorkspaceContext } from "@/modules/identity-workspace/context";
+import type { Capability } from "@/modules/identity-workspace/permissions";
 import { getDb } from "@/server/db";
 import {
   type TenantTransaction,
