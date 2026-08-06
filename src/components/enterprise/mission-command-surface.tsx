@@ -24,14 +24,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  type ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import { getMissionNextAction } from "@/components/mission/mission-next-action";
 import { usePreferences } from "@/components/preferences/preferences-provider";
 import type { MissionCommandProjection } from "@/server/mission-command";
 
@@ -81,9 +76,8 @@ function ct(locale: "vi" | "en", en: string, vi: string) {
 }
 
 function laneForStatus(status: string, blockedFromStatus: string | null) {
-  const effective = status === "BLOCKED" && blockedFromStatus
-    ? blockedFromStatus
-    : status;
+  const effective =
+    status === "BLOCKED" && blockedFromStatus ? blockedFromStatus : status;
   if (["DRAFT", "INTAKE"].includes(effective)) return 0;
   if (["SCOPED", "CONTRACT_REVIEW", "APPROVED"].includes(effective)) return 1;
   if (effective === "EXPLORING") return 2;
@@ -104,7 +98,8 @@ function formatDate(locale: "vi" | "en", value: string) {
 
 function statusTone(status: string) {
   if (status === "BLOCKED" || status === "REFUTED") return "danger";
-  if (["CONTRACT_REVIEW", "REVIEW", "PARTIAL"].includes(status)) return "warning";
+  if (["CONTRACT_REVIEW", "REVIEW", "PARTIAL"].includes(status))
+    return "warning";
   if (status === "RELEASED") return "success";
   return "neutral";
 }
@@ -118,28 +113,27 @@ function StatusMark({
 }) {
   const tone = statusTone(status);
   return (
-    <span
-      data-tone={tone}
-      className="mission-status-mark text-meta tabular"
-    >
+    <span data-tone={tone} className="mission-status-mark text-meta tabular">
       {locale === "vi"
-        ? ({
-            DRAFT: "Bản nháp",
-            INTAKE: "Tiếp nhận",
-            SCOPED: "Đã xác định",
-            CONTRACT_REVIEW: "Duyệt hợp đồng",
-            APPROVED: "Đã duyệt",
-            EXPLORING: "Khảo sát",
-            BUILDING: "Đang xây dựng",
-            VERIFYING: "Đang kiểm chứng",
-            REVIEW: "Rà soát",
-            RELEASED: "Đã phát hành",
-            PARTIAL: "Một phần",
-            BLOCKED: "Bị chặn",
-            REFUTED: "Đã bác bỏ",
-            CANCELLED: "Đã hủy",
-            ARCHIVED: "Đã lưu trữ",
-          } as Record<string, string>)[status] ?? status
+        ? ((
+            {
+              DRAFT: "Bản nháp",
+              INTAKE: "Tiếp nhận",
+              SCOPED: "Đã xác định",
+              CONTRACT_REVIEW: "Duyệt hợp đồng",
+              APPROVED: "Đã duyệt",
+              EXPLORING: "Khảo sát",
+              BUILDING: "Đang xây dựng",
+              VERIFYING: "Đang kiểm chứng",
+              REVIEW: "Rà soát",
+              RELEASED: "Đã phát hành",
+              PARTIAL: "Một phần",
+              BLOCKED: "Bị chặn",
+              REFUTED: "Đã bác bỏ",
+              CANCELLED: "Đã hủy",
+              ARCHIVED: "Đã lưu trữ",
+            } as Record<string, string>
+          )[status] ?? status)
         : status.replaceAll("_", " ").toLowerCase()}
     </span>
   );
@@ -175,7 +169,7 @@ function ModeButton({
 export function MissionCommandSurface({
   projection,
   basePath,
-  initialMode = "graph",
+  initialMode = "grid",
   initialStatus = "",
   initialSort = "UPDATED_DESC",
 }: {
@@ -223,7 +217,7 @@ export function MissionCommandSurface({
 
   function selectMode(next: SurfaceMode) {
     setMode(next);
-    updateQuery({ mode: next === "graph" ? null : next }, false);
+    updateQuery({ mode: next === "grid" ? null : next }, false);
   }
 
   function toggleSelected(id: string) {
@@ -308,29 +302,28 @@ export function MissionCommandSurface({
         <header className="mission-command-hero">
           <div className="min-w-0">
             <p className="text-eyebrow text-ink-muted">
-              {ct(
-                locale,
-                "Governed operational command",
-                "Điều hành vận hành có quản trị",
-              )}
+              {ct(locale, "Mission work", "Công việc nhiệm vụ")}
             </p>
             <h2 className="mission-command-thesis">
               {ct(
                 locale,
-                "One scope. Every accountable trace.",
-                "Một phạm vi. Mọi dấu vết trách nhiệm.",
+                "Choose a mission. Continue the next step.",
+                "Chọn nhiệm vụ. Tiếp tục đúng bước.",
               )}
             </h2>
             <p className="text-body text-ink-muted mt-2 max-w-3xl">
               {ct(
                 locale,
-                "Navigate real missions from intake to release without losing authority, provenance or operating context.",
-                "Điều hướng nhiệm vụ thật từ tiếp nhận đến phát hành mà không mất thẩm quyền, nguồn gốc hay ngữ cảnh vận hành.",
+                "Open active work, see its current stage and move forward without searching through system modules.",
+                "Mở công việc đang hoạt động, xem giai đoạn hiện tại và tiếp tục mà không phải dò tìm trong các phân hệ.",
               )}
             </p>
           </div>
 
-          <div className="mission-command-tallies" aria-label="Operational totals">
+          <div
+            className="mission-command-tallies"
+            aria-label="Operational totals"
+          >
             {[
               [
                 projection.operational.counts.missions,
@@ -364,17 +357,17 @@ export function MissionCommandSurface({
             aria-label={ct(locale, "View mode", "Chế độ hiển thị")}
           >
             <ModeButton
-              id="mission-view-graph"
-              active={mode === "graph"}
-              label={ct(locale, "Graph", "Đồ thị")}
-              icon={<Network aria-hidden="true" />}
-              onClick={() => selectMode("graph")}
-            />
-            <ModeButton
+              id="mission-view-grid"
               active={mode === "grid"}
               label={ct(locale, "Grid", "Lưới")}
               icon={<Grid2X2 aria-hidden="true" />}
               onClick={() => selectMode("grid")}
+            />
+            <ModeButton
+              active={mode === "graph"}
+              label={ct(locale, "Graph", "Đồ thị")}
+              icon={<Network aria-hidden="true" />}
+              onClick={() => selectMode("graph")}
             />
             <ModeButton
               active={mode === "chronology"}
@@ -393,9 +386,8 @@ export function MissionCommandSurface({
                 value={projection.view}
                 onChange={(event) =>
                   updateQuery({
-                    view: event.target.value === "all"
-                      ? null
-                      : event.target.value,
+                    view:
+                      event.target.value === "all" ? null : event.target.value,
                     after: null,
                     status: null,
                   })
@@ -522,32 +514,29 @@ export function MissionCommandSurface({
           />
           <span className="mission-freshness">
             <Activity aria-hidden="true" />
-            {projection.operational.freshness.refreshedAt
-              ? (
-                  <>
-                    <span>
-                      {ct(locale, "Projection", "Bản chiếu")}
-                    </span>
-                    <time
-                      dateTime={projection.operational.freshness.refreshedAt}
-                      className="tabular"
-                    >
-                      {formatDate(
-                        locale,
-                        projection.operational.freshness.refreshedAt,
-                      )}
-                    </time>
-                  </>
-                )
-              : ct(locale, "Freshness unavailable", "Chưa có độ mới")}
+            {projection.operational.freshness.refreshedAt ? (
+              <>
+                <span>{ct(locale, "Projection", "Bản chiếu")}</span>
+                <time
+                  dateTime={projection.operational.freshness.refreshedAt}
+                  className="tabular"
+                >
+                  {formatDate(
+                    locale,
+                    projection.operational.freshness.refreshedAt,
+                  )}
+                </time>
+              </>
+            ) : (
+              ct(locale, "Freshness unavailable", "Chưa có độ mới")
+            )}
           </span>
         </div>
 
         {selectedIds.size ? (
           <div className="mission-bulk-bar" role="status">
             <span className="tabular">
-              {selectedIds.size}{" "}
-              {ct(locale, "selected", "đã chọn")}
+              {selectedIds.size} {ct(locale, "selected", "đã chọn")}
             </span>
             <button type="button" onClick={copyReferences}>
               <Copy aria-hidden="true" />
@@ -651,7 +640,9 @@ export function MissionCommandSurface({
                   <ArrowRight aria-hidden="true" />
                 </button>
               ) : (
-                <span>{ct(locale, "End of bounded page", "Hết trang hữu hạn")}</span>
+                <span>
+                  {ct(locale, "End of bounded page", "Hết trang hữu hạn")}
+                </span>
               )}
             </div>
           </div>
@@ -740,7 +731,10 @@ function MissionGraph({
 }) {
   const laneLabels = lifecycleLaneLabels(locale);
   return (
-    <div className="mission-graph" aria-label={ct(locale, "Mission graph", "Đồ thị nhiệm vụ")}>
+    <div
+      className="mission-graph"
+      aria-label={ct(locale, "Mission graph", "Đồ thị nhiệm vụ")}
+    >
       <div className="mission-graph-desktop">
         <div className="mission-graph-head">
           <span>{ct(locale, "Mission", "Nhiệm vụ")}</span>
@@ -855,9 +849,7 @@ function MissionGrid({
         <thead>
           <tr>
             <th className="w-10">
-              <span className="sr-only">
-                {ct(locale, "Select", "Chọn")}
-              </span>
+              <span className="sr-only">{ct(locale, "Select", "Chọn")}</span>
             </th>
             <th>{ct(locale, "Mission", "Nhiệm vụ")}</th>
             <th>{ct(locale, "State", "Trạng thái")}</th>
@@ -890,7 +882,9 @@ function MissionGrid({
                   <strong>{mission.title}</strong>
                 </button>
               </td>
-              <td><StatusMark status={mission.status} locale={locale} /></td>
+              <td>
+                <StatusMark status={mission.status} locale={locale} />
+              </td>
               <td className="tabular">{mission.assuranceProfile}</td>
               <td>
                 {mission.accountability?.ownerName ??
@@ -954,7 +948,9 @@ function MissionChronology({
     <ol className="mission-chronology">
       {missions.map((mission) => (
         <li key={mission.id} data-selected={selectedMissionId === mission.id}>
-          <time className="tabular">{formatDate(locale, mission.updatedAt)}</time>
+          <time className="tabular">
+            {formatDate(locale, mission.updatedAt)}
+          </time>
           <span className="mission-chronology-node" aria-hidden="true" />
           <button
             type="button"
@@ -1001,7 +997,11 @@ function CommandEmptyState({
       </div>
       <div className="mission-empty-copy">
         <p className="text-eyebrow text-ink-muted">
-          {ct(locale, "Bounded mission set · 0 visible", "Tập nhiệm vụ hữu hạn · 0 hiển thị")}
+          {ct(
+            locale,
+            "Bounded mission set · 0 visible",
+            "Tập nhiệm vụ hữu hạn · 0 hiển thị",
+          )}
         </p>
         <h3>
           {ct(
@@ -1064,6 +1064,18 @@ function MissionInspector({
   onClose: () => void;
   onSelect: (id: string) => void;
 }) {
+  const nextAction = mission
+    ? getMissionNextAction({
+        basePath,
+        locale,
+        missionId: mission.id,
+        status: mission.status,
+        capabilities: {
+          canResearch: commands["research.request"],
+        },
+      })
+    : null;
+
   return (
     <aside
       className="mission-inspector"
@@ -1074,7 +1086,9 @@ function MissionInspector({
           <p className="text-eyebrow text-ink-muted">
             {ct(locale, "Context inspector", "Bảng ngữ cảnh")}
           </p>
-          <h3>{mission?.referenceCode ?? ct(locale, "No selection", "Chưa chọn")}</h3>
+          <h3>
+            {mission?.referenceCode ?? ct(locale, "No selection", "Chưa chọn")}
+          </h3>
         </div>
         <button
           type="button"
@@ -1101,7 +1115,11 @@ function MissionInspector({
               <dt>{ct(locale, "Accountable", "Chịu trách nhiệm")}</dt>
               <dd>
                 {mission.accountability?.ownerName ??
-                  ct(locale, "Explicitly unassigned", "Chưa phân công tường minh")}
+                  ct(
+                    locale,
+                    "Explicitly unassigned",
+                    "Chưa phân công tường minh",
+                  )}
               </dd>
             </div>
             <div>
@@ -1121,7 +1139,9 @@ function MissionInspector({
               </dd>
             </div>
             <div>
-              <dt>{ct(locale, "Last retained change", "Thay đổi lưu gần nhất")}</dt>
+              <dt>
+                {ct(locale, "Last retained change", "Thay đổi lưu gần nhất")}
+              </dt>
               <dd className="tabular">
                 {formatDate(locale, mission.updatedAt)}
               </dd>
@@ -1130,12 +1150,37 @@ function MissionInspector({
 
           <div className="mission-inspector-actions">
             <p className="text-eyebrow text-ink-muted">
-              {ct(locale, "Permitted next actions", "Hành động được phép")}
+              {ct(
+                locale,
+                "Recommended next step",
+                "Bước tiếp theo được đề xuất",
+              )}
+            </p>
+            {nextAction ? (
+              <Link
+                href={nextAction.href}
+                className="mission-inspector-primary"
+              >
+                <span>
+                  <small>{nextAction.phaseLabel}</small>
+                  <strong>{nextAction.label}</strong>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            ) : null}
+            <p className="mission-inspector-secondary-label">
+              {ct(locale, "Other actions", "Thao tác khác")}
             </p>
             <Link href={`${basePath}/missions/${mission.id}`}>
               <FileCheck2 aria-hidden="true" />
               {ct(locale, "Open governed dossier", "Mở hồ sơ quản trị")}
             </Link>
+            {commands["authoring.write"] ? (
+              <Link href={`${basePath}/authoring?missionId=${mission.id}`}>
+                <FileCheck2 aria-hidden="true" />
+                {ct(locale, "Open authoring", "Mở trình soạn thảo")}
+              </Link>
+            ) : null}
             {commands["truth.write"] ? (
               <Link href={`${basePath}/evidence`}>
                 <GitBranch aria-hidden="true" />
@@ -1307,7 +1352,7 @@ function CommandPalette({
       }
       if (event.key !== "Tab") return;
       const nodes = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'input, a[href], button:not([disabled])',
+        "input, a[href], button:not([disabled])",
       );
       if (!nodes?.length) return;
       const first = nodes[0];

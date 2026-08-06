@@ -22,20 +22,14 @@ test.describe("HIVE OS app shell", () => {
       page.getByRole("navigation", { name: "Primary" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "One scope. Every accountable trace." }),
+      page.getByRole("heading", {
+        name: "Choose a mission. Continue the next step.",
+      }),
     ).toBeVisible();
-    await expect(
-      page.getByLabel("Active scope"),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("group", { name: "View mode" }),
-    ).toBeVisible();
-    await expect(
-      page.getByLabel("Context inspector"),
-    ).toBeVisible();
-    await expect(
-      page.getByLabel("Operational totals"),
-    ).toBeVisible();
+    await expect(page.getByLabel("Active scope")).toBeVisible();
+    await expect(page.getByRole("group", { name: "View mode" })).toBeVisible();
+    await expect(page.getByLabel("Context inspector")).toBeVisible();
+    await expect(page.getByLabel("Operational totals")).toBeVisible();
   });
 
   test("DS-03 context inspector reflows below 1180px", async ({ page }) => {
@@ -105,7 +99,9 @@ test.describe("HIVE OS app shell", () => {
     ).toBeVisible();
   });
 
-  test("DS-05 command-surface modes remain usable below 820px", async ({ page }) => {
+  test("DS-05 command-surface modes remain usable below 820px", async ({
+    page,
+  }) => {
     await signUpToDashboard(page);
     await page.setViewportSize({ width: 800, height: 900 });
     await page.getByRole("button", { name: "Grid" }).click();
@@ -187,7 +183,7 @@ test.describe("HIVE OS app shell", () => {
       );
       return el?.id ?? null;
     });
-    expect(firstId).toBe("mission-view-graph");
+    expect(firstId).toBe("mission-view-grid");
   });
 
   test("DS-10 no fabricated metric or mission fixture is rendered", async ({

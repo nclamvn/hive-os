@@ -57,7 +57,7 @@ export default async function WorkspaceHome({
     value("sort") === "CREATED_DESC" ? "CREATED_DESC" : "UPDATED_DESC";
   const modeValue = value("mode");
   const mode =
-    modeValue === "grid" || modeValue === "chronology" ? modeValue : "graph";
+    modeValue === "graph" || modeValue === "chronology" ? modeValue : "grid";
 
   const projection = await getMissionCommandProjection(data.ctx, {
     view,

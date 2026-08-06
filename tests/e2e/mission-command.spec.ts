@@ -6,11 +6,17 @@ import { signUpToDashboard } from "./auth-helpers";
 async function createMission(page: Page, workspaceUrl: string) {
   await page.goto(`${workspaceUrl}/missions/new`);
   await page.getByLabel("Mission title").fill("Enterprise trace mission");
-  await page.getByLabel("Objective").fill("Exercise the governed command surface.");
+  await page
+    .getByLabel("Objective")
+    .fill("Exercise the governed command surface.");
   await page.getByLabel("Scope").fill("Workspace-bounded records only.");
-  await page.getByLabel("Success definition").fill("A retained accountable trace.");
+  await page
+    .getByLabel("Success definition")
+    .fill("A retained accountable trace.");
   await page.getByLabel("Requirement title").fill("Trace integrity");
-  await page.getByLabel("Acceptance criteria").fill("Every transition remains attributable.");
+  await page
+    .getByLabel("Acceptance criteria")
+    .fill("Every transition remains attributable.");
   await page.getByLabel("Obligation title").fill("Review the mission record");
   await page.getByRole("button", { name: "Create mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
@@ -39,15 +45,16 @@ test.describe("TIP-023F enterprise mission command surface", () => {
     await expect(
       page.getByLabel("Active scope").locator("time"),
     ).toHaveAttribute("datetime");
-    await expect(page.getByLabel("Mission graph")).toContainText(
+    await expect(page.locator(".mission-grid > table")).toContainText(
       "Enterprise trace mission",
     );
     await expect(page.getByLabel("Context inspector")).toContainText(
       "Enterprise trace mission",
     );
+    await expect(
+      page.getByLabel("Context inspector").getByText("Continue the contract"),
+    ).toBeVisible();
 
-    await page.getByRole("button", { name: "Grid" }).click();
-    await expect(page).toHaveURL(/mode=grid/);
     await expect(
       page.getByRole("columnheader", { name: "Accountable" }),
     ).toBeVisible();
@@ -56,6 +63,12 @@ test.describe("TIP-023F enterprise mission command surface", () => {
       .getByLabel("Select M-0001")
       .check();
     await expect(page.getByText("1 selected")).toBeVisible();
+
+    await page.getByRole("button", { name: "Graph" }).click();
+    await expect(page).toHaveURL(/mode=graph/);
+    await expect(page.getByLabel("Mission graph")).toContainText(
+      "Enterprise trace mission",
+    );
 
     await page.getByRole("button", { name: "Chronology" }).click();
     await expect(page).toHaveURL(/mode=chronology/);
@@ -82,9 +95,7 @@ test.describe("TIP-023F enterprise mission command surface", () => {
     await expect(page.getByLabel("Context inspector")).toContainText(
       "Query bound",
     );
-    await page
-      .getByRole("button", { name: "Reset operational view" })
-      .click();
+    await page.getByRole("button", { name: "Reset operational view" }).click();
     await expect(page).not.toHaveURL(/view=my-work/);
     await expect(
       page.locator(".mission-chronology").getByText("Enterprise trace mission"),

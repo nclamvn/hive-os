@@ -23,7 +23,7 @@ test.describe("DS-12 visual regression evidence", () => {
       await signUpToDashboard(page);
       await page
         .getByRole("heading", {
-          name: "One scope. Every accountable trace.",
+          name: "Choose a mission. Continue the next step.",
         })
         .waitFor();
 

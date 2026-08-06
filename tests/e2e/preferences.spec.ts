@@ -16,7 +16,7 @@ test.describe("TIP-002A locale and appearance", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Một phạm vi. Mọi dấu vết trách nhiệm.",
+        name: "Chọn nhiệm vụ. Tiếp tục đúng bước.",
       }),
     ).toBeVisible();
   });
@@ -26,8 +26,8 @@ test.describe("TIP-002A locale and appearance", () => {
   }) => {
     await signUpToDashboard(page, "Preference Lab", "en");
 
-    await page.getByRole("button", { name: "Grid" }).click();
-    await expect(page).toHaveURL(/mode=grid/);
+    await page.getByRole("button", { name: "Graph" }).click();
+    await expect(page).toHaveURL(/mode=graph/);
 
     await page
       .getByTestId("preferences-compact")
@@ -37,7 +37,7 @@ test.describe("TIP-002A locale and appearance", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Trung tâm điều hành" }),
     ).toBeVisible();
-    await expect(page.getByRole("button", { name: "Lưới" })).toHaveAttribute(
+    await expect(page.getByRole("button", { name: "Đồ thị" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );

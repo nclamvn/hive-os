@@ -2,16 +2,20 @@
 
 import {
   Activity,
+  ArrowRight,
   Archive,
   Braces,
   CheckCircle2,
   CircleDot,
   ClipboardCheck,
+  FilePenLine,
   FileSearch,
+  FolderOpen,
   GitBranch,
   Inbox,
   ListChecks,
   Network,
+  Plus,
   Search,
   ShieldCheck,
   Sparkles,
@@ -33,6 +37,7 @@ import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ProvenanceRail } from "@/components/ui/provenance-rail";
 import { usePreferences } from "@/components/preferences/preferences-provider";
+import { getMissionNextAction } from "@/components/mission/mission-next-action";
 import type { Locale } from "@/i18n/config";
 import { enumLabel } from "@/i18n/format";
 import type { ControlRoomProjection } from "@/server/control-room";
@@ -503,7 +508,7 @@ export function ControlRoom({
     [locale, projection.counts],
   );
   const nodes = useMemo(() => planes.flatMap((plane) => plane.nodes), [planes]);
-  const [lens, setLens] = useState<Lens>("architecture");
+  const [lens, setLens] = useState<Lens>("operations");
   const [selectedId, setSelectedId] = useState("mission-contract");
   const [commandOpen, setCommandOpen] = useState(initialCommandOpen);
   const commandTriggerRef = useRef<HTMLButtonElement>(null);
@@ -531,11 +536,13 @@ export function ControlRoom({
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
-      <section className="instrument-panel overflow-hidden">
-        <div className="flex flex-col gap-6 p-5 min-[900px]:flex-row min-[900px]:items-end min-[900px]:justify-between min-[900px]:p-7">
+      <section className="instrument-panel control-work-header overflow-hidden">
+        <div className="flex flex-col gap-5 p-5 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between min-[900px]:px-7 min-[900px]:py-6">
           <div className="min-w-0">
-            <p className="text-eyebrow text-blue-600">{t("control.eyebrow")}</p>
-            <h2 className="text-thesis text-ink-strong mt-3 max-w-4xl">
+            <p className="text-eyebrow text-ink-muted">
+              {t("control.eyebrow")}
+            </p>
+            <h2 className="text-page-title text-ink-strong mt-2 max-w-4xl">
               {t("control.thesis")}
             </h2>
             <p className="text-body text-ink-muted mt-2 max-w-3xl">
@@ -558,7 +565,6 @@ export function ControlRoom({
             </kbd>
           </button>
         </div>
-        <ProvenanceRail active={activePlane} />
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -571,7 +577,7 @@ export function ControlRoom({
           )}
           className="border-line bg-surface inline-flex rounded-md border p-1"
         >
-          {(["architecture", "operations", "audit"] as const).map((item) => (
+          {(["operations", "audit", "architecture"] as const).map((item) => (
             <button
               key={item}
               type="button"
@@ -595,11 +601,14 @@ export function ControlRoom({
       </div>
 
       {lens === "architecture" ? (
-        <ArchitectureLens
-          planes={planes}
-          selected={selected}
-          onSelect={setSelectedId}
-        />
+        <div className="space-y-3">
+          <ProvenanceRail active={activePlane} />
+          <ArchitectureLens
+            planes={planes}
+            selected={selected}
+            onSelect={setSelectedId}
+          />
+        </div>
       ) : null}
       {lens === "operations" ? (
         <OperationsLens projection={projection} basePath={basePath} />
@@ -818,6 +827,8 @@ function OperationsLens({
   basePath: string;
 }) {
   const { locale } = usePreferences();
+  const featuredMission = projection.recentMissions[0] ?? null;
+  const remainingMissions = projection.recentMissions.slice(1);
   const metrics = [
     [ct(locale, "Missions", "Nhiệm vụ"), projection.counts.missions],
     [
@@ -847,90 +858,91 @@ function OperationsLens({
       id="control-operations"
       role="tabpanel"
       aria-labelledby="lens-operations"
-      className="grid grid-cols-1 gap-5 min-[1100px]:grid-cols-[minmax(0,1fr)_340px]"
+      className="grid grid-cols-1 gap-5 min-[1120px]:grid-cols-[minmax(0,1fr)_330px]"
     >
       <div className="min-w-0 space-y-5">
-        <section
-          className="grid grid-cols-2 gap-3 min-[700px]:grid-cols-3 min-[1180px]:grid-cols-6"
-          aria-label={ct(locale, "Operational counts", "Số liệu vận hành")}
-        >
-          {metrics.map(([label, value]) => (
-            <Panel key={label} className="p-4">
-              <p className="text-meta text-ink-muted">{label}</p>
-              <p className="text-page-title text-ink-strong tabular mt-2">
-                {value}
+        {featuredMission ? (
+          <ResumeMissionPanel
+            mission={featuredMission}
+            basePath={basePath}
+            commands={projection.commands}
+          />
+        ) : (
+          <NoMissionStart
+            basePath={basePath}
+            canCreate={projection.commands.missionsCreate}
+          />
+        )}
+
+        {remainingMissions.length ? (
+          <MissionWorkList
+            missions={remainingMissions}
+            basePath={basePath}
+            canResearch={projection.commands.researchRequest}
+          />
+        ) : null}
+
+        <Panel className="overflow-hidden">
+          <div className="border-line flex items-center justify-between gap-3 border-b px-5 py-3">
+            <div>
+              <h3 className="text-body text-ink-strong font-semibold">
+                {ct(locale, "Workspace pulse", "Nhịp công việc")}
+              </h3>
+              <p className="text-meta text-ink-muted mt-0.5">
+                {ct(
+                  locale,
+                  "A compact operational summary",
+                  "Tóm tắt vận hành ngắn gọn",
+                )}
               </p>
-            </Panel>
-          ))}
-        </section>
+            </div>
+            <Link
+              href={basePath}
+              className="text-meta text-ink inline-flex items-center gap-1 font-medium"
+            >
+              {ct(locale, "View all missions", "Xem tất cả nhiệm vụ")}
+              <ArrowRight className="size-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+          <section
+            className="control-work-metrics"
+            aria-label={ct(locale, "Operational counts", "Số liệu vận hành")}
+          >
+            {metrics.map(([label, value]) => (
+              <div key={label}>
+                <p className="text-meta text-ink-muted">{label}</p>
+                <p className="text-section-title text-ink-strong tabular mt-1">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </section>
+        </Panel>
 
-        <ManualBridgePanel execution={projection.execution} />
-        <VerificationPanel
-          verification={projection.verification}
-          counts={projection.counts}
-        />
-
-        <Panel>
-          <div className="border-line border-b px-5 py-4">
-            <h3 className="text-section-title text-ink-strong">
-              {ct(locale, "Recent missions", "Nhiệm vụ gần đây")}
-            </h3>
-            <p className="text-meta text-ink-muted mt-0.5">
+        <details className="control-advanced border-line bg-surface overflow-hidden rounded-lg border">
+          <summary className="text-body text-ink-strong flex min-h-14 cursor-pointer items-center justify-between gap-4 px-5 font-semibold">
+            <span>
               {ct(
                 locale,
-                "Ordered by authoritative update time",
-                "Sắp theo thời điểm cập nhật có thẩm quyền",
+                "Execution and assurance details",
+                "Chi tiết thực thi và kiểm chứng",
               )}
-            </p>
-          </div>
-          {projection.recentMissions.length === 0 ? (
-            <EmptyState
-              title={ct(
-                locale,
-                "No missions in this workspace",
-                "Workspace chưa có nhiệm vụ",
-              )}
-              hint={ct(
-                locale,
-                "Create a mission from the Dashboard.",
-                "Tạo nhiệm vụ từ trang Tổng quan.",
-              )}
+            </span>
+            <span className="text-meta text-ink-muted font-normal">
+              {ct(locale, "Open when needed", "Mở khi cần")}
+            </span>
+          </summary>
+          <div className="border-line space-y-5 border-t p-4 min-[760px]:p-5">
+            <ManualBridgePanel execution={projection.execution} />
+            <VerificationPanel
+              verification={projection.verification}
+              counts={projection.counts}
             />
-          ) : (
-            <ul>
-              {projection.recentMissions.map((mission) => (
-                <li
-                  key={mission.id}
-                  className="border-line flex flex-col gap-2 border-b px-5 py-3 last:border-b-0 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between"
-                >
-                  <span className="min-w-0">
-                    <Link
-                      href={`${basePath}/missions/${mission.id}`}
-                      className="text-body text-ink-strong block truncate font-semibold hover:underline"
-                    >
-                      {mission.title}
-                    </Link>
-                    <span className="text-meta text-ink-muted tabular">
-                      {mission.referenceCode} ·{" "}
-                      {enumLabel(locale, mission.assuranceProfile)}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <StatusBadge tone="neutral">
-                      {enumLabel(locale, mission.status)}
-                    </StatusBadge>
-                    <span className="text-meta text-ink-muted tabular">
-                      {mission.updatedAt.slice(0, 10)}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Panel>
+          </div>
+        </details>
       </div>
 
-      <Panel className="self-start">
+      <Panel className="control-attention-panel self-start overflow-hidden">
         <div className="border-line border-b px-5 py-4">
           <h3 className="text-section-title text-ink-strong">
             {ct(locale, "Attention signals", "Tín hiệu cần chú ý")}
@@ -963,7 +975,9 @@ function OperationsLens({
                 key={signal.key}
                 className="border-line flex items-center justify-between gap-3 border-b px-5 py-3 last:border-b-0"
               >
-                <span className="text-body text-ink">{signal.label}</span>
+                <span className="text-body text-ink">
+                  {signalLabel(locale, signal.key, signal.label)}
+                </span>
                 <StatusBadge tone={signal.tone}>
                   {String(signal.count)}
                 </StatusBadge>
@@ -973,6 +987,234 @@ function OperationsLens({
         )}
       </Panel>
     </div>
+  );
+}
+
+function ResumeMissionPanel({
+  mission,
+  basePath,
+  commands,
+}: {
+  mission: ControlRoomProjection["recentMissions"][number];
+  basePath: string;
+  commands: ControlRoomProjection["commands"];
+}) {
+  const { locale } = usePreferences();
+  const action = getMissionNextAction({
+    basePath,
+    locale,
+    missionId: mission.id,
+    status: mission.status,
+    capabilities: { canResearch: commands.researchRequest },
+  });
+  const phases = missionPhaseLabels(locale);
+
+  return (
+    <Panel className="control-resume overflow-hidden">
+      <div className="control-resume-grid">
+        <div className="min-w-0 p-5 min-[760px]:p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-eyebrow text-ink-muted">
+              {ct(locale, "Recommended next move", "Việc nên làm tiếp theo")}
+            </p>
+            <StatusBadge tone="success">
+              {enumLabel(locale, mission.status)}
+            </StatusBadge>
+          </div>
+          <p className="text-meta text-ink-muted tabular mt-4">
+            {mission.referenceCode} ·{" "}
+            {enumLabel(locale, mission.assuranceProfile)}
+          </p>
+          <h3 className="text-page-title text-ink-strong mt-2 max-w-3xl">
+            {mission.title}
+          </h3>
+          <div className="control-next-copy mt-5">
+            <p className="text-meta text-ink-muted">
+              {ct(locale, "You are here", "Bạn đang ở đây")}
+            </p>
+            <p className="text-body text-ink-strong mt-1 font-semibold">
+              {action.phaseLabel}
+            </p>
+            <p className="text-body text-ink-muted mt-1 max-w-2xl">
+              {action.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="control-resume-actions border-line bg-surface-subtle flex flex-col justify-center border-t p-5 min-[760px]:border-t-0 min-[760px]:border-l min-[760px]:p-6">
+          <Link href={action.href} className="control-primary-action">
+            <span>{action.label}</span>
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <div className="mt-4 grid gap-1">
+            <Link href={`${basePath}/missions/${mission.id}`}>
+              <FolderOpen aria-hidden="true" />
+              {ct(locale, "Open mission dossier", "Mở hồ sơ nhiệm vụ")}
+            </Link>
+            {commands.authoringWrite ? (
+              <Link href={`${basePath}/authoring?missionId=${mission.id}`}>
+                <FilePenLine aria-hidden="true" />
+                {ct(locale, "Draft the dossier", "Soạn thảo đề án")}
+              </Link>
+            ) : null}
+            {commands.truthWrite ? (
+              <Link href={`${basePath}/evidence`}>
+                <FileSearch aria-hidden="true" />
+                {ct(locale, "Add evidence", "Bổ sung bằng chứng")}
+              </Link>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <ol
+        className="control-mission-rail"
+        aria-label={ct(locale, "Mission progress", "Tiến trình nhiệm vụ")}
+      >
+        {phases.map((label, index) => {
+          const activeIndex = Math.min(action.phase, phases.length - 1);
+          const state =
+            index < activeIndex
+              ? "done"
+              : index === activeIndex
+                ? "active"
+                : "upcoming";
+          return (
+            <li key={label} data-state={state}>
+              <span aria-hidden="true" />
+              <p>{label}</p>
+            </li>
+          );
+        })}
+      </ol>
+    </Panel>
+  );
+}
+
+function MissionWorkList({
+  missions,
+  basePath,
+  canResearch,
+}: {
+  missions: ControlRoomProjection["recentMissions"];
+  basePath: string;
+  canResearch: boolean;
+}) {
+  const { locale } = usePreferences();
+  return (
+    <Panel className="overflow-hidden">
+      <div className="border-line border-b px-5 py-4">
+        <h3 className="text-section-title text-ink-strong">
+          {ct(locale, "Other active missions", "Nhiệm vụ đang hoạt động khác")}
+        </h3>
+        <p className="text-meta text-ink-muted mt-0.5">
+          {ct(
+            locale,
+            "Open the next step without searching through modules.",
+            "Mở ngay bước tiếp theo mà không phải dò tìm trong các phân hệ.",
+          )}
+        </p>
+      </div>
+      <ul>
+        {missions.map((mission) => {
+          const action = getMissionNextAction({
+            basePath,
+            locale,
+            missionId: mission.id,
+            status: mission.status,
+            capabilities: { canResearch },
+          });
+          return (
+            <li key={mission.id} className="control-work-row">
+              <div className="min-w-0">
+                <p className="text-meta text-ink-muted tabular">
+                  {mission.referenceCode} · {enumLabel(locale, mission.status)}
+                </p>
+                <p className="text-body text-ink-strong mt-1 truncate font-semibold">
+                  {mission.title}
+                </p>
+              </div>
+              <Link href={action.href}>
+                {action.label}
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </Panel>
+  );
+}
+
+function NoMissionStart({
+  basePath,
+  canCreate,
+}: {
+  basePath: string;
+  canCreate: boolean;
+}) {
+  const { locale } = usePreferences();
+  return (
+    <Panel className="control-no-mission p-6 min-[760px]:p-8">
+      <p className="text-eyebrow text-ink-muted">
+        {ct(locale, "Start here", "Bắt đầu tại đây")}
+      </p>
+      <h3 className="text-page-title text-ink-strong mt-2">
+        {ct(locale, "Define the first mission", "Xác định nhiệm vụ đầu tiên")}
+      </h3>
+      <p className="text-body text-ink-muted mt-2 max-w-2xl">
+        {ct(
+          locale,
+          "Describe the outcome, scope and success criteria. HIVE OS will keep the next steps visible from there.",
+          "Mô tả kết quả, phạm vi và tiêu chí thành công. Từ đó HIVE OS sẽ luôn hiển thị bước tiếp theo.",
+        )}
+      </p>
+      {canCreate ? (
+        <Link
+          href={`${basePath}/missions/new`}
+          className="control-primary-action mt-5 w-fit"
+        >
+          <Plus aria-hidden="true" />
+          {ct(locale, "Create a mission", "Tạo nhiệm vụ")}
+        </Link>
+      ) : (
+        <p className="text-meta text-ink-muted mt-4">
+          {ct(
+            locale,
+            "You have read-only access.",
+            "Bạn đang có quyền chỉ đọc.",
+          )}
+        </p>
+      )}
+    </Panel>
+  );
+}
+
+function missionPhaseLabels(locale: Locale) {
+  return [
+    ct(locale, "Define", "Xác định"),
+    ct(locale, "Approve", "Phê duyệt"),
+    ct(locale, "Research", "Nghiên cứu"),
+    ct(locale, "Execute", "Thực thi"),
+    ct(locale, "Verify and release", "Kiểm chứng và phát hành"),
+  ];
+}
+
+function signalLabel(locale: Locale, key: string, fallback: string) {
+  if (locale === "en") return fallback;
+  return (
+    (
+      {
+        decisions: "Quyết định đang chờ chủ sở hữu",
+        disputes: "Luận điểm đang có tranh chấp",
+        escalations: "Chuyển cấp chưa được xử lý",
+        reviews: "Luận điểm đến hạn rà soát",
+        "execution-reports": "Lượt thực thi đang chờ báo cáo hoàn thành",
+        "execution-deviations": "Sai lệch thực thi cần rà soát",
+        "verification-runs": "Lượt kiểm chứng đang chờ báo cáo",
+        "verification-not-ready": "Báo cáo kiểm chứng chưa sẵn sàng",
+      } as Record<string, string>
+    )[key] ?? fallback
   );
 }
 

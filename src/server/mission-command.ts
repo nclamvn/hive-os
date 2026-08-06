@@ -1,17 +1,10 @@
-import type {
-  AssuranceProfile,
-  MissionStatus,
-  Prisma,
-} from "@prisma/client";
+import type { AssuranceProfile, MissionStatus, Prisma } from "@prisma/client";
 
 import { authorize, organizationIdForWorkspace } from "@/modules/authorization";
 import type { WorkspaceContext } from "@/modules/identity-workspace";
 import { getOrganizationHierarchy } from "@/modules/organization";
 import { getWorkspaceOperationalProjection } from "@/modules/projections";
-import {
-  listMissionPage,
-  type MissionSort,
-} from "@/modules/query-contracts";
+import { listMissionPage, type MissionSort } from "@/modules/query-contracts";
 import { getWorkInbox } from "@/modules/workflow-accountability";
 import { withOrganizationTenant } from "@/server/tenant-context";
 
@@ -34,6 +27,8 @@ export interface MissionCommandQuery {
 
 const COMMAND_CAPABILITIES = [
   "missions.create",
+  "authoring.write",
+  "research.request",
   "truth.write",
   "execution.operate",
   "verification.operate",
@@ -57,12 +52,11 @@ export async function getMissionCommandProjection(
   const myMissionIds = [
     ...new Set(inbox.nodes.map((item) => item.assignment.missionId)),
   ];
-  const statuses =
-    query.statuses?.length
-      ? query.statuses
-      : view === "attention"
-        ? ATTENTION_STATUSES
-        : undefined;
+  const statuses = query.statuses?.length
+    ? query.statuses
+    : view === "attention"
+      ? ATTENTION_STATUSES
+      : undefined;
 
   const missions = await listMissionPage(ctx, {
     first: 25,

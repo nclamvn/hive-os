@@ -11,6 +11,13 @@ import { requireVerificationCapability } from "@/modules/verification-governance
 import { getDb } from "@/server/db";
 
 export interface ControlRoomProjection {
+  commands: {
+    authoringWrite: boolean;
+    missionsCreate: boolean;
+    researchRequest: boolean;
+    truthWrite: boolean;
+    verificationOperate: boolean;
+  };
   freshness: {
     status: string;
     sourceWatermarkAt: string | null;
@@ -438,6 +445,16 @@ export async function getControlRoomProjection(
   }
 
   return {
+    commands: {
+      authoringWrite: hasCapability(ctx.membership.role, "authoring.write"),
+      missionsCreate: hasCapability(ctx.membership.role, "missions.create"),
+      researchRequest: hasCapability(ctx.membership.role, "research.request"),
+      truthWrite: hasCapability(ctx.membership.role, "truth.write"),
+      verificationOperate: hasCapability(
+        ctx.membership.role,
+        "verification.operate",
+      ),
+    },
     freshness: materialized.freshness,
     counts: {
       missions,
@@ -488,60 +505,60 @@ export async function getControlRoomProjection(
           href: object.href,
         }))
       : [
-      ...finderEvidence.map((source) => ({
-        id: source.id,
-        kind: "evidence" as const,
-        code: source.mission.referenceCode,
-        title: source.title,
-        description: source.sourceType,
-        status: source.accessLevel,
-        href: "evidence",
-      })),
-      ...finderClaims.map((claim) => ({
-        id: claim.id,
-        kind: "claim" as const,
-        code: claim.claimKey,
-        title: claim.versions[0]?.statement ?? claim.claimKey,
-        description: claim.mission.referenceCode,
-        status: claim.state,
-        href: "claims",
-      })),
-      ...finderSkills.map((skill) => ({
-        id: skill.id,
-        kind: "skill" as const,
-        code: skill.skillKey,
-        title: skill.displayName,
-        description: skill.description,
-        status: skill.status,
-        href: "skills",
-      })),
-      ...finderTips.map((tip) => ({
-        id: tip.id,
-        kind: "execution" as const,
-        code: tip.code,
-        title: tip.title,
-        description: tip.description,
-        status: tip.status,
-        href: "execution",
-      })),
-      ...finderReports.map((report) => ({
-        id: report.id,
-        kind: "verification" as const,
-        code: report.mission.referenceCode,
-        title: report.mission.title,
-        description: "Verify Report",
-        status: report.overallStatus,
-        href: "reports",
-      })),
-      ...finderReleases.map((release) => ({
-        id: release.id,
-        kind: "release" as const,
-        code: release.mission.referenceCode,
-        title: release.mission.title,
-        description: `${release.visibility} release`,
-        status: release.status,
-        href: "reports",
-      })),
+          ...finderEvidence.map((source) => ({
+            id: source.id,
+            kind: "evidence" as const,
+            code: source.mission.referenceCode,
+            title: source.title,
+            description: source.sourceType,
+            status: source.accessLevel,
+            href: "evidence",
+          })),
+          ...finderClaims.map((claim) => ({
+            id: claim.id,
+            kind: "claim" as const,
+            code: claim.claimKey,
+            title: claim.versions[0]?.statement ?? claim.claimKey,
+            description: claim.mission.referenceCode,
+            status: claim.state,
+            href: "claims",
+          })),
+          ...finderSkills.map((skill) => ({
+            id: skill.id,
+            kind: "skill" as const,
+            code: skill.skillKey,
+            title: skill.displayName,
+            description: skill.description,
+            status: skill.status,
+            href: "skills",
+          })),
+          ...finderTips.map((tip) => ({
+            id: tip.id,
+            kind: "execution" as const,
+            code: tip.code,
+            title: tip.title,
+            description: tip.description,
+            status: tip.status,
+            href: "execution",
+          })),
+          ...finderReports.map((report) => ({
+            id: report.id,
+            kind: "verification" as const,
+            code: report.mission.referenceCode,
+            title: report.mission.title,
+            description: "Verify Report",
+            status: report.overallStatus,
+            href: "reports",
+          })),
+          ...finderReleases.map((release) => ({
+            id: release.id,
+            kind: "release" as const,
+            code: release.mission.referenceCode,
+            title: release.mission.title,
+            description: `${release.visibility} release`,
+            status: release.status,
+            href: "reports",
+          })),
         ],
     execution: {
       mode: "MANUAL_BRIDGE",

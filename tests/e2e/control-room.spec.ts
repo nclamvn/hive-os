@@ -12,14 +12,18 @@ async function openControlRoom(page: import("@playwright/test").Page) {
 }
 
 test.describe("HIVE OS Control Room", () => {
-  test("CR-01 renders the canonical system map from real state", async ({
+  test("CR-01 leads with resumable work and retains the system map", async ({
     page,
   }) => {
     await openControlRoom(page);
 
     await expect(
-      page.getByRole("heading", { name: "From intent to accountable truth." }),
+      page.getByRole("heading", { name: "Continue where you left off." }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Define the first mission" }),
+    ).toBeVisible();
+    await page.getByRole("tab", { name: "System map" }).click();
     for (const plane of ["Mission", "Truth", "Execution", "Assurance"]) {
       await expect(
         page.getByRole("heading", { name: plane, exact: true }),
@@ -29,7 +33,7 @@ test.describe("HIVE OS Control Room", () => {
       page.getByText("available", { exact: true }).first(),
     ).toBeVisible();
     await expect(
-      page.getByText("Counts are workspace-scoped authoritative records"),
+      page.getByText("Data is updated from authoritative records"),
     ).toBeVisible();
   });
 
@@ -37,6 +41,7 @@ test.describe("HIVE OS Control Room", () => {
     page,
   }) => {
     await openControlRoom(page);
+    await page.getByRole("tab", { name: "System map" }).click();
 
     const inspector = page.getByRole("complementary", {
       name: "Context inspector",
@@ -60,14 +65,12 @@ test.describe("HIVE OS Control Room", () => {
   }) => {
     await openControlRoom(page);
 
-    await page.getByRole("tab", { name: "operations" }).click();
     await expect(
-      page.getByRole("heading", { name: "Recent missions" }),
+      page.getByRole("heading", { name: "Define the first mission" }),
     ).toBeVisible();
-    await expect(page.getByText("No missions in this workspace")).toBeVisible();
     await expect(page.getByText("No unresolved signals")).toBeVisible();
 
-    await page.getByRole("tab", { name: "audit" }).click();
+    await page.getByRole("tab", { name: "Audit log" }).click();
     await expect(
       page.getByRole("heading", { name: "Governed event ledger" }),
     ).toBeVisible();
@@ -202,6 +205,7 @@ test.describe("HIVE OS Control Room", () => {
     page,
   }) => {
     await openControlRoom(page);
+    await page.getByRole("tab", { name: "System map" }).click();
 
     const registry = page.getByRole("button", { name: /Skill registry/ });
     await expect(
@@ -227,6 +231,7 @@ test.describe("HIVE OS Control Room", () => {
     page,
   }) => {
     await openControlRoom(page);
+    await page.getByRole("tab", { name: "System map" }).click();
 
     const bridgeNode = page.getByRole("button", { name: /Manual bridge/ });
     await expect(
@@ -240,7 +245,8 @@ test.describe("HIVE OS Control Room", () => {
       inspector.getByText("Treat a provider claim as independent verification"),
     ).toBeVisible();
 
-    await page.getByRole("tab", { name: "operations" }).click();
+    await page.getByRole("tab", { name: "Work" }).click();
+    await page.getByText("Execution and assurance details").click();
     await expect(
       page.getByRole("heading", { name: "Manual Provider Bridge" }),
     ).toBeVisible();
@@ -259,6 +265,7 @@ test.describe("HIVE OS Control Room", () => {
     page,
   }) => {
     await openControlRoom(page);
+    await page.getByRole("tab", { name: "System map" }).click();
 
     const verification = page.getByRole("button", {
       name: /VER-31.*Verification/,
@@ -284,7 +291,8 @@ test.describe("HIVE OS Control Room", () => {
       ),
     ).toBeVisible();
 
-    await page.getByRole("tab", { name: "operations" }).click();
+    await page.getByRole("tab", { name: "Work" }).click();
+    await page.getByText("Execution and assurance details").click();
     await expect(
       page.getByRole("heading", { name: "Verify before release" }),
     ).toBeVisible();
@@ -325,5 +333,49 @@ test.describe("HIVE OS Control Room", () => {
     await expect(record).toContainText("Skill · finder-proof · Active");
     await record.click();
     await expect(page).toHaveURL(/\/skills$/);
+  });
+
+  test("CR-13 an approved mission exposes one direct next step", async ({
+    page,
+  }) => {
+    const { dashboardUrl } = await signUpToDashboard(page, "Resume Work Lab");
+    await page.goto(`${dashboardUrl}/missions/new`);
+    await page.getByLabel("Mission title").fill("UAV crop health research");
+    await page
+      .getByLabel("Objective")
+      .fill("Establish a governed evidence base for early crop diagnosis.");
+    await page.getByLabel("Scope").fill("One bounded agricultural pilot.");
+    await page
+      .getByLabel("Success definition")
+      .fill("A retained research record with attributable sources.");
+    await page.getByLabel("Requirement title").fill("Source integrity");
+    await page
+      .getByLabel("Acceptance criteria")
+      .fill("Every material claim is linked to retained evidence.");
+    await page.getByLabel("Obligation title").fill("Review evidence quality");
+    await page.getByRole("button", { name: "Create mission" }).click();
+    await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
+    const missionId = page.url().match(/\/missions\/([0-9a-f-]{36})/)?.[1];
+    expect(missionId).toBeTruthy();
+
+    await page.getByRole("button", { name: "Submit for review" }).click();
+    await page.getByRole("button", { name: "Approve contract" }).click();
+    await expect(page.getByText(/next stage Exploring/)).toBeVisible();
+    await page.goto(`${dashboardUrl}/control-room`);
+
+    await expect(
+      page.getByRole("heading", { name: "UAV crop health research" }),
+    ).toBeVisible();
+    const nextStep = page.getByRole("link", {
+      name: "Start governed research",
+    });
+    await expect(nextStep).toHaveAttribute(
+      "href",
+      `${dashboardUrl.replace(/^https?:\/\/[^/]+/, "")}/research?missionId=${missionId}`,
+    );
+    await nextStep.click();
+    await expect(page).toHaveURL(
+      new RegExp(`/research\\?missionId=${missionId}$`),
+    );
   });
 });

@@ -145,15 +145,15 @@ const vi = {
   "mission.new.weight": "Trọng số (số nguyên dương)",
   "mission.new.create": "Tạo nhiệm vụ",
   "control.title": "Phòng điều hành",
-  "control.subtitle": "Bản đồ quyền hạn và trạng thái có kiểm soát",
-  "control.eyebrow": "Bản đồ hệ thống được quản trị",
-  "control.thesis": "Từ ý định đến sự thật có trách nhiệm.",
+  "control.subtitle": "Công việc đang diễn ra và bước tiếp theo",
+  "control.eyebrow": "Trung tâm công việc",
+  "control.thesis": "Tiếp tục từ nơi bạn dừng lại.",
   "control.hint":
-    "Một góc nhìn điều hành cho trạng thái nhiệm vụ, quyền hạn bằng chứng và những ranh giới mô hình không được vượt qua.",
-  "control.architecture": "Kiến trúc",
-  "control.operations": "Vận hành",
-  "control.audit": "Kiểm toán",
-  "control.countsNote": "Số liệu là bản ghi có thẩm quyền trong workspace",
+    "Xem việc cần làm, mở đúng công cụ và theo dõi tiến độ của từng nhiệm vụ.",
+  "control.architecture": "Hệ thống",
+  "control.operations": "Công việc",
+  "control.audit": "Nhật ký",
+  "control.countsNote": "Dữ liệu được cập nhật từ hồ sơ có thẩm quyền",
 } as const;
 
 const en: Record<keyof typeof vi, string> = {
@@ -292,15 +292,15 @@ const en: Record<keyof typeof vi, string> = {
   "mission.new.weight": "Weight (positive integer)",
   "mission.new.create": "Create mission",
   "control.title": "Control Room",
-  "control.subtitle": "Governed authority and system-state map",
-  "control.eyebrow": "Governed system map",
-  "control.thesis": "From intent to accountable truth.",
+  "control.subtitle": "Active work and the next move",
+  "control.eyebrow": "Work center",
+  "control.thesis": "Continue where you left off.",
   "control.hint":
-    "One operating view for mission state, evidence authority, and the boundaries that models cannot cross.",
-  "control.architecture": "Architecture",
-  "control.operations": "Operations",
-  "control.audit": "Audit",
-  "control.countsNote": "Counts are workspace-scoped authoritative records",
+    "See what needs attention, open the right tool and follow each mission's progress.",
+  "control.architecture": "System map",
+  "control.operations": "Work",
+  "control.audit": "Audit log",
+  "control.countsNote": "Data is updated from authoritative records",
 };
 
 export type MessageKey = keyof typeof vi;

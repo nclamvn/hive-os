@@ -17,17 +17,14 @@ test("capture unified Control Room surfaces", async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto(`${dashboardUrl}/control-room`);
     await page
-      .getByRole("heading", { name: "From intent to accountable truth." })
+      .getByRole("heading", { name: "Continue where you left off." })
       .waitFor();
 
-    const file = path.join(
-      DIR,
-      `control-room-${viewport.name}-viewport.png`,
-    );
+    const file = path.join(DIR, `control-room-${viewport.name}-viewport.png`);
     await page.screenshot({ path: file, fullPage: false });
     expect(existsSync(file)).toBe(true);
 
-    await page.getByRole("tab", { name: "operations" }).click();
+    await page.getByText("Execution and assurance details").click();
     await page
       .getByRole("heading", { name: "Verify before release" })
       .scrollIntoViewIfNeeded();
