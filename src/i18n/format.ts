@@ -14,6 +14,11 @@ const labels = {
     PROFESSIONAL: "Professional",
     RESEARCH: "Research",
     REGULATED: "Regulated",
+    OPEN: "Open",
+    IN_PROGRESS: "In progress",
+    SATISFIED: "Satisfied",
+    WAIVED: "Waived",
+    BLOCKED: "Blocked",
   },
   vi: {
     PUBLIC: "Công khai",
@@ -28,6 +33,11 @@ const labels = {
     PROFESSIONAL: "Chuyên nghiệp",
     RESEARCH: "Nghiên cứu",
     REGULATED: "Được kiểm soát",
+    OPEN: "Chưa bắt đầu",
+    IN_PROGRESS: "Đang thực hiện",
+    SATISFIED: "Đã hoàn thành",
+    WAIVED: "Đã miễn trừ",
+    BLOCKED: "Đang bị chặn",
   },
 } as const;
 
@@ -46,6 +56,13 @@ export function formatDate(locale: Locale, value: Date | string): string {
     year: "numeric",
     month: "short",
     day: "2-digit",
+  }).format(new Date(value));
+}
+
+export function formatDateTime(locale: Locale, value: Date | string): string {
+  return new Intl.DateTimeFormat(locale === "vi" ? "vi-VN" : "en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
   }).format(new Date(value));
 }
 

@@ -69,4 +69,25 @@ test.describe("TIP-009 Mission Workspace", () => {
       ),
     ).toEqual([]);
   });
+
+  test("MW-09 distinguishes manual progress from a live background worker", async ({
+    page,
+  }) => {
+    await createMission(page);
+    await page.getByRole("button", { name: "Submit for review" }).click();
+    await expect(
+      page.getByRole("button", { name: "Approve contract" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Approve contract" }).click();
+    await expect(page.getByRole("button", { name: "Start" })).toBeVisible();
+    await page.getByRole("button", { name: "Start" }).click();
+
+    await expect(page.getByText("Manual work in progress")).toBeVisible();
+    await expect(page.getByText("NO BACKGROUND JOB")).toBeVisible();
+    await expect(page.getByText("In progress", { exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open Research Lab/ })).toHaveAttribute(
+      "href",
+      /\/research\?missionId=/,
+    );
+  });
 });

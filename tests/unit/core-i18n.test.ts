@@ -51,6 +51,13 @@ describe("TIP-002B core locale contract", () => {
     expect(enumLabel("en", "READY_WITH_DEFERRED")).toBe("Ready With Deferred");
   });
 
+  it("translates obligation workflow states instead of leaking English into Vietnamese", () => {
+    expect(enumLabel("vi", "OPEN")).toBe("Chưa bắt đầu");
+    expect(enumLabel("vi", "IN_PROGRESS")).toBe("Đang thực hiện");
+    expect(enumLabel("vi", "SATISFIED")).toBe("Đã hoàn thành");
+    expect(enumLabel("vi", "BLOCKED")).toBe("Đang bị chặn");
+  });
+
   it("renders governed content fields directly instead of passing them through translation", () => {
     const root = process.cwd();
     const mission = readFileSync(

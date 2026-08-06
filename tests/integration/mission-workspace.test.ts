@@ -19,6 +19,9 @@ describe("Mission Workspace projection", () => {
     expect(projection?.evidenceSources).toEqual([]);
     expect(projection?.claims).toEqual([]);
     expect(projection?.execution.tips).toEqual([]);
+    expect(projection?.operations.researchRuns).toEqual([]);
+    expect(projection?.operations.computationRuns).toEqual([]);
+    expect(projection?.operations.jobs).toEqual([]);
     expect(projection?.verification.reports).toEqual([]);
     expect(projection?.releases).toEqual([]);
   });

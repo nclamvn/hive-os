@@ -33,8 +33,14 @@ function statusTone(status: string) {
   return "text-ink-muted";
 }
 
-export default async function ResearchPage({ params }: { params: Promise<{ workspaceSlug: string }> }) {
-  const { workspaceSlug } = await params;
+export default async function ResearchPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ workspaceSlug: string }>;
+  searchParams: Promise<{ missionId?: string }>;
+}) {
+  const [{ workspaceSlug }, query] = await Promise.all([params, searchParams]);
   const data = await loadWorkspacePage(workspaceSlug);
   const { locale } = await getTranslator();
   const copy = getResearchCopy(locale);
@@ -47,6 +53,11 @@ export default async function ResearchPage({ params }: { params: Promise<{ works
   const canRequest = hasCapability(data.ctx.membership.role, "research.request");
   const canReview = hasCapability(data.ctx.membership.role, "research.review");
   const canCompute = hasCapability(data.ctx.membership.role, "sandbox.request");
+  const selectedMissionId = targets.missions.some(
+    (mission) => mission.id === query.missionId,
+  )
+    ? query.missionId
+    : undefined;
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
@@ -77,7 +88,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ works
           <form action={requestResearchRunAction} className="mt-4 grid gap-4 min-[900px]:grid-cols-2">
             <input type="hidden" name="slug" value={workspaceSlug} />
             <input type="hidden" name="idempotencyKey" value={`research:${randomUUID()}`} />
-            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" required className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
+            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" required defaultValue={selectedMissionId} className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
             <label className="text-meta text-ink font-medium">{copy.document}<select name="documentId" className={inputClass}><option value="">{copy.noDocument}</option>{targets.documents.map((document) => <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>)}</select></label>
             <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.question}<textarea name="question" required rows={3} maxLength={8000} className={inputClass} /></label>
             <label className="text-meta text-ink font-medium min-[900px]:col-span-2">{copy.scope}<textarea name="scope" required rows={3} maxLength={8000} className={inputClass} /></label>
@@ -129,7 +140,7 @@ export default async function ResearchPage({ params }: { params: Promise<{ works
           <p className="text-body text-ink-muted mt-2">{copy.sandboxHint}</p>
           <form action={requestComputationRunAction} className="mt-4 grid gap-4 min-[900px]:grid-cols-2">
             <input type="hidden" name="slug" value={workspaceSlug} /><input type="hidden" name="idempotencyKey" value={`sandbox:${randomUUID()}`} />
-            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
+            <label className="text-meta text-ink font-medium">{copy.mission}<select name="missionId" defaultValue={selectedMissionId} className={inputClass}>{targets.missions.map((mission) => <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>)}</select></label>
             <label className="text-meta text-ink font-medium">{copy.document}<select name="documentId" className={inputClass}><option value="">{copy.noDocument}</option>{targets.documents.map((document) => <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>)}</select></label>
             <label className="text-meta text-ink font-medium">{copy.runtime}<div className="grid grid-cols-2 gap-2"><input name="runtimeId" required defaultValue="jupyter-python" className={inputClass} /><input name="runtimeVersion" required defaultValue="3.12" className={inputClass} /></div></label>
             <label className="text-meta text-ink font-medium">Kind<select name="kind" className={inputClass}><option value="JUPYTER">Jupyter</option><option value="CAS">CAS</option><option value="LATEX_BUILD">LaTeX</option></select></label>

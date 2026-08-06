@@ -21,7 +21,10 @@ export async function getMissionWorkspaceProjection(
   const where = { workspaceId: ctx.workspace.id, missionId };
   const mission = await getDb().mission.findFirst({
     where: { id: missionId, workspaceId: ctx.workspace.id },
-    select: { id: true },
+    select: {
+      id: true,
+      workspace: { select: { organizationId: true } },
+    },
   });
   if (!mission) return null;
 
@@ -38,6 +41,8 @@ export async function getMissionWorkspaceProjection(
     verificationReports,
     signoffs,
     releases,
+    researchRuns,
+    computationRuns,
   ] = await Promise.all([
     getDb().evidenceSource.findMany({
       where,
@@ -244,7 +249,72 @@ export async function getMissionWorkspaceProjection(
         },
       },
     }),
+    getDb().researchRun.findMany({
+      where,
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: 20,
+      select: {
+        id: true,
+        question: true,
+        status: true,
+        providerName: true,
+        modelName: true,
+        failureCode: true,
+        startedAt: true,
+        completedAt: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    }),
+    getDb().computationRun.findMany({
+      where,
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: 20,
+      select: {
+        id: true,
+        kind: true,
+        status: true,
+        runtimeId: true,
+        runtimeVersion: true,
+        failureCode: true,
+        startedAt: true,
+        completedAt: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    }),
   ]);
+
+  const operationIds = [
+    ...researchRuns.map((run) => run.id),
+    ...computationRuns.map((run) => run.id),
+  ];
+  const jobs = operationIds.length
+    ? await getDb().durableJob.findMany({
+        where: {
+          organizationId: mission.workspace.organizationId,
+          workspaceId: ctx.workspace.id,
+          outboxEvent: { aggregateId: { in: operationIds } },
+        },
+        orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
+        take: Math.min(operationIds.length, 40),
+        select: {
+          id: true,
+          jobType: true,
+          status: true,
+          attempts: true,
+          maxAttempts: true,
+          lockedBy: true,
+          leaseExpiresAt: true,
+          availableAt: true,
+          lastErrorCode: true,
+          completedAt: true,
+          createdAt: true,
+          updatedAt: true,
+          outboxEvent: { select: { aggregateId: true } },
+        },
+      })
+    : [];
 
   return {
     evidenceSources,
@@ -268,6 +338,14 @@ export async function getMissionWorkspaceProjection(
       runs: verificationRuns,
       reports: verificationReports,
       signoffs,
+    },
+    operations: {
+      researchRuns,
+      computationRuns,
+      jobs: jobs.map(({ outboxEvent, ...job }) => ({
+        ...job,
+        runId: outboxEvent?.aggregateId ?? null,
+      })),
     },
     releases,
   };

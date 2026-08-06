@@ -25,10 +25,12 @@ function qualityTone(status: "PASS" | "REVIEW" | "FAIL") {
 }
 export default async function AuthoringPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ workspaceSlug: string }>;
+  searchParams: Promise<{ missionId?: string }>;
 }) {
-  const { workspaceSlug } = await params;
+  const [{ workspaceSlug }, query] = await Promise.all([params, searchParams]);
   const data = await loadWorkspacePage(workspaceSlug);
   const { locale } = await getTranslator();
   const copy = getAuthoringCopy(locale);
@@ -38,6 +40,11 @@ export default async function AuthoringPage({
     listAuthoringMissions(data.ctx),
   ]);
   const canWrite = hasCapability(data.ctx.membership.role, "authoring.write");
+  const selectedMissionId = missions.some(
+    (mission) => mission.id === query.missionId,
+  )
+    ? query.missionId
+    : undefined;
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
@@ -89,6 +96,7 @@ export default async function AuthoringPage({
                   <select
                     id="authoring-mission"
                     name="missionId"
+                    defaultValue={selectedMissionId}
                     className="text-body text-ink border-line mt-1 h-10 w-full rounded-md border bg-surface px-3"
                   >
                     {missions.map((mission) => (

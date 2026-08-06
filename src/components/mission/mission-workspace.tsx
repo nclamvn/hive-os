@@ -15,6 +15,7 @@ import type { ReactNode } from "react";
 
 import { DecisionControls } from "@/components/mission/decision-controls";
 import { MissionActions } from "@/components/mission/mission-actions";
+import { MissionOperationStatus } from "@/components/mission/mission-operation-status";
 import { MissionStatusBadge } from "@/components/mission/mission-status-badge";
 import { ObligationControls } from "@/components/mission/obligation-controls";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -22,7 +23,7 @@ import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ProvenanceRail } from "@/components/ui/provenance-rail";
 import { translate, type Locale, type MessageKey } from "@/i18n/config";
-import { enumLabel } from "@/i18n/format";
+import { enumLabel, formatDateTime } from "@/i18n/format";
 import type {
   getMissionDetail,
   getMissionProgress,
@@ -288,6 +289,13 @@ function OverviewLens({
   locale: Locale;
 }) {
   const { contract, obligations, gates } = detail;
+  const obligationActivity = new Map(
+    detail.obligationActivity.map((activity) => [
+      activity.obligationId,
+      activity.latest,
+    ]),
+  );
+  const slug = basePath.split("/")[2];
   return (
     <div className="grid min-w-0 grid-cols-1 gap-5 min-[1120px]:grid-cols-[minmax(0,1fr)_340px]">
       <div className="min-w-0 space-y-5">
@@ -332,6 +340,17 @@ function OverviewLens({
           <div className="border-line border-b p-5">
             <SectionHeader title={dual(locale, "Obligations", "Nghĩa vụ")} />
           </div>
+          <MissionOperationStatus
+            locale={locale}
+            slug={slug}
+            missionId={detail.mission.id}
+            hasOpenWork={obligations.some(
+              (obligation) => obligation.status === "IN_PROGRESS",
+            )}
+            researchRuns={projection.operations.researchRuns}
+            computationRuns={projection.operations.computationRuns}
+            jobs={projection.operations.jobs}
+          />
           {obligations.length === 0 ? (
             <EmptyState
               title={dual(
@@ -347,43 +366,58 @@ function OverviewLens({
             />
           ) : (
             <ul>
-              {obligations.map((obligation) => (
-                <li
-                  key={obligation.id}
-                  className="border-line flex flex-col gap-3 border-b px-5 py-3 last:border-b-0 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between"
-                >
-                  <span className="min-w-0">
-                    <span className="text-body text-ink-strong block font-medium">
-                      {obligation.contractObligation.code} ·{" "}
-                      {obligation.contractObligation.title}
+              {obligations.map((obligation) => {
+                const activity = obligationActivity.get(obligation.id);
+                return (
+                  <li
+                    key={obligation.id}
+                    className="border-line grid grid-cols-1 gap-3 border-b px-5 py-4 last:border-b-0 min-[820px]:grid-cols-[minmax(0,1fr)_auto] min-[820px]:items-center"
+                  >
+                    <span className="min-w-0">
+                      <span className="text-body text-ink-strong block font-medium">
+                        {obligation.contractObligation.code} ·{" "}
+                        {obligation.contractObligation.title}
+                      </span>
+                      <span className="text-meta text-ink-muted mt-1 block">
+                        {dual(locale, "Weight", "Trọng số")}{" "}
+                        {obligation.contractObligation.weight}
+                        {activity ? (
+                          <>
+                            {" · "}
+                            {dual(locale, "updated", "cập nhật")}{" "}
+                            <time dateTime={activity.occurredAt.toISOString()}>
+                              {formatDateTime(locale, activity.occurredAt)}
+                            </time>
+                            {activity.actorName
+                              ? ` · ${dual(locale, "by", "bởi")} ${activity.actorName}`
+                              : ""}
+                          </>
+                        ) : null}
+                      </span>
                     </span>
-                    <span className="text-meta text-ink-muted">
-                      {dual(locale, "Weight", "Trọng số")}{" "}
-                      {obligation.contractObligation.weight}
+                    <span className="flex flex-wrap items-center gap-2 min-[820px]:justify-end">
+                      <StatusBadge
+                        tone={
+                          obligation.status === "SATISFIED"
+                            ? "success"
+                            : obligation.status === "BLOCKED"
+                              ? "warning"
+                              : "neutral"
+                        }
+                      >
+                        {enumLabel(locale, obligation.status)}
+                      </StatusBadge>
+                      {canUpdateObligations ? (
+                        <ObligationControls
+                          slug={slug}
+                          obligationId={obligation.id}
+                          status={obligation.status}
+                        />
+                      ) : null}
                     </span>
-                  </span>
-                  <span className="flex flex-wrap items-center gap-2">
-                    <StatusBadge
-                      tone={
-                        obligation.status === "SATISFIED"
-                          ? "success"
-                          : obligation.status === "BLOCKED"
-                            ? "warning"
-                            : "neutral"
-                      }
-                    >
-                      {enumLabel(locale, obligation.status)}
-                    </StatusBadge>
-                    {canUpdateObligations ? (
-                      <ObligationControls
-                        slug={basePath.split("/")[2]}
-                        obligationId={obligation.id}
-                        status={obligation.status}
-                      />
-                    ) : null}
-                  </span>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </Panel>
@@ -406,7 +440,7 @@ function OverviewLens({
                 />
               </div>
               <p className="text-meta text-ink-muted mt-2">
-                {progress.closedWeight} / {progress.totalWeight} weighted
+                {progress.closedWeight} / {progress.totalWeight}{" "}
                 {dual(
                   locale,
                   "weighted obligations closed",

@@ -258,6 +258,50 @@ body {
   }
 }
 
+/* A live signal is shown only when the server reports a valid worker lease. */
+.mission-operation-live::after {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--color-surface-subtle);
+  border-radius: 999px;
+  background: var(--color-violet-600);
+  content: "";
+  animation: mission-operation-pulse 1.8s ease-out infinite;
+}
+
+.mission-operation-signal {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.mission-operation-signal.is-live {
+  opacity: 1;
+  animation: mission-operation-scan 2.8s ease-in-out infinite;
+}
+
+@keyframes mission-operation-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-violet-600) 34%, transparent);
+  }
+  55% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+}
+
+@keyframes mission-operation-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  50%,
+  100% {
+    transform: translateX(400%);
+  }
+}
+
 /* Visible keyboard focus everywhere (locked: no state by color alone). */
 :where(
   a,

@@ -552,7 +552,79 @@ export async function getMissionDetail(
         take: 100,
       }),
     ]);
-  return { mission, contract, obligations, gates, decisions, escalations };
+  const obligationIds = obligations.map((obligation) => obligation.id);
+  const obligationEvents = obligationIds.length
+    ? await getDb().$queryRaw<
+        Array<{
+          id: string;
+          entityId: string;
+          eventType: string;
+          actorUserId: string | null;
+          createdAt: Date;
+        }>
+      >(Prisma.sql`
+        SELECT DISTINCT ON (entity_id)
+          id,
+          entity_id AS "entityId",
+          event_type AS "eventType",
+          actor_user_id AS "actorUserId",
+          created_at AS "createdAt"
+        FROM audit_event
+        WHERE workspace_id = ${ctx.workspace.id}
+          AND entity_type = 'RuntimeObligation'
+          AND entity_id IN (${Prisma.join(obligationIds)})
+        ORDER BY entity_id, created_at DESC, id DESC
+        LIMIT 100
+      `)
+    : [];
+  const actorIds = [
+    ...new Set(
+      obligationEvents.flatMap((event) =>
+        event.actorUserId ? [event.actorUserId] : [],
+      ),
+    ),
+  ];
+  const actors = actorIds.length
+    ? await getDb().user.findMany({
+        where: { id: { in: actorIds } },
+        take: actorIds.length,
+        select: { id: true, name: true },
+      })
+    : [];
+  const actorNames = new Map(actors.map((actor) => [actor.id, actor.name]));
+  const latestByObligation = new Map<
+    string,
+    {
+      eventType: string;
+      actorName: string | null;
+      occurredAt: Date;
+    }
+  >();
+  for (const event of obligationEvents) {
+    if (!latestByObligation.has(event.entityId)) {
+      latestByObligation.set(event.entityId, {
+        eventType: event.eventType,
+        actorName: event.actorUserId
+          ? (actorNames.get(event.actorUserId) ?? null)
+          : null,
+        occurredAt: event.createdAt,
+      });
+    }
+  }
+  const obligationActivity = obligations.map((obligation) => ({
+    obligationId: obligation.id,
+    latest: latestByObligation.get(obligation.id) ?? null,
+  }));
+
+  return {
+    mission,
+    contract,
+    obligations,
+    gates,
+    decisions,
+    escalations,
+    obligationActivity,
+  };
 }
 
 /**
