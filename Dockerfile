@@ -18,6 +18,7 @@ COPY --from=postgres16-client /usr/lib/postgresql/16 /usr/lib/postgresql/16
 COPY --from=postgres16-client /usr/share/postgresql/16 /usr/share/postgresql/16
 ENV PATH="/usr/lib/postgresql/16/bin:${PATH}"
 COPY scripts/db ./scripts/db
+COPY scripts/operations/provision-service-principal.mjs ./scripts/operations/provision-service-principal.mjs
 COPY tsconfig.json vitest.config.ts ./
 COPY src ./src
 COPY tests/scale ./tests/scale

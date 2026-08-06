@@ -61,6 +61,13 @@ describe("production contract", () => {
     expect(workflow).toContain("hiveos-staging-worker:${{ github.sha }}");
   });
 
+  it("TIP-024D packages the audited service-principal provisioner with the migrator", () => {
+    const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
+    expect(dockerfile).toContain(
+      "COPY scripts/operations/provision-service-principal.mjs ./scripts/operations/provision-service-principal.mjs",
+    );
+  });
+
   it("PRC-04 accepts bounded correlation IDs and replaces malformed input", () => {
     expect(isValidCorrelationId("request_01:pilot")).toBe(true);
     expect(isValidCorrelationId("unsafe value")).toBe(false);
