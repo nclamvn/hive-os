@@ -1,5 +1,7 @@
 # Mathematics pilot — local runbook
 
+Research-method milestone and reproducible residual-prime survey: [MATH_PILOT_MILESTONE_2026-09-28.md](./MATH_PILOT_MILESTONE_2026-09-28.md). The finite certificate checker does not certify a universal theorem.
+
 This is a local research exercise, not a production release or a claim that
 HIVE OS can solve open mathematics autonomously.
 
@@ -87,7 +89,9 @@ task, but that is not a novelty certificate. A missing/corrupt passage, failed
 discovery, unresolved source-scope mismatch or disagreement
 stops that round. Do not force-dispatch a held task or alter its ledger.
 
-The initial primary-passage corpus is limited to three Erdős–Straus facts; its
+The initial primary-passage corpus is limited to eight Erdős–Straus facts, including
+the first/second conditional denominator criteria and general divisor-residue
+reduction in Bhattacharjee's 2026 preprint; its
 hashes cover retained normalized excerpts, not entire publisher pages. Crossref
 hits are leads, not full-text evidence. A generic open problem without a
 captured primary passage will HOLD. The mathematical statement is sent to
@@ -95,6 +99,20 @@ Crossref for discovery, so do not use this local pilot with confidential
 statements until an external-discovery policy is agreed. The new hard call cap
 is seven per round, while observed-token and time thresholds remain checked
 only between calls. Old five-call cycles remain historical and are not replayed.
+
+### Exact bounded computation after the E2E gap
+
+A new Erdős–Straus residual-prime task may include a typed interval and A-bound
+plan. The independent task verifier sees this plan before the kernel runs the
+fixed exact survey. Bounds are `p≤10^8`, interval width at most `2·10^7`, and
+`A≤107` with `A≡3 (mod 4)`. The `COMPUTED` event is appended before the solver;
+solver, critic and adversary receive its explicitly finite evidence. On read,
+the trace validator reruns the survey rather than trusting even a digest-valid
+event. Old cycles have no such event and remain immutable. Do not equate a
+finite zero-failure interval with the unbounded conjecture or claim that the
+same-model verifier is a separate mathematical referee. Reproduction and the
+current `10^8` milestone are in the linked milestone report above. A fresh
+browser E2E needs a new OPEN root case; do not replay or edit a terminal cycle.
 
 ## 4. Paid API worker path — separately gated
 

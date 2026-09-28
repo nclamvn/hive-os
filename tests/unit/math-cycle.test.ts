@@ -5,6 +5,7 @@ import {
   verifyMathCycleProposal,
 } from "@/modules/research-sandbox/math-cycle";
 import { validateMathCycleTrace } from "@/modules/research-sandbox/math-cycle-kernel";
+import { surveyResidualInterval } from "@/modules/research-sandbox/math-certificates";
 import { resolveMathPilotContract } from "@/modules/research-sandbox/math-pilot";
 import { explicitCongruences, knownScopeForTask, mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
 
@@ -37,21 +38,60 @@ describe("controlled math research cycle", () => {
     const knownTask = "Prove the construction for every n≡5 (mod 12) or find a counterexample.";
     expect(mathPriorArtFor(erdos).map((fact) => fact.id)).toContain("erdos-straus-n-2-mod-3");
     expect(knownScopeForTask(erdos, knownTask)?.id).toBe("erdos-straus-n-2-mod-3");
+    expect(knownScopeForTask(erdos, "Set n=120k+97")?.id).toBe("erdos-straus-n-2-mod-5");
     expect(knownScopeForTask(erdos, "Investigate n≡13 (mod 24)")?.id).toBe("erdos-straus-n-5-mod-8");
+    expect(knownScopeForTask(erdos,
+      "Let x=(n+3)/4 and suppose x has a prime divisor d≡2 (mod 3).")?.id)
+      .toBe("erdos-straus-first-gate-divisor-mod-3");
+    expect(knownScopeForTask(erdos,
+      "For prime n≡1 (mod 840), let X=(n+7)/4 and suppose X has a divisor q≡5 (mod 7).")?.id)
+      .toBe("erdos-straus-second-gate-divisor-mod-7");
+    expect(knownScopeForTask(erdos,
+      "Does every prime n≡1 (mod 840) have x=(n+3)/4 containing a divisor d≡2 (mod 3)?"))
+      .toBeNull();
     expect(explicitCongruences("Check n\\equiv 5 (mod 12)")).toEqual([{ modulus: 12, residue: 5 }]);
     expect(explicitCongruences("Let n=12k+5")).toEqual([{ modulus: 12, residue: 5 }]);
     expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
       proposal: { ...proposal, sourceGap: gap, taskStatement: knownTask }, verification,
       plannerThreadId: "planner", verifierThreadId: "verifier" })).toMatchObject({ accepted: false });
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: { ...proposal, sourceGap: gap, hypothesis: "For every k≥0, n=120k+97 has a solution." }, verification,
+      plannerThreadId: "planner", verifierThreadId: "verifier" })).toMatchObject({ accepted: false });
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: { ...proposal, hypothesis: "Set x=(n+3)/4 for a prime n≡1 (mod 840).",
+        taskStatement: "Prove a solution if x has a prime divisor d≡2 (mod 3)." }, verification,
+      plannerThreadId: "planner", verifierThreadId: "verifier" })).toMatchObject({ accepted: false });
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: { ...proposal, hypothesis: "For prime n≡1 (mod 840), let X=(n+7)/4.",
+        taskStatement: "Prove a solution if X has a divisor q≡5 (mod 7)." }, verification,
+      plannerThreadId: "planner", verifierThreadId: "verifier" })).toMatchObject({ accepted: false });
     expect(knownScopeForTask(erdos, "Investigate n≡1 (mod 24) with an explicit divisor criterion.")).toBeNull();
+    const bounded = { ...proposal,
+      hypothesis: "Within a finite interval, each residual prime may admit an A at most 47.",
+      taskStatement: "Test each prime p congruent to 1 modulo 840 with 10000000 < p <= 20000000 and A <= 47.",
+      exactSurveyPlan: { kind: "ERDOS_STRAUS_RESIDUAL_A" as const,
+        lowerExclusive: 10_000_000, upperInclusive: 20_000_000, maxA: 47 } };
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: bounded, verification, plannerThreadId: "planner", verifierThreadId: "verifier" }).accepted).toBe(true);
+    expect(taskContract(erdos, bounded).statement).toContain("10000000 < p <= 20000000");
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: { ...bounded, taskStatement: "Survey p in this finite interval for an auxiliary denominator bound." },
+      verification, plannerThreadId: "planner", verifierThreadId: "verifier" }).accepted).toBe(false);
+    expect(verifyMathCycleProposal({ rootContract: erdos, availableGaps: [gap], priorTasks: [],
+      proposal: { ...bounded, exactSurveyPlan: { ...bounded.exactSurveyPlan, upperInclusive: 31_000_000 } },
+      verification, plannerThreadId: "planner", verifierThreadId: "verifier" }).accepted).toBe(false);
     expect(mathPriorArtFor(root)).toEqual([]);
   });
 
   it("enforces bounded configuration and builds a linked, narrower task", () => {
     expect(mathCycleLimitsSchema.safeParse({ maxRounds: 3, maxObservedTokens: 60_000 }).success).toBe(false);
     expect(mathCycleLimitsSchema.safeParse({ maxRounds: 2, maxObservedTokens: 9_999 }).success).toBe(false);
-    expect(taskContract(root, proposal)).toMatchObject({ caseType: "OPEN", statement: proposal.taskStatement,
+    expect(taskContract(root, proposal)).toMatchObject({ caseType: "OPEN",
+      statement: `Hypothesis: ${proposal.hypothesis}\nTask: ${proposal.taskStatement}`,
       definitions: root.definitions, assumptions: root.assumptions });
+    expect(verifyMathCycleProposal({ rootContract: root, availableGaps: [gap], priorTasks: [],
+      proposal: { ...proposal, hypothesis: "H".repeat(2_000), taskStatement: "T".repeat(2_000) }, verification,
+      plannerThreadId: "planner", verifierThreadId: "verifier" }).accepted).toBe(false);
   });
 
   it("fails closed on fabricated gaps, duplicate tasks, verifier rejection or shared context", () => {
@@ -62,6 +102,9 @@ describe("controlled math research cycle", () => {
     expect(verifyMathCycleProposal({ ...base, priorTasks: [proposal.taskStatement] }).accepted).toBe(false);
     expect(verifyMathCycleProposal({ ...base, verification: { ...verification, decision: "REJECT" } }).accepted).toBe(false);
     expect(verifyMathCycleProposal({ ...base, verifierThreadId: "planner" }).accepted).toBe(false);
+    expect(verifyMathCycleProposal({ ...base, proposal: { ...proposal, exactSurveyPlan: {
+      kind: "ERDOS_STRAUS_RESIDUAL_A", lowerExclusive: 10_000_000,
+      upperInclusive: 20_000_000, maxA: 47 } } }).accepted).toBe(false);
   });
 
   it("validates sequence, previous digest, payload and phase of append-only events", () => {
@@ -72,6 +115,48 @@ describe("controlled math research cycle", () => {
     expect(validateMathCycleTrace([{ ...event, digest: "0".repeat(64) }])).toBeNull();
     expect(validateMathCycleTrace([{ ...event, sequence: 2 }])).toBeNull();
     expect(validateMathCycleTrace([{ ...event, payload: { ...payload, round: 2 } }])).toBeNull();
+  });
+
+  it("recomputes retained finite certificates rather than trusting a digest-consistent claim", () => {
+    const witness = { n: "2521", x: "636", y: "69748", z: "131876031" };
+    const attempted = { phase: "ATTEMPTED" as const, round: 1, contract: root,
+      attempt: { providerName: "codex-local" as const, modelName: "gpt-6-sol", threadId: "solver-1",
+        attemptType: "PARTIAL" as const, argument: "A finite example only.", candidateCounterexample: null,
+        selfChecks: [], limitations: ["No general proof."], erdosStrausWitnesses: [witness],
+        usage: { inputTokens: 10, cachedInputTokens: 0, outputTokens: 10, reasoningOutputTokens: 0 } } };
+    const first = { sequence: 1, round: 1, phase: attempted.phase, payload: attempted, previousDigest: null,
+      digest: mathCycleEventDigest(null, attempted) };
+    const checked = { phase: "CERTIFICATE_CHECKED" as const, round: 1,
+      method: "ERDOS_STRAUS_EXACT_IDENTITY_V1" as const,
+      checks: [{ witness, valid: false, identityDigest: null }] };
+    const second = { sequence: 2, round: 1, phase: checked.phase, payload: checked, previousDigest: first.digest,
+      digest: mathCycleEventDigest(first.digest, checked) };
+    expect(validateMathCycleTrace([first, second])).toBeNull();
+  });
+
+  it("recomputes a bounded computation event even if a forged result has a valid chain digest", () => {
+    const exactSurveyPlan = { kind: "ERDOS_STRAUS_RESIDUAL_A" as const,
+      lowerExclusive: 10_050_000, upperInclusive: 10_052_000, maxA: 47 };
+    const context = { threadId: "independent-context", usage: {
+      inputTokens: 10, cachedInputTokens: 0, outputTokens: 10, reasoningOutputTokens: 0 } };
+    const evidence = surveyResidualInterval(exactSurveyPlan);
+    const payloads = [
+      { phase: "PROPOSED" as const, round: 1, proposal: { ...proposal, exactSurveyPlan }, context },
+      { phase: "VERIFIED" as const, round: 1, verification, context, accepted: true,
+        reason: "The bounded task passed the independent context checks." },
+      { phase: "COMPUTED" as const, round: 1, evidence },
+    ];
+    const chain = (items: typeof payloads) => items.reduce<Array<{ sequence: number; round: number; phase: string;
+      payload: (typeof payloads)[number]; previousDigest: string | null; digest: string }>>((events, payload) => {
+      const previousDigest = events.at(-1)?.digest ?? null;
+      events.push({ sequence: events.length + 1, round: 1, phase: payload.phase,
+        payload, previousDigest, digest: mathCycleEventDigest(previousDigest, payload) });
+      return events;
+    }, []);
+    expect(validateMathCycleTrace(chain(payloads))?.at(-1)?.phase).toBe("COMPUTED");
+    const forged = [...payloads];
+    forged[2] = { phase: "COMPUTED", round: 1, evidence: { ...evidence, failureCount: 0 } };
+    expect(validateMathCycleTrace(chain(forged))).toBeNull();
   });
 
   it("stops before a model call at call, observed-token or deadline limits", () => {

@@ -25,7 +25,7 @@ describe("math frontier dossier and novelty gate", () => {
   it("retains exact source spans and a digest while treating Crossref as discovery only", async () => {
     const dossier = await buildFrontierDossier(erdos, successfulFetch);
     expect(verifyFrontierDossier(dossier)).toBe(true);
-    expect(dossier.sources).toHaveLength(3);
+    expect(dossier.sources).toHaveLength(8);
     expect(dossier.sources[0]?.content.slice(dossier.sources[0].startOffset, dossier.sources[0].endOffset))
       .toBe(dossier.sources[0]?.exactQuote);
     expect(dossier.discovery).toMatchObject({ status: "COMPLETE", candidates: [{ doi: "10.1000/example" }] });
@@ -42,6 +42,12 @@ describe("math frontier dossier and novelty gate", () => {
     const dossier = await buildFrontierDossier(erdos, successfulFetch);
     expect(frontierGate({ root: erdos, task: "Prove every n≡5 (mod 12) has a decomposition", dossier }))
       .toMatchObject({ decision: "KNOWN" });
+    expect(frontierGate({ root: erdos, task: "Test the proposed formula for every k≥0",
+      hypothesis: "For n=120k+97, the formula holds", dossier })).toMatchObject({ decision: "KNOWN" });
+    expect(frontierGate({ root: erdos, task: "Check x with a prime divisor d≡2 (mod 3)",
+      hypothesis: "Let x=(n+3)/4 for primes n≡1 (mod 840)", dossier })).toMatchObject({ decision: "KNOWN" });
+    expect(frontierGate({ root: erdos, task: "Check X with divisor q≡5 (mod 7)",
+      hypothesis: "For prime n≡1 (mod 840) let X=(n+7)/4", dossier })).toMatchObject({ decision: "KNOWN" });
     const missingSourceContent = { coverage: dossier.coverage, sources: dossier.sources.slice(1), discovery: dossier.discovery };
     expect(frontierGate({ root: erdos, task: "Prove every n≡5 (mod 12) has a decomposition",
       dossier: { ...missingSourceContent, dossierDigest: sha256(canonicalJson(missingSourceContent)) } }))

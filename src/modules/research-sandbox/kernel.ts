@@ -178,11 +178,15 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
             workspaceId: command.workspaceId,
             missionId: input.missionId,
             caseType: mathContract.caseType,
-            researchRun: {
-              providerName: input.providerName,
-              modelName: input.modelName,
-              status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] },
-            },
+            AND: [
+              { researchRun: { providerName: input.providerName, modelName: input.modelName } },
+              { OR: mathContract.caseType === "OPEN" ? [
+                { researchRun: { status: { in: ["QUEUED", "RUNNING"] } } },
+                { researchRun: { status: "AWAITING_REVIEW" }, agentReview: { is: null } },
+                { researchRun: { status: { in: ["AWAITING_REVIEW", "APPROVED"] } },
+                  researchCycle: { is: { status: { in: ["QUEUED", "RUNNING"] } } } },
+              ] : [{ researchRun: { status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] } } }] },
+            ],
           },
           select: { id: true },
         });

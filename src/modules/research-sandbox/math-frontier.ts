@@ -69,6 +69,37 @@ const ERDOS_SOURCES: readonly FrontierSource[] = [
     content: "Taking (a,b,c)=(1,2,3), we see that the conjecture holds whenever p=5 mod 8.",
     exactQuote: "the conjecture holds whenever p=5 mod 8",
   }),
+  ...([2, 3] as const).map((residue) => capturedSource({
+    id: `erdos-straus-n-${residue}-mod-5`, canonicalUri: "https://arxiv.org/html/2404.01508v3",
+    title: "A Complete Congruence System for the Erdos-Straus Conjecture", authors: "Miguel Angel Lopez",
+    publicationYear: 2024, version: "arxiv-2404.01508v3", captureMethod: "CURATED_PRIMARY_EXCERPT", scope: "ODD_PRIMES",
+    content: "L. J. Mordell studied this equation among many others and derived identities for the cases p congruent to 3 mod 4, 2 or 3 mod 5, 5 or 6 mod 7 and 5 mod 8.",
+    exactQuote: "2 or 3 mod 5",
+  })),
+  capturedSource({
+    id: "erdos-straus-first-gate-divisor-mod-3",
+    canonicalUri: "https://www.researchgate.net/publication/405220221_Erdos--Straus_Decompositions",
+    title: "Erdős–Straus Decompositions", authors: "Deep Bhattacharjee",
+    publicationYear: 2026, version: "author-preprint-2026-05-25", captureMethod: "CURATED_PRIMARY_EXCERPT", scope: "ODD_PRIMES",
+    content: "Proposition 4.2. Let p ≡ 1 (mod 12) be prime and put x=(p+3)/4. There is a solution with this first denominator if and only if x has a divisor congruent to 2 (mod 3); equivalently, x has a prime divisor congruent to 2 (mod 3).",
+    exactQuote: "x has a prime divisor congruent to 2 (mod 3)",
+  }),
+  capturedSource({
+    id: "erdos-straus-second-gate-divisor-mod-7",
+    canonicalUri: "https://www.researchgate.net/publication/405220221_Erdos--Straus_Decompositions",
+    title: "Erdős–Straus Decompositions", authors: "Deep Bhattacharjee",
+    publicationYear: 2026, version: "author-preprint-2026-05-25", captureMethod: "CURATED_PRIMARY_EXCERPT", scope: "ODD_PRIMES",
+    content: "Proposition 4.4 (Explicit second-gate factor tests). Let p be a prime with p mod 840 in the six residual classes and put x=(p+7)/4. Each of the following conditions produces a positive decomposition of 4/p with residual numerator A=7: (i) p≡1 (mod 7) and x has a divisor e≡5 (mod 7). In case (i) take d=e.",
+    exactQuote: "p≡1 (mod 7) and x has a divisor e≡5 (mod 7)",
+  }),
+  capturedSource({
+    id: "erdos-straus-general-divisor-residue-gate",
+    canonicalUri: "https://www.researchgate.net/publication/405220221_Erdos--Straus_Decompositions",
+    title: "Erdős–Straus Decompositions", authors: "Deep Bhattacharjee",
+    publicationYear: 2026, version: "author-preprint-2026-05-25", captureMethod: "CURATED_PRIMARY_EXCERPT", scope: "ODD_PRIMES",
+    content: "Lemma 4.1 (One-congruence reduction). Let p≡1 (mod 4) be prime, let A≡3 (mod 4) be positive with p∤A, and define x=(p+A)/4, B=px. Then a triple with first denominator x exists if and only if there is a divisor d|B² satisfying d≡−B (mod A).",
+    exactQuote: "a triple with first denominator x exists if and only if there is a divisor d|B² satisfying d≡−B (mod A)",
+  }),
 ];
 
 export function verifyFrontierSource(source: FrontierSource): boolean {
@@ -130,14 +161,16 @@ export function verifyFrontierDossier(dossier: FrontierDossier): boolean {
     discovery: parsed.data.discovery })) === dossier.dossierDigest;
 }
 
-export function frontierGate(input: { root: MathPilotContract; task: string; dossier: FrontierDossier;
+export function frontierGate(input: { root: MathPilotContract; task: string; hypothesis?: string; dossier: FrontierDossier;
   analyst?: FrontierAssessment; challenger?: FrontierAssessment }): {
     decision: "KNOWN" | "RESEARCH_ONLY" | "HOLD"; reason: string;
   } {
   if (!verifyFrontierDossier(input.dossier)) return { decision: "HOLD", reason: "Source dossier integrity failed" };
-  const known = knownScopeForTask(input.root, input.task);
-  if (known) return input.dossier.sources.some((source) => source.id === known.id)
-    ? { decision: "KNOWN", reason: `Covered by ${known.id}; ${known.sourceUrl}` }
+  const known = input.hypothesis ? knownScopeForTask(input.root, `${input.hypothesis}\n${input.task}`) : null;
+  const scopedKnown = known ?? knownScopeForTask(input.root, input.task) ??
+    (input.hypothesis ? knownScopeForTask(input.root, input.hypothesis) : null);
+  if (scopedKnown) return input.dossier.sources.some((source) => source.id === scopedKnown.id)
+    ? { decision: "KNOWN", reason: `Covered by ${scopedKnown.id}; ${scopedKnown.sourceUrl}` }
     : { decision: "HOLD", reason: "A known-scope source is missing from the retained dossier" };
   if (input.dossier.discovery.status !== "COMPLETE" || !input.dossier.sources.length) {
     return { decision: "HOLD", reason: "Source discovery or primary passage is unavailable" };

@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { mathAgentReportSchema, type MathAgentReport } from "../agent-review";
 import { mathModelAttemptSchema } from "../contracts";
+import type { ResidualSurveyEvidence } from "../math-certificates";
 import { ResearchSandboxError } from "../errors";
 import { type MathPilotContract } from "../math-pilot";
 import { runCodex } from "./codex-local-math";
@@ -80,7 +81,7 @@ export class CodexLocalMathReviewer {
   }
 
   async reviewRole(role: MathAgentReport["role"], contract: MathPilotContract,
-    attempt: z.infer<typeof mathModelAttemptSchema>): Promise<MathAgentReport> {
+    attempt: z.infer<typeof mathModelAttemptSchema>, evidence: ResidualSurveyEvidence | null = null): Promise<MathAgentReport> {
     const directory = await mkdtemp(join(tmpdir(), "hiveos-codex-review-"));
     try {
       const status = await runCodex(this.cliPath, ["login", "status"], directory, "", true);
@@ -100,8 +101,9 @@ export class CodexLocalMathReviewer {
           mandate,
           "Return one exact contiguous quote from the attempt.argument of at least eight characters. If the attempt is inadequate, quote the problematic passage and set verdict to CHALLENGES or INCONCLUSIVE.",
           "Give concrete checks and any unresolved gap. A gap must not be hidden behind a favorable verdict. For an open problem, a plausible proof is a candidate, not an established theorem.",
+          "If exact bounded computation evidence is supplied, use only its stated finite domain. Distinguish a counterexample to a bounded auxiliary hypothesis from a counterexample to the root Erdős–Straus conjecture. The retained digest and search method are not a formal theorem certificate.",
           `Set role to ${role}. Return only the required JSON object.`,
-          JSON.stringify({ contract, attempt: { attemptType: attempt.attemptType, argument: attempt.argument, candidateCounterexample: attempt.candidateCounterexample, limitations: attempt.limitations } }),
+          JSON.stringify({ contract, exactComputation: evidence, attempt: { attemptType: attempt.attemptType, argument: attempt.argument, candidateCounterexample: attempt.candidateCounterexample, limitations: attempt.limitations } }),
         ].join("\n\n");
         const stdout = await runCodex(this.cliPath, [
           "exec", "--json", "--ephemeral", "--ignore-user-config", "--skip-git-repo-check",

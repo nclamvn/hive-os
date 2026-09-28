@@ -10,6 +10,7 @@ import { getEnv } from "@/server/env";
 
 import { evaluateMathAgentReview, validateRecordedMathAgentReview, type MathAgentReport } from "./agent-review";
 import { mathModelAttemptSchema } from "./contracts";
+import { surveyResidualInterval, verifyErdosStrausWitness, type ResidualSurveyEvidence } from "./math-certificates";
 import { ResearchSandboxError } from "./errors";
 import { researchDossierDigest } from "./integrity";
 import {
@@ -39,9 +40,9 @@ export interface MathCycleAgents {
     proposal: MathCycleProposal, dossier: FrontierDossier): Promise<{
     output: FrontierAssessment; threadId: string; usage: MathCycleUsage;
   }>;
-  solve(contract: MathPilotContract): Promise<ReturnType<typeof mathModelAttemptSchema.parse>>;
+  solve(contract: MathPilotContract, evidence: ResidualSurveyEvidence | null): Promise<ReturnType<typeof mathModelAttemptSchema.parse>>;
   reviewRole(role: MathAgentReport["role"], contract: MathPilotContract,
-    attempt: ReturnType<typeof mathModelAttemptSchema.parse>): Promise<MathAgentReport>;
+    attempt: ReturnType<typeof mathModelAttemptSchema.parse>, evidence: ResidualSurveyEvidence | null): Promise<MathAgentReport>;
 }
 
 export function validateMathCycleTrace(events: Array<{ sequence: number; round: number; phase: string;
@@ -49,6 +50,10 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
   let previous: string | null = null;
   const payloads: MathCycleEventPayload[] = [];
   const frontierDigestByRound = new Map<number, string>();
+  const attemptsByRound = new Map<number, ReturnType<typeof mathModelAttemptSchema.parse>>();
+  const proposalsByRound = new Map<number, MathCycleProposal>();
+  const acceptedRounds = new Set<number>();
+  const computedRounds = new Set<number>();
   for (const [index, event] of events.entries()) {
     const parsed = mathCycleEventPayloadSchema.safeParse(event.payload);
     if (!parsed.success || event.sequence !== index + 1 || event.round !== parsed.data.round ||
@@ -62,6 +67,31 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
       frontierDigestByRound.get(parsed.data.round) !== parsed.data.dossierDigest) return null;
     if (parsed.data.phase === "FRONTIER_GATE" &&
       (frontierDigestByRound.get(parsed.data.round) ?? null) !== parsed.data.dossierDigest) return null;
+    if (parsed.data.phase === "PROPOSED") proposalsByRound.set(parsed.data.round, parsed.data.proposal);
+    if (parsed.data.phase === "VERIFIED" && parsed.data.accepted) acceptedRounds.add(parsed.data.round);
+    if (parsed.data.phase === "COMPUTED") {
+      const plan = proposalsByRound.get(parsed.data.round)?.exactSurveyPlan;
+      if (!plan || !acceptedRounds.has(parsed.data.round) || computedRounds.has(parsed.data.round)) return null;
+      try {
+        if (JSON.stringify(surveyResidualInterval(plan)) !== JSON.stringify(parsed.data.evidence)) return null;
+      } catch { return null; }
+      computedRounds.add(parsed.data.round);
+    }
+    if (parsed.data.phase === "ATTEMPTED") {
+      if (proposalsByRound.get(parsed.data.round)?.exactSurveyPlan && !computedRounds.has(parsed.data.round)) return null;
+      attemptsByRound.set(parsed.data.round, parsed.data.attempt);
+    }
+    if (parsed.data.phase === "CERTIFICATE_CHECKED") {
+      const attempt = attemptsByRound.get(parsed.data.round);
+      const witnesses = attempt?.erdosStrausWitnesses ?? [];
+      if (!attempt || witnesses.length !== parsed.data.checks.length) return null;
+      for (const [position, check] of parsed.data.checks.entries()) {
+        const witness = witnesses[position];
+        if (!witness || JSON.stringify(witness) !== JSON.stringify(check.witness)) return null;
+        const actual = verifyErdosStrausWitness(witness);
+        if (actual.valid !== check.valid || actual.identityDigest !== check.identityDigest) return null;
+      }
+    }
     payloads.push(parsed.data);
     previous = event.digest;
   }
@@ -289,10 +319,12 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before frontier intake");
     await appendEvent(tx, cycle, input.jobId, { phase: "FRONTIER_DOSSIER", round, dossier });
   });
-  let sourceGate = frontierGate({ root: rootContract, task: proposal.taskStatement, dossier });
+  let sourceGate = frontierGate({ root: rootContract, task: proposal.taskStatement,
+    hypothesis: proposal.hypothesis, dossier });
   const frontierThreads: string[] = [];
   const needsSourceReview = sourceGate.decision === "HOLD" && dossier.discovery.status === "COMPLETE" &&
-    dossier.sources.length > 0 && !knownScopeForTask(rootContract, proposal.taskStatement);
+    dossier.sources.length > 0 && !knownScopeForTask(rootContract, proposal.taskStatement) &&
+    !knownScopeForTask(rootContract, proposal.hypothesis);
   if (needsSourceReview) {
     const assessments: FrontierAssessment[] = [];
     const threads: string[] = [plan.threadId];
@@ -308,7 +340,8 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
         context: { threadId: result.threadId, usage: result.usage } }, result.usage);
       assessments.push(assessment);
     }
-    sourceGate = frontierGate({ root: rootContract, task: proposal.taskStatement, dossier,
+    sourceGate = frontierGate({ root: rootContract, task: proposal.taskStatement,
+      hypothesis: proposal.hypothesis, dossier,
       analyst: assessments[0], challenger: assessments[1] });
   }
   await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
@@ -331,18 +364,33 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   if (!deterministic.accepted) return finishJob(input, cycleId, round, "VERIFICATION_REJECTED");
 
   const contract = taskContract(rootContract, proposal);
+  const computation = proposal.exactSurveyPlan ? surveyResidualInterval(proposal.exactSurveyPlan) : null;
+  if (computation) await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
+    const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+    if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before exact computation");
+    await appendEvent(tx, cycle, input.jobId, { phase: "COMPUTED", round, evidence: computation });
+  });
   if (!await reserve("SOLVER")) return;
-  const attempt = mathModelAttemptSchema.parse(await input.agents.solve(contract));
+  const attempt = mathModelAttemptSchema.parse(await input.agents.solve(contract, computation));
   if (attempt.threadId === plan.threadId || attempt.threadId === check.threadId || frontierThreads.includes(attempt.threadId) ||
     attempt.modelName !== input.agents.modelName || attempt.providerName !== "codex-local") {
     throw new ResearchSandboxError("INTEGRITY_FAILURE", "Solver context or model identity is not independent");
   }
   await retainResult(input, cycleId, { phase: "ATTEMPTED", round, contract, attempt }, attempt.usage);
+  await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
+    const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+    if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before exact certificate check");
+    await appendEvent(tx, cycle, input.jobId, { phase: "CERTIFICATE_CHECKED", round, method: "ERDOS_STRAUS_EXACT_IDENTITY_V1",
+      checks: (attempt.erdosStrausWitnesses ?? []).map((witness) => {
+        const certificate = verifyErdosStrausWitness(witness);
+        return { witness, valid: certificate.valid, identityDigest: certificate.identityDigest };
+      }) });
+  });
 
   const reports: MathAgentReport[] = [];
   for (const role of ["CRITIC", "ADVERSARY"] as const) {
     if (!await reserve(role)) return;
-    const report = mathAgentReportSchema.parse(await input.agents.reviewRole(role, contract, attempt));
+    const report = mathAgentReportSchema.parse(await input.agents.reviewRole(role, contract, attempt, computation));
     if (report.role !== role || [plan.threadId, ...frontierThreads, check.threadId, attempt.threadId,
       ...reports.map((item) => item.threadId)].includes(report.threadId)) {
       throw new ResearchSandboxError("INTEGRITY_FAILURE", "Review context or role is not independent");

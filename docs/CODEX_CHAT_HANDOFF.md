@@ -929,3 +929,62 @@ shows the retained evidence and gate state. The initial primary-source corpus
 is Erdős–Straus-specific, and Crossref provides discovery metadata only, not
 full-text proof. See `docs/contractor/tips/TIP-032_MATH_FRONTIER_DOSSIER.md`
 and its verify report. No billing, paid API, Git or deployment work is included.
+
+## Local exact-certificate research milestone (2026-09-28)
+
+After TIP-032, the Math Pilot gained optional typed Erdős–Straus witness tuples,
+an exact BigInt identity checker, and a digest-chained `CERTIFICATE_CHECKED`
+cycle event whose contents are recomputed during trace validation. Historical
+attempts and cycles without these optional fields/events remain readable. The
+prior-art gate now recognizes a prime-residual Erdős–Straus contract as well
+as the original all-integer wording. A separate bounded residual-prime survey
+and stdlib-only Python audit create reproducible computational evidence; they
+are not a proof kernel or a literature novelty certificate.
+
+The survey verified finite witnesses for all 3,426 primes `p ≡ 1 (mod 840)`
+through `10^7` with `x=(p+A)/4` and some `A≤47`. It then falsified the
+*auxiliary* universal bound `A≤47`: prime `p=10,051,441` has no admissible
+factor pair for any `A=3,7,…,47`, but has an exact solution at `A=59`.
+`p=16,467,361` likewise fails through `A=47` and succeeds at `A=55`.
+These are not counterexamples to Erdős–Straus itself and no novelty claim is
+made. See `docs/operations/MATH_PILOT_MILESTONE_2026-09-28.md` for method,
+manifests, independent checks and exact tuples.
+
+A live local browser case (`406a9816-ebe2-45f7-945d-00daa75d4758`) showed
+an `EXACT_IDENTITY` tuple for `p=2521` while AI review remained
+`INCONCLUSIVE` on the universal bound. Its controlled cycle
+(`611e2e2d-54e8-4e45-b631-9792445b4e63`) independently selected precisely
+the `10^7<p≤2·10^7` finite interval but, lacking an exact computation tool,
+returned `INCONCLUSIVE` with an empty certificate event. That is a key
+procedural gap: the next priority is a typed, bounded computation plan,
+deterministic oracle execution and digest-checked evidence *inside* the
+agent loop before solver/critic calls. Do not alter the immutable live cycle.
+The local worker was stopped after testing; the web UI remains available with
+Codex dossiers visible but new queue dispatch disabled. Billing, paid API,
+Git/push and deployment remain paused unless separately requested.
+
+## Bounded in-loop computation and 100-million milestone (2026-09-28)
+
+The prior live E2E exposed an LLM-only loop: the planner selected the correct
+finite interval but the solver could not execute exact arithmetic. New
+Erdős–Straus cycle proposals may now contain a typed, resource-capped residual
+survey plan. The independent task verifier sees the plan; the kernel runs a
+fixed no-model-code computation before solver dispatch, retains `COMPUTED` in
+the hash-chain ledger, and supplies the scoped evidence to solver and both
+review roles. Trace validation recomputes the computation. Earlier immutable
+cycles are unchanged. This new path has unit/integration/build verification
+but has not yet been run with a fresh subscription-backed browser cycle; do not
+claim fresh live E2E closure from the old cycle.
+
+The exact standalone scan through `10^8` covered 30,061 primes `p≡1 mod 840`;
+all had a witness in the declared first-denominator family by `A≤59`. Seven
+failed the narrower `A≤47` bound, and the independent Python factor-pair
+auditor reproduced their first successful A values (`59,55,59,55,55,51,55`)
+in ascending prime order. A separate Python sieve reproduced the prime count.
+This is a finite computational milestone, not a theorem about unbounded p, a
+novelty finding, or an independent full-range audit. The detailed evidence,
+manifests and remaining proof gates are in
+`docs/operations/MATH_PILOT_MILESTONE_2026-09-28.md`. Billing, paid API and
+deployment remain paused. The user subsequently authorized a reviewed local
+UI refinement followed by commit and push of this Math Pilot work; that does
+not authorize deployment or billing activation.

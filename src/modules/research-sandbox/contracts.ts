@@ -84,6 +84,13 @@ export const researchProviderUsageSchema = z.object({
   }
 });
 
+export const erdosStrausWitnessSchema = z.object({
+  n: z.string().regex(/^[1-9][0-9]{0,39}$/),
+  x: z.string().regex(/^[1-9][0-9]{0,39}$/),
+  y: z.string().regex(/^[1-9][0-9]{0,39}$/),
+  z: z.string().regex(/^[1-9][0-9]{0,39}$/),
+}).strict();
+
 export const mathModelAttemptSchema = z.object({
   providerName: z.literal("codex-local"),
   modelName: identifier,
@@ -93,6 +100,8 @@ export const mathModelAttemptSchema = z.object({
   candidateCounterexample: z.string().trim().max(2_000).nullable(),
   selfChecks: z.array(z.string().trim().min(1).max(1_000)).max(12),
   limitations: z.array(z.string().trim().min(1).max(1_000)).max(12),
+  // Optional so immutable pre-certificate attempts remain digest-readable.
+  erdosStrausWitnesses: z.array(erdosStrausWitnessSchema).max(4).optional(),
   usage: z.object({
     inputTokens: z.number().int().nonnegative(),
     cachedInputTokens: z.number().int().nonnegative(),

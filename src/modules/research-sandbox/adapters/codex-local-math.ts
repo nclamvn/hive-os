@@ -29,8 +29,11 @@ const outputJsonSchema = {
     candidateCounterexample: { type: ["string", "null"] },
     selfChecks: { type: "array", items: { type: "string" } },
     limitations: { type: "array", items: { type: "string" } },
+    erdosStrausWitnesses: { type: "array", maxItems: 4, items: { type: "object", properties: {
+      n: { type: "string" }, x: { type: "string" }, y: { type: "string" }, z: { type: "string" },
+    }, required: ["n", "x", "y", "z"], additionalProperties: false } },
   },
-  required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations"],
+  required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations", "erdosStrausWitnesses"],
   additionalProperties: false,
 } as const;
 
@@ -170,6 +173,8 @@ export class CodexLocalMathProvider implements ResearchProvider {
         "Work only from the following exact statement and definitions. Do not silently alter the quantifiers or domain.",
         "Return a proof attempt, a concrete counterexample attempt, partial progress, or an explicit inconclusive result.",
         "Check every algebraic step or candidate against the stated definitions. List remaining limitations.",
+        "If scope contains a bounded exact-computation record, use only its declared finite domain. A failure within a bounded A-family refutes that auxiliary bound, not the general Erdős–Straus conjecture; a zero-failure finite scan never proves an infinite statement.",
+        "For an Erdős–Straus task, place up to four concrete (n,x,y,z) positive-integer decompositions in erdosStrausWitnesses as decimal strings. Use [] if none; never invent a tuple. These are checked independently by exact integer arithmetic after your response.",
         "Do not claim independent verification or formal proof. Return only the required JSON object.",
         JSON.stringify({ statement: input.question, scope: input.scope }),
       ].join("\n\n");

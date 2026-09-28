@@ -271,7 +271,7 @@ describe("Math pilot gate", () => {
       completedRounds: 1, callsStarted: 7, observedTokens: 1050 });
     expect(cycle.trace?.map((event) => event.phase)).toEqual([
       "PRIOR_ART", "CALL_STARTED", "PROPOSED", "FRONTIER_DOSSIER", "CALL_STARTED", "FRONTIER_REVIEWED",
-      "CALL_STARTED", "FRONTIER_REVIEWED", "FRONTIER_GATE", "CALL_STARTED", "VERIFIED", "CALL_STARTED", "ATTEMPTED",
+      "CALL_STARTED", "FRONTIER_REVIEWED", "FRONTIER_GATE", "CALL_STARTED", "VERIFIED", "CALL_STARTED", "ATTEMPTED", "CERTIFICATE_CHECKED",
       "CALL_STARTED", "REVIEWED", "CALL_STARTED", "REVIEWED", "ROUND_CLOSED",
     ]);
     expect((await withOrganizationTenant(workspace.organizationId, owner.user.id, (tx) =>
@@ -317,6 +317,18 @@ describe("Math pilot gate", () => {
       .rejects.toThrow(/append-only|immutable/i);
     await expect(ownerQuery(`UPDATE math_research_cycle SET status = 'QUEUED' WHERE id = '${cycle.id}'`))
       .rejects.toThrow(/terminal math research cycle is immutable/i);
+
+    // An AI-reviewed OPEN dossier remains AWAITING_REVIEW for the separate human
+    // lane. A terminal cycle must not prevent a fresh, immutable root experiment.
+    const nextRoot = await requestResearchRun(owner, {
+      ...requestFor(mission.id, openRequest, "gpt-6-sol"), providerName: "codex-local",
+    });
+    expect(nextRoot.status).toBe("SUCCEEDED");
+    // The new queued root still fences concurrent duplicate dispatches.
+    const concurrentRoot = await requestResearchRun(owner, {
+      ...requestFor(mission.id, openRequest, "gpt-6-sol"), providerName: "codex-local",
+    });
+    expect(concurrentRoot.status).toBe("FAILED");
   });
 
   it("routes Codex-local math to a distinct job and retains an unverified model attempt", async () => {

@@ -77,15 +77,17 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
             verify: (root, gaps, prior, proposal, priorArt) => planner.verify(root, gaps, prior, proposal, priorArt),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),
             assessFrontier: (role, root, proposal, dossier) => planner.assessFrontier(role, root, proposal, dossier),
-            solve: async (contract) => {
+            solve: async (contract, evidence) => {
               const result = await solver.execute({ missionId: "cycle-subtask", documentId: null,
-                question: contract.statement, scope: mathPilotScope(contract), providerName: solver.providerName,
+                question: contract.statement,
+                scope: mathPilotScope(contract) + (evidence ? `\n\nExact bounded computation evidence (data, not a universal proof): ${JSON.stringify(evidence)}` : ""),
+                providerName: solver.providerName,
                 modelName: solver.modelName, sourcePolicy: { allowedDomains: [], primaryDomains: [], requirePrimary: false, maxSources: 1 },
                 queryPlan: { queries: [contract.statement], languages: ["en"] } });
               if (!result.mathAttempt) throw new Error("Cycle solver did not return a math attempt");
               return result.mathAttempt;
             },
-            reviewRole: (role, contract, attempt) => reviewer.reviewRole(role, contract, attempt),
+            reviewRole: (role, contract, attempt, evidence) => reviewer.reviewRole(role, contract, attempt, evidence),
           },
         });
         succeeded += 1;

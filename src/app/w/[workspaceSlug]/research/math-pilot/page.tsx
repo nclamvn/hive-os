@@ -37,6 +37,7 @@ import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getEnv } from "@/server/env";
 import { researchProviderUsageSchema } from "@/modules/research-sandbox/contracts";
 import { mathModelAttemptSchema } from "@/modules/research-sandbox/contracts";
+import { hasErdosStrausEquation, verifyErdosStrausWitness } from "@/modules/research-sandbox/math-certificates";
 import { knownScopeForTask, mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
 import type { MathPilotContract } from "@/modules/research-sandbox/math-pilot";
 
@@ -229,6 +230,9 @@ export default async function MathPilotPage({
                   const attempt = parsedAttempt.success && digestResearchResult(parsedAttempt.data) === item.researchRun.mathModelAttemptDigest
                     ? parsedAttempt
                     : { success: false as const };
+                  const attemptPriorArt = parsed.success && attempt.success
+                    ? knownScopeForTask(parsed.data, attempt.data.argument)
+                    : null;
                   const independentReviewer = canReview && item.researchRun.requestedByMembershipId !== data.ctx.membership.id;
                   const attemptValid = item.researchRun.providerName !== "codex-local" || attempt.success;
                   const providerValid = item.researchRun.providerName !== "openai" || usage.success;
@@ -265,10 +269,27 @@ export default async function MathPilotPage({
                       {attempt.success && item.researchRun.mathModelAttemptDigest ? (
                         <div className="border-line mt-4 border-t pt-4">
                           <p className="text-meta text-ink-muted font-semibold">{copy.modelAttempt} · {attempt.data.attemptType.replaceAll("_", " ")}</p>
+                          {attemptPriorArt ? <p role="alert" className="text-meta text-danger-700 mt-2">
+                            {copy.modelAttemptPriorArt} <a className="underline underline-offset-2" href={attemptPriorArt.sourceUrl} target="_blank" rel="noreferrer">{attemptPriorArt.sourceTitle}</a>
+                          </p> : null}
                           <p className="text-body text-ink mt-3 whitespace-pre-wrap break-words">{attempt.data.argument}</p>
                           {attempt.data.candidateCounterexample ? <p className="text-body text-ink mt-3 break-words">{copy.attemptCounterexample}: {attempt.data.candidateCounterexample}</p> : null}
                           {attempt.data.selfChecks.length ? <p className="text-meta text-ink-muted mt-3 whitespace-pre-wrap">{copy.attemptChecks}: {attempt.data.selfChecks.join(" · ")}</p> : null}
                           {attempt.data.limitations.length ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{copy.attemptLimits}: {attempt.data.limitations.join(" · ")}</p> : null}
+                          {parsed.success && hasErdosStrausEquation(parsed.data) && attempt.data.erdosStrausWitnesses?.length ? (
+                            <div className="border-line mt-3 border-l-2 pl-3">
+                              <p className="text-meta text-ink font-semibold">{copy.exactWitness}</p>
+                              <ul className="text-meta mt-2 space-y-2">{attempt.data.erdosStrausWitnesses.map((witness, index) => {
+                                const certificate = verifyErdosStrausWitness(witness);
+                                return <li key={index} className="break-all">
+                                  <span className={certificate.valid ? "text-success-700" : "text-danger-700"}>{certificate.classification}</span>
+                                  {` · (n,x,y,z)=(${witness.n}, ${witness.x}, ${witness.y}, ${witness.z}) · ${certificate.reason}`}
+                                  {certificate.identityDigest ? <span className="block">SHA-256: {certificate.identityDigest}</span> : null}
+                                </li>;
+                              })}</ul>
+                              <p className="text-meta text-ink-muted mt-2">{copy.exactWitnessLimit}</p>
+                            </div>
+                          ) : null}
                           <p className="text-meta text-ink-muted mt-3 break-all">SHA-256: {item.researchRun.mathModelAttemptDigest}</p>
                         </div>
                       ) : null}
@@ -509,10 +530,10 @@ function MathCycleDesk({ cycle, locale, canRequest, slug, caseId, rootContract, 
     calls: "lượt gọi đã bắt đầu", used: "token đã ghi nhận", time: "Hạn dừng", status: "Trạng thái",
     integrity: "Nhật ký không vượt qua kiểm tra toàn vẹn", noGap: "Phản biện chưa ghi khoảng trống cụ thể để tạo nhiệm vụ.",
     round: "Vòng", hypothesis: "Giả thuyết", task: "Nhiệm vụ", sourceGap: "Khoảng trống gốc",
-    verification: "Kiểm tra độc lập", attempt: "Thử nghiệm", review: "Phản biện", pending: "Chưa có kết quả vòng này",
+    verification: "Kiểm tra độc lập", attempt: "Thử nghiệm", computation: "Khảo sát chính xác có giới hạn", testedPrimes: "số nguyên tố đã kiểm", outsideBound: "trường hợp chưa có nghiệm trong giới hạn", computationDetails: "Chi tiết phép tính và dấu băm", finiteOnly: "Chỉ kết luận trong khoảng và họ mẫu số đã ghi, không phải chứng minh tổng quát.", exactWitness: "Chứng chỉ nghiệm hữu hạn", noWitness: "Mô hình không xuất bộ nghiệm có cấu trúc để kiểm tra.", review: "Phản biện", pending: "Chưa có kết quả vòng này",
     stopped: "Lý do dừng", ledger: "Dấu băm cuối của nhật ký", scope: "Giới hạn phạm vi", novelty: "Không trùng nhiệm vụ", falsifiability: "Khả năng bác bỏ",
     caution: "Token được ghi sau từng lượt; ngưỡng token và thời hạn được kiểm trước lượt kế tiếp, không ngắt một lượt đang chạy. Số lượt và giới hạn 4 phút/lượt là trần cứng. Các phiên cùng họ mô hình, không thay thế phản biện học thuật độc lập.",
-    priorArt: "Kết quả đã biết có nguồn", priorArtWarning: "Nhiệm vụ này thuộc lớp đã có lời giải; không được tính là khám phá mới.",
+    priorArt: "Kết quả đã biết có nguồn", priorArtWarning: "Nhiệm vụ này trùng một phép dựng đã có nguồn; phần trùng không được tính là khám phá mới.",
     unknownNovelty: "Danh mục nguồn hiện chưa bao phủ toàn bộ tài liệu. Tính mới ngoài danh mục vẫn chưa được xác minh.",
     retrospective: "Đối chiếu hồi cứu bằng danh mục hiện tại; nhật ký vòng cũ không được viết lại.",
     frontier: "Hồ sơ biên giới tri thức", frontierGate: "Cổng nguồn và phạm vi",
@@ -526,10 +547,10 @@ function MathCycleDesk({ cycle, locale, canRequest, slug, caseId, rootContract, 
     calls: "calls started", used: "tokens observed", time: "Deadline", status: "Status",
     integrity: "The event ledger failed integrity validation", noGap: "The review has no explicit gap from which to generate a task.",
     round: "Round", hypothesis: "Hypothesis", task: "Task", sourceGap: "Source review gap",
-    verification: "Independent-context check", attempt: "Attempt", review: "Peer review", pending: "No round output yet",
+    verification: "Independent-context check", attempt: "Attempt", computation: "Bounded exact survey", testedPrimes: "primes checked", outsideBound: "cases without a witness within", computationDetails: "Computation details and digest", finiteOnly: "Only the recorded interval and denominator family are covered; this is not a universal proof.", exactWitness: "Finite witness certificate", noWitness: "The model supplied no structured tuple to check.", review: "Peer review", pending: "No round output yet",
     stopped: "Stop reason", ledger: "Final ledger digest", scope: "Scope fidelity", novelty: "AI prior-task check", falsifiability: "Falsifiability",
     caution: "Tokens are recorded after each call; token threshold and deadline are checked before the next call, not mid-call. Call count and the four-minute per-call timeout are hard bounds. Separate sessions of one model family do not replace an independent academic referee.",
-    priorArt: "Sourced known results", priorArtWarning: "This task targets an already solved class; it is not a new discovery.",
+    priorArt: "Sourced known results", priorArtWarning: "This task overlaps a sourced known construction; that overlap is not a new discovery.",
     unknownNovelty: "The source catalog is not a complete literature review. Novelty beyond it remains unverified.",
     retrospective: "Retrospective check against the current catalog; the historical ledger is unchanged.",
     frontier: "Knowledge-frontier dossier", frontierGate: "Source and scope gate",
@@ -595,10 +616,15 @@ function MathCycleDesk({ cycle, locale, canRequest, slug, caseId, rootContract, 
                 const frontierDecision = events.find((event) => event.phase === "FRONTIER_GATE");
                 const sourceReviews = events.filter((event) => event.phase === "FRONTIER_REVIEWED");
                 const verified = events.find((event) => event.phase === "VERIFIED");
+                const computed = events.find((event) => event.phase === "COMPUTED");
                 const attempted = events.find((event) => event.phase === "ATTEMPTED");
+                const certificateChecked = events.find((event) => event.phase === "CERTIFICATE_CHECKED");
                 const reviewed = events.filter((event) => event.phase === "REVIEWED");
                 const known = proposed?.phase === "PROPOSED" && rootContract
-                  ? knownScopeForTask(rootContract, proposed.proposal.taskStatement) : null;
+                  ? knownScopeForTask(rootContract, `${proposed.proposal.hypothesis}\n${proposed.proposal.taskStatement}`)
+                    ?? knownScopeForTask(rootContract, proposed.proposal.taskStatement)
+                    ?? knownScopeForTask(rootContract, proposed.proposal.hypothesis)
+                  : null;
                 return <li key={round} className="border-line border-l-2 pl-4">
                   <h6 className="text-meta text-ink font-semibold">{label.round} {round}</h6>
                   {proposed?.phase === "PROPOSED" ? <div className="text-meta text-ink-muted mt-2 space-y-2">
@@ -609,6 +635,9 @@ function MathCycleDesk({ cycle, locale, canRequest, slug, caseId, rootContract, 
                   {known ? <p role="alert" className="text-meta text-danger-700 mt-2">
                     {label.priorArtWarning} <a className="underline underline-offset-2" href={known.sourceUrl} target="_blank" rel="noreferrer">{known.sourceTitle}</a>
                   </p> : null}
+                  {known && frontier?.phase === "FRONTIER_DOSSIER" &&
+                    !frontier.dossier.sources.some((source) => source.id === known.id)
+                    ? <p className="text-meta text-ink-muted mt-1">{label.retrospective}</p> : null}
                   {frontier?.phase === "FRONTIER_DOSSIER" ? <details className="text-meta text-ink-muted mt-3">
                     <summary className="text-ink cursor-pointer font-medium">{label.frontier} · {frontier.dossier.sources.length} {label.captured.toLowerCase()}</summary>
                     <p className="mt-2">{label.discovery}: {frontier.dossier.discovery.status} · Crossref · {frontier.dossier.discovery.candidates.length}</p>
@@ -638,11 +667,33 @@ function MathCycleDesk({ cycle, locale, canRequest, slug, caseId, rootContract, 
                     </dl>
                     <p className="mt-2">{verified.reason} · {verified.verification.unresolvedRisk}</p>
                   </details> : null}
+                  {computed?.phase === "COMPUTED" ? <section aria-label={label.computation} className="border-line text-meta mt-3 border-t pt-3">
+                    <h6 className="text-ink font-semibold">{label.computation}</h6>
+                    <p className="text-ink mt-1 font-medium">
+                      {computed.evidence.primeCount.toLocaleString(locale)} {label.testedPrimes} · {computed.evidence.failureCount.toLocaleString(locale)} {label.outsideBound} A≤{computed.evidence.plan.maxA}
+                    </p>
+                    <p className="text-ink-muted mt-1 break-words">p ≡ 1 (mod 840), {computed.evidence.plan.lowerExclusive.toLocaleString(locale)} &lt; p ≤ {computed.evidence.plan.upperInclusive.toLocaleString(locale)}; x=(p+A)/4.</p>
+                    <p className="text-ink-muted mt-1">{label.finiteOnly}</p>
+                    <details className="text-ink-muted mt-2">
+                      <summary className="text-ink cursor-pointer font-medium">{label.computationDetails}</summary>
+                      {computed.evidence.firstFailure ? <p className="mt-2 break-words">p={computed.evidence.firstFailure.n}: {vi ? "không có nghiệm trong giới hạn A" : "no witness within the A-bound"}.{computed.evidence.firstFailureRescue?.witness ? ` A=${computed.evidence.firstFailureRescue.firstA}: (${computed.evidence.firstFailureRescue.witness.x}, ${computed.evidence.firstFailureRescue.witness.y}, ${computed.evidence.firstFailureRescue.witness.z})` : ""}</p> : null}
+                      <p className="mt-1 break-all">SHA-256: {computed.evidence.manifestDigest}</p>
+                    </details>
+                  </section> : null}
                   {attempted?.phase === "ATTEMPTED" ? <details className="text-meta text-ink-muted mt-2">
                     <summary className="text-ink cursor-pointer font-medium">{label.attempt} · {attempted.attempt.attemptType}</summary>
                     <p className="mt-2 whitespace-pre-wrap break-words">{attempted.attempt.argument}</p>
+                    {rootContract && hasErdosStrausEquation(rootContract) && attempted.attempt.erdosStrausWitnesses?.length ? <ul className="mt-2 space-y-1">
+                      {attempted.attempt.erdosStrausWitnesses.map((witness, index) => {
+                        const certificate = verifyErdosStrausWitness(witness);
+                        return <li key={index} className="break-all">{label.exactWitness}: {certificate.classification} · ({witness.n}, {witness.x}, {witness.y}, {witness.z}) · {certificate.reason}</li>;
+                      })}
+                    </ul> : null}
                     {attempted.attempt.limitations.length ? <p className="mt-2 whitespace-pre-wrap">{attempted.attempt.limitations.join(" · ")}</p> : null}
                   </details> : null}
+                  {certificateChecked?.phase === "CERTIFICATE_CHECKED" ? <p className="text-meta text-ink-muted mt-2">
+                    {label.exactWitness}: {certificateChecked.checks.length ? certificateChecked.checks.map((check) => `${check.witness.n}: ${check.valid ? "EXACT_IDENTITY" : "INVALID"}`).join(" · ") : label.noWitness}
+                  </p> : null}
                   {reviewed.map((event) => event.phase === "REVIEWED" ? <p key={event.role} className="text-meta text-ink-muted mt-2 whitespace-pre-wrap break-words">
                     <span className="text-ink font-medium">{label.review} · {event.role} · {event.report.verdict}:</span> {event.report.reasoning}
                     {event.report.unresolvedGap ? ` · ${event.report.unresolvedGap}` : ""}
