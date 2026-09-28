@@ -122,6 +122,214 @@ body {
   font-feature-settings: "ss02";
 }
 
+/* Sign-in — a restrained mathematical drafting surface, isolated from the app shell. */
+.signin-experience {
+  --signin-bg: #f0f2f1;
+  --signin-surface: #fcfcfa;
+  --signin-line: #d7dddb;
+  --signin-ink: #172329;
+  --signin-muted: #627078;
+  --signin-accent: #476e69;
+  --signin-art: #496d72;
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--signin-bg);
+  color: var(--signin-ink);
+  padding: 42px 20px;
+}
+
+html[data-theme="dark"] .signin-experience {
+  --signin-bg: #0d1118;
+  --signin-surface: #151b24;
+  --signin-line: #303a44;
+  --signin-ink: #f2f0e9;
+  --signin-muted: #a6b0b9;
+  --signin-accent: #b9a77a;
+  --signin-art: #80b6ad;
+}
+
+.signin-math-backdrop {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  color: var(--signin-art);
+  opacity: .17;
+  pointer-events: none;
+}
+
+.signin-math-backdrop svg {
+  width: 100%;
+  height: 100%;
+}
+
+.signin-graph { opacity: .95; }
+.signin-formula { opacity: .78; }
+
+.signin-shell {
+  position: relative;
+  width: min(100%, 470px);
+  margin-inline: auto;
+}
+
+.signin-preferences {
+  position: absolute;
+  z-index: 1;
+  top: 24px;
+  right: 30px;
+}
+
+.signin-preferences > div {
+  gap: 4px;
+}
+
+.signin-preferences button {
+  width: 40px;
+  height: 40px;
+  color: var(--signin-muted);
+  background: transparent;
+}
+
+.signin-preferences button:hover {
+  color: var(--signin-ink);
+  background: transparent;
+}
+
+.signin-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-bottom: 27px;
+  color: var(--signin-ink);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -.035em;
+}
+
+.signin-brand strong { font-weight: 600; }
+
+.signin-brand-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--signin-accent);
+  border-radius: 9px;
+  color: var(--signin-accent);
+}
+
+.signin-panel {
+  border: 1px solid var(--signin-line);
+  border-radius: 10px;
+  background: var(--signin-surface);
+  padding: 37px 38px 38px;
+  box-shadow: var(--shadow-panel);
+}
+
+.signin-panel-topline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 27px;
+  color: var(--signin-accent);
+  font-family: var(--font-utility);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+
+.signin-panel-topline span { width: 18px; height: 1px; background: currentColor; }
+.signin-panel-topline span:last-child { flex: 1; opacity: .35; }
+
+.signin-panel h1 {
+  color: var(--signin-ink);
+  font-size: clamp(29px, 5vw, 35px);
+  font-weight: 600;
+  letter-spacing: -.045em;
+  line-height: 1.16;
+}
+
+.signin-description {
+  margin-top: 10px;
+  color: var(--signin-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.signin-panel-form { margin-top: 27px; }
+.signin-form > div:has(> label) { margin-bottom: 18px; }
+.signin-form label { margin-bottom: 8px; color: var(--signin-ink); font-size: 12px; font-weight: 600; }
+.signin-form input {
+  height: 48px;
+  border-color: var(--signin-line);
+  border-radius: 9px;
+  background: var(--signin-bg);
+  color: var(--signin-ink);
+  font-size: 14px;
+  padding-inline: 15px;
+  transition: border-color .16s ease, background-color .16s ease;
+}
+.signin-form input:hover { border-color: var(--signin-muted); }
+.signin-form input:focus { border-color: var(--signin-accent); }
+.signin-form input::selection { background: var(--signin-accent); color: var(--signin-bg); }
+.signin-form input:-webkit-autofill,
+.signin-form input:-webkit-autofill:hover,
+.signin-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--signin-ink);
+  -webkit-box-shadow: 0 0 0 1000px var(--signin-bg) inset;
+  caret-color: var(--signin-ink);
+  transition: background-color 9999s ease-out;
+}
+
+.signin-demo-note {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--signin-line);
+  border-radius: 8px;
+  background: var(--signin-bg);
+  color: var(--signin-muted);
+  margin-bottom: 23px;
+  padding: 10px 12px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.signin-demo-pulse { width: 6px; height: 6px; flex: none; border-radius: 50%; background: var(--signin-accent); }
+.signin-text-link { color: var(--signin-accent); font-weight: 600; text-decoration: none; text-underline-offset: 3px; }
+.signin-text-link:hover { text-decoration: underline; }
+.signin-form .signin-submit {
+  height: 48px;
+  border: 1px solid var(--signin-accent);
+  border-radius: 9px;
+  background: var(--signin-accent);
+  color: var(--signin-bg);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  gap: 10px;
+}
+.signin-form .signin-submit:hover { filter: brightness(1.1); }
+.signin-footer { margin-top: 21px; color: var(--signin-muted); font-size: 12px; text-align: center; }
+.signin-copyright { margin-top: 35px; color: var(--signin-muted); font-family: var(--font-utility); font-size: 9px; letter-spacing: .12em; text-align: center; opacity: .7; }
+.signin-copyright span { margin-inline: 5px; }
+
+@media (max-width: 560px) {
+  .signin-experience { align-items: center; padding: 28px 16px; }
+  .signin-panel { padding: 28px 25px 30px; }
+  .signin-preferences { top: 14px; right: 16px; }
+  .signin-brand { margin-bottom: 22px; }
+  .signin-math-backdrop { opacity: .085; }
+  .signin-panel-topline { margin-bottom: 22px; }
+  .signin-copyright { margin-top: 26px; }
+}
+
 /* Tabular numerals for metrics and IDs (locked). */
 .tabular {
   font-variant-numeric: tabular-nums;

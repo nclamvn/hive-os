@@ -6,12 +6,20 @@ import { redirect } from "next/navigation";
 
 import { importApprovedResearchBundle } from "@/modules/authoring";
 import {
+  assessMathPilotCase,
+  requestMathPilotAgentReview,
+  requestMathResearchCycle,
+  MATH_REVIEW_CRITERIA,
+  mathPilotRequestSchema,
+  mathPilotScope,
+  resolveMathPilotContract,
   requestComputationRun,
   requestResearchRun,
   reviewComputationRun,
   reviewResearchRun,
 } from "@/modules/research-sandbox";
 import { resolveWorkspaceContext } from "@/modules/identity-workspace";
+import { getEnv } from "@/server/env";
 
 function lines(value: FormDataEntryValue | null) {
   return String(value ?? "")
@@ -73,6 +81,88 @@ export async function reviewResearchRunAction(formData: FormData) {
     })),
   });
   revalidatePath(`/w/${slug}/research`);
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+}
+
+export async function reviewMathPilotResearchAction(formData: FormData) {
+  return reviewResearchRunAction(formData);
+}
+
+export async function requestMathPilotCaseAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const caseType = String(formData.get("caseType") ?? "");
+  const request = mathPilotRequestSchema.parse(caseType === "OPEN" ? {
+    caseType,
+    statement: String(formData.get("statement") ?? ""),
+    definitions: String(formData.get("definitions") ?? ""),
+    assumptions: String(formData.get("assumptions") ?? ""),
+    falsificationCriterion: String(formData.get("falsificationCriterion") ?? ""),
+    successCriterion: String(formData.get("successCriterion") ?? ""),
+    exclusions: String(formData.get("exclusions") ?? ""),
+  } : { caseType });
+  const contract = resolveMathPilotContract(request);
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  const useLocalCodex = getEnv().RESEARCH_CODEX_LOCAL_ENABLED;
+  const outcome = await requestResearchRun(ctx, {
+    missionId: String(formData.get("missionId") ?? ""),
+    documentId: null,
+    question: contract.statement,
+    scope: mathPilotScope(contract),
+    providerName: useLocalCodex ? "codex-local" : "openai",
+    modelName: useLocalCodex ? "gpt-6-sol" : "gpt-5.6-sol",
+    sourcePolicy: { allowedDomains: [], primaryDomains: [], requirePrimary: false, maxSources: 12 },
+    queryPlan: { queries: [contract.statement], languages: ["en"] },
+    mathPilot: request,
+    idempotencyKey: String(formData.get("idempotencyKey") ?? ""),
+  });
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+  revalidatePath(`/w/${slug}/research`);
+  if (outcome.status !== "SUCCEEDED") {
+    redirect(`/w/${slug}/research/math-pilot?${new URLSearchParams({
+      missionId: String(formData.get("missionId") ?? ""),
+      request: "failed",
+    }).toString()}`);
+  }
+}
+
+export async function assessMathPilotCaseAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  await assessMathPilotCase(ctx, {
+    caseId: String(formData.get("caseId") ?? ""),
+    conclusion: String(formData.get("conclusion") ?? ""),
+    rationale: String(formData.get("rationale") ?? ""),
+    verificationNotes: String(formData.get("verificationNotes") ?? ""),
+    reviewChecklist: {
+      version: 1,
+      independentVerification: formData.get("independentVerification") === "on",
+      checks: MATH_REVIEW_CRITERIA.map((criterion) => ({
+        criterion,
+        verdict: String(formData.get(`verdict:${criterion}`) ?? ""),
+        note: String(formData.get(`note:${criterion}`) ?? ""),
+      })),
+    },
+  });
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+  revalidatePath(`/w/${slug}/research`);
+}
+
+export async function requestMathPilotAgentReviewAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  await requestMathPilotAgentReview(ctx, String(formData.get("caseId") ?? ""));
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+}
+
+export async function requestMathResearchCycleAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  await requestMathResearchCycle(ctx, {
+    caseId: String(formData.get("caseId") ?? ""),
+    maxRounds: Number(formData.get("maxRounds") ?? 1),
+    maxObservedTokens: Number(formData.get("maxObservedTokens") ?? 60_000),
+  });
+  revalidatePath(`/w/${slug}/research/math-pilot`);
 }
 
 export async function importApprovedResearchBundleAction(formData: FormData) {

@@ -12,6 +12,8 @@ const vi = {
     passwordRange: "Sử dụng {min}–{max} ký tự.",
   },
   signIn: {
+    kicker: "KHÔNG GIAN NGHIÊN CỨU",
+    localDemo: "Tài khoản thử nghiệm local đã được điền sẵn.",
     title: "Đăng nhập",
     description: "Truy cập không gian làm việc HIVE OS của bạn.",
     noAccount: "Chưa có tài khoản?",
@@ -135,6 +137,8 @@ const en: DeepCopy<typeof vi> = {
     passwordRange: "Use {min}–{max} characters.",
   },
   signIn: {
+    kicker: "RESEARCH WORKSPACE",
+    localDemo: "Local demo credentials are ready to use.",
     title: "Sign in",
     description: "Access your HIVE OS workspace.",
     noAccount: "No account?",

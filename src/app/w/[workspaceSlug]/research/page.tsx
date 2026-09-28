@@ -131,6 +131,15 @@ export default async function ResearchPage({
           <p className="text-body text-ink-muted mt-3 max-w-3xl">
             {copy.intentHint}
           </p>
+          <Link
+            href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}`}
+            className="text-meta text-ink-muted hover:text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
+            title={copy.mathPilotHint}
+          >
+            <FlaskConical className="size-4" aria-hidden="true" />
+            {copy.mathPilot}
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
         </div>
 
         {canRequest && selectedMission ? (
@@ -326,7 +335,16 @@ export default async function ResearchPage({
                         {copy.failureCode}: {run.failureCode}
                       </p>
                     ) : null}
-                    {run.status === "APPROVED" && canAuthor ? (
+                    {run.status === "APPROVED" && run.mathPilotCase && !run.mathPilotCase.assessment ? (
+                      <Link
+                        href={`/w/${workspaceSlug}/research/math-pilot?missionId=${encodeURIComponent(run.missionId)}`}
+                        className="text-meta text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
+                      >
+                        {copy.mathPilotAssessmentPending}
+                        <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+                      </Link>
+                    ) : null}
+                    {run.status === "APPROVED" && canAuthor && (!run.mathPilotCase || run.mathPilotCase.assessment) ? (
                       <div className="border-line mt-4 border-t pt-4">
                         <p className="text-meta text-ink-muted">{copy.importResearchHint}</p>
                         {run.documentId ? (

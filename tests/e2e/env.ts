@@ -23,4 +23,5 @@ export const E2E_ENV = {
   STORAGE_DRIVER: "local",
   STORAGE_LOCAL_ROOT: ".storage-test",
   DEMO_FIXTURES_ENABLED: "false",
+  MATH_PILOT_QUEUE_ENABLED: "true",
 } as const;

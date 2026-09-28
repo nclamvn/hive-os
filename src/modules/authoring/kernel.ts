@@ -438,11 +438,20 @@ function researchSections(
   question: string,
   locale: "vi" | "en",
   paragraphs: string[],
+  mathAssessment?: { reviewMethod?: "HUMAN" | "AI"; conclusion: string; rationale: string; verificationNotes: string; reviewChecklistDigest: string } | null,
 ) {
   const chunks: string[] = [];
   let current = locale === "vi"
     ? `Câu hỏi nghiên cứu: ${question}`
     : `Research question: ${question}`;
+  if (mathAssessment) {
+    const caution = ["PARTIAL", "INCONCLUSIVE"].includes(mathAssessment.conclusion)
+      ? locale === "vi" ? "Chưa nghiệm thu định lý; chỉ ghi nhận tiến triển/giới hạn." : "No theorem accepted; only progress and limits are recorded."
+      : locale === "vi" ? "Đánh giá có dấu vết, không phải chứng chỉ chứng minh hình thức." : "Auditable assessment, not a formal proof certificate.";
+    current += locale === "vi"
+      ? `\n\nPhản biện toán học: ${mathAssessment.conclusion}. ${mathAssessment.reviewMethod === "AI" ? "Đánh giá AI, chưa phải chứng minh được chứng nhận. " : ""}${caution}\nLý do: ${mathAssessment.rationale}\nKiểm tra/giới hạn: ${mathAssessment.verificationNotes}\nMã sổ kiểm: ${mathAssessment.reviewChecklistDigest}`
+      : `\n\nMathematical review: ${mathAssessment.conclusion}. ${mathAssessment.reviewMethod === "AI" ? "AI assessment, not a certified proof. " : ""}${caution}\nRationale: ${mathAssessment.rationale}\nChecks/limits: ${mathAssessment.verificationNotes}\nReview ledger digest: ${mathAssessment.reviewChecklistDigest}`;
+  }
   for (const paragraph of paragraphs) {
     const candidate = `${current}\n\n${paragraph}`;
     if (candidate.length > 90_000 && current.trim()) {
@@ -457,7 +466,11 @@ function researchSections(
   return chunks.map((body, index) => ({
     key: `${prefix}-${index + 1}`,
     heading:
-      locale === "vi"
+      mathAssessment && locale === "vi"
+        ? `Phản biện toán học và bằng chứng${chunks.length > 1 ? `, phần ${index + 1}` : ""}`
+        : mathAssessment
+        ? `Mathematical review and evidence${chunks.length > 1 ? `, part ${index + 1}` : ""}`
+        : locale === "vi"
         ? `Bằng chứng nghiên cứu đã duyệt${chunks.length > 1 ? `, phần ${index + 1}` : ""}`
         : `Approved research evidence${chunks.length > 1 ? `, part ${index + 1}` : ""}`,
     kind: "EVIDENCE" as const,
@@ -583,6 +596,7 @@ export async function importApprovedResearchBundle(
       bundle.question,
       input.data.locale,
       paragraphs,
+      bundle.mathAssessment,
     );
     if (current.sections.length + importedSections.length > 64) {
       throw new AuthoringError(
@@ -614,6 +628,7 @@ export async function importApprovedResearchBundle(
           sectionKeys: importedSections.map((section) => section.key),
           sourceIds: referencedSourceIds,
           findingIds: bundle.findings.map((finding) => finding.id).sort(),
+          ...(bundle.mathAssessment ? { reviewMethod: bundle.mathAssessment.reviewMethod } : {}),
         },
       ],
     };
@@ -681,6 +696,7 @@ export async function importApprovedResearchBundle(
         approvedDigest: bundle.digest,
         sourceCount: referencedSourceIds.length,
         findingCount: bundle.findings.length,
+        ...(bundle.mathAssessment ? { reviewMethod: bundle.mathAssessment.reviewMethod } : {}),
       },
     });
     return {

@@ -399,9 +399,14 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       revisionNumber: z.number().int().positive(),
       approvedDigest: z.string().regex(/^[a-f0-9]{64}$/),
       sourceCount: z.number().int().nonnegative(),
-      findingCount: z.number().int().positive(),
+      findingCount: z.number().int().nonnegative(),
+      reviewMethod: z.enum(["AI", "HUMAN"]).optional(),
     })
-    .strict(),
+    .strict()
+    .refine((payload) => payload.findingCount > 0 || payload.reviewMethod === "AI", {
+      path: ["findingCount"],
+      message: "Only an AI-reviewed mathematical attempt may omit approved source findings",
+    }),
   "authoring.exported": z
     .object({
       revisionNumber: z.number().int().positive(),
@@ -435,6 +440,32 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       resultDigest: z.string().regex(/^[a-f0-9]{64}$/),
     })
     .strict(),
+  "math_pilot.case_created": z
+    .object({
+      runId: z.string(),
+      missionId: z.string(),
+      caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "OPEN"]),
+      contractDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    })
+    .strict(),
+  "math_pilot.assessed": z
+    .object({
+      caseId: z.string(),
+      runId: z.string(),
+      conclusion: z.enum(["SUPPORTED_ARGUMENT", "VALID_COUNTEREXAMPLE", "PARTIAL", "INCONCLUSIVE"]),
+      researchDigest: z.string().regex(/^[a-f0-9]{64}$/),
+      contractDigest: z.string().regex(/^[a-f0-9]{64}$/),
+      reviewChecklistDigest: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    })
+    .strict(),
+  "math_pilot.agent_reviewed": z.object({
+    caseId: z.string(),
+    runId: z.string(),
+    disposition: z.enum(["AI_REVIEWED", "INCONCLUSIVE"]),
+    conclusion: z.enum(["SUPPORTED_ARGUMENT", "VALID_COUNTEREXAMPLE", "PARTIAL", "INCONCLUSIVE"]),
+    ledgerDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    attemptDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  }).strict(),
   "sandbox.requested": z
     .object({
       runId: z.string(),
@@ -560,6 +591,9 @@ export const AuditEventType = {
   ResearchRequested: "research.requested",
   ResearchCompleted: "research.completed",
   ResearchReviewed: "research.reviewed",
+  MathPilotCaseCreated: "math_pilot.case_created",
+  MathPilotAssessed: "math_pilot.assessed",
+  MathPilotAgentReviewed: "math_pilot.agent_reviewed",
   SandboxRequested: "sandbox.requested",
   SandboxCompleted: "sandbox.completed",
   SandboxReviewed: "sandbox.reviewed",

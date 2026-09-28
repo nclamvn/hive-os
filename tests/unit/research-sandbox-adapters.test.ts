@@ -12,7 +12,9 @@ const consultedUrl = "https://authority.example/protocol";
 function apiResponse(plan: unknown, includeSource = true) {
   return new Response(JSON.stringify({
     id: "resp_test",
+    model: "gpt-5.6-sol",
     status: "completed",
+    usage: { input_tokens: 120, output_tokens: 80, total_tokens: 200, input_tokens_details: { cached_tokens: 20 }, output_tokens_details: { reasoning_tokens: 30 } },
     output: [
       ...(includeSource ? [{ type: "web_search_call", action: { type: "search", sources: [{ url: consultedUrl }] } }] : []),
       { type: "message", content: [{ type: "output_text", text: JSON.stringify(plan), annotations: [] }] },
@@ -43,6 +45,7 @@ describe("TIP-024C research adapter", () => {
       sourceLoader: async (url) => ({ body: "<p>The protocol requires a retained   field log.</p>", mediaType: "text/html", finalUrl: url }),
     });
     const result = await provider.execute(request);
+    expect(result.usage).toMatchObject({ responseId: "resp_test", inputTokens: 120, outputTokens: 80, webSearchCalls: 1 });
     expect(result.sources[0]?.contentDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(result.findings[0]).toMatchObject({ exactExcerpt: "retained field log", startOffset: 24, endOffset: 42 });
   });
@@ -70,7 +73,9 @@ describe("TIP-024C research adapter", () => {
       modelName: request.modelName,
       apiFetch: async () => new Response(JSON.stringify({
         id: "resp_test",
+        model: "gpt-5.6-sol",
         status: "completed",
+        usage: { input_tokens: 120, output_tokens: 80, total_tokens: 200 },
         output: [
           { type: "web_search_call", action: { type: "search", sources: [{ url: blockedUrl }, { url: consultedUrl }] } },
           { type: "message", content: [{ type: "output_text", text: JSON.stringify({
@@ -104,6 +109,30 @@ describe("TIP-024C research adapter", () => {
 
   it("rejects loopback sources before an HTTP connection is attempted", async () => {
     await expect(loadPublicTextSource(new URL("https://127.0.0.1/private"))).rejects.toThrow(/private|reserved/i);
+  });
+
+  it("bounds the Responses call and rejects missing usage or an unexpected response model", async () => {
+    let requestBody: Record<string, unknown> | undefined;
+    const provider = new OpenAIResearchProvider({
+      apiKey: "test-only",
+      modelName: request.modelName,
+      apiFetch: async (_url, init) => {
+        requestBody = JSON.parse(String(init?.body)) as Record<string, unknown>;
+        return new Response(JSON.stringify({ id: "resp_test", model: request.modelName, status: "completed", output: [] }), { status: 200 });
+      },
+    });
+    await expect(provider.execute(request)).rejects.toMatchObject({ code: "PROVIDER_ACCOUNTING_UNVERIFIED" });
+    expect(requestBody).toMatchObject({ max_output_tokens: 12_000, max_tool_calls: 4, store: false });
+
+    const mismatched = new OpenAIResearchProvider({
+      apiKey: "test-only",
+      modelName: request.modelName,
+      apiFetch: async () => new Response(JSON.stringify({
+        id: "resp_test", model: "different-model", status: "completed", output: [],
+        usage: { input_tokens: 1, output_tokens: 1, total_tokens: 2 },
+      }), { status: 200 }),
+    });
+    await expect(mismatched.execute(request)).rejects.toMatchObject({ code: "PROVIDER_MISMATCH" });
   });
 
   it("returns the pinned address shape requested by modern Node clients", async () => {

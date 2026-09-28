@@ -121,7 +121,17 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+    // Operator-controlled local pilot dispatch gate. This is NOT a billing
+    // limit or proof that a worker is healthy; it defaults closed everywhere.
+    MATH_PILOT_QUEUE_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
     RESEARCH_OPENAI_ENABLED: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true"),
+    RESEARCH_CODEX_LOCAL_ENABLED: z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
@@ -242,6 +252,12 @@ const envSchema = z
         message: "demo fixtures must never be enabled in production",
       });
     }
+    if (env.MATH_PILOT_QUEUE_ENABLED && !["development", "test"].includes(deploymentEnv ?? "")) {
+      ctx.addIssue({ code: "custom", path: ["MATH_PILOT_QUEUE_ENABLED"], message: "math pilot queueing is local-only" });
+    }
+    if (env.RESEARCH_CODEX_LOCAL_ENABLED && !["development", "test"].includes(deploymentEnv ?? "")) {
+      ctx.addIssue({ code: "custom", path: ["RESEARCH_CODEX_LOCAL_ENABLED"], message: "Codex subscription bridge is local-only" });
+    }
     // Rate limiting may only be disabled for deterministic automated tests.
     if (
       !researchWorker &&
@@ -327,7 +343,7 @@ const envSchema = z
       }
     }
     if (!buildPhase && env.RESEARCH_WORKER_ENABLED) {
-      if (!env.RESEARCH_OPENAI_ENABLED && !env.SANDBOX_DOCKER_ENABLED) {
+      if (!env.RESEARCH_OPENAI_ENABLED && !env.RESEARCH_CODEX_LOCAL_ENABLED && !env.SANDBOX_DOCKER_ENABLED) {
         ctx.addIssue({ code: "custom", path: ["RESEARCH_WORKER_ENABLED"], message: "requires at least one enabled adapter" });
       }
       if (!env.RESEARCH_WORKER_ORGANIZATION_ID) {

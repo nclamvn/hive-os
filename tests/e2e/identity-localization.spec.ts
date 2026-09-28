@@ -16,6 +16,11 @@ test("L10N-01 identity recovery defaults to Vietnamese and switches completely t
   await page.context().clearCookies();
   await page.goto("/sign-in");
 
+  // Automated and deployed runtimes must never receive the local demo pair.
+  await expect(page.getByLabel("Email")).toBeEmpty();
+  await expect(page.getByLabel("Mật khẩu", { exact: true })).toBeEmpty();
+  await expect(page.getByRole("note")).toHaveCount(0);
+
   await expect(
     page.getByRole("heading", { level: 1, name: "Đăng nhập" }),
   ).toBeVisible();
@@ -24,10 +29,11 @@ test("L10N-01 identity recovery defaults to Vietnamese and switches completely t
     page.getByRole("link", { name: "Quên mật khẩu?" }),
   ).toBeVisible();
 
-  await page.getByLabel("Ngôn ngữ").selectOption("en");
+  await page.getByRole("button", { name: "Ngôn ngữ: VN" }).click();
   await expect(
     page.getByRole("heading", { level: 1, name: "Sign in" }),
   ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Language: EN" })).toBeVisible();
   await expect(page.getByLabel("Password", { exact: true })).toBeVisible();
 
   await page.goto("/forgot-password");
@@ -94,28 +100,44 @@ test("L10N-02 Vietnamese onboarding and account security retain localized states
   await expect(page.getByText("Your email address is verified.")).toBeVisible();
 });
 
-test("L10N-03 sign-in controls, brand, panel and footer share one center axis", async ({
+test("L10N-03 sign-in controls stay top-right while brand, panel and footer stay centered", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1156, height: 900 });
   await setLocale(page, "vi");
   await page.goto("/sign-in");
-  await expect(page.getByLabel("Ngôn ngữ")).toHaveValue("vi");
-  await expect(page.getByRole("option", { name: "VN" })).toBeAttached();
+  await expect(page.getByRole("button", { name: "Ngôn ngữ: VN" })).toBeVisible();
+  await page.getByRole("button", { name: "Giao diện: Hệ thống" }).click();
+  await expect(page.getByRole("button", { name: "Giao diện: Sáng" })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.getByRole("button", { name: "Giao diện: Sáng" }).click();
+  await expect(page.getByRole("button", { name: "Giao diện: Tối" })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Giao diện: Tối" }).click();
+  await expect(page.getByRole("button", { name: "Giao diện: Hệ thống" })).toBeVisible();
 
   const shell = await page.getByTestId("auth-shell").boundingBox();
   expect(shell).not.toBeNull();
   const shellCenter = shell!.x + shell!.width / 2;
-  for (const testId of [
-    "auth-preferences",
-    "auth-brand",
-    "auth-panel",
-    "auth-footer",
-  ]) {
+  for (const testId of ["auth-brand", "auth-panel", "auth-footer"]) {
     const box = await page.getByTestId(testId).boundingBox();
     expect(box).not.toBeNull();
     expect(Math.abs(box!.x + box!.width / 2 - shellCenter)).toBeLessThanOrEqual(
       1,
     );
   }
+
+  const controls = await page.getByTestId("auth-preferences").boundingBox();
+  expect(controls).not.toBeNull();
+  expect(controls!.y).toBeLessThan(50);
+  expect(controls!.x).toBeGreaterThan(1156 - 130);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileControls = await page.getByTestId("auth-preferences").boundingBox();
+  const mobileBrand = await page.getByTestId("auth-brand").boundingBox();
+  expect(mobileControls).not.toBeNull();
+  expect(mobileBrand).not.toBeNull();
+  expect(mobileControls!.x).toBeGreaterThan(390 - 110);
+  expect(mobileControls!.y + mobileControls!.height).toBeLessThan(mobileBrand!.y);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
 });

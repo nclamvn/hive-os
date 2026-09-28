@@ -125,3 +125,18 @@ export function validateSandboxExecutorResult(
 export function digestResearchResult(value: unknown): string {
   return sha256(canonicalJson(value));
 }
+
+export function researchDossierDigest(run: {
+  sources: Array<{ canonicalUri: string; contentDigest: string; provenance: string }>;
+  findings: Array<{ findingKey: string; kind: string; claim: string; sourceId: string | null; exactExcerpt: string; startOffset: number | null; endOffset: number | null; decision: { decision: string; rationale: string } | null }>;
+}): string {
+  return digestResearchResult({
+    sources: run.sources.map((source) => ({ uri: source.canonicalUri, digest: source.contentDigest, provenance: source.provenance })),
+    findings: run.findings.map((finding) => ({
+      key: finding.findingKey, kind: finding.kind, claim: finding.claim,
+      sourceId: finding.sourceId, excerpt: finding.exactExcerpt,
+      start: finding.startOffset, end: finding.endOffset,
+      decision: finding.decision,
+    })),
+  });
+}

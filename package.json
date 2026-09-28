@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:demo": "DEMO_FIXTURES_ENABLED=true next dev --hostname 127.0.0.1",
+    "demo:provision": "DEMO_FIXTURES_ENABLED=true tsx scripts/dev/provision-local-demo.ts",
     "build": "next build && node scripts/build/scrub-standalone-env.mjs && node scripts/build/prepare-standalone-assets.mjs",
     "start": "node .next/standalone/server.js",
     "typecheck": "tsc --noEmit",
@@ -22,6 +24,7 @@
     "scale:smoke": "node scripts/scale/tip023h-certify.mjs --confirm-run=TIP-023H --duration-seconds=5 --report=/tmp/hiveos-tip023h-smoke.json",
     "scale:certify": "node scripts/scale/tip023h-certify.mjs --confirm-run=TIP-023H",
     "pilot:readiness": "node scripts/operations/pilot-readiness.mjs",
+    "math-pilot:readiness": "node scripts/operations/math-pilot-readiness.mjs",
     "service-principal:provision": "node scripts/operations/provision-service-principal.mjs",
     "worker:research-sandbox": "tsx scripts/workers/research-sandbox-worker.ts",
     "db:migrate": "prisma migrate deploy",

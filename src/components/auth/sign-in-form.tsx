@@ -3,6 +3,7 @@
 import { type FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,11 @@ import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field, FormError } from "./auth-card";
 import { FormStatus } from "./auth-fields";
 
-export function SignInForm() {
+export function SignInForm({
+  demoCredentials,
+}: {
+  demoCredentials?: { email: string; password: string };
+}) {
   const copy = useAuthCopy();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -76,24 +81,32 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form onSubmit={onSubmit} noValidate className="signin-form">
       <FormError message={error} />
+      {demoCredentials ? (
+        <div className="signin-demo-note" role="note">
+          <span className="signin-demo-pulse" aria-hidden="true" />
+          {copy.signIn.localDemo}
+        </div>
+      ) : null}
       <Field
         id="email"
         label={copy.common.email}
         type="email"
         autoComplete="email"
+        defaultValue={demoCredentials?.email}
       />
       <Field
         id="password"
         label={copy.common.password}
         type="password"
         autoComplete="current-password"
+        defaultValue={demoCredentials?.password}
       />
       <div className="mb-1 text-right">
         <Link
           href="/forgot-password"
-          className="text-meta text-blue-600 font-medium underline"
+          className="signin-text-link text-meta"
         >
           {copy.signIn.forgotPassword}
         </Link>
@@ -102,9 +115,10 @@ export function SignInForm() {
         type="submit"
         variant="primary"
         disabled={busy}
-        className="mt-2 w-full"
+        className="signin-submit mt-3 w-full"
       >
         {busy ? copy.signIn.busy : copy.signIn.submit}
+        {!busy ? <ArrowRight className="size-4" aria-hidden="true" /> : null}
       </Button>
     </form>
   );

@@ -85,9 +85,19 @@ export const authoringResearchImportSchema = z
     approvedDigest: z.string().regex(/^[a-f0-9]{64}$/),
     sectionKeys: z.array(sectionKey).min(1).max(64),
     sourceIds: z.array(z.string().trim().min(1).max(160)).max(50),
-    findingIds: z.array(z.string().trim().min(1).max(160)).min(1).max(500),
+    findingIds: z.array(z.string().trim().min(1).max(160)).max(500),
+    reviewMethod: z.enum(["AI", "HUMAN"]).optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((value, ctx) => {
+    if (value.findingIds.length === 0 && value.reviewMethod !== "AI") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["findingIds"],
+        message: "Only an explicitly AI-reviewed mathematical attempt may have no approved source finding",
+      });
+    }
+  });
 
 export const qualityIssueSchema = z
   .object({

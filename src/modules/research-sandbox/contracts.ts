@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { mathPilotRequestSchema } from "./math-pilot";
+
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const identifier = z.string().trim().min(1).max(160);
 
@@ -29,6 +31,7 @@ export const requestResearchRunSchema = z
     modelName: identifier,
     sourcePolicy: sourcePolicySchema,
     queryPlan: queryPlanSchema,
+    mathPilot: mathPilotRequestSchema.optional(),
     idempotencyKey: z.string().trim().min(1).max(200),
   })
   .strict();
@@ -60,10 +63,50 @@ export const researchProviderFindingSchema = z
   })
   .strict();
 
+export const researchProviderUsageSchema = z.object({
+  responseId: identifier,
+  modelName: identifier,
+  inputTokens: z.number().int().nonnegative(),
+  cachedInputTokens: z.number().int().nonnegative(),
+  outputTokens: z.number().int().nonnegative(),
+  reasoningOutputTokens: z.number().int().nonnegative(),
+  totalTokens: z.number().int().nonnegative(),
+  webSearchCalls: z.number().int().nonnegative(),
+}).strict().superRefine((usage, ctx) => {
+  if (usage.inputTokens + usage.outputTokens !== usage.totalTokens) {
+    ctx.addIssue({ code: "custom", path: ["totalTokens"], message: "Token total does not match input plus output" });
+  }
+  if (usage.cachedInputTokens > usage.inputTokens) {
+    ctx.addIssue({ code: "custom", path: ["cachedInputTokens"], message: "Cached input exceeds input tokens" });
+  }
+  if (usage.reasoningOutputTokens > usage.outputTokens) {
+    ctx.addIssue({ code: "custom", path: ["reasoningOutputTokens"], message: "Reasoning output exceeds output tokens" });
+  }
+});
+
+export const mathModelAttemptSchema = z.object({
+  providerName: z.literal("codex-local"),
+  modelName: identifier,
+  threadId: identifier,
+  attemptType: z.enum(["PROOF_ATTEMPT", "COUNTEREXAMPLE_ATTEMPT", "PARTIAL", "INCONCLUSIVE"]),
+  argument: z.string().trim().min(1).max(12_000),
+  candidateCounterexample: z.string().trim().max(2_000).nullable(),
+  selfChecks: z.array(z.string().trim().min(1).max(1_000)).max(12),
+  limitations: z.array(z.string().trim().min(1).max(1_000)).max(12),
+  usage: z.object({
+    inputTokens: z.number().int().nonnegative(),
+    cachedInputTokens: z.number().int().nonnegative(),
+    outputTokens: z.number().int().nonnegative(),
+    reasoningOutputTokens: z.number().int().nonnegative(),
+  }).strict(),
+}).strict();
+
 export const researchProviderResultSchema = z
   .object({
     providerName: z.string().trim().min(1).max(120),
     modelName: identifier,
+    usage: researchProviderUsageSchema.optional(),
+    mathAttempt: mathModelAttemptSchema.optional(),
     sources: z.array(researchProviderSourceSchema).max(50),
     findings: z.array(researchProviderFindingSchema).min(1).max(500),
   })

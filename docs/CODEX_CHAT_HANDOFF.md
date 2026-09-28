@@ -735,3 +735,197 @@ The Project contained three chats:
 
 The Project Sources section contained no uploaded source files at the time of
 handoff. The repository is the durable source of truth.
+
+## TIP-025 local mathematics pilot gate update
+
+On 2026-09-28, the Owner authorized implementation of the pre-research math
+pilot gate. The local implementation now retains a SHA-256-sealed problem
+contract, two server-fixed known-answer calibration cases, model/Mission-bound
+open-case gating, append-only independent human assessment, and an authoring
+block until that assessment is recorded. The existing source-research worker
+remains an evidence collector, not a general theorem prover.
+
+Local verification: schema/migration and forced RLS PASS; 215 unit, 170 strict
+integration, 102 E2E, typecheck, lint and production build PASS. The local
+readiness command reports worker/provider UNVERIFIED and calibration NOT_RUN.
+No live provider request or novel theorem claim is part of this closure. See
+`docs/contractor/tips/TIP-025_MATH_PILOT_GATE.md`,
+`docs/verification/TIP-025_MATH_PILOT_VERIFY_REPORT.md` and
+`docs/operations/MATH_PILOT_LOCAL_RUNBOOK.md`.
+
+## Local sign-in presentation and demo fixture (2026-09-28)
+
+The Owner requested a premium mathematical sign-in screen and one-click local
+test access. `/sign-in` now uses restrained graph/geometry linework, a bounded
+form and the existing bilingual/appearance controls. A disposable demo login
+is prefilled only when fixtures are explicitly enabled in development, the
+request/auth origin is loopback and the database is `hiveos_dev`; staging and
+production fail closed. The demo account and its own workspace are provisioned
+explicitly with `npm run demo:provision`, then served with `npm run dev:demo`.
+See `docs/identity/LOCAL_DEMO_LOGIN.md`. Desktop/mobile visual inspection,
+one-click login, WCAG A/AA scan, typecheck, lint, unit and identity E2E passed.
+The Owner then requested the sign-in preference toolbar be replaced by two
+minimal upper-right controls: a VN/EN switch and an icon-only
+system/light/dark cycle. The sign-in brand, form, and footer retain their
+center axis; desktop/mobile alignment, bilingual behavior, appearance cycle,
+WCAG A/AA, typecheck, lint, production build, and identity E2E passed.
+
+## TIP-026 local math runtime accounting update (2026-09-28)
+
+The Owner authorized a maximum of $20 for a future local live calibration but
+reported no independent mathematical reviewer. No provider key, dedicated
+worker, or enforceable hard USD stop is verified. Accordingly the Math Pilot
+queue and worker dispatch now default closed, and the local readiness verdict
+is `readyForLiveOpenProblem: false`. This is not a claim that the $20 cap can
+currently be enforced, and no paid API request was made.
+
+The local runtime now retains verified Responses usage in the research run and
+durable job, bounds output tokens and hosted-tool calls, rejects incomplete or
+model-mismatched results, and uses an immutable dispatch fence plus terminal
+failure handling to prevent automatic replay of an ambiguous paid request.
+OpenAI math assessment requires matching retained usage; source review and
+independent mathematical assessment remain separate. The UI shows usage or
+an explicit unverified state and disables calibration dispatch while closed.
+
+The new migrations were applied to the local development and isolated test
+databases. Verification: 219 unit, 174 strict integration and 102 browser E2E
+tests, typecheck, lint and production build PASS. A dev server that still held
+the old Prisma Client briefly showed an error on the user's Math Pilot tab;
+restarting only `dev:demo` on port 3000 resolved it, and the authenticated
+page was checked again. See `docs/contractor/tips/TIP-026_MATH_PILOT_RUNTIME_ACCOUNTING.md`
+and `docs/verification/TIP-026_MATH_PILOT_RUNTIME_ACCOUNTING_VERIFY_REPORT.md`.
+
+## TIP-027 local Codex mathematics bridge (2026-09-28)
+
+The Owner requested a real browser-to-LLM acceptance run using the Codex
+subscription on this machine instead of a separately billed API request.
+Local-only `codex-local` routes sealed Math Pilot cases to a distinct durable
+job and operator-started worker. The worker confirms ChatGPT login, invokes
+Codex CLI with an ephemeral read-only workspace and allowlisted environment,
+and retains the model-authored math attempt, token counts and SHA-256 digest.
+This mode is not a production API or independent mathematical verifier.
+
+Two fixed calibrations completed through the UI and worker: an even-square
+proof attempt and the counterexample `2` to “every prime is odd.” Both remain
+`AWAITING_REVIEW`. The Owner has not identified a distinct mathematical
+reviewer, so neither was marked passed and the open-problem gate stayed locked.
+One initial login-status parsing failure is preserved as a terminal failed
+dossier, not overwritten or automatically replayed. No paid API call was made.
+
+Verification: 222 unit, 175 strict integration, 102 browser E2E, typecheck,
+lint and production build PASS. The local readiness preflight confirms the
+Codex migration and ChatGPT login but still reports no live-open-problem
+certification. See `docs/contractor/tips/TIP-027_LOCAL_CODEX_MATH_BRIDGE.md`,
+`docs/verification/TIP-027_LOCAL_CODEX_MATH_BRIDGE_VERIFY_REPORT.md`, and
+`docs/operations/MATH_PILOT_LOCAL_RUNBOOK.md`.
+
+## TIP-028 integrated mathematical review desk (2026-09-28)
+
+The Owner requested that review, evaluation and acceptance be embedded in the
+mathematical discovery procedure. The Math Pilot dossier now presents a
+three-stage in-place workflow: sealed statement/boundaries, source/finding
+review, then a five-criterion independent mathematics ledger and conclusion.
+The source review remains distinct from mathematical assessment. A positive
+conclusion requires all five checks marked verified with individual notes and
+an explicit human attestation; the append-only ledger has its own SHA-256
+digest. Calibration and authoring import reject a missing or corrupted ledger.
+The authoring evidence section also carries the review conclusion/rationale,
+independent-check notes and ledger digest, explicitly refusing to frame
+partial or inconclusive progress as an accepted theorem.
+The requester cannot review their own case and sees a route to member
+management instead of approval controls.
+
+The local migration has been applied; the two actual Codex calibrations are
+still `AWAITING_REVIEW`, as no independent reviewer has been identified. No
+scientific sign-off was fabricated. See `docs/contractor/tips/TIP-028_MATH_REVIEW_DESK.md`
+and `docs/verification/TIP-028_MATH_REVIEW_DESK_VERIFY_REPORT.md`.
+
+## TIP-029 autonomous mathematical peer review (2026-09-28)
+
+The Owner clarified that HIVE OS should maximize AI-native operation rather
+than require a second human account for every research iteration. Local
+Codex-backed Math Pilot attempts now automatically enter a durable,
+role-separated AI review: a critic and an adversary run in fresh contexts,
+retain exact quotes/checks/gaps/session usage, and write an immutable,
+digest-bound review ledger. Historical completed attempts can be requested
+once from the dossier. This AI lane does not impersonate the existing human
+review desk. The two sealed elementary calibrations passed a narrow
+deterministic witness check plus both AI roles, unlocking a local open case.
+
+An actual browser-submitted Erdős–Straus case produced a partial construction
+for even `n`, multiples of three and `n ≡ 3 (mod 4)`. Both AI roles retained
+the uncovered classes; the system recorded `INCONCLUSIVE`, not a solved
+theorem. AI-reviewed material can enter Authoring only with an explicit AI
+label and review digest; no external citation or finding is fabricated. The
+ordinary source-approved import contract remains stricter. The local
+`ResearchRun` statuses remain `AWAITING_REVIEW` because no human approval was
+manufactured. Billing, Git and deployment remain paused. Readiness continues
+to say `RETAINED_NOT_CERTIFIED`/`readyForLiveOpenProblem: false`.
+
+See `docs/contractor/tips/TIP-029_AUTONOMOUS_MATH_REVIEW.md`,
+`docs/verification/TIP-029_AUTONOMOUS_MATH_REVIEW_VERIFY_REPORT.md`, and
+`docs/operations/MATH_PILOT_LOCAL_RUNBOOK.md`. This is one bounded
+AI-native research/review cycle, not an indefinitely autonomous theorem
+prover or independent scientific certification.
+
+## TIP-030 controlled mathematics research loop (2026-09-28)
+
+The Owner prioritized AI-generated hypotheses and new research tasks from
+retained critique gaps, with resource bounds and separate verification. Local
+TIP-030 adds one linked cycle per integrity-valid OPEN case. Each round uses a
+fresh Codex planner, separate task verifier, solver, critic and adversary.
+Deterministic checks bind an exact recorded gap, reject duplicate tasks and
+distinct-context violations, and prevent a rejected task from reaching the
+solver. Root case, attempt and review digests remain fixed. Each call is
+reserved before execution; every result/usage is retained in an append-only,
+SHA-256-chained RLS ledger. At most two rounds and five model calls per round
+are possible; the operator selects an observed-token threshold. A deadline
+is checked before each call and each Codex call has a four-minute timeout.
+An interrupted or ambiguous call is terminal, not automatically replayed.
+
+The Math Pilot dossier now shows the bounded loop, event trace and stop
+reason. Separate sessions of the same model are procedural verification, not
+an independent human/model proof check. The token threshold and deadline can
+be exceeded by an in-flight call; they are not hard USD budget controls.
+No open result is automatically certified or imported as established truth.
+Billing, Git and deployment remain paused. See
+`docs/contractor/tips/TIP-030_CONTROLLED_MATH_RESEARCH_LOOP.md` and
+`docs/operations/MATH_PILOT_LOCAL_RUNBOOK.md`.
+
+Live local acceptance used the existing authenticated Erdős–Straus case with
+one round and a 60,000 observed-token threshold. Planner, independent-context
+verifier, solver and critic ran. The verifier accepted a narrower task about
+`n ≡ 5 (mod 12)`; the resulting model argument is only a proof attempt.
+Observed usage reached 66,939 after four calls, so the worker did not launch
+the adversary call. The cycle is `STOPPED / TOKEN_LIMIT`, with zero fully
+reviewed rounds. This is an intentional fail-closed boundary, not a completed
+live mathematical review. Full fake-adapter iteration and rejection tests
+passed. See `docs/verification/TIP-030_CONTROLLED_MATH_RESEARCH_LOOP_VERIFY_REPORT.md`.
+
+## TIP-031 prior-art correction (2026-09-28)
+
+The first live cycle's `n ≡ 5 (mod 12)` task was a false research gap: that
+class is already contained in the known `n ≡ 2 (mod 3)` identity. TIP-031 adds
+a small source-bound prior-art catalog, gives it to the planner and verifier,
+records it in each new round's digest-chained trace, and mechanically rejects
+explicitly targeted congruence classes already covered by the catalog before
+solver dispatch. The Math Pilot dossier marks the old task retrospectively;
+the historical ledger and terminal cycle remain untouched. Catalog coverage
+is partial, and novelty outside it is unverified. See
+`docs/contractor/tips/TIP-031_MATH_PRIOR_ART_GATE.md`.
+
+## TIP-032 frontier-source gate (2026-09-28)
+
+The Owner authorized immediate local implementation of the next chief-architect
+priority. New controlled Math Pilot cycles now capture a problem-scoped,
+SHA-256-bound primary-passage dossier and bounded Crossref bibliographic leads.
+Two fresh Codex contexts challenge relevance, quantifier scope and known-result
+overlap before the task verifier or solver can run. The deterministic gate
+distinguishes `KNOWN`, `HOLD` and `RESEARCH_ONLY`; the last permits only bounded
+exploration and is not a novelty certificate. Missing/corrupt sources,
+unavailable discovery and source-agent disagreement hold. Seven model calls per
+round are now reserved; existing five-call cycles remain immutable. The UI
+shows the retained evidence and gate state. The initial primary-source corpus
+is Erdős–Straus-specific, and Crossref provides discovery metadata only, not
+full-text proof. See `docs/contractor/tips/TIP-032_MATH_FRONTIER_DOSSIER.md`
+and its verify report. No billing, paid API, Git or deployment work is included.

@@ -11,11 +11,16 @@ import type {
 } from "../contracts";
 import { ResearchSandboxError } from "../errors";
 import { sha256 } from "../integrity";
+import { researchProviderUsageSchema } from "../contracts";
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const SOURCE_BYTES_MAX = 1_048_576;
 const SOURCE_TIMEOUT_MS = 15_000;
 const REDIRECTS_MAX = 3;
+// A request ceiling, not a USD spending guarantee: web search has separate
+// charges and an interrupted call may still be billable.
+const MAX_OUTPUT_TOKENS = 12_000;
+const MAX_TOOL_CALLS = 4;
 
 const researchPlanSchema = z
   .object({
@@ -53,9 +58,17 @@ type ResearchPlan = z.infer<typeof researchPlanSchema>;
 
 interface OpenAIResponse {
   id?: string;
+  model?: string;
   status?: string;
   error?: { message?: string } | null;
   output?: unknown[];
+  usage?: {
+    input_tokens?: number;
+    output_tokens?: number;
+    total_tokens?: number;
+    input_tokens_details?: { cached_tokens?: number };
+    output_tokens_details?: { reasoning_tokens?: number };
+  } | null;
 }
 
 export interface OpenAIResearchProviderOptions {
@@ -65,6 +78,7 @@ export interface OpenAIResearchProviderOptions {
   projectId?: string;
   apiFetch?: typeof fetch;
   sourceLoader?: (url: URL) => Promise<{ body: string; mediaType: string; finalUrl: URL }>;
+  onUsage?: (usage: z.infer<typeof researchProviderUsageSchema>) => Promise<void>;
 }
 
 /**
@@ -79,6 +93,7 @@ export class OpenAIResearchProvider implements ResearchProvider {
   private readonly projectId?: string;
   private readonly apiFetch: typeof fetch;
   private readonly sourceLoader: NonNullable<OpenAIResearchProviderOptions["sourceLoader"]>;
+  private readonly onUsage?: OpenAIResearchProviderOptions["onUsage"];
 
   constructor(options: OpenAIResearchProviderOptions) {
     if (!options.apiKey.trim()) {
@@ -90,6 +105,7 @@ export class OpenAIResearchProvider implements ResearchProvider {
     this.projectId = options.projectId;
     this.apiFetch = options.apiFetch ?? fetch;
     this.sourceLoader = options.sourceLoader ?? loadPublicTextSource;
+    this.onUsage = options.onUsage;
   }
 
   async execute(input: Omit<ResearchRequest, "idempotencyKey">): Promise<ResearchProviderResult> {
@@ -97,6 +113,33 @@ export class OpenAIResearchProvider implements ResearchProvider {
       throw new ResearchSandboxError("PROVIDER_MISMATCH", "OpenAI adapter identity does not match the request");
     }
     const response = await this.callResponsesApi(input);
+    const usage = researchProviderUsageSchema.safeParse({
+      responseId: response.id,
+      modelName: response.model,
+      inputTokens: response.usage?.input_tokens,
+      cachedInputTokens: response.usage?.input_tokens_details?.cached_tokens ?? 0,
+      outputTokens: response.usage?.output_tokens,
+      reasoningOutputTokens: response.usage?.output_tokens_details?.reasoning_tokens ?? 0,
+      totalTokens: response.usage?.total_tokens,
+      webSearchCalls: (response.output ?? []).filter((item) =>
+        item && typeof item === "object" && (item as { type?: unknown }).type === "web_search_call",
+      ).length,
+    });
+    if (!usage.success) {
+      throw new ResearchSandboxError("PROVIDER_ACCOUNTING_UNVERIFIED", "Provider usage is missing, inconsistent, or exceeds the request ceiling");
+    }
+    // Retain charge-relevant counts before source parsing can fail. A response
+    // with valid usage may still be incomplete or from an unexpected model.
+    await this.onUsage?.(usage.data);
+    if (usage.data.outputTokens > MAX_OUTPUT_TOKENS || usage.data.webSearchCalls > MAX_TOOL_CALLS) {
+      throw new ResearchSandboxError("PROVIDER_ACCOUNTING_UNVERIFIED", "Provider usage exceeds the request ceiling");
+    }
+    if (usage.data.modelName !== this.modelName) {
+      throw new ResearchSandboxError("PROVIDER_MISMATCH", "Provider response model differs from the governed request");
+    }
+    if (response.error || response.status !== "completed" || !Array.isArray(response.output)) {
+      throw new ResearchSandboxError("PROVIDER_ACCOUNTING_UNVERIFIED", "OpenAI Responses API did not return a completed result");
+    }
     const consultedUrls = collectConsultedUrls(response.output ?? []);
     const plan = parseResearchPlan(response.output ?? []);
     const boundedSources = plan.sources.slice(0, input.sourcePolicy.maxSources);
@@ -193,7 +236,7 @@ export class OpenAIResearchProvider implements ResearchProvider {
         confidence: 0,
       });
     }
-    return { providerName: this.providerName, modelName: this.modelName, sources, findings };
+    return { providerName: this.providerName, modelName: this.modelName, usage: usage.data, sources, findings };
   }
 
   private async callResponsesApi(input: Omit<ResearchRequest, "idempotencyKey">): Promise<OpenAIResponse> {
@@ -212,6 +255,8 @@ export class OpenAIResearchProvider implements ResearchProvider {
         body: JSON.stringify({
           model: this.modelName,
           store: false,
+          max_output_tokens: MAX_OUTPUT_TOKENS,
+          max_tool_calls: MAX_TOOL_CALLS,
           include: ["web_search_call.action.sources"],
           reasoning: { effort: "high" },
           tools: [
@@ -245,9 +290,6 @@ export class OpenAIResearchProvider implements ResearchProvider {
         throw new ResearchSandboxError("INVALID_INPUT", `OpenAI Responses API failed with HTTP ${response.status}`);
       }
       const body = (await response.json()) as OpenAIResponse;
-      if (body.error || body.status === "failed" || !Array.isArray(body.output)) {
-        throw new ResearchSandboxError("INVALID_INPUT", "OpenAI Responses API returned an incomplete result");
-      }
       return body;
     } catch (error) {
       if (error instanceof ResearchSandboxError) throw error;

@@ -1,6 +1,6 @@
 "use client";
 
-import { MonitorCog, Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 
 import { type Appearance, usePreferences } from "./preferences-provider";
 
@@ -22,7 +22,7 @@ export function PreferencesControls({
       dark: "system",
     };
     const ThemeIcon =
-      appearance === "dark" ? Moon : appearance === "light" ? Sun : MonitorCog;
+      appearance === "dark" ? Moon : appearance === "light" ? Sun : Monitor;
     return (
       <div
         className="flex items-center gap-1"

@@ -4,6 +4,8 @@ import { config } from "dotenv";
 
 // Integration tests run exclusively against the isolated test database.
 config({ path: ".env.test", override: true });
+process.env.MATH_PILOT_QUEUE_ENABLED = "true";
+process.env.RESEARCH_CODEX_LOCAL_ENABLED = "true";
 
 const url = process.env.DATABASE_URL ?? "";
 if (!/\/hiveos_test(\?|$)/.test(url)) {

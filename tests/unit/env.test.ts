@@ -19,6 +19,8 @@ describe("environment schema", () => {
     expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
     expect(env.DB_SLOW_QUERY_MS).toBe(1_000);
     expect(env.RESEARCH_WORKER_ENABLED).toBe(false);
+    expect(env.MATH_PILOT_QUEUE_ENABLED).toBe(false);
+    expect(env.RESEARCH_CODEX_LOCAL_ENABLED).toBe(false);
     expect(env.RUNTIME_COMPONENT).toBe("web");
   });
 
@@ -40,6 +42,22 @@ describe("environment schema", () => {
     expect(env.BETTER_AUTH_SECRET).toBeUndefined();
     expect(env.AUTH_THROTTLE_SECRET).toBeUndefined();
     expect(env.SMTP_PASSWORD).toBeUndefined();
+  });
+
+  it("TIP-026 permits the math queue only in an explicitly enabled local environment", () => {
+    expect(parseEnv({ ...validBase, MATH_PILOT_QUEUE_ENABLED: "true" }).MATH_PILOT_QUEUE_ENABLED).toBe(true);
+    expect(() => parseEnv({
+      ...validBase,
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "staging",
+      MATH_PILOT_QUEUE_ENABLED: "true",
+    })).toThrow(/MATH_PILOT_QUEUE_ENABLED/);
+  });
+
+  it("keeps the Codex subscription bridge local-only", () => {
+    expect(parseEnv({ ...validBase, RESEARCH_CODEX_LOCAL_ENABLED: "true" }).RESEARCH_CODEX_LOCAL_ENABLED).toBe(true);
+    expect(() => parseEnv({ ...validBase, NODE_ENV: "production", DEPLOYMENT_ENV: "staging", RESEARCH_CODEX_LOCAL_ENABLED: "true" }))
+      .toThrow(/RESEARCH_CODEX_LOCAL_ENABLED/);
   });
 
   it("TIP-024C fails closed when a worker adapter lacks credentials or a pinned runtime registry", () => {

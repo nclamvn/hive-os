@@ -30,6 +30,7 @@ async function main() {
     openai: env.RESEARCH_OPENAI_ENABLED
       ? { apiKey: env.OPENAI_API_KEY!, projectId: env.OPENAI_PROJECT }
       : undefined,
+    codexLocal: env.RESEARCH_CODEX_LOCAL_ENABLED,
     dockerRuntimes: env.SANDBOX_DOCKER_ENABLED
       ? parseDockerRuntimeRegistry(env.SANDBOX_RUNTIME_REGISTRY_JSON!)
       : undefined,
@@ -41,6 +42,7 @@ async function main() {
     workerId: config.workerId,
     organizationId: config.organizationId,
     researchAdapterEnabled: Boolean(config.openai),
+    codexLocalEnabled: config.codexLocal,
     sandboxAdapterEnabled: Boolean(config.dockerRuntimes?.length),
     claimFirst: config.claimFirst,
     pollMs: env.RESEARCH_WORKER_POLL_MS,

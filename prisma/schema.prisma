@@ -337,6 +337,19 @@ enum ResearchDecision {
   FLAGGED
 }
 
+enum MathPilotCaseType {
+  CALIBRATION_PROOF
+  CALIBRATION_COUNTEREXAMPLE
+  OPEN
+}
+
+enum MathPilotConclusion {
+  SUPPORTED_ARGUMENT
+  VALID_COUNTEREXAMPLE
+  PARTIAL
+  INCONCLUSIVE
+}
+
 enum ComputationKind {
   LATEX_BUILD
   CAS
@@ -400,6 +413,9 @@ model Organization {
   researchFindings       ResearchFinding[]
   researchDecisions      ResearchFindingDecision[]
   computationRuns        ComputationRun[]
+  mathPilotCases         MathPilotCase[]
+  mathPilotAssessments   MathPilotAssessment[]
+  mathResearchCycles     MathResearchCycle[]
 
   @@map("organization")
 }
@@ -796,6 +812,7 @@ model CommandRecord {
   workspace    Workspace?             @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
   actor        OrganizationMembership @relation("CommandActor", fields: [organizationId, actorOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
   outboxEvents OutboxEvent[]
+  mathResearchCycles MathResearchCycle[]
 
   @@unique([organizationId, id])
   @@unique([organizationId, idempotencyKey])
@@ -855,6 +872,8 @@ model DurableJob {
   workspace    Workspace?        @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
   outboxEvent  OutboxEvent?      @relation(fields: [organizationId, outboxEventId], references: [organizationId, id], onDelete: Restrict)
   events       DurableJobEvent[]
+  mathPilotAgentReview MathPilotAgentReview?
+  mathResearchCycleEvents MathResearchCycleEvent[]
 
   @@unique([organizationId, id])
   @@unique([organizationId, outboxEventId])
@@ -1133,6 +1152,9 @@ model Workspace {
   researchFindings           ResearchFinding[]
   researchDecisions          ResearchFindingDecision[]
   computationRuns            ComputationRun[]
+  mathPilotCases             MathPilotCase[]
+  mathPilotAssessments       MathPilotAssessment[]
+  mathResearchCycles         MathResearchCycle[]
 
   @@unique([organizationId, id])
   @@index([organizationId, orgUnitId, status])
@@ -1184,6 +1206,7 @@ model Membership {
   researchDecisions     ResearchFindingDecision[] @relation("ResearchDecisionReviewer")
   requestedComputations ComputationRun[]          @relation("ComputationRunRequester")
   reviewedComputations  ComputationRun[]          @relation("ComputationRunReviewer")
+  mathPilotAssessments  MathPilotAssessment[]     @relation("MathPilotAssessmentReviewer")
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -1424,6 +1447,9 @@ model Mission {
   researchFindings           ResearchFinding[]
   researchDecisions          ResearchFindingDecision[]
   computationRuns            ComputationRun[]
+  mathPilotCases             MathPilotCase[]
+  mathPilotAssessments       MathPilotAssessment[]
+  mathResearchCycles         MathResearchCycle[]
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
@@ -2622,6 +2648,10 @@ model ResearchRun {
   reviewedByMembershipId  String?           @map("reviewed_by_membership_id")
   reviewRationale         String?           @map("review_rationale")
   approvedDigest          String?           @map("approved_digest")
+  providerUsage           Json?             @map("provider_usage")
+  mathModelAttempt        Json?             @map("math_model_attempt")
+  mathModelAttemptDigest  String?           @map("math_model_attempt_digest")
+  providerDispatchAttemptedAt DateTime?      @map("provider_dispatch_attempted_at")
   failureCode             String?           @map("failure_code")
   startedAt               DateTime?         @map("started_at")
   completedAt             DateTime?         @map("completed_at")
@@ -2640,6 +2670,7 @@ model ResearchRun {
   findings                 ResearchFinding[]
   computations             ComputationRun[]
   researchFindingDecisions ResearchFindingDecision[]
+  mathPilotCase             MathPilotCase?
 
   @@unique([workspaceId, id])
   @@index([organizationId, workspaceId, status, createdAt])
@@ -2779,6 +2810,149 @@ model ComputationRun {
   @@index([organizationId, workspaceId, status, createdAt])
   @@index([workspaceId, missionId, createdAt])
   @@map("computation_run")
+}
+
+/// The math protocol is frozen when its ResearchRun is queued. Calibration
+/// answers are deliberately absent: the worker receives only the public brief.
+model MathPilotCase {
+  id             String            @id @default(uuid())
+  organizationId String            @map("organization_id")
+  workspaceId    String            @map("workspace_id")
+  missionId      String            @map("mission_id")
+  researchRunId  String            @unique @map("research_run_id")
+  caseType       MathPilotCaseType @map("case_type")
+  contract       Json
+  contractDigest String            @map("contract_digest")
+  createdAt      DateTime          @default(now()) @map("created_at")
+
+  organization Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace           @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission             @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun         @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  assessment   MathPilotAssessment?
+  agentReview  MathPilotAgentReview?
+  researchCycle MathResearchCycle?
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, researchRunId])
+  @@index([organizationId, workspaceId, missionId, caseType, createdAt])
+  @@map("math_pilot_case")
+}
+
+/// Append-only AI peer review. This is not a human attestation or a formal
+/// theorem certificate, and it never overwrites MathPilotAssessment.
+model MathPilotAgentReview {
+  id             String              @id @default(uuid())
+  organizationId String              @map("organization_id")
+  workspaceId    String              @map("workspace_id")
+  missionId      String              @map("mission_id")
+  caseId         String              @unique @map("case_id")
+  conclusion     MathPilotConclusion
+  disposition    String
+  contractDigest String              @map("contract_digest")
+  attemptDigest  String              @map("attempt_digest")
+  researchDigest String              @map("research_digest")
+  ledger         Json
+  ledgerDigest   String              @map("ledger_digest")
+  jobId          String              @unique @map("job_id")
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_agent_review")
+}
+
+/// Mutable resource accounting; all model call intents and outputs are
+/// separately retained in an append-only, digest-chained event ledger.
+model MathResearchCycle {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  rootCaseId         String   @unique @map("root_case_id")
+  rootContractDigest String   @map("root_contract_digest")
+  rootAttemptDigest  String   @map("root_attempt_digest")
+  rootReviewDigest   String   @map("root_review_digest")
+  commandId          String   @map("command_id")
+  status             String   @default("QUEUED")
+  stopReason         String?  @map("stop_reason")
+  maxRounds          Int      @map("max_rounds")
+  maxCalls           Int      @map("max_calls")
+  maxObservedTokens  Int      @map("max_observed_tokens")
+  callsStarted       Int      @default(0) @map("calls_started")
+  observedTokens     Int      @default(0) @map("observed_tokens")
+  completedRounds    Int      @default(0) @map("completed_rounds")
+  deadlineAt         DateTime @map("deadline_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  events             MathResearchCycleEvent[]
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace Workspace @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission Mission @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  rootCase MathPilotCase @relation(fields: [workspaceId, rootCaseId], references: [workspaceId, id], onDelete: Restrict)
+  command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, rootCaseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_research_cycle")
+}
+
+/// AI evidence only. Events may be inserted, but never updated or removed.
+model MathResearchCycleEvent {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  cycleId        String   @map("cycle_id")
+  sequence       Int
+  round          Int
+  phase          String
+  payload        Json
+  previousDigest String?  @map("previous_digest")
+  digest         String
+  jobId          String   @map("job_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  cycle MathResearchCycle @relation(fields: [workspaceId, cycleId], references: [workspaceId, id], onDelete: Restrict)
+  job DurableJob @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([cycleId, sequence])
+  @@index([organizationId, workspaceId, cycleId, sequence])
+  @@map("math_research_cycle_event")
+}
+
+/// One independent, append-only classification. This is a human assessment,
+/// not a formal proof certificate or an automatic theorem claim.
+model MathPilotAssessment {
+  id                     String              @id @default(uuid())
+  organizationId         String              @map("organization_id")
+  workspaceId            String              @map("workspace_id")
+  missionId              String              @map("mission_id")
+  caseId                 String              @unique @map("case_id")
+  conclusion             MathPilotConclusion
+  rationale              String
+  verificationNotes      String              @map("verification_notes")
+  reviewChecklist        Json?                @map("review_checklist")
+  reviewChecklistDigest  String?              @map("review_checklist_digest")
+  researchDigest         String              @map("research_digest")
+  reviewerMembershipId   String              @map("reviewer_membership_id")
+  createdAt              DateTime            @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission      @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  case         MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  reviewer     Membership    @relation("MathPilotAssessmentReviewer", fields: [reviewerMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_assessment")
 }
 
 // ---------------------------------------------------------------------------
