@@ -38,8 +38,12 @@ test("MATH-PILOT-02 remains accessible without mobile overflow", async ({ page }
   await page.goto(`${dashboardUrl}/research/math-pilot`);
   await page.getByRole("button", { name: "Run this case" }).first().click();
   await expect(page.getByRole("heading", { name: "Review and acceptance desk" })).toBeVisible();
+  await expect(page.locator(".math-tex-block .katex")).toHaveCount(1);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
+  await page.setViewportSize({ width: 320, height: 844 });
+  const narrowOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(narrowOverflow).toBeLessThanOrEqual(1);
   const scan = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
   expect(scan.violations.filter((item) => item.impact === "serious" || item.impact === "critical")).toEqual([]);
 });

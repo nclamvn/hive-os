@@ -223,6 +223,9 @@ describe("controlled math research cycle", () => {
     expect(verifyMathCycleProposal(base).accepted).toBe(true);
     expect(verifyMathCycleProposal({ ...base, availableGaps: ["Other actual gap"] }).accepted).toBe(false);
     expect(verifyMathCycleProposal({ ...base, priorTasks: [proposal.taskStatement] }).accepted).toBe(false);
+    expect(verifyMathCycleProposal({ ...base, priorClaims: [
+      `  ${proposal.hypothesis.toUpperCase()}  `,
+    ] })).toMatchObject({ accepted: false, reason: expect.stringContaining("prior claim") });
     expect(verifyMathCycleProposal({ ...base, verification: { ...verification, decision: "REJECT" } }).accepted).toBe(false);
     expect(verifyMathCycleProposal({ ...base, verifierThreadId: "planner" }).accepted).toBe(false);
     expect(verifyMathCycleProposal({ ...base, proposal: { ...proposal, exactSurveyPlan: {

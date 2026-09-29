@@ -12,6 +12,7 @@ import {
   requestMathPilotCaseAction,
 } from "@/app/actions/research-sandbox";
 import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
+import { MathText } from "@/components/research/math-text";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
@@ -42,6 +43,7 @@ import { hasErdosStrausEquation, verifyErdosStrausWitness } from "@/modules/rese
 import { analyzeTwoGateResidualPrime } from "@/modules/research-sandbox/math-two-gate-structure";
 import { validateIndependentReplayReport } from "@/modules/research-sandbox/math-independent-replay";
 import { priorFiniteFindingFromTrace } from "@/modules/research-sandbox/math-cycle";
+import { projectMathProofObligations } from "@/modules/research-sandbox/math-proof-obligations";
 import { knownScopeForTask, mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
 import type { MathPilotContract } from "@/modules/research-sandbox/math-pilot";
 
@@ -174,7 +176,7 @@ export default async function MathPilotPage({
                           {isPassed ? copy.passed : copy.pending}
                         </StatusBadge>
                       </div>
-                      <p className="text-section-title text-ink-strong mt-4 flex-1">{contract.statement}</p>
+                      <p className="text-section-title text-ink-strong mt-4 flex-1"><MathText text={contract.statement} /></p>
                       {canRequest ? (
                         <form action={requestMathPilotCaseAction} className="mt-5">
                           <input type="hidden" name="slug" value={workspaceSlug} />
@@ -198,7 +200,10 @@ export default async function MathPilotPage({
                 <p className="text-body text-ink-muted mt-2 max-w-3xl">
                   {passed.size === 2 ? copy.benchmarkHint : copy.benchmarkLocked}
                 </p>
-                <p className="text-section-title text-ink-strong mt-4 max-w-3xl">{MATH_PILOT_BENCHMARK.statement}</p>
+                <p className="text-section-title text-ink-strong mt-4 max-w-3xl"><MathText text={MATH_PILOT_BENCHMARK.statement} /></p>
+                <div className="border-line text-body text-ink mt-3 max-w-3xl border-l-2 pl-4">
+                  <MathText text={String.raw`$$\frac{a^2+b^2}{ab+1}=m^2,\qquad m\in\mathbb{Z}$$`} />
+                </div>
                 {canRequest ? (
                   <form action={requestMathPilotCaseAction} className="mt-5">
                     <input type="hidden" name="slug" value={workspaceSlug} />
@@ -247,6 +252,10 @@ export default async function MathPilotPage({
                         <textarea name={name} rows={name === "statement" ? 3 : 2} required maxLength={maxLength} className={inputClass} />
                       </label>
                     ))}
+                    <p className="text-meta text-ink-muted sm:col-span-2">
+                      {locale === "vi" ? "Có thể nhập công thức bằng $...$, $$...$$, \\(...\\) hoặc \\[...\\]. LaTeX chỉ thay đổi cách hiển thị, không thay đổi phát biểu đã niêm phong." :
+                        "Use $...$, $$...$$, \\(...\\) or \\[...\\] for formulas. Rendering never changes the sealed statement."}
+                    </p>
                     <div className="sm:col-span-2">
                       <Button type="submit">{copy.startOpen} <ArrowRight className="size-4" aria-hidden="true" /></Button>
                     </div>
@@ -284,7 +293,7 @@ export default async function MathPilotPage({
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="text-eyebrow text-ink-muted">{item.caseType === "BENCHMARK_PROOF" ? copy.benchmarkTitle : item.caseType.replaceAll("_", " ")}</p>
-                          <h3 className="text-section-title text-ink-strong mt-2 break-words">{item.researchRun.question}</h3>
+                          <h3 aria-label={item.researchRun.question} className="text-section-title text-ink-strong mt-2 break-words"><MathText text={item.researchRun.question} /></h3>
                         </div>
                         <StatusBadge tone={item.researchRun.status === "APPROVED" ? "success" : item.researchRun.status === "FAILED" || item.researchRun.status === "REJECTED" ? "danger" : "warning"}>
                           {item.researchRun.status}
@@ -308,10 +317,16 @@ export default async function MathPilotPage({
                           {attemptPriorArt ? <p role="alert" className="text-meta text-danger-700 mt-2">
                             {copy.modelAttemptPriorArt} <a className="underline underline-offset-2" href={attemptPriorArt.sourceUrl} target="_blank" rel="noreferrer">{attemptPriorArt.sourceTitle}</a>
                           </p> : null}
-                          <p className="text-body text-ink mt-3 whitespace-pre-wrap break-words">{attempt.data.argument}</p>
-                          {attempt.data.candidateCounterexample ? <p className="text-body text-ink mt-3 break-words">{copy.attemptCounterexample}: {attempt.data.candidateCounterexample}</p> : null}
-                          {attempt.data.selfChecks.length ? <p className="text-meta text-ink-muted mt-3 whitespace-pre-wrap">{copy.attemptChecks}: {attempt.data.selfChecks.join(" · ")}</p> : null}
-                          {attempt.data.limitations.length ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{copy.attemptLimits}: {attempt.data.limitations.join(" · ")}</p> : null}
+                          <p className="math-proof-body text-body text-ink mt-3 whitespace-pre-wrap break-words"><MathText text={attempt.data.argument} /></p>
+                          <details className="text-meta text-ink-muted mt-3">
+                            <summary className="text-ink cursor-pointer font-medium">
+                              {locale === "vi" ? "Xem nguyên văn đã niêm phong" : "View sealed source text"}
+                            </summary>
+                            <p className="mt-2 whitespace-pre-wrap break-words">{attempt.data.argument}</p>
+                          </details>
+                          {attempt.data.candidateCounterexample ? <p className="text-body text-ink mt-3 break-words">{copy.attemptCounterexample}: <MathText text={attempt.data.candidateCounterexample} /></p> : null}
+                          {attempt.data.selfChecks.length ? <p className="text-meta text-ink-muted mt-3 whitespace-pre-wrap">{copy.attemptChecks}: <MathText text={attempt.data.selfChecks.join(" · ")} /></p> : null}
+                          {attempt.data.limitations.length ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{copy.attemptLimits}: <MathText text={attempt.data.limitations.join(" · ")} /></p> : null}
                           {parsed.success && hasErdosStrausEquation(parsed.data) && attempt.data.erdosStrausWitnesses?.length ? (
                             <div className="border-line mt-3 border-l-2 pl-3">
                               <p className="text-meta text-ink font-semibold">{copy.exactWitness}</p>
@@ -347,7 +362,7 @@ export default async function MathPilotPage({
                                   [copy.successCriterion, parsed.data.successCriterion],
                                   [copy.exclusions, parsed.data.exclusions],
                                 ] as const).map(([label, value]) => (
-                                  <div key={label} className="min-w-0"><dt className="text-ink font-medium">{label}</dt><dd className="mt-1 whitespace-pre-wrap break-words">{value}</dd></div>
+                                  <div key={label} className="min-w-0"><dt className="text-ink font-medium">{label}</dt><dd className="mt-1 whitespace-pre-wrap break-words"><MathText text={value} /></dd></div>
                                 ))}
                               </dl>
                             ) : null}
@@ -370,7 +385,7 @@ export default async function MathPilotPage({
                                   <fieldset key={finding.id} className="border-line min-w-0 border-t pt-3">
                                     <input type="hidden" name="findingId" value={finding.id} />
                                     <legend className="text-meta text-ink font-medium">{copy.findingLabel} · {finding.kind}</legend>
-                                    <p className="text-body text-ink mt-2 break-words">{finding.claim}</p>
+                                    <p className="text-body text-ink mt-2 break-words"><MathText text={finding.claim} /></p>
                                     {finding.exactExcerpt ? <blockquote className="text-meta text-ink-muted border-line mt-2 border-l-2 pl-3">{finding.exactExcerpt}</blockquote> : null}
                                     <label className="text-meta text-ink mt-3 block font-medium">{copy.findingDecision}
                                       <select name={`decision:${finding.id}`} required defaultValue="" className={inputClass}>
@@ -410,15 +425,15 @@ export default async function MathPilotPage({
                                 {copy.reviewerLink} <ArrowRight className="size-4" aria-hidden="true" />
                               </Link>
                             ) : null}
-                            {item.researchRun.reviewRationale ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{item.researchRun.reviewRationale}</p> : null}
+                            {item.researchRun.reviewRationale ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap"><MathText text={item.researchRun.reviewRationale} /></p> : null}
                             {["APPROVED", "REJECTED"].includes(item.researchRun.status) ? (
                               <dl className="border-line mt-3 grid gap-3 border-t pt-3">
                                 {item.researchRun.findings.map((finding) => (
                                   <div key={finding.id} className="min-w-0">
-                                    <dt className="text-meta text-ink font-medium break-words">{finding.claim}</dt>
+                                    <dt className="text-meta text-ink font-medium break-words"><MathText text={finding.claim} /></dt>
                                     <dd className="text-meta text-ink-muted mt-1 break-words">
                                       {finding.decision ? copy.findingOutcome[finding.decision.decision] : copy.chooseDecision}
-                                      {finding.decision?.rationale ? ` · ${finding.decision.rationale}` : ""}
+                                      {finding.decision?.rationale ? <> · <MathText text={finding.decision.rationale} /></> : ""}
                                     </dd>
                                   </div>
                                 ))}
@@ -442,8 +457,8 @@ export default async function MathPilotPage({
                                       {agentLedger.reports.map((report) => (
                                         <div key={report.role} className="min-w-0">
                                           <p className="text-meta text-ink font-semibold">{copy.agentRole[report.role]} · {report.verdict}</p>
-                                          <p className="text-meta text-ink-muted mt-1 whitespace-pre-wrap break-words">{report.reasoning}</p>
-                                          {report.unresolvedGap ? <p className="text-meta text-danger-700 mt-1 whitespace-pre-wrap break-words">{report.unresolvedGap}</p> : null}
+                                          <p className="text-meta text-ink-muted mt-1 whitespace-pre-wrap break-words"><MathText text={report.reasoning} /></p>
+                                          {report.unresolvedGap ? <p className="text-meta text-danger-700 mt-1 whitespace-pre-wrap break-words"><MathText text={report.unresolvedGap} /></p> : null}
                                         </div>
                                       ))}
                                     </div>
@@ -478,8 +493,8 @@ export default async function MathPilotPage({
                             {item.assessment ? (
                               <div className="mt-3">
                                 <StatusBadge tone="info">{copy.conclusion[item.assessment.conclusion]}</StatusBadge>
-                                <p className="text-body text-ink mt-3">{item.assessment.rationale}</p>
-                                <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{item.assessment.verificationNotes}</p>
+                                <p className="text-body text-ink mt-3"><MathText text={item.assessment.rationale} /></p>
+                                <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap"><MathText text={item.assessment.verificationNotes} /></p>
                                 {checklistValid && checklist?.success ? (
                                   <div className="border-line mt-4 border-t pt-3">
                                     <p className="text-meta text-ink font-semibold">{copy.recordedChecklist}</p>
@@ -487,7 +502,7 @@ export default async function MathPilotPage({
                                       {checklist.data.checks.map((check) => (
                                         <div key={check.criterion} className="min-w-0">
                                           <dt className="text-meta text-ink font-medium">{copy.reviewCriteria[check.criterion]} · {copy.verdict[check.verdict]}</dt>
-                                          <dd className="text-meta text-ink-muted mt-1 whitespace-pre-wrap break-words">{check.note}</dd>
+                                          <dd className="text-meta text-ink-muted mt-1 whitespace-pre-wrap break-words"><MathText text={check.note} /></dd>
                                         </div>
                                       ))}
                                     </dl>
@@ -597,9 +612,31 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
     sourceAssessment: "Source assessment", discovery: "Literature discovery", captured: "Retained passage",
     externalDiscovery: "The mathematical statement is sent to Crossref for literature discovery. Do not use this loop for confidential problems.",
   };
+  const obligationNames = vi ? {
+    GAP: "Khoảng trống", CLAIM: "Giả thuyết", FALSIFICATION: "Phép bác bỏ",
+    PROOF: "Nghĩa vụ chứng minh", PRIOR_ART: "Đối chiếu tài liệu",
+  } : {
+    GAP: "Review gap", CLAIM: "Hypothesis", FALSIFICATION: "Falsification",
+    PROOF: "Proof obligation", PRIOR_ART: "Prior-art check",
+  };
+  const obligationStates = vi ? {
+    OPEN: "Chưa khép", TASK_REJECTED: "Task bị từ chối", TASK_ACCEPTED: "Task được nhận",
+    TYPED_REFUTATION: "Mệnh đề định kiểu bị bác bỏ", NOT_REFUTED_IN_BOUND: "Chưa bác bỏ trong giới hạn",
+    FINITE_REPLAYED: "Đã phát lại hữu hạn", AI_ATTEMPTED: "AI đã thử",
+    AI_REVIEWED: "AI đã phản biện", KNOWN_SCOPE: "Đã biết trong nguồn",
+    SOURCE_HOLD: "Giữ ở cổng nguồn", RESEARCH_ONLY: "Chỉ được nghiên cứu",
+  } : {
+    OPEN: "Open", TASK_REJECTED: "Task rejected", TASK_ACCEPTED: "Task accepted",
+    TYPED_REFUTATION: "Typed predicate refuted", NOT_REFUTED_IN_BOUND: "Not refuted in bound",
+    FINITE_REPLAYED: "Finite replay passed", AI_ATTEMPTED: "AI attempted",
+    AI_REVIEWED: "AI reviewed", KNOWN_SCOPE: "Known in captured sources",
+    SOURCE_HOLD: "Source gate held", RESEARCH_ONLY: "Research only",
+  };
   const priorArt = rootContract ? mathPriorArtFor(rootContract) : [];
   const retrospective = Boolean(cycle && cycle.trace && !cycle.trace.some((event) => event.phase === "PRIOR_ART"));
   const rounds = cycle?.trace ? [...new Set(cycle.trace.map((event) => event.round).filter((round) => round > 0))] : [];
+  const obligations = cycle?.trace ? projectMathProofObligations({ cycleId: cycle.id,
+    ledgerDigest: cycle.events.at(-1)?.digest ?? "", trace: cycle.trace }) : [];
   const guided = cycle?.trace?.find((event) => event.phase === "HUMAN_STEERED");
   const seededReplay = cycle?.trace?.find((event) => event.phase === "PRIOR_COUNTEREXAMPLE_REPLAY");
   const gateDossier = cycle?.trace?.find((event) => event.phase === "PRIOR_GATE_DOSSIER");
@@ -626,8 +663,8 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
       <div className="border-line text-meta text-ink-muted mt-4 border-t pt-3">
         <p className="text-ink font-medium">{label.priorArt}</p>
         {priorArt.length ? <ul className="mt-2 space-y-1">
-          {priorArt.map((fact) => <li key={fact.id}>{fact.claim} <a className="underline underline-offset-2" href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceTitle}</a>
-            <span className="block">{fact.sourceScope} · {fact.scopeLift}</span>
+          {priorArt.map((fact) => <li key={fact.id}><MathText text={fact.claim} /> <a className="underline underline-offset-2" href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceTitle}</a>
+            <span className="block"><MathText text={`${fact.sourceScope} · ${fact.scopeLift}`} /></span>
           </li>)}
         </ul> : null}
         <p className="mt-2">{label.unknownNovelty}</p>
@@ -662,7 +699,7 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
           {guided ? <div className="border-line text-meta text-ink-muted mt-3 rounded-md border p-3">
               <p className="text-ink font-medium">{vi ? "Chỉ thị người dùng đã xác nhận" : "Human-confirmed research directive"}</p>
               <p className="mt-1">{guided.steering.focus} · A={guided.steering.targetA}</p>
-              {guided.steering.note ? <p className="mt-1 whitespace-pre-wrap break-words">{guided.steering.note}</p> : null}
+              {guided.steering.note ? <p className="mt-1 whitespace-pre-wrap break-words"><MathText text={guided.steering.note} /></p> : null}
               <p className="mt-1 break-all">SHA-256: {guided.steeringDigest}</p>
             </div> : null}
           {seededReplay?.phase === "PRIOR_COUNTEREXAMPLE_REPLAY" ? <details className="border-line text-meta text-ink-muted mt-3 rounded-md border p-3">
@@ -724,6 +761,7 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
                 const parametricChecked = events.find((event) => event.phase === "PARAMETRIC_CHECKED");
                 const structuralReplay = events.find((event) => event.phase === "COUNTEREXAMPLE_REPLAY");
                 const reviewed = events.filter((event) => event.phase === "REVIEWED");
+                const roundObligations = obligations.filter((obligation) => obligation.round === round);
                 const known = proposed?.phase === "PROPOSED" && rootContract
                   ? knownScopeForTask(rootContract, `${proposed.proposal.hypothesis}\n${proposed.proposal.taskStatement}`)
                     ?? knownScopeForTask(rootContract, proposed.proposal.taskStatement)
@@ -739,10 +777,26 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
                 return <li key={round} className="border-line border-l-2 pl-4">
                   <h6 className="text-meta text-ink font-semibold">{label.round} {round}</h6>
                   {proposed?.phase === "PROPOSED" ? <div className="text-meta text-ink-muted mt-2 space-y-2">
-                    <p><span className="text-ink font-medium">{label.sourceGap}:</span> {proposed.proposal.sourceGap}</p>
-                    <p><span className="text-ink font-medium">{label.hypothesis}:</span> {proposed.proposal.hypothesis}</p>
-                    <p><span className="text-ink font-medium">{label.task}:</span> {proposed.proposal.taskStatement}</p>
+                    <p><span className="text-ink font-medium">{label.sourceGap}:</span> <MathText text={proposed.proposal.sourceGap} /></p>
+                    <p><span className="text-ink font-medium">{label.hypothesis}:</span> <MathText text={proposed.proposal.hypothesis} /></p>
+                    <p><span className="text-ink font-medium">{label.task}:</span> <MathText text={proposed.proposal.taskStatement} /></p>
                   </div> : <p className="text-meta text-ink-muted mt-2">{label.pending}</p>}
+                  {roundObligations.length ? <details className="border-line mt-3 border-y py-3">
+                    <summary className="text-meta text-ink cursor-pointer font-medium">
+                      {vi ? "Bản đồ nghĩa vụ nghiên cứu" : "Research-obligation map"} · {roundObligations.length}
+                    </summary>
+                    <p className="text-meta text-ink-muted mt-2">{vi
+                      ? "Trạng thái lấy từ nhật ký đã kiểm tra; AI phản biện và phép tính hữu hạn không đồng nghĩa chứng minh định lý."
+                      : "States come from the validated ledger; AI review and finite computation are not theorem proofs."}</p>
+                    <ol className="mt-3 space-y-2">{roundObligations.map((obligation) => <li key={obligation.id}
+                      className={`text-meta min-w-0 ${obligation.parentId ? "border-line ml-3 border-l pl-3" : ""}`}>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                        <span className="text-ink font-medium">{obligationNames[obligation.kind]}</span>
+                        <span className="text-ink-muted">{obligationStates[obligation.state]}</span>
+                      </div>
+                      <p className="text-ink-muted mt-1"><MathText text={obligation.statement} /></p>
+                    </li>)}</ol>
+                  </details> : null}
                   {structuralProbe?.phase === "STRUCTURAL_PROBED" ? <section className="border-line text-meta mt-3 border-t pt-3">
                     <h6 className="text-ink font-semibold">{vi ? "Dò phản ví dụ trước nghiệm thu task" : "Pre-acceptance counterexample probe"}</h6>
                     <p className={structuralProbe.report.status === "REFUTED" ? "text-danger-700 mt-1" : "text-ink-muted mt-1"}>
@@ -850,14 +904,18 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
                   </details> : null}
                   {attempted?.phase === "ATTEMPTED" ? <details className="text-meta text-ink-muted mt-2">
                     <summary className="text-ink cursor-pointer font-medium">{label.attempt} · {attempted.attempt.attemptType}</summary>
-                    <p className="mt-2 whitespace-pre-wrap break-words">{attempted.attempt.argument}</p>
+                    <p className="math-proof-body mt-2 whitespace-pre-wrap break-words"><MathText text={attempted.attempt.argument} /></p>
+                    <details className="mt-2">
+                      <summary className="text-ink cursor-pointer font-medium">{vi ? "Xem nguyên văn đã niêm phong" : "View sealed source text"}</summary>
+                      <p className="mt-2 whitespace-pre-wrap break-words">{attempted.attempt.argument}</p>
+                    </details>
                     {rootContract && hasErdosStrausEquation(rootContract) && attempted.attempt.erdosStrausWitnesses?.length ? <ul className="mt-2 space-y-1">
                       {attempted.attempt.erdosStrausWitnesses.map((witness, index) => {
                         const certificate = verifyErdosStrausWitness(witness);
                         return <li key={index} className="break-all">{label.exactWitness}: {certificate.classification} · ({witness.n}, {witness.x}, {witness.y}, {witness.z}) · {certificate.reason}</li>;
                       })}
                     </ul> : null}
-                    {attempted.attempt.limitations.length ? <p className="mt-2 whitespace-pre-wrap">{attempted.attempt.limitations.join(" · ")}</p> : null}
+                    {attempted.attempt.limitations.length ? <p className="mt-2 whitespace-pre-wrap"><MathText text={attempted.attempt.limitations.join(" · ")} /></p> : null}
                   </details> : null}
                   {certificateChecked?.phase === "CERTIFICATE_CHECKED" ? <p className="text-meta text-ink-muted mt-2">
                     {label.exactWitness}: {certificateChecked.checks.length ? certificateChecked.checks.map((check) => `${check.witness.n}: ${check.valid ? "EXACT_IDENTITY" : "INVALID"}`).join(" · ") : label.noWitness}
@@ -889,8 +947,8 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
                     <p className="mt-2">{vi ? "Chỉ chứng minh đồng nhất thức trên cấp số được ghi. Giới hạn A/mẫu số đầu của bài toán gốc, toàn bộ lớp còn sót lại và tính mới cần kiểm riêng." : "Only the identity on this progression is checked. Root-specific A/first-denominator bounds, the full residual class and novelty need separate checks."}</p>
                   </details> : null}
                   {reviewed.map((event) => event.phase === "REVIEWED" ? <p key={event.role} className="text-meta text-ink-muted mt-2 whitespace-pre-wrap break-words">
-                    <span className="text-ink font-medium">{label.review} · {event.role} · {event.report.verdict}:</span> {event.report.reasoning}
-                    {event.report.unresolvedGap ? ` · ${event.report.unresolvedGap}` : ""}
+                    <span className="text-ink font-medium">{label.review} · {event.role} · {event.report.verdict}:</span> <MathText text={event.report.reasoning} />
+                    {event.report.unresolvedGap ? <> · <MathText text={event.report.unresolvedGap} /></> : ""}
                   </p> : null)}
                 </li>;
               })}
@@ -924,9 +982,9 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
             <p className="text-ink font-medium">{previous.createdAt.toLocaleString(locale)} · {previous.status}{previous.stopReason ? ` · ${previous.stopReason}` : ""}</p>
             {previous.trace === null ? <p role="alert" className="text-danger-700 mt-1">{label.integrity}</p> : <>
               {directive?.phase === "HUMAN_STEERED" ? <p className="mt-1">{directive.steering.focus} · A={directive.steering.targetA}</p> : null}
-              {proposal?.phase === "PROPOSED" ? <p className="mt-1 whitespace-pre-wrap break-words">{proposal.proposal.taskStatement}</p> : null}
+              {proposal?.phase === "PROPOSED" ? <p className="mt-1 whitespace-pre-wrap break-words"><MathText text={proposal.proposal.taskStatement} /></p> : null}
               {frontier?.phase === "FRONTIER_GATE" ? <p className="mt-1">{label.frontierGate}: {frontier.decision} · {frontier.reason}</p> : null}
-              {review?.phase === "ROUND_CLOSED" ? <p className="mt-1">{label.review}: {review.conclusion}{review.nextGap ? ` · ${review.nextGap}` : ""}</p> : null}
+              {review?.phase === "ROUND_CLOSED" ? <p className="mt-1">{label.review}: {review.conclusion}{review.nextGap ? <> · <MathText text={review.nextGap} /></> : ""}</p> : null}
             </>}
             <p className="mt-1 break-all">SHA-256: {previous.events.at(-1)?.digest ?? "—"}</p>
           </li>;

@@ -73,10 +73,10 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
           workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
           agents: {
             modelName: solver.modelName,
-            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier) =>
-              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier),
-            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe) =>
-              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe),
+            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations) =>
+              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations),
+            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations) =>
+              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),
             assessFrontier: (role, root, proposal, dossier) => planner.assessFrontier(role, root, proposal, dossier),
             solve: async (contract, evidence, replay, gateDossier) => {

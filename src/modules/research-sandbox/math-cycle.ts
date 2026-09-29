@@ -16,6 +16,7 @@ import { structuralCounterexampleCandidateSchema, structuralCounterexampleReport
 import { structuralGateDossierSchema } from "./math-gate-dossier";
 import { structuralProbePlanSchema, structuralProbeReportSchema } from "./math-structural-probe";
 import { validateStructuralProbeReport } from "./math-structural-probe";
+import { repeatedMathClaim } from "./math-proof-obligations";
 
 const text = (minimum: number, maximum: number) => z.string().trim().min(minimum).max(maximum);
 export const mathCycleLimitsSchema = z.object({
@@ -203,7 +204,7 @@ export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
     candidate: structuralCounterexampleCandidateSchema, report: structuralCounterexampleReportSchema }).strict(),
   z.object({ phase: z.literal("REVIEWED"), round: z.number().int().positive(), role: z.enum(["CRITIC", "ADVERSARY"]), report: mathAgentReportSchema }).strict(),
   z.object({ phase: z.literal("ROUND_CLOSED"), round: z.number().int().positive(), disposition: z.enum(["AI_REVIEWED", "INCONCLUSIVE"]), conclusion: z.enum(["PARTIAL", "INCONCLUSIVE"]), nextGap: text(12, 2_000).nullable() }).strict(),
-  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "NO_GAP", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE"]) }).strict(),
+  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "NO_GAP", "DUPLICATE_CLAIM", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE"]) }).strict(),
 ]);
 
 export type MathCycleProposal = z.infer<typeof mathCycleProposalSchema>;
@@ -274,6 +275,7 @@ export function verifyMathCycleProposal(input: {
   verifierThreadId: string;
   steering?: MathCycleSteering | null;
   priorFindings?: readonly PriorFiniteFinding[];
+  priorClaims?: readonly string[];
 }): { accepted: boolean; reason: string } {
   const { rootContract, proposal, verification } = input;
   if (input.plannerThreadId === input.verifierThreadId) return { accepted: false, reason: "Planner and verifier did not use independent contexts" };
@@ -281,6 +283,9 @@ export function verifyMathCycleProposal(input: {
   if (verification.sourceGap !== proposal.sourceGap) return { accepted: false, reason: "Verifier did not bind to the same review gap" };
   if (proposal.taskStatement === rootContract.statement || input.priorTasks.includes(proposal.taskStatement)) {
     return { accepted: false, reason: "Task duplicates the root statement or an earlier task" };
+  }
+  if (repeatedMathClaim(proposal, input.priorClaims ?? [])) {
+    return { accepted: false, reason: "Hypothesis repeats a retained prior claim after normalization" };
   }
   if (input.steering) {
     const steering = mathCycleSteeringSchema.parse(input.steering);

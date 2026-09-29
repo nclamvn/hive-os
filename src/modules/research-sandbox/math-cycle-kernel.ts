@@ -35,20 +35,22 @@ import { runStructuralCounterexampleReplay, validateStructuralCounterexampleRepo
 import { runStructuralGateDossier, validateStructuralGateDossier,
   type StructuralGateDossier } from "./math-gate-dossier";
 import { runStructuralProbe, validateStructuralProbeReport, type StructuralProbeReport } from "./math-structural-probe";
+import { projectMathProofObligations, repeatedMathClaim, type MathProofObligation } from "./math-proof-obligations";
 
-type CycleStopReason = "ROUND_LIMIT" | "TOKEN_LIMIT" | "TIME_LIMIT" | "NO_GAP" | "VERIFICATION_REJECTED" | "COUNTEREXAMPLE_REJECTED" | "STRUCTURAL_PROBE_HOLD" | "STRUCTURAL_REFUTED" | "FRONTIER_HOLD" | "KNOWN_SCOPE" | "MODEL_FAILURE" | "INTEGRITY_FAILURE";
+type CycleStopReason = "ROUND_LIMIT" | "TOKEN_LIMIT" | "TIME_LIMIT" | "NO_GAP" | "DUPLICATE_CLAIM" | "VERIFICATION_REJECTED" | "COUNTEREXAMPLE_REJECTED" | "STRUCTURAL_PROBE_HOLD" | "STRUCTURAL_REFUTED" | "FRONTIER_HOLD" | "KNOWN_SCOPE" | "MODEL_FAILURE" | "INTEGRITY_FAILURE";
 
 export interface MathCycleAgents {
   modelName: string;
   propose(root: MathPilotContract, availableGaps: string[], previousTasks: string[], priorArt: readonly MathPriorArtFact[],
     steering?: MathCycleSteering | null, priorFindings?: readonly PriorFiniteFinding[],
-    gateDossier?: StructuralGateDossier | null): Promise<{
+    gateDossier?: StructuralGateDossier | null, priorObligations?: readonly MathProofObligation[]): Promise<{
     output: MathCycleProposal; threadId: string; usage: MathCycleUsage;
   }>;
   verify(root: MathPilotContract, availableGaps: string[], previousTasks: string[], proposal: MathCycleProposal,
     priorArt: readonly MathPriorArtFact[], steering?: MathCycleSteering | null,
     priorFindings?: readonly PriorFiniteFinding[], frontierAssessments?: readonly FrontierAssessment[],
-    gateDossier?: StructuralGateDossier | null, structuralProbe?: StructuralProbeReport | null): Promise<{
+    gateDossier?: StructuralGateDossier | null, structuralProbe?: StructuralProbeReport | null,
+    priorObligations?: readonly MathProofObligation[]): Promise<{
     output: MathCycleVerification; threadId: string; usage: MathCycleUsage;
   }>;
   buildFrontierDossier(root: MathPilotContract): Promise<FrontierDossier>;
@@ -437,6 +439,10 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       if (!checked) throw new ResearchSandboxError("INTEGRITY_FAILURE", "A prior cycle trace is invalid");
       return { cycle: priorCycle, trace: checked };
     });
+    const priorObligations = [...projectMathProofObligations({ cycleId: cycle.id,
+      ledgerDigest: events.at(-1)?.digest ?? "", trace }), ...checkedPriorCycles.flatMap(({ cycle: previous, trace: checked }) =>
+      projectMathProofObligations({ cycleId: previous.id,
+        ledgerDigest: previous.events.at(-1)?.digest ?? "", trace: checked }))].slice(0, 80);
     const crossCaseCycles = /\bprime\b/i.test(root.contract.statement) && /\b840\b/.test(root.contract.statement)
       ? await tx.mathResearchCycle.findMany({ where: { organizationId: input.organizationId,
         workspaceId: cycle.workspaceId, missionId: cycle.missionId,
@@ -488,9 +494,11 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     await appendEvent(tx, cycle, job.id, { phase: "PRIOR_ART", round, facts: [...priorArt], coverage: "CURATED_PARTIAL" });
     await tx.durableJob.update({ where: { id: job.id }, data: { maxAttempts: 1 } });
     await tx.mathResearchCycle.update({ where: { id: cycle.id }, data: { status: "RUNNING" } });
-    return { cycleId: cycle.id, round, rootContract: root.contract, gaps, priorTasks, priorArt, steering, priorFindings };
+    return { cycleId: cycle.id, round, rootContract: root.contract, gaps, priorTasks, priorArt,
+      steering, priorFindings, priorObligations };
   });
-  const { cycleId, round, rootContract, gaps, priorTasks, priorArt, steering, priorFindings } = loaded;
+  const { cycleId, round, rootContract, gaps, priorTasks, priorArt, steering, priorFindings,
+    priorObligations } = loaded;
   if (!gaps.length) return finishJob(input, cycleId, round, "NO_GAP");
   let effectivePriorFindings = priorFindings;
   let gateDossier: StructuralGateDossier | null = null;
@@ -526,10 +534,13 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     return true;
   };
   if (!await reserve("PLANNER")) return;
-  const plan = await input.agents.propose(rootContract, gaps, priorTasks, priorArt, steering, effectivePriorFindings, gateDossier);
+  const plan = await input.agents.propose(rootContract, gaps, priorTasks, priorArt, steering, effectivePriorFindings,
+    gateDossier, priorObligations);
   const proposal = mathCycleProposalSchema.parse(plan.output);
   await retainResult(input, cycleId, { phase: "PROPOSED", round, proposal,
     context: { threadId: plan.threadId, usage: plan.usage } }, plan.usage);
+  if (repeatedMathClaim(proposal, priorObligations.filter((item) => item.kind === "CLAIM")
+    .map((item) => item.statement))) return finishJob(input, cycleId, round, "DUPLICATE_CLAIM");
 
   // This is a bounded attempt to falsify the *typed* conditional, never a proof
   // when no counterexample is found. Run before spending source/verifier/solver calls.
@@ -607,12 +618,14 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
 
   if (!await reserve("VERIFIER")) return;
   const check = await input.agents.verify(rootContract, gaps, priorTasks, proposal, priorArt, steering,
-    effectivePriorFindings, assessments, gateDossier, structuralProbe);
+    effectivePriorFindings, assessments, gateDossier, structuralProbe, priorObligations);
   const verification = mathCycleVerificationSchema.parse(check.output);
   if (frontierThreads.includes(check.threadId)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Task verifier reused a frontier context");
   const deterministic = verifyMathCycleProposal({ rootContract, availableGaps: gaps, priorTasks,
     proposal, verification, plannerThreadId: plan.threadId, verifierThreadId: check.threadId,
-    steering, priorFindings: effectivePriorFindings });
+    steering, priorFindings: effectivePriorFindings,
+    priorClaims: priorObligations.filter((obligation) => obligation.kind === "CLAIM")
+      .map((obligation) => obligation.statement) });
   await retainResult(input, cycleId, { phase: "VERIFIED", round, verification,
     context: { threadId: check.threadId, usage: check.usage }, ...deterministic }, check.usage);
   if (!deterministic.accepted) return finishJob(input, cycleId, round, "VERIFICATION_REJECTED");

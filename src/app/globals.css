@@ -1,4 +1,28 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+.math-rich-text { min-width: 0; }
+.math-proof-body { max-width: 76ch; line-height: 1.8; }
+.math-tex-inline {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: -0.12em;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+.math-tex-block {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: .4rem;
+  white-space: normal;
+  scrollbar-width: thin;
+}
+.math-tex-block .katex-display { margin: 0; text-align: left; }
+.math-tex-block .katex-display > .katex { text-align: left; }
 
 /*
  * HIVE OS — single semantic source of truth for the Precision Instrument

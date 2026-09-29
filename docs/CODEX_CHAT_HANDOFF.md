@@ -1209,3 +1209,30 @@ typecheck and build passed; the browser showed the new section while live
 dispatch remained disabled. A fresh browser-submitted benchmark run and formal
 replay of its generated proof remain open gates. Details and evidence boundary:
 `docs/operations/MATH_PILOT_IMO1988Q6_BENCHMARK_2026-09-29.md`.
+
+## TIP-033 mathematical research kernel v2 foundation (2026-09-29)
+
+The Owner requested the AI-native method upgrade and LaTeX UI. A read-only
+proof-obligation DAG now projects gap, claim, falsification, proof and prior-art
+work from integrity-valid cycles; its state vocabulary never promotes AI review
+or finite computation to theorem status. Planner/verifier contexts receive
+bounded prior-obligation memory, and an exact normalized hypothesis repeat
+stops before further source/solver calls. Math Pilot renders explicit TeX in
+statements and retained attempts/reviews with safe source fallback; the sealed
+text and historical digests are unchanged. A separate display formula for the
+IMO benchmark does not modify its contract. No paid API or new live research
+cycle was launched. Lean formal replay, semantic formalization alignment,
+independent-model provenance and a multi-branch scheduler remain explicit open
+gates in `docs/contractor/tips/TIP-033_MATH_RESEARCH_KERNEL_V2.md`.
+Local evidence and open verification gates are in
+`docs/verification/TIP-033_MATH_RESEARCH_KERNEL_V2_VERIFY_REPORT.md`.
+
+The Owner next requested complete Math Pilot UI typography for archived
+records. A display-only, conservative legacy notation adapter now typesets
+bounded ASCII/Unicode equations in historical statements, proofs and reviews,
+and main/cycle attempts expose their untouched sealed source in place. No
+research record, digest or gate was changed. Unit (282), strict integration
+(176), typecheck, lint, production build and isolated Math Pilot browser E2E
+(2/2) passed; the live
+authenticated browser showed the old IMO proof typeset and no 320px document
+overflow. Unsupported notation remains verbatim rather than guessed.
