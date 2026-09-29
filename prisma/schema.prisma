@@ -340,6 +340,7 @@ enum ResearchDecision {
 enum MathPilotCaseType {
   CALIBRATION_PROOF
   CALIBRATION_COUNTEREXAMPLE
+  BENCHMARK_PROOF
   OPEN
 }
 
@@ -2831,7 +2832,7 @@ model MathPilotCase {
   researchRun  ResearchRun         @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
   assessment   MathPilotAssessment?
   agentReview  MathPilotAgentReview?
-  researchCycle MathResearchCycle?
+  researchCycles MathResearchCycle[]
 
   @@unique([workspaceId, id])
   @@unique([workspaceId, researchRunId])
@@ -2873,7 +2874,7 @@ model MathResearchCycle {
   organizationId     String   @map("organization_id")
   workspaceId        String   @map("workspace_id")
   missionId          String   @map("mission_id")
-  rootCaseId         String   @unique @map("root_case_id")
+  rootCaseId         String   @map("root_case_id")
   rootContractDigest String   @map("root_contract_digest")
   rootAttemptDigest  String   @map("root_attempt_digest")
   rootReviewDigest   String   @map("root_review_digest")
@@ -2898,7 +2899,7 @@ model MathResearchCycle {
   command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
 
   @@unique([workspaceId, id])
-  @@unique([workspaceId, rootCaseId])
+  @@index([workspaceId, rootCaseId, createdAt], map: "math_research_cycle_workspace_root_created_idx")
   @@index([organizationId, workspaceId, missionId, createdAt])
   @@map("math_research_cycle")
 }

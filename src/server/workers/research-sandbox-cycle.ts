@@ -73,21 +73,26 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
           workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
           agents: {
             modelName: solver.modelName,
-            propose: (root, gaps, prior, priorArt) => planner.propose(root, gaps, prior, priorArt),
-            verify: (root, gaps, prior, proposal, priorArt) => planner.verify(root, gaps, prior, proposal, priorArt),
+            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier) =>
+              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier),
+            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe) =>
+              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),
             assessFrontier: (role, root, proposal, dossier) => planner.assessFrontier(role, root, proposal, dossier),
-            solve: async (contract, evidence) => {
+            solve: async (contract, evidence, replay, gateDossier) => {
               const result = await solver.execute({ missionId: "cycle-subtask", documentId: null,
                 question: contract.statement,
-                scope: mathPilotScope(contract) + (evidence ? `\n\nExact bounded computation evidence (data, not a universal proof): ${JSON.stringify(evidence)}` : ""),
+                scope: mathPilotScope(contract) + (evidence ? `\n\nExact bounded computation evidence (data, not a universal proof): ${JSON.stringify(evidence)}` : "") +
+                  (replay ? `\n\nIndependent fixed-tool arithmetic replay (finite scope only): ${JSON.stringify(replay)}` : "") +
+                  (gateDossier ? `\n\nIndependently replayed prior gate dossier for one prime (finite evidence, not proof): ${JSON.stringify(gateDossier)}` : ""),
                 providerName: solver.providerName,
                 modelName: solver.modelName, sourcePolicy: { allowedDomains: [], primaryDomains: [], requirePrimary: false, maxSources: 1 },
                 queryPlan: { queries: [contract.statement], languages: ["en"] } });
               if (!result.mathAttempt) throw new Error("Cycle solver did not return a math attempt");
               return result.mathAttempt;
             },
-            reviewRole: (role, contract, attempt, evidence) => reviewer.reviewRole(role, contract, attempt, evidence),
+            reviewRole: (role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier) =>
+              reviewer.reviewRole(role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier),
           },
         });
         succeeded += 1;

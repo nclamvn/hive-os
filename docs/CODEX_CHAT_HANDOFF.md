@@ -988,3 +988,224 @@ manifests and remaining proof gates are in
 deployment remain paused. The user subsequently authorized a reviewed local
 UI refinement followed by commit and push of this Math Pilot work; that does
 not authorize deployment or billing activation.
+
+## Per-A audit browser E2E follow-up (2026-09-28)
+
+A fresh browser-created A≤59 case and seven-call Codex-local cycle now retain
+an optional, replay-validated per-A exclusion audit for the first survey
+failure. The new arithmetic path checks `p=171348241` for primality by trial
+division through 13090 and enumerates all factor pairs separately for each of
+the 15 A values; an external Python implementation reproduces all counts and
+the full interval result (5,483 eligible primes, one bounded-family failure).
+Historical V2 events remain immutable and readable; subsequent V3 writes
+require the audit for a failure and reject an audit-stripping downgrade. The
+V3 path is unit-tested but has not had its own live browser cycle. Both tool-free AI review
+contexts still returned `INCONCLUSIVE`, because they could not themselves
+execute the primality/congruence replay. This is a review-tooling gap, not a
+general Erdős–Straus counterexample. The next procedure should retain a
+separate executable read-only verification result before AI classification;
+never promote finite evidence or same-model agreement to theorem status.
+See `docs/operations/MATH_PILOT_AUDIT_E2E_2026-09-28.md`. The local worker
+was stopped and browser queue dispatch should remain disabled between tests.
+
+## Independent executable replay and structural baseline (2026-09-29)
+
+The Owner prioritized a tool-running independent verifier before further
+mathematical conclusions, then proof and literature comparison for a general
+structural claim. New V3 residual cycles now execute two fixed, read-only,
+stdlib-only Python tools between `COMPUTED` and `SOLVER`: a full per-prime
+interval replay and, on the first failure, a separate per-A primality/factor
+audit. A digest-chained `INDEPENDENT_REPLAY` event records the program/output
+hashes and comparison report. Any mismatch stops the round. Historical V2
+cycles remain unchanged; the new path has local tool/unit verification, not a
+fresh browser E2E cycle yet.
+
+The fixed first-denominator divisor criterion and its exact A=3 prime-factor
+classification were proved in the local research note and checked against
+Bradford (2025) and the existing prior-art catalog. They are known structural
+facts, not a novel theorem or resolution of the surviving classes. No new
+general claim has passed proof plus literature comparison. See
+`docs/operations/MATH_PILOT_INDEPENDENT_REPLAY_AND_STRUCTURE_2026-09-29.md`.
+
+## Human-steered A=11 research check (2026-09-29)
+
+The Owner confirmed the breakthrough objective and authorized one local
+human-steered structural campaign at A=11, using the Codex subscription
+worker rather than a paid provider API. The authenticated browser submitted
+the direction and the event ledger sealed it as `HUMAN_STEERED`. Cycle
+`e5dc2208-59d6-4a0c-be20-97b5ebf9e11e` stopped after four model calls
+(`77,532` observed tokens) with `VERIFICATION_REJECTED`, before solver or
+peer-review dispatch. The independent task verifier found that the proposed
+implication did not close its copied gap. There is no new theorem or
+breakthrough from this attempt.
+
+The run exposed a stronger planning defect: its naive universal A=11
+implication is already contradicted by the prior independently replayed
+finite exclusion at prime `10,051,441`, which fails all A≤47 yet has a witness
+at A=59. The prior result was in an immutable earlier cycle but reached the
+planner only as a task string, not as a checked counterexample constraint.
+The local procedure now extracts only independently replayed, complete
+per-A exclusions from validated prior traces, retains their source/replay
+digests as a `PRIOR_FINDINGS` event, presents them to the next planner and
+verifier, uses the latest closed-round gap instead of the stale root gap, and
+rejects the bare universal two-gate implication known to be false. This
+protects future planning; it does not retroactively alter either cycle. No
+follow-up campaign was launched
+without a new human direction, and no novelty or theorem status was assigned.
+
+## Open-root structural campaign and scope-gate correction (2026-09-29)
+
+The Owner asked Codex to continue reasonably after the A=11 rejection.
+One authenticated browser campaign was started on the *unrestricted*
+prime-residual Erdős–Straus root. Cycle
+`441df339-1c66-430c-a84b-aedd97d26aa6` stopped at `KNOWN_SCOPE` after one
+planner call (19,660 observed subscription-session tokens). Its proposed
+`p≡-1 (mod 11)` construction is an elementary fixed-A identity; it does not
+advance the hard two-gate survivors or settle the root conjecture. The gate's
+recorded reason incorrectly matched an A=3 *premise* as if it covered the A=11
+conclusion. A local code correction now prevents this single-gate false-positive
+and explicitly steers future planner/verifier roles away from the trivial
+`p≡-1 (mod A)` family. Historical events were not altered. A new campaign was
+not auto-launched. See
+`docs/operations/MATH_PILOT_OPEN_ROOT_CAMPAIGN_2026-09-29.md` for exact digest,
+evidence and the cross-case provenance limitation identified at that point.
+
+## Open-root follow-up and square-lemma falsification (2026-09-29)
+
+The Owner then asked to continue. A second authenticated browser campaign on
+the unrestricted prime-residual root, cycle
+`79a347a3-572b-46fc-98d0-627b807555a0`, demonstrated scoped cross-case
+transfer of an independently replayed finite finding in `PRIOR_FINDINGS`:
+`p=10051441` fails A≤47 but succeeds at A=59. This closes the specific
+cross-case provenance limitation noted above; only finite evidence transfers,
+not the other root's universal claim.
+
+The new planner's conditional A=11 square lemma was *falsified*, not proved:
+`p=131041` satisfies its square and divisor premises yet fails its A=11
+conclusion. A separate stdlib Python audit proves primality by trial division
+and exhausts factor pairs at A=3,7,11,15,19,23; the first success in the
+declared family is A=23, with an exact three-denominator witness. The in-cycle
+critic remained `INCONCLUSIVE` pending executable primality replay, and the
+cycle stopped after 6/7 calls at `TOKEN_LIMIT` (129,256 observed subscription
+tokens) before the adversary. The outside-cycle arithmetic check does not
+rewrite that verdict. This is not a counterexample to Erdős–Straus, nor a
+new unbounded theorem or demonstrated research breakthrough.
+
+Current procedure gives the task verifier the source assessors' warnings and
+rejects new success identities using the wrong first denominator. Historical
+ledger validation deliberately does not reapply these evolving admission
+rules; a browser-discovered backward-compatibility defect was repaired and
+regression-tested. The next gate is a typed in-loop executable certificate
+for structural counterexamples, followed by a new, explicitly scoped
+survivor-class lemma and primary-literature comparison. Do not auto-promote
+the outside-cycle audit or launch another campaign without a reviewed
+direction. See `docs/operations/MATH_PILOT_OPEN_ROOT_CAMPAIGN_2026-09-29.md`.
+
+## Typed structural counterexample replay in the agent loop (2026-09-29)
+
+The Owner explicitly authorized this next gate and a different follow-up
+structural hypothesis. A solver can now submit a typed residual-prime candidate
+`{prime, failedThroughA}`. Before either AI review role is called, the cycle
+checks primality and every fixed-A factor pair through the declared gate in
+TypeScript, then replays the same exclusion using a digest-pinned, read-only,
+stdlib Python program. The resulting `COUNTEREXAMPLE_REPLAY` event binds the
+candidate, per-A rows, script/output digests, and checked square/divisor facts
+into the append-only cycle chain. A missing typed candidate on a human-steered
+structural `COUNTEREXAMPLE_ATTEMPT`, a mismatched target A, or a failed replay
+stops with `COUNTEREXAMPLE_REJECTED` before critic/adversary classification.
+Historical cycles remain readable and are not relabeled. A PASS only certifies
+the declared finite first-denominator gates; the AI must still assess the
+natural-language premise, scope, and literature.
+
+Unit and integration fixtures verify `p=131041` fails A=3,7,11, including its
+square/early-divisor premises, and verify that a false claim of failure through
+A=23 is stopped before AI review. A validated replay can become a typed
+`PRIOR_FINDINGS` constraint for later planner/verifier calls. These fixtures are
+not a live scientific result. See
+`docs/operations/MATH_PILOT_STRUCTURAL_COUNTEREXAMPLE_2026-09-29.md` for the
+live browser campaign outcome and limitations.
+
+The in-loop path also accepts an operator-selected *prior* `{prime,
+failedThroughA}` seed for a later target A. Before any planner call, the cycle
+recomputes and Python-replays the candidate, records
+`PRIOR_COUNTEREXAMPLE_REPLAY` in its sealed event chain, and stops if the
+replay fails. The planner and verifier receive only the verified finite facts,
+including the square/early-divisor flags. This prevents a model from silently
+reusing the falsified A=11 implication while the new A=23 campaign is framed.
+The first live seeded A=23 campaign, cycle
+`76075d43-9abb-4130-a8ba-d1320093c6aa`, recorded the replay PASS before
+planner dispatch but stopped at `VERIFICATION_REJECTED`: a prime-power variant
+again omitted the A=11,15,19 hard-survivor gates. Subsequent structural tasks
+must explicitly name every intervening gate from the replayed bound to the
+new target; this admission rule is regression-tested. No theorem resulted.
+The second seeded cycle `594819fe-309a-4dca-b329-750dcdc26370` passed task
+verification with a different five-gate A=23 conditional but yielded only a
+partial solver attempt. An exact A=23 witness for `p=2521` was checked, yet
+that prime lacks the complete premise; critic returned `INCONCLUSIVE`, and
+the 120,000-token gate stopped the cycle before adversary review. A separate
+tool audit shows `p=131041` is a complete finite premise instance with A=23
+success, but this was not in the sealed cycle's reviewer evidence and cannot
+rewrite its verdict. Next methodology work should pass a fuller typed gate
+dossier into the agents before reattempting this specific conditional.
+
+## A=23 full-gate dossier and conditional refutations (2026-09-29)
+
+The local agent loop now seals `PRIOR_GATE_DOSSIER` before planning when an
+operator's independently replayed prime first succeeds at the selected later
+A gate. It includes every preceding failed gate with factorization and an
+exact target witness, and is supplied to planner, task verifier, solver and
+both peer reviewers. A DB migration raised the bounded observed-token
+threshold to 200,000 so all seven calls could complete; it is not a USD cap.
+
+Authenticated browser cycle `28a2b908-493f-4d2a-b462-7e641f9a2162` sealed
+the `p=131041` dossier through A=23, then completed seven calls and both
+reviewers. It stopped at `ROUND_LIMIT` with one `INCONCLUSIVE` round and
+138,626 observed subscription-session tokens. The local worker was stopped
+after testing. This proves E2E procedure closure, not a new theorem.
+
+Separate exact TS and pinned Python checks found `p=4037881` prime,
+`p≡1 mod 840`, and all A=3,7,11,15,19,23 gates obstructed; its first
+fixed-family success is A=27. It satisfies every extra x15/x19 divisor
+premise of the previous conditional (739 and 1355 are the required divisors),
+so that auxiliary A=23 implication is false. An exploratory scan through
+10^8 found 42 complete-premise primes and seven such refutations; the Python
+auditor replayed all seven. The same p is `1 mod 23`, refuting the new
+planner's different claim that A=23 obstruction after five failed gates
+forces `p≡4 mod 23`. The live agent verdict remains historically
+`INCONCLUSIVE`; neither review role had a proposal-time executable
+falsification tool. Next priority: a typed, bounded counterexample probe
+before task acceptance, with independent replay and no universal inference
+from finite search. See
+`docs/operations/MATH_PILOT_A23_GATE_DOSSIER_2026-09-29.md`.
+
+## Proposal-time structural falsification update (2026-09-29)
+
+The next local method upgrade adds an optional historical-compatible, typed
+`structuralProbePlan` to new Math Pilot proposals. New subscription-backed
+human-steered structural proposals must supply a supported plan; an explicit
+`null` stops at `STRUCTURAL_PROBE_HOLD`. Before source/verifier/solver calls, the fixed tool scans
+`p≡1 (mod 840)` through a capped `10^7` ceiling and independently replays any
+first counterexample using the existing digest-pinned Python factor-pair
+auditor. `STRUCTURAL_PROBED` is sealed into the cycle ledger; a refutation
+stops at `STRUCTURAL_REFUTED`. Absence within the bound is explicitly not a
+proof, and the task verifier must still compare typed and prose claims.
+Local fixtures found the first residue refutation at `p=99961` and the
+cross-gate divisor-condition refutation at `p=4037881` (witness divisors
+`739`, `1355`). Historical cycles are not relabeled. See
+`docs/operations/MATH_PILOT_PROPOSAL_FALSIFICATION_2026-09-29.md`.
+
+## Known-answer proof benchmark lane (2026-09-29)
+
+After an authenticated browser run of IMO 1988 Problem 6 produced a complete
+Vieta-descent attempt and two supportive AI reviews, the Owner asked for the
+next implementation and commit/push. The historical case remains `OPEN` /
+`PARTIAL`; it was not rewritten. A prospective `BENCHMARK_PROOF` type now has
+a fixed sealed contract, a review-only holdout reference/rubric, distinct UI,
+and an AI-supported positive classification only when both fresh role reports
+align, quote the attempt, and leave no gap. This is not a formal checker or a
+novel discovery. A local negative-control argument based on finite enumeration
+was challenged by both Codex-local review contexts. Unit/integration suites,
+typecheck and build passed; the browser showed the new section while live
+dispatch remained disabled. A fresh browser-submitted benchmark run and formal
+replay of its generated proof remain open gates. Details and evidence boundary:
+`docs/operations/MATH_PILOT_IMO1988Q6_BENCHMARK_2026-09-29.md`.

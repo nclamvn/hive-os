@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { erdosStrausPolynomialFamilySchema } from "./math-parametric";
+import { structuralCounterexampleCandidateSchema } from "./math-structural-counterexample";
 
 import { mathPilotRequestSchema } from "./math-pilot";
 
@@ -102,6 +104,11 @@ export const mathModelAttemptSchema = z.object({
   limitations: z.array(z.string().trim().min(1).max(1_000)).max(12),
   // Optional so immutable pre-certificate attempts remain digest-readable.
   erdosStrausWitnesses: z.array(erdosStrausWitnessSchema).max(4).optional(),
+  // Optional for historical attempt digest compatibility. These are checked
+  // independently only when a cycle emits PARAMETRIC_CHECKED.
+  erdosStrausPolynomialFamilies: z.array(erdosStrausPolynomialFamilySchema).max(2).optional(),
+  // Optional for immutable pre-replay attempts. New cycle solvers supply a value or null.
+  erdosStrausGateCounterexample: structuralCounterexampleCandidateSchema.nullable().optional(),
   usage: z.object({
     inputTokens: z.number().int().nonnegative(),
     cachedInputTokens: z.number().int().nonnegative(),

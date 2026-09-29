@@ -14,6 +14,8 @@ const output = {
   agentReviewMigration: "NOT_READY",
   controlledCycleMigration: "NOT_READY",
   frontierGateMigration: "NOT_READY",
+  humanSteeringMigration: "NOT_READY",
+  knownAnswerBenchmarkMigration: "NOT_READY",
   codexLocalMode: process.env.RESEARCH_CODEX_LOCAL_ENABLED === "true" ? "EXPLICITLY_ENABLED" : "DISABLED",
   codexSubscriptionLogin: "UNVERIFIED",
   retainedLocalModelAttempts: 0,
@@ -82,6 +84,14 @@ if (!rawUrl) {
         "SELECT finished_at IS NOT NULL AS applied FROM _prisma_migrations WHERE migration_name = '20260928183000_math_frontier_gate' ORDER BY started_at DESC LIMIT 1",
       );
       output.frontierGateMigration = frontierGate.rows[0]?.applied === true ? "READY" : "NOT_APPLIED";
+      const humanSteering = await client.query(
+        "SELECT finished_at IS NOT NULL AS applied FROM _prisma_migrations WHERE migration_name = '20260929090000_math_human_steering' ORDER BY started_at DESC LIMIT 1",
+      );
+      output.humanSteeringMigration = humanSteering.rows[0]?.applied === true ? "READY" : "NOT_APPLIED";
+      const knownAnswerBenchmark = await client.query(
+        "SELECT finished_at IS NOT NULL AS applied FROM _prisma_migrations WHERE migration_name = '20260929150000_math_known_answer_benchmark' ORDER BY started_at DESC LIMIT 1",
+      );
+      output.knownAnswerBenchmarkMigration = knownAnswerBenchmark.rows[0]?.applied === true ? "READY" : "NOT_APPLIED";
       if (output.codexLocalMigration === "READY") {
         const retained = await client.query(
           "SELECT COUNT(*)::INTEGER AS count FROM research_run WHERE provider_name = 'codex-local' AND math_model_attempt_digest IS NOT NULL",
@@ -124,7 +134,7 @@ if (output.database === "READY" && output.codexLocalMode === "EXPLICITLY_ENABLED
 // A queued job or a configured key is not proof of an active, healthy worker.
 // A retained AI review is evidence of local execution, not formal theorem
 // certification or proof that a production worker is healthy right now.
-if (output.database !== "READY" || output.migration !== "READY" || output.runtimeAccountingMigration !== "READY" || output.codexLocalMigration !== "READY" || output.reviewDeskMigration !== "READY" || output.agentReviewMigration !== "READY" || output.controlledCycleMigration !== "READY" || output.frontierGateMigration !== "READY" || output.rowLevelSecurity !== "READY") {
+if (output.database !== "READY" || output.migration !== "READY" || output.runtimeAccountingMigration !== "READY" || output.codexLocalMigration !== "READY" || output.reviewDeskMigration !== "READY" || output.agentReviewMigration !== "READY" || output.controlledCycleMigration !== "READY" || output.frontierGateMigration !== "READY" || output.humanSteeringMigration !== "READY" || output.knownAnswerBenchmarkMigration !== "READY" || output.rowLevelSecurity !== "READY") {
   process.exitCode = 1;
 }
 process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);

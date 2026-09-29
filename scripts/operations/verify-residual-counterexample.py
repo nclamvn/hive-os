@@ -39,8 +39,8 @@ def divisors(factors: dict[int, int]) -> list[int]:
 
 
 def audit(n: int, max_a: int) -> dict:
-    if not 841 <= n <= 100_000_000 or n % 840 != 1 or not prime_by_trial(n):
-        raise ValueError("n must be a prime ≡ 1 (mod 840), between 841 and 100,000,000")
+    if not 841 <= n <= 200_000_000 or n % 840 != 1 or not prime_by_trial(n):
+        raise ValueError("n must be a prime ≡ 1 (mod 840), between 841 and 200,000,000")
     if not 3 <= max_a <= 107 or max_a % 4 != 3:
         raise ValueError("max-a must be 3 (mod 4), from 3 through 107")
     rows = []

@@ -180,11 +180,11 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
             caseType: mathContract.caseType,
             AND: [
               { researchRun: { providerName: input.providerName, modelName: input.modelName } },
-              { OR: mathContract.caseType === "OPEN" ? [
+              { OR: mathContract.caseType === "OPEN" || mathContract.caseType === "BENCHMARK_PROOF" ? [
                 { researchRun: { status: { in: ["QUEUED", "RUNNING"] } } },
                 { researchRun: { status: "AWAITING_REVIEW" }, agentReview: { is: null } },
                 { researchRun: { status: { in: ["AWAITING_REVIEW", "APPROVED"] } },
-                  researchCycle: { is: { status: { in: ["QUEUED", "RUNNING"] } } } },
+                  researchCycles: { some: { status: { in: ["QUEUED", "RUNNING"] } } } },
               ] : [{ researchRun: { status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] } } }] },
             ],
           },
@@ -194,7 +194,7 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
           throw new ResearchSandboxError("INVALID_TRANSITION", "An active math case for this Mission and model already exists");
         }
       }
-      if (mathContract?.caseType === "OPEN") {
+      if (mathContract?.caseType === "OPEN" || mathContract?.caseType === "BENCHMARK_PROOF") {
         const calibrations = await tx.mathPilotCase.findMany({
           where: {
             organizationId: command.organizationId,

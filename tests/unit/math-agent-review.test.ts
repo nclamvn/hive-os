@@ -8,7 +8,7 @@ import {
   type MathAgentReport,
 } from "@/modules/research-sandbox/agent-review";
 import { digestResearchResult } from "@/modules/research-sandbox/integrity";
-import { digestMathPilotContract, MATH_PILOT_CALIBRATIONS } from "@/modules/research-sandbox/math-pilot";
+import { digestMathPilotContract, MATH_PILOT_BENCHMARK, MATH_PILOT_CALIBRATIONS } from "@/modules/research-sandbox/math-pilot";
 
 const usage = { inputTokens: 100, cachedInputTokens: 0, outputTokens: 50, reasoningOutputTokens: 10 };
 const argument = "Let n = 2k for an integer k. Then n^2 = 4k^2 = 2(2k^2), which is even.";
@@ -67,5 +67,18 @@ describe("autonomous math review boundary", () => {
     expect(evaluateMathAgentReview({ contract, contractDigest: digestMathPilotContract(contract), attempt: { ...counter, candidateCounterexample: "3" }, reports: pair }).disposition).toBe("INCONCLUSIVE");
     const open = { ...contract, caseType: "OPEN" as const, statement: "An unproved research conjecture" };
     expect(evaluateMathAgentReview({ contract: open, contractDigest: digestMathPilotContract(open), attempt: counter, reports: pair })).toMatchObject({ disposition: "AI_REVIEWED", conclusion: "PARTIAL", oracle: { calibrationWitnessValid: null } });
+  });
+
+  it("classifies the known-answer benchmark separately but fails closed on a challenged or wrong attempt", () => {
+    const contract = MATH_PILOT_BENCHMARK;
+    const proof = { ...attempt, argument: "Let k be the integer quotient. Suppose k is nonsquare, so k >= 2, and choose a positive solution minimizing a+b with a <= b. Set c=ka-b. From a^2+b^2=k(ab+1), we have bc=a^2-k. If c=0 then k=a^2, contradiction. If c<0, then b=ka-c>k while b(-c)=k-a^2<k, contradiction. Thus c>0. The polynomial P(t)=t^2-kat+a^2-k has roots b,c and P(a)=(2-k)a^2-k<0. As a<=b, (a-b)(a-c)<0 forces 0<c<a<b. The same identity holds for (a,c) with quotient k, contradicting minimality of a+b. Hence k is a square." };
+    const pair = reports().map((report) => ({ ...report, exactQuote: "Let k be the integer quotient" })) as [MathAgentReport, MathAgentReport];
+    const base = { contract, contractDigest: digestMathPilotContract(contract), attempt: proof };
+    const accepted = evaluateMathAgentReview({ ...base, reports: pair });
+    expect(accepted).toMatchObject({ disposition: "AI_REVIEWED", conclusion: "SUPPORTED_ARGUMENT",
+      oracle: { calibrationWitnessValid: null, benchmarkReferenceValid: true } });
+    expect(evaluateMathAgentReview({ ...base, attempt: { ...proof, attemptType: "PARTIAL" }, reports: pair }).disposition).toBe("INCONCLUSIVE");
+    expect(evaluateMathAgentReview({ ...base, reports: [pair[0], { ...pair[1], verdict: "CHALLENGES", unresolvedGap: "The claimed descent is not actually established." }] }).disposition).toBe("INCONCLUSIVE");
+    expect(evaluateMathAgentReview({ ...base, contract: { ...contract, statement: "An altered theorem" }, reports: pair }).disposition).toBe("INCONCLUSIVE");
   });
 });

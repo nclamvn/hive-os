@@ -161,6 +161,15 @@ export async function requestMathResearchCycleAction(formData: FormData) {
     caseId: String(formData.get("caseId") ?? ""),
     maxRounds: Number(formData.get("maxRounds") ?? 1),
     maxObservedTokens: Number(formData.get("maxObservedTokens") ?? 60_000),
+    ...(formData.has("steeringFocus") ? { steering: {
+      focus: String(formData.get("steeringFocus")) as "STRUCTURAL_LEMMA" | "FINITE_FALSIFICATION",
+      targetA: Number(formData.get("targetA")),
+      note: String(formData.get("steeringNote") ?? ""),
+      confirmed: formData.get("confirmSteering") === "on",
+      ...(String(formData.get("replayPrime") ?? "").trim() || String(formData.get("replayFailedThroughA") ?? "").trim()
+        ? { replayCandidate: { prime: Number(formData.get("replayPrime")),
+          failedThroughA: Number(formData.get("replayFailedThroughA")) } } : {}),
+    } } : {}),
   });
   revalidatePath(`/w/${slug}/research/math-pilot`);
 }

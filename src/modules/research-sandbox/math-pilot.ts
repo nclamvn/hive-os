@@ -11,6 +11,7 @@ const boundedText = (max: number) => z.string().trim().min(1).max(max);
 export const mathPilotRequestSchema = z.discriminatedUnion("caseType", [
   z.object({ caseType: z.literal("CALIBRATION_PROOF") }).strict(),
   z.object({ caseType: z.literal("CALIBRATION_COUNTEREXAMPLE") }).strict(),
+  z.object({ caseType: z.literal("BENCHMARK_PROOF") }).strict(),
   z.object({
     caseType: z.literal("OPEN"),
     statement: boundedText(4_000),
@@ -78,7 +79,7 @@ export const mathPilotAssessmentSchema = z.object({
 
 export const mathPilotContractSchema = z.object({
   version: z.literal(1),
-  caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "OPEN"]),
+  caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "OPEN"]),
   statement: boundedText(4_000),
   definitions: boundedText(1_000),
   assumptions: boundedText(1_000),
@@ -117,6 +118,19 @@ export const MATH_PILOT_CALIBRATIONS = {
   CALIBRATION_COUNTEREXAMPLE: calibrationCounterexample,
 } as const;
 
+// The solver receives only this sealed problem statement and boundary. The
+// known answer and review rubric live in math-benchmark-reference.ts.
+export const MATH_PILOT_BENCHMARK = mathPilotContractSchema.parse({
+  version: 1,
+  caseType: "BENCHMARK_PROOF",
+  statement: "Let a and b be positive integers such that ab + 1 divides a^2 + b^2. Prove that (a^2 + b^2)/(ab + 1) is the square of an integer.",
+  definitions: "a and b are positive integers; divisibility and quotient are in the integers.",
+  assumptions: "Use ordinary integer arithmetic. No solution, named method, or reference proof is supplied to the solver.",
+  falsificationCriterion: "An admissible positive-integer pair with a nonsquare quotient would refute the claim; a gap in the proof would defeat this attempt's acceptance.",
+  successCriterion: "Give a general argument covering every admissible pair, with all arithmetic, positivity, and boundary steps justified.",
+  exclusions: "Finite enumeration, citing a source, or assuming the quotient is already a square is not a proof. State uncertainty if the general argument is incomplete.",
+});
+
 export const MATH_PILOT_EXPECTED = {
   CALIBRATION_PROOF: "SUPPORTED_ARGUMENT",
   CALIBRATION_COUNTEREXAMPLE: "VALID_COUNTEREXAMPLE",
@@ -124,6 +138,7 @@ export const MATH_PILOT_EXPECTED = {
 
 export function resolveMathPilotContract(raw: MathPilotRequest): MathPilotContract {
   const request = mathPilotRequestSchema.parse(raw);
+  if (request.caseType === "BENCHMARK_PROOF") return MATH_PILOT_BENCHMARK;
   if (request.caseType !== "OPEN") return MATH_PILOT_CALIBRATIONS[request.caseType];
   return mathPilotContractSchema.parse({ version: 1, ...request });
 }

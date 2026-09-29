@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { hasErdosStrausEquation, isPrimeInSurvey, searchResidualPrime, surveyResidualInterval, verifyErdosStrausWitness } from "@/modules/research-sandbox/math-certificates";
+import { auditResidualFailure, hasErdosStrausEquation, isPrimeInSurvey, searchResidualPrime, surveyResidualInterval, verifyErdosStrausWitness } from "@/modules/research-sandbox/math-certificates";
 import { resolveMathPilotContract } from "@/modules/research-sandbox/math-pilot";
 import { mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
 
@@ -65,11 +65,40 @@ describe("exact Erdős–Straus finite certificates", () => {
     expect(verifyErdosStrausWitness(result.witness!).valid).toBe(true);
   });
 
+  it("finds the first independent-audit failure of A≤59 above 100 million without changing older evidence", () => {
+    const n = 171_348_241;
+    expect(isPrimeInSurvey(n)).toBe(true);
+    expect(searchResidualPrime(n, 59)).toMatchObject({ firstA: null, witness: null });
+    const rescue = searchResidualPrime(n, 63);
+    expect(rescue.firstA).toBe(63);
+    expect(rescue.witness && verifyErdosStrausWitness(rescue.witness).valid).toBe(true);
+    expect(() => isPrimeInSurvey(200_000_001)).toThrow();
+    const audit = auditResidualFailure(n, 59);
+    expect(audit.rows.map((row) => row.a)).toEqual([3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59]);
+    expect(audit.rows.every((row) => row.factorPairsChecked > 0 && row.admissiblePairs === 0)).toBe(true);
+    expect(audit.auditDigest).toMatch(/^[a-f0-9]{64}$/);
+    expect(() => auditResidualFailure(171_348_243, 59)).toThrow();
+    expect(() => auditResidualFailure(n, 60)).toThrow();
+  });
+
+  it("keeps the newly extended live interval bounded and replayable", () => {
+    const plan = { kind: "ERDOS_STRAUS_RESIDUAL_A" as const,
+      lowerExclusive: 160_000_000, upperInclusive: 180_000_000, maxA: 59 };
+    const evidence = surveyResidualInterval(plan);
+    expect(evidence).toMatchObject({ primeCount: 5_483, failureCount: 1,
+      firstFailure: { n: 171_348_241, firstA: null },
+      firstFailureRescue: { n: 171_348_241, firstA: 63 } });
+    expect(evidence.firstFailureAudit?.rows).toHaveLength(15);
+    expect(surveyResidualInterval(plan)).toEqual(evidence);
+    expect(() => surveyResidualInterval({ ...plan, upperInclusive: 180_000_001 })).toThrow();
+    expect(() => surveyResidualInterval({ ...plan, upperInclusive: 200_000_001 })).toThrow();
+  });
+
   it("produces replayable finite interval evidence and rejects resource escape", () => {
     const plan = { kind: "ERDOS_STRAUS_RESIDUAL_A" as const,
       lowerExclusive: 10_000_000, upperInclusive: 10_060_000, maxA: 47 };
     const evidence = surveyResidualInterval(plan);
-    expect(evidence).toMatchObject({ method: "ERDOS_STRAUS_RESIDUAL_SURVEY_V2",
+    expect(evidence).toMatchObject({ method: "ERDOS_STRAUS_RESIDUAL_SURVEY_V3",
       failureCount: 1, firstFailure: { n: 10_051_441, firstA: null },
       firstFailureRescue: { n: 10_051_441, firstA: 59 } });
     expect(evidence.manifestDigest).toMatch(/^[a-f0-9]{64}$/);

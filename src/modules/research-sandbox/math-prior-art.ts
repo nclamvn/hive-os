@@ -101,8 +101,9 @@ export function mathPriorArtFor(contract: MathPilotContract): readonly MathPrior
   const definitions = normalized(contract.definitions);
   // Match the equation and quantified variables, not the title alone. A
   // different conjecture mentioning Erdős–Straus must not inherit this scope.
-  return (/nisaninteger/.test(definitions) || /nisaprimeinteger/.test(definitions) || /nisprime/.test(definitions)) &&
-    /x,y,zarestrictlypositiveintegers/.test(definitions)
+  return (/nisaninteger/.test(definitions) || /nisaprimeinteger/.test(definitions) || /nisprime/.test(definitions) ||
+    /pisaprime/.test(definitions) || /pisprime/.test(definitions)) &&
+    /x,y,zare(?:strictly)?positiveintegers/.test(definitions)
     ? ERDOS_STRAUS_FACTS : [];
 }
 
@@ -112,7 +113,7 @@ interface Congruence { modulus: number; residue: number }
 export function explicitCongruences(task: string): Congruence[] {
   const text = task.replaceAll("\\equiv", "≡").replaceAll("−", "-");
   const found: Congruence[] = [];
-  const pattern = /\bn\s*≡\s*(\d+)\s*(?:\(\s*mod\s*(\d+)\s*\)|mod\s*(\d+))/gi;
+  const pattern = /\b[np]\s*≡\s*(\d+)\s*(?:\(\s*mod\s*(\d+)\s*\)|mod\s*(\d+))/gi;
   for (const match of text.matchAll(pattern)) {
     const residue = Number(match[1]);
     const modulus = Number(match[2] ?? match[3]);
@@ -120,7 +121,7 @@ export function explicitCongruences(task: string): Congruence[] {
       found.push({ modulus, residue: residue % modulus });
     }
   }
-  const affine = /\bn\s*=\s*(\d+)\s*k\s*\+\s*(\d+)/gi;
+  const affine = /\b[np]\s*=\s*(\d+)\s*k\s*\+\s*(\d+)/gi;
   for (const match of text.matchAll(affine)) {
     const modulus = Number(match[1]);
     const residue = Number(match[2]);
@@ -134,13 +135,21 @@ export function explicitCongruences(task: string): Congruence[] {
 export function knownScopeForTask(contract: MathPilotContract, task: string): MathPriorArtFact | null {
   const facts = mathPriorArtFor(contract);
   const compact = normalized(task);
+  // A task can cite an earlier gate as a premise while targeting a later one.
+  // In that case the cited construction does not settle the whole task. Fall
+  // through to source assessment instead of producing a false KNOWN verdict.
+  const mentionedGates = new Set([
+    ...Array.from(compact.matchAll(/a=(\d+)/g), (match) => Number(match[1])),
+    ...Array.from(compact.matchAll(/\([np]\+(\d+)\)\/4/g), (match) => Number(match[1])),
+  ]);
+  const targetsOnly = (a: number) => [...mentionedGates].every((gate) => gate === a);
   // A cited conditional formula is not a proof that its divisor condition
   // holds for every prime. Only screen an explicitly conditional construction.
   const conditionalConstruction = /(?:if|suppose|when|provided|with|whose).{0,180}(?:divisor|factor)/.test(compact);
   const mentionsFirstGate = /(?:\b[px]=\(?[np]\+3\)?\/4|\([np]\+3\)\/4)/.test(compact);
   const mentionsDivisor = /(?:primedivisor|divisor|factor)/.test(compact) &&
     /(?:≡|congruentto)2\(?mod3\)?/.test(compact);
-  if (conditionalConstruction && mentionsFirstGate && mentionsDivisor) {
+  if (conditionalConstruction && mentionsFirstGate && mentionsDivisor && targetsOnly(3)) {
     return facts.find((fact) => fact.condition === "FIRST_GATE_DIVISOR_MOD_3") ?? null;
   }
   const mentionsSecondGate = /(?:\b[px]=\(?[np]\+7\)?\/4|\([np]\+7\)\/4)/.test(compact);
@@ -148,7 +157,7 @@ export function knownScopeForTask(contract: MathPilotContract, task: string): Ma
     /(?:≡|congruentto)5\(?mod7\)?/.test(compact);
   const hasMod7One = [...explicitCongruences(contract.statement), ...explicitCongruences(task)]
     .some(({ modulus, residue }) => modulus % 7 === 0 && residue % 7 === 1);
-  if (conditionalConstruction && mentionsSecondGate && mentionsDivisor7 && hasMod7One) {
+  if (conditionalConstruction && mentionsSecondGate && mentionsDivisor7 && hasMod7One && targetsOnly(7)) {
     return facts.find((fact) => fact.condition === "SECOND_GATE_DIVISOR_MOD_7") ?? null;
   }
   const classes = explicitCongruences(task);

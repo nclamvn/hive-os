@@ -48,6 +48,11 @@ describe("math frontier dossier and novelty gate", () => {
       hypothesis: "Let x=(n+3)/4 for primes n≡1 (mod 840)", dossier })).toMatchObject({ decision: "KNOWN" });
     expect(frontierGate({ root: erdos, task: "Check X with divisor q≡5 (mod 7)",
       hypothesis: "For prime n≡1 (mod 840) let X=(n+7)/4", dossier })).toMatchObject({ decision: "KNOWN" });
+    expect(frontierGate({ root: erdos,
+      hypothesis: "For prime p≡1 (mod 840), if A=3 fails because x=(p+3)/4 has no prime divisor ≡2 (mod 3) " +
+        "and A=7 fails, then a further condition may open A=11 with x=(p+11)/4.",
+      task: "Prove or refute the A=11 conclusion for primes satisfying both A=3 and A=7 obstructions.",
+      dossier, analyst: assessment, challenger: assessment })).toMatchObject({ decision: "RESEARCH_ONLY" });
     const missingSourceContent = { coverage: dossier.coverage, sources: dossier.sources.slice(1), discovery: dossier.discovery };
     expect(frontierGate({ root: erdos, task: "Prove every n≡5 (mod 12) has a decomposition",
       dossier: { ...missingSourceContent, dossierDigest: sha256(canonicalJson(missingSourceContent)) } }))
@@ -57,6 +62,9 @@ describe("math frontier dossier and novelty gate", () => {
     expect(frontierGate({ root: erdos, task: "Investigate n≡1 (mod 24)", dossier,
       analyst: { ...assessment, quantifiers: "NARROWER" },
       challenger: { ...assessment, quantifiers: "NARROWER" } })).toMatchObject({ decision: "RESEARCH_ONLY" });
+    expect(frontierGate({ root: erdos, task: "Investigate n≡1 (mod 24)", dossier,
+      analyst: assessment, challenger: { ...assessment, quantifiers: "NARROWER" } }))
+      .toMatchObject({ decision: "RESEARCH_ONLY" });
     expect(frontierGate({ root: erdos, task: "Investigate n≡1 (mod 24)", dossier,
       analyst: assessment, challenger: { ...assessment, quantifiers: "UNCERTAIN" } }))
       .toMatchObject({ decision: "HOLD" });
@@ -89,6 +97,9 @@ describe("math frontier dossier and novelty gate", () => {
       expect(dossier.discovery.status).toBe("UNAVAILABLE");
       expect(frontierGate({ root: erdos, task: "Investigate n≡1 (mod 24)", dossier,
         analyst: assessment, challenger: assessment })).toMatchObject({ decision: "HOLD" });
+      expect(frontierGate({ root: erdos, task: "Survey prime p ≡ 1 (mod 840) in a finite interval", dossier,
+        boundedExperiment: true, analyst: assessment, challenger: assessment }))
+        .toMatchObject({ decision: "RESEARCH_ONLY", reason: expect.stringContaining("live discovery unavailable") });
     }
   });
 });

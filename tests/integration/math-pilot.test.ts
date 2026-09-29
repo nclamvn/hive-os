@@ -249,7 +249,9 @@ describe("Math pilot gate", () => {
           successEvidence: "Produce a checked finite witness or say no witness was found at this bound.",
           rationale: "A bounded search may clarify the gap without asserting the universal root theorem." },
           threadId: "planner-child", usage }; },
-        async verify(_root, _gaps, _prior, proposal) { return { output: { decision: "ACCEPT" as const,
+        async verify(_root, _gaps, _prior, proposal, _priorArt, _steering, _findings, sourceAssessments) {
+          expect(sourceAssessments).toHaveLength(2);
+          return { output: { decision: "ACCEPT" as const,
           sourceGap: proposal.sourceGap, scopeCheck: "The task preserves the class C and property P definitions.",
           noveltyCheck: "The bounded task is distinct from the universal root statement.",
           falsifiabilityCheck: "A concrete finite object can refute this bounded claim.",
@@ -317,6 +319,286 @@ describe("Math pilot gate", () => {
       .rejects.toThrow(/append-only|immutable/i);
     await expect(ownerQuery(`UPDATE math_research_cycle SET status = 'QUEUED' WHERE id = '${cycle.id}'`))
       .rejects.toThrow(/terminal math research cycle is immutable/i);
+
+    const erdosRequest: MathPilotRequest = {
+      caseType: "OPEN",
+      statement: "For every prime p ≡ 1 (mod 840), does 4/p = 1/x + 1/y + 1/z hold?",
+      definitions: "p is prime. x,y,z are strictly positive integers.",
+      assumptions: "Exact integer and rational arithmetic applies.",
+      falsificationCriterion: "A certified prime counterexample would refute the statement.",
+      successCriterion: "A general proof or checked counterexample is required.",
+      exclusions: "Finite surveys cannot prove the universal statement.",
+    };
+    const erdosRun = await requestResearchRun(owner, {
+      ...requestFor(mission.id, erdosRequest, "gpt-6-sol"), providerName: "codex-local",
+    });
+    expect(erdosRun.status).toBe("SUCCEEDED");
+    const erdosRunId = String(erdosRun.status === "SUCCEEDED" ? erdosRun.outcome.runId : "");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [erdosJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.codex-local.execute"] });
+    await executeResearchJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: erdosJob!.id, expectedVersion: erdosJob!.version,
+      correlationId: owner.correlationId,
+      provider: { providerName: "codex-local", modelName: "gpt-6-sol", async execute() {
+        return { providerName: this.providerName, modelName: this.modelName, sources: [],
+          findings: [{ key: "no-source", kind: "HONEST_NULL" as const, claim: "No source captured in this fixture.",
+            sourceKey: null, exactExcerpt: "", startOffset: null, endOffset: null, confidence: 0 }],
+          mathAttempt: { providerName: "codex-local" as const, modelName: "gpt-6-sol", threadId: "erdos-root",
+            attemptType: "PARTIAL" as const, argument: "The first two denominator gates do not settle every prime in the residual class.",
+            candidateCounterexample: null, selfChecks: [], limitations: ["No universal proof."], usage } };
+      } },
+    });
+    const erdosCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.researchRunId === erdosRunId)!;
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [erdosReviewJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.codex-local.review"] });
+    const erdosGap = "The first two denominator gates leave a residual prime class without a general proof.";
+    await executeMathPilotAgentReviewJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: erdosReviewJob!.id, expectedVersion: erdosReviewJob!.version,
+      correlationId: owner.correlationId, reviewer: { modelName: "gpt-6-sol", async review() {
+        return (["CRITIC", "ADVERSARY"] as const).map((role) => ({ role,
+          verdict: "CHALLENGES" as const, candidateConclusion: "PARTIAL" as const,
+          exactQuote: "do not settle every prime", reasoning: "The claim is universal, but the attempt covers only two gates.",
+          checks: ["Compared finite gates to the original universal quantifier."], unresolvedGap: erdosGap,
+          threadId: `${role}-erdos`, usage,
+        })) as Awaited<ReturnType<Parameters<typeof executeMathPilotAgentReviewJob>[0]["reviewer"]["review"]>>;
+      } } });
+    await expect(requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 11,
+        note: "Seek a conditional lemma.", confirmed: false } })).rejects.toMatchObject({ code: "INVALID_INPUT" });
+    const steered = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 11,
+        note: "Seek a conditional lemma.", confirmed: true } });
+    expect(steered.status).toBe("SUCCEEDED");
+    expect(await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 15,
+        note: "Change target while active.", confirmed: true } })).toMatchObject({ status: "FAILED" });
+    const noSource = { coverage: "PARTIAL_NOT_NOVELTY_CERTIFICATE" as const, sources: [],
+      discovery: { provider: "CROSSREF" as const, query: "residual prime gate", status: "UNAVAILABLE" as const, candidates: [] } };
+    const noSourceDossier: FrontierDossier = { ...noSource, dossierDigest: sha256(canonicalJson(noSource)) };
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [steeredJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    const firstTask = "For every prime p≡1 (mod 840) with A=3 and A=7 obstructed, establish or refute a later-gate criterion at A=11.";
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: steeredJob!.id, expectedVersion: steeredJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose(_root, _gaps, _tasks, _priorArt, steering) {
+          expect(steering).toMatchObject({ focus: "STRUCTURAL_LEMMA", targetA: 11, approvedByUserId: owner.user.id });
+          return { output: { sourceGap: erdosGap,
+            hypothesis: "For prime p≡1 (mod 840), A=3 and A=7 obstructions might imply a test at A=11.",
+            taskStatement: firstTask, falsificationPlan: "Find a prime contradicting the precise conditional criterion.",
+            successEvidence: "Give a proof or an exact counterexample to the conditional lemma.",
+            rationale: "The later gate may explain the residual class without claiming the root theorem." },
+          threadId: "steered-planner-11", usage };
+        },
+        async buildFrontierDossier() { return noSourceDossier; },
+        async assessFrontier() { throw new Error("No source means frontier reviewers must not run"); },
+        async verify() { throw new Error("Source hold must stop before task verification"); },
+        async solve() { throw new Error("Source hold must stop before solving"); },
+        async reviewRole() { throw new Error("Source hold must stop before peer review"); },
+      },
+    });
+    const firstSteered = (await listMathResearchCycles(owner, mission.id)).find((item) => item.rootCaseId === erdosCase.id)!;
+    expect(firstSteered).toMatchObject({ status: "STOPPED", stopReason: "FRONTIER_HOLD" });
+    expect(firstSteered.trace?.[0]).toMatchObject({ phase: "HUMAN_STEERED", steering: { targetA: 11 } });
+    const nextSteered = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 15,
+        note: "Move to the next gate after reviewing the hold.", confirmed: true } });
+    expect(nextSteered.status).toBe("SUCCEEDED");
+    const erdosCycles = (await listMathResearchCycles(owner, mission.id)).filter((item) => item.rootCaseId === erdosCase.id);
+    expect(erdosCycles).toHaveLength(2);
+    expect(erdosCycles[0]).toMatchObject({ status: "QUEUED" });
+    expect(erdosCycles[1]!.trace?.[0]).toMatchObject({ phase: "HUMAN_STEERED", steering: { targetA: 11 } });
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [secondSteeredJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: secondSteeredJob!.id, expectedVersion: secondSteeredJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose(_root, _gaps, previousTasks, _priorArt, steering) {
+          expect(previousTasks).toContain(firstTask);
+          expect(steering).toMatchObject({ focus: "STRUCTURAL_LEMMA", targetA: 15 });
+          return { output: { sourceGap: erdosGap,
+            hypothesis: "For prime p≡1 (mod 840), A=3 and A=7 obstructions might still permit an A=15 gate.",
+            taskStatement: "For every prime p≡1 (mod 840) with A=3 and A=7 obstructed, establish or refute a later-gate criterion at A=15.",
+            falsificationPlan: "Find a prime contradicting the precise conditional criterion.",
+            successEvidence: "Give a proof or exact counterexample to the conditional lemma.",
+            rationale: "This follows the human's new gate without treating the prior hold as a theorem." },
+          threadId: "steered-planner-15", usage };
+        },
+        async buildFrontierDossier() { return noSourceDossier; },
+        async assessFrontier() { throw new Error("No source means frontier reviewers must not run"); },
+        async verify() { throw new Error("Source hold must stop before task verification"); },
+        async solve() { throw new Error("Source hold must stop before solving"); },
+        async reviewRole() { throw new Error("Source hold must stop before peer review"); },
+      },
+    });
+    expect((await listMathResearchCycles(owner, mission.id)).filter((item) => item.rootCaseId === erdosCase.id)
+      .map((item) => item.status)).toEqual(["STOPPED", "STOPPED"]);
+
+    const replayCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 11,
+        note: "Test the distinct square-gate conditional at p=131041 with typed replay before review.", confirmed: true } });
+    expect(replayCampaign.status).toBe("SUCCEEDED");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [replayJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    let replaySeenByReviewers = 0;
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: replayJob!.id, expectedVersion: replayJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose() { return { output: { sourceGap: erdosGap,
+          hypothesis: "For prime p≡1 (mod 840), the square and A=3/A=7 obstructions may force A=11 to succeed.",
+          taskStatement: "For prime p≡1 (mod 840), at A=11 refute the square plus A=3/A=7 obstruction implication at p=131041.",
+          falsificationPlan: "Check primality and every fixed first-denominator gate through A=11.",
+          successEvidence: "An independently replayed typed prime/A exclusion plus review of the square premise.",
+          rationale: "A concrete falsifier tests the new conditional, not the original equation." },
+          threadId: "replay-planner", usage }; },
+        async buildFrontierDossier() { return frontierFixture; },
+        async assessFrontier(role) { return { output: frontierAssessment, threadId: `${role}-replay-source`, usage }; },
+        async verify(_root, _gaps, _prior, proposal) { return { output: { decision: "ACCEPT" as const,
+          sourceGap: proposal.sourceGap, scopeCheck: "The proposed falsifier is narrower than the prime root.",
+          noveltyCheck: "No novelty is inferred from a partial source capture.",
+          falsifiabilityCheck: "The concrete prime and fixed A=11 exclusion can be replayed.",
+          unresolvedRisk: "The replay does not decide unrestricted Erdős–Straus." },
+          threadId: "replay-verifier", usage }; },
+        async solve() { return { providerName: "codex-local" as const, modelName: "gpt-6-sol",
+          threadId: "replay-solver", attemptType: "COUNTEREXAMPLE_ATTEMPT" as const,
+          argument: "p=131041 refutes the auxiliary A=11 implication, not the root conjecture.",
+          candidateCounterexample: "p=131041", erdosStrausGateCounterexample: { prime: 131_041, failedThroughA: 11 },
+          selfChecks: ["Check the square premise separately."], limitations: ["Only the fixed-A family is excluded."], usage }; },
+        async reviewRole(role, _contract, _attempt, _computation, _replay, counterexampleReplay) {
+          expect(counterexampleReplay).toMatchObject({ status: "PASS", candidate: { prime: 131_041, failedThroughA: 11 } });
+          replaySeenByReviewers += 1;
+          return { role, verdict: "CHALLENGES" as const, candidateConclusion: "PARTIAL" as const,
+            exactQuote: "p=131041 refutes the auxiliary A=11 implication",
+            reasoning: "The independent tool certifies bounded gate failure; the exact lemma premise needs separate review.",
+            checks: ["Inspected the typed independent replay before assigning a conclusion."],
+            unresolvedGap: "Find a different structural relation beyond A=11.", threadId: `${role}-replay`, usage };
+        },
+      },
+    });
+    expect(replaySeenByReviewers).toBe(2);
+    const replayCycle = (await listMathResearchCycles(owner, mission.id))
+      .find((item) => item.rootCaseId === erdosCase.id && item.trace?.some((event) => event.phase === "COUNTEREXAMPLE_REPLAY"));
+    expect(replayCycle?.trace?.map((event) => event.phase).indexOf("COUNTEREXAMPLE_REPLAY")).toBeLessThan(
+      replayCycle!.trace!.map((event) => event.phase).indexOf("REVIEWED"));
+    expect(replayCycle?.trace?.find((event) => event.phase === "COUNTEREXAMPLE_REPLAY"))
+      .toMatchObject({ phase: "COUNTEREXAMPLE_REPLAY", report: { status: "PASS" } });
+
+    const rejectedCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
+        note: "Replay p=131041/A=11 first, then reject a false A=23 exclusion.", confirmed: true,
+        replayCandidate: { prime: 131_041, failedThroughA: 11 } } });
+    expect(rejectedCampaign.status).toBe("SUCCEEDED");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [rejectedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    let invalidCandidateReviews = 0;
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: rejectedJob!.id, expectedVersion: rejectedJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose(_root, _gaps, _prior, _priorArt, _steering, priorFindings) {
+          expect(priorFindings?.[0]).toMatchObject({ prime: 131_041, failedThroughA: 11,
+            structuralFacts: { a3Square: true, a3NoPrime2Mod3: true, a7NoDivisor5Mod7: true } });
+          return { output: { sourceGap: "Find a different structural relation beyond A=11.",
+          hypothesis: "For prime p≡1 (mod 840), obstructions at A=3, A=7, A=11, A=15 and A=19 may control A=23.",
+          taskStatement: "For prime p≡1 (mod 840) surviving A=3, A=7, A=11, A=15 and A=19, test a distinct cross-gate criterion at A=23.",
+          falsificationPlan: "Find a typed prime and exhaust every gate through A=23.",
+          successEvidence: "A replayed bounded exclusion is required before review.",
+          rationale: "The claim is distinct from the rejected A=11 square lemma." },
+          threadId: "reject-planner", usage }; },
+        async buildFrontierDossier() { return frontierFixture; },
+        async assessFrontier(role) { return { output: frontierAssessment, threadId: `${role}-reject-source`, usage }; },
+        async verify(_root, _gaps, _prior, proposal) { return { output: { decision: "ACCEPT" as const,
+          sourceGap: proposal.sourceGap, scopeCheck: "The test preserves the prime-residual root.",
+          noveltyCheck: "The captured passages do not certify novelty.",
+          falsifiabilityCheck: "The proposed A=23 failure is a concrete arithmetic claim.",
+          unresolvedRisk: "A bounded failure would not refute the unrestricted conjecture." },
+          threadId: "reject-verifier", usage }; },
+        async solve() { return { providerName: "codex-local" as const, modelName: "gpt-6-sol",
+          threadId: "reject-solver", attemptType: "COUNTEREXAMPLE_ATTEMPT" as const,
+          argument: "The model incorrectly asserts that p=131041 fails through A=23.",
+          candidateCounterexample: "p=131041", erdosStrausGateCounterexample: { prime: 131_041, failedThroughA: 23 },
+          selfChecks: [], limitations: ["The fixed-A family is the only scope."], usage }; },
+        async reviewRole() { invalidCandidateReviews += 1; throw new Error("Invalid certificate must stop before AI review"); },
+      },
+    });
+    expect(invalidCandidateReviews).toBe(0);
+    const rejectedCycle = (await listMathResearchCycles(owner, mission.id))
+      .find((item) => item.rootCaseId === erdosCase.id && item.stopReason === "COUNTEREXAMPLE_REJECTED");
+    expect(rejectedCycle?.trace?.find((event) => event.phase === "COUNTEREXAMPLE_REPLAY"))
+      .toMatchObject({ phase: "COUNTEREXAMPLE_REPLAY", report: { status: "FAIL" } });
+    expect(rejectedCycle?.trace?.find((event) => event.phase === "PRIOR_COUNTEREXAMPLE_REPLAY"))
+      .toMatchObject({ phase: "PRIOR_COUNTEREXAMPLE_REPLAY", report: { status: "PASS" } });
+    expect(rejectedCycle!.trace!.map((event) => event.phase).indexOf("PRIOR_COUNTEREXAMPLE_REPLAY"))
+      .toBeLessThan(rejectedCycle!.trace!.map((event) => event.phase).indexOf("PROPOSED"));
+    expect(rejectedCycle?.trace?.some((event) => event.phase === "REVIEWED")).toBe(false);
+
+    const badSeedCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 27,
+        note: "A bad prior seed must be rejected before any AI planner call.", confirmed: true,
+        replayCandidate: { prime: 131_041, failedThroughA: 23 } } });
+    expect(badSeedCampaign.status).toBe("SUCCEEDED");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [badSeedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: badSeedJob!.id, expectedVersion: badSeedJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose() { throw new Error("A false seed must stop before planner dispatch"); },
+        async buildFrontierDossier() { throw new Error("A false seed must stop before source discovery"); },
+        async assessFrontier() { throw new Error("A false seed must stop before source review"); },
+        async verify() { throw new Error("A false seed must stop before task verification"); },
+        async solve() { throw new Error("A false seed must stop before solver dispatch"); },
+        async reviewRole() { throw new Error("A false seed must stop before peer review"); },
+      },
+    });
+    const badSeedCycle = (await listMathResearchCycles(owner, mission.id))
+      .find((item) => item.rootCaseId === erdosCase.id && item.trace?.some((event) =>
+        event.phase === "HUMAN_STEERED" && event.steering.targetA === 27));
+    expect(badSeedCycle).toMatchObject({ status: "STOPPED", stopReason: "COUNTEREXAMPLE_REJECTED" });
+    expect(badSeedCycle?.trace?.find((event) => event.phase === "PRIOR_COUNTEREXAMPLE_REPLAY"))
+      .toMatchObject({ phase: "PRIOR_COUNTEREXAMPLE_REPLAY", report: { status: "FAIL" } });
+    expect(badSeedCycle?.trace?.some((event) => event.phase === "CALL_STARTED")).toBe(false);
+
+    const probedCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
+        note: "Falsify the typed A=23 residue implication before task acceptance.", confirmed: true } });
+    expect(probedCampaign.status).toBe("SUCCEEDED");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [probedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: probedJob!.id, expectedVersion: probedJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose(_root, gaps) { return { output: { sourceGap: gaps[0]!,
+          hypothesis: "For prime p≡1 (mod 840), if A=3, A=7, A=11, A=15, A=19 and A=23 all fail, then p≡4 (mod 23).",
+          taskStatement: "For prime p≡1 (mod 840), test the A=3, A=7, A=11, A=15, A=19, A=23 failure implication p≡4 (mod 23) at A=23.",
+          falsificationPlan: "Find a prime surviving A=23 with residue other than four modulo 23.",
+          successEvidence: "A general proof of the exact implication would be required.",
+          rationale: "The typed predicate makes a specific cross-gate implication falsifiable before solver dispatch.",
+          exactSurveyPlan: null,
+          structuralProbePlan: { kind: "FAILED_GATE_FORCES_PRIME_RESIDUE" as const,
+            targetA: 23, failedThroughA: 23, upperInclusive: 4_037_881,
+            expectedPrimeResidue: 4, divisorConditions: [], nonmultipleConditions: [] } },
+          threadId: "probe-planner", usage }; },
+        async buildFrontierDossier() { throw new Error("Refuted hypothesis must stop before source calls"); },
+        async assessFrontier() { throw new Error("Refuted hypothesis must stop before source calls"); },
+        async verify() { throw new Error("Refuted hypothesis must stop before task verifier"); },
+        async solve() { throw new Error("Refuted hypothesis must stop before solver"); },
+        async reviewRole() { throw new Error("Refuted hypothesis must stop before AI review"); },
+      },
+    });
+    const probedCycle = (await listMathResearchCycles(owner, mission.id))
+      .find((item) => item.rootCaseId === erdosCase.id && item.stopReason === "STRUCTURAL_REFUTED");
+    expect(probedCycle?.trace?.find((event) => event.phase === "STRUCTURAL_PROBED"))
+      .toMatchObject({ phase: "STRUCTURAL_PROBED", report: { status: "REFUTED",
+        independentReplay: { status: "PASS" } } });
+    expect(probedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toHaveLength(1);
+    expect(probedCycle?.trace?.some((event) => event.phase === "VERIFIED" || event.phase === "ATTEMPTED")).toBe(false);
 
     // An AI-reviewed OPEN dossier remains AWAITING_REVIEW for the separate human
     // lane. A terminal cycle must not prevent a fresh, immutable root experiment.
@@ -583,6 +865,8 @@ describe("Math pilot gate", () => {
 
     const tooEarly = await requestResearchRun(owner, requestFor(mission.id, openRequest));
     expect(tooEarly.status).toBe("FAILED");
+    const benchmarkTooEarly = await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_PROOF" }));
+    expect(benchmarkTooEarly.status).toBe("FAILED");
     expect(await listMathPilotCases(owner, mission.id)).toHaveLength(0);
 
     for (const caseType of ["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE"] as const) {
@@ -660,10 +944,15 @@ describe("Math pilot gate", () => {
 
     const wrongModel = await requestResearchRun(owner, requestFor(mission.id, openRequest, "other-model"));
     expect(wrongModel.status).toBe("FAILED");
+    const benchmark = await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_PROOF" }));
+    expect(benchmark.status, JSON.stringify(benchmark)).toBe("SUCCEEDED");
+    const benchmarkCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.caseType === "BENCHMARK_PROOF");
+    expect(benchmarkCase?.contract).toEqual(resolveMathPilotContract({ caseType: "BENCHMARK_PROOF" }));
+    expect((await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_PROOF" }))).status).toBe("FAILED");
     const opened = await requestResearchRun(owner, requestFor(mission.id, openRequest));
     expect(opened.status).toBe("SUCCEEDED");
     const cases = await listMathPilotCases(owner, mission.id);
-    expect(cases).toHaveLength(3);
+    expect(cases).toHaveLength(4);
     expect(cases[0].caseType).toBe("OPEN");
 
     await expect(ownerQuery(`UPDATE math_pilot_case SET contract = '{}'::jsonb WHERE id = '${cases[0].id}'`))

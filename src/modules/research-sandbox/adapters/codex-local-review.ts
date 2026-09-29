@@ -7,8 +7,13 @@ import { z } from "zod";
 import { mathAgentReportSchema, type MathAgentReport } from "../agent-review";
 import { mathModelAttemptSchema } from "../contracts";
 import type { ResidualSurveyEvidence } from "../math-certificates";
+import type { IndependentReplayReport } from "../math-independent-replay";
+import { verifyErdosStrausPolynomialFamily } from "../math-parametric";
+import type { StructuralCounterexampleReport } from "../math-structural-counterexample";
+import type { StructuralGateDossier } from "../math-gate-dossier";
 import { ResearchSandboxError } from "../errors";
 import { type MathPilotContract } from "../math-pilot";
+import { MATH_BENCHMARK_REFERENCE } from "../math-benchmark-reference";
 import { runCodex } from "./codex-local-math";
 
 const responseSchema = mathAgentReportSchema.omit({ threadId: true, usage: true });
@@ -81,7 +86,10 @@ export class CodexLocalMathReviewer {
   }
 
   async reviewRole(role: MathAgentReport["role"], contract: MathPilotContract,
-    attempt: z.infer<typeof mathModelAttemptSchema>, evidence: ResidualSurveyEvidence | null = null): Promise<MathAgentReport> {
+    attempt: z.infer<typeof mathModelAttemptSchema>, evidence: ResidualSurveyEvidence | null = null,
+    replay: IndependentReplayReport | null = null,
+    counterexampleReplay: StructuralCounterexampleReport | null = null,
+    gateDossier: StructuralGateDossier | null = null): Promise<MathAgentReport> {
     const directory = await mkdtemp(join(tmpdir(), "hiveos-codex-review-"));
     try {
       const status = await runCodex(this.cliPath, ["login", "status"], directory, "", true);
@@ -101,9 +109,26 @@ export class CodexLocalMathReviewer {
           mandate,
           "Return one exact contiguous quote from the attempt.argument of at least eight characters. If the attempt is inadequate, quote the problematic passage and set verdict to CHALLENGES or INCONCLUSIVE.",
           "Give concrete checks and any unresolved gap. A gap must not be hidden behind a favorable verdict. For an open problem, a plausible proof is a candidate, not an established theorem.",
-          "If exact bounded computation evidence is supplied, use only its stated finite domain. Distinguish a counterexample to a bounded auxiliary hypothesis from a counterexample to the root Erdős–Straus conjecture. The retained digest and search method are not a formal theorem certificate.",
+          ...(contract.caseType === "BENCHMARK_PROOF" ? [
+            "This is a known-answer benchmark. The following reference is review-only, not a proof certificate for the generated attempt:",
+            MATH_BENCHMARK_REFERENCE.reviewRubric,
+          ] : []),
+          ...(contract.caseType === "BENCHMARK_PROOF" ? [] : [
+            "If exact bounded computation evidence is supplied, use only its stated finite domain. A firstFailureAudit records the product's per-A checks. An independentReplay PASS, when supplied, means a separate fixed Python tool executed and matched the interval counts and per-A rows; it does not establish a universal theorem, literature novelty or academic peer review. Distinguish a counterexample to a bounded auxiliary hypothesis from a counterexample to Erdős–Straus itself. State any remaining check precisely.",
+            "If structuralCounterexampleReplay is PASS, fixed TypeScript and independent Python tools checked primality and every factor-pair exclusion through the named A. Inspect its A=3 square/divisor flags as exact arithmetic, then separately decide whether every premise of the PROPOSED conditional statement holds. A PASS does not prove arbitrary textual premises, a universal theorem, novelty or an Erdős–Straus counterexample. If the report is absent, do not claim tool verification.",
+            "If a prior gateDossier is present, it contains a finite checked chain ending in a target-A witness for one prime. Use its full factors and exclusion rows to test whether the attempt's exact premise applies. It does not prove a universal conditional. Identify any missing implication from cross-gate residues to a target-gate factor pair.",
+            "A parametric certificate, if supplied, confirms only the exact polynomial identity, positivity for t>=0 and one primitive progression. It does not check a root-specific A bound or first-denominator restriction. Compute 4x(t)-n(t) and compare it with the contract before claiming relevance. Do not infer coverage of every prime 1 mod 840 or novelty. Audit every quantifier. An INVALID certificate is never positive evidence.",
+          ]),
           `Set role to ${role}. Return only the required JSON object.`,
-          JSON.stringify({ contract, exactComputation: evidence, attempt: { attemptType: attempt.attemptType, argument: attempt.argument, candidateCounterexample: attempt.candidateCounterexample, limitations: attempt.limitations } }),
+          JSON.stringify({ contract,
+            ...(contract.caseType === "BENCHMARK_PROOF" ? {} : {
+              exactComputation: evidence, independentReplay: replay,
+              structuralCounterexampleReplay: counterexampleReplay, gateDossier,
+              parametricChecks: (attempt.erdosStrausPolynomialFamilies ?? []).map((family) => ({ family,
+                certificate: verifyErdosStrausPolynomialFamily(family) })),
+            }),
+            attempt: { attemptType: attempt.attemptType, argument: attempt.argument,
+              candidateCounterexample: attempt.candidateCounterexample, limitations: attempt.limitations } }),
         ].join("\n\n");
         const stdout = await runCodex(this.cliPath, [
           "exec", "--json", "--ephemeral", "--ignore-user-config", "--skip-git-repo-check",

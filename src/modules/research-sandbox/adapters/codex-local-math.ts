@@ -32,8 +32,34 @@ const outputJsonSchema = {
     erdosStrausWitnesses: { type: "array", maxItems: 4, items: { type: "object", properties: {
       n: { type: "string" }, x: { type: "string" }, y: { type: "string" }, z: { type: "string" },
     }, required: ["n", "x", "y", "z"], additionalProperties: false } },
+    erdosStrausPolynomialFamilies: { type: "array", maxItems: 2, items: { type: "object", properties: {
+      method: { type: "string", enum: ["ERDOS_STRAUS_POLYNOMIAL_FAMILY_V1"] },
+      parameter: { type: "string", enum: ["t>=0"] },
+      n: { type: "array", items: { type: "string" }, minItems: 2, maxItems: 2 },
+      x: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 5 },
+      y: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 5 },
+      z: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 5 },
+    }, required: ["method", "parameter", "n", "x", "y", "z"], additionalProperties: false } },
+    erdosStrausGateCounterexample: { anyOf: [
+      { type: "object", properties: { prime: { type: "integer" }, failedThroughA: { type: "integer" } },
+        required: ["prime", "failedThroughA"], additionalProperties: false },
+      { type: "null" },
+    ] },
   },
-  required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations", "erdosStrausWitnesses"],
+  required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations", "erdosStrausWitnesses", "erdosStrausPolynomialFamilies", "erdosStrausGateCounterexample"],
+  additionalProperties: false,
+} as const;
+
+const benchmarkOutputJsonSchema = {
+  type: "object",
+  properties: {
+    attemptType: outputJsonSchema.properties.attemptType,
+    argument: outputJsonSchema.properties.argument,
+    candidateCounterexample: outputJsonSchema.properties.candidateCounterexample,
+    selfChecks: outputJsonSchema.properties.selfChecks,
+    limitations: outputJsonSchema.properties.limitations,
+  },
+  required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations"],
   additionalProperties: false,
 } as const;
 
@@ -166,15 +192,20 @@ export class CodexLocalMathProvider implements ResearchProvider {
         throw new ResearchSandboxError("INVALID_TRANSITION", "Local Codex must use ChatGPT subscription sign-in, not an API key");
       }
       const schemaPath = join(directory, "result.schema.json");
-      await writeFile(schemaPath, JSON.stringify(outputJsonSchema), { mode: 0o600 });
+      await writeFile(schemaPath, JSON.stringify(input.mathPilot?.caseType === "BENCHMARK_PROOF"
+        ? benchmarkOutputJsonSchema : outputJsonSchema), { mode: 0o600 });
       const prompt = [
         "You are testing a local mathematics-research workflow, not certifying a theorem.",
         "Do not use tools, shell commands, web search, local files or external sources.",
         "Work only from the following exact statement and definitions. Do not silently alter the quantifiers or domain.",
         "Return a proof attempt, a concrete counterexample attempt, partial progress, or an explicit inconclusive result.",
         "Check every algebraic step or candidate against the stated definitions. List remaining limitations.",
-        "If scope contains a bounded exact-computation record, use only its declared finite domain. A failure within a bounded A-family refutes that auxiliary bound, not the general Erdős–Straus conjecture; a zero-failure finite scan never proves an infinite statement.",
-        "For an Erdős–Straus task, place up to four concrete (n,x,y,z) positive-integer decompositions in erdosStrausWitnesses as decimal strings. Use [] if none; never invent a tuple. These are checked independently by exact integer arithmetic after your response.",
+        ...(input.mathPilot?.caseType === "BENCHMARK_PROOF" ? [] : [
+          "If scope contains a bounded exact-computation record, use only its declared finite domain. A failure within a bounded A-family refutes that auxiliary bound, not the general Erdős–Straus conjecture; a zero-failure finite scan never proves an infinite statement.",
+          "For an Erdős–Straus task, place up to four concrete (n,x,y,z) positive-integer decompositions in erdosStrausWitnesses as decimal strings. Use [] if none; never invent a tuple. These are checked independently by exact integer arithmetic after your response.",
+          "For a genuine infinite-family task, you may supply up to two erdosStrausPolynomialFamilies. Each array lists coefficients from constant to highest power of t for n(t),x(t),y(t),z(t), with nonnegative decimal-integer coefficients, n(t) affine, t>=0. Supply [] unless you can show n(t) is a primitive progression 1 mod 840, denominators stay positive, and 4xyz=n(xy+xz+yz) is a polynomial identity. A checked family covers only that progression; it is not a proof of the full conjecture or novelty.",
+          "For a prime-residual structural counterexample to a fixed-A gate, set erdosStrausGateCounterexample to {prime,failedThroughA}, with 841<=prime<=200000000 and failedThroughA in 3,7,...,107. The tool will exhaust A=3,7,...,failedThroughA and independently replay primality and every factor-pair exclusion before reviewers see it. A human-steered structural COUNTEREXAMPLE_ATTEMPT without this typed candidate is rejected before peer review. Use null unless you assert failure of every gate through that A. This never certifies arbitrary extra premises or refutes the unrestricted Erdős–Straus conjecture.",
+        ]),
         "Do not claim independent verification or formal proof. Return only the required JSON object.",
         JSON.stringify({ statement: input.question, scope: input.scope }),
       ].join("\n\n");

@@ -5,6 +5,7 @@ import { canonicalJson } from "@/modules/execution-fabric/contracts";
 import { sha256 } from "./integrity";
 import {
   digestMathPilotContract,
+  MATH_PILOT_BENCHMARK,
   MATH_PILOT_CALIBRATIONS,
   mathPilotContractSchema,
   type MathPilotContract,
@@ -36,6 +37,7 @@ export const mathAgentLedgerSchema = z.object({
     attemptValid: z.boolean(),
     groundedQuotes: z.boolean(),
     calibrationWitnessValid: z.boolean().nullable(),
+    benchmarkReferenceValid: z.boolean().optional(),
     note: z.string().trim().min(12).max(1_000),
   }).strict(),
 }).strict().superRefine((value, ctx) => {
@@ -89,10 +91,14 @@ export function evaluateMathAgentReview(input: {
     calibrationWitnessValid = canonicalJson(input.contract) === canonicalJson(MATH_PILOT_CALIBRATIONS.CALIBRATION_COUNTEREXAMPLE) &&
       input.attempt.attemptType === "COUNTEREXAMPLE_ATTEMPT" && input.attempt.candidateCounterexample?.trim() === "2";
   }
+  const benchmarkReferenceValid = input.contract.caseType === "BENCHMARK_PROOF" && Boolean(contractValid) &&
+    canonicalJson(input.contract) === canonicalJson(MATH_PILOT_BENCHMARK) &&
+    input.attempt.attemptType === "PROOF_ATTEMPT";
   const expected = input.contract.caseType === "CALIBRATION_PROOF" ? "SUPPORTED_ARGUMENT"
-    : input.contract.caseType === "CALIBRATION_COUNTEREXAMPLE" ? "VALID_COUNTEREXAMPLE" : null;
+    : input.contract.caseType === "CALIBRATION_COUNTEREXAMPLE" ? "VALID_COUNTEREXAMPLE"
+    : input.contract.caseType === "BENCHMARK_PROOF" ? "SUPPORTED_ARGUMENT" : null;
   const supported = Boolean(contractValid && attemptValid && groundedQuotes && aligned &&
-    (expected === null || (calibrationWitnessValid && input.reports[0].candidateConclusion === expected)));
+    (expected === null || ((calibrationWitnessValid || benchmarkReferenceValid) && input.reports[0].candidateConclusion === expected)));
   const disposition = supported ? "AI_REVIEWED" : "INCONCLUSIVE";
   const conclusion = !supported ? "INCONCLUSIVE" : expected ?? "PARTIAL";
   return {
@@ -100,7 +106,12 @@ export function evaluateMathAgentReview(input: {
     conclusion,
     oracle: {
       contractValid: Boolean(contractValid), attemptValid, groundedQuotes, calibrationWitnessValid,
-      note: expected === null
+      ...(input.contract.caseType === "BENCHMARK_PROOF" ? { benchmarkReferenceValid } : {}),
+      note: input.contract.caseType === "BENCHMARK_PROOF"
+        ? benchmarkReferenceValid
+          ? "The sealed known-answer benchmark matches its reference and two AI roles support this attempt; the reference proves only that the theorem is true, not that this generated proof is formally valid."
+          : "The benchmark contract or proof-attempt type did not match the sealed known-answer reference."
+        : expected === null
         ? "Open mathematics has no known-answer oracle; AI review can continue research but cannot certify a theorem."
         : calibrationWitnessValid
           ? "The fixed calibration witness matches the sealed known-answer case; this is not a general proof checker."

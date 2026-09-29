@@ -444,7 +444,7 @@ const AUDIT_PAYLOAD_SCHEMAS = {
     .object({
       runId: z.string(),
       missionId: z.string(),
-      caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "OPEN"]),
+      caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "OPEN"]),
       contractDigest: z.string().regex(/^[a-f0-9]{64}$/),
     })
     .strict(),

@@ -162,7 +162,7 @@ export function verifyFrontierDossier(dossier: FrontierDossier): boolean {
 }
 
 export function frontierGate(input: { root: MathPilotContract; task: string; hypothesis?: string; dossier: FrontierDossier;
-  analyst?: FrontierAssessment; challenger?: FrontierAssessment }): {
+  analyst?: FrontierAssessment; challenger?: FrontierAssessment; boundedExperiment?: boolean }): {
     decision: "KNOWN" | "RESEARCH_ONLY" | "HOLD"; reason: string;
   } {
   if (!verifyFrontierDossier(input.dossier)) return { decision: "HOLD", reason: "Source dossier integrity failed" };
@@ -172,7 +172,8 @@ export function frontierGate(input: { root: MathPilotContract; task: string; hyp
   if (scopedKnown) return input.dossier.sources.some((source) => source.id === scopedKnown.id)
     ? { decision: "KNOWN", reason: `Covered by ${scopedKnown.id}; ${scopedKnown.sourceUrl}` }
     : { decision: "HOLD", reason: "A known-scope source is missing from the retained dossier" };
-  if (input.dossier.discovery.status !== "COMPLETE" || !input.dossier.sources.length) {
+  if (!input.dossier.sources.length ||
+    (input.dossier.discovery.status !== "COMPLETE" && !input.boundedExperiment)) {
     return { decision: "HOLD", reason: "Source discovery or primary passage is unavailable" };
   }
   if (!input.analyst || !input.challenger) return { decision: "HOLD", reason: "Independent source assessments are missing" };
@@ -181,9 +182,11 @@ export function frontierGate(input: { root: MathPilotContract; task: string; hyp
     return { decision: "HOLD", reason: "Source assessments failed contract validation" };
   }
   const ids = new Set(input.dossier.sources.map((source) => source.id));
-  if (input.analyst.quantifiers !== input.challenger.quantifiers ||
-    input.analyst.quantifiers === "UNCERTAIN") {
-    return { decision: "HOLD", reason: "Independent source agents disagree on theorem quantifiers" };
+  // MATCH and NARROWER are both admissible research scopes. In particular, a
+  // finite task can match a source's hypotheses while remaining narrower than
+  // the universal root. The independent task verifier checks that relation.
+  if (input.analyst.quantifiers === "UNCERTAIN" || input.challenger.quantifiers === "UNCERTAIN") {
+    return { decision: "HOLD", reason: "A source agent could not establish theorem quantifiers" };
   }
   for (const assessment of [input.analyst, input.challenger]) {
     if (assessment.sourceIds.some((id) => !ids.has(id)) || assessment.relevance !== "RELEVANT" ||
@@ -191,5 +194,7 @@ export function frontierGate(input: { root: MathPilotContract; task: string; hyp
       return { decision: "HOLD", reason: "Independent source and quantifier assessments did not agree" };
     }
   }
-  return { decision: "RESEARCH_ONLY", reason: "Bounded exploration permitted; novelty and theorem status remain unverified" };
+  return { decision: "RESEARCH_ONLY", reason: input.dossier.discovery.status === "COMPLETE"
+    ? "Bounded exploration permitted; novelty and theorem status remain unverified"
+    : "Offline finite experiment only: curated primary passages checked, live discovery unavailable; novelty and theorem status embargoed" };
 }

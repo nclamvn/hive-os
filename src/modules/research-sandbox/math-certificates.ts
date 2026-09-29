@@ -12,13 +12,14 @@ export interface ErdosStrausCertificate {
 }
 
 const positiveDecimal = /^[1-9][0-9]{0,39}$/;
-export const MAX_RESIDUAL_SURVEY_N = 100_000_000;
+export const MAX_RESIDUAL_SURVEY_N = 200_000_000;
 
 export function hasErdosStrausEquation(contract: MathPilotContract): boolean {
+  const statement = contract.statement.replace(/\s+/g, "");
+  const definitions = contract.definitions.replace(/\s+/g, "").toLowerCase();
   return contract.caseType === "OPEN" &&
-    /4\/n=1\/x\+1\/y\+1\/z/.test(contract.statement.replace(/\s+/g, "")) &&
-    /x,y,z/.test(contract.definitions.replace(/\s+/g, "")) &&
-    /positive/i.test(contract.definitions);
+    /(?:^|[^0-9])4\/[np]=1\/x\+1\/y\+1\/z/i.test(statement) &&
+    /x,y,z(?:are)?(?:strictly)?positiveintegers/.test(definitions);
 }
 
 /** Checks one finite identity, never a universal claim or the provenance of a model argument. */
@@ -39,7 +40,7 @@ export function verifyErdosStrausWitness(witness: ErdosStrausWitness): ErdosStra
 
 /** Deterministic primality for the bounded survey only; no claim beyond maxN. */
 export function isPrimeInSurvey(n: number): boolean {
-  if (!Number.isSafeInteger(n) || n < 2 || n > MAX_RESIDUAL_SURVEY_N) throw new RangeError("Survey primality domain is 2..100,000,000");
+  if (!Number.isSafeInteger(n) || n < 2 || n > MAX_RESIDUAL_SURVEY_N) throw new RangeError("Survey primality domain is 2..200,000,000");
   if (n % 2 === 0) return n === 2;
   for (let divisor = 3; divisor * divisor <= n; divisor += 2) if (n % divisor === 0) return false;
   return true;
@@ -84,13 +85,82 @@ export interface ResidualSurveyPlan {
 }
 
 export interface ResidualSurveyEvidence {
-  method: "ERDOS_STRAUS_RESIDUAL_SURVEY_V2";
+  method: "ERDOS_STRAUS_RESIDUAL_SURVEY_V2" | "ERDOS_STRAUS_RESIDUAL_SURVEY_V3";
   plan: ResidualSurveyPlan;
   primeCount: number;
   failureCount: number;
   firstFailure: BoundedSearchResult | null;
   firstFailureRescue: BoundedSearchResult | null;
   manifestDigest: string;
+  /** Present only for new events; historical V2 surveys remain immutable. */
+  firstFailureAudit?: ResidualFailureAudit;
+}
+
+export interface ResidualFailureAudit {
+  method: "ERDOS_STRAUS_EXCLUSION_AUDIT_V1";
+  n: number;
+  maxA: number;
+  primeTrialLimit: number;
+  rows: Array<{
+    a: number;
+    x: number;
+    xFactors: Array<{ prime: number; exponent: number }>;
+    factorPairsChecked: number;
+    admissiblePairs: number;
+  }>;
+  auditDigest: string;
+}
+
+/** A second, deliberately separate factor enumeration for a single proposed failure. */
+export function auditResidualFailure(n: number, maxA: number): ResidualFailureAudit {
+  if (!Number.isSafeInteger(n) || n < 841 || n > MAX_RESIDUAL_SURVEY_N || n % 840 !== 1 ||
+    !Number.isSafeInteger(maxA) || maxA < 3 || maxA > 107 || maxA % 4 !== 3) {
+    throw new RangeError("Exclusion audit is outside the bounded residual-prime domain");
+  }
+  const primeTrialLimit = Math.floor(Math.sqrt(n));
+  if (n % 2 === 0 || n % 3 === 0) throw new RangeError("Exclusion audit requires a prime");
+  for (let divisor = 5; divisor <= primeTrialLimit; divisor += 6) {
+    if (n % divisor === 0 || n % (divisor + 2) === 0) throw new RangeError("Exclusion audit requires a prime");
+  }
+  const rows: ResidualFailureAudit["rows"] = [];
+  for (let a = 3; a <= maxA; a += 4) {
+    const x = (n + a) / 4;
+    let remainder = x;
+    const xFactors: ResidualFailureAudit["rows"][number]["xFactors"] = [];
+    for (let divisor = 2; divisor * divisor <= remainder; divisor += divisor === 2 ? 1 : 2) {
+      if (remainder % divisor !== 0) continue;
+      let exponent = 0;
+      do { remainder /= divisor; exponent += 1; } while (remainder % divisor === 0);
+      xFactors.push({ prime: divisor, exponent });
+    }
+    if (remainder > 1) xFactors.push({ prime: remainder, exponent: 1 });
+    const factors = [{ prime: n, exponent: 1 }, ...xFactors];
+    const b = BigInt(n) * BigInt(x);
+    const square = b * b;
+    const modulus = BigInt(a);
+    let factorPairsChecked = 0;
+    let admissiblePairs = 0;
+    const inspect = (position: number, divisor: bigint) => {
+      if (position < factors.length) {
+        const { prime, exponent } = factors[position]!;
+        let power = BigInt(1);
+        for (let count = 0; count <= 2 * exponent; count += 1) {
+          inspect(position + 1, divisor * power);
+          power *= BigInt(prime);
+        }
+        return;
+      }
+      if (divisor > b) return;
+      factorPairsChecked += 1;
+      const paired = square / divisor;
+      if ((b + divisor) % modulus === BigInt(0) && (b + paired) % modulus === BigInt(0)) admissiblePairs += 1;
+    };
+    inspect(0, BigInt(1));
+    if (admissiblePairs !== 0) throw new Error("Independent exclusion audit disagrees with the survey failure");
+    rows.push({ a, x, xFactors, factorPairsChecked, admissiblePairs });
+  }
+  const payload = { method: "ERDOS_STRAUS_EXCLUSION_AUDIT_V1" as const, n, maxA, primeTrialLimit, rows };
+  return { ...payload, auditDigest: createHash("sha256").update(JSON.stringify(payload), "utf8").digest("hex") };
 }
 
 /** A deliberately small, auditable exact-computation tool; never accepts model-supplied code. */
@@ -100,14 +170,14 @@ export function validateResidualSurveyPlan(plan: ResidualSurveyPlan): void {
     lowerExclusive < 840 || upperInclusive > MAX_RESIDUAL_SURVEY_N ||
     upperInclusive <= lowerExclusive || upperInclusive - lowerExclusive > 20_000_000 ||
     !Number.isSafeInteger(maxA) || maxA < 3 || maxA > 107 || maxA % 4 !== 3) {
-    throw new RangeError("Residual survey requires an interval of at most 20,000,000 within 841..100,000,000 and maxA=3 mod 4, at most 107");
+    throw new RangeError("Residual survey requires an interval of at most 20,000,000 within 841..200,000,000 and maxA=3 mod 4, at most 107");
   }
 }
 
-export function surveyResidualInterval(plan: ResidualSurveyPlan): ResidualSurveyEvidence {
+export function surveyResidualInterval(plan: ResidualSurveyPlan,
+  method: ResidualSurveyEvidence["method"] = "ERDOS_STRAUS_RESIDUAL_SURVEY_V3"): ResidualSurveyEvidence {
   validateResidualSurveyPlan(plan);
   const { lowerExclusive, upperInclusive, maxA } = plan;
-  const method = "ERDOS_STRAUS_RESIDUAL_SURVEY_V2" as const;
   const digest = createHash("sha256").update(JSON.stringify({ method, plan }), "utf8");
   let primeCount = 0;
   let failureCount = 0;
@@ -126,13 +196,14 @@ export function surveyResidualInterval(plan: ResidualSurveyPlan): ResidualSurvey
     method, plan, primeCount, failureCount, firstFailure,
     firstFailureRescue: firstFailure && maxA < 107 ? searchResidualPrime(firstFailure.n, 107) : null,
     manifestDigest: digest.digest("hex"),
+    ...(firstFailure ? { firstFailureAudit: auditResidualFailure(firstFailure.n, maxA) } : {}),
   };
 }
 
 /** Exhausts first denominators x=(n+A)/4 for A=3,7,...,maxA and all factor pairs of (nx)^2. */
 export function searchResidualPrime(n: number, maxA = 107): BoundedSearchResult {
   if (!Number.isSafeInteger(n) || n < 2 || n > MAX_RESIDUAL_SURVEY_N || n % 840 !== 1 || !isPrimeInSurvey(n)) {
-    throw new RangeError("n must be a prime congruent to 1 modulo 840, at most 100,000,000");
+    throw new RangeError("n must be a prime congruent to 1 modulo 840, at most 200,000,000");
   }
   if (!Number.isSafeInteger(maxA) || maxA < 3 || maxA > 107 || maxA % 4 !== 3) {
     throw new RangeError("maxA must be 3 modulo 4 and between 3 and 107");
