@@ -2260,3 +2260,490 @@ deferred gates; verify actual commit/push from Git after delivery. Local task
 READY_WITH_DEFERRED. Live scientific comparator/yield, startup/worker packaging,
 formal/novelty/expert/root-result and remote CI remain separate. No research
 model/worker/paid API/live-user-data mutation in this closure step.
+
+## 2026-10-01 — TIP-036 shifted-factor structural slice
+
+Owner approved the adaptive factor-partition direction with “Tốt, triển khai”.
+Standalone scripts/tests/docs only; no app/DB/historical ledger, queue/worker,
+paid API/model campaign, Git commit/push or deployment. Prior ca9c6e5 checkpoint
+and unrelated dirty screenshots/workspace/cache preserved. Vibecode Kit used
+two Builders plus separate skeptical context and Contractor acceptance.
+
+Known coprime divisor Type-II construction retained. Independently challenged
+written safe-prime theorem: h=2ell+1 prime,ell odd prime,gcd(T,h)=1,some QNR
+factor; nonidentity valuation mass W>=ell forces target-1. At W=ell-1 a miss
+iff all nonidentity residues belong to one primitive-QNR inverse pair. Two
+noninverse QNR directions imply missW<=ell-3. Repetitions/unused mass included.
+Known Kneser/Tao framework and earlier A19 overlap credited; no formal/novelty
+or root-theorem claim. Safe-prime infinitude cannot be assumed as a root bridge.
+
+Predeclared public interval200000000<p<=201000000,p1mod840; all275eligible
+primes, four separate exposed warmups, shifts7/11/23/47/59/83/107. Exact1953rows,
+971combined hitrows;272/275new primes covered. Retained new menu misses
+200023321/200602081/200656681 and old131433121. They are not conjecture
+counterexamples. p19 is explicit noninteger-T control, with oldh1 witness separate;
+oldq15/q99 auxiliary-bound refutations retained.510 h7/h11 group profiles,
+zero classification mismatches, finite controls not an unbounded proof.
+
+Independent TS signed-image DP and Python positive coprime divisor pairs match
+every image, valuation, canonical strict witness. Content digest:
+ca0edf6ce6ab31d22e801a63db8301039efc20eb3c9d9ee7a613318ef2fcb913.
+Python fixed verified-source
+pin18dcf20e88d1fd70a5d5cee8e5db429f426f8e3a1e2ac1540f986766cb80fed9.
+130625states/1742040pairs/~1.42MB;60s/10000rows/2Mstates/50Mpairs/2MiB limits.
+PARTIAL prefixes and finalization/receipt deadline guards tested; bounded
+contradiction diagnostics exit1, not mathematical refutation authority. Scoped
+identity validation alone does not certify image completeness; fresh replay does.
+
+Final Contractor unit599/599,93files,31.72s,start20:00:35+07; lint0/0,type0.
+Skeptic29/29 focused,20.23s,PASS_WITH_SCOPE_LIMITS; same-model context, not formal.
+Currentmanifest78entries and diff/new-file whitespace checks clean; founding
+unchanged. Initial23/25 mocked-ESM failures and597/598 contention timeout retained
+in report; repaired tests, narrow30s test timeout only, research caps unchanged.
+Final actual source-pinned replayPASS under concurrent tests:976ms primary,
+7775ms Python,9978ms wrapper, invariant unchanged. No new integration/build/UI
+E2E run. No fresh campaign/model-comparison or root breakthrough established.
+
+Contract:TIP-036_ADAPTIVE_SHIFT_PARTITIONS.
+Verify:TIP-036_ADAPTIVE_SHIFT_VERIFY_REPORT.
+Research:MATH_PILOT_ADAPTIVE_SHIFT_PARTITIONS_2026-10-01.
+Next separate gates: governed agent-cycle tool admission/UI evidence integration;
+general-prime quadratic-character/stabilizer analysis for cross-shift existence
+on retained misses. Prime-shift existence alone proves neither sufficient factor
+mass nor finite-depth success. Do not reuse a disproved core bound or relabel
+public development hit counts as novelty, held-out yield or a root proof.
+
+## 2026-10-01 — TIP-037 character routing and general-prime defects
+
+Owner approved continuation with “tiếp tục”. Standalone local scripts/tests/
+documents only. No app/UI/DB/historical ledger, tool admission, queue/worker,
+provider/paid call, dependency/schema, Git commit/push or deployment. HEAD
+ca9c6e5 and unrelated dirty work preserved. Vibecode Kit separated two Builders,
+same-model skeptical context and Contractor acceptance; no formal independence.
+
+Known Type-II coprime divisor construction retained. Written proof independently
+challenged for any prime h3mod4,positive T coprimeh,complete signed image S
+missing-1: exact stabilizer H has odd order,quotient index n2mod4;visible
+valuation V satisfies2V<=n-2;each visibleq^e has quotient order>2e+1. A QNR
+factor impliesn>=6. Negative-character miss/index6 impliesV1 and exactly
+three quotient classes. Known Kneser/Tao and external T-vs-N=pT overlap
+credited; no novelty/universal root bridge or formal certification established.
+
+Frozen four targets200023321/200602081/200656681/131433121 × every prime
+h<=107,h3mod4:3/7/11/19/23/31/43/47/59/67/71/79/83/103/107. All60rows,
+11hits/49misses;19negative-character rows include6hits/13misses;5positive
+character hits retained. Full/preferred first successes3/103,3/31,3/19,71/71.
+Important correction: three new TIP-036 menu misses have trivialh3witnesses,
+excluded by the earlier menu. They are menu gaps, not intrinsically hard
+instances or discoveries. Character-negative routing is not uniformly dominant
+or justified as the sole default. Selected public development, not held-out.
+
+At h31,p200023321 andp131433121 bothpreferred misses:exactH{1,2,4,8,16},
+n6,V1,visible residue17/order6,|S|15. Finer-than-character obstruction real.
+Independent TSfactorDP/Pythonpositivecoprimedivisorpairs match every fullimage,
+canonicalstrictwitness,character,H,n,V/order androuting. Stablecontent
+a6e29476a065de13e0de34d64458579b96e74ec9da35196e74eac1275f4e767c.
+FinalPythonpin65ce7d5c3bab0a9e871baa9588987c1ad4b8a73814b8541910f2bed304830ca4.
+Contractor freshPASS20:19:19+07:3063states/17ms/56825bytes;30512pairs/56ms/
+56821bytes;wrapper135ms. Localarithmetic, notmodelyield/latency.
+
+Caps60s/1000rows/2Mstates/50Mpairs/2MiB. ExactPARTIALprefix/pending/routing
+flags and final discovery/sealing/stdout/receipt deadline guards checked.
+Scopevalidatoralone does notproveimagecompleteness/minimality;freshreplaydoes.
+Fixedverifiedbytes/isolatedPython have local sourceintegrity, notbinary or
+externalreceiptattestation. Contradictiondiagnostic testedonlybyinjection;
+no actualtheoremcontradiction. AllTIP-036sources/testpins unchanged.
+
+Contractorwholeunit628/628,95files,112.53s,start20:19:06+07;type0,lint0/0,
+ownedlint0. Eightfullyrehashedtamperchecksrejected;16rowpartialvalid/notPASS.
+Skeptic29/29,2.05s,PASS_WITH_SCOPE_LIMITS;11696missinggroupprofiles no
+defectviolation, finitecontrolnotunboundedproof. Currentmanifest79/79,
+foundingunchanged,diff/new-filewhitespaceclean. No newintegration/build/UIE2E
+or comparativecampaign run. READY_WITH_DEFERRED,notrootbreakthrough.
+
+Proof-onlytransferchecked:qprime3mod4 dividesT_h withLegendre(q/h)-1 ⇒
+Legendre(p/q)-1;h<p givesq<=T_h<p,notnecessarilyq<T_h. Oldh31offers
+q2053643outside107;newrowNOTcomputed. Newvisible5319771mod4blocksdirect
+transfer. Eligibilitydoesnotimplyhit,descent,termination ornovelty;two-cycle
+exclusionnotgeneralacyclicity. CENTLprior-artoverlapcredited,notadoptedpremise.
+Nextpreregisterfactor-directedtransfer andchallengeprogressinvariant:
+increasevisiblemass/destroystabilizer/producewitness;retainstalls/1mod4blockers/
+longercycles. Do notposthocenlargebounds orassumerootbridgefromprimesalone.
+
+Contract:TIP-037_CHARACTER_SHIFT_DEFECTS.
+Verify:TIP-037_CHARACTER_SHIFT_VERIFY_REPORT.
+Research:MATH_PILOT_CHARACTER_SHIFT_DEFECTS_2026-10-01.
+Agent-tooladmission/UI, sealedcomparativecampaign,formal/expert/novelty and
+originalrootremain separate deferredgates. No newownerapprovalceremonywithin
+approvedlocalresearch;materialroot/resources/publicclaimchange requiresrouting.
+
+## 2026-10-01 — TIP-038 factor-directed transfer and progress falsification
+
+Owner continued with “tiếp tục”. Completed only standalone local scripts,
+tests and documents; no app/UI/history, DB, tool admission, queue/worker,
+provider/model/paid API, dependency/schema, Git mutation or deployment.
+HEAD/origin remain ca9c6e5; unrelated screenshots/workspace/cache preserved.
+Vibecode Kit separated two Builders, a same-model skeptical context and
+Contractor acceptance. READY_WITH_DEFERRED for this slice, not root acceptance.
+
+Preregistered exactly13 TIP-037 negative-character miss seeds, content
+a6e29476a065de13e0de34d64458579b96e74ec9da35196e74eac1275f4e767c.
+Every QNR factor retained; q3mod4 transfer and q1mod4/q2 nonintegral blocker.
+Canonical ascending-factor BFS first discovery, dedup(p,h), depths0/1/2 only;
+hits stop branches. Per-seed paths cap actual edges at2 even through another
+seed. Revisit is not a cycle; directed cycle witnesses and outward frontiers
+have explicit semantics. No posthoc inputs/depth/fallback were added.
+
+Challenged standard reciprocity implication: q|T_h,QNR moduloh,h/q3mod4
+gives Legendre(p/q)=-1 and q<=T_h<p,q!=h. No q<h or immediate-hit implication.
+Equality q=T is possible; proof controls p17/h11/q7 and p181/h7/q47 are not
+additional campaign nodes. Two-cycle exclusion is not general acyclicity.
+Known Type-II coprime divisor construction and Kneser diagnostics retained;
+external T-versus-N=pT author notes credited but not accepted premises/novelty.
+
+Actual graph17nodes,15records=4transfers+11blockers,2hit nodes; no actual
+revisit/cycle/frontier. Transfers p200656681:h71→239HIT,h103→2027MISS;
+p131433121:h31→2053643MISS→103HIT. Only2/13 seeds reach a hit within2edges.
+All four roots already have known witnesses; no new overall prime coverage.
+Strict tuples (50164230,42140310890172,73815777909284620) and
+(32858306,52424203240786,209433815288023) independently integer-checked.
+
+C1 “every valid transfer immediately hits” REFUTED by firstr9:h103→2027,
+p200656681. ChildT=3^6*68813,S39,H1,index2026,V7; QNR68813 is1mod4 and blocks.
+C2 visible mass strictly grows at missing children and C3 missing children
+have trivialH are NO_REFUTATION_IN_COMPUTED_EDGES only across2missing children,
+not PROVED. Normalized occupancy worsens63/102→39/2026 and15/30→27/2053642;
+V/index also falls. RawVgrowth/Hcollapse acrossdifferentgroups is not a
+well-founded progress invariant. Preserve these negative findings for routing.
+
+Full invariant content952de09e31ded70c7f9f498a6ca9933ba3ca70c404f194712b491dbf00eb9bc4;
+graph26ee68f8dedc2c62cd4065eeb864c5551a927923e2a1b4b17b87246274dfe90a.
+Independent Python fixed verified source
+19fd4294c0b5ace65936a918858a62418eb519559392347237d7e6bc186d64f7.
+Main fresh actual PASS20:37:41+07,84mswrapper:1405states/15545work/11ms/
+28177bytes primary;8076pairs/6252work/17ms/28171bytes Python. Separate actual
+CLI exit0 and freshPASS20:38:39+07. These are local arithmetic, not AI yield.
+
+Caps60s/256nodes/1000records/2Mstates/50Mpairs/50Madditionalwork/2MiBoutput.
+Exact atomicNODE/FACTOR/FINALIZE partials cannotPASS. Primary packet invocation
+excludes inert import; fixed CLI counts dynamic import/serialization and wrapper
+counts source reads/receipt. Checkpoints are not JS/OS hardpreemption or binary
+attestation. H searched only insideS; quotient orders factor/power reduced;
+BigInt modular products exact. Scoped identities alone do not certify full
+image/minimum: a plausible omitted-hit-image residue passed local validation
+but failed actual fresh replay. Fresh execution remains mandatory for admission.
+
+Main wholeunit656/656,97files,82.41s,start20:36:15+07; finaltype0/full-lint0/
+ownedlint0.12ownfullyrehashedfaults reject; one-recordpartialvalid/notPASS.
+Skeptic28/28,1.55s,ownactualfreshPASS83ms,8rehashedfaults reject and exact
+independentphasepartial controls. PASS_WITH_SCOPE_LIMITS; no formal independence.
+Initial CJSCLI/testtypos/mutationharness11/12/preferconstlint1 failures and
+diagnostic-command mistakes retained in verify report; final guards unchanged.
+All14TIP-036/037 source/test fingerprints unchanged; all7new Builder source/
+test freezes match. Currentmanifest80/80; founding unchanged; whitespaceclean.
+No integration/build/browserE2E/livecomparator run in this slice.
+
+Next discriminating obligation: separately preregister a composite c=3q
+response to retained1mod4 blockers when3q<p. Simultaneous CRT target and
+composite unit-group proof required; multiple involutions prohibit blindly
+importing prime quotient parity/index/order rules. This proposal is not yet
+admitted, executed, integrated or guaranteed successful. Do not expand depth
+to rescue C1, or infer root/novelty/held-out advantage from recovered witnesses.
+Governed agent/UI admission, comparative sealed campaign, formal/expert/novelty
+and original unbounded root gates remain deferred.
+
+Contract:TIP-038_FACTOR_DIRECTED_TRANSFER.
+Verify:TIP-038_FACTOR_TRANSFER_VERIFY_REPORT.
+Research:MATH_PILOT_FACTOR_TRANSFER_2026-10-01.
+
+## 2026-10-01 — TIP-039 composite shifts: shortcut refuted, full CRT replay accepted
+
+Owner continued with “tiếp”. AGENTS/handoff and Vibecode Kit v6.2 read;
+Contractor delegated bounded primary/replay and separate skeptical contexts.
+**READY_WITH_DEFERRED** for standalone research, accepted R01–R05,5/5.
+No app/Next/UI/DB/history, agent admission, queue/worker/provider/API,
+dependency/schema, Git mutation, deployment or public acceptance in this slice.
+Existing screenshots/workspace/cache and prior evidence preserved; branch
+codex/tip-023a-organization-graph, HEAD/origin unchanged ca9c6e5.
+
+Exactly all11 accepted TIP-038 NONINTEGRAL_SHIFT blocker records, original
+order, source content952de09e31ded70c7f9f498a6ca9933ba3ca70c404f194712b491dbf00eb9bc4.
+Only c=3q,T=(p+c)/4, original parent valuation/QNR recomputed; no additional
+factor/multiplier/depth/fallback. Inputs/caps/C4 preregistered before discovery
+at contract SHA3c7607ad72039d17c8b0c46b838412b907ffda70b7513e9430553b99106703f4.
+A challenged unqualified Jacobi “necessary”; Contractor explicitly amended
+only that qualifier to registered provenance, NOT general hit eligibility,
+SHA2269fea155b62f0a15e67b0011a99d044618a0b8ea33d9428cde6170f0f23059.
+Audit retained; no experimental predicate or input weakening after outcomes.
+
+All11 joint MISS:9 LOCAL_Q_OBSTRUCTION,2 LOCAL_BOTH_OBSTRUCTION r5/r11.
+All H={1}; no q projection hits -1, so these actual failures precede CRT
+synchronization. C4 “every registered c3q branch succeeds” REFUTED by firstr0:
+p200023321,q531977,c1595931,T50404813=17*29*102241,S27,
+q projection excludes531976; mod3 local pair(1,17) is not a joint witness.
+RowSHA7acc7f616cb9580175b6da8bc65f65c362e2acae21930c0e311ee6c64e15d16e.
+Allroots already have witnesses; zero new prime coverage. No strict tuple
+issued, no root counterexample or breakthrough, no held-out/model-yield score.
+
+Generic finite-abelian exact-stabilizer lemma independently challenged and
+accepted as a standard Kneser deduction: missing involution t has order2
+moduloH; indexn even; visible quotientorder>2e+1;2V<=n-2. A local cyclic
+interval saturation forces its generator into exactH, so visibleorder2
+cannot survive. Composite multiple involutions permit evenH,index2/index4;
+prime-only Hodd/index2mod4/QNR-visible/index>=6 rules are not transferred.
+Abstract U15 controls show projected-success/joint-miss and QNR-in-evenH.
+U39 residues5(e2),28(e1) have full local projections, Jacobi−1 and joint−1
+missing; H={1,5,8,25},index6,V1. All are proof/unit controls, not new rows.
+Local3 hit iff some positive-valuation prime factor2mod3; allr5/r11 factors
+are1mod3. Registered negative character gives no bounded q-target guarantee.
+
+Stable contentff01bdbd52abbb55e98ab912b2c201968cecb210a5fd6449725dd8804731831e;
+rows e1b1b8fb8d15e9f049b2dbb06a9b6afa91b3083374f4b5c4652283b934851d3b.
+Python verified source d2eb19e4c199e29744f5a6410b4bd35991777c3bb53da8d5ba939ac38f52425f.
+Main actual fresh PASS85ms; separate fixedCLI/full replay at21:02+07 PASS74ms:
+544TSstates/19427work/13ms/25219packetbytes; Python1076pairs/4413work/12ms/
+25214stdoutbytes. These measure local arithmetic, not LLM latency or yield.
+
+Caps60monotonicsec/11rows/2Mstates/50Mpairs/50Madditionalwork/2MiBoutput.
+Exact ordered atomicROW/FINALIZE partials cannotPASS. H searched withinS;
+orders factor/power-reduced fromphi(3q)=2(q−1); integer/BigIntmodular exact.
+FixedCLI counts dynamicimport/serialization; wrapper source reads/receipt.
+Inertimport exclusion, synchronous checkpoint/hardpreemption and localcollector/
+Pythonbinary attestation limits explicit. Scoped identities are not fullimage/
+minimum authority: valid nonminimum localpair and coherent imageomission can
+locally validate but actualfresh independent replayMISMATCH. Fresh execution
+remains mandatory. Contradiction injections are not real mathematical failures.
+
+Main wholeunit685/685,99files,81.10s,start21:01:08+07; finaltype0/full-lint0/
+sixfileownedlint0.19ownrehashedfaults reject; valid one-rowPARTIAL noPASS.
+Skeptic29/29,3.11s,ownfreshPASS72ms,10faults reject, independentROW r0/r5/r13
+prefix0/5/10 andFINALIZE11 verified. PASS_WITH_SCOPE_LIMITS;
+reportSHAcad0b15e814927d793c90777bfea1f13365a6cc4486f414b8bdbf0c580f0d6c5.
+All21oldsource/testpins unchanged;7newpins match Builderfreezes;
+currentmanifest81/81,foundingunchanged,tracked/newfilewhitespaceclean.
+Initial tsxIPC EPERM resolved bynode--importtsx; draftmathdelimiter repair
+verified with3KaTeXdisplays. No production guard weakened. No newbrowserE2E,
+integration/build/liveagent/model-comparator run. Same-model skeptical contexts
+and different algorithms are not formal/externalexpert independence.
+
+Next justified obligation is a separately scoped root-bound factor-supply or
+bounded-image-occupancy sufficient lemma, with precise hypotheses and a
+falsification test. Do not rescue C4 by larger multipliers/depth, or confuse
+negative character/integrality/Hcollapse/rawVgrowth with forced target coverage.
+No general root bridge established. Governed tool/UI/agent admission,
+uncontaminated comparative evaluation, formal/expert/novelty and original
+unbounded Erdős242 gates remain deferred.
+
+Contract:TIP-039_COMPOSITE_SHIFT_CRT.
+Verify:TIP-039_COMPOSITE_SHIFT_CRT_VERIFY_REPORT.
+Research:MATH_PILOT_COMPOSITE_SHIFT_CRT_2026-10-01.
+
+## 2026-10-01 — TIP-040 constructive sufficient coverage accepted locally
+
+Owner continued with “tiêp theo”. AGENTS/handoff and Vibecode Kit v6.2 read;
+separate primary/replay Builders, skeptical review and Contractor verification.
+Standalone research only: no app/Next/UI, DB/history, agent admission, worker,
+provider/model/API, dependency/schema, Git commit/push/deployment changes.
+Unrelated screenshot/workspace/cache and prior TIP-036–039 work preserved.
+HEAD/origin unchanged ca9c6e5d21f68dd2ca157902624cd8e5e8d32353.
+
+Contract45007d95c263301e726006d1d2fb285350ec45e08959dfc87356336f5ed32e60
+fixed precisely60 TIP-037 and11 TIP-039 exposed rows before coverage execution.
+No added roots/shifts/depth/split policy/looser threshold/cyclic-block fallback.
+All roots already have witnesses; this is method calibration, not held-out data.
+Immediate first-chain-target stop, numeric-lex ordered half pairs, sorted A
+matching and explicit global inversion were resolved before Builder execution.
+These deterministic seams affect constructive witnesses, not method predicates.
+
+New scripts sufficient-coverage.ts/audit.ts/check.ts/replay.ts/replay.py and
+two unit files implement exact ascending single-factor constructive subgroup K,
+relative-order saturation d<=2e+1, reconsideration and order1 factors. K is
+covered by actually allocated factors, not a freely reusable exact stabilizer.
+Remaining support is split disjointly into nonempty proper halves, unordered
+ascending bitmasks. Exact quotient multiplicities give N,E=sum(mu²),
+L=ceil(N²/E); strict LA+LB>|G/K| forces target-coset matching. A separately
+paid K lift and global orientation yield legal exponents and a strict Type-II
+tuple. Failure is NOT_CERTIFIED, never MISS, root-excluded or no-solution.
+
+Frozen outcome:4 CHAIN_CERTIFIED,0 ENERGY_CERTIFIED,67 NOT_CERTIFIED.
+Certificates P0_h3,P1_h3,P1_h31,P2_h3. The h31 chain covers K10 within U31;
+constructive vector(-7,-1),pair(1,50150528),tuple
+(50150528,324525821956479,16275141320751414870912), not a minimum witness.
+After certificate generation, actual fresh old TIP-037/039 replays PASSed
+and aligned all71 inputs:11 known hits/60 misses. Only4/11 known hits are
+certified(36.36%);7 known hits and60 known misses remain NOT_CERTIFIED.
+Seven uncertified hits P0_h103,P1_h79,P2_h19,P2_h31,P2_h79,P3_h71,P3_h103
+all have trivial K. P1_h79 max energy lower-sum77<=quotient78. Do not relax
+strictness, call these MISS, or claim the energy branch added real-row yield.
+Abstract U7/U31/U19 positive ENERGY/lift/inversion controls and U11 incomplete
+HIT are regression/proof controls only, not added roots or breakthrough evidence.
+
+Stable content48b455470ecb38da669d372206841a65fbc34facb0b684763a01b3df5d96fa72;
+rows cc6702a59816d61f8c4b921e0840036b1417981cebca8dc57ad79446d158553b;
+verified Python57874e09b3c501919c64c611b25d475d2f83419aabc35024fcd06af518983b96.
+Main final fixedCLI exit0/185ms/744375 stdoutbytes; fresh PASS680ms,
+Python102ms/40399pairs/7068states/14615work/744393bytes.
+Primary11405states/119478work/744374packetbytes. These are local arithmetic,
+not LLM throughput, AI yield, equal-work comparison or a product performance SLO.
+
+Caps60monotonicsec/71rows/2Mstates/50Mpairs/50Mgroup-work/2MiBoutput.
+Only constructive K/proper-half quotient maps, no full-unit scan or final
+full signed target-image routing. BigInt modular exact; Python independently
+factors and uses positive coprime divisor halves, while both implement the
+standard factor/power order reduction. Exact atomic ROW/FINALIZE prefixes;
+PARTIAL cannot PASS. Main18 and skeptic19 rehashed faults reject. Coherent
+changed-mu data with rebuilt hashes can pass scoped checks but actual fresh
+Python MISMATCH; local validator/abstract helper is not exact-frequency,
+canonicality, root-witness or execution authority. Fixed verified bytes are
+executed, not merely matched JSON. Local collector/source integrity is not
+Python binary or externally signed attestation; synchronous timing is observed,
+not hard JS preemption. Synthetic post-row INVESTIGATION checks status/cert/
+attempt consistency; earlier arithmetic errors fail closed without universal
+offending-row retention. No real mathematical contradiction was observed.
+
+Main wholeunit715/715,101files,95.43s,start21:27:51+07; finaltype0/full-lint0/
+sixfileownedlint0.30 new unique tests=18primary+12replay. Skeptic own30/30,
+13.39s,final freshPASS644ms,Python99ms, PASS_WITH_SCOPE_LIMITS4/4.
+All28 old source/test pins preserved;7 new pins frozen;currentmanifest82/82,
+founding unchanged; tracked and13-new-file whitespace/EOF checks clean.
+Four display/four inline note formulas parse in KaTeX; no browser UI/E2E claim.
+Final skeptic SHA f978f464dc0dc2ef91d9aea67ff89e28e132a2ca28a733654c1f8b25ce861eb5.
+Main acceptance READY_WITH_DEFERRED4/4,coverage100% within this local slice,
+not completion of the research program or universal theorem.
+
+Next justified task: preregister and challenge a stronger structural mechanism
+for jointly allocated factor blocks, test the seven exposed failures and
+separately held-out controls. Cyclic-block Kneser proposal is proof-only,
+unimplemented/unevaluated here. Root-wide factor supply remains unproved.
+Six wider gates deferred: root supply; novelty/prior-art acceptance; formal/
+external review; governed agent/UI admission; uncontaminated equal-budget
+model comparison; live product E2E/integration. No autonomous/publication gate
+is promoted from these finite certificates. Root Erdős242 NOT_ESTABLISHED.
+
+Contract:TIP-040_SUFFICIENT_COVERAGE.
+Verify:TIP-040_SUFFICIENT_COVERAGE_VERIFY_REPORT
+(SHA8999379201ab804a1c34b67a9010b83fcf5999f1216e619bf428d69c1c0a91c8).
+Research:MATH_PILOT_SUFFICIENT_COVERAGE_2026-10-01.
+
+## 2026-10-01 — TIP-041 all-subgroup block coverage accepted locally
+
+Owner continued with “tiếp”. AGENTS/handoff and complete Vibecode Kit v6.2
+with QA/TIP-report references read; separate primary/replay Builders, skeptic
+and Contractor acceptance. Standalone local research only: no app/Next/UI,
+DB/history, agent admission, worker/model/provider/API, dependency/schema,
+Git commit/push, deployment or publication. Existing unrelated screenshots,
+workspace/cache and TIP-036–040 changes preserved. HEAD/origin remains
+ca9c6e5d21f68dd2ca157902624cd8e5e8d32353, branchcodex/tip-023a-organization-graph.
+
+Contract279a968e7beabaecb1f32f682b2b8057d2f217631516cb720bb7ae17e4af8508
+preregistered191 rows: old71 unchanged, then first eight ascending primes
+p1mod840 in[199000000,199100000], each with all15 old prime shifts. Selection
+was primality-only, not T factors/hits. New identity
+0dce735540a95a5087c5d624b8f85faab6e20a009b3071bfdc4ba4b126f9806a.
+Locally unexposed roots are NOT globally uncontaminated LLM benchmark data.
+No outcome-driven input/menu/routing/allocation/cap changes.
+
+New block-coverage.ts/audit.ts/check.ts/replay.ts/replay.py and two tests
+implement a standard Kneser sufficient deduction: covered K is paid from J;
+for unused blockB generate D inG/K. For EVERY proper H<D require
+1+sum(min(ord(r_iH),2e_i+1)-1)>=|D/H|. Hypothetical stabilizer quotient plus
+iterated Kneser proves signedBbox fillsD. H is never free witness budget.
+Identity check bounds this sufficient mechanism's D<=2W+1<=53; failing atom
+order/closure/inequalities is NOT target absence. Complete proper lattice,
+including nonmaximal/noncyclic H, is retained. TS generator extension versus
+Python cyclic-subgroup joins; TS signed DP versus Python coprime-pair block
+representatives. Disjoint J/B paid lifts cover the preimage, not necessarily
+the target. Singles restart after first cardinality/mask block PASS. Unchanged
+energy fallback remains strict LA+LB>|G/K|. Root identities/orientation exact.
+
+Total191:25single,8block-chain,2energy,156NOT_CERTIFIED.
+Old71:4/0/0/67, gained0/lost0 versus fresh immutable TIP-040; old truth11hits/
+60misses, seven known hits still uncertified. New120:21/8/2/89; separate
+exhaustive truth63hits/57misses,31certifiedhits/32uncertifiedhits/0falsecerts.
+31/63=49.21% development hit recovery, NOT classifier accuracy or AI benchmark.
+All eight finite roots have a certificate, not new root mathematics or universal
+coverage. No old-on-new comparator; eight block counts are not eight gains.
+1050blockattempts:1031large-atom,2lower-bound-size,17PASS. No registered
+INEQUALITY_FAILED; explicit U15 nonmaximal/U40 noncyclic controls cover risks.
+
+Chronology deviation disclosed: skeptic completed its own frozen191 method
+oracle and initial positive-pair truth before A completed, before Main's later
+wait-for-A clarification. No outcome reached A/B or tuned policy. Final Main/S
+double-divisor truth followed COMPLETE primary/B agreement and matched finalB.
+Main independently trial-factored new120 and checked complete coprime divisor
+pairs/strict tuples:16803pairs,454678work,0.7871s including producer/read.
+FinalB separatetruth contenteea0b1749dd2802d468352639d28f67e05bfc8ab04c9797eaec0117a4ee60058,
+68740pairs/3355states/1838060work/640ms. Counters differ; no equal-work claim.
+
+Stable method4d00cb143ae028bcda5f636df617c049ed4d006bcd54bed3f585c1c58e048347;
+rows e51794b81610642e49920bd9016835891f046d909de7a00ecdd0da61e52c5bee.
+Final Python5dbe06e076f0a8b010b03c248305d2601a4688b9bbd4711f849a437bc32dd0d0.
+MainfinalCLI exit0/533ms/2657329stdoutbytes; primary33932states/344702work.
+MainactualfreshPASS2318ms,Python584ms/95791pairs/20912states/2509370work;
+receipt45bb9a529edc98dd681c6f618765053af09720e97760abb3e2c81da0da2ceb9d.
+Measured local arithmetic is not LLM throughput, SLO or speedup evidence.
+
+Frozen caps60monotonicsec/191rows/2Mstates/50Mwork/50Mpairs/8MiBoutput/
+53smallD/4096subgroups. Atomic ROW/FINALIZE; PARTIAL neverPASS. Main21fully
+rehashed attacks reject. MaincoherentN0_h23 frequency swap passes scoped checks
+but actualfinalfreshMISMATCH2228ms. Scoped checker rebuilds D/fullproperlattice,
+not exact histogram multiplicities/canonical completeness/execution. Fixed
+verified Pythonbytes are actually executed; trusted collector/PATHbinary is
+not externally signed attestation. Same-model contexts are not formal/expert
+independence; synchronous checkpoints are not hard preemption. Synthetic
+INVESTIGATION only, no actual mathematical refutation. Draft tighter-cap-prefix
+acceptance and missing truth work ticks repaired with regressions; scientific
+content unchanged. Initial fixture/schema/time-injection failures remain in
+reports, not hidden as successful first runs.
+
+Mainwholeunit754/754,103files,172.99s,start22:02:47+07; finaltype/full-lint/
+sixfileownedlint exit0.39newtests=23primary+16replay. Sfinal39/39,56.18s,
+PASS_WITH_SCOPE_LIMITS5/5; finalS SHA
+dd1ce15203a9537fcc299912e8c6a0e78d49bdb7e3197fa9605d6097ab39a333.
+All35oldsource/test pins preserved; sevennewpins frozen; currentmanifest83/83,
+founding unchanged. Tracked/new-file whitespace and two KaTeX display formulas
+pass. No build/DBintegration/liveAPI/browserE2E/agentadmission run here.
+MainREADY_WITH_DEFERRED5/5, missing0 within bounded slice, not full research.
+
+Next justified obligation: separately preregister exact occupied-half density
+certificate with complete disjoint-support sets in the SAME target-containing
+quotient and paidK lift, strict |SA|+|SB|>|Q|, fresh frequency reconstruction,
+equality/overlap/partial/coherent-forgery controls. Existing P1_h79 diagnostic:
+maxenergy lower-sum77<=78, exact occupied-sum87>78. This is headroom only;
+NO newpredicate applied, no current reclassification/gain. All seven old known
+hits already generate the ambient group, so a smaller-span substitute alone
+does not rescue them. Do not loosen strictness or route by target truth.
+
+Six wider gates remain: unbounded factor supply; novelty/prior-art acceptance;
+formal/external review; governed tool/UI/agent admission; uncontaminated
+equal-budget live-model evaluation; live product E2E/integration. Original
+root Erdős242 remains NOT_ESTABLISHED; no publication/autonomy gate promoted.
+
+Contract:TIP-041_BLOCK_COVERAGE.
+Verify:TIP-041_BLOCK_COVERAGE_VERIFY_REPORT
+(SHA9d938f341ef24bbbb0b964615be7ed6558ae62a20dbd86ff86cf5e06f3f311a3).
+Research:MATH_PILOT_BLOCK_COVERAGE_2026-10-01.
+
+## 2026-10-01 — Owner-authorized Git delivery of TIP-036–041
+
+Owner explicitly requested “commit và push”, superseding the preceding
+local-only Git boundary for delivery of this completed research slice only.
+Scope is80 files:42 source/tests,36 contract/research/verification documents,
+current manifest and appended handoff. Prior unrelated screenshot changes,
+pnpm-workspace.yaml and Python cache are excluded and preserved. No new
+scientific predicate, UI, billing, paid API, deployment or merge is authorized.
+
+Before staging, all83 current-manifest and42 source/test pins verified.
+Most recent full-unit result remains754/754 across103 files; source/test bytes
+are unchanged from that verification. Remote branch was independently checked
+atca9c6e5d21f68dd2ca157902624cd8e5e8d32353 before delivery; normal push only.
+
+Staged diff checking exposed four pre-existing new-blank-line-at-EOF warnings
+in TIP-039_PRIMARY_COMPLETION_REPORT.md, composite-shift-audit.ts,
+composite-shift-partitions.ts and sufficient-coverage-audit.ts. Earlier tracked
+diff checks did not cover these then-untracked files. These are formatting
+warnings, not arithmetic/test failures. Preserve the already reviewed source
+fingerprints instead of silently rewriting prior pinned implementations or
+their reports. This delivery therefore does NOT claim zero staged whitespace
+warnings. No private-key/API-token pattern was found in the80-file candidate
+set; that bounded pattern scan is not a comprehensive security certification.
