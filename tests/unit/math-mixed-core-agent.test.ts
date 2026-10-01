@@ -7,7 +7,8 @@ import { mixedCoreClaimSchema, mixedCoreRefutation, runMixedCoreAgentEvidence,
   validateMixedCoreAgentEvidence, type MixedCoreAgentEvidence } from "@/modules/research-sandbox/math-mixed-core-agent";
 
 const root = "a".repeat(64);
-let evidence: MixedCoreAgentEvidence;
+type V1Evidence = Extract<MixedCoreAgentEvidence, { method: "ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V1" }>;
+let evidence: V1Evidence;
 const marker = { phase: "PRIOR_ART", round: 1, facts: [], coverage: "CURATED_PARTIAL", researchMethod: "MIXED_CORE_REPLAY_V1" };
 const call = { phase: "CALL_STARTED", round: 1, role: "PLANNER" };
 const proposal = { sourceGap: "A precise structural condition is still missing.",
@@ -17,10 +18,10 @@ const proposal = { sourceGap: "A precise structural condition is still missing."
   successEvidence: "A general theorem with every quantified premise checked.",
   rationale: "The exact typed assertion must be checked against retained counterexamples.",
   mixedCoreClaim: mixedCoreClaimSchema.options[0] };
-function seal(body: Omit<MixedCoreAgentEvidence, "evidenceDigest">) {
+function seal(body: Omit<V1Evidence, "evidenceDigest">) {
   return { ...body, evidenceDigest: sha256(canonicalJson(body)) };
 }
-function bodyOf(record: MixedCoreAgentEvidence) {
+function bodyOf(record: V1Evidence) {
   const { method, rootContractDigest, packet, replay } = record;
   return { method, rootContractDigest, packet, replay };
 }
@@ -38,7 +39,7 @@ function chain(payloads: Record<string, unknown>[]) {
 const retained = () => ({ phase: "MIXED_CORE_EVIDENCE", round: 1, evidence });
 
 describe("mixed-core evidence before agent dispatch", () => {
-  beforeAll(async () => { evidence = await runMixedCoreAgentEvidence(root); });
+  beforeAll(async () => { evidence = await runMixedCoreAgentEvidence(root) as V1Evidence; });
 
   it("executes the independently pinned Python replay and binds the root", () => {
     expect(evidence.replay.status).toBe("PASS");
@@ -73,7 +74,7 @@ describe("mixed-core evidence before agent dispatch", () => {
     expect(validateMathCycleTrace(chain([marker, { ...retained(), evidence: rebound }]), root)).toBeNull();
   });
 
-  it.each(mixedCoreClaimSchema.options)("stops the registered false assertion %s before downstream calls", (claim) => {
+  it.each(mixedCoreClaimSchema.options.slice(0, 2))("stops the registered false assertion %s before downstream calls", (claim) => {
     expect(mixedCoreRefutation(claim, evidence)?.counterexample).toBeTruthy();
     const proposed = { phase: "PROPOSED", round: 1, proposal: { ...proposal, mixedCoreClaim: claim },
       context: { threadId: "planner", usage: { inputTokens: 1, cachedInputTokens: 0,

@@ -39,9 +39,15 @@ import { projectMathProofObligations, repeatedMathClaim, type MathProofObligatio
 import { branchResourceStopReason, sealMathPortfolio, selectMathPortfolioBranch,
   summarizeMathPortfolio, validMathPortfolio, type MathPortfolio } from "./math-portfolio";
 import { mixedCoreRefutation, runMixedCoreAgentEvidence, validateMixedCoreAgentEvidence,
+  mixedCoreEvidencePassed, mixedCoreEvidenceMatchesMethod, type MixedCoreMethod,
   type MixedCoreAgentEvidence } from "./math-mixed-core-agent";
+import { adaptiveSelection, commandAdaptivePolicy, projectResearchOutcomes,
+  type AdaptivePolicy, type AdaptiveResearchContext } from "./math-adaptive-strategy";
+import { buildResearchMethodPacket, admitResearchMethodPacket, verifyResearchMethodPacketIntegrity } from "./math-method-map";
+import { normalizePublicationIdentity } from "./math-source-status";
+import { validMathLemmaGraph } from "./math-lemma-graph";
 
-type CycleStopReason = "ROUND_LIMIT" | "TOKEN_LIMIT" | "TIME_LIMIT" | "BRANCH_TOKEN_LIMIT" | "BRANCH_TIME_LIMIT" | "NO_GAP" | "DUPLICATE_CLAIM" | "VERIFICATION_REJECTED" | "COUNTEREXAMPLE_REJECTED" | "STRUCTURAL_PROBE_HOLD" | "STRUCTURAL_REFUTED" | "FRONTIER_HOLD" | "KNOWN_SCOPE" | "MODEL_FAILURE" | "INTEGRITY_FAILURE";
+type CycleStopReason = "ROUND_LIMIT" | "TOKEN_LIMIT" | "TIME_LIMIT" | "BRANCH_TOKEN_LIMIT" | "BRANCH_TIME_LIMIT" | "NO_GAP" | "METHOD_DEFERRED" | "DUPLICATE_CLAIM" | "VERIFICATION_REJECTED" | "COUNTEREXAMPLE_REJECTED" | "STRUCTURAL_PROBE_HOLD" | "STRUCTURAL_REFUTED" | "FRONTIER_HOLD" | "KNOWN_SCOPE" | "MODEL_FAILURE" | "INTEGRITY_FAILURE";
 
 export interface MathCycleAgents {
   modelName: string;
@@ -49,40 +55,44 @@ export interface MathCycleAgents {
   proposePortfolio?(root: MathPilotContract, availableGaps: string[], previousTasks: string[],
     priorArt: readonly MathPriorArtFact[], priorFindings: readonly PriorFiniteFinding[],
     gateDossier: StructuralGateDossier | null, priorObligations: readonly MathProofObligation[],
-    mixedCoreEvidence?: MixedCoreAgentEvidence | null): Promise<{
+    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null): Promise<{
     output: unknown; threadId: string; usage: MathCycleUsage;
   }>;
   propose(root: MathPilotContract, availableGaps: string[], previousTasks: string[], priorArt: readonly MathPriorArtFact[],
     steering?: MathCycleSteering | null, priorFindings?: readonly PriorFiniteFinding[],
     gateDossier?: StructuralGateDossier | null, priorObligations?: readonly MathProofObligation[],
-    mixedCoreEvidence?: MixedCoreAgentEvidence | null): Promise<{
+    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null): Promise<{
     output: MathCycleProposal; threadId: string; usage: MathCycleUsage;
   }>;
   verify(root: MathPilotContract, availableGaps: string[], previousTasks: string[], proposal: MathCycleProposal,
     priorArt: readonly MathPriorArtFact[], steering?: MathCycleSteering | null,
     priorFindings?: readonly PriorFiniteFinding[], frontierAssessments?: readonly FrontierAssessment[],
     gateDossier?: StructuralGateDossier | null, structuralProbe?: StructuralProbeReport | null,
-    priorObligations?: readonly MathProofObligation[], mixedCoreEvidence?: MixedCoreAgentEvidence | null): Promise<{
+    priorObligations?: readonly MathProofObligation[], mixedCoreEvidence?: MixedCoreAgentEvidence | null,
+    strategy?: AdaptiveResearchContext | null): Promise<{
     output: MathCycleVerification; threadId: string; usage: MathCycleUsage;
   }>;
   buildFrontierDossier(root: MathPilotContract): Promise<FrontierDossier>;
   assessFrontier(role: "SOURCE_ANALYST" | "SOURCE_CHALLENGER", root: MathPilotContract,
-    proposal: MathCycleProposal, dossier: FrontierDossier): Promise<{
+    proposal: MathCycleProposal, dossier: FrontierDossier, mixedCoreEvidence?: MixedCoreAgentEvidence | null,
+    strategy?: AdaptiveResearchContext | null): Promise<{
     output: FrontierAssessment; threadId: string; usage: MathCycleUsage;
   }>;
   solve(contract: MathPilotContract, evidence: ResidualSurveyEvidence | null,
     replay?: IndependentReplayReport | null,
     gateDossier?: StructuralGateDossier | null,
-    mixedCoreEvidence?: MixedCoreAgentEvidence | null): Promise<ReturnType<typeof mathModelAttemptSchema.parse>>;
+    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null): Promise<ReturnType<typeof mathModelAttemptSchema.parse>>;
   reviewRole(role: MathAgentReport["role"], contract: MathPilotContract,
     attempt: ReturnType<typeof mathModelAttemptSchema.parse>, evidence: ResidualSurveyEvidence | null,
     replay?: IndependentReplayReport | null,
     counterexampleReplay?: StructuralCounterexampleReport | null,
-    gateDossier?: StructuralGateDossier | null, mixedCoreEvidence?: MixedCoreAgentEvidence | null): Promise<MathAgentReport>;
+    gateDossier?: StructuralGateDossier | null, mixedCoreEvidence?: MixedCoreAgentEvidence | null,
+    strategy?: AdaptiveResearchContext | null): Promise<MathAgentReport>;
 }
 
 export function validateMathCycleTrace(events: Array<{ sequence: number; round: number; phase: string;
-  payload: unknown; previousDigest: string | null; digest: string }>, expectedRootDigest?: string): MathCycleEventPayload[] | null {
+  payload: unknown; previousDigest: string | null; digest: string }>, expectedRootDigest?: string,
+  expectedPolicy?: AdaptivePolicy | null): MathCycleEventPayload[] | null {
   let previous: string | null = null;
   const payloads: MathCycleEventPayload[] = [];
   const frontierDigestByRound = new Map<number, string>();
@@ -107,30 +117,65 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
   let priorGateDossier = false;
   let humanSteering: MathCycleSteering | null = null;
   const priorFindingRounds = new Set<number>();
-  let mixedCoreMethod = false;
+  let mixedCoreMethod: MixedCoreMethod | null = null;
   let mixedCoreEvidence: MixedCoreAgentEvidence | null = null;
   const mixedCoreRefutedRounds = new Set<number>();
+  let declaredPolicy: AdaptivePolicy | null = null;
+  let strategyEvent: Extract<MathCycleEventPayload, { phase: "RESEARCH_METHOD_MAP" }> | null = null;
   for (const [index, event] of events.entries()) {
     const parsed = mathCycleEventPayloadSchema.safeParse(event.payload);
     if (!parsed.success || event.sequence !== index + 1 || event.round !== parsed.data.round ||
       event.phase !== parsed.data.phase || event.previousDigest !== previous ||
       event.digest !== mathCycleEventDigest(previous, parsed.data)) return null;
+    if (expectedPolicy && index === 0 && parsed.data.phase !== "ADAPTIVE_POLICY_DECLARED") return null;
+    if (parsed.data.phase === "ADAPTIVE_POLICY_DECLARED") {
+      if (index !== 0 || declaredPolicy || !expectedPolicy || canonicalJson(parsed.data.policy) !== canonicalJson(expectedPolicy) ||
+        parsed.data.policy.rootContractDigest !== expectedRootDigest) return null;
+      declaredPolicy = parsed.data.policy;
+    }
+    if (parsed.data.phase === "RESEARCH_METHOD_MAP") {
+      const dossier = payloads.find((item) => item.phase === "RESEARCH_FRONTIER_BASELINE");
+      if (!declaredPolicy || strategyEvent || payloads.some((item) => item.phase === "CALL_STARTED") ||
+        dossier?.phase !== "RESEARCH_FRONTIER_BASELINE" ||
+        digestMathPilotContract(parsed.data.rootContract) !== declaredPolicy.rootContractDigest ||
+        !verifyResearchMethodPacketIntegrity(parsed.data.packet, declaredPolicy.rootContractDigest, dossier.dossier.dossierDigest) ||
+        !admitResearchMethodPacket(parsed.data.packet, declaredPolicy.rootContractDigest, dossier.dossier.dossierDigest,
+          new Date(parsed.data.admittedAt))) return null;
+      strategyEvent = parsed.data;
+    }
+    if (parsed.data.phase === "RESEARCH_FRONTIER_BASELINE" && (!declaredPolicy ||
+      payloads.some((item) => item.phase === "RESEARCH_FRONTIER_BASELINE" || item.phase === "CALL_STARTED") ||
+      !verifyFrontierDossier(parsed.data.dossier) || !adaptiveDossierSafe(parsed.data.dossier))) return null;
+    if (declaredPolicy && parsed.data.phase === "FRONTIER_DOSSIER" && !adaptiveDossierSafe(parsed.data.dossier)) return null;
+    if (declaredPolicy && ["CALL_STARTED", "PORTFOLIO_PLANNED", "PROPOSED"].includes(parsed.data.phase) && !strategyEvent) return null;
+    if (declaredPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" && parsed.data.phase === "CALL_STARTED" &&
+      (parsed.data.role === "PLANNER" ? Boolean(portfolio) : portfolio?.version !== 3 ||
+        !selectedBranches.has(parsed.data.round) || !proposalsByRound.has(parsed.data.round))) return null;
+    if (declaredPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" &&
+      ["VERIFIED", "ATTEMPTED", "REVIEWED"].includes(parsed.data.phase) &&
+      (portfolio?.version !== 3 || !selectedBranches.has(parsed.data.round) || !proposalsByRound.has(parsed.data.round))) return null;
     if (portfolioExhausted && parsed.data.phase !== "STOPPED") return null;
-    if (mixedCoreEvidence?.replay.status !== undefined && mixedCoreEvidence.replay.status !== "PASS" &&
+    if (mixedCoreEvidence && !mixedCoreEvidencePassed(mixedCoreEvidence) &&
       (parsed.data.phase !== "STOPPED" || parsed.data.reason !== "INTEGRITY_FAILURE")) return null;
     if (parsed.data.phase === "PRIOR_ART" && parsed.data.researchMethod) {
       if (mixedCoreMethod || parsed.data.round !== 1 || payloads.some((p) => p.phase === "CALL_STARTED")) return null;
-      mixedCoreMethod = true;
+      if (declaredPolicy && parsed.data.researchMethod !== "MIXED_CORE_REPLAY_V3") return null;
+      mixedCoreMethod = parsed.data.researchMethod;
     }
     if (parsed.data.phase === "MIXED_CORE_EVIDENCE") {
       if (!mixedCoreMethod || mixedCoreEvidence || payloads.some((p) =>
         ["CALL_STARTED", "PROPOSED", "PORTFOLIO_PLANNED"].includes(p.phase)) ||
-        !validateMixedCoreAgentEvidence(parsed.data.evidence, expectedRootDigest ?? humanSteering?.rootContractDigest)) return null;
+        !validateMixedCoreAgentEvidence(parsed.data.evidence, expectedRootDigest ?? humanSteering?.rootContractDigest) ||
+        !mixedCoreEvidenceMatchesMethod(parsed.data.evidence, mixedCoreMethod)) return null;
       mixedCoreEvidence = parsed.data.evidence;
     }
     if (mixedCoreMethod && ["CALL_STARTED", "PORTFOLIO_PLANNED", "PROPOSED", "VERIFIED", "ATTEMPTED", "REVIEWED"].includes(parsed.data.phase) &&
-      mixedCoreEvidence?.replay.status !== "PASS") return null;
-    if (mixedCoreEvidence && proposalsByRound.get(parsed.data.round)?.mixedCoreClaim &&
+      (!mixedCoreEvidence || !mixedCoreEvidencePassed(mixedCoreEvidence))) return null;
+    if (declaredPolicy && ["CALL_STARTED", "PORTFOLIO_PLANNED", "PROPOSED", "VERIFIED", "ATTEMPTED", "REVIEWED"].includes(parsed.data.phase) &&
+      (mixedCoreMethod !== "MIXED_CORE_REPLAY_V3" || !mixedCoreEvidence ||
+        mixedCoreEvidence.method !== "ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3" || !mixedCoreEvidencePassed(mixedCoreEvidence))) return null;
+    const registeredClaim = proposalsByRound.get(parsed.data.round)?.mixedCoreClaim;
+    if (mixedCoreEvidence && registeredClaim && mixedCoreRefutation(registeredClaim, mixedCoreEvidence) &&
       ["CALL_STARTED", "FRONTIER_DOSSIER", "VERIFIED", "ATTEMPTED", "REVIEWED"].includes(parsed.data.phase)) return null;
     if (parsed.data.phase === "MIXED_CORE_CLAIM_REFUTED") {
       if (!mixedCoreEvidence || mixedCoreRefutedRounds.has(parsed.data.round) || frontierDigestByRound.has(parsed.data.round) ||
@@ -144,8 +189,13 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
       parsed.data.phase !== "STOPPED") return null;
     if (parsed.data.phase === "MIXED_CORE_CLAIM_REFUTED") structuralRefutedRounds.add(parsed.data.round);
     if (parsed.data.phase === "PORTFOLIO_PLANNED") {
-      if (portfolio || proposalsByRound.size || !validMathPortfolio(parsed.data.portfolio)) return null;
+      if (portfolio || proposalsByRound.size || !validMathPortfolio(parsed.data.portfolio, strategyEvent?.packet)) return null;
+      if (declaredPolicy ? parsed.data.portfolio.version !== (declaredPolicy.policyId === "ADAPTIVE_RESEARCH_V2" ? 3 : 2) || !strategyEvent ||
+        parsed.data.portfolio.methodPacketDigest !== strategyEvent.packet.packetDigest ||
+        parsed.data.portfolio.rootContractDigest !== declaredPolicy.rootContractDigest ||
+        parsed.data.portfolio.rootReviewDigest !== declaredPolicy.rootReviewDigest : parsed.data.portfolio.version !== 1) return null;
       portfolio = parsed.data.portfolio;
+      if (declaredPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" && (portfolio.version !== 3 || portfolio.cycleId !== declaredPolicy.cycleId)) return null;
     }
     if (parsed.data.phase === "BRANCH_SELECTED") {
       const branchId = parsed.data.branchId;
@@ -153,7 +203,25 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
         !portfolio.branches.some((branch) => branch.branchId === branchId) ||
         selectedBranches.has(parsed.data.round) || [...selectedBranches.values()].includes(branchId) ||
         proposalsByRound.has(parsed.data.round)) return null;
+      if (portfolio.version !== 1) {
+        if (!strategyEvent) return null;
+        const memory = [...strategyEvent.priorOutcomes, ...projectResearchOutcomes({ cycleId: declaredPolicy!.cycleId,
+          ledgerDigest: event.previousDigest!, trace: payloads })].slice(-32);
+        const selection = adaptiveSelection({ policyId: portfolio.policyId, packet: strategyEvent.packet, root: strategyEvent.rootContract, portfolioDigest: portfolio.portfolioDigest,
+          branches: portfolio.branches, selectedBranchIds: [...selectedBranches.values()],
+          priorClaims: strategyEvent.priorClaims, outcomes: memory });
+        if (canonicalJson(parsed.data.adaptiveSelection) !== canonicalJson(selection) ||
+          selection.selectedBranchId !== branchId) return null;
+      } else if (parsed.data.adaptiveSelection) return null;
       selectedBranches.set(parsed.data.round, branchId);
+    }
+    if (parsed.data.phase === "METHOD_DEFERRED") {
+      if (!portfolio || portfolio.version === 1 || !strategyEvent || !declaredPolicy) return null;
+      const selection = adaptiveSelection({ policyId: portfolio.policyId, packet: strategyEvent.packet, root: strategyEvent.rootContract, portfolioDigest: portfolio.portfolioDigest,
+        branches: portfolio.branches, selectedBranchIds: [...selectedBranches.values()], priorClaims: strategyEvent.priorClaims,
+        outcomes: [...strategyEvent.priorOutcomes, ...projectResearchOutcomes({ cycleId: declaredPolicy.cycleId,
+          ledgerDigest: event.previousDigest!, trace: payloads })].slice(-32) });
+      if (selection.selectedBranchId || canonicalJson(selection) !== canonicalJson(parsed.data.selection)) return null;
     }
     if (parsed.data.phase === "BRANCH_CLOSED") {
       if (!portfolio || parsed.data.portfolioDigest !== portfolio.portfolioDigest ||
@@ -167,7 +235,7 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
       portfolioExhausted = true;
     }
     if (parsed.data.phase === "HUMAN_STEERED") {
-      if (index !== 0 || humanSteering || parsed.data.steeringDigest !== mathCycleSteeringDigest(parsed.data.steering) ||
+      if (index !== (declaredPolicy ? 1 : 0) || humanSteering || parsed.data.steeringDigest !== mathCycleSteeringDigest(parsed.data.steering) ||
         (expectedRootDigest !== undefined && parsed.data.steering.rootContractDigest !== expectedRootDigest)) return null;
       humanSteering = parsed.data.steering;
     }
@@ -190,7 +258,7 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
       priorGateDossier = true;
     }
     if (parsed.data.phase === "FRONTIER_DOSSIER") {
-      if (mixedCoreEvidence && proposalsByRound.get(parsed.data.round)?.mixedCoreClaim) return null;
+      if (mixedCoreEvidence && registeredClaim && mixedCoreRefutation(registeredClaim, mixedCoreEvidence)) return null;
       if (proposalsByRound.get(parsed.data.round)?.structuralProbePlan &&
         !structuralProbeRounds.has(parsed.data.round)) return null;
       if (!verifyFrontierDossier(parsed.data.dossier) || frontierDigestByRound.has(parsed.data.round)) return null;
@@ -201,6 +269,7 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
     if (parsed.data.phase === "FRONTIER_GATE" &&
       (frontierDigestByRound.get(parsed.data.round) ?? null) !== parsed.data.dossierDigest) return null;
     if (parsed.data.phase === "PROPOSED") {
+      if (declaredPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" && portfolio?.version !== 3) return null;
       if (mixedCoreMethod && proposalsByRound.has(parsed.data.round)) return null;
       // A sealed proposal must stay readable when future admission rules become
       // stricter. Recheck the immutable target binding, not today's policy.
@@ -382,24 +451,69 @@ export async function requestMathResearchCycle(ctx: WorkspaceContext, raw: {
       maxObservedTokens: limits.maxObservedTokens,
       deadlineAt: new Date(Date.now() + 50 * 60_000),
     } });
-    return { outcome: { cycleId, status: "QUEUED" }, outbox: [{
+    const strategyPolicy: AdaptivePolicy | null = hasErdosStrausEquation(contract) ? {
+      policyId: steering ? "ADAPTIVE_RESEARCH_V1" : "ADAPTIVE_RESEARCH_V2", cycleId, rootContractDigest: item.contractDigest,
+      rootReviewDigest: item.agentReview!.ledgerDigest } : null;
+    return { outcome: { cycleId, status: "QUEUED", ...(strategyPolicy ? { strategyPolicy } : {}) }, outbox: [{
       topic: "math-pilot.cycle.round", aggregateType: "MathResearchCycle", aggregateId: cycleId,
-      payload: { cycleId, round: 1, ...(steering ? { steering, steeringDigest: mathCycleSteeringDigest(steering) } : {}) },
+      payload: { cycleId, round: 1, ...(strategyPolicy ? { strategyPolicy } : {}),
+        ...(steering ? { steering, steeringDigest: mathCycleSteeringDigest(steering) } : {}) },
     }] };
   });
 }
 
-export async function listMathResearchCycles(ctx: WorkspaceContext, missionId: string) {
-  await requireWorkspaceAuthorization(ctx, "research.read");
+export async function listMathResearchCycles(ctx: WorkspaceContext, missionId: string, options?: {
+  rootCaseIds: string[]; cursor?: { createdAt: string; id: string }; take?: number; cycleIds?: string[];
+}) {
+  if (options && (options.rootCaseIds.length > 20 || new Set(options.rootCaseIds).size !== options.rootCaseIds.length ||
+    options.rootCaseIds.some((id) => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) ||
+    (options.cycleIds && (options.cycleIds.length > 20 || new Set(options.cycleIds).size !== options.cycleIds.length ||
+      options.cycleIds.some((id) => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)))) ||
+    !Number.isInteger(options.take ?? 3) || (options.take ?? 3) < 1 || (options.take ?? 3) > 20)) {
+    throw new ResearchSandboxError("INVALID_INPUT", "Invalid dossier query");
+  }
+  await requireWorkspaceAuthorization(ctx, "research.read", missionId);
   const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
     const cycles = await tx.mathResearchCycle.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, missionId },
-      include: { events: { orderBy: { sequence: "asc" } } },
-      orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 20,
+      where: { organizationId, workspaceId: ctx.workspace.id, missionId,
+        ...(options ? { rootCaseId: { in: options.rootCaseIds } } : {}),
+        ...(options?.cycleIds ? { id: { in: options.cycleIds } } : {}),
+        ...(options?.cursor ? { OR: [{ createdAt: { lt: new Date(options.cursor.createdAt) } },
+          { createdAt: new Date(options.cursor.createdAt), id: { lt: options.cursor.id } }] } : {}) },
+      include: { command: { select: { outcome: true } }, events: { orderBy: { sequence: "asc" } } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: options?.take ?? 20,
     });
-    return cycles.map((cycle) => ({ ...cycle, trace: validateMathCycleTrace(cycle.events, cycle.rootContractDigest) }));
+    return cycles.map((cycle) => {
+      try { return { ...cycle, trace: validateMathCycleTrace(cycle.events, cycle.rootContractDigest,
+        commandAdaptivePolicy(cycle.command.outcome, cycle)) }; }
+      catch { return { ...cycle, trace: null }; }
+    });
   });
+}
+
+/** Select lightweight IDs before loading exactly the displayed FULL chains. */
+export async function listMathResearchCyclePage(ctx: WorkspaceContext, missionId: string, rootCaseId: string,
+  cursor: { createdAt: string; id: string } | null = null, selectedCycleId: string | null = null) {
+  await requireWorkspaceAuthorization(ctx, "research.read", missionId);
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(rootCaseId) ||
+    (selectedCycleId !== null && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(selectedCycleId))) {
+    throw new ResearchSandboxError("INVALID_INPUT", "Invalid dossier query");
+  }
+  const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
+  const metadata = await withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
+    const where = { organizationId, workspaceId: ctx.workspace.id, missionId, rootCaseId };
+    const total = await tx.mathResearchCycle.count({ where });
+    const ids = await tx.mathResearchCycle.findMany({ where: { ...where,
+      ...(selectedCycleId ? { id: selectedCycleId } : {}),
+      ...(cursor ? { OR: [{ createdAt: { lt: new Date(cursor.createdAt) } },
+        { createdAt: new Date(cursor.createdAt), id: { lt: cursor.id } }] } : {}) },
+      select: { id: true, createdAt: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 4 });
+    return { total, ids: ids.slice(0, 3), hasMore: ids.length > 3 };
+  });
+  const items = metadata.ids.length ? await listMathResearchCycles(ctx, missionId, {
+    rootCaseIds: [rootCaseId], cycleIds: metadata.ids.map((item) => item.id), take: 3 }) : [];
+  return { items, total: metadata.total, hasMore: metadata.hasMore, last: metadata.ids.at(-1) ?? null };
 }
 
 async function appendEvent(tx: TenantTransaction, cycle: MathResearchCycle, jobId: string,
@@ -416,7 +530,23 @@ async function appendEvent(tx: TenantTransaction, cycle: MathResearchCycle, jobI
 
 async function lockedCycle(tx: TenantTransaction, organizationId: string, cycleId: string) {
   await tx.$queryRaw`SELECT 1::INTEGER AS locked FROM pg_advisory_xact_lock(hashtextextended(${`${organizationId}:math-cycle:${cycleId}`}, 0))`;
-  return tx.mathResearchCycle.findFirstOrThrow({ where: { id: cycleId, organizationId } });
+  return tx.mathResearchCycle.findFirstOrThrow({ where: { id: cycleId, organizationId },
+    include: { command: { select: { outcome: true } } } });
+}
+
+function cyclePolicy(cycle: MathResearchCycle & { command?: { outcome: unknown } }): AdaptivePolicy | null {
+  return commandAdaptivePolicy(cycle.command?.outcome, cycle);
+}
+
+function adaptiveDossierSafe(dossier: FrontierDossier): boolean {
+  const safeUri = (uri: string) => {
+    try { const url = new URL(uri); return ["http:", "https:"].includes(url.protocol) &&
+      !url.username && !url.password && !url.port && normalizePublicationIdentity(uri) !== "2609.09204"; }
+    catch { return false; }
+  };
+  return dossier.sources.every((source) => safeUri(source.canonicalUri)) &&
+    dossier.discovery.candidates.every((source) => safeUri(source.canonicalUri) &&
+      normalizePublicationIdentity(source.doi) !== "2609.09204");
 }
 
 async function reserveCall(input: CycleJobInput, cycleId: string, round: number,
@@ -476,14 +606,17 @@ async function finishJob(input: CycleJobInput, cycleId: string, round: number,
     if (!job || cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle job lease expired");
     const events = await tx.mathResearchCycleEvent.findMany({ where: { cycleId },
       orderBy: { sequence: "asc" }, take: 64 });
-    const trace = validateMathCycleTrace(events, cycle.rootContractDigest);
+    const trace = validateMathCycleTrace(events, cycle.rootContractDigest, cyclePolicy(cycle));
     if (!trace) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Cycle trace changed before closure");
     const planned = trace.find((event) => event.phase === "PORTFOLIO_PLANNED");
     const portfolio = planned?.phase === "PORTFOLIO_PLANNED" ? planned.portfolio : null;
     const selected = trace.find((event) => event.phase === "BRANCH_SELECTED" && event.round === round);
+    const methodMap = trace.find((event) => event.phase === "RESEARCH_METHOD_MAP");
     const pending = portfolio ? selectMathPortfolioBranch({ portfolio,
       selectedBranchIds: trace.filter((event) => event.phase === "BRANCH_SELECTED").map((event) => event.branchId),
-      priorClaims: trace.filter((event) => event.phase === "PROPOSED").map((event) => event.proposal.hypothesis) }) : null;
+      priorClaims: methodMap?.priorClaims ?? trace.filter((event) => event.phase === "PROPOSED").map((event) => event.proposal.hypothesis),
+      methodPacket: methodMap?.packet, root: methodMap?.rootContract, outcomes: methodMap ? [...methodMap.priorOutcomes,
+        ...projectResearchOutcomes({ cycleId, ledgerDigest: events.at(-1)!.digest, trace })].slice(-32) : [] }) : null;
     const branchLocal = reason !== null && ["DUPLICATE_CLAIM", "VERIFICATION_REJECTED",
       "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "KNOWN_SCOPE",
       "BRANCH_TOKEN_LIMIT", "BRANCH_TIME_LIMIT"].includes(reason);
@@ -509,12 +642,12 @@ async function finishJob(input: CycleJobInput, cycleId: string, round: number,
     if (!stop) stop = completedRounds >= cycle.maxRounds ? "ROUND_LIMIT"
       : cycle.observedTokens >= cycle.maxObservedTokens ? "TOKEN_LIMIT"
       : Date.now() >= cycle.deadlineAt.getTime() ? "TIME_LIMIT"
-      : portfolio ? pending ? null : "NO_GAP"
+      : portfolio ? pending ? null : portfolio.version !== 1 ? "METHOD_DEFERRED" : "NO_GAP"
       : !nextGap ? "NO_GAP" : null;
     if (stop && portfolio) {
       const current = await tx.mathResearchCycleEvent.findMany({ where: { cycleId },
         orderBy: { sequence: "asc" }, take: 64 });
-      const currentTrace = validateMathCycleTrace(current, cycle.rootContractDigest);
+      const currentTrace = validateMathCycleTrace(current, cycle.rootContractDigest, cyclePolicy(cycle));
       if (!currentTrace) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Portfolio closure trace is invalid");
       await appendEvent(tx, cycle, job.id, { phase: "PORTFOLIO_EXHAUSTED", round,
         portfolioDigest: portfolio.portfolioDigest,
@@ -527,7 +660,8 @@ async function finishJob(input: CycleJobInput, cycleId: string, round: number,
     if (!stop) await tx.outboxEvent.create({ data: {
       organizationId: cycle.organizationId, workspaceId: cycle.workspaceId, commandId: cycle.commandId,
       topic: "math-pilot.cycle.round", aggregateType: "MathResearchCycle", aggregateId: cycle.id,
-      payload: { cycleId: cycle.id, round: round + 1 },
+      payload: { cycleId: cycle.id, round: round + 1,
+        ...(cyclePolicy(cycle) ? { strategyPolicy: cyclePolicy(cycle) } : {}) },
     } });
     await tx.durableJob.update({ where: { id: job.id }, data: {
       status: "SUCCEEDED", result: { cycleId: cycle.id, round, stopReason: stop },
@@ -564,7 +698,11 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       throw new ResearchSandboxError("INTEGRITY_FAILURE", "Cycle root binding changed");
     }
     const events = await tx.mathResearchCycleEvent.findMany({ where: { cycleId: cycle.id }, orderBy: { sequence: "asc" }, take: 64 });
-    const trace = validateMathCycleTrace(events, cycle.rootContractDigest);
+    const strategyPolicy = cyclePolicy(cycle);
+    if (canonicalJson(payload.strategyPolicy ?? null) !== canonicalJson(strategyPolicy)) {
+      throw new ResearchSandboxError("INTEGRITY_FAILURE", "Outbox strategy policy differs from trusted command");
+    }
+    const trace = validateMathCycleTrace(events, cycle.rootContractDigest, strategyPolicy);
     if (!trace) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Cycle event chain is invalid");
     const payloadSteering = payload.steering === undefined ? null : mathCycleSteeringSchema.parse(payload.steering);
     if (payloadSteering && (round !== 1 || payload.steeringDigest !== mathCycleSteeringDigest(payloadSteering) ||
@@ -577,9 +715,9 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     }
     const priorCycles = await tx.mathResearchCycle.findMany({ where: { rootCaseId: cycle.rootCaseId,
       organizationId: input.organizationId, id: { not: cycle.id }, status: "STOPPED" },
-    include: { events: { orderBy: { sequence: "asc" } } }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 8 });
+    include: { command: { select: { outcome: true } }, events: { orderBy: { sequence: "asc" } } }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 8 });
     const checkedPriorCycles = priorCycles.map((priorCycle) => {
-      const checked = validateMathCycleTrace(priorCycle.events, priorCycle.rootContractDigest);
+      const checked = validateMathCycleTrace(priorCycle.events, priorCycle.rootContractDigest, cyclePolicy(priorCycle));
       if (!checked) throw new ResearchSandboxError("INTEGRITY_FAILURE", "A prior cycle trace is invalid");
       return { cycle: priorCycle, trace: checked };
     });
@@ -593,6 +731,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
         rootCaseId: { not: cycle.rootCaseId }, status: "STOPPED",
         events: { some: { phase: "INDEPENDENT_REPLAY" } } },
       include: { rootCase: { select: { contract: true, contractDigest: true } },
+        command: { select: { outcome: true } },
         events: { orderBy: { sequence: "asc" } } },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 24 }) : [];
     const historicalTasks = checkedPriorCycles.flatMap(({ trace: checked }) => checked
@@ -608,7 +747,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       if (!sourceContract.success || previous.rootCase.contractDigest !== previous.rootContractDigest ||
         digestMathPilotContract(sourceContract.data) !== previous.rootContractDigest ||
         !compatibleResidualPrimeRoots(root.contract, sourceContract.data)) return [];
-      const checked = validateMathCycleTrace(previous.events, previous.rootContractDigest);
+      const checked = validateMathCycleTrace(previous.events, previous.rootContractDigest, cyclePolicy(previous));
       if (!checked) throw new ResearchSandboxError("INTEGRITY_FAILURE", "A cross-case evidence trace is invalid");
       const finding = priorFiniteFindingFromTrace({ cycleId: previous.id,
         sourceLedgerDigest: previous.events.at(-1)?.digest ?? "", trace: checked });
@@ -627,24 +766,35 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     const priorTasks = [...historicalTasks, ...trace.filter((event): event is Extract<MathCycleEventPayload, { phase: "PROPOSED" }> => event.phase === "PROPOSED")
       .map((event) => event.proposal.taskStatement)];
     const priorReview = trace.filter((event): event is Extract<MathCycleEventPayload, { phase: "REVIEWED" }> => event.phase === "REVIEWED");
-    const gaps = round === 1 ? (latestCycleGaps.length ? latestCycleGaps : rootGaps(root.ledger))
+    const gaps = round === 1 ? (strategyPolicy ? [...new Set([...rootGaps(root.ledger), ...latestCycleGaps])]
+      : latestCycleGaps.length ? latestCycleGaps : rootGaps(root.ledger))
       : [...new Set(priorReview.filter((event) => event.round === round - 1)
         .map((event) => event.report.unresolvedGap).filter((gap): gap is string => Boolean(gap)))];
     const priorArt = mathPriorArtFor(root.contract);
+    if (strategyPolicy && !trace.length) await appendEvent(tx, cycle, job.id, {
+      phase: "ADAPTIVE_POLICY_DECLARED", round: 1, policy: strategyPolicy });
     if (payloadSteering) await appendEvent(tx, cycle, job.id, { phase: "HUMAN_STEERED", round: 1,
       steering: payloadSteering, steeringDigest: mathCycleSteeringDigest(payloadSteering) });
     if (priorFindings.length) await appendEvent(tx, cycle, job.id, { phase: "PRIOR_FINDINGS", round,
       findings: priorFindings });
+    // Preserve the retained method on subsequent rounds; never silently upgrade history.
+    const retainedMarker = trace.find((event): event is Extract<MathCycleEventPayload, { phase: "PRIOR_ART" }> =>
+      event.phase === "PRIOR_ART" && Boolean(event.researchMethod));
+    const retainedMethod = retainedMarker?.researchMethod;
+    const mixedCoreMethod = retainedMethod ?? (round === 1 && hasErdosStrausEquation(root.contract)
+      ? "MIXED_CORE_REPLAY_V3" as const : null);
     await appendEvent(tx, cycle, job.id, { phase: "PRIOR_ART", round, facts: [...priorArt], coverage: "CURATED_PARTIAL",
-      ...(round === 1 && hasErdosStrausEquation(root.contract) ? { researchMethod: "MIXED_CORE_REPLAY_V1" as const } : {}) });
+      ...(round === 1 && mixedCoreMethod ? { researchMethod: mixedCoreMethod } : {}) });
     await tx.durableJob.update({ where: { id: job.id }, data: { maxAttempts: 1 } });
     await tx.mathResearchCycle.update({ where: { id: cycle.id }, data: { status: "RUNNING" } });
     return { cycleId: cycle.id, round, rootContract: root.contract, gaps, priorTasks, priorArt,
       steering, priorFindings, priorObligations, trace, rootReviewDigest: cycle.rootReviewDigest,
-      maxRounds: cycle.maxRounds, maxObservedTokens: cycle.maxObservedTokens };
+      maxRounds: cycle.maxRounds, maxObservedTokens: cycle.maxObservedTokens, mixedCoreMethod, strategyPolicy,
+      priorOutcomes: checkedPriorCycles.flatMap(({ cycle: previous, trace: checked }) => projectResearchOutcomes({
+        cycleId: previous.id, ledgerDigest: previous.events.at(-1)?.digest ?? "", trace: checked })).slice(-32) };
   });
   const { cycleId, round, rootContract, gaps, priorTasks, priorArt, steering, priorFindings,
-    priorObligations, trace, rootReviewDigest, maxRounds, maxObservedTokens } = loaded;
+    priorObligations, trace, rootReviewDigest, maxRounds, maxObservedTokens, mixedCoreMethod, strategyPolicy, priorOutcomes } = loaded;
   const priorPortfolioEvent = trace.find((event) => event.phase === "PORTFOLIO_PLANNED");
   const priorPortfolio = priorPortfolioEvent?.phase === "PORTFOLIO_PLANNED" ? priorPortfolioEvent.portfolio : null;
   if (priorPortfolio && priorPortfolio.rootReviewDigest !== rootReviewDigest) {
@@ -652,8 +802,8 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   }
   if (!gaps.length && !priorPortfolio) return finishJob(input, cycleId, round, "NO_GAP");
   let mixedCoreEvidence = trace.find((event) => event.phase === "MIXED_CORE_EVIDENCE")?.evidence ?? null;
-  if (round === 1 && hasErdosStrausEquation(rootContract)) {
-    mixedCoreEvidence = await runMixedCoreAgentEvidence(digestMathPilotContract(rootContract));
+  if (round === 1 && mixedCoreMethod && !mixedCoreEvidence) {
+    mixedCoreEvidence = await runMixedCoreAgentEvidence(digestMathPilotContract(rootContract), mixedCoreMethod);
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
       const cycle = await lockedCycle(tx, input.organizationId, cycleId);
       if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before mixed-core replay");
@@ -661,7 +811,8 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     });
   }
   if (mixedCoreEvidence && (!validateMixedCoreAgentEvidence(mixedCoreEvidence, digestMathPilotContract(rootContract)) ||
-    mixedCoreEvidence.replay.status !== "PASS")) return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
+    !mixedCoreEvidencePassed(mixedCoreEvidence) || !mixedCoreMethod ||
+    !mixedCoreEvidenceMatchesMethod(mixedCoreEvidence, mixedCoreMethod))) return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
   let effectivePriorFindings = priorFindings;
   let gateDossier: StructuralGateDossier | null = null;
   if (steering?.replayCandidate) {
@@ -690,6 +841,34 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     }
   }
 
+  // Reject an independently false steering seed before even source discovery.
+  // Method intake still precedes every planner reservation and downstream call.
+  let prePlannerDossier: FrontierDossier | null = null;
+  let strategy: AdaptiveResearchContext | null = null;
+  if (strategyPolicy) {
+    const retainedMap = trace.find((event) => event.phase === "RESEARCH_METHOD_MAP");
+    const baseline = trace.find((event) => event.phase === "RESEARCH_FRONTIER_BASELINE");
+    prePlannerDossier = baseline?.dossier ??
+      await input.agents.buildFrontierDossier(rootContract);
+    if (!prePlannerDossier || !verifyFrontierDossier(prePlannerDossier) || !adaptiveDossierSafe(prePlannerDossier))
+      return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
+    const packet = retainedMap?.packet ?? await buildResearchMethodPacket(rootContract, prePlannerDossier.dossierDigest);
+    const admittedAt = retainedMap?.admittedAt ?? new Date().toISOString();
+    if (!admitResearchMethodPacket(packet, strategyPolicy.rootContractDigest, prePlannerDossier.dossierDigest,
+      new Date(admittedAt))) return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
+    await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
+      const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+      if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before strategy intake");
+      if (!baseline) await appendEvent(tx, cycle, input.jobId, { phase: "RESEARCH_FRONTIER_BASELINE", round: 1,
+        dossier: prePlannerDossier! });
+      if (!retainedMap) await appendEvent(tx, cycle, input.jobId, { phase: "RESEARCH_METHOD_MAP", round: 1,
+        packet, rootContract, admittedAt, priorOutcomes, priorClaims: priorObligations.filter((item) => item.kind === "CLAIM")
+          .map((item) => item.statement).slice(0, 80) });
+    });
+    strategy = { packet, outcomes: retainedMap?.priorOutcomes ?? priorOutcomes,
+      selectedBranch: null, selection: null, policyId: strategyPolicy.policyId, lemmaGraph: null };
+  }
+
   const reserve = async (role: Extract<MathCycleEventPayload, { phase: "CALL_STARTED" }>["role"]) => {
     const reason = await reserveCall(input, cycleId, round, role);
     if (reason) { await finishJob(input, cycleId, round, reason); return false; }
@@ -703,16 +882,45 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       if (!input.agents.proposePortfolio) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Portfolio planner is unavailable");
       if (!await reserve("PLANNER")) return;
       const planned = await input.agents.proposePortfolio(rootContract, gaps, priorTasks, priorArt,
-        effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence);
+        effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy);
       portfolio = sealMathPortfolio({ draft: planned.output, rootReviewDigest, availableGaps: gaps,
-        priorObligations, maxObservedTokens, maxRounds });
+        priorObligations, maxObservedTokens, maxRounds, methodPacket: strategy?.packet,
+        ...(strategyPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" ? { graphPolicy: { cycleId, root: rootContract } } : {}) });
       await retainResult(input, cycleId, { phase: "PORTFOLIO_PLANNED", round: 1, portfolio,
         context: { threadId: planned.threadId, usage: planned.usage } }, planned.usage);
     }
-    const selected = selectMathPortfolioBranch({ portfolio,
+    let selected = selectMathPortfolioBranch({ portfolio,
       selectedBranchIds: trace.filter((event) => event.phase === "BRANCH_SELECTED").map((event) => event.branchId),
       priorClaims: [...priorObligations.filter((item) => item.kind === "CLAIM").map((item) => item.statement),
-        ...trace.filter((event) => event.phase === "PROPOSED").map((event) => event.proposal.hypothesis)] });
+        ...trace.filter((event) => event.phase === "PROPOSED").map((event) => event.proposal.hypothesis)],
+      methodPacket: strategy?.packet, outcomes: strategy?.outcomes, root: rootContract });
+    if (portfolio.version !== 1 && strategy) {
+      const selection = await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
+        const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+        const current = await tx.mathResearchCycleEvent.findMany({ where: { cycleId }, orderBy: { sequence: "asc" }, take: 64 });
+        const checked = validateMathCycleTrace(current, cycle.rootContractDigest, cyclePolicy(cycle));
+        if (!checked) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Adaptive selection trace is invalid");
+        const map = checked.find((event) => event.phase === "RESEARCH_METHOD_MAP");
+        if (!map) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Adaptive selection packet is missing");
+        strategy!.outcomes = [...map.priorOutcomes, ...projectResearchOutcomes({ cycleId,
+          ledgerDigest: current.at(-1)!.digest, trace: checked })].slice(-32);
+        return adaptiveSelection({ policyId: portfolio.policyId, packet: strategy!.packet, root: map.rootContract, portfolioDigest: portfolio.portfolioDigest,
+          branches: portfolio.branches, priorClaims: map.priorClaims,
+          selectedBranchIds: checked.filter((event) => event.phase === "BRANCH_SELECTED").map((event) => event.branchId),
+          outcomes: strategy!.outcomes });
+      });
+      strategy.selection = selection;
+      selected = portfolio.branches.find((branch) => branch.branchId === selection.selectedBranchId) ?? null;
+      if (!selected) {
+        await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
+          const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+          await appendEvent(tx, cycle, input.jobId, { phase: "METHOD_DEFERRED", round, selection });
+        });
+        return finishJob(input, cycleId, round, "METHOD_DEFERRED");
+      }
+      if ("methodId" in selected) strategy.selectedBranch = selected;
+      if ("lemmaGraph" in selected && validMathLemmaGraph(selected.lemmaGraph)) strategy.lemmaGraph = selected.lemmaGraph;
+    }
     if (!selected) return finishJob(input, cycleId, round, "NO_GAP");
     const plannerThreadId = priorPortfolioEvent?.phase === "PORTFOLIO_PLANNED"
       ? priorPortfolioEvent.context.threadId : (await withOrganizationTenant(input.organizationId, input.actorUserId,
@@ -732,16 +940,19 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       }
       await appendEvent(tx, cycle, input.jobId, { phase: "BRANCH_SELECTED", round,
         portfolioDigest: portfolio.portfolioDigest, branchId: selected.branchId,
-        baselineObservedTokens: cycle.observedTokens, selectedAt: new Date().toISOString() });
+        baselineObservedTokens: cycle.observedTokens, selectedAt: new Date().toISOString(),
+        ...(strategy?.selection ? { adaptiveSelection: strategy.selection } : {}) });
       await appendEvent(tx, cycle, input.jobId, { phase: "PROPOSED", round, proposal: selected.proposal,
         context: { threadId: plannerThreadId, usage: zeroUsage } });
     });
     plan = { output: selected.proposal, threadId: plannerThreadId, usage: zeroUsage };
     availableGaps = [...new Set([...gaps, selected.proposal.sourceGap])];
   } else {
+    if (strategyPolicy?.policyId === "ADAPTIVE_RESEARCH_V2")
+      return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
     if (!await reserve("PLANNER")) return;
     plan = await input.agents.propose(rootContract, gaps, priorTasks, priorArt, steering,
-      effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence);
+      effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy);
     const proposed = mathCycleProposalSchema.parse(plan.output);
     await retainResult(input, cycleId, { phase: "PROPOSED", round, proposal: proposed,
       context: { threadId: plan.threadId, usage: plan.usage } }, plan.usage);
@@ -784,7 +995,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     return finishJob(input, cycleId, round, "STRUCTURAL_PROBE_HOLD");
   }
 
-  const dossier = await input.agents.buildFrontierDossier(rootContract);
+  const dossier = prePlannerDossier ?? await input.agents.buildFrontierDossier(rootContract);
   if (!verifyFrontierDossier(dossier)) {
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
       const cycle = await lockedCycle(tx, input.organizationId, cycleId);
@@ -810,7 +1021,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     const threads: string[] = [plan.threadId];
     for (const role of ["SOURCE_ANALYST", "SOURCE_CHALLENGER"] as const) {
       if (!await reserve(role)) return;
-      const result = await input.agents.assessFrontier(role, rootContract, proposal, dossier);
+      const result = await input.agents.assessFrontier(role, rootContract, proposal, dossier, mixedCoreEvidence, strategy);
       const assessment = frontierAssessmentSchema.parse(result.output);
       if (threads.includes(result.threadId)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Frontier agents reused a context");
       threads.push(result.threadId);
@@ -835,7 +1046,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
 
   if (!await reserve("VERIFIER")) return;
   const check = await input.agents.verify(rootContract, availableGaps, priorTasks, proposal, priorArt, steering,
-    effectivePriorFindings, assessments, gateDossier, structuralProbe, priorObligations, mixedCoreEvidence);
+    effectivePriorFindings, assessments, gateDossier, structuralProbe, priorObligations, mixedCoreEvidence, strategy);
   const verification = mathCycleVerificationSchema.parse(check.output);
   if (frontierThreads.includes(check.threadId)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Task verifier reused a frontier context");
   const deterministic = verifyMathCycleProposal({ rootContract, availableGaps, priorTasks,
@@ -866,7 +1077,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     }
   }
   if (!await reserve("SOLVER")) return;
-  const attempt = mathModelAttemptSchema.parse(await input.agents.solve(contract, computation, replay, gateDossier, mixedCoreEvidence));
+  const attempt = mathModelAttemptSchema.parse(await input.agents.solve(contract, computation, replay, gateDossier, mixedCoreEvidence, strategy));
   if (attempt.threadId === plan.threadId || attempt.threadId === check.threadId || frontierThreads.includes(attempt.threadId) ||
     attempt.modelName !== input.agents.modelName || attempt.providerName !== "codex-local") {
     throw new ResearchSandboxError("INTEGRITY_FAILURE", "Solver context or model identity is not independent");
@@ -920,7 +1131,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   for (const role of ["CRITIC", "ADVERSARY"] as const) {
     if (!await reserve(role)) return;
     const report = mathAgentReportSchema.parse(await input.agents.reviewRole(role, contract, attempt, computation, replay,
-      counterexampleReplay, gateDossier, mixedCoreEvidence));
+      counterexampleReplay, gateDossier, mixedCoreEvidence, strategy));
     if (report.role !== role || [plan.threadId, ...frontierThreads, check.threadId, attempt.threadId,
       ...reports.map((item) => item.threadId)].includes(report.threadId)) {
       throw new ResearchSandboxError("INTEGRITY_FAILURE", "Review context or role is not independent");
@@ -949,7 +1160,7 @@ export async function markMathResearchCycleFailed(input: Omit<CycleJobInput, "ag
     if (cycle.status !== "RUNNING" && cycle.status !== "QUEUED") return;
     const events = await tx.mathResearchCycleEvent.findMany({ where: { cycleId: cycle.id },
       orderBy: { sequence: "asc" }, take: 64 });
-    const trace = validateMathCycleTrace(events, cycle.rootContractDigest);
+    const trace = validateMathCycleTrace(events, cycle.rootContractDigest, cyclePolicy(cycle));
     const plan = trace?.find((event) => event.phase === "PORTFOLIO_PLANNED");
     let finalReason = trace ? reason : "INTEGRITY_FAILURE";
     if (plan?.phase === "PORTFOLIO_PLANNED" &&
@@ -967,7 +1178,7 @@ export async function markMathResearchCycleFailed(input: Omit<CycleJobInput, "ag
       }
       const current = await tx.mathResearchCycleEvent.findMany({ where: { cycleId: cycle.id },
         orderBy: { sequence: "asc" }, take: 64 });
-      const checked = validateMathCycleTrace(current, cycle.rootContractDigest);
+      const checked = validateMathCycleTrace(current, cycle.rootContractDigest, cyclePolicy(cycle));
       if (!checked) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Failure closure trace is invalid");
       if (!checked.some((event) => event.phase === "PORTFOLIO_EXHAUSTED")) {
         await appendEvent(tx, cycle, job.id, { phase: "PORTFOLIO_EXHAUSTED", round: payload.round,

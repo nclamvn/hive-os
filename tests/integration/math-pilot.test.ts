@@ -10,6 +10,13 @@ import { canonicalJson } from "@/modules/execution-fabric/contracts";
 import type { FrontierDossier } from "@/modules/research-sandbox/math-frontier";
 import { validateMixedCoreAgentEvidence } from "@/modules/research-sandbox/math-mixed-core-agent";
 import * as mixedCoreAgent from "@/modules/research-sandbox/math-mixed-core-agent";
+import { lemmaDraft } from "../fixtures/math-lemma-graph";
+
+vi.mock("@/modules/research-sandbox/math-method-map", async (original) => {
+  const actual = await original<typeof import("@/modules/research-sandbox/math-method-map")>();
+  return { ...actual, buildResearchMethodPacket: (root: Parameters<typeof actual.buildResearchMethodPacket>[0], digest: string) =>
+    actual.buildResearchMethodPacket(root, digest, { statusLoader: async () => { throw new Error("offline integration fixture"); } }) };
+});
 import { executeMathPilotAgentReviewJob } from "@/modules/research-sandbox/agent-review-kernel";
 import {
   assessMathPilotCase,
@@ -531,6 +538,9 @@ describe("Math pilot gate", () => {
       maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 11,
         note: "Seek a conditional lemma.", confirmed: true } });
     expect(steered.status).toBe("SUCCEEDED");
+    if (steered.status === "SUCCEEDED") expect(steered.outcome).toMatchObject({ strategyPolicy: {
+      policyId: "ADAPTIVE_RESEARCH_V1", rootContractDigest: erdosCase.contractDigest,
+    } });
     expect(await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
       maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 15,
         note: "Change target while active.", confirmed: true } })).toMatchObject({ status: "FAILED" });
@@ -562,7 +572,10 @@ describe("Math pilot gate", () => {
     });
     const firstSteered = (await listMathResearchCycles(owner, mission.id)).find((item) => item.rootCaseId === erdosCase.id)!;
     expect(firstSteered).toMatchObject({ status: "STOPPED", stopReason: "FRONTIER_HOLD" });
-    expect(firstSteered.trace?.[0]).toMatchObject({ phase: "HUMAN_STEERED", steering: { targetA: 11 } });
+    expect(firstSteered.trace?.[0]).toMatchObject({ phase: "ADAPTIVE_POLICY_DECLARED" });
+    expect(firstSteered.trace?.find((event) => event.phase === "HUMAN_STEERED")).toMatchObject({ steering: { targetA: 11 } });
+    expect(firstSteered.trace?.find((event) => event.phase === "RESEARCH_METHOD_MAP")).toMatchObject({
+      packet: { rootDigest: erdosCase.contractDigest, corpusCoverage: "PARTIAL_CURATED_NOT_EXHAUSTIVE" } });
     const nextSteered = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
       maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 15,
         note: "Move to the next gate after reviewing the hold.", confirmed: true } });
@@ -570,7 +583,7 @@ describe("Math pilot gate", () => {
     const erdosCycles = (await listMathResearchCycles(owner, mission.id)).filter((item) => item.rootCaseId === erdosCase.id);
     expect(erdosCycles).toHaveLength(2);
     expect(erdosCycles[0]).toMatchObject({ status: "QUEUED" });
-    expect(erdosCycles[1]!.trace?.[0]).toMatchObject({ phase: "HUMAN_STEERED", steering: { targetA: 11 } });
+    expect(erdosCycles[1]!.trace?.find((event) => event.phase === "HUMAN_STEERED")).toMatchObject({ steering: { targetA: 11 } });
     await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
     const [secondSteeredJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
@@ -613,6 +626,15 @@ describe("Math pilot gate", () => {
         async propose(_root, _gaps, _tasks, _prior, _steering, _findings, _dossier, _obligations, mixed) {
           expect(validateMixedCoreAgentEvidence(mixed, erdosCase.contractDigest)).toBe(true);
           expect(mixed?.replay.status).toBe("PASS");
+          expect(mixed?.method).toBe("ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3");
+          if (mixed?.method === "ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3") {
+            expect(mixed.kernel.replay.status).toBe("PASS");
+            expect(mixed.power.replay).toMatchObject({ status: "PASS",
+              primaryDigest: "0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9",
+              outputDigest: "0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9" });
+            expect(mixed.kernel.packet.rows.find((row) => row.m === 132840)).toMatchObject({
+              sIsPrime: true, knownRelationBound: 527, residueCount: 525 });
+          }
           mixedDigests.push(mixed!.evidenceDigest);
           const retained = await withOrganizationTenant(workspace.organizationId, owner.user.id,
             (tx) => tx.mathResearchCycleEvent.findMany({
@@ -627,7 +649,10 @@ describe("Math pilot gate", () => {
           rationale: "A concrete falsifier tests the new conditional, not the original equation." },
           threadId: "replay-planner", usage }; },
         async buildFrontierDossier() { return frontierFixture; },
-        async assessFrontier(role) { return { output: frontierAssessment, threadId: `${role}-replay-source`, usage }; },
+        async assessFrontier(role, _root, _proposal, _dossier, mixed) {
+          mixedDigests.push(mixed!.evidenceDigest);
+          return { output: frontierAssessment, threadId: `${role}-replay-source`, usage };
+        },
         async verify(_root, _gaps, _prior, proposal, _art, _steering, _findings, _assessments, _dossier, _probe, _obligations, mixed) {
           mixedDigests.push(mixed!.evidenceDigest);
           return { output: { decision: "ACCEPT" as const,
@@ -656,7 +681,7 @@ describe("Math pilot gate", () => {
       },
     });
     expect(replaySeenByReviewers).toBe(2);
-    expect(mixedDigests).toHaveLength(5);
+    expect(mixedDigests).toHaveLength(7);
     expect(new Set(mixedDigests).size).toBe(1);
     const replayCycle = (await listMathResearchCycles(owner, mission.id))
       .find((item) => item.rootCaseId === erdosCase.id && item.trace?.some((event) => event.phase === "COUNTEREXAMPLE_REPLAY"));
@@ -748,6 +773,7 @@ describe("Math pilot gate", () => {
     await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
     const [probedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    let probedBaselineCalls = 0;
     await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobId: probedJob!.id, expectedVersion: probedJob!.version,
       agents: { modelName: "gpt-6-sol",
@@ -762,7 +788,9 @@ describe("Math pilot gate", () => {
             targetA: 23, failedThroughA: 23, upperInclusive: 4_037_881,
             expectedPrimeResidue: 4, divisorConditions: [], nonmultipleConditions: [] } },
           threadId: "probe-planner", usage }; },
-        async buildFrontierDossier() { throw new Error("Refuted hypothesis must stop before source calls"); },
+        // New policy needs one offline baseline before the planner can generate
+        // a predicate. Refutation must still block every subsequent source role.
+        async buildFrontierDossier() { probedBaselineCalls += 1; return frontierFixture; },
         async assessFrontier() { throw new Error("Refuted hypothesis must stop before source calls"); },
         async verify() { throw new Error("Refuted hypothesis must stop before task verifier"); },
         async solve() { throw new Error("Refuted hypothesis must stop before solver"); },
@@ -775,30 +803,35 @@ describe("Math pilot gate", () => {
       .toMatchObject({ phase: "STRUCTURAL_PROBED", report: { status: "REFUTED",
         independentReplay: { status: "PASS" } } });
     expect(probedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toHaveLength(1);
-    expect(probedCycle?.trace?.some((event) => event.phase === "VERIFIED" || event.phase === "ATTEMPTED")).toBe(false);
+    expect(probedBaselineCalls).toBe(1);
+    expect(probedCycle?.trace?.filter((event) => event.phase === "RESEARCH_FRONTIER_BASELINE")).toHaveLength(1);
+    expect(probedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toMatchObject([{ role: "PLANNER" }]);
+    expect(probedCycle?.trace?.some((event) => ["FRONTIER_DOSSIER", "FRONTIER_REVIEWED", "FRONTIER_GATE",
+      "VERIFIED", "ATTEMPTED", "REVIEWED"].includes(event.phase))).toBe(false);
 
     const mixedCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
       maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
-        note: "Reject universal single-core rescue using retained mixed-core evidence, not model opinion.", confirmed: true } });
+        note: "Reject prime-modulus occupancy equality using retained V3 evidence, not model opinion.", confirmed: true } });
     expect(mixedCampaign.status).toBe("SUCCEEDED");
     await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
     const [mixedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    let mixedBaselineCalls = 0;
     await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobId: mixedJob!.id, expectedVersion: mixedJob!.version,
       agents: { modelName: "gpt-6-sol",
         async propose(_root, gaps, _tasks, _art, _steering, _findings, _gate, _obligations, mixed) {
           expect(validateMixedCoreAgentEvidence(mixed, erdosCase.contractDigest)).toBe(true);
           return { output: { sourceGap: gaps[0]!,
-            hypothesis: "Every residual prime admits a normalized single-core rescue.",
-            taskStatement: "For every prime p≡1 (mod 840), after A=3 and A=7 fail, prove at A=23 that a normalized single-core rescue always exists.",
-            falsificationPlan: "Inspect the complete one-core exclusions in the independently replayed packet.",
-            successEvidence: "A general theorem for all residual primes, not a bounded scan.",
+            hypothesis: "The known-relation bound is exact for every prime modulus s=4m-1.",
+            taskStatement: "At A=23, prove that the normalized known-relation bound is exact for every prime modulus s=4m-1.",
+            falsificationPlan: "Inspect m=132840/s=531359 in the independently replayed kernel packet.",
+            successEvidence: "A general occupancy theorem with prime quantifiers, not a bounded scan.",
             rationale: "This fixture deliberately asserts an exactly registered false statement to test pre-dispatch rejection.",
-            mixedCoreClaim: "ALL_RESIDUAL_PRIMES_HAVE_NORMALIZED_SINGLE_CORE_RESCUE" as const },
+            mixedCoreClaim: "KNOWN_RELATION_BOUND_IS_EXACT_FOR_EVERY_PRIME_MODULUS" as const },
             threadId: "mixed-planner", usage };
         },
-        async buildFrontierDossier() { throw new Error("Mixed-core refutation must precede source calls"); },
+        async buildFrontierDossier() { mixedBaselineCalls += 1; return frontierFixture; },
         async assessFrontier() { throw new Error("Mixed-core refutation must precede source calls"); },
         async verify() { throw new Error("Mixed-core refutation must precede verifier"); },
         async solve() { throw new Error("Mixed-core refutation must precede solver"); },
@@ -807,37 +840,178 @@ describe("Math pilot gate", () => {
     const mixedCycle = (await listMathResearchCycles(owner, mission.id)).find((item) =>
       item.events.some((event) => event.jobId === mixedJob!.id));
     expect(mixedCycle?.trace?.map((event) => event.phase)).toContain("MIXED_CORE_CLAIM_REFUTED");
+    expect(mixedCycle?.trace?.find((event) => event.phase === "MIXED_CORE_CLAIM_REFUTED"))
+      .toMatchObject({ claim: "KNOWN_RELATION_BOUND_IS_EXACT_FOR_EVERY_PRIME_MODULUS" });
     expect(mixedCycle?.stopReason).toBe("STRUCTURAL_REFUTED");
     expect(mixedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toHaveLength(1);
+    expect(mixedBaselineCalls).toBe(1);
+    expect(mixedCycle?.trace?.filter((event) => event.phase === "RESEARCH_FRONTIER_BASELINE")).toHaveLength(1);
+    expect(mixedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toMatchObject([{ role: "PLANNER" }]);
+    expect(mixedCycle?.trace?.some((event) => ["FRONTIER_DOSSIER", "FRONTIER_REVIEWED", "FRONTIER_GATE",
+      "VERIFIED", "ATTEMPTED", "REVIEWED"].includes(event.phase))).toBe(false);
     expect(mixedCycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE"))
-      .toMatchObject({ evidence: { rootContractDigest: erdosCase.contractDigest, replay: { status: "PASS" } } });
+      .toMatchObject({ evidence: { method: "ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3",
+        rootContractDigest: erdosCase.contractDigest, replay: { status: "PASS" }, kernel: { replay: { status: "PASS" } },
+        power: { replay: { status: "PASS", primaryDigest: "0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9",
+          outputDigest: "0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9" } } } });
 
     // Fault injection into the replay boundary, not an LLM/provider simulation.
     const retainedMixed = mixedCycle!.trace!.find((event) => event.phase === "MIXED_CORE_EVIDENCE")!.evidence;
-    const failedBody = { method: retainedMixed.method, rootContractDigest: retainedMixed.rootContractDigest,
-      packet: retainedMixed.packet, replay: { ...retainedMixed.replay, status: "UNAVAILABLE" as const, outputDigest: null } };
+    const { evidenceDigest: _retainedDigest, ...retainedBody } = retainedMixed;
+    void _retainedDigest;
+    const failedBody = { ...retainedBody, replay: { ...retainedMixed.replay, status: "UNAVAILABLE" as const, outputDigest: null } };
     const unavailable = { ...failedBody, evidenceDigest: sha256(canonicalJson(failedBody)) };
-    const replayFault = vi.spyOn(mixedCoreAgent, "runMixedCoreAgentEvidence").mockResolvedValue(unavailable);
-    try {
-      const held = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
-        maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
-          note: "Verify fail-closed retention when independent mixed-core replay is unavailable.", confirmed: true } });
-      expect(held.status).toBe("SUCCEEDED");
-      await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
-      const [heldJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
-        workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
-      const forbidden = async () => { throw new Error("Unavailable replay must block every model call"); };
-      await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
-        workerId: "cycle-worker", jobId: heldJob!.id, expectedVersion: heldJob!.version,
-        agents: { modelName: "gpt-6-sol", propose: forbidden, verify: forbidden, solve: forbidden,
-          reviewRole: forbidden, buildFrontierDossier: forbidden, assessFrontier: forbidden } });
-      const heldCycle = (await listMathResearchCycles(owner, mission.id)).find((item) =>
-        item.events.some((event) => event.jobId === heldJob!.id));
-      expect(heldCycle?.stopReason).toBe("INTEGRITY_FAILURE");
-      expect(heldCycle?.trace?.some((event) => event.phase === "CALL_STARTED")).toBe(false);
-      expect(heldCycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE"))
-        .toMatchObject({ evidence: { replay: { status: "UNAVAILABLE" } } });
-    } finally { replayFault.mockRestore(); }
+    expect(retainedMixed.method).toBe("ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3");
+    if (retainedMixed.method !== "ERDOS_STRAUS_MIXED_CORE_AGENT_EVIDENCE_V3") throw new Error("Missing V3 fixture");
+    const kernelFailures = (["MISMATCH", "UNAVAILABLE"] as const).map((status) => {
+      const failed = { ...retainedBody, kernel: { ...retainedMixed.kernel,
+        replay: { ...retainedMixed.kernel.replay, status,
+          outputDigest: status === "UNAVAILABLE" ? null : "b".repeat(64) } } };
+      return mixedCoreAgent.mixedCoreAgentEvidenceSchema.parse({ ...failed, evidenceDigest: sha256(canonicalJson(failed)) });
+    });
+    const powerFailures = (["MISMATCH", "UNAVAILABLE", "PARTIAL"] as const).map((status) => {
+      const failed = { ...retainedBody, power: { ...retainedMixed.power,
+        packet: status === "PARTIAL" ? null : retainedMixed.power.packet,
+        failure: status === "PARTIAL" ? "CHECKER_PARTIAL" as const : "REPLAY_FAILED" as const,
+        replay: { ...retainedMixed.power.replay, status,
+          primaryDigest: status === "PARTIAL" ? sha256("TEST_ONLY_ATTEMPTED_PARTIAL_G_PREFIX_NOT_COMPLETE")
+            : retainedMixed.power.replay.primaryDigest,
+          scriptDigest: status === "MISMATCH" ? retainedMixed.power.replay.scriptDigest : null,
+          outputDigest: status === "MISMATCH" ? "b".repeat(64) : null } } };
+      return mixedCoreAgent.mixedCoreAgentEvidenceSchema.parse({ ...failed, evidenceDigest: sha256(canonicalJson(failed)) });
+    });
+    for (const fault of [unavailable, ...kernelFailures, ...powerFailures]) {
+      const replayFault = vi.spyOn(mixedCoreAgent, "runMixedCoreAgentEvidence").mockResolvedValue(fault);
+      try {
+        const held = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+          maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
+            note: "Verify fail-closed retention when independent mixed-core replay is unavailable.", confirmed: true } });
+        expect(held.status).toBe("SUCCEEDED");
+        await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+        const [heldJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+          workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+        const forbidden = async () => { throw new Error("Unavailable replay must block every model call"); };
+        await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+          workerId: "cycle-worker", jobId: heldJob!.id, expectedVersion: heldJob!.version,
+          agents: { modelName: "gpt-6-sol", propose: forbidden, verify: forbidden, solve: forbidden,
+            reviewRole: forbidden, buildFrontierDossier: forbidden, assessFrontier: forbidden } });
+        const heldCycle = (await listMathResearchCycles(owner, mission.id)).find((item) =>
+          item.events.some((event) => event.jobId === heldJob!.id));
+        expect(heldCycle?.stopReason).toBe("INTEGRITY_FAILURE");
+        expect(heldCycle?.trace?.some((event) => event.phase === "CALL_STARTED")).toBe(false);
+        expect(heldCycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE")?.evidence).toEqual(fault);
+      } finally { replayFault.mockRestore(); }
+    }
+
+    // Fresh autonomous requests require policy V2/portfolio V3, unlike the
+    // intentionally historical-compatible human-steered fixtures above.
+    // A root with prior cycles intentionally cannot start an unsteered cycle.
+    // Do not bypass that gate merely to test the new graph policy.
+    const blockedAutonomous = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1, maxObservedTokens: 60_000 });
+    expect(blockedAutonomous, "Prior cycles must retain the unsteered admission fence").toMatchObject({ status: "FAILED", errorCode: "COMMAND_FAILED" });
+    const graphRoot = await requestResearchRun(owner, {
+      ...requestFor(mission.id, erdosRequest, "gpt-6-sol"), providerName: "codex-local",
+    });
+    expect(graphRoot, JSON.stringify(graphRoot)).toMatchObject({ status: "SUCCEEDED" });
+    const graphRunId = String(graphRoot.status === "SUCCEEDED" ? graphRoot.outcome.runId : "");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [graphRootJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.codex-local.execute"] });
+    await executeResearchJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: graphRootJob!.id, expectedVersion: graphRootJob!.version,
+      correlationId: owner.correlationId,
+      provider: { providerName: "codex-local", modelName: "gpt-6-sol", async execute() {
+        return { providerName: this.providerName, modelName: this.modelName, sources: [],
+          findings: [{ key: "no-source", kind: "HONEST_NULL" as const, claim: "No source captured in this graph fixture.",
+            sourceKey: null, exactExcerpt: "", startOffset: null, endOffset: null, confidence: 0 }],
+          mathAttempt: { providerName: "codex-local" as const, modelName: "gpt-6-sol", threadId: "graph-root",
+            attemptType: "PARTIAL" as const, argument: "The first two denominator gates do not settle every prime in the residual class.",
+            candidateCounterexample: null, selfChecks: [], limitations: ["No universal proof."], usage } };
+      } },
+    });
+    const graphCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.researchRunId === graphRunId)!;
+    expect(graphCase.id).not.toBe(erdosCase.id);
+    expect(graphCase.contractDigest).toBe(erdosCase.contractDigest);
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [graphRootReviewJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.codex-local.review"] });
+    await executeMathPilotAgentReviewJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: graphRootReviewJob!.id, expectedVersion: graphRootReviewJob!.version,
+      correlationId: owner.correlationId, reviewer: { modelName: "gpt-6-sol", async review() {
+        return (["CRITIC", "ADVERSARY"] as const).map((role) => ({ role,
+          verdict: "CHALLENGES" as const, candidateConclusion: "PARTIAL" as const,
+          exactQuote: "do not settle every prime", reasoning: "The claim is universal, but the attempt covers only two gates.",
+          checks: ["Compared finite gates to the original universal quantifier."], unresolvedGap: erdosGap,
+          threadId: `${role}-graph-root`, usage,
+        })) as Awaited<ReturnType<Parameters<typeof executeMathPilotAgentReviewJob>[0]["reviewer"]["review"]>>;
+      } } });
+    const autonomous = await requestMathResearchCycle(owner, { caseId: graphCase.id, maxRounds: 1, maxObservedTokens: 60_000 });
+    expect(autonomous, JSON.stringify(autonomous)).toMatchObject({ status: "SUCCEEDED" });
+    if (autonomous.status === "SUCCEEDED") expect(autonomous.outcome).toMatchObject({ strategyPolicy: { policyId: "ADAPTIVE_RESEARCH_V2" } });
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [graphJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    const graphBindings: string[] = [];
+    const graphProposal = { sourceGap: erdosGap,
+      hypothesis: "An unproved support-sensitive structural invariant may connect the entire residual prime domain to a construction.",
+      taskStatement: "Investigate a support-sensitive structural implication for every prime p congruent to 1 modulo 840 in the exact sealed root domain.",
+      falsificationPlan: "Find a complete premise instance violating the proposed support-sensitive condition.",
+      successEvidence: "A scoped independently scrutinized argument, with every missing assumption retained.",
+      rationale: "This fixture tests a declared root bridge, not a finite survey or a claim of theorem success.",
+      exactSurveyPlan: null, structuralProbePlan: null, mixedCoreClaim: null };
+    const graphBranch = { strategy: "STRUCTURAL_LEMMA", proposal: graphProposal,
+      anticipatedFalsifier: "A complete premise instance fails the proposed support-sensitive conclusion.", expectedInformationGain: "HIGH",
+      toolNeeds: ["SOURCE_REVIEW"], methodId: "SUPPORT_UNIFORM_BRIDGE", methodFamily: "GLOBAL_BRIDGE",
+      rootContribution: { kind: "ROOT_BRIDGE", statement: "Propose an explicit missing implication toward the sealed universal root." },
+      applicabilityAssumptions: "Every support assumption remains a proposed mathematical premise, not a fact.",
+      discriminatingExperiment: { question: "Can an exact support invariant bridge the residual prime domain?",
+        supportOutcome: "Retain a candidate argument for independent scrutiny, not theorem acceptance.",
+        refutationOutcome: "Retire only the exact checked predicate and preserve unmatched prose uncertainty.",
+        inconclusiveOutcome: "Record the unproved bridge and route later to another method family." },
+      requiredTools: ["PROOF_ATTEMPT"], evaluationScope: "UNVALIDATED_RESEARCH", lemmaGraph: lemmaDraft(graphProposal.hypothesis) };
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: graphJob!.id, expectedVersion: graphJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async proposePortfolio(_root, _gaps, _tasks, _art, _findings, _dossier, _obligations, _mixed, strategy) {
+          expect(strategy?.policyId).toBe("ADAPTIVE_RESEARCH_V2");
+          return { output: { version: 3, branches: [graphBranch, { ...graphBranch,
+            methodId: "TAO_LOCAL_OBSTRUCTION", methodFamily: "LOCAL_OBSTRUCTION",
+            proposal: { ...graphProposal, hypothesis: "A separate local structural obstruction may expose the unproved support assumption." } }] },
+          threadId: "graph-planner", usage };
+        },
+        async propose() { throw new Error("Autonomous graph portfolio must not fall into unstructured proposal"); },
+        async buildFrontierDossier() { return frontierFixture; },
+        async assessFrontier(role, _root, _proposal, _dossier, _mixed, strategy) {
+          expect(strategy?.lemmaGraph?.rootContractDigest).toBe(graphCase.contractDigest);
+          graphBindings.push(strategy!.lemmaGraph!.graphDigest);
+          return { output: frontierAssessment, threadId: `graph-${role}`, usage };
+        },
+        async verify(_root, _gaps, _prior, proposal, _art, _steering, _findings, _assessments, _dossier, _probe, _obligations, _mixed, strategy) {
+          graphBindings.push(strategy!.lemmaGraph!.graphDigest);
+          return { output: { decision: "ACCEPT", sourceGap: proposal.sourceGap,
+            scopeCheck: "The proposed scope keeps the root quantifiers while its implication remains unproved.",
+            noveltyCheck: "Literature novelty remains unestablished; only bounded exploratory permission is given.",
+            falsifiabilityCheck: "A complete premise instance could distinguish the proposed invariant.",
+            unresolvedRisk: "All graph edges and mathematical premises still need independent proof." }, threadId: "graph-verifier", usage };
+        },
+        async solve(_contract, _evidence, _replay, _dossier, _mixed, strategy) {
+          graphBindings.push(strategy!.lemmaGraph!.graphDigest);
+          return { providerName: "codex-local", modelName: "gpt-6-sol", threadId: "graph-solver", attemptType: "INCONCLUSIVE",
+            argument: "The universal structural implication remains unproved; this is a bounded software fixture.",
+            candidateCounterexample: null, selfChecks: [], limitations: ["No root theorem has been established."], usage };
+        },
+        async reviewRole(role, _contract, attempt, _evidence, _replay, _counterexample, _dossier, _mixed, strategy) {
+          graphBindings.push(strategy!.lemmaGraph!.graphDigest);
+          return { role, verdict: "INCONCLUSIVE", candidateConclusion: "INCONCLUSIVE", exactQuote: attempt.argument,
+            reasoning: "The graph retains an unproved universal structural bridge; no finite observation or AI agreement closes it.",
+            checks: ["The claimed graph implication still lacks independent semantic alignment."], unresolvedGap: erdosGap, threadId: `graph-${role}`, usage };
+        },
+      } });
+    expect(graphBindings).toHaveLength(6); expect(new Set(graphBindings).size).toBe(1);
+    const graphCycle = (await listMathResearchCycles(owner, mission.id)).find((item) => item.events.some((event) => event.jobId === graphJob!.id));
+    expect(graphCycle).toMatchObject({ callsStarted: 7, stopReason: "ROUND_LIMIT", completedRounds: 1 });
+    expect(graphCycle?.trace?.find((event) => event.phase === "PORTFOLIO_PLANNED")?.portfolio.version).toBe(3);
+    expect(graphCycle?.trace?.find((event) => event.phase === "ROUND_CLOSED")).toMatchObject({ disposition: "INCONCLUSIVE" });
 
     // An AI-reviewed OPEN dossier remains AWAITING_REVIEW for the separate human
     // lane. A terminal cycle must not prevent a fresh, immutable root experiment.
@@ -850,7 +1024,7 @@ describe("Math pilot gate", () => {
       ...requestFor(mission.id, openRequest, "gpt-6-sol"), providerName: "codex-local",
     });
     expect(concurrentRoot.status).toBe("FAILED");
-  }, 60_000);
+  }, 180_000);
 
   it("routes Codex-local math to a distinct job and retains an unverified model attempt", async () => {
     const owner = await asOwner(await createUser("math-codex-owner"));

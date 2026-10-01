@@ -183,3 +183,13 @@ The real next obligation is **a cross-shift argument**, not another unsupported 
 $$x_{11}=3(70t+1),\qquad x_{19}=5(42t+1),\qquad x_{19}-x_{11}=2.$$
 
 These odd numbers are coprime. The root program must explain whether the exact splitting/finite-packet constraints can persist across further shifts, including unrestricted neutral factors. A candidate implication must survive the existing hard exclusions (2521, 131041, 4037881, 10051441, 171348241), with proposal-time exact replay, before spending another agent round on prose proof. The new A19 module is currently a standalone research tool; it has **not** been attached as an authoritative event to an agent ledger or exposed in UI. No paid API, schema mutation, commit, push or deployment was performed.
+
+## Appended source-status correction: 2026-10-01, TIP-034
+
+The [current official Jiang record](https://arxiv.org/abs/2609.09204) identifies
+latest v2 as withdrawn on 2026-09-13; author comments report errors. The older
+v1 comparison above is retained for historical audit only. No result from this
+publication is an accepted premise, across any older version or HTML/PDF/DOI
+alias. Quarantine does not invalidate separately checked A19 arithmetic or
+alter the recorded Lean proof boundary. The source-health/method-map contract
+is described in `MATH_RESEARCH_LITERATURE_STATUS_2026-10-01.md`.

@@ -18,6 +18,9 @@ import { structuralProbePlanSchema, structuralProbeReportSchema } from "./math-s
 import { validateStructuralProbeReport } from "./math-structural-probe";
 import { repeatedMathClaim } from "./math-proof-obligations";
 import { mixedCoreAgentEvidenceSchema, mixedCoreClaimSchema } from "./math-mixed-core-agent";
+import { adaptiveBranchFields, adaptivePolicySchema, adaptiveSelectionSchema, researchOutcomeSchema } from "./math-adaptive-strategy";
+import { researchMethodPacketSchema } from "./math-method-map";
+import { lemmaGraphDraftSchema, lemmaGraphSchema } from "./math-lemma-graph";
 
 const text = (minimum: number, maximum: number) => z.string().trim().min(minimum).max(maximum);
 export const mathCycleLimitsSchema = z.object({
@@ -140,12 +143,26 @@ export const mathPortfolioBranchSchema = mathPortfolioDraftBranchSchema.extend({
   maxObservedTokens: z.number().int().min(10_000).max(200_000),
   maxWallSeconds: z.number().int().min(60).max(3_000),
 }).strict();
-export const mathPortfolioSchema = z.object({
+export const mathPortfolioV1Schema = z.object({
   version: z.literal(1),
   rootReviewDigest: digest,
   branches: z.array(mathPortfolioBranchSchema).min(2).max(3),
   portfolioDigest: digest,
 }).strict();
+export const mathPortfolioDraftV2BranchSchema = mathPortfolioDraftBranchSchema.extend(adaptiveBranchFields).strict();
+export const mathPortfolioDraftV2Schema = z.object({ version: z.literal(2),
+  branches: z.array(mathPortfolioDraftV2BranchSchema).min(2).max(3) }).strict();
+export const mathPortfolioV2Schema = z.object({ version: z.literal(2), rootReviewDigest: digest,
+  methodPacketDigest: digest, rootContractDigest: digest, policyId: z.literal("ADAPTIVE_RESEARCH_V1"),
+  branches: z.array(mathPortfolioBranchSchema.extend(adaptiveBranchFields).strict()).min(2).max(3),
+  portfolioDigest: digest }).strict();
+export const mathPortfolioDraftV3Schema = z.object({ version: z.literal(3),
+  branches: z.array(mathPortfolioDraftV2BranchSchema.extend({ lemmaGraph: lemmaGraphDraftSchema }).strict()).min(2).max(3) }).strict();
+export const mathPortfolioV3Schema = z.object({ version: z.literal(3), cycleId: z.uuid(), rootReviewDigest: digest,
+  methodPacketDigest: digest, rootContractDigest: digest, policyId: z.literal("ADAPTIVE_RESEARCH_V2"),
+  branches: z.array(mathPortfolioBranchSchema.extend(adaptiveBranchFields).extend({ lemmaGraph: lemmaGraphSchema }).strict()).min(2).max(3),
+  portfolioDigest: digest }).strict();
+export const mathPortfolioSchema = z.discriminatedUnion("version", [mathPortfolioV1Schema, mathPortfolioV2Schema, mathPortfolioV3Schema]);
 
 export const residualSurveyEvidenceSchema: z.ZodType<ResidualSurveyEvidence> = z.object({
   method: z.enum(["ERDOS_STRAUS_RESIDUAL_SURVEY_V2", "ERDOS_STRAUS_RESIDUAL_SURVEY_V3"]),
@@ -197,6 +214,12 @@ const priorArtFactSchema = z.object({
 }).strict();
 
 export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
+  z.object({ phase: z.literal("ADAPTIVE_POLICY_DECLARED"), round: z.literal(1), policy: adaptivePolicySchema }).strict(),
+  z.object({ phase: z.literal("RESEARCH_FRONTIER_BASELINE"), round: z.literal(1), dossier: frontierDossierSchema }).strict(),
+  z.object({ phase: z.literal("RESEARCH_METHOD_MAP"), round: z.literal(1), packet: researchMethodPacketSchema,
+    rootContract: mathPilotContractSchema,
+    admittedAt: z.iso.datetime(), priorOutcomes: z.array(researchOutcomeSchema).max(32),
+    priorClaims: z.array(z.string().min(20).max(2_000)).max(80) }).strict(),
   z.object({ phase: z.literal("HUMAN_STEERED"), round: z.literal(1), steering: mathCycleSteeringSchema,
     steeringDigest: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   z.object({ phase: z.literal("PRIOR_FINDINGS"), round: z.number().int().positive(),
@@ -206,7 +229,7 @@ export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
   z.object({ phase: z.literal("PRIOR_GATE_DOSSIER"), round: z.literal(1),
     dossier: structuralGateDossierSchema }).strict(),
   z.object({ phase: z.literal("PRIOR_ART"), round: z.number().int().positive(), facts: z.array(priorArtFactSchema).max(32),
-    coverage: z.literal("CURATED_PARTIAL"), researchMethod: z.literal("MIXED_CORE_REPLAY_V1").optional() }).strict(),
+    coverage: z.literal("CURATED_PARTIAL"), researchMethod: z.enum(["MIXED_CORE_REPLAY_V1", "MIXED_CORE_REPLAY_V2", "MIXED_CORE_REPLAY_V3"]).optional() }).strict(),
   z.object({ phase: z.literal("MIXED_CORE_EVIDENCE"), round: z.literal(1),
     evidence: mixedCoreAgentEvidenceSchema }).strict(),
   z.object({ phase: z.literal("MIXED_CORE_CLAIM_REFUTED"), round: z.number().int().positive(),
@@ -221,7 +244,9 @@ export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
     portfolio: mathPortfolioSchema, context: mathCycleModelResultSchema }).strict(),
   z.object({ phase: z.literal("BRANCH_SELECTED"), round: z.number().int().positive(),
     portfolioDigest: digest, branchId: digest, baselineObservedTokens: z.number().int().nonnegative(),
-    selectedAt: z.iso.datetime() }).strict(),
+    selectedAt: z.iso.datetime(), adaptiveSelection: adaptiveSelectionSchema.optional() }).strict(),
+  z.object({ phase: z.literal("METHOD_DEFERRED"), round: z.number().int().positive(),
+    selection: adaptiveSelectionSchema }).strict(),
   z.object({ phase: z.literal("BRANCH_CLOSED"), round: z.number().int().positive(),
     portfolioDigest: digest, branchId: digest,
     outcome: z.enum(["AI_REVIEWED", "INCONCLUSIVE", "PRUNED", "RESOURCE_STOP", "FAILED"]),
@@ -248,7 +273,7 @@ export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
   z.object({ phase: z.literal("REVIEWED"), round: z.number().int().positive(), role: z.enum(["CRITIC", "ADVERSARY"]),
     report: mathAgentReportSchema, reviewerModel: reviewerModelSchema.optional() }).strict(),
   z.object({ phase: z.literal("ROUND_CLOSED"), round: z.number().int().positive(), disposition: z.enum(["AI_REVIEWED", "INCONCLUSIVE"]), conclusion: z.enum(["PARTIAL", "INCONCLUSIVE"]), nextGap: text(12, 2_000).nullable() }).strict(),
-  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "BRANCH_TOKEN_LIMIT", "BRANCH_TIME_LIMIT", "NO_GAP", "DUPLICATE_CLAIM", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE"]) }).strict(),
+  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "BRANCH_TOKEN_LIMIT", "BRANCH_TIME_LIMIT", "NO_GAP", "METHOD_DEFERRED", "DUPLICATE_CLAIM", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE"]) }).strict(),
 ]);
 
 export type MathCycleProposal = z.infer<typeof mathCycleProposalSchema>;

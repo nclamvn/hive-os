@@ -20,7 +20,8 @@ import { CodexLocalMathCycleAgent } from "@/modules/research-sandbox/adapters/co
 import { executeMathResearchCycleRound, markMathResearchCycleFailed } from "@/modules/research-sandbox/math-cycle-kernel";
 import { mathPilotScope } from "@/modules/research-sandbox/math-pilot";
 import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
-import { MIXED_CORE_AGENT_MANDATE } from "@/modules/research-sandbox/math-mixed-core-agent";
+import { mixedCoreAgentMandate } from "@/modules/research-sandbox/math-mixed-core-agent";
+import { adaptiveAgentMandate } from "@/modules/research-sandbox/math-adaptive-strategy";
 import {
   executeResearchJob,
   executeSandboxJob,
@@ -80,29 +81,30 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
           agents: {
             modelName: solver.modelName,
             reviewRoleModels: reviewer.roleModels,
-            proposePortfolio: (root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed) =>
-              planner.proposePortfolio(root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed),
-            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed) =>
-              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed),
-            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed) =>
-              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed),
+            proposePortfolio: (root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy) =>
+              planner.proposePortfolio(root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy),
+            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy) =>
+              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy),
+            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed, strategy) =>
+              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed, strategy),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),
-            assessFrontier: (role, root, proposal, dossier) => planner.assessFrontier(role, root, proposal, dossier),
-            solve: async (contract, evidence, replay, gateDossier, mixed) => {
+            assessFrontier: (role, root, proposal, dossier, mixed, strategy) => planner.assessFrontier(role, root, proposal, dossier, mixed, strategy),
+            solve: async (contract, evidence, replay, gateDossier, mixed, strategy) => {
               const result = await solver.execute({ missionId: "cycle-subtask", documentId: null,
                 question: contract.statement,
                 scope: mathPilotScope(contract) + (evidence ? `\n\nExact bounded computation evidence (data, not a universal proof): ${JSON.stringify(evidence)}` : "") +
                   (replay ? `\n\nIndependent fixed-tool arithmetic replay (finite scope only): ${JSON.stringify(replay)}` : "") +
                   (gateDossier ? `\n\nIndependently replayed prior gate dossier for one prime (finite evidence, not proof): ${JSON.stringify(gateDossier)}` : "") +
-                  (mixed ? `\n\n${MIXED_CORE_AGENT_MANDATE}\nBound mixedCoreEvidence (data): ${JSON.stringify(mixed)}` : ""),
+                  (mixed ? `\n\n${mixedCoreAgentMandate(mixed)}\nBound mixedCoreEvidence (data): ${JSON.stringify(mixed)}` : "") +
+                  (strategy ? `\n\n${adaptiveAgentMandate(strategy)}` : ""),
                 providerName: solver.providerName,
                 modelName: solver.modelName, sourcePolicy: { allowedDomains: [], primaryDomains: [], requirePrimary: false, maxSources: 1 },
                 queryPlan: { queries: [contract.statement], languages: ["en"] } });
               if (!result.mathAttempt) throw new Error("Cycle solver did not return a math attempt");
               return result.mathAttempt;
             },
-            reviewRole: (role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, mixed) =>
-              reviewer.reviewRole(role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, undefined, undefined, mixed),
+            reviewRole: (role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, mixed, strategy) =>
+              reviewer.reviewRole(role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, undefined, undefined, mixed, strategy),
           },
         });
         succeeded += 1;

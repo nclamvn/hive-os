@@ -2,7 +2,8 @@
 
 import { RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useTransition } from "react";
+import { createResearchRefreshScheduler } from "./research-refresh-scheduler";
 
 type ResearchLiveRefreshProps = {
   active: boolean;
@@ -12,45 +13,46 @@ type ResearchLiveRefreshProps = {
   updatedLabel: string;
 };
 
-const REFRESH_INTERVAL_MS = 5_000;
-
 export function ResearchLiveRefresh({
   active,
   activeLabel,
   idleLabel,
   refreshLabel,
-  updatedLabel,
 }: ResearchLiveRefreshProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const scheduler = useRef<ReturnType<typeof createResearchRefreshScheduler> | null>(null);
 
-  const refresh = useCallback(() => {
+  const requestRefresh = useCallback(() => {
     startTransition(() => {
       router.refresh();
-      setLastUpdated(
-        new Intl.DateTimeFormat(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }).format(new Date()),
-      );
     });
-  }, [router]);
+  }, [router, startTransition]);
 
   useEffect(() => {
-    if (!active) return;
-    const timer = window.setInterval(() => {
-      if (document.visibilityState === "visible") refresh();
-    }, REFRESH_INTERVAL_MS);
-    return () => window.clearInterval(timer);
-  }, [active, refresh]);
+    const controller = createResearchRefreshScheduler(requestRefresh);
+    scheduler.current = controller;
+    const visibilityChanged = () => controller.setVisible(document.visibilityState === "visible");
+    visibilityChanged();
+    document.addEventListener("visibilitychange", visibilityChanged);
+    return () => {
+      controller.dispose();
+      scheduler.current = null;
+      document.removeEventListener("visibilitychange", visibilityChanged);
+    };
+  }, [requestRefresh]);
+
+  useEffect(() => {
+    scheduler.current?.setActive(active);
+    scheduler.current?.observeTransition(isPending);
+  }, [active, isPending, requestRefresh]);
+
+  const refresh = useCallback(() => scheduler.current?.request(), []);
 
   return (
     <div className="flex min-w-0 flex-wrap items-center justify-end gap-x-3 gap-y-1">
       <p className="text-meta text-ink-muted" aria-live="polite">
         {isPending ? refreshLabel : active ? activeLabel : idleLabel}
-        {lastUpdated ? ` · ${updatedLabel} ${lastUpdated}` : ""}
       </p>
       <button
         type="button"

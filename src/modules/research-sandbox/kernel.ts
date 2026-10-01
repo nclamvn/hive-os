@@ -24,6 +24,9 @@ import {
   reviewResearchRunSchema,
 } from "./contracts";
 import { ResearchSandboxError } from "./errors";
+import { dossierIdSchema, encodeDossierCursor, olderThanCursor, calibrationCandidateFilter, MATH_CASE_SUMMARY_LIMIT,
+  MATH_CALIBRATION_SCAN_LIMIT,
+  type DossierCursor } from "./math-dossier-pagination";
 import { validateRecordedMathAgentReview } from "./agent-review";
 import { digestResearchResult, researchDossierDigest } from "./integrity";
 import {
@@ -208,36 +211,46 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
         }
       }
       if (mathContract?.caseType === "OPEN" || mathContract?.caseType === "BENCHMARK_PROOF" || mathContract?.caseType === "BENCHMARK_EXACT") {
-        const calibrations = await tx.mathPilotCase.findMany({
-          where: {
-            organizationId: command.organizationId,
-            workspaceId: command.workspaceId,
-            missionId: input.missionId,
-            caseType: { in: ["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE"] },
-          },
-          include: {
-            researchRun: {
-              include: {
-                sources: { select: { canonicalUri: true, contentDigest: true, provenance: true } },
-                findings: { include: { decision: true } },
-              },
+        const passed = new Set<"CALIBRATION_PROOF" | "CALIBRATION_COUNTEREXAMPLE">();
+        let calibrationCursor: DossierCursor | null = null;
+        let calibrationScanComplete = false;
+        for (let inspected = 0; inspected < MATH_CALIBRATION_SCAN_LIMIT; inspected += 20) {
+          const calibrations = await tx.mathPilotCase.findMany({
+            where: {
+              organizationId: command.organizationId,
+              workspaceId: command.workspaceId,
+              missionId: input.missionId,
+              ...calibrationCandidateFilter(input.providerName, input.modelName, calibrationCursor),
             },
-            assessment: { select: { conclusion: true, researchDigest: true, reviewChecklist: true, reviewChecklistDigest: true } },
-            agentReview: true,
-          },
-          orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-          take: 500,
-        });
-        const passed = calibratedCaseTypes(calibrations.map((item) => ({
-          ...item,
-          approvedIntegrityValid: Boolean(item.researchRun.approvedDigest && reviewedDigest(item.researchRun) === item.researchRun.approvedDigest),
-          agentReviewValid: Boolean(validateRecordedMathAgentReview({
-            contract: item.contract, contractDigest: item.contractDigest,
-            attempt: item.researchRun.mathModelAttempt, attemptDigest: item.researchRun.mathModelAttemptDigest,
-            researchDigest: reviewedDigest(item.researchRun), review: item.agentReview,
-          })),
-        })), input.providerName, input.modelName);
-        if (passed.size !== 2) {
+            include: {
+              researchRun: {
+                include: {
+                  sources: { select: { canonicalUri: true, contentDigest: true, provenance: true } },
+                  findings: { include: { decision: true } },
+                },
+              },
+              assessment: { select: { conclusion: true, researchDigest: true, reviewChecklist: true, reviewChecklistDigest: true } },
+              agentReview: true,
+            },
+            orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+            take: 20,
+          });
+          const batchPassed = calibratedCaseTypes(calibrations.map((item) => ({
+            ...item,
+            approvedIntegrityValid: Boolean(item.researchRun.approvedDigest && reviewedDigest(item.researchRun) === item.researchRun.approvedDigest),
+            agentReviewValid: Boolean(validateRecordedMathAgentReview({
+              contract: item.contract, contractDigest: item.contractDigest,
+              attempt: item.researchRun.mathModelAttempt, attemptDigest: item.researchRun.mathModelAttemptDigest,
+              researchDigest: reviewedDigest(item.researchRun), review: item.agentReview,
+            })),
+          })), input.providerName, input.modelName);
+          for (const type of batchPassed) passed.add(type);
+          if (passed.size === 2 || calibrations.length < 20) { calibrationScanComplete = true; break; }
+          const last: { id: string; createdAt: Date } = calibrations.at(-1)!;
+          calibrationCursor = { version: 1, missionId: input.missionId, scopeId: "calibration",
+            id: last.id, createdAt: last.createdAt.toISOString() };
+        }
+        if (!calibrationScanComplete || passed.size !== 2) {
           throw new ResearchSandboxError("INVALID_TRANSITION", "Both sealed math calibrations need a valid AI or human review for this Mission and model");
         }
       }
@@ -474,7 +487,49 @@ export async function getApprovedResearchBundle(ctx: WorkspaceContext, runId: st
   });
 }
 
-export async function listMathPilotCases(ctx: WorkspaceContext, missionId: string) {
+export async function listMathPilotCalibrationActivity(ctx: WorkspaceContext, missionId: string, providerName: string, modelName: string) {
+  await requireWorkspaceAuthorization(ctx, "research.read", missionId);
+  const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
+  return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
+    const active = new Set<"CALIBRATION_PROOF" | "CALIBRATION_COUNTEREXAMPLE">();
+    for (const caseType of ["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE"] as const) {
+      const item = await tx.mathPilotCase.findFirst({ where: { organizationId, workspaceId: ctx.workspace.id, missionId,
+        caseType, researchRun: { providerName, modelName, status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] } } },
+        select: { id: true } });
+      if (item) active.add(caseType);
+    }
+    return active;
+  });
+}
+
+export async function listMathPilotCaseSummaries(ctx: WorkspaceContext, missionId: string, cursor: DossierCursor | null = null) {
+  if (cursor && (cursor.missionId !== missionId || cursor.scopeId !== "")) invalid("Invalid dossier query");
+  await requireWorkspaceAuthorization(ctx, "research.read", missionId);
+  const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
+  return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
+    const mission = await tx.mission.findFirst({ where: { id: missionId, workspaceId: ctx.workspace.id }, select: { id: true } });
+    if (!mission) throw new ResearchSandboxError("NOT_FOUND", "Mission not found");
+    const where = { organizationId, workspaceId: ctx.workspace.id, missionId };
+    const total = await tx.mathPilotCase.count({ where });
+    const rows = await tx.mathPilotCase.findMany({ where: { ...where, ...olderThanCursor(cursor) },
+      select: { id: true, caseType: true, createdAt: true, researchRun: { select: { question: true, status: true } } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: MATH_CASE_SUMMARY_LIMIT + 1 });
+    const items = rows.slice(0, MATH_CASE_SUMMARY_LIMIT);
+    const last = items.at(-1);
+    return { items, total, nextCursor: rows.length > MATH_CASE_SUMMARY_LIMIT && last
+      ? encodeDossierCursor({ missionId, scopeId: "", createdAt: last.createdAt.toISOString(), id: last.id }) : null };
+  });
+}
+
+/** Optional exact IDs are scoped again by trusted workspace AND mission before any body is read. */
+export async function listMathPilotCases(ctx: WorkspaceContext, missionId: string, options: {
+  ids?: string[]; calibration?: { providerName: string; modelName: string; cursor: DossierCursor | null };
+  take?: number; includeJobs?: boolean;
+} = {}) {
+  if (!Number.isInteger(options.take ?? 100) || (options.take ?? 100) < 1 || (options.take ?? 100) > 100) invalid("Invalid dossier query");
+  if (options.calibration?.cursor && (options.calibration.cursor.missionId !== missionId || options.calibration.cursor.scopeId !== "calibration")) invalid("Invalid dossier query");
+  if (options.ids && (options.ids.length > 20 || new Set(options.ids).size !== options.ids.length ||
+    options.ids.some((id) => !dossierIdSchema.safeParse(id).success))) invalid("Invalid dossier query");
   await requireWorkspaceAuthorization(ctx, "research.read", missionId);
   const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
   return withOrganizationTenant(organizationId, ctx.user.id, async (tx) => {
@@ -484,7 +539,10 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
     });
     if (!mission) throw new ResearchSandboxError("NOT_FOUND", "Mission not found");
     const cases = await tx.mathPilotCase.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, missionId },
+      where: { organizationId, workspaceId: ctx.workspace.id, missionId,
+        ...(options.ids ? { id: { in: options.ids } } : {}),
+        ...(options.calibration ? calibrationCandidateFilter(options.calibration.providerName,
+          options.calibration.modelName, options.calibration.cursor) : {}) },
       include: {
         researchRun: {
           select: {
@@ -501,10 +559,13 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
         formalAttempts: { include: { replay: true, alignment: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 1 },
       },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-      take: 100,
+      take: options.take ?? (options.ids ? Math.max(1, options.ids.length) : 100),
     });
-    const reviewJobs = await tx.durableJob.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.codex-local.review" },
+    const displayedIds = cases.map((item) => item.id);
+    const attemptIds = cases.flatMap((item) => item.formalAttempts.map((attempt) => attempt.id));
+    const caseJobScope = { outboxEvent: { aggregateType: "MathPilotCase", aggregateId: { in: displayedIds } } };
+    const reviewJobs = options.includeJobs === false ? [] : await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.codex-local.review", ...caseJobScope },
       select: { id: true, status: true, payload: true },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 200,
@@ -514,13 +575,13 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
       const payload = job.payload as Record<string, unknown>;
       if (typeof payload.caseId === "string" && !reviewJobByCase.has(payload.caseId)) reviewJobByCase.set(payload.caseId, job);
     }
-    const reviewOutboxes = await tx.outboxEvent.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.codex-local.review", aggregateType: "MathPilotCase" },
+    const reviewOutboxes = options.includeJobs === false ? [] : await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.codex-local.review", aggregateType: "MathPilotCase", aggregateId: { in: displayedIds } },
       select: { aggregateId: true }, take: 200,
     });
     const reviewOutboxCases = new Set(reviewOutboxes.map((event) => event.aggregateId));
-    const numericJobs = await tx.durableJob.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.exact-interval.verify" },
+    const numericJobs = options.includeJobs === false ? [] : await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.exact-interval.verify", ...caseJobScope },
       select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
     });
     const numericJobByCase = new Map<string, (typeof numericJobs)[number]>();
@@ -528,13 +589,13 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
       const payload = job.payload as Record<string, unknown>;
       if (typeof payload.caseId === "string" && !numericJobByCase.has(payload.caseId)) numericJobByCase.set(payload.caseId, job);
     }
-    const numericOutboxes = await tx.outboxEvent.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.exact-interval.verify", aggregateType: "MathPilotCase" },
+    const numericOutboxes = options.includeJobs === false ? [] : await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.exact-interval.verify", aggregateType: "MathPilotCase", aggregateId: { in: displayedIds } },
       select: { aggregateId: true }, take: 200,
     });
     const numericOutboxCases = new Set(numericOutboxes.map((event) => event.aggregateId));
-    const formalJobs = await tx.durableJob.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formalize.check" },
+    const formalJobs = options.includeJobs === false ? [] : await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formalize.check", ...caseJobScope },
       select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
     });
     const formalJobByCase = new Map<string, (typeof formalJobs)[number]>();
@@ -542,16 +603,17 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
       const payload = job.payload as Record<string, unknown>;
       if (typeof payload.caseId === "string" && !formalJobByCase.has(payload.caseId)) formalJobByCase.set(payload.caseId, job);
     }
-    const formalOutboxes = await tx.outboxEvent.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.formalize.check", aggregateType: "MathPilotCase" },
+    const formalOutboxes = options.includeJobs === false ? [] : await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.formalize.check", aggregateType: "MathPilotCase", aggregateId: { in: displayedIds } },
       select: { aggregateId: true }, take: 200,
     });
     const formalOutboxCases = new Set(formalOutboxes.map((event) => event.aggregateId));
     const formalDispatchCount = new Map<string, number>();
     for (const event of formalOutboxes) formalDispatchCount.set(event.aggregateId,
       (formalDispatchCount.get(event.aggregateId) ?? 0) + 1);
-    const replayJobs = await tx.durableJob.findMany({
-      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formal-replay.check" },
+    const replayJobs = options.includeJobs === false ? [] : await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formal-replay.check",
+        outboxEvent: { aggregateType: "MathPilotFormalAttempt", aggregateId: { in: attemptIds } } },
       select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
     });
     const replayJobByAttempt = new Map<string, (typeof replayJobs)[number]>();
@@ -561,9 +623,9 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
         replayJobByAttempt.set(payload.formalAttemptId, job);
       }
     }
-    const replayOutboxes = await tx.outboxEvent.findMany({
+    const replayOutboxes = options.includeJobs === false ? [] : await tx.outboxEvent.findMany({
       where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.formal-replay.check",
-        aggregateType: "MathPilotFormalAttempt" }, select: { aggregateId: true }, take: 200,
+        aggregateType: "MathPilotFormalAttempt", aggregateId: { in: attemptIds } }, select: { aggregateId: true }, take: 200,
     });
     const replayDispatchCount = new Map<string, number>();
     for (const event of replayOutboxes) replayDispatchCount.set(event.aggregateId,

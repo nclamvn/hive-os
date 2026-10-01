@@ -25,6 +25,7 @@ import {
 } from "@/modules/research-sandbox";
 import { resolveWorkspaceContext } from "@/modules/identity-workspace";
 import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
+import { CommandRuntimeError } from "@/modules/command-runtime/errors";
 import { getEnv } from "@/server/env";
 
 function lines(value: FormDataEntryValue | null) {
@@ -206,21 +207,36 @@ export async function attestMathPilotFormalAlignmentAction(formData: FormData) {
 export async function requestMathResearchCycleAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "");
   const ctx = await resolveWorkspaceContext(await headers(), slug);
-  await requestMathResearchCycle(ctx, {
-    caseId: String(formData.get("caseId") ?? ""),
-    maxRounds: Number(formData.get("maxRounds") ?? 1),
-    maxObservedTokens: Number(formData.get("maxObservedTokens") ?? 60_000),
-    ...(formData.has("steeringFocus") ? { steering: {
-      focus: String(formData.get("steeringFocus")) as "STRUCTURAL_LEMMA" | "FINITE_FALSIFICATION",
-      targetA: Number(formData.get("targetA")),
-      note: String(formData.get("steeringNote") ?? ""),
-      confirmed: formData.get("confirmSteering") === "on",
-      ...(String(formData.get("replayPrime") ?? "").trim() || String(formData.get("replayFailedThroughA") ?? "").trim()
-        ? { replayCandidate: { prime: Number(formData.get("replayPrime")),
-          failedThroughA: Number(formData.get("replayFailedThroughA")) } } : {}),
-    } } : {}),
-  });
+  const missionId = String(formData.get("missionId") ?? "");
+  let failure: "cycle-conflict" | "cycle-failed" | null = null;
+  try {
+    const outcome = await requestMathResearchCycle(ctx, {
+      caseId: String(formData.get("caseId") ?? ""),
+      maxRounds: Number(formData.get("maxRounds") ?? 1),
+      maxObservedTokens: Number(formData.get("maxObservedTokens") ?? 60_000),
+      ...(formData.has("steeringFocus") ? { steering: {
+        focus: String(formData.get("steeringFocus")) as "STRUCTURAL_LEMMA" | "FINITE_FALSIFICATION",
+        targetA: Number(formData.get("targetA")),
+        note: String(formData.get("steeringNote") ?? ""),
+        confirmed: formData.get("confirmSteering") === "on",
+        ...(String(formData.get("replayPrime") ?? "").trim() || String(formData.get("replayFailedThroughA") ?? "").trim()
+          ? { replayCandidate: { prime: Number(formData.get("replayPrime")),
+            failedThroughA: Number(formData.get("replayFailedThroughA")) } } : {}),
+      } } : {}),
+    });
+    if (outcome.status === "FAILED") failure = "cycle-failed";
+  } catch (error) {
+    if (error instanceof CommandRuntimeError && error.code === "IDEMPOTENCY_CONFLICT") failure = "cycle-conflict";
+    else if (error instanceof ResearchSandboxError) failure = "cycle-failed";
+    else throw error;
+  }
   revalidatePath(`/w/${slug}/research/math-pilot`);
+  if (failure) {
+    const query = new URLSearchParams({ request: failure });
+    if (missionId && missionId.length <= 160) query.set("missionId", missionId);
+    // Redirect is outside try/catch: preserve Next's control-flow exception.
+    redirect(`/w/${ctx.workspace.slug}/research/math-pilot?${query}`);
+  }
 }
 
 export async function importApprovedResearchBundleAction(formData: FormData) {

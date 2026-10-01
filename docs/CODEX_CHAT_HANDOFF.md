@@ -1755,3 +1755,508 @@ Report: docs/verification/TIP-033A_MIXED_CORE_AGENT_EVIDENCE_VERIFY_REPORT.md.
 Next: run a new bounded cycle for a narrower mixed-core hitting condition or
 extra CRT/kernel collision characterization, avoiding both disproved universal
 assertions and preserving formal/literature gates before breakthrough claims.
+
+### 2026-10-01 — exact collision kernel and prime-modulus falsification
+
+Continued mathematical research locally, without a new agent cycle or UI edit.
+The predeclared m<=1,000,000 discovery sweep found ten extra-collision rows.
+Two have prime moduli: m132840/s531359 gives P567/E40/R525 rather than527;
+m360696/s1442783 gives P567/E32/R533 rather than535. Thus a prime-modulus
+restriction does NOT restore equality with the old P-E upper bound; CRT-only
+models of extra collisions are insufficient. Both examples and six fixed
+kernel atlases were independently replayed using integer divisor pairs in
+Python versus signed-vector boxes in TypeScript, with exact primality checks.
+The million-row discovery sweep itself is not independently replayed.
+
+Written proofs now give the complete fixed-core collision criterion:
+coprime A,U with AU|m² and s|(A-U), equivalently doubled-box kernel vectors.
+With positive-orientation weight W=sum_h product_i(2e_i+1-|h_i|), energy
+is P+2W and R>=max(1,P-W,ceil(P²/(P+2W))). Equality R=P-W holds exactly when
+all fibers have size<=2. These are elementary written bounds, not formal or
+novelty-certified results and not target-hitting guarantees.
+
+Discovered and proved the polynomial family m=8d(8d+1)(16d+1), d>=1:
+X=8(8d+1), Y=16d+1 gives dX²-Y²=4m-1 and two admissible colliding pairs.
+The extra relation has tau(d) edges disjoint from the universal matching,
+so R<=P-E-tau(d) unconditionally on this entire family. It recovers the
+known Pell example at d1 and the two prime cases at d5,d7. Equality for all
+d and infinitely many prime moduli are NOT asserted. The new collision
+classes themselves do not hit the named targets; other classes were not
+tested for this claim. A general squarefree-coefficient norm equation is
+recorded for the next classification attack, still requiring target sensitivity.
+
+Research note: docs/operations/MATH_PILOT_COLLISION_KERNEL_2026-10-01.md.
+Reproduce with node --import tsx scripts/operations/erdos-straus-kernel-audit.ts;
+isolated fixed replay: scripts/operations/replay-mixed-core-kernel.py.
+Packet digest e4d7b0a4c03ab08c80a6d8a032dc9c8f4d117dd611ac61d981ffd25eb2820cf4.
+All356unit/68files, fresh typecheck and targeted ESLint PASS. Historical
+caps, pinned V1 packet and agent trace unchanged; do not claim the current
+agent envelope contains this newer evidence. No browser E2E, integration
+suite, build, paid API, worker, migration, commit/push or deployment this slice.
+Next: retain/version this evidence before agent reuse, then pursue a
+target-conditioned kernel/norm argument rather than more occupancy counts.
+
+### 2026-10-01 — TIP-033B/C dual replay and target-sensitive two-core criterion
+
+TIP-033B integrates the exact fixed collision packet into an explicit V2
+root-bound envelope alongside unchanged V1 baseline evidence. New Erdős–Straus
+cycles select MIXED_CORE_REPLAY_V2; continued V1 rounds retain their version.
+Both fresh source-pinned Python replays must PASS before any model call.
+Seven agent roles receive the same envelope. The exact registered prime-only
+P-E equality assertion is refuted by m132840/s531359 (527 versus525) before
+downstream calls; V1 cannot refute that new assertion. No semantic paraphrase
+detection, automatic theorem acceptance or historical ledger rewrite.
+Existing cycle UI renders V2 supplement only from actual retained events.
+The new panel was not live exercised this slice; historical UI opened normally,
+zero KaTeX errors and no document overflow at1366px. No campaign submitted.
+
+TIP-033C is a SEPARATE read-only diagnostic, not part of the V2 envelope.
+For m=2^a*ell with odd prime ell exponent ONE, written proofs give
+R_s={-2^t mod s: |t|<=2a+2}, s=2^(a+2)*ell-1, and exact target eligibility
+s|(p+2^j) or s|(2^j*p+1), j0..2a+2. Four-case proof gives
+minR_s>=3*2^a-1, hence eligible exponents satisfy2^a<=(p+1)/3.
+Separate skeptic reviewed written proof without finding a flaw; not expert,
+formal or novelty certification. TS signed boxes and Python integer-divisor
+pairs agree on1336 finite rows (a1..8, ell<=997) and COMPLETE a1..4 divisor
+slices for four targets with no s ceiling. Larger exponents remain UNCOMPUTED.
+All12 strict Type II tuples replay. New p131433121/s164407 tuple:
+(32861049,420323120958,5402164139342); previous s143 remains smaller.
+No new overall root coverage or minimum-denominator result claimed.
+
+Fresh Contractor checks:368unit/70files and9strictintegration/2files PASS;
+typecheck, full lint (zero warnings) and diff-check PASS. Integration only
+guarded hiveos_test; scoped escalation needed for local DB access. Both fixed
+CLIs PASS. Target packet/output SHA256:
+3c1c60e3f1e8abe2db377843386a24ade1394d42513c2f46dbb0daa527d847dd;
+Python source3d6236f96239076cba5640ce4cfd1e111aeadfc3a621e87c125f6cd99958c68f.
+Kernel pin and six/nine control packet remain unchanged. No paid API, worker,
+build, publication, deployment, commit/push; unrelated dirty files preserved.
+
+Research note:docs/operations/MATH_PILOT_TWO_CORE_TARGET_2026-10-01.md.
+Reproduce:node --import tsx scripts/operations/two-core-target-audit.ts.
+Contracts:TIP-033B_COLLISION_KERNEL_AGENT_EVIDENCE and
+TIP-033C_TWO_CORE_TARGET_DIAGNOSTIC; current manifest refreshed, founding intact.
+Verification:docs/verification/TIP-033BC_INDEPENDENT_VERIFY_REPORT.md.
+Next: bounded live V2 retained-event scenario, then certified all-exponent
+factorization for named targets and higher-exponent/two-odd-core tail analysis.
+Do not infer universal target hitting or novelty from this elementary subclass.
+
+### 2026-10-01 — TIP-033D complete certified tail and actual V2 gate run
+
+TIP-033D now certifies ALL dyadic exponents, with no s ceiling, for four fixed
+targets in m=2^a*ell, ell an odd prime of exponent ONE. Fixed TS checker and
+source-pinned isolated Python agree:1185 Lucas prime nodes,388 criterion
+entries/384 distinct integers,54 candidate decisions,zero unresolved,
+15 strict TypeII witnesses yielding14 distinct denominator tuples.
+Hard targets p131433121 and p159727681 have no additional hits above a4;
+control targets add p351121/a5/ell59 and p171348241/a5/ell23,a7/ell7.
+Not overall conjecture coverage, minimal denominators or novelty.
+Artifact SHA256 ae5abacaddd6027e5875ded6db0448899efeae6f1e977355330a7b26b767a040.
+Complete decision SHA256 b8aa9854ef8a16a0e7f02ce30f9c43b0bf2f8c06467713e2756ffbd036f7dcf9.
+Reproduce:node --import tsx scripts/operations/certified-two-core-audit.ts.
+Skeptic found a real generator alarm boundary gap; repaired all phases to
+explicit PARTIAL, actual alarm injections pass, COMPLETE bytes unchanged.
+
+Actual-worker composition dropped mixed evidence to source roles and used a
+static V1 solver mandate. Repaired forwarding/versioned mandate; V1/V2 real
+composition regressions exercise all roles. Old injected-kernel tests alone
+were insufficient. Old-root launch IDEMPOTENCY_CONFLICT now gives controlled
+UI feedback, as does stable FAILED; command identity/auth checks unchanged.
+
+Fresh OPEN root9cc36477-fb4a-4630-849f-e080dd1079ae (same math mission) ran via
+browser, authorized existing service actor and subscription Codex. Root
+attempt PARTIAL, root agent review INCONCLUSIVE. No human acceptance submitted.
+Cycle b91ed2e5-2ac8-4950-a37c-0809904d2110 is STOPPED/VERIFICATION_REJECTED;
+job81f3fa3d-5c24-4b3a-88f6-a918fd132cc4 SUCCEEDED. One round,4 calls,95899
+tokens. MIXED_CORE_EVIDENCE V2 dual replay PASS/PASS was retained before planner.
+Actual planner,two source reviewers,verifier ran. Verifier rejected a finite
+A<=107 survey that had no established relationship to the requested b>=2
+mixed-core structural gap. Solver and cycle critic/adversary did NOT run;
+second branch UNRUN. No new mathematical breakthrough from this cycle.
+Final ledger digest3083cfddcc8f3feadd77d9ced3102c4cb20a7d1b7ec18ab5b72be18cffc0608f.
+
+Presentation selector caseId filters only already-authorized loaded records;
+calibration still considers all loaded authorized cases. Selected-case UI and
+V2/terminal reason inspected; full-history/CDP stalls limit browser acceptance.
+Refresh15s post-transition with shared in-flight lock; hidden/idle stop future
+polls. Full-history loader/pagination remains a performance gap; no DB/auth
+timeout weakened. Worker stopped exit0; server127.0.0.1:3001 restored queueOFF,
+paid API OFF. No Git action, migration, deployment or publication.
+
+Fresh402unit/75files, typecheck,full lint0/0,diff-check PASS. Strict9integration
+tests/2files PASS after unchanged-timeout single-worker rerun; earlier loaded
+run timed out. Unrelated dirty screenshots,workspace YAML,pycache preserved.
+Reports:TIP-033D_CERTIFIED_TAIL_COMPLETION_REPORT and
+TIP-033D_INDEPENDENT_VERIFY_REPORT. Research notes:
+MATH_PILOT_CERTIFIED_TWO_CORE_TAIL_2026-10-01 and
+MATH_PILOT_NORMALIZED_CORE_FINITE_BOUND_2026-10-01.
+
+Next: derived written all-normalized-core bound m<=floor((p+3)(p+7)/48) for
+p1mod4, reviewed algebraically but not formal/novelty-certified, makes all
+higher a,b finite IN PRINCIPLE. Exact b>=2 translated windows and their
+certificates remain UNCOMPUTED. First broaden aggregate odd q window only
+under a NEW explicit scope/manifest/replay; then predeclare practical b2
+slices. Do not silently expand D certificate or V2 historical evidence.
+
+### 2026-10-01 — TIP-033E/F aggregate blocks and square-core certification
+
+Owner authorized the next reasonable local step. Two predeclared standalone
+research contracts E/F, separate Builders and skeptic review; no app/UI,
+DB, worker/queue, provider/model call, Git, deploy or historical ledger change.
+Current contract manifest updated for E/F; founding package unchanged.
+
+E broadens q to odd prime OR composite in m=2^a*q, but ONLY whole-q signed
+ratio blocks, not partial prime factors. The same exact pure-two interval and
+all-a tail apply. Rechecked unchanged D artifact1185Lucas/388criterion/54q
+tables; new TS/Python scope/output agrees on55 eligible cores,40composite,
+40distinct CANONICAL representatives,26more than D14. No all-solution count
+or new root coverage. Scope control p159727681,m198/q99,s791 misses E while
+the full normalized3/11 pair hits; E excludes it correctly. Generic semantic
+validator distinguishes expected pin from actual byte provenance; only fixed
+loader binds actual D source hash. New E outputSHA
+1e69acb42c9417ed4ad1ee9c25f98f49b26db0180d8b1e8b9f4bd210d24e4f79;
+Python source92e916acd4981c82cc676508ac76a261d7a41a1f8f30a0ed98cd52f222d40a92.
+
+F certifies full original normalized square-core image for FOUR fixed targets,
+ONLY b2/a1..4, no ell/s ceiling. New artifact1399Lucas/256criteria/11target-ell
+decisions,25 candidate rows:16bound exclusions,6original misses,1composite
+ell,2hits. Hits p131433121/a2/ell3/s143 and p171348241/a1/ell5/s199 are
+already E representatives; NO translated-only rescue in this declared slice.
+Other two targets miss this slice only. Higher a>=5/b>=3 UNCOMPUTED.
+ArtifactSHA c20ab868ceceee139a7319c5d8ec3b11c953fc6136677565ef9b5184b537cff2;
+F Pythonca888f9de3a179d34c086113c1bae3b17fda3c21789ac22e9f842c8b83e20eae;
+decision68371829e82b7e8b00df4597be13721a56248d43abfc49e3388766bd1696a141.
+BigInt all-normalized-core finite bound module/tests added, with p2 monotonic
+wording corrected to nonpositive in the note. Formula unchanged. False root
+p109201/a1/ell3/s71 satisfies squared criterion and bound but original pairs
+miss; explicit regression prevents its promotion. Discovery real alarm/clock
+faults yield PARTIAL with exact pending inputs and clear timer; normal F
+in-memory regeneration byte-identical. Not formal/novelty or all-core proof.
+
+Contractor fresh422unit/78files, full typecheck/lint0/0,diff,manifest PASS.
+No build/integration/browser suite this slice; earlier UI performance gap
+untouched. Skeptic independently reviewed algebra/certificates/mutations,
+separate Python checks and actual phase alarm/clock injection; no open finding
+within E/F. D sources/artifact/pins and unrelated dirty work preserved.
+
+Reproduce fixed CLIs:aggregate-odd-core-audit.ts and square-core-audit.ts
+with node --import tsx. Reports:TIP-033E_AGGREGATE_CORE_COMPLETION_REPORT,
+TIP-033F_SQUARE_CORE_COMPLETION_REPORT,TIP-033EF_INDEPENDENT_VERIFY_REPORT.
+Research note:MATH_PILOT_AGGREGATE_AND_SQUARE_CORE_2026-10-01.
+Next: typed target/scope-bound exact core-slice tool INSIDE the agent loop
+before classification; retain certificates and original-root misses honestly,
+then explicitly budget new translated slices. Do not recycle the rejected
+A<=107 survey, silently expand E/F or claim their outside-cycle arithmetic
+has already been retained in V2. Breakthrough/novelty/expert gates remain open.
+
+### 2026-10-01 — TIP-033G power-core infinite tail and symmetry reduction
+
+Owner requested continued attack toward breakthrough. Local standalone
+research through separate Builders and skeptical review; no app/UI, DB,
+worker/queue, model/paid API, Git/deploy or historical ledger mutation.
+
+Written all-power-core lemma for B2^a,qell^b,odd primeell,b>=1:
+minR>=max(3B-1,ceil(4Bq/(B+1))-1), hence B<=(p+1)/3 and
+q<=floor((p+1)(B+1)/(4B))<=floor3(p+1)/8. This is core-preserving and
+does not require prime s. New G packet decides ALL a>=1,b>=2,ell oddprime
+for exactly the FOUR old targets, with no arbitrary ell/s ceiling. Separate
+TS signed boxes and isolated stdlib Python positive factor pairs agree on
+71951cores/10738865pairslots:22060/23891/1462/24538cores respectively.
+Five hit cores yield5canonical tuples, two translated-only b3 cores:
+p131433121/m1000/s3999 (32866500,131433121000,345579733707720);
+p351121/m108/s431 (87984,37921068,92679090192). Both tuples absent from
+E's recorded canonical packet; not a count of all E solutions or new root
+coverage. p159727681 has no hit in this ENTIRE b>=2 family; existingb1/q99
+witnesses remain valid. p171q81 isell3/b4, notF's invalidell9/b2.
+F restricted scope agrees exactly; D/E/F pins unchanged.
+NewG packetSHA0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9;
+Python4cfbb8c77a2d09c624eb9e2771de2efaea7fbe318d7e617c3ee0b7d57c582fad.
+
+Known TypeII exchange u/Q keeps exactly the same denominator triple and
+allows an existence REPRESENTATIVE m<=floor((p+3)/6) for residualp1mod4.
+Does NOT bound every original core or preserve factor support. Independent
+34354controls match; p26881/A204/u611/k11/Q1 explicitly violates a false
+ALL-m linear bound while exchangedm2244 staysvalid. Separate reviewed
+residual ALL-m refinement floor((p+11)(p+15)/176) usesh3k>=11/h7k>=13;
+novelty unestablished. Conditional h floors are assumptions, not excluded
+gate certificates. Symmetry/parametrization credited to Tao2011.
+Exchange packetSHA3e919c231c80fcde5b8ad639e3bae84d5e5fd97c1e0b426cb6b316dcf5e1ea5b.
+
+Skeptic1344imagecontrols/11mutations, fullreplay, allpositivecorepair checks,
+TS/Pythonfirst/mid/final deadline expiry PASS. Mainreview corrected deadline
+start/monotonic/finalize and failure-source provenance. Scopecounterexample
+q15/p19 and retainedq99/p159 prevent extendingpowerlemma to several odd
+prime supports. Written proofs not Lean/expert/novelty certification.
+Final436unit/80files plus14focused/2files, typecheck/lint0/0,diff/manifest PASS.
+No productionbuild/integration/browser suite this slice. Current liveV2
+rejection unchanged, newG evidence NOT retained in agentledger. UIperformance
+gap untouched. Reproduce normalized-exchange-audit.ts and
+higherpower-core-audit.ts via node --import tsx.
+
+Researchnote:MATH_PILOT_POWER_CORE_TAIL_AND_SYMMETRY_2026-10-01.
+Contract:TIP-033G_SYMMETRY_AND_POWER_CORE_RESEARCH.
+Verify:TIP-033G_INDEPENDENT_VERIFY_REPORT.
+Next science: support-preserving cutoff/escape for MULTIPLE odd-prime ratios,
+not blindly extendingthefalseqbound. Next productgate remains typed
+target/scope-bound certificate retention before AIclassification. No actual
+root breakthrough or establishednewtheorem is claimed by this milestone.
+
+### 2026-10-01 — TIP-033H retained V3 and split-support ray closure
+
+Owner requested continued attack. Separate product/science Builders and same-model
+skeptical context, Contractor independent acceptance. New eligible Erdős cycles
+select MIXED_CORE_REPLAY_V3: unchanged V1 baseline, V2 kernel and exact fixed G
+power packet all freshly independently replayed BEFORE agent calls. Historical
+V1/V2 retain their original versions; no live ledger rewritten. Static canonical
+G pin f1732889d2a7c0d2f425f282aa37e236539a1284ebec45bfd1f0d5625ef440f5
+validates key-order-independent retained content without running G on page reads.
+Original wire/power output pin0077816c13c6f6ff6fbb490d220396a63cc92f07e0e9bde24a316b5077ee85a9
+and Python4cfbb8c77a2d09c624eb9e2771de2efaea7fbe318d7e617c3ee0b7d57c582fad unchanged.
+New fixed server adapter and retained-only KaTeX panel. Strict typed
+PARTIAL/UNAVAILABLE/MISMATCH fail before calls, expected versus actual digests
+separate; PARTIAL cannot copy COMPLETE primary digest. Actual worker callbacks
+forward same envelope to all existing roles, no new model/API calls in this slice.
+V3 p159 no-hit b>=2 does NOT exclude root; retained V1 positive is m284/s1135,
+A4/U71/k1, b1. q99/m198/s791/A3/U11 is explicitly outside both G power witness
+scope and that V1 positive; standalone H ray replay is separate, NOT V3 retained.
+
+Science: fixed coprime A,U ray m=AUk,s4m-1, Q0 least positive -U mod A
+(A1=>Q0=1), h0=(U+Q0)/A gives exact canonical p0(k)=4UQ0k-h0 in(0,s).
+Q=Q0+A*t,t>=0 =>p=p0+s*t, necessary k<=floor((p+h0)/(4UQ0)). EXACT
+sufficient-and-necessary hit is d|Ap+U,d=-1mod4AU,k=(d+1)/(4AU).
+No exchange of the original partition; varying k CAN add prime support.
+Known TypeII divisor algebra, not a novel parametrization. Approved seven
+(A,U) pairs at four old targets plus control19 decide ALL k on35rays via
+TS factor-generated divisors/Python sqrt quotient pairs:366divisor rows,
+12strict hits,2544controls. Third independent871256-iteration scan agrees.
+Packet/output d1fb21ec5ae382ddbf26a26e33ebd61b3d0731ef6e319bc386ede5bbad39952a;
+Python877cbe16fd4a3f58eeae83e9344122151b2d1f15553883c49cc7aa0cce8e6c8b.
+Caps30s/run,100000candidate rows,166608sqrt iterations/ray,256KiB output.
+Mandatory q15/p19 and q99/p159 controls retain unused mass shared with A.
+Examplep131/A2/U25/k986,m49300=2²5²17*29 gives strict
+(32858450,6479652865300,345495090777796), not new root coverage/global minimum.
+27declared rays miss ALL k; not exclusion of other partitions/all mixed cores.
+
+Final frozen Contractor checks458unit/82files,8math-pilot integration/1file on
+guarded hiveos_test, typecheck/lint0/0,diff/currentmanifest PASS. Initialsandbox
+DBsetup EPERM safely retried with localconnect permission; firstconnected7/8
+found oldV2 assertion, fixed, final8/8. Reviewer17V3/12ray mutations and
+TS6/Python5 deadline phases PASS. D/E/F/G pins preserved. No productionbuild,
+worker/queue/model/paidAPI/Git/deploy or user-liveDB mutations. Existing IABtab
+attachment timedout37.7s atCDPfocus; no live/browserE2E acceptance claimed.
+READY-with-deferred local slice: browser/fullhistoryperformance, deployment
+packaging, live campaign, formal/expert/novelty and root theorem remain open.
+
+Contract:TIP-033H_POWER_EVIDENCE_AND_SPLIT_SUPPORT.
+Verify:TIP-033H_INDEPENDENT_VERIFY_REPORT.
+Science:MATH_PILOT_SPLIT_SUPPORT_RAYS_2026-10-01.
+Next: a bounded non-overfit partition-selection/obstruction hypothesis with
+repeated valuations/unused mass; retain its scoped replay in a NEW evidence
+version before autonomous classification. H ray packet remains standalone,
+not silently appended to G. No breakthrough on Erdős242 is asserted.
+
+### 2026-10-01 — TIP-034 literature-informed adaptive research
+
+Owner approved a method upgrade after observing that rigid tool-first loops
+do not establish root progress. The sealed Erdős–Straus problem remains the
+mission; Navier–Stokes is a methodological example only. Vibecode Kit separates
+two Builders, same-model read-only skeptical context and Contractor acceptance.
+No new provider/model campaign, paid API, live ledger rewrite, migration,
+Git/push or deployment. Existing dirty TIP-033 work and arithmetic pins retained.
+
+New eligible cycles pin ADAPTIVE_RESEARCH_V1 in trusted tenant-scoped
+CommandRecord outcome, mirror outbox and append declaration FIRST on their
+first real claimed DurableJob. Empty queued traces valid; read/resume derive
+expected policy from command, not a stripped/rehashed trace alone. Declared
+policy requires retained MIXED_CORE_REPLAY_V3 and validated matching PASS
+evidence before calls/proposals/portfolios; historical no-policy V1/V2 rules
+and digests unchanged. DB-admin rewrite of all trusted records is outside this
+boundary, not solved by a hash. No fake job or schema migration added.
+
+Independent pre-existing human seed/gate replay occurs BEFORE literature
+intake. New RESEARCH_FRONTIER_BASELINE + root/dossier-bound RESEARCH_METHOD_MAP
+then precede planner. Same packet reaches all seven actual worker roles;
+ordinary later frontier dossier reuses baseline only after typed probe. A new
+planner-generated false typed predicate can require one baseline + one planner
+call, but stops before ordinary frontier/source-review/verifier/solver/reviewer
+phases. A false prior steering seed stops before intake or ANY model call.
+
+Fixed server fetcher captures only three exact HTTPS arXiv status pages,
+no redirect/model URLs, 7s absolute timeout including body stream, 128KiB
+bytes cap and 32KiB normalized evidence cap. Status/version/time/digest are
+retained separately from mathematical authority. Six curated method cards
+represent five research/background families plus a quarantined lead; discovery
+is partial, not exhaustive. Root contract/dossier/card/packet digests and
+semantic reconstruction checked; historical freshness uses admittedAt.
+
+Official current status: Elsholtz–Tao1107.1010 latestv6, Salez1406.6307 v1,
+Jiang2609.09204 latestv2 WITHDRAWN13Sep2026 with author-reported errors.
+Historical Tao v2 techniques remain version-qualified background, not silently
+reviewed v6. ACTIVE means no withdrawal observed, not correctness. Known Jiang
+withdrawal floor is publication-wide across old versions/HTML/PDF/DOI aliases,
+HTTP arXiv/dx.doi.org/decoded DOI paths; unsafe credentials/nonstandard ports
+reject at new-policy frontier boundary. Fixed fetch allowlist not expanded.
+Both old Jiang comparison notes received append-only corrections; it was NOT
+in old runtime frontier/prior-art arrays. Independent arithmetic findings are
+not automatically invalidated. Normalized status fingerprints are not rawHTTP,
+full-paper hashes or publisher signatures; provenance trusts fixed collector.
+
+V2 portfolio adds method/family/applicability/root contribution/discriminating
+outcomes/governed tools/warmup scope. Relevance/diversity/actual outcome memory
+selects best eligible READY branch; higher-value missing-tool directions stay
+visible DEFERRED, all missing stops METHOD_DEFERRED. No tool-existence bonus,
+model-confidence proof, arbitrary generated execution or unlimited budget.
+Max2rounds/3branches and existing resource limits retained. Weights are routing
+heuristics, NOT calibrated probabilities or measured scientific yield. Root
+review gaps and latest narrow gaps both retained; known-scope, repeated and
+warmup/quarantined branches excluded. V1 digest/replay behavior preserved.
+
+TYPED_PREDICATE_REFUTED binds exact registered claim/evidence or probe plan/
+planDigest/reportDigest with REGISTERED_PREDICATE_ONLY scope. No certified
+prose equivalence. Generic COUNTEREXAMPLE_REPLAY PASS plus inconclusive reviews
+remains INCONCLUSIVE, not a free-text theorem refutation. Retained-only VI/EN
+UI shows methods, source health, obstruction, root bridge, selection rationale,
+tool needs and outcomes with existing MathText/KaTeX. No fetch/tool on reads;
+old traces without packets explicitly lack adaptive context, not synthesized.
+
+Final Contractor frozen product fullunit501/501 on85files,53.41s; isolated
+math-pilot integration8/8 onguarded hiveos_test,56.88s, offline source/model
+fixtures. Full lint0errors/0warnings, typecheck0errors, diff/currentmanifest
+PASS. Final productionbuild PASS, compile5.0s/type14.4s, standalone env scrub
+and assets prepared; not startup/deployment certification. Sandbox EPERM DB
+and fontfetch failures safely retried with scoped permissions. Firstconnected
+DB7/8 exposed false-seed intake ordering, repaired with ninth kernelregression.
+Second7/8 exposed old generated-predicate fixture timing; exactlyone baseline
+allowed while preserving all post-refutation stop/assertions; final8/8.
+Skeptic final36tests/3files plus rehashed/source/refutation mutations PASS,
+same-model separate context not formal/expert independence.
+
+READY-with-deferred local implementation R01–R08. Scientific improvement
+NOT_MEASURED: no held-out equal-budget comparison, novelty/root theorem or
+breakthrough. Four old targets/known IMO example remain development/calibration.
+Evaluation protocol preregisters singleLLM vs oldtool-first vs adaptive lanes
+under equal observed-token/time/tool envelopes; it is not an executed score.
+Visible historical IAB reload/screenshot timed out atCDP Runtime.evaluate;
+runtime reset, server still listening, sign-in HTTP200/0.25s onlyhealthcheck.
+No new-policy visual/liveE2E acceptance. Full-history responsiveness, visible
+UI gate, live comparative campaign, formal/expert/novelty/root contribution
+and standalone runtime/worker packaging remain deferred.
+
+Contract:TIP-034_ADAPTIVE_RESEARCH_STRATEGY.
+Verify:TIP-034_ADAPTIVE_RESEARCH_VERIFY_REPORT.
+Sourceaudit:MATH_RESEARCH_LITERATURE_STATUS_2026-10-01.
+Scienceprotocol:MATH_ADAPTIVE_RESEARCH_EVALUATION.
+Next: close visible-page operational acceptance, seal comparison inputs/corpus,
+then choose a bounded discriminating experiment for an unresolved root bridge;
+do not call higher warmup hit counts a breakthrough.
+
+## 2026-10-01 — TIP-035 root–lemma graph, comparator and bounded dossier
+
+User authorized serious development of the accepted three bounded deliverables.
+READY_WITH_DEFERRED local software acceptance: G01–G04, E01–E04, H01–H02, V01.
+Scientific improvement remains NOT_MEASURED. No root change, theorem, novelty,
+Erdős–Straus breakthrough or universal research capability was established.
+
+Fresh eligible autonomous cycles now require trusted ADAPTIVE_RESEARCH_V2 and
+sealed portfolio V3 root–lemma graphs within the existing planner call. Exact
+root/statement, variables/domains, ordered quantifiers, assumptions and scope
+are retained with bounded directed hyperedges. All seven actual roles receive
+the selected graph, including second-round branch selection. Trusted command,
+outbox and transport checks reject stripping/downgrade and early downstream
+calls. Historical V1/V2 and new human-steered V1 behavior remain unchanged.
+Graph connectivity is undirected root reachability: ROOT⇒necessary lemma does
+not invent lemma⇒ROOT sufficiency. Every edge is CLAIMED, alignment UNRESOLVED,
+verified implications zero and root NOT_ESTABLISHED. Syntax, hashes and DAG
+structure do not certify premise consistency, prose equivalence or truth.
+
+Standalone comparator seals equal envelopes, cases/source/tool/settings/order/
+references before execution across SINGLE_LLM, TOOL_FIRST and ADAPTIVE lanes.
+Reference-free solver projections and field-level blinded reviewer projections
+bind exact attempts; ACCEPT/REJECT/ABSTAIN stay distinct. Pending-before-call
+broker retains known/unknown usage, elapsed deadlines, threshold overshoot,
+bounded outputs and cancellation ambiguity. Rehashed successful deadline and
+TOOL-as-MODEL-PLAN attacks were independently reproduced, fixed and replayed.
+CLI supports four fixed OFFLINE_FIXTURE scenarios or bounded inert verification.
+Complete six slots are COMPLETE_SIMULATED/FIXTURE_WORKFLOW_ONLY; unknown usage,
+overshoot and uncooperative timeout remain INCOMPLETE. Every result NOT_MEASURED.
+Injected executor seams are trusted in-process fixtures, not isolated providers
+or authenticated receipts. Identical canned lane answers measure plumbing,
+not mathematical advantage. Threshold overshoot is not a hard monetary cap.
+
+Math Pilot reads 20 summary cases, one exact authorized selected dossier and
+three complete cycle chains per page. Off-page selection/direct historical
+cycle reads remain scoped. Calibration and active-card state are independent
+of display selection; authoritative request prerequisites use the same bounded
+candidate filtering, with 200-candidate uncertainty failing closed. Jobs and
+outboxes are restricted to displayed cases/formal attempts. No migration or
+constraint relaxation. New page-level discovery/factor diagnostics removed.
+Correction to earlier shorthand: retained historical COMPUTED trace validation
+still recomputes a bounded survey; not all GETs are enumeration-free or SLO-safe.
+
+Browser acceptance on exact historical case 9cc36477-fb4a-4630-849f-e080dd1079ae:
+20/26→6/26 actual pagination retained the selected off-page case, one detail and
+both passed calibrations. Selector-reset and 320px review-grid overflow repaired.
+1366px and 320px have no overflowing sections; desktop contains 118 KaTeX nodes.
+Old history explicitly lacks a retained new graph; new graph UI tested VI/EN
+SSR, not synthesized into live history. Queue OFF and existing launch guards
+remain. VI/EN obsolete mandatory-human-reviewer banner corrected to require
+worker/provider/approved resource envelope/separate AI role contexts; public
+academic acceptance and materially changed scope/resource authority stay gated.
+Final desktop reload/copy screenshot accepted; default viewport restored and
+healthy IAB tab made visible. Mobile screenshot predates text-only correction.
+Old CDP attachment failure root cause remains unknown; no universal recovery claim.
+
+Final Contractor whole-unit 570/570 on91files,61.10s,start17:07:04+07. Guarded
+isolated hiveos_test targeted integration12/12 on2files,73.48s,start17:04:01+07;
+not the full repository integration suite. Full lint0errors/0warnings, standalone
+typecheck0errors. Final productionbuild PASS compile6.4s/type17.4s/static72ms,
+standalone environment scrub/assets prepared; not startup/worker certification.
+Skeptic independently covered121 focused tests/11files and rehashed attacks;
+separate same-model context is not formal or different-model math independence.
+
+Failure history preserved: sandbox PG EPERM and Google-font network failures
+retried with scoped permissions. First connected integration7/12 exposed four
+terminal fixtures missing completedAt and one correctly refused reused-root
+autonomy request. Test fixtures repaired; reused-root negative retained before
+normal fresh same-contract root workflow. Dossier-only3/4 exposed seven queued
+histories violating one-active-root index; replaced with explicit synthetic
+terminal jobs/histories and two linked events each. Product guards/index unchanged.
+Final12/12 passed. Current manifest/diff checks passed; founding manifest unchanged.
+
+No paid API, live Codex/provider campaign, worker startup, live user-data write,
+schema migration, commit/push or deployment in this package. Existing dirty work
+preserved. Vibecode Kit separated builder edits, skeptical review and Contractor
+acceptance; restrained existing UI/MathText retained.
+
+Contract:TIP-035_LEMMA_GRAPH_AND_COMPARATIVE_RESEARCH.
+Verify:TIP-035_LEMMA_GRAPH_COMPARATIVE_VERIFY_REPORT.
+Runbook:MATH_COMPARATIVE_OFFLINE_FRAMEWORK.
+Protocol:MATH_ADAPTIVE_RESEARCH_EVALUATION.
+Next: preregister and integrate a governed real comparative campaign with sealed
+discriminating cases, truthful resource receipts and independent mathematical
+assessment. Select an unresolved structural root bridge, not more known-target
+hit counts. Do not infer a research win from fixture workflow closure.
+
+## 2026-10-01 — Local upgrade packaging and full integration checkpoint
+
+Owner approved the proposed closure/commit/push plan with “tiếp tục.” Package
+TIP-033B–H dependencies together with TIP-034/035 on the existing private branch
+codex/tip-023a-organization-graph; do not ship TIP-035 with missing local sources.
+Remote base checked061c70f72c7d0a37494553df3ac7ef36f479e02f, matching local HEAD.
+No force push, deployment, billing or new model/research campaign authorized.
+
+Full strict integration182/182 on31files PASS,184.75s,start19:32:53+07,
+maxWorkers1/--throw-deprecation. Both runtime/migration URLs separately checked
+loopback hiveos_test; setup/cleanup only isolated test data. Prior unchanged
+source unit570/91files,lint0/0,type0,build PASS retained, not called new runs.
+Currentmanifest77/77 and staged/worktree diff checks PASS. Initial144-file
+staged Gitleaks8.30.1/default-rules/redacted scan found0leaks; final package
+rescanned before commit. Secret scanning is heuristic, not absolute assurance.
+
+Old screenshots, Python caches and unfinished pnpm-workspace.yaml explicitly
+excluded and preserved. No env/dependency/schema file change, broad staging,
+reset or deletion. TIP-035_PRE_PUSH_CHECKPOINT records package/verification and
+deferred gates; verify actual commit/push from Git after delivery. Local task
+READY_WITH_DEFERRED. Live scientific comparator/yield, startup/worker packaging,
+formal/novelty/expert/root-result and remote CI remain separate. No research
+model/worker/paid API/live-user-data mutation in this closure step.
