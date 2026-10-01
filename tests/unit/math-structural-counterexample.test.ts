@@ -66,6 +66,15 @@ describe("in-cycle structural counterexample replay", () => {
           outputTokens: 10, reasoningOutputTokens: 0 } } };
     expect(validateMathCycleTrace(chain([attempted, reviewed]))).toBeNull();
     expect(validateMathCycleTrace(chain([attempted, replayed, reviewed]))?.at(-1)?.phase).toBe("REVIEWED");
+    const withModel: MathCycleEventPayload = { ...reviewed, reviewerModel: {
+      role: "CRITIC", providerName: "codex-local", identityEvidence: "REQUESTED_CLI_MODEL",
+      requestedModelName: "gpt-6-astra", threadId: "critic-1",
+    } };
+    expect(validateMathCycleTrace(chain([attempted, replayed, withModel]))?.at(-1))
+      .toMatchObject({ reviewerModel: { requestedModelName: "gpt-6-astra" } });
+    expect(validateMathCycleTrace(chain([attempted, replayed, { ...withModel,
+      reviewerModel: { ...withModel.reviewerModel!, threadId: "forged-thread" },
+    }]))).toBeNull();
     expect(priorFiniteFindingFromTrace({ cycleId: "11735863-a80f-496e-b4b9-592d5ebed830",
       sourceLedgerDigest: "a".repeat(64), trace: [attempted, replayed, reviewed] }))
       .toMatchObject({ prime: 131_041, failedThroughA: 11, firstSuccessA: null,

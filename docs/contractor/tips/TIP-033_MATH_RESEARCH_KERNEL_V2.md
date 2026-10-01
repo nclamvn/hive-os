@@ -1,6 +1,6 @@
 # TIP-033 — Mathematical research kernel v2
 
-Status: **LOCAL FOUNDATION IMPLEMENTED; FORMAL AND PORTFOLIO GATES OPEN** (2026-09-29).
+Status: **LOCAL FOUNDATION + BOUNDED FORMAL PILOT + BOUNDED PORTFOLIO IMPLEMENTED; SCIENTIFIC ACCEPTANCE OPEN** (2026-09-30).
 
 ## Objective and evidence ceiling
 
@@ -57,7 +57,7 @@ the expression at narrow widths; mathematical headings carry their original
 statement as an accessible label. The adapter does not parse or validate proof
 content and does not change any existing digest, evidence status or gate.
 
-## Formal-proof gate — not yet implemented
+## Formal-proof gate — bounded local pilot, not publication certification
 
 Required order before any `FORMAL_PROVED` status may exist:
 
@@ -82,23 +82,74 @@ Required order before any `FORMAL_PROVED` status may exist:
    closes every remaining obligation. Existing IMO/mathlib theorem pages are
    prior art, not replay of a newly generated proof.
 
-No Lean executable or pinned Lean/mathlib runtime is currently configured in
-the local pilot. The product must say `FORMAL_CHECK_UNAVAILABLE`, not silently
-fall back to model review. See the [Lean axiom reference](https://lean-lang.org/doc/reference/latest/Axioms/)
+The local pilot now implements a narrower version of steps 1–3 for two fixed
+known-answer problems: it seals a contract-bound Lean target, accepts only
+model-authored tactics, compiles in a pinned no-network Lean 4.10 image,
+audits axioms, retains a bounded repair trace, and can replay the retained
+`.olean` with a separately built, pinned `lean4checker --fresh`. The same
+Lean kernel is used in both executions. An authenticated operator can record a
+four-part, append-only semantic-alignment checklist, but no live case has been
+attested yet. The system deliberately stops at
+`KERNEL_ACCEPTED_ALIGNMENT_PENDING` / `REPLAY_ACCEPTED`, without
+`FORMAL_PROVED`, root-contract inheritance, or a benchmark pass. It fails
+closed when the runtime is missing. Details:
+`docs/operations/MATH_PILOT_FORMAL_GATE_2026-09-30.md`.
+
+The open-problem lane still needs formalization of useful intermediate lemmas,
+the checked implication back to its root contract, and expert-independent
+semantic/novelty review. See the [Lean axiom reference](https://lean-lang.org/doc/reference/latest/Axioms/)
 for why compilation alone does not exclude `sorryAx`.
 
-## Autonomous portfolio gate — not yet implemented
+## Review provenance and public regression controls
 
-Move from one selected task per round to at most three concurrent *logical*
-branches (not unbounded simultaneous paid calls). Each branch must have a
-typed target, parent obligation IDs, anticipated falsifier, expected
-information gain, declared tool needs and an observed-token/time ceiling.
-The scheduler should prefer a branch that can eliminate more uncertainty with
-an exact test, retain at least one mathematically different line of attack,
-and stop dominated or already refuted branches. No branch may mutate a
-different branch's sealed evidence. On exhaustion, the system returns a
-structured failure map and asks the human only for a new research direction or
-resource authorization. It never invents a theorem to close the run.
+New AI-review ledgers use version 3, and new in-cycle `REVIEWED` events carry
+the same provenance without changing historical event digests. Each role
+records its requested Codex CLI model, provider lane, context ID and the limited identity evidence type
+`REQUESTED_CLI_MODEL`. The ledger remains append-only and digest-bound; old
+versions 1 and 2 retain their original validation and digest. A distinct
+requested model can be selected for ADVERSARY with
+`MATH_REVIEW_ADVERSARY_MODEL` in the local research worker environment. The
+default is still the same model in two fresh contexts. Requested settings are
+not provider attestation, and two models from one subscription/provider are
+not independent providers. The UI states this distinction explicitly.
+
+`tsx scripts/operations/math-review-regression.ts` runs a frozen, SHA-256-bound
+public suite: two valid proofs and three intentionally flawed proofs (finite
+sample extrapolation, circular invocation and an invalid Vieta root-order
+inference). Labels are supplied only to the scoring function, not to reviewer
+prompts. The report includes false accept/reject counts, role verdicts,
+observed tokens and elapsed time; named cases can be selected for a bounded
+smoke test and `--repeat=2` or `--repeat=3` tests stability. This is
+**development regression**, not a private held-out test or
+an IMO capability estimate. A later independently curated held-out suite must
+be versioned before evaluator exposure, repeated under recorded models and
+compared with this public baseline. No public regression pass promotes a
+theorem or closes human semantic/publication gates.
+
+## Autonomous portfolio gate — bounded local implementation
+
+For unsteered local cycles, one planner call proposes two or three distinct
+*logical* branches. The server binds each branch to an exact root-review gap,
+its review-digest-derived parent ID (or a matching prior cycle GAP obligation),
+anticipated falsifier, information-gain estimate, declared executable tool
+needs and a per-branch observed-token/time ceiling. Only tools available in
+this cycle are admitted; a branch cannot claim Lean checking. A digest seals the entire
+portfolio. The deterministic scheduler favors an executable falsification
+before model-stated information gain, skips exact repeated claims, and selects
+one branch per round. The existing durable cycle contract admits at most two
+rounds: a third candidate is explicitly `NOT_RUN`, not a negative result.
+There is no simultaneous model-call fan-out.
+
+`PORTFOLIO_PLANNED`, `BRANCH_SELECTED`, `BRANCH_CLOSED` and
+`PORTFOLIO_EXHAUSTED` are append-only, replay-validated events. A local typed
+refutation, rejected task, sourced-known overlap, or branch resource ceiling
+closes that branch and can advance the next pending branch within the global
+envelope. Integrity, provider and frontier failures remain fail-closed.
+Observed-token/time ceilings are checked **before** a call, not enforced
+mid-call; one call may overshoot. The existing per-call timeout remains 4
+minutes. Failure maps distinguish pruned, reviewed, failed and not-run branches.
+Human-steered and historical linear cycles retain their original reading and
+execution paths. No branch state certifies a theorem or novelty.
 
 ## Independent review gate — not yet implemented
 
@@ -134,15 +185,15 @@ One successful IMO 1988 Q6 attempt is not a general IMO capability estimate.
 | Obligation projection | Stable DAG, valid source ledger, no theorem promotion, duplicate gate | Implemented; unit tests |
 | Mathematical typography | Explicit TeX, conservative historical notation, raw-source disclosure, escaped prose, invalid fallback, narrow-screen overflow | Implemented; unit/build/browser and 320px E2E overflow pass |
 | Executable falsification | Typed bounded arithmetic and separate replay before review | Existing for Erdős–Straus; not general |
-| Formal proof | Pinned Lean/mathlib container, axiom audit, semantic alignment, sealed result | Open |
-| Independent models | Distinct recorded model provenance, blind review, negative controls | Open |
-| Research portfolio | Bounded branch scheduler and durable branch dependencies | Open |
+| Formal proof | Pinned Lean container, axiom audit, separate fresh kernel replay, semantic alignment, sealed result | Local calibration pilot implemented; operator/expert alignment and open-problem proof open |
+| Independent models | Distinct recorded model provenance, blind review, negative controls | Per-role requested-model provenance and public controls implemented; provider attestation, private held-out suite and cross-provider independence open |
+| Research portfolio | Sealed 2–3 candidate manifest, one branch per round, parent gap identities, per-branch ceilings, replayed event chain and failure map | Local implementation and unit/integration tests; live scientific yield unmeasured |
 | Scientific acceptance | Formal/general proof or exact counterexample, complete scope and primary-literature review | Open |
 
-The next implementation slice should be the formal-statement/semantic-alignment
-contract and pinned checker, **not** an automatic theorem badge or a higher
-round/token limit. Then change review provenance and build the bounded portfolio
-on the same obligation IDs. Preserve fail-closed behavior if a runtime is
+The next evaluation slice is an independently curated, preregistered held-out
+suite, repeated runs under recorded models and one observed portfolio run on a
+versioned mathematical target. Do not add an automatic theorem badge or simply
+raise the round/token limit. Preserve fail-closed behavior if a runtime is
 missing, an external source is unavailable, or an agent call is ambiguous.
 
 Verification details and unrelated dependency-audit findings are retained in

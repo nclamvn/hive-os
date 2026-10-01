@@ -172,7 +172,7 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
           SELECT 1::INTEGER AS locked
           FROM pg_advisory_xact_lock(hashtextextended(${`${command.organizationId}:math-pilot-dispatch:${input.missionId}`}, 0))
         `;
-        const active = await tx.mathPilotCase.findFirst({
+        const activeCandidates = await tx.mathPilotCase.findMany({
           where: {
             organizationId: command.organizationId,
             workspaceId: command.workspaceId,
@@ -180,7 +180,7 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
             caseType: mathContract.caseType,
             AND: [
               { researchRun: { providerName: input.providerName, modelName: input.modelName } },
-              { OR: mathContract.caseType === "OPEN" || mathContract.caseType === "BENCHMARK_PROOF" ? [
+              { OR: mathContract.caseType === "OPEN" || mathContract.caseType === "BENCHMARK_PROOF" || mathContract.caseType === "BENCHMARK_EXACT" ? [
                 { researchRun: { status: { in: ["QUEUED", "RUNNING"] } } },
                 { researchRun: { status: "AWAITING_REVIEW" }, agentReview: { is: null } },
                 { researchRun: { status: { in: ["AWAITING_REVIEW", "APPROVED"] } },
@@ -188,13 +188,26 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
               ] : [{ researchRun: { status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] } } }] },
             ],
           },
-          select: { id: true },
+          select: { id: true, researchRun: { select: { status: true } }, agentReview: { select: { id: true } } },
+          take: 500,
         });
-        if (active) {
+        if (activeCandidates.length === 500) {
+          throw new ResearchSandboxError("INVALID_TRANSITION", "Too many active math cases to safely authorize another run");
+        }
+        for (const active of activeCandidates) {
+          if (active.researchRun.status === "AWAITING_REVIEW" && !active.agentReview &&
+            ["OPEN", "BENCHMARK_PROOF", "BENCHMARK_EXACT"].includes(mathContract.caseType)) {
+            const terminalReview = await tx.durableJob.findFirst({
+              where: { organizationId: command.organizationId, jobType: "math-pilot.codex-local.review",
+                status: "DEAD_LETTER", payload: { path: ["caseId"], equals: active.id } },
+              select: { id: true },
+            });
+            if (terminalReview) continue;
+          }
           throw new ResearchSandboxError("INVALID_TRANSITION", "An active math case for this Mission and model already exists");
         }
       }
-      if (mathContract?.caseType === "OPEN" || mathContract?.caseType === "BENCHMARK_PROOF") {
+      if (mathContract?.caseType === "OPEN" || mathContract?.caseType === "BENCHMARK_PROOF" || mathContract?.caseType === "BENCHMARK_EXACT") {
         const calibrations = await tx.mathPilotCase.findMany({
           where: {
             organizationId: command.organizationId,
@@ -484,6 +497,8 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
         },
         assessment: true,
         agentReview: true,
+        numericVerification: true,
+        formalAttempts: { include: { replay: true, alignment: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 1 },
       },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 100,
@@ -504,11 +519,66 @@ export async function listMathPilotCases(ctx: WorkspaceContext, missionId: strin
       select: { aggregateId: true }, take: 200,
     });
     const reviewOutboxCases = new Set(reviewOutboxes.map((event) => event.aggregateId));
+    const numericJobs = await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.exact-interval.verify" },
+      select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
+    });
+    const numericJobByCase = new Map<string, (typeof numericJobs)[number]>();
+    for (const job of numericJobs) {
+      const payload = job.payload as Record<string, unknown>;
+      if (typeof payload.caseId === "string" && !numericJobByCase.has(payload.caseId)) numericJobByCase.set(payload.caseId, job);
+    }
+    const numericOutboxes = await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.exact-interval.verify", aggregateType: "MathPilotCase" },
+      select: { aggregateId: true }, take: 200,
+    });
+    const numericOutboxCases = new Set(numericOutboxes.map((event) => event.aggregateId));
+    const formalJobs = await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formalize.check" },
+      select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
+    });
+    const formalJobByCase = new Map<string, (typeof formalJobs)[number]>();
+    for (const job of formalJobs) {
+      const payload = job.payload as Record<string, unknown>;
+      if (typeof payload.caseId === "string" && !formalJobByCase.has(payload.caseId)) formalJobByCase.set(payload.caseId, job);
+    }
+    const formalOutboxes = await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.formalize.check", aggregateType: "MathPilotCase" },
+      select: { aggregateId: true }, take: 200,
+    });
+    const formalOutboxCases = new Set(formalOutboxes.map((event) => event.aggregateId));
+    const formalDispatchCount = new Map<string, number>();
+    for (const event of formalOutboxes) formalDispatchCount.set(event.aggregateId,
+      (formalDispatchCount.get(event.aggregateId) ?? 0) + 1);
+    const replayJobs = await tx.durableJob.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, jobType: "math-pilot.formal-replay.check" },
+      select: { status: true, payload: true }, orderBy: [{ createdAt: "desc" }, { id: "desc" }], take: 200,
+    });
+    const replayJobByAttempt = new Map<string, (typeof replayJobs)[number]>();
+    for (const job of replayJobs) {
+      const payload = job.payload as Record<string, unknown>;
+      if (typeof payload.formalAttemptId === "string" && !replayJobByAttempt.has(payload.formalAttemptId)) {
+        replayJobByAttempt.set(payload.formalAttemptId, job);
+      }
+    }
+    const replayOutboxes = await tx.outboxEvent.findMany({
+      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.formal-replay.check",
+        aggregateType: "MathPilotFormalAttempt" }, select: { aggregateId: true }, take: 200,
+    });
+    const replayDispatchCount = new Map<string, number>();
+    for (const event of replayOutboxes) replayDispatchCount.set(event.aggregateId,
+      (replayDispatchCount.get(event.aggregateId) ?? 0) + 1);
     return cases.map((item) => ({
       ...item,
       approvedIntegrityValid: Boolean(item.researchRun.approvedDigest && reviewedDigest(item.researchRun) === item.researchRun.approvedDigest),
       researchIntegrityDigest: reviewedDigest(item.researchRun),
       agentReviewJobStatus: reviewJobByCase.get(item.id)?.status ?? (reviewOutboxCases.has(item.id) ? "PENDING" : null),
+      numericVerificationJobStatus: numericJobByCase.get(item.id)?.status ?? (numericOutboxCases.has(item.id) ? "PENDING" : null),
+      formalAttemptJobStatus: formalJobByCase.get(item.id)?.status ?? (formalOutboxCases.has(item.id) ? "PENDING" : null),
+      formalAttemptDispatchCount: formalDispatchCount.get(item.id) ?? 0,
+      formalReplayJobStatus: replayJobByAttempt.get(item.formalAttempts[0]?.id ?? "")?.status ??
+        (replayDispatchCount.has(item.formalAttempts[0]?.id ?? "") ? "PENDING" : null),
+      formalReplayDispatchCount: replayDispatchCount.get(item.formalAttempts[0]?.id ?? "") ?? 0,
     }));
   });
 }
@@ -528,6 +598,7 @@ export async function assessMathPilotCase(ctx: WorkspaceContext, raw: unknown) {
       where: { id: input.caseId, organizationId, workspaceId: ctx.workspace.id },
       include: {
         assessment: true,
+        agentReview: true,
         researchRun: {
           include: {
             sources: { orderBy: [{ canonicalUri: "asc" }, { id: "asc" }] },
@@ -551,6 +622,20 @@ export async function assessMathPilotCase(ctx: WorkspaceContext, raw: unknown) {
     }
     if (reviewedDigest(run) !== run.approvedDigest) {
       throw new ResearchSandboxError("INTEGRITY_FAILURE", "Approved research digest is stale or corrupted");
+    }
+    if (contract.data.caseType === "BENCHMARK_EXACT" && input.conclusion === "SUPPORTED_ARGUMENT") {
+      const ledger = validateRecordedMathAgentReview({
+        contract: pilotCase.contract,
+        contractDigest: pilotCase.contractDigest,
+        attempt: run.mathModelAttempt,
+        attemptDigest: run.mathModelAttemptDigest,
+        researchDigest: run.approvedDigest,
+        review: pilotCase.agentReview,
+      });
+      if (ledger?.disposition !== "AI_REVIEWED" || ledger.conclusion !== "SUPPORTED_ARGUMENT" ||
+        !ledger.oracle.exactAnswerMatch || !ledger.oracle.exactReplayValid) {
+        throw new ResearchSandboxError("INVALID_TRANSITION", "A favorable exact-answer assessment requires a valid sealed answer, isolated replay, and independently recorded AI review");
+      }
     }
     if (run.providerName === "openai") {
       const usage = researchProviderUsageSchema.safeParse(run.providerUsage);

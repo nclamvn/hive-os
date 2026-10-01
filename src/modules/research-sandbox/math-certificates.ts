@@ -11,6 +11,14 @@ export interface ErdosStrausCertificate {
   identityDigest: string | null;
 }
 
+/** The public Erdős 242 / FrontierMath contract is stricter than the older local identity check. */
+export interface Erdos242StrictCertificate {
+  valid: boolean;
+  classification: "STRICT_EXACT_IDENTITY" | "INVALID";
+  reason: string;
+  benchmarkDigest: string | null;
+}
+
 const positiveDecimal = /^[1-9][0-9]{0,39}$/;
 export const MAX_RESIDUAL_SURVEY_N = 200_000_000;
 
@@ -35,6 +43,27 @@ export function verifyErdosStrausWitness(witness: ErdosStrausWitness): ErdosStra
     valid, classification: valid ? "EXACT_IDENTITY" : "INVALID",
     reason: valid ? "Exact integer identity verified; this certifies only the stated n." : "The exact integer identity fails.",
     identityDigest: valid ? createHash("sha256").update(`ERDOS_STRAUS_EXACT_IDENTITY_V1:${values.join(":")}`, "utf8").digest("hex") : null,
+  };
+}
+
+/** Checks one ordered, distinct witness for n>2. This never certifies the universal conjecture. */
+export function verifyErdos242StrictWitness(witness: ErdosStrausWitness): Erdos242StrictCertificate {
+  const identity = verifyErdosStrausWitness(witness);
+  if (!identity.valid) return {
+    valid: false, classification: "INVALID", reason: identity.reason, benchmarkDigest: null,
+  };
+  const [n, x, y, z] = [witness.n, witness.x, witness.y, witness.z].map(BigInt);
+  if (n <= BigInt(2) || !(x < y && y < z)) return {
+    valid: false, classification: "INVALID",
+    reason: "Erdős 242 requires n>2 and strictly ordered, distinct denominators x<y<z.",
+    benchmarkDigest: null,
+  };
+  return {
+    valid: true, classification: "STRICT_EXACT_IDENTITY",
+    reason: "One exact Erdős 242 witness checked; no universal proof is implied.",
+    benchmarkDigest: createHash("sha256")
+      .update(`ERDOS242_STRICT_EXACT_IDENTITY_V1:${witness.n}:${witness.x}:${witness.y}:${witness.z}`, "utf8")
+      .digest("hex"),
   };
 }
 
@@ -218,6 +247,8 @@ export function searchResidualPrime(n: number, maxA = 107): BoundedSearchResult 
       if ((b + d) % BigInt(a) !== BigInt(0) || (b + paired) % BigInt(a) !== BigInt(0)) continue;
       const witness = { n: String(n), x: String(x), y: String((b + d) / BigInt(a)), z: String((b + paired) / BigInt(a)) };
       if (!verifyErdosStrausWitness(witness).valid) throw new Error("Internal factor-pair construction failed exact verification");
+      // Here n is prime and n>a>=3 is odd, so the fixed-A algebra also forces x<y<z.
+      if (!verifyErdos242StrictWitness(witness).valid) throw new Error("Internal factor-pair construction failed the strict Erdős 242 contract");
       return { n, maxA, firstA: a, witness };
     }
   }

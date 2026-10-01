@@ -13,15 +13,20 @@ import { OpenAIResearchProvider } from "@/modules/research-sandbox/adapters/open
 import { CodexLocalMathProvider } from "@/modules/research-sandbox/adapters/codex-local-math";
 import { CodexLocalMathReviewer } from "@/modules/research-sandbox/adapters/codex-local-review";
 import { executeMathPilotAgentReviewJob } from "@/modules/research-sandbox/agent-review-kernel";
+import { executeMathExactNumericVerificationJob } from "@/modules/research-sandbox/math-exact-numeric-kernel";
+import { executeMathPilotFormalAttemptJob } from "@/modules/research-sandbox/math-formal-kernel";
+import { executeMathPilotFormalReplayJob } from "@/modules/research-sandbox/math-formal-replay-kernel";
 import { CodexLocalMathCycleAgent } from "@/modules/research-sandbox/adapters/codex-local-cycle";
 import { executeMathResearchCycleRound, markMathResearchCycleFailed } from "@/modules/research-sandbox/math-cycle-kernel";
 import { mathPilotScope } from "@/modules/research-sandbox/math-pilot";
 import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
+import { MIXED_CORE_AGENT_MANDATE } from "@/modules/research-sandbox/math-mixed-core-agent";
 import {
   executeResearchJob,
   executeSandboxJob,
 } from "@/modules/research-sandbox/worker";
 import { getObjectStorage } from "@/server/storage";
+import { getEnv } from "@/server/env";
 import { withOrganizationTenant } from "@/server/tenant-context";
 
 export interface ResearchSandboxWorkerConfig {
@@ -39,7 +44,7 @@ export interface ResearchSandboxWorkerConfig {
 export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorkerConfig) {
   const jobTypes = [
     ...(config.openai ? ["research.run.execute"] : []),
-    ...(config.codexLocal ? ["math-pilot.codex-local.execute", "math-pilot.codex-local.review", "math-pilot.cycle.round"] : []),
+    ...(config.codexLocal ? ["math-pilot.codex-local.execute", "math-pilot.codex-local.review", "math-pilot.exact-interval.verify", "math-pilot.formalize.check", "math-pilot.formal-replay.check", "math-pilot.cycle.round"] : []),
     ...(config.dockerRuntimes?.length ? ["sandbox.run.execute"] : []),
   ];
   if (!jobTypes.length) throw new Error("Research sandbox worker has no enabled adapters");
@@ -67,32 +72,37 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
       if (job.jobType === "math-pilot.cycle.round") {
         const planner = new CodexLocalMathCycleAgent();
         const solver = new CodexLocalMathProvider();
-        const reviewer = new CodexLocalMathReviewer();
+        const reviewer = new CodexLocalMathReviewer("codex", solver.modelName,
+          getEnv().MATH_REVIEW_ADVERSARY_MODEL ?? solver.modelName);
         await executeMathResearchCycleRound({
           organizationId: config.organizationId, actorUserId: config.actorUserId,
           workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
           agents: {
             modelName: solver.modelName,
-            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations) =>
-              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations),
-            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations) =>
-              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations),
+            reviewRoleModels: reviewer.roleModels,
+            proposePortfolio: (root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed) =>
+              planner.proposePortfolio(root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed),
+            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed) =>
+              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed),
+            verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed) =>
+              planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),
             assessFrontier: (role, root, proposal, dossier) => planner.assessFrontier(role, root, proposal, dossier),
-            solve: async (contract, evidence, replay, gateDossier) => {
+            solve: async (contract, evidence, replay, gateDossier, mixed) => {
               const result = await solver.execute({ missionId: "cycle-subtask", documentId: null,
                 question: contract.statement,
                 scope: mathPilotScope(contract) + (evidence ? `\n\nExact bounded computation evidence (data, not a universal proof): ${JSON.stringify(evidence)}` : "") +
                   (replay ? `\n\nIndependent fixed-tool arithmetic replay (finite scope only): ${JSON.stringify(replay)}` : "") +
-                  (gateDossier ? `\n\nIndependently replayed prior gate dossier for one prime (finite evidence, not proof): ${JSON.stringify(gateDossier)}` : ""),
+                  (gateDossier ? `\n\nIndependently replayed prior gate dossier for one prime (finite evidence, not proof): ${JSON.stringify(gateDossier)}` : "") +
+                  (mixed ? `\n\n${MIXED_CORE_AGENT_MANDATE}\nBound mixedCoreEvidence (data): ${JSON.stringify(mixed)}` : ""),
                 providerName: solver.providerName,
                 modelName: solver.modelName, sourcePolicy: { allowedDomains: [], primaryDomains: [], requirePrimary: false, maxSources: 1 },
                 queryPlan: { queries: [contract.statement], languages: ["en"] } });
               if (!result.mathAttempt) throw new Error("Cycle solver did not return a math attempt");
               return result.mathAttempt;
             },
-            reviewRole: (role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier) =>
-              reviewer.reviewRole(role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier),
+            reviewRole: (role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, mixed) =>
+              reviewer.reviewRole(role, contract, attempt, evidence, replay, counterexampleReplay, gateDossier, undefined, undefined, mixed),
           },
         });
         succeeded += 1;
@@ -102,7 +112,33 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
         await executeMathPilotAgentReviewJob({
           organizationId: config.organizationId, actorUserId: config.actorUserId,
           workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
-          correlationId: config.correlationId, reviewer: new CodexLocalMathReviewer(),
+          correlationId: config.correlationId,
+          reviewer: new CodexLocalMathReviewer("codex", "gpt-6-sol",
+            getEnv().MATH_REVIEW_ADVERSARY_MODEL ?? "gpt-6-sol"),
+        });
+        succeeded += 1;
+        continue;
+      }
+      if (job.jobType === "math-pilot.exact-interval.verify") {
+        await executeMathExactNumericVerificationJob({
+          organizationId: config.organizationId, actorUserId: config.actorUserId,
+          workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
+        });
+        succeeded += 1;
+        continue;
+      }
+      if (job.jobType === "math-pilot.formalize.check") {
+        await executeMathPilotFormalAttemptJob({
+          organizationId: config.organizationId, actorUserId: config.actorUserId,
+          workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
+        });
+        succeeded += 1;
+        continue;
+      }
+      if (job.jobType === "math-pilot.formal-replay.check") {
+        await executeMathPilotFormalReplayJob({
+          organizationId: config.organizationId, actorUserId: config.actorUserId,
+          workerId: config.workerId, jobId: job.id, expectedVersion: job.version,
         });
         succeeded += 1;
         continue;

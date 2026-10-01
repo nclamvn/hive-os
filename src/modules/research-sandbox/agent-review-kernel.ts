@@ -1,10 +1,6 @@
-import { randomUUID } from "node:crypto";
-
 import type { Prisma } from "@prisma/client";
 
-import { executeDurableCommand } from "@/modules/command-runtime";
-import { requireWorkspaceAuthorization, organizationIdForWorkspace } from "@/modules/authorization";
-import { AuditEventType, type WorkspaceContext, writeAuditEvent } from "@/modules/identity-workspace";
+import { AuditEventType, writeAuditEvent } from "@/modules/identity-workspace";
 import { withOrganizationTenant } from "@/server/tenant-context";
 import { getEnv } from "@/server/env";
 
@@ -13,47 +9,8 @@ import { mathModelAttemptSchema } from "./contracts";
 import { ResearchSandboxError } from "./errors";
 import { digestResearchResult, researchDossierDigest } from "./integrity";
 import { digestMathPilotContract, mathPilotContractSchema } from "./math-pilot";
-
-export async function requestMathPilotAgentReview(ctx: WorkspaceContext, caseId: string) {
-  await requireWorkspaceAuthorization(ctx, "research.request");
-  if (!getEnv().RESEARCH_CODEX_LOCAL_ENABLED) {
-    throw new ResearchSandboxError("INVALID_TRANSITION", "AI peer review is enabled only in the local Codex test runtime");
-  }
-  if (!caseId || caseId.length > 160) throw new ResearchSandboxError("INVALID_INPUT", "Invalid mathematics case identity");
-  const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
-  return executeDurableCommand(ctx, {
-    commandId: randomUUID(),
-    commandType: "math-pilot.agent-review.request",
-    idempotencyKey: `math-agent-review:${caseId}`,
-    requiredCapability: "research.request",
-    payload: { caseId },
-  }, async (tx) => {
-    const pilotCase = await tx.mathPilotCase.findFirst({
-      where: { id: caseId, organizationId, workspaceId: ctx.workspace.id },
-      include: { researchRun: true, agentReview: true },
-    });
-    if (!pilotCase) throw new ResearchSandboxError("NOT_FOUND", "Mathematics case not found");
-    if (pilotCase.researchRun.providerName !== "codex-local" ||
-      !["AWAITING_REVIEW", "APPROVED"].includes(pilotCase.researchRun.status) ||
-      !pilotCase.researchRun.mathModelAttemptDigest || pilotCase.agentReview) {
-      throw new ResearchSandboxError("INVALID_TRANSITION", "A completed, unreviewed local Codex attempt is required");
-    }
-    const attemptJob = pilotCase.researchRun.jobId ? await tx.durableJob.findFirst({
-      where: { id: pilotCase.researchRun.jobId, organizationId, status: "SUCCEEDED",
-        jobType: "math-pilot.codex-local.execute" }, select: { id: true },
-    }) : null;
-    if (!attemptJob) throw new ResearchSandboxError("INVALID_TRANSITION", "The original model attempt job must be complete");
-    const priorDispatch = await tx.outboxEvent.findFirst({
-      where: { organizationId, workspaceId: ctx.workspace.id, topic: "math-pilot.codex-local.review",
-        aggregateType: "MathPilotCase", aggregateId: caseId }, select: { id: true },
-    });
-    if (priorDispatch) throw new ResearchSandboxError("INVALID_TRANSITION", "AI peer review is already queued for this case");
-    return {
-      outcome: { caseId, status: "QUEUED" },
-      outbox: [{ topic: "math-pilot.codex-local.review", aggregateType: "MathPilotCase", aggregateId: caseId, payload: { caseId } }],
-    };
-  });
-}
+import type { ExactReplay } from "./math-exact-replay";
+import type { ExactInterval } from "./math-exact-interval";
 
 interface AgentReviewJobInput {
   organizationId: string;
@@ -62,8 +19,10 @@ interface AgentReviewJobInput {
   jobId: string;
   expectedVersion: number;
   correlationId: string;
-  reviewer: { modelName: string; review: (contract: ReturnType<typeof mathPilotContractSchema.parse>,
-    attempt: ReturnType<typeof mathModelAttemptSchema.parse>) => Promise<[MathAgentReport, MathAgentReport]> };
+  reviewer: { modelName: string; roleModels?: { CRITIC: string; ADVERSARY: string };
+    review: (contract: ReturnType<typeof mathPilotContractSchema.parse>,
+    attempt: ReturnType<typeof mathModelAttemptSchema.parse>, exactReplay?: ExactReplay,
+    exactInterval?: ExactInterval) => Promise<[MathAgentReport, MathAgentReport]> };
 }
 
 export async function executeMathPilotAgentReviewJob(input: AgentReviewJobInput) {
@@ -94,7 +53,7 @@ export async function executeMathPilotAgentReviewJob(input: AgentReviewJobInput)
       !contract.success || digestMathPilotContract(contract.data) !== pilotCase.contractDigest ||
       !attemptJob || !attempt.success || digestResearchResult(attempt.data) !== run.mathModelAttemptDigest ||
       (attemptJob.result as Record<string, unknown> | null)?.mathModelAttemptDigest !== run.mathModelAttemptDigest ||
-      attempt.data.modelName !== run.modelName || input.reviewer.modelName !== run.modelName) {
+      attempt.data.modelName !== run.modelName) {
       throw new ResearchSandboxError("INTEGRITY_FAILURE", "Sealed AI review inputs are not valid");
     }
     // An expired lease must never trigger a second subscription-backed review.
@@ -103,9 +62,24 @@ export async function executeMathPilotAgentReviewJob(input: AgentReviewJobInput)
       attempt: attempt.data, attemptDigest: run.mathModelAttemptDigest!, researchDigest: researchDossierDigest(run) };
   });
 
-  const reports = await input.reviewer.review(loaded.contract, loaded.attempt);
-  const verdict = evaluateMathAgentReview({ contract: loaded.contract, contractDigest: loaded.contractDigest, attempt: loaded.attempt, reports });
-  const ledger = mathAgentLedgerSchema.parse({ version: 1, reviewerModelName: input.reviewer.modelName, reports, ...verdict });
+  const exactReplay = loaded.contract.caseType === "BENCHMARK_EXACT"
+    ? await (await import("./math-exact-replay-runner")).runExactBenchmarkReplay({ code: loaded.attempt.computationPython,
+      claimedAnswer: loaded.attempt.exactAnswer, image: getEnv().MATH_EXACT_REPLAY_IMAGE })
+    : undefined;
+  const exactInterval = loaded.contract.caseType === "BENCHMARK_EXACT"
+    ? await (await import("./math-exact-interval-runner")).runExactInterval101Gon({ image: getEnv().MATH_EXACT_REPLAY_IMAGE })
+    : undefined;
+  const reports = await input.reviewer.review(loaded.contract, loaded.attempt, exactReplay, exactInterval);
+  const verdict = evaluateMathAgentReview({ contract: loaded.contract, contractDigest: loaded.contractDigest,
+    attempt: loaded.attempt, reports, exactReplay, exactInterval });
+  const roleModels = input.reviewer.roleModels ?? {
+    CRITIC: input.reviewer.modelName, ADVERSARY: input.reviewer.modelName,
+  };
+  const ledger = mathAgentLedgerSchema.parse({ version: 3,
+    reviewerModels: reports.map((report) => ({ role: report.role,
+      providerName: "codex-local", identityEvidence: "REQUESTED_CLI_MODEL",
+      requestedModelName: roleModels[report.role], threadId: report.threadId })), reports,
+    ...(exactReplay ? { exactReplay } : {}), ...(exactInterval ? { exactInterval } : {}), ...verdict });
   const ledgerDigest = digestMathAgentLedger(ledger);
 
   return withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {

@@ -62,3 +62,23 @@ Date: 2026-09-29. Branch: `codex/tip-023a-organization-graph`. Base commit:
 - This is mathematical **typography**, not semantic formula extraction or a
   proof checker. Dense or ambiguous legacy syntax may remain plain; the raw
   sealed source is always available for comparison.
+
+## Bounded portfolio follow-up (2026-09-30)
+
+- One planner response is sealed into 2–3 logical branches bound to a root
+  review digest and exact source gaps. The scheduler selects at most one
+  branch per round under the existing two-round cycle envelope. A local branch
+  rejection can advance a distinct pending branch; global integrity/provider
+  failures stop. A third unselected branch is marked `NOT_RUN`.
+- Branch selection, closure and exhaustion are append-only events. A unit test
+  reconstructs the digest chain and rejects a changed proposal, false failure
+  summary and missing exhaustion event. An integration test runs two rejected
+  branches after real calibration admission, verifies planner invoked once,
+  independent task verification twice, solver never, and valid failure map.
+- Full unit suite: 57 files / 302 tests. Full integration suite: 30 files /
+  178 tests. Typecheck, targeted ESLint, optimized production build and the
+  two Math Pilot Playwright cases passed. `git diff --check` passed.
+- No live model portfolio was dispatched and no new mathematical finding was
+  claimed. Branch observed-token and time ceilings are checked between calls;
+  they cannot interrupt an in-flight model call. Human semantic alignment,
+  independent novelty review and publication acceptance remain open.

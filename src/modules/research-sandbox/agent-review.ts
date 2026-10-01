@@ -11,6 +11,10 @@ import {
   type MathPilotContract,
 } from "./math-pilot";
 import { mathModelAttemptSchema } from "./contracts";
+import { MATH_EXACT_BENCHMARK_REFERENCE } from "./math-benchmark-reference";
+import { exactReplaySchema, validExactReplay, type ExactReplay } from "./math-exact-replay";
+import { exactIntervalSchema, validExactInterval, type ExactInterval } from "./math-exact-interval";
+import { MATH_PILOT_EXACT_BENCHMARK } from "./math-pilot";
 
 export const mathAgentRoleSchema = z.enum(["CRITIC", "ADVERSARY"]);
 
@@ -26,18 +30,32 @@ export const mathAgentReportSchema = z.object({
   usage: mathModelAttemptSchema.shape.usage,
 }).strict();
 
+export const reviewerModelSchema = z.object({
+  role: mathAgentRoleSchema,
+  providerName: z.literal("codex-local"),
+  identityEvidence: z.literal("REQUESTED_CLI_MODEL"),
+  requestedModelName: z.string().trim().min(1).max(160),
+  threadId: z.string().trim().min(1).max(160),
+}).strict();
+
 export const mathAgentLedgerSchema = z.object({
-  version: z.literal(1),
-  reviewerModelName: z.string().trim().min(1).max(160),
+  version: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  reviewerModelName: z.string().trim().min(1).max(160).optional(),
+  reviewerModels: z.tuple([reviewerModelSchema, reviewerModelSchema]).optional(),
   reports: z.tuple([mathAgentReportSchema, mathAgentReportSchema]),
   disposition: z.enum(["AI_REVIEWED", "INCONCLUSIVE"]),
   conclusion: z.enum(["SUPPORTED_ARGUMENT", "VALID_COUNTEREXAMPLE", "PARTIAL", "INCONCLUSIVE"]),
+  exactReplay: exactReplaySchema.optional(),
+  exactInterval: exactIntervalSchema.optional(),
   oracle: z.object({
     contractValid: z.boolean(),
     attemptValid: z.boolean(),
     groundedQuotes: z.boolean(),
     calibrationWitnessValid: z.boolean().nullable(),
     benchmarkReferenceValid: z.boolean().optional(),
+    exactAnswerMatch: z.boolean().optional(),
+    exactReplayValid: z.boolean().optional(),
+    exactIntervalValid: z.boolean().optional(),
     note: z.string().trim().min(12).max(1_000),
   }).strict(),
 }).strict().superRefine((value, ctx) => {
@@ -46,6 +64,19 @@ export const mathAgentLedgerSchema = z.object({
   }
   if (value.reports[0].threadId === value.reports[1].threadId) {
     ctx.addIssue({ code: "custom", message: "Review roles must use distinct Codex contexts" });
+  }
+  if ((value.version === 1 && (value.exactInterval || value.oracle.exactIntervalValid !== undefined)) ||
+    (value.version === 2 && (!value.exactInterval || value.oracle.exactIntervalValid === undefined)) ||
+    (value.version === 3 && Boolean(value.exactInterval) !== (value.oracle.exactIntervalValid !== undefined))) {
+    ctx.addIssue({ code: "custom", message: "Interval evidence must match the review ledger version" });
+  }
+  if (value.version === 3) {
+    if (value.reviewerModelName || !value.reviewerModels || value.reviewerModels.some((model, index) =>
+      model.role !== value.reports[index].role || model.threadId !== value.reports[index].threadId)) {
+      ctx.addIssue({ code: "custom", message: "Each review role needs matching per-model provenance" });
+    }
+  } else if (!value.reviewerModelName || value.reviewerModels) {
+    ctx.addIssue({ code: "custom", message: "Legacy review provenance must remain unchanged" });
   }
 });
 
@@ -72,6 +103,9 @@ export function evaluateMathAgentReview(input: {
   contractDigest: string;
   attempt: z.infer<typeof mathModelAttemptSchema>;
   reports: [MathAgentReport, MathAgentReport];
+  exactReplay?: ExactReplay;
+  exactInterval?: ExactInterval;
+  legacyExactReview?: boolean;
 }): Pick<MathAgentLedger, "disposition" | "conclusion" | "oracle"> {
   const contract = mathPilotContractSchema.safeParse(input.contract);
   const contractValid = contract.success && digestMathPilotContract(contract.data) === input.contractDigest;
@@ -94,11 +128,20 @@ export function evaluateMathAgentReview(input: {
   const benchmarkReferenceValid = input.contract.caseType === "BENCHMARK_PROOF" && Boolean(contractValid) &&
     canonicalJson(input.contract) === canonicalJson(MATH_PILOT_BENCHMARK) &&
     input.attempt.attemptType === "PROOF_ATTEMPT";
+  const exactContractValid = input.contract.caseType === "BENCHMARK_EXACT" && Boolean(contractValid) &&
+    canonicalJson(input.contract) === canonicalJson(MATH_PILOT_EXACT_BENCHMARK);
+  const exactAnswerMatch = exactContractValid && input.attempt.exactAnswer === MATH_EXACT_BENCHMARK_REFERENCE.expectedAnswer;
+  const exactReplayValid = exactContractValid && validExactReplay(input.exactReplay,
+    input.attempt.computationPython, input.attempt.exactAnswer);
+  const exactIntervalValid = exactContractValid && validExactInterval(input.exactInterval, input.attempt.exactAnswer);
   const expected = input.contract.caseType === "CALIBRATION_PROOF" ? "SUPPORTED_ARGUMENT"
     : input.contract.caseType === "CALIBRATION_COUNTEREXAMPLE" ? "VALID_COUNTEREXAMPLE"
-    : input.contract.caseType === "BENCHMARK_PROOF" ? "SUPPORTED_ARGUMENT" : null;
+    : input.contract.caseType === "BENCHMARK_PROOF" || input.contract.caseType === "BENCHMARK_EXACT" ? "SUPPORTED_ARGUMENT" : null;
   const supported = Boolean(contractValid && attemptValid && groundedQuotes && aligned &&
-    (expected === null || ((calibrationWitnessValid || benchmarkReferenceValid) && input.reports[0].candidateConclusion === expected)));
+    (expected === null || ((calibrationWitnessValid || benchmarkReferenceValid ||
+      (exactAnswerMatch && exactReplayValid && (input.legacyExactReview || exactIntervalValid) &&
+        input.attempt.attemptType === "PROOF_ATTEMPT")) &&
+      input.reports[0].candidateConclusion === expected)));
   const disposition = supported ? "AI_REVIEWED" : "INCONCLUSIVE";
   const conclusion = !supported ? "INCONCLUSIVE" : expected ?? "PARTIAL";
   return {
@@ -107,7 +150,13 @@ export function evaluateMathAgentReview(input: {
     oracle: {
       contractValid: Boolean(contractValid), attemptValid, groundedQuotes, calibrationWitnessValid,
       ...(input.contract.caseType === "BENCHMARK_PROOF" ? { benchmarkReferenceValid } : {}),
-      note: input.contract.caseType === "BENCHMARK_PROOF"
+      ...(input.contract.caseType === "BENCHMARK_EXACT" ? { exactAnswerMatch, exactReplayValid } : {}),
+      ...(input.contract.caseType === "BENCHMARK_EXACT" && !input.legacyExactReview ? { exactIntervalValid } : {}),
+      note: input.contract.caseType === "BENCHMARK_EXACT"
+        ? input.legacyExactReview
+          ? "This public sample requires a matching held-out integer, a digest-bound isolated code replay, and two supportive AI reviews. These do not establish a blind score, a formally verified derivation, or numerical error bounds."
+          : "This public sample requires a matching held-out integer, a digest-bound isolated code replay, a fixed independent interval enclosure, and two supportive AI reviews. This is not a blind score, a formal proof of the geometric reduction, or human mathematical sign-off."
+        : input.contract.caseType === "BENCHMARK_PROOF"
         ? benchmarkReferenceValid
           ? "The sealed known-answer benchmark matches its reference and two AI roles support this attempt; the reference proves only that the theorem is true, not that this generated proof is formally valid."
           : "The benchmark contract or proof-attempt type did not match the sealed known-answer reference."
@@ -146,12 +195,15 @@ export function validateRecordedMathAgentReview(input: {
     input.review.attemptDigest !== input.attemptDigest ||
     input.review.researchDigest !== input.researchDigest ||
     input.review.ledgerDigest !== digestMathAgentLedger(ledger.data) ||
-    ledger.data.reviewerModelName !== attempt.data.modelName ||
+    (ledger.data.version !== 3 && ledger.data.reviewerModelName !== attempt.data.modelName) ||
     ledger.data.disposition !== input.review.disposition ||
     ledger.data.conclusion !== input.review.conclusion) return null;
+  if (ledger.data.version === 2 && contract.data.caseType !== "BENCHMARK_EXACT") return null;
+  if (ledger.data.version === 3 && ledger.data.reviewerModels?.some((model) => model.threadId === attempt.data.threadId)) return null;
   const recomputed = evaluateMathAgentReview({
     contract: contract.data, contractDigest: input.contractDigest,
-    attempt: attempt.data, reports: ledger.data.reports,
+    attempt: attempt.data, reports: ledger.data.reports, exactReplay: ledger.data.exactReplay,
+    exactInterval: ledger.data.exactInterval, legacyExactReview: ledger.data.version === 1,
   });
   if (canonicalJson(recomputed) !== canonicalJson({ disposition: ledger.data.disposition, conclusion: ledger.data.conclusion, oracle: ledger.data.oracle })) return null;
   return ledger.data;

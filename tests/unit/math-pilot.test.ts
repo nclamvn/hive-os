@@ -10,6 +10,7 @@ import {
   mathPilotScope,
   MATH_PILOT_CALIBRATIONS,
   MATH_PILOT_BENCHMARK,
+  MATH_PILOT_EXACT_BENCHMARK,
   resolveMathPilotContract,
 } from "@/modules/research-sandbox/math-pilot";
 
@@ -75,6 +76,14 @@ describe("math pilot gate", () => {
     expect(digestMathPilotContract(contract)).toBe(digestMathPilotContract(resolveMathPilotContract({ caseType: "BENCHMARK_PROOF" })));
     expect(mathPilotScope(contract)).not.toMatch(/IMO|Vieta|jumping|known.answer|mathlib/i);
     expect(mathPilotRequestSchema.safeParse({ caseType: "BENCHMARK_PROOF", statement: "forged" }).success).toBe(false);
+  });
+
+  it("seals a public exact-answer problem without its published answer", () => {
+    const contract = resolveMathPilotContract({ caseType: "BENCHMARK_EXACT" });
+    expect(contract).toEqual(MATH_PILOT_EXACT_BENCHMARK);
+    expect(digestMathPilotContract(contract)).toBe(digestMathPilotContract(resolveMathPilotContract({ caseType: "BENCHMARK_EXACT" })));
+    expect(mathPilotScope(contract)).not.toContain("4771880153");
+    expect(mathPilotRequestSchema.safeParse({ caseType: "BENCHMARK_EXACT", statement: "forged" }).success).toBe(false);
   });
 
   it("rejects a forged or incomplete open protocol", () => {

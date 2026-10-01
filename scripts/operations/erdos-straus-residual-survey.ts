@@ -18,7 +18,7 @@ if (process.argv.slice(2).some((arg) => !/^--(?:limit|max-a)=/.test(arg) && arg 
   throw new Error("Unknown survey option");
 }
 if (limit < 841 || limit > MAX_RESIDUAL_SURVEY_N || maxA < 3 || maxA > 107 || maxA % 4 !== 3) {
-  throw new Error("Survey bounds: 841 <= limit <= 100,000,000 and 3 <= max-a <= 107, max-a ≡ 3 mod 4");
+  throw new Error("Survey bounds: 841 <= limit <= 200,000,000 and 3 <= max-a <= 107, max-a ≡ 3 mod 4");
 }
 
 const records = [] as ReturnType<typeof searchResidualPrime>[];

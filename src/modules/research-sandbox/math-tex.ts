@@ -83,7 +83,7 @@ function legacySegments(source: string): MathTextSegment[] {
       if (tagEnd >= index && /^<\/?[A-Za-z][^<>]*>$/.test(source.slice(angleOpen, tagEnd + 1))) continue;
     }
     // A bare hyphen between an abbreviation and a number is not math.
-    if (/^[A-Z]{2,3}-\d+$/.test(raw)) continue;
+    if (/^[A-Z]{2,3}-\d+$/.test(raw) || /^\d+-(?:gon|gons)$/i.test(raw)) continue;
     if (/^[A-Za-z]{2,3}-[A-Za-z]$/.test(raw)) continue;
     if (index > last) segments.push({ kind: "text", value: source.slice(last, index) });
     segments.push({ kind: "math", value: legacyToTeX(raw), source: raw, display: false });
@@ -97,4 +97,17 @@ function legacySegments(source: string): MathTextSegment[] {
 /** Presentation-only adapter for historical records without TeX delimiters. */
 export function parseResearchMathText(source: string): MathTextSegment[] {
   return parseMathText(source).flatMap((segment) => segment.kind === "text" ? legacySegments(segment.value) : [segment]);
+}
+
+/** Display-only split for legacy exact-benchmark attempts that embedded Python
+ * in their argument instead of the sealed computationPython field. */
+export function splitExactBenchmarkArgument(source: string): { prose: string; embeddedCode: string | null } {
+  const marker = /\n\n(?=(?:from\s+[A-Za-z][\w.]*\s+import\s+|import\s+[A-Za-z][\w.]*\s*|def\s+[A-Za-z_]\w*\s*\())/g;
+  for (const match of source.matchAll(marker)) {
+    const candidate = source.slice(match.index + match[0].length);
+    if (/^def\s+answer\s*\(/m.test(candidate)) {
+      return { prose: source.slice(0, match.index).trimEnd(), embeddedCode: candidate };
+    }
+  }
+  return { prose: source, embeddedCode: null };
 }

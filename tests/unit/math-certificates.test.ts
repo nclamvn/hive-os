@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { auditResidualFailure, hasErdosStrausEquation, isPrimeInSurvey, searchResidualPrime, surveyResidualInterval, verifyErdosStrausWitness } from "@/modules/research-sandbox/math-certificates";
+import { auditResidualFailure, hasErdosStrausEquation, isPrimeInSurvey, searchResidualPrime, surveyResidualInterval, verifyErdos242StrictWitness, verifyErdosStrausWitness } from "@/modules/research-sandbox/math-certificates";
 import { resolveMathPilotContract } from "@/modules/research-sandbox/math-pilot";
 import { mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
 
@@ -11,6 +11,18 @@ describe("exact Erdős–Straus finite certificates", () => {
     expect(checked.classification).toBe("EXACT_IDENTITY");
     expect(checked.identityDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(verifyErdosStrausWitness({ ...witness, z: "131876032" }).valid).toBe(false);
+  });
+
+  it("enforces the ordered and distinct public Erdős 242 contract separately from the historical identity", () => {
+    const repeated = { n: "4", x: "3", y: "3", z: "3" };
+    expect(verifyErdosStrausWitness(repeated).valid).toBe(true);
+    expect(verifyErdos242StrictWitness(repeated)).toMatchObject({ valid: false, classification: "INVALID" });
+    expect(verifyErdos242StrictWitness({ n: "2", x: "1", y: "2", z: "2" }).valid).toBe(false);
+    const witness = { n: "2521", x: "636", y: "69748", z: "131876031" };
+    expect(verifyErdos242StrictWitness(witness)).toMatchObject({ valid: true, classification: "STRICT_EXACT_IDENTITY" });
+    expect(verifyErdos242StrictWitness({ ...witness, y: witness.z, z: witness.y }).valid).toBe(false);
+    expect(verifyErdos242StrictWitness({ ...witness, z: "131876032" }).valid).toBe(false);
+    expect(verifyErdos242StrictWitness(witness).benchmarkDigest).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("recognizes the scoped residual-prime case without treating it as a general theorem", () => {
@@ -35,6 +47,7 @@ describe("exact Erdős–Straus finite certificates", () => {
     const found = searchResidualPrime(2521, 23);
     expect(found.firstA).toBe(23);
     expect(found.witness && verifyErdosStrausWitness(found.witness).valid).toBe(true);
+    expect(found.witness && verifyErdos242StrictWitness(found.witness).valid).toBe(true);
     expect(() => searchResidualPrime(841)).toThrow(); // 841 = 29².
     expect(() => searchResidualPrime(2521, 108)).toThrow();
   });

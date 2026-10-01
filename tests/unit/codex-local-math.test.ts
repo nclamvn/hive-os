@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseCodexEvents } from "@/modules/research-sandbox/adapters/codex-local-math";
+import { normalizeExactBenchmarkOutput, parseCodexEvents } from "@/modules/research-sandbox/adapters/codex-local-math";
 
 const output = {
   attemptType: "PROOF_ATTEMPT",
@@ -10,7 +10,7 @@ const output = {
   limitations: ["This is not an independent human verification."],
 };
 
-function events(final = output, usage: unknown = {
+function events(final: unknown = output, usage: unknown = {
   input_tokens: 100, cached_input_tokens: 20, output_tokens: 40, reasoning_output_tokens: 10,
 }) {
   return [
@@ -34,5 +34,22 @@ describe("Codex local math JSONL contract", () => {
     expect(() => parseCodexEvents(events(output, { input_tokens: 1, cached_input_tokens: 2, output_tokens: 1, reasoning_output_tokens: 0 }))).toThrow();
     expect(() => parseCodexEvents(events({ ...output, argument: "" }))).toThrow();
     expect(() => parseCodexEvents(JSON.stringify({ type: "turn.failed" }))).toThrow();
+  });
+
+  it("recovers model-authored Python from prose before sealing and records its origin", () => {
+    const code = "from decimal import Decimal\n\ndef answer():\n    return int(Decimal('7')*11)";
+    const parsed = parseCodexEvents(events({ ...output,
+      argument: `A proposed calculation follows.\n\n${code}`,
+      exactAnswer: null, computationPython: null,
+    })).output;
+    expect(normalizeExactBenchmarkOutput(parsed)).toMatchObject({
+      argument: `A proposed calculation follows.\n\n${code}`,
+      computationPython: code,
+      computationOrigin: "EXTRACTED_FROM_ARGUMENT",
+      exactAnswer: null,
+    });
+    expect(normalizeExactBenchmarkOutput({ ...parsed, computationPython: "def answer(): return 3" }))
+      .toMatchObject({ computationPython: "def answer(): return 3", computationOrigin: "MODEL_FIELD" });
+    expect(normalizeExactBenchmarkOutput({ ...parsed, argument: "No executable source." }).computationPython).toBeNull();
   });
 });

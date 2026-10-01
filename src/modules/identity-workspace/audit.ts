@@ -444,7 +444,7 @@ const AUDIT_PAYLOAD_SCHEMAS = {
     .object({
       runId: z.string(),
       missionId: z.string(),
-      caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "OPEN"]),
+      caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "BENCHMARK_EXACT", "OPEN"]),
       contractDigest: z.string().regex(/^[a-f0-9]{64}$/),
     })
     .strict(),
@@ -458,6 +458,15 @@ const AUDIT_PAYLOAD_SCHEMAS = {
       reviewChecklistDigest: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     })
     .strict(),
+  "math_pilot.formal_alignment_attested": z.object({
+    caseId: z.string(),
+    formalAttemptId: z.string(),
+    status: z.enum(["OPERATOR_ALIGNED", "ISSUE_FOUND", "UNRESOLVED"]),
+    contractDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    targetDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    replayDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    reportDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  }).strict(),
   "math_pilot.agent_reviewed": z.object({
     caseId: z.string(),
     runId: z.string(),
@@ -593,6 +602,7 @@ export const AuditEventType = {
   ResearchReviewed: "research.reviewed",
   MathPilotCaseCreated: "math_pilot.case_created",
   MathPilotAssessed: "math_pilot.assessed",
+  MathPilotFormalAlignmentAttested: "math_pilot.formal_alignment_attested",
   MathPilotAgentReviewed: "math_pilot.agent_reviewed",
   SandboxRequested: "sandbox.requested",
   SandboxCompleted: "sandbox.completed",

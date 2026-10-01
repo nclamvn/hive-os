@@ -8,6 +8,11 @@ import { importApprovedResearchBundle } from "@/modules/authoring";
 import {
   assessMathPilotCase,
   requestMathPilotAgentReview,
+  requestMathExactNumericVerification,
+  requestMathPilotFormalAttempt,
+  requestMathPilotFormalReplay,
+  attestMathPilotFormalAlignment,
+  FORMAL_ALIGNMENT_CHECKS,
   requestMathResearchCycle,
   MATH_REVIEW_CRITERIA,
   mathPilotRequestSchema,
@@ -19,6 +24,7 @@ import {
   reviewResearchRun,
 } from "@/modules/research-sandbox";
 import { resolveWorkspaceContext } from "@/modules/identity-workspace";
+import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
 import { getEnv } from "@/server/env";
 
 function lines(value: FormDataEntryValue | null) {
@@ -151,6 +157,49 @@ export async function requestMathPilotAgentReviewAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "");
   const ctx = await resolveWorkspaceContext(await headers(), slug);
   await requestMathPilotAgentReview(ctx, String(formData.get("caseId") ?? ""));
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+}
+
+export async function requestMathExactNumericVerificationAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  await requestMathExactNumericVerification(ctx, String(formData.get("caseId") ?? ""));
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+}
+
+export async function requestMathPilotFormalAttemptAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  const outcome = await requestMathPilotFormalAttempt(ctx, String(formData.get("caseId") ?? ""));
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+  if (outcome.status !== "SUCCEEDED") redirect(`/w/${slug}/research/math-pilot?request=formal-failed`);
+}
+
+export async function requestMathPilotFormalReplayAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  const outcome = await requestMathPilotFormalReplay(ctx, String(formData.get("formalAttemptId") ?? ""));
+  revalidatePath(`/w/${slug}/research/math-pilot`);
+  if (outcome.status !== "SUCCEEDED") redirect(`/w/${slug}/research/math-pilot?request=replay-failed`);
+}
+
+export async function attestMathPilotFormalAlignmentAction(formData: FormData) {
+  const slug = String(formData.get("slug") ?? "");
+  const ctx = await resolveWorkspaceContext(await headers(), slug);
+  try {
+    await attestMathPilotFormalAlignment(ctx, {
+      formalAttemptId: String(formData.get("formalAttemptId") ?? ""),
+      checks: FORMAL_ALIGNMENT_CHECKS.map((criterion) => ({
+        criterion, verdict: String(formData.get(`verdict_${criterion}`) ?? "UNRESOLVED"),
+        note: String(formData.get(`note_${criterion}`) ?? ""),
+      })),
+      rationale: String(formData.get("rationale") ?? ""),
+      confirmed: formData.get("confirmed") === "on",
+    });
+  } catch (error) {
+    if (!(error instanceof ResearchSandboxError)) throw error;
+    redirect(`/w/${slug}/research/math-pilot?request=alignment-failed`);
+  }
   revalidatePath(`/w/${slug}/research/math-pilot`);
 }
 

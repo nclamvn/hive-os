@@ -12,6 +12,7 @@ export const mathPilotRequestSchema = z.discriminatedUnion("caseType", [
   z.object({ caseType: z.literal("CALIBRATION_PROOF") }).strict(),
   z.object({ caseType: z.literal("CALIBRATION_COUNTEREXAMPLE") }).strict(),
   z.object({ caseType: z.literal("BENCHMARK_PROOF") }).strict(),
+  z.object({ caseType: z.literal("BENCHMARK_EXACT") }).strict(),
   z.object({
     caseType: z.literal("OPEN"),
     statement: boundedText(4_000),
@@ -79,7 +80,7 @@ export const mathPilotAssessmentSchema = z.object({
 
 export const mathPilotContractSchema = z.object({
   version: z.literal(1),
-  caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "OPEN"]),
+  caseType: z.enum(["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE", "BENCHMARK_PROOF", "BENCHMARK_EXACT", "OPEN"]),
   statement: boundedText(4_000),
   definitions: boundedText(1_000),
   assumptions: boundedText(1_000),
@@ -131,6 +132,19 @@ export const MATH_PILOT_BENCHMARK = mathPilotContractSchema.parse({
   exclusions: "Finite enumeration, citing a source, or assuming the quotient is already a square is not a proof. State uncertainty if the general argument is incomplete.",
 });
 
+// Public Epoch AI sample. The published answer is deliberately kept in the
+// review-only module, never in this solver-facing sealed contract.
+export const MATH_PILOT_EXACT_BENCHMARK = mathPilotContractSchema.parse({
+  version: 1,
+  caseType: "BENCHMARK_EXACT",
+  statement: "Let P be a regular 101-gon of circumradius 1. Draw each diagonal of P independently with probability 0.001. The diagonals split P into closed regions. Let E be the expected perimeter of the region containing the center of P. Compute floor(10^9 E).",
+  definitions: "A diagonal joins two nonadjacent vertices. Perimeter is Euclidean length. The center-containing region is selected after every diagonal is independently drawn.",
+  assumptions: "Use the exact regular 101-gon geometry and independent Bernoulli draws. Give a decimal integer as the final answer and a Python 3 stdlib-only answer() computation that returns that integer.",
+  falsificationCriterion: "A different integer on independent execution, an incorrect perimeter/probability model, or numerical uncertainty crossing an integer boundary defeats acceptance.",
+  successCriterion: "Derive a finite expectation formula, compute the requested floor, and include enough numerical precision or a defensible error bound to fix the floor unambiguously.",
+  exclusions: "Do not search for a published answer or cite a solution. A matching integer alone does not verify the derivation, numerical error control, or an uncontaminated benchmark result.",
+});
+
 export const MATH_PILOT_EXPECTED = {
   CALIBRATION_PROOF: "SUPPORTED_ARGUMENT",
   CALIBRATION_COUNTEREXAMPLE: "VALID_COUNTEREXAMPLE",
@@ -139,6 +153,7 @@ export const MATH_PILOT_EXPECTED = {
 export function resolveMathPilotContract(raw: MathPilotRequest): MathPilotContract {
   const request = mathPilotRequestSchema.parse(raw);
   if (request.caseType === "BENCHMARK_PROOF") return MATH_PILOT_BENCHMARK;
+  if (request.caseType === "BENCHMARK_EXACT") return MATH_PILOT_EXACT_BENCHMARK;
   if (request.caseType !== "OPEN") return MATH_PILOT_CALIBRATIONS[request.caseType];
   return mathPilotContractSchema.parse({ version: 1, ...request });
 }

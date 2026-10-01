@@ -109,6 +109,13 @@ export const mathModelAttemptSchema = z.object({
   erdosStrausPolynomialFamilies: z.array(erdosStrausPolynomialFamilySchema).max(2).optional(),
   // Optional for immutable pre-replay attempts. New cycle solvers supply a value or null.
   erdosStrausGateCounterexample: structuralCounterexampleCandidateSchema.nullable().optional(),
+  // Optional for historical attempt-digest compatibility; populated only by
+  // the exact-answer benchmark lane. Never execute outside the Docker replay.
+  exactAnswer: z.string().regex(/^(0|[1-9][0-9]{0,19})$/).nullable().optional(),
+  computationPython: z.string().min(1).max(12_000).nullable().optional(),
+  // Adapter-only provenance when a model placed executable source in prose.
+  // Optional to keep historical sealed attempts digest-readable.
+  computationOrigin: z.enum(["MODEL_FIELD", "EXTRACTED_FROM_ARGUMENT"]).optional(),
   usage: z.object({
     inputTokens: z.number().int().nonnegative(),
     cachedInputTokens: z.number().int().nonnegative(),

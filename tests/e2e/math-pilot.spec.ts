@@ -38,7 +38,7 @@ test("MATH-PILOT-02 remains accessible without mobile overflow", async ({ page }
   await page.goto(`${dashboardUrl}/research/math-pilot`);
   await page.getByRole("button", { name: "Run this case" }).first().click();
   await expect(page.getByRole("heading", { name: "Review and acceptance desk" })).toBeVisible();
-  await expect(page.locator(".math-tex-block .katex")).toHaveCount(1);
+  await expect(page.locator(".math-tex-block .katex")).toHaveCount(2);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
   await page.setViewportSize({ width: 320, height: 844 });

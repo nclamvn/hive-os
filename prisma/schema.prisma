@@ -341,6 +341,7 @@ enum MathPilotCaseType {
   CALIBRATION_PROOF
   CALIBRATION_COUNTEREXAMPLE
   BENCHMARK_PROOF
+  BENCHMARK_EXACT
   OPEN
 }
 
@@ -874,6 +875,9 @@ model DurableJob {
   outboxEvent  OutboxEvent?      @relation(fields: [organizationId, outboxEventId], references: [organizationId, id], onDelete: Restrict)
   events       DurableJobEvent[]
   mathPilotAgentReview MathPilotAgentReview?
+  mathPilotNumericVerification MathPilotNumericVerification?
+  mathPilotFormalAttempts MathPilotFormalAttempt[]
+  mathPilotFormalReplay MathPilotFormalReplay?
   mathResearchCycleEvents MathResearchCycleEvent[]
 
   @@unique([organizationId, id])
@@ -1208,6 +1212,7 @@ model Membership {
   requestedComputations ComputationRun[]          @relation("ComputationRunRequester")
   reviewedComputations  ComputationRun[]          @relation("ComputationRunReviewer")
   mathPilotAssessments  MathPilotAssessment[]     @relation("MathPilotAssessmentReviewer")
+  formalAlignmentAttestations MathPilotFormalAlignment[] @relation("MathPilotFormalAlignmentReviewer")
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -2832,6 +2837,8 @@ model MathPilotCase {
   researchRun  ResearchRun         @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
   assessment   MathPilotAssessment?
   agentReview  MathPilotAgentReview?
+  numericVerification MathPilotNumericVerification?
+  formalAttempts MathPilotFormalAttempt[]
   researchCycles MathResearchCycle[]
 
   @@unique([workspaceId, id])
@@ -2865,6 +2872,121 @@ model MathPilotAgentReview {
   @@unique([workspaceId, caseId])
   @@index([organizationId, workspaceId, missionId, createdAt])
   @@map("math_pilot_agent_review")
+}
+
+/// Append-only, case-bound numerical addendum. It never changes the original
+/// model attempt, peer review, or mathematical conclusion.
+model MathPilotNumericVerification {
+  id                String   @id @default(uuid())
+  organizationId    String   @map("organization_id")
+  workspaceId       String   @map("workspace_id")
+  missionId         String   @map("mission_id")
+  caseId            String   @unique @map("case_id")
+  contractDigest    String   @map("contract_digest")
+  attemptDigest     String   @map("attempt_digest")
+  researchDigest    String   @map("research_digest")
+  claimedAnswer     String   @map("claimed_answer")
+  certificate       Json
+  certificateDigest String   @map("certificate_digest")
+  jobId             String   @unique @map("job_id")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_numeric_verification")
+}
+
+/// Append-only exploratory Lean checks. A compiler result is never a theorem
+/// status: semantic alignment and stronger proof replay remain separate gates.
+model MathPilotFormalAttempt {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  missionId      String   @map("mission_id")
+  caseId         String   @map("case_id")
+  contractDigest String   @map("contract_digest")
+  attemptDigest  String   @map("attempt_digest")
+  researchDigest String   @map("research_digest")
+  target         Json
+  targetDigest   String   @map("target_digest")
+  proofTactics   String   @map("proof_tactics")
+  proofSourceDigest String @map("proof_source_digest")
+  modelName      String   @map("model_name")
+  modelThreadId  String   @map("model_thread_id")
+  modelUsage     Json     @map("model_usage")
+  repairTrace    Json     @default("[]") @map("repair_trace")
+  check          Json
+  checkDigest    String   @map("check_digest")
+  jobId          String   @unique @map("job_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+  replay MathPilotFormalReplay?
+  alignment MathPilotFormalAlignment?
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@index([workspaceId, caseId, createdAt])
+  @@map("math_pilot_formal_attempt")
+}
+
+/// Separate append-only kernel replay over the retained exact formal source.
+/// It does not certify the informal-to-formal semantic mapping.
+model MathPilotFormalReplay {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  caseId             String   @map("case_id")
+  formalAttemptId    String   @unique @map("formal_attempt_id")
+  contractDigest     String   @map("contract_digest")
+  targetDigest       String   @map("target_digest")
+  sourceDigest       String   @map("source_digest")
+  primaryCheckDigest String   @map("primary_check_digest")
+  result             Json
+  resultDigest       String   @map("result_digest")
+  jobId              String   @unique @map("job_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  formalAttempt MathPilotFormalAttempt @relation(fields: [workspaceId, formalAttemptId], references: [workspaceId, id], onDelete: Restrict)
+  job           DurableJob            @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, formalAttemptId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_formal_replay")
+}
+
+/// Authenticated local operator assessment of the natural-to-formal map.
+/// It is not an independent expert publication certificate or a theorem state.
+model MathPilotFormalAlignment {
+  id                   String   @id @default(uuid())
+  organizationId       String   @map("organization_id")
+  workspaceId          String   @map("workspace_id")
+  missionId            String   @map("mission_id")
+  caseId               String   @map("case_id")
+  formalAttemptId      String   @unique @map("formal_attempt_id")
+  contractDigest       String   @map("contract_digest")
+  targetDigest         String   @map("target_digest")
+  sourceDigest         String   @map("source_digest")
+  replayDigest         String   @map("replay_digest")
+  reviewerMembershipId String   @map("reviewer_membership_id")
+  report               Json
+  reportDigest         String   @map("report_digest")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  formalAttempt MathPilotFormalAttempt @relation(fields: [workspaceId, formalAttemptId], references: [workspaceId, id], onDelete: Restrict)
+  reviewer      Membership             @relation("MathPilotFormalAlignmentReviewer", fields: [reviewerMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, formalAttemptId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_formal_alignment")
 }
 
 /// Mutable resource accounting; all model call intents and outputs are

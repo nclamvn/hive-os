@@ -135,6 +135,15 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+    // An optional second requested CLI model for the adversarial review role.
+    // This records model separation, not provider attestation or independence.
+    MATH_REVIEW_ADVERSARY_MODEL: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,159}$/).optional(),
+    // Optional, digest-pinned Python image for isolated exact-answer replay.
+    MATH_EXACT_REPLAY_IMAGE: z.string().regex(/^.+@sha256:[a-f0-9]{64}$/).optional(),
+    // Local formal pilot only. A compiler result never promotes a theorem.
+    MATH_FORMAL_LEAN_IMAGE: z.string().regex(/^.+@sha256:[a-f0-9]{64}$/).optional(),
+    // Immutable local image ID built from the pinned Lean 4.10 checker source.
+    MATH_FORMAL_REPLAY_IMAGE: z.string().regex(/^sha256:[a-f0-9]{64}$/).optional(),
     SANDBOX_DOCKER_ENABLED: z
       .enum(["true", "false"])
       .default("false")
@@ -257,6 +266,9 @@ const envSchema = z
     }
     if (env.RESEARCH_CODEX_LOCAL_ENABLED && !["development", "test"].includes(deploymentEnv ?? "")) {
       ctx.addIssue({ code: "custom", path: ["RESEARCH_CODEX_LOCAL_ENABLED"], message: "Codex subscription bridge is local-only" });
+    }
+    if (env.MATH_FORMAL_REPLAY_IMAGE && !["development", "test"].includes(deploymentEnv ?? "")) {
+      ctx.addIssue({ code: "custom", path: ["MATH_FORMAL_REPLAY_IMAGE"], message: "Formal replay image is local-only" });
     }
     // Rate limiting may only be disabled for deterministic automated tests.
     if (

@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Prisma } from "@prisma/client";
 
 import { createAuthoringDocument, getAuthoringDocument, importApprovedResearchBundle } from "@/modules/authoring";
@@ -8,9 +8,11 @@ import { claimJobs, dispatchOutboxBatch } from "@/modules/command-runtime";
 import { createMission } from "@/modules/mission-kernel";
 import { canonicalJson } from "@/modules/execution-fabric/contracts";
 import type { FrontierDossier } from "@/modules/research-sandbox/math-frontier";
+import { validateMixedCoreAgentEvidence } from "@/modules/research-sandbox/math-mixed-core-agent";
+import * as mixedCoreAgent from "@/modules/research-sandbox/math-mixed-core-agent";
+import { executeMathPilotAgentReviewJob } from "@/modules/research-sandbox/agent-review-kernel";
 import {
   assessMathPilotCase,
-  executeMathPilotAgentReviewJob,
   executeResearchJob,
   getApprovedResearchBundle,
   listMathPilotCases,
@@ -121,6 +123,155 @@ function verifiedChecklist() {
 }
 
 describe("Math pilot gate", () => {
+  it("schedules a sealed portfolio across two independently checked rejected branches", async () => {
+    const owner = await asOwner(await createUser("math-portfolio-owner"));
+    const workspace = await getDb().workspace.findUniqueOrThrow({ where: { id: owner.workspace.id } });
+    const mission = await createMission(owner, { title: "Portfolio cycle admission" });
+    const usage = { inputTokens: 100, cachedInputTokens: 0, outputTokens: 50, reasoningOutputTokens: 10 };
+    for (const caseType of ["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE"] as const) {
+      const calibration = await requestResearchRun(owner, { ...requestFor(mission.id, { caseType }, "gpt-6-sol"),
+        providerName: "codex-local" });
+      expect(calibration.status).toBe("SUCCEEDED");
+      await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-dispatcher" });
+      const [calibrationJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobTypes: ["math-pilot.codex-local.execute"] });
+      const argument = caseType === "CALIBRATION_PROOF"
+        ? "Let n=2k. Then n^2=4k^2=2(2k^2), which is even."
+        : "The number 2 is prime, since its only positive divisors are 1 and 2, but 2 is not odd.";
+      await executeResearchJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobId: calibrationJob!.id, expectedVersion: calibrationJob!.version,
+        correlationId: owner.correlationId,
+        provider: { providerName: "codex-local", modelName: "gpt-6-sol", async execute() {
+          return { providerName: this.providerName, modelName: this.modelName, sources: [],
+            findings: [{ key: "no-source", kind: "HONEST_NULL" as const, claim: "No external source captured.",
+              sourceKey: null, exactExcerpt: "", startOffset: null, endOffset: null, confidence: 0 }],
+            mathAttempt: { providerName: "codex-local" as const, modelName: "gpt-6-sol", threadId: "portfolio-calibration",
+              attemptType: caseType === "CALIBRATION_PROOF" ? "PROOF_ATTEMPT" as const : "COUNTEREXAMPLE_ATTEMPT" as const,
+              argument, candidateCounterexample: caseType === "CALIBRATION_PROOF" ? null : "2",
+              selfChecks: [], limitations: [], usage } };
+        } },
+      });
+      await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-dispatcher" });
+      const [calibrationReviewJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobTypes: ["math-pilot.codex-local.review"] });
+      await executeMathPilotAgentReviewJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobId: calibrationReviewJob!.id, expectedVersion: calibrationReviewJob!.version,
+        correlationId: owner.correlationId, reviewer: { modelName: "gpt-6-sol", async review() {
+          return (["CRITIC", "ADVERSARY"] as const).map((role) => ({ role,
+            verdict: "SUPPORTS" as const,
+            candidateConclusion: caseType === "CALIBRATION_PROOF" ? "SUPPORTED_ARGUMENT" as const : "VALID_COUNTEREXAMPLE" as const,
+            exactQuote: caseType === "CALIBRATION_PROOF" ? "n^2=4k^2" : "2 is prime",
+            reasoning: "The exact elementary derivation or counterexample was checked.",
+            checks: ["Checked the exact quantifier and explicit witness."], unresolvedGap: null,
+            threadId: `${role}-portfolio-calibration`, usage,
+          })) as Awaited<ReturnType<Parameters<typeof executeMathPilotAgentReviewJob>[0]["reviewer"]["review"]>>;
+        } } });
+    }
+    const requested = await requestResearchRun(owner, {
+      ...requestFor(mission.id, openRequest, "gpt-6-sol"), providerName: "codex-local",
+    });
+    expect(requested.status).toBe("SUCCEEDED");
+    const runId = String(requested.status === "SUCCEEDED" ? requested.outcome.runId : "");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-dispatcher" });
+    const [attemptJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-worker", jobTypes: ["math-pilot.codex-local.execute"] });
+    await executeResearchJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-worker", jobId: attemptJob!.id, expectedVersion: attemptJob!.version,
+      correlationId: owner.correlationId,
+      provider: { providerName: "codex-local", modelName: "gpt-6-sol", async execute() {
+        return { providerName: this.providerName, modelName: this.modelName, sources: [],
+          findings: [{ key: "no-source", kind: "HONEST_NULL" as const, claim: "No external source captured.",
+            sourceKey: null, exactExcerpt: "", startOffset: null, endOffset: null, confidence: 0 }],
+          mathAttempt: { providerName: "codex-local" as const, modelName: "gpt-6-sol", threadId: "portfolio-root",
+            attemptType: "PARTIAL" as const, argument: "Finite examples do not prove the universal implication.",
+            candidateCounterexample: null, selfChecks: [], limitations: ["General case unresolved."], usage } };
+      } },
+    });
+    const rootCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.researchRunId === runId)!;
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-dispatcher" });
+    const [reviewJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-worker", jobTypes: ["math-pilot.codex-local.review"] });
+    const gap = "The universal implication from class C to P remains unproved.";
+    await executeMathPilotAgentReviewJob({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "portfolio-worker", jobId: reviewJob!.id, expectedVersion: reviewJob!.version,
+      correlationId: owner.correlationId, reviewer: { modelName: "gpt-6-sol", async review() {
+        return (["CRITIC", "ADVERSARY"] as const).map((role) => ({ role,
+          verdict: "CHALLENGES" as const, candidateConclusion: "PARTIAL" as const,
+          exactQuote: "Finite examples do not prove the universal implication",
+          reasoning: "The statement is universal and finite inspection does not establish it.",
+          checks: ["Quantified root statement checked."], unresolvedGap: gap,
+          threadId: `portfolio-root-${role}`, usage,
+        })) as Awaited<ReturnType<Parameters<typeof executeMathPilotAgentReviewJob>[0]["reviewer"]["review"]>>;
+      } } });
+    const request = await requestMathResearchCycle(owner, { caseId: rootCase.id,
+      maxRounds: 2, maxObservedTokens: 20_000 });
+    expect(request.status).toBe("SUCCEEDED");
+    const proposalBase = { sourceGap: gap,
+      falsificationPlan: "Find one admissible object that fails the proposed condition.",
+      successEvidence: "A checked counterexample or an independently verified conditional argument.",
+      rationale: "This line probes the unresolved implication without claiming to solve the root problem.",
+      exactSurveyPlan: null, structuralProbePlan: null };
+    const branches = [
+      { strategy: "STRUCTURAL_LEMMA" as const, proposal: { ...proposalBase,
+        hypothesis: "Every admissible object in a defined subclass has a necessary invariant for P.",
+        taskStatement: "Derive a necessary invariant for property P in a defined subclass of C." },
+        anticipatedFalsifier: "An admissible object in the subclass violating the invariant.",
+        expectedInformationGain: "HIGH" as const, toolNeeds: ["SOURCE_REVIEW" as const] },
+      { strategy: "FORMALIZATION" as const, proposal: { ...proposalBase,
+        hypothesis: "A formal statement of the class C axioms may expose a missing premise for P.",
+        taskStatement: "Formalize the class C axioms and identify the missing premise for P." },
+        anticipatedFalsifier: "A model of the axioms that contradicts the proposed premise.",
+        expectedInformationGain: "MEDIUM" as const, toolNeeds: ["SOURCE_REVIEW" as const] },
+    ];
+    let portfolioCalls = 0;
+    let verifierCalls = 0;
+    const agents = { modelName: "gpt-6-sol",
+      async proposePortfolio() { portfolioCalls += 1; return { output: { branches },
+        threadId: "portfolio-planner", usage }; },
+      async propose(): Promise<never> { throw new Error("Linear planner must not run"); },
+      async buildFrontierDossier() { return frontierFixture; },
+      async assessFrontier(role: "SOURCE_ANALYST" | "SOURCE_CHALLENGER") {
+        return { output: frontierAssessment, threadId: `${role}-${verifierCalls}`, usage };
+      },
+      async verify(_root: unknown, _gaps: string[], _prior: string[], proposal: { sourceGap: string }) {
+        verifierCalls += 1;
+        expect(_gaps).toContain(gap);
+        return { output: { decision: "REJECT" as const, sourceGap: proposal.sourceGap,
+          scopeCheck: "The task has not specified a complete formal domain.",
+          noveltyCheck: "Not established by the partial source capture.",
+          falsifiabilityCheck: "A candidate falsifier was stated but not certified.",
+          unresolvedRisk: "Independent verification rejected this branch." },
+          threadId: `portfolio-verifier-${verifierCalls}`, usage };
+      },
+      async solve(): Promise<never> { throw new Error("Rejected branch must not reach solver"); },
+      async reviewRole(): Promise<never> { throw new Error("Rejected branch must not reach review"); },
+    };
+    for (const round of [1, 2]) {
+      await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-dispatcher" });
+      const [roundJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+      expect(roundJob).toBeDefined();
+      await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "portfolio-worker", jobId: roundJob!.id, expectedVersion: roundJob!.version, agents });
+      const [cycle] = await listMathResearchCycles(owner, mission.id);
+      expect(cycle.trace).not.toBeNull();
+      expect(cycle.completedRounds).toBe(round);
+      expect(cycle.trace?.filter((event) => event.phase === "PORTFOLIO_PLANNED")).toHaveLength(1);
+      expect(cycle.trace?.filter((event) => event.phase === "BRANCH_CLOSED")).toHaveLength(round);
+      expect(cycle.status).toBe(round === 1 ? "QUEUED" : "STOPPED");
+    }
+    const [cycle] = await listMathResearchCycles(owner, mission.id);
+    expect(portfolioCalls).toBe(1);
+    expect(verifierCalls).toBe(2);
+    expect(cycle.stopReason).toBe("VERIFICATION_REJECTED");
+    expect(cycle.trace?.find((event) => event.phase === "PORTFOLIO_EXHAUSTED"))
+      .toMatchObject({ branches: [{ state: "PRUNED" }, { state: "PRUNED" }] });
+  });
   it("closes both Codex-local calibrations through role-separated AI review without a second member", async () => {
     const owner = await asOwner(await createUser("math-ai-native-owner"));
     const workspace = await getDb().workspace.findUniqueOrThrow({ where: { id: owner.workspace.id } });
@@ -174,6 +325,9 @@ describe("Math pilot gate", () => {
       expect(reviewed.researchRun.status).toBe("AWAITING_REVIEW");
       expect(reviewed.agentReview).toMatchObject({ disposition: "AI_REVIEWED",
         conclusion: caseType === "CALIBRATION_PROOF" ? "SUPPORTED_ARGUMENT" : "VALID_COUNTEREXAMPLE" });
+      expect(reviewed.agentReview?.ledger).toMatchObject({ version: 3,
+        reviewerModels: [{ role: "CRITIC", requestedModelName: "gpt-6-sol" },
+          { role: "ADVERSARY", requestedModelName: "gpt-6-sol" }] });
       const bundle = await getApprovedResearchBundle(owner, runId);
       expect(bundle.mathAssessment).toMatchObject({ reviewMethod: "AI" });
       if (caseType === "CALIBRATION_PROOF") {
@@ -275,6 +429,12 @@ describe("Math pilot gate", () => {
       "PRIOR_ART", "CALL_STARTED", "PROPOSED", "FRONTIER_DOSSIER", "CALL_STARTED", "FRONTIER_REVIEWED",
       "CALL_STARTED", "FRONTIER_REVIEWED", "FRONTIER_GATE", "CALL_STARTED", "VERIFIED", "CALL_STARTED", "ATTEMPTED", "CERTIFICATE_CHECKED",
       "CALL_STARTED", "REVIEWED", "CALL_STARTED", "REVIEWED", "ROUND_CLOSED",
+    ]);
+    expect(cycle.trace?.filter((event) => event.phase === "REVIEWED")).toEqual([
+      expect.objectContaining({ role: "CRITIC", reviewerModel: expect.objectContaining({
+        identityEvidence: "REQUESTED_CLI_MODEL", requestedModelName: "gpt-6-sol" }) }),
+      expect.objectContaining({ role: "ADVERSARY", reviewerModel: expect.objectContaining({
+        identityEvidence: "REQUESTED_CLI_MODEL", requestedModelName: "gpt-6-sol" }) }),
     ]);
     expect((await withOrganizationTenant(workspace.organizationId, owner.user.id, (tx) =>
       tx.durableJob.findUniqueOrThrow({ where: { id: roundJob!.id } }))).status).toBe("SUCCEEDED");
@@ -446,10 +606,20 @@ describe("Math pilot gate", () => {
     const [replayJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
     let replaySeenByReviewers = 0;
+    const mixedDigests: string[] = [];
     await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
       workerId: "cycle-worker", jobId: replayJob!.id, expectedVersion: replayJob!.version,
       agents: { modelName: "gpt-6-sol",
-        async propose() { return { output: { sourceGap: erdosGap,
+        async propose(_root, _gaps, _tasks, _prior, _steering, _findings, _dossier, _obligations, mixed) {
+          expect(validateMixedCoreAgentEvidence(mixed, erdosCase.contractDigest)).toBe(true);
+          expect(mixed?.replay.status).toBe("PASS");
+          mixedDigests.push(mixed!.evidenceDigest);
+          const retained = await withOrganizationTenant(workspace.organizationId, owner.user.id,
+            (tx) => tx.mathResearchCycleEvent.findMany({
+              where: { jobId: replayJob!.id }, orderBy: { sequence: "asc" } }));
+          expect(retained.map((event) => event.phase).indexOf("MIXED_CORE_EVIDENCE")).toBeLessThan(
+            retained.map((event) => event.phase).indexOf("CALL_STARTED"));
+          return { output: { sourceGap: erdosGap,
           hypothesis: "For prime p≡1 (mod 840), the square and A=3/A=7 obstructions may force A=11 to succeed.",
           taskStatement: "For prime p≡1 (mod 840), at A=11 refute the square plus A=3/A=7 obstruction implication at p=131041.",
           falsificationPlan: "Check primality and every fixed first-denominator gate through A=11.",
@@ -458,18 +628,23 @@ describe("Math pilot gate", () => {
           threadId: "replay-planner", usage }; },
         async buildFrontierDossier() { return frontierFixture; },
         async assessFrontier(role) { return { output: frontierAssessment, threadId: `${role}-replay-source`, usage }; },
-        async verify(_root, _gaps, _prior, proposal) { return { output: { decision: "ACCEPT" as const,
+        async verify(_root, _gaps, _prior, proposal, _art, _steering, _findings, _assessments, _dossier, _probe, _obligations, mixed) {
+          mixedDigests.push(mixed!.evidenceDigest);
+          return { output: { decision: "ACCEPT" as const,
           sourceGap: proposal.sourceGap, scopeCheck: "The proposed falsifier is narrower than the prime root.",
           noveltyCheck: "No novelty is inferred from a partial source capture.",
           falsifiabilityCheck: "The concrete prime and fixed A=11 exclusion can be replayed.",
           unresolvedRisk: "The replay does not decide unrestricted Erdős–Straus." },
           threadId: "replay-verifier", usage }; },
-        async solve() { return { providerName: "codex-local" as const, modelName: "gpt-6-sol",
+        async solve(_contract, _proposal, _computation, _gate, mixed) {
+          mixedDigests.push(mixed!.evidenceDigest);
+          return { providerName: "codex-local" as const, modelName: "gpt-6-sol",
           threadId: "replay-solver", attemptType: "COUNTEREXAMPLE_ATTEMPT" as const,
           argument: "p=131041 refutes the auxiliary A=11 implication, not the root conjecture.",
           candidateCounterexample: "p=131041", erdosStrausGateCounterexample: { prime: 131_041, failedThroughA: 11 },
           selfChecks: ["Check the square premise separately."], limitations: ["Only the fixed-A family is excluded."], usage }; },
-        async reviewRole(role, _contract, _attempt, _computation, _replay, counterexampleReplay) {
+        async reviewRole(role, _contract, _attempt, _computation, _replay, counterexampleReplay, _dossier, mixed) {
+          mixedDigests.push(mixed!.evidenceDigest);
           expect(counterexampleReplay).toMatchObject({ status: "PASS", candidate: { prime: 131_041, failedThroughA: 11 } });
           replaySeenByReviewers += 1;
           return { role, verdict: "CHALLENGES" as const, candidateConclusion: "PARTIAL" as const,
@@ -481,6 +656,8 @@ describe("Math pilot gate", () => {
       },
     });
     expect(replaySeenByReviewers).toBe(2);
+    expect(mixedDigests).toHaveLength(5);
+    expect(new Set(mixedDigests).size).toBe(1);
     const replayCycle = (await listMathResearchCycles(owner, mission.id))
       .find((item) => item.rootCaseId === erdosCase.id && item.trace?.some((event) => event.phase === "COUNTEREXAMPLE_REPLAY"));
     expect(replayCycle?.trace?.map((event) => event.phase).indexOf("COUNTEREXAMPLE_REPLAY")).toBeLessThan(
@@ -600,6 +777,68 @@ describe("Math pilot gate", () => {
     expect(probedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toHaveLength(1);
     expect(probedCycle?.trace?.some((event) => event.phase === "VERIFIED" || event.phase === "ATTEMPTED")).toBe(false);
 
+    const mixedCampaign = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+      maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
+        note: "Reject universal single-core rescue using retained mixed-core evidence, not model opinion.", confirmed: true } });
+    expect(mixedCampaign.status).toBe("SUCCEEDED");
+    await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+    const [mixedJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+    await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+      workerId: "cycle-worker", jobId: mixedJob!.id, expectedVersion: mixedJob!.version,
+      agents: { modelName: "gpt-6-sol",
+        async propose(_root, gaps, _tasks, _art, _steering, _findings, _gate, _obligations, mixed) {
+          expect(validateMixedCoreAgentEvidence(mixed, erdosCase.contractDigest)).toBe(true);
+          return { output: { sourceGap: gaps[0]!,
+            hypothesis: "Every residual prime admits a normalized single-core rescue.",
+            taskStatement: "For every prime p≡1 (mod 840), after A=3 and A=7 fail, prove at A=23 that a normalized single-core rescue always exists.",
+            falsificationPlan: "Inspect the complete one-core exclusions in the independently replayed packet.",
+            successEvidence: "A general theorem for all residual primes, not a bounded scan.",
+            rationale: "This fixture deliberately asserts an exactly registered false statement to test pre-dispatch rejection.",
+            mixedCoreClaim: "ALL_RESIDUAL_PRIMES_HAVE_NORMALIZED_SINGLE_CORE_RESCUE" as const },
+            threadId: "mixed-planner", usage };
+        },
+        async buildFrontierDossier() { throw new Error("Mixed-core refutation must precede source calls"); },
+        async assessFrontier() { throw new Error("Mixed-core refutation must precede source calls"); },
+        async verify() { throw new Error("Mixed-core refutation must precede verifier"); },
+        async solve() { throw new Error("Mixed-core refutation must precede solver"); },
+        async reviewRole() { throw new Error("Mixed-core refutation must precede review"); },
+      } });
+    const mixedCycle = (await listMathResearchCycles(owner, mission.id)).find((item) =>
+      item.events.some((event) => event.jobId === mixedJob!.id));
+    expect(mixedCycle?.trace?.map((event) => event.phase)).toContain("MIXED_CORE_CLAIM_REFUTED");
+    expect(mixedCycle?.stopReason).toBe("STRUCTURAL_REFUTED");
+    expect(mixedCycle?.trace?.filter((event) => event.phase === "CALL_STARTED")).toHaveLength(1);
+    expect(mixedCycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE"))
+      .toMatchObject({ evidence: { rootContractDigest: erdosCase.contractDigest, replay: { status: "PASS" } } });
+
+    // Fault injection into the replay boundary, not an LLM/provider simulation.
+    const retainedMixed = mixedCycle!.trace!.find((event) => event.phase === "MIXED_CORE_EVIDENCE")!.evidence;
+    const failedBody = { method: retainedMixed.method, rootContractDigest: retainedMixed.rootContractDigest,
+      packet: retainedMixed.packet, replay: { ...retainedMixed.replay, status: "UNAVAILABLE" as const, outputDigest: null } };
+    const unavailable = { ...failedBody, evidenceDigest: sha256(canonicalJson(failedBody)) };
+    const replayFault = vi.spyOn(mixedCoreAgent, "runMixedCoreAgentEvidence").mockResolvedValue(unavailable);
+    try {
+      const held = await requestMathResearchCycle(owner, { caseId: erdosCase.id, maxRounds: 1,
+        maxObservedTokens: 60_000, steering: { focus: "STRUCTURAL_LEMMA", targetA: 23,
+          note: "Verify fail-closed retention when independent mixed-core replay is unavailable.", confirmed: true } });
+      expect(held.status).toBe("SUCCEEDED");
+      await dispatchOutboxBatch({ organizationId: workspace.organizationId, actorUserId: owner.user.id, workerId: "cycle-dispatcher" });
+      const [heldJob] = await claimJobs({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "cycle-worker", jobTypes: ["math-pilot.cycle.round"], leaseSeconds: 1800 });
+      const forbidden = async () => { throw new Error("Unavailable replay must block every model call"); };
+      await executeMathResearchCycleRound({ organizationId: workspace.organizationId, actorUserId: owner.user.id,
+        workerId: "cycle-worker", jobId: heldJob!.id, expectedVersion: heldJob!.version,
+        agents: { modelName: "gpt-6-sol", propose: forbidden, verify: forbidden, solve: forbidden,
+          reviewRole: forbidden, buildFrontierDossier: forbidden, assessFrontier: forbidden } });
+      const heldCycle = (await listMathResearchCycles(owner, mission.id)).find((item) =>
+        item.events.some((event) => event.jobId === heldJob!.id));
+      expect(heldCycle?.stopReason).toBe("INTEGRITY_FAILURE");
+      expect(heldCycle?.trace?.some((event) => event.phase === "CALL_STARTED")).toBe(false);
+      expect(heldCycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE"))
+        .toMatchObject({ evidence: { replay: { status: "UNAVAILABLE" } } });
+    } finally { replayFault.mockRestore(); }
+
     // An AI-reviewed OPEN dossier remains AWAITING_REVIEW for the separate human
     // lane. A terminal cycle must not prevent a fresh, immutable root experiment.
     const nextRoot = await requestResearchRun(owner, {
@@ -611,7 +850,7 @@ describe("Math pilot gate", () => {
       ...requestFor(mission.id, openRequest, "gpt-6-sol"), providerName: "codex-local",
     });
     expect(concurrentRoot.status).toBe("FAILED");
-  });
+  }, 60_000);
 
   it("routes Codex-local math to a distinct job and retains an unverified model attempt", async () => {
     const owner = await asOwner(await createUser("math-codex-owner"));
@@ -636,7 +875,8 @@ describe("Math pilot gate", () => {
       correlationId: owner.correlationId,
       provider: {
         providerName: "codex-local", modelName: "gpt-6-sol",
-        async execute() {
+        async execute(input) {
+          expect(input.mathPilot).toEqual({ caseType: "CALIBRATION_PROOF" });
           return {
             providerName: this.providerName, modelName: this.modelName,
             sources: [],
@@ -867,6 +1107,7 @@ describe("Math pilot gate", () => {
     expect(tooEarly.status).toBe("FAILED");
     const benchmarkTooEarly = await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_PROOF" }));
     expect(benchmarkTooEarly.status).toBe("FAILED");
+    expect((await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_EXACT" }))).status).toBe("FAILED");
     expect(await listMathPilotCases(owner, mission.id)).toHaveLength(0);
 
     for (const caseType of ["CALIBRATION_PROOF", "CALIBRATION_COUNTEREXAMPLE"] as const) {
@@ -949,10 +1190,15 @@ describe("Math pilot gate", () => {
     const benchmarkCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.caseType === "BENCHMARK_PROOF");
     expect(benchmarkCase?.contract).toEqual(resolveMathPilotContract({ caseType: "BENCHMARK_PROOF" }));
     expect((await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_PROOF" }))).status).toBe("FAILED");
+    const numeric = await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_EXACT" }));
+    expect(numeric.status).toBe("SUCCEEDED");
+    const numericCase = (await listMathPilotCases(owner, mission.id)).find((item) => item.caseType === "BENCHMARK_EXACT");
+    expect(numericCase?.contract).toEqual(resolveMathPilotContract({ caseType: "BENCHMARK_EXACT" }));
+    expect((await requestResearchRun(owner, requestFor(mission.id, { caseType: "BENCHMARK_EXACT" }))).status).toBe("FAILED");
     const opened = await requestResearchRun(owner, requestFor(mission.id, openRequest));
     expect(opened.status).toBe("SUCCEEDED");
     const cases = await listMathPilotCases(owner, mission.id);
-    expect(cases).toHaveLength(4);
+    expect(cases).toHaveLength(5);
     expect(cases[0].caseType).toBe("OPEN");
 
     await expect(ownerQuery(`UPDATE math_pilot_case SET contract = '{}'::jsonb WHERE id = '${cases[0].id}'`))

@@ -8,6 +8,10 @@ import {
   assessMathPilotCaseAction,
   requestMathResearchCycleAction,
   requestMathPilotAgentReviewAction,
+  requestMathExactNumericVerificationAction,
+  requestMathPilotFormalAttemptAction,
+  requestMathPilotFormalReplayAction,
+  attestMathPilotFormalAlignmentAction,
   reviewMathPilotResearchAction,
   requestMathPilotCaseAction,
 } from "@/app/actions/research-sandbox";
@@ -23,18 +27,18 @@ import { hasCapability } from "@/modules/identity-workspace";
 import {
   calibratedCaseTypes,
   digestMathPilotContract,
-  digestResearchResult,
-  listMathPilotCases,
-  listMathResearchCycles,
-  listResearchTargets,
   MATH_PILOT_BENCHMARK,
+  MATH_PILOT_EXACT_BENCHMARK,
   MATH_PILOT_CALIBRATIONS,
   MATH_REVIEW_CRITERIA,
   digestMathReviewChecklist,
   mathPilotContractSchema,
   mathReviewChecklistSchema,
-  validateRecordedMathAgentReview,
-} from "@/modules/research-sandbox";
+} from "@/modules/research-sandbox/math-pilot";
+import { digestResearchResult } from "@/modules/research-sandbox/integrity";
+import { listMathPilotCases, listResearchTargets } from "@/modules/research-sandbox/kernel";
+import { listMathResearchCycles } from "@/modules/research-sandbox/math-cycle-kernel";
+import { validateRecordedMathAgentReview } from "@/modules/research-sandbox/agent-review";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getEnv } from "@/server/env";
 import { researchProviderUsageSchema } from "@/modules/research-sandbox/contracts";
@@ -44,13 +48,28 @@ import { analyzeTwoGateResidualPrime } from "@/modules/research-sandbox/math-two
 import { validateIndependentReplayReport } from "@/modules/research-sandbox/math-independent-replay";
 import { priorFiniteFindingFromTrace } from "@/modules/research-sandbox/math-cycle";
 import { projectMathProofObligations } from "@/modules/research-sandbox/math-proof-obligations";
+import { summarizeMathPortfolio } from "@/modules/research-sandbox/math-portfolio";
 import { knownScopeForTask, mathPriorArtFor } from "@/modules/research-sandbox/math-prior-art";
+import { splitExactBenchmarkArgument } from "@/modules/research-sandbox/math-tex";
+import { validateRecordedExactNumericAddendum } from "@/modules/research-sandbox/math-exact-numeric-addendum";
+import { PILOT_LEAN_IMAGE } from "@/modules/research-sandbox/math-formal-check";
+import { formalClaimForContractDigest } from "@/modules/research-sandbox/math-formal-claim";
+import { validateRecordedMathFormalAttempt } from "@/modules/research-sandbox/math-formal-record";
+import { validateRecordedMathFormalReplay } from "@/modules/research-sandbox/math-formal-replay-record";
+import { FORMAL_ALIGNMENT_CHECKS, validateRecordedFormalAlignment } from "@/modules/research-sandbox/math-formal-alignment";
 import type { MathPilotContract } from "@/modules/research-sandbox/math-pilot";
 
 export const dynamic = "force-dynamic";
 
 const inputClass =
   "text-body text-ink border-line mt-1 min-h-11 w-full rounded-md border bg-surface px-3 py-2 outline-none transition-colors focus:border-line-strong";
+
+const alignmentLabels = {
+  DOMAIN_AND_QUANTIFIERS: { vi: "Miền xác định và lượng từ", en: "Domain and quantifiers" },
+  ASSUMPTIONS_AND_DEFINITIONS: { vi: "Giả thiết và định nghĩa", en: "Assumptions and definitions" },
+  CONCLUSION_EQUIVALENCE: { vi: "Kết luận tương đương", en: "Equivalent conclusion" },
+  BOUNDARY_AND_NOTATION: { vi: "Trường hợp biên và ký hiệu", en: "Boundary cases and notation" },
+} as const;
 
 export default async function MathPilotPage({
   params,
@@ -93,7 +112,10 @@ export default async function MathPilotPage({
   const canInviteReviewer = hasCapability(data.ctx.membership.role, "members.invite");
   const queueEnabled = getEnv().MATH_PILOT_QUEUE_ENABLED;
   const hasActiveWork = cases.some((item) => ["QUEUED", "RUNNING"].includes(item.researchRun.status) ||
-    ["PENDING", "READY", "RUNNING"].includes(item.agentReviewJobStatus ?? "")) ||
+    ["PENDING", "READY", "RUNNING"].includes(item.agentReviewJobStatus ?? "") ||
+    ["PENDING", "READY", "RUNNING"].includes(item.numericVerificationJobStatus ?? "") ||
+    ["PENDING", "READY", "RUNNING"].includes(item.formalAttemptJobStatus ?? "") ||
+    ["PENDING", "READY", "RUNNING"].includes(item.formalReplayJobStatus ?? "")) ||
     cycles.some((cycle) => ["QUEUED", "RUNNING"].includes(cycle.status));
 
   return (
@@ -121,6 +143,15 @@ export default async function MathPilotPage({
           />
         </div>
 
+        {["development", "test"].includes(getEnv().NODE_ENV) &&
+          (!getEnv().DEPLOYMENT_ENV || ["development", "test"].includes(getEnv().DEPLOYMENT_ENV!)) ? (
+          <Link href={`/w/${workspaceSlug}/research/math-tools`}
+            className="border-line bg-surface text-body text-ink hover:border-line-strong rounded-panel flex min-h-12 flex-wrap items-center justify-between gap-2 border px-4 py-3">
+            <span>{locale === "vi" ? "Bàn kiểm chứng số học · phát lại Python độc lập" : "Exact arithmetic workbench · independent Python replay"}</span>
+            <span className="text-meta text-ink-muted">{locale === "vi" ? "Local · chỉ đọc →" : "Local · read only →"}</span>
+          </Link>
+        ) : null}
+
         {targets.missions.length ? (
           <form method="get" className="border-line bg-surface rounded-panel flex flex-wrap items-end gap-3 border p-4">
             <label className="text-meta text-ink min-w-0 flex-1 font-medium">
@@ -146,6 +177,15 @@ export default async function MathPilotPage({
             </p>
           </Panel>
         ) : null}
+        {query.request === "formal-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+          <p className="text-body text-ink">{locale === "vi" ? "Không thể giao ca Lean. Kiểm tra trạng thái job trước đó, quyền truy cập và hồ sơ chứng minh đã niêm phong." : "Could not queue the Lean attempt. Check the previous job, access rights, and sealed proof case."}</p>
+        </Panel> : null}
+        {query.request === "replay-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+          <p className="text-body text-ink">{locale === "vi" ? "Không thể giao ca phát lại kernel. Kiểm tra image checker, trạng thái job và hồ sơ Lean đã niêm phong." : "Could not queue fresh kernel replay. Check the checker image, job status, and sealed Lean record."}</p>
+        </Panel> : null}
+        {query.request === "alignment-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+          <p className="text-body text-ink">{locale === "vi" ? "Không thể lưu đánh giá ánh xạ. Kiểm tra đủ bốn tiêu chí, ghi chú cụ thể và hồ sơ replay." : "Could not retain alignment review. Check all four criteria, detailed notes, and replay evidence."}</p>
+        </Panel> : null}
 
         {selectedMissionId ? (
           <>
@@ -194,6 +234,39 @@ export default async function MathPilotPage({
               </div>
             </section>
 
+            <section aria-labelledby="math-exact-benchmark-title">
+              <Panel className="p-5 sm:p-6">
+                <SectionHeader title={copy.exactBenchmarkTitle} id="math-exact-benchmark-title" />
+                <p className="text-body text-ink-muted mt-2 max-w-3xl">
+                  {passed.size === 2 ? copy.exactBenchmarkHint : copy.benchmarkLocked}
+                </p>
+                <p className="text-meta text-ink-muted mt-2">
+                  {copy.exactSource}: <a className="text-ink underline underline-offset-2" href="https://epoch.ai/frontiermath/tiers-1-4/benchmark-problems" target="_blank" rel="noreferrer">Epoch AI, FrontierMath sample problems</a>
+                </p>
+                <p className="text-section-title text-ink-strong mt-4 max-w-3xl"><MathText text={MATH_PILOT_EXACT_BENCHMARK.statement} /></p>
+                <div className="border-line text-body text-ink mt-3 max-w-3xl border-l-2 pl-4">
+                  <MathText text={String.raw`$$\left\lfloor 10^9\,\mathbb{E}[\operatorname{Perimeter}(R_O)]\right\rfloor$$`} />
+                </div>
+                {canRequest ? (
+                  <form action={requestMathPilotCaseAction} className="mt-5">
+                    <input type="hidden" name="slug" value={workspaceSlug} />
+                    <input type="hidden" name="missionId" value={selectedMissionId} />
+                    <input type="hidden" name="caseType" value="BENCHMARK_EXACT" />
+                    <input type="hidden" name="idempotencyKey" value={`math-pilot:${randomUUID()}`} />
+                    <Button type="submit" variant="secondary" disabled={passed.size !== 2 || !queueEnabled || cases.some((item) =>
+                      item.caseType === "BENCHMARK_EXACT" &&
+                      item.researchRun.providerName === pilotProvider && item.researchRun.modelName === pilotModel &&
+                      (["QUEUED", "RUNNING"].includes(item.researchRun.status) ||
+                        (item.researchRun.status === "AWAITING_REVIEW" && !item.agentReview &&
+                          item.agentReviewJobStatus !== "DEAD_LETTER")),
+                    )}>
+                      {copy.exactBenchmarkRun} <ArrowRight className="size-4" aria-hidden="true" />
+                    </Button>
+                  </form>
+                ) : null}
+              </Panel>
+            </section>
+
             <section aria-labelledby="math-benchmark-title">
               <Panel className="p-5 sm:p-6">
                 <SectionHeader title={copy.benchmarkTitle} id="math-benchmark-title" />
@@ -215,7 +288,8 @@ export default async function MathPilotPage({
                       item.researchRun.providerName === pilotProvider &&
                       item.researchRun.modelName === pilotModel &&
                       (["QUEUED", "RUNNING"].includes(item.researchRun.status) ||
-                        (item.researchRun.status === "AWAITING_REVIEW" && !item.agentReview)),
+                        (item.researchRun.status === "AWAITING_REVIEW" && !item.agentReview &&
+                          item.agentReviewJobStatus !== "DEAD_LETTER")),
                     )}>
                       {copy.benchmarkRun} <ArrowRight className="size-4" aria-hidden="true" />
                     </Button>
@@ -288,11 +362,33 @@ export default async function MathPilotPage({
                     attempt: item.researchRun.mathModelAttempt, attemptDigest: item.researchRun.mathModelAttemptDigest,
                     researchDigest: item.researchIntegrityDigest, review: item.agentReview,
                   });
+                  const exactArgument = item.caseType === "BENCHMARK_EXACT" && attempt.success
+                    ? splitExactBenchmarkArgument(attempt.data.argument) : null;
+                  const numericCertificate = item.caseType === "BENCHMARK_EXACT" ? validateRecordedExactNumericAddendum({
+                    verification: item.numericVerification, contractDigest: item.contractDigest,
+                    attemptDigest: item.researchRun.mathModelAttemptDigest,
+                    researchDigest: item.researchIntegrityDigest,
+                    claimedAnswer: attempt.success ? attempt.data.exactAnswer ?? null : null,
+                  }) : null;
+                  const formalTarget = ["CALIBRATION_PROOF", "BENCHMARK_PROOF"].includes(item.caseType)
+                    ? formalClaimForContractDigest(item.contractDigest) : null;
+                  const formalRecord = formalTarget ? validateRecordedMathFormalAttempt({
+                    record: item.formalAttempts[0] ?? null,
+                    contractDigest: item.contractDigest,
+                    attemptDigest: item.researchRun.mathModelAttemptDigest,
+                    researchDigest: item.researchIntegrityDigest,
+                  }) : null;
+                  const formalReplay = formalRecord && item.formalAttempts[0]?.replay
+                    ? validateRecordedMathFormalReplay({ replay: item.formalAttempts[0].replay,
+                      formalAttempt: item.formalAttempts[0] }) : null;
+                  const formalAlignment = formalReplay && item.formalAttempts[0]?.alignment
+                    ? validateRecordedFormalAlignment({ record: item.formalAttempts[0].alignment,
+                      formalAttempt: item.formalAttempts[0] }) : null;
                   return (
                     <Panel key={item.id} className="min-w-0 overflow-hidden p-5 sm:p-6">
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-eyebrow text-ink-muted">{item.caseType === "BENCHMARK_PROOF" ? copy.benchmarkTitle : item.caseType.replaceAll("_", " ")}</p>
+                          <p className="text-eyebrow text-ink-muted">{item.caseType === "BENCHMARK_PROOF" ? copy.benchmarkTitle : item.caseType === "BENCHMARK_EXACT" ? copy.exactBenchmarkTitle : item.caseType.replaceAll("_", " ")}</p>
                           <h3 aria-label={item.researchRun.question} className="text-section-title text-ink-strong mt-2 break-words"><MathText text={item.researchRun.question} /></h3>
                         </div>
                         <StatusBadge tone={item.researchRun.status === "APPROVED" ? "success" : item.researchRun.status === "FAILED" || item.researchRun.status === "REJECTED" ? "danger" : "warning"}>
@@ -317,7 +413,11 @@ export default async function MathPilotPage({
                           {attemptPriorArt ? <p role="alert" className="text-meta text-danger-700 mt-2">
                             {copy.modelAttemptPriorArt} <a className="underline underline-offset-2" href={attemptPriorArt.sourceUrl} target="_blank" rel="noreferrer">{attemptPriorArt.sourceTitle}</a>
                           </p> : null}
-                          <p className="math-proof-body text-body text-ink mt-3 whitespace-pre-wrap break-words"><MathText text={attempt.data.argument} /></p>
+                          <p className="math-proof-body text-body text-ink mt-3 whitespace-pre-wrap break-words"><MathText text={exactArgument?.prose ?? attempt.data.argument} /></p>
+                          {exactArgument?.embeddedCode && !attempt.data.computationPython ? <details className="border-line text-meta text-ink-muted mt-3 rounded-md border p-3">
+                            <summary className="text-ink cursor-pointer font-medium">{copy.exactEmbeddedCode}</summary>
+                            <pre className="mt-3 max-h-96 overflow-auto whitespace-pre font-mono text-xs leading-relaxed">{exactArgument.embeddedCode}</pre>
+                          </details> : null}
                           <details className="text-meta text-ink-muted mt-3">
                             <summary className="text-ink cursor-pointer font-medium">
                               {locale === "vi" ? "Xem nguyên văn đã niêm phong" : "View sealed source text"}
@@ -327,6 +427,48 @@ export default async function MathPilotPage({
                           {attempt.data.candidateCounterexample ? <p className="text-body text-ink mt-3 break-words">{copy.attemptCounterexample}: <MathText text={attempt.data.candidateCounterexample} /></p> : null}
                           {attempt.data.selfChecks.length ? <p className="text-meta text-ink-muted mt-3 whitespace-pre-wrap">{copy.attemptChecks}: <MathText text={attempt.data.selfChecks.join(" · ")} /></p> : null}
                           {attempt.data.limitations.length ? <p className="text-meta text-ink-muted mt-2 whitespace-pre-wrap">{copy.attemptLimits}: <MathText text={attempt.data.limitations.join(" · ")} /></p> : null}
+                          {item.caseType === "BENCHMARK_EXACT" ? (
+                            <div className="border-line mt-4 border-l-2 pl-4">
+                              <p className="text-meta text-ink-muted">{copy.exactCandidate}</p>
+                              <p className="text-section-title text-ink-strong mt-1 tabular-nums">{attempt.data.exactAnswer ?? copy.exactNoAnswer}</p>
+                              <details className="text-meta text-ink-muted mt-3">
+                                <summary className="text-ink cursor-pointer font-medium">{copy.exactCode}</summary>
+                                {attempt.data.computationOrigin === "EXTRACTED_FROM_ARGUMENT" ? <p className="mt-2">{copy.exactRecoveredCode}</p> : null}
+                                <pre className="mt-2 overflow-x-auto whitespace-pre-wrap break-words">{attempt.data.computationPython ?? copy.exactNoCode}</pre>
+                              </details>
+                              <p className="text-meta text-ink-muted mt-2">{copy.exactReplayCaution}</p>
+                              <div className="border-line mt-4 border-t pt-3">
+                                <p className="text-meta text-ink font-semibold">{copy.exactInterval}</p>
+                                {numericCertificate ? <>
+                                  <p className="text-meta text-success-700 mt-2 font-medium">
+                                    {locale === "vi" ? "Đã chứng nhận số học độc lập" : "Independent numerical certificate retained"} · floor = {numericCertificate.floor}
+                                  </p>
+                                  <details className="text-meta text-ink-muted mt-2">
+                                    <summary className="cursor-pointer">{copy.exactIntervalBounds}</summary>
+                                    <p className="mt-2 break-all">[{numericCertificate.lowerScaled}, {numericCertificate.upperScaled}] / 10^{numericCertificate.scaleDigits}</p>
+                                    <p className="mt-2 break-all">{copy.exactIntervalSource}: {numericCertificate.programDigest}</p>
+                                    <p className="mt-1 break-all">Image: {numericCertificate.image}</p>
+                                    <p className="mt-1 break-all">Output SHA-256: {numericCertificate.outputDigest}</p>
+                                    <p className="mt-1 break-all">Certificate SHA-256: {item.numericVerification?.certificateDigest}</p>
+                                  </details>
+                                  <p className="text-meta text-ink-muted mt-2">{locale === "vi" ?
+                                    "Chỉ chứng nhận bao khoảng số học theo mô hình hình học cố định; chưa chứng minh toàn bộ phép quy giản hình học hoặc nâng hạng phản biện AI lịch sử." :
+                                    "Certifies numerical enclosure under the fixed geometric reduction only; it does not prove that reduction or upgrade the historical AI review."}</p>
+                                </> : item.numericVerification ? <p role="alert" className="text-meta text-danger-700 mt-2">{copy.agentReviewIntegrityBad}</p>
+                                  : item.numericVerificationJobStatus === "DEAD_LETTER" ? <p role="alert" className="text-meta text-danger-700 mt-2">
+                                    {locale === "vi" ? "Job kiểm chứng thất bại; không có chứng chỉ được lưu." : "Verification job failed; no certificate was retained."}
+                                  </p> : ["PENDING", "READY", "RUNNING"].includes(item.numericVerificationJobStatus ?? "") ? <p className="text-meta text-ink-muted mt-2">
+                                    {locale === "vi" ? "Đang xếp hàng/chạy công cụ cố định…" : "Fixed-tool verification queued/running…"}
+                                  </p> : canRequest && queueEnabled && codexMode && getEnv().MATH_EXACT_REPLAY_IMAGE &&
+                                    ["AWAITING_REVIEW", "APPROVED"].includes(item.researchRun.status) && attempt.data.exactAnswer ?
+                                    <form action={requestMathExactNumericVerificationAction} className="mt-3">
+                                      <input type="hidden" name="slug" value={workspaceSlug} />
+                                      <input type="hidden" name="caseId" value={item.id} />
+                                      <Button type="submit" variant="secondary">{locale === "vi" ? "Chạy kiểm chứng khoảng độc lập" : "Run independent interval check"}</Button>
+                                    </form> : null}
+                              </div>
+                            </div>
+                          ) : null}
                           {parsed.success && hasErdosStrausEquation(parsed.data) && attempt.data.erdosStrausWitnesses?.length ? (
                             <div className="border-line mt-3 border-l-2 pl-3">
                               <p className="text-meta text-ink font-semibold">{copy.exactWitness}</p>
@@ -340,6 +482,152 @@ export default async function MathPilotPage({
                               })}</ul>
                               <p className="text-meta text-ink-muted mt-2">{copy.exactWitnessLimit}</p>
                             </div>
+                          ) : null}
+                          {formalTarget ? (
+                            <section className="border-line bg-surface-subtle mt-5 min-w-0 rounded-lg border p-4" aria-label={locale === "vi" ? "Kiểm chứng hình thức" : "Formal proof check"}>
+                              <div className="flex flex-wrap items-start justify-between gap-2">
+                                <div>
+                                  <p className="text-meta text-ink font-semibold">{locale === "vi" ? "Kiểm chứng hình thức · Lean" : "Formal proof check · Lean"}</p>
+                                  <p className="text-meta text-ink-muted mt-1">{locale === "vi"
+                                    ? "Mô hình chỉ viết tactic; phát biểu được cố định theo hợp đồng bài toán. Kết quả biên dịch không tự xác nhận rằng hình thức hóa đúng nghĩa đề gốc."
+                                    : "The model writes tactics only; the statement is fixed by the problem contract. Compilation does not attest semantic alignment."}</p>
+                                </div>
+                                {formalRecord ? <StatusBadge tone={formalRecord.check.status === "KERNEL_ACCEPTED_ALIGNMENT_PENDING" ? "warning" : "danger"}>
+                                  {formalRecord.check.status === "KERNEL_ACCEPTED_ALIGNMENT_PENDING"
+                                    ? (locale === "vi" ? "Lean nhận · chờ đối chiếu" : "Lean accepted · alignment pending")
+                                    : formalRecord.check.status === "REJECTED" ? (locale === "vi" ? "Bị từ chối" : "Rejected") : (locale === "vi" ? "Không khả dụng" : "Unavailable")}
+                                </StatusBadge> : null}
+                              </div>
+                              <details className="text-meta text-ink-muted mt-3">
+                                <summary className="text-ink cursor-pointer font-medium">{locale === "vi" ? "Xem phát biểu Lean và ánh xạ ngữ nghĩa" : "View Lean statement and semantic mapping"}</summary>
+                                <pre className="border-line mt-3 overflow-x-auto rounded-md border p-3 font-mono text-xs">{formalTarget.declaration}</pre>
+                                <dl className="mt-3 grid gap-2">{formalTarget.alignmentMap.map((mapping) => (
+                                  <div key={mapping.informal} className="min-w-0"><dt className="text-ink">{mapping.informal}</dt><dd className="break-words font-mono text-xs">{mapping.formal}</dd></div>
+                                ))}</dl>
+                              </details>
+                              {formalRecord ? <>
+                                <p className="text-meta text-ink-muted mt-3">{formalRecord.check.diagnostic}</p>
+                                <p className="text-meta text-ink-muted mt-2">{locale === "vi" ? "Số lượt kiểm tra:" : "Checker rounds:"} {formalRecord.trace.filter((event) => event.kind === "CHECKED").length}/2</p>
+                                {formalRecord.check.compilerFeedback ? <details className="text-meta text-ink-muted mt-2">
+                                  <summary className="text-ink cursor-pointer font-medium">{locale === "vi" ? "Xem lỗi biên dịch Lean" : "View Lean compiler feedback"}</summary>
+                                  <pre className="border-line mt-2 max-h-64 overflow-auto rounded-md border p-3 font-mono text-xs">{formalRecord.check.compilerFeedback}</pre>
+                                </details> : null}
+                                {formalRecord.trace.at(-1)?.kind === "REPAIR_FAILED" ? <p role="alert" className="text-meta text-danger-700 mt-2">{locale === "vi" ? "Lượt sửa tactic không hoàn tất; giữ kết quả kiểm tra đầu tiên." : "The tactic repair did not complete; the first checker result was retained."}</p> : null}
+                                <p className="text-meta text-ink-muted mt-2 break-all">Lean image: {formalRecord.check.image ?? "—"}</p>
+                                <p className="text-meta text-ink-muted mt-1 break-all">Source SHA-256: {item.formalAttempts[0]?.proofSourceDigest}</p>
+                                <p className="text-meta text-ink-muted mt-1 break-all">Audit SHA-256: {item.formalAttempts[0]?.checkDigest}</p>
+                                <details className="text-meta text-ink-muted mt-3"><summary className="text-ink cursor-pointer font-medium">{locale === "vi" ? "Xem tactic nguyên văn" : "View exact tactic source"}</summary>
+                                  <pre className="border-line mt-2 max-h-96 overflow-auto rounded-md border p-3 font-mono text-xs">{item.formalAttempts[0]?.proofTactics}</pre>
+                                </details>
+                                {formalRecord.check.status === "KERNEL_ACCEPTED_ALIGNMENT_PENDING" ? <div className="border-line mt-4 border-t pt-4">
+                                  <p className="text-meta text-ink font-semibold">{locale === "vi" ? "Phát lại bằng checker tách biệt" : "Separate checker replay"}</p>
+                                  <p className="text-meta text-ink-muted mt-1">{locale === "vi"
+                                    ? "lean4checker được build riêng và phát lại .olean trong môi trường Lean mới, nhưng vẫn dùng kernel Lean cùng phiên bản; chưa xác nhận phát biểu hình thức tương đương đề gốc."
+                                    : "Separately built lean4checker replays the olean in a fresh Lean environment, but uses the same Lean kernel version; informal-statement alignment remains unverified."}</p>
+                                  {formalReplay ? <div className="mt-3">
+                                    <StatusBadge tone={formalReplay.status === "REPLAY_ACCEPTED" ? "warning" : "danger"}>
+                                      {formalReplay.status === "REPLAY_ACCEPTED"
+                                        ? (locale === "vi" ? "Kernel phát lại đạt · chờ đối chiếu nghĩa" : "Kernel replay passed · alignment pending")
+                                        : (locale === "vi" ? "Phát lại bị từ chối" : "Replay rejected")}
+                                    </StatusBadge>
+                                    <p className="text-meta text-ink-muted mt-2">{formalReplay.diagnostic}</p>
+                                    <p className="text-meta text-ink-muted mt-1 break-all">Checker image ID: {formalReplay.imageId}</p>
+                                    <p className="text-meta text-ink-muted mt-1 break-all">Replay SHA-256: {item.formalAttempts[0]?.replay?.resultDigest}</p>
+                                  </div> : item.formalAttempts[0]?.replay ? <p role="alert" className="text-meta text-danger-700 mt-2">
+                                    {locale === "vi" ? "Hồ sơ phát lại không vượt qua kiểm tra toàn vẹn." : "Replay record failed integrity validation."}
+                                  </p> : item.formalReplayJobStatus === "DEAD_LETTER" ? <div className="mt-2">
+                                    <p role="alert" className="text-meta text-danger-700">{locale === "vi" ? "Job phát lại thất bại; chưa có kết quả được lưu." : "Fresh replay job failed; no result was retained."}</p>
+                                    {item.formalReplayDispatchCount === 1 && canRequest && queueEnabled && getEnv().MATH_FORMAL_REPLAY_IMAGE ?
+                                      <form action={requestMathPilotFormalReplayAction} className="mt-3">
+                                        <input type="hidden" name="slug" value={workspaceSlug} />
+                                        <input type="hidden" name="formalAttemptId" value={item.formalAttempts[0]?.id} />
+                                        <Button type="submit" variant="secondary">{locale === "vi" ? "Thử phát lại một lần" : "Retry replay once"}</Button>
+                                      </form> : null}
+                                  </div> : ["PENDING", "READY", "RUNNING"].includes(item.formalReplayJobStatus ?? "") ? <p className="text-meta text-ink-muted mt-2">
+                                    {locale === "vi" ? "Đang xếp hàng/chạy phát lại kernel…" : "Fresh kernel replay queued/running…"}
+                                  </p> : canRequest && queueEnabled && getEnv().MATH_FORMAL_REPLAY_IMAGE ?
+                                    <form action={requestMathPilotFormalReplayAction} className="mt-3">
+                                      <input type="hidden" name="slug" value={workspaceSlug} />
+                                      <input type="hidden" name="formalAttemptId" value={item.formalAttempts[0]?.id} />
+                                      <Button type="submit" variant="secondary">{locale === "vi" ? "Phát lại bằng lean4checker" : "Replay with lean4checker"}</Button>
+                                    </form> : <p className="text-meta text-ink-muted mt-2">{locale === "vi" ? "Checker replay local chưa được cấu hình." : "Local replay checker is not configured."}</p>}
+                                  {formalReplay?.status === "REPLAY_ACCEPTED" ? <div className="border-line mt-4 border-t pt-4">
+                                    <p className="text-meta text-ink font-semibold">{locale === "vi" ? "Gate ánh xạ ngữ nghĩa" : "Semantic alignment gate"}</p>
+                                    <p className="text-meta text-ink-muted mt-1">{locale === "vi"
+                                      ? "Người vận hành đối chiếu chính xác miền, giả thiết, kết luận và biên của phát biểu Lean với hợp đồng gốc. Xác nhận này không phải phản biện chuyên gia để công bố."
+                                      : "An operator checks the Lean domain, assumptions, conclusion and boundaries against the original contract. This is not expert publication review."}</p>
+                                    {formalAlignment ? <div className="mt-3">
+                                      <StatusBadge tone={formalAlignment.status === "ISSUE_FOUND" ? "danger" : "warning"}>
+                                        {formalAlignment.status === "OPERATOR_ALIGNED"
+                                          ? (locale === "vi" ? "Người vận hành xác nhận ánh xạ" : "Operator attested mapping")
+                                          : formalAlignment.status === "ISSUE_FOUND" ? (locale === "vi" ? "Có vấn đề ánh xạ" : "Mapping issue found")
+                                            : (locale === "vi" ? "Chưa xác định" : "Unresolved")}
+                                      </StatusBadge>
+                                      <p className="text-meta text-ink-muted mt-2">{formalAlignment.rationale}</p>
+                                      <p className="text-meta text-ink-muted mt-1 break-all">Alignment SHA-256: {item.formalAttempts[0]?.alignment?.reportDigest}</p>
+                                      <details className="text-meta text-ink-muted mt-2"><summary className="text-ink cursor-pointer font-medium">{locale === "vi" ? "Xem bốn tiêu chí" : "View four checks"}</summary>
+                                        <ul className="mt-2 space-y-2">{formalAlignment.checks.map((check) => <li key={check.criterion}>
+                                          <span className="text-ink font-medium">{alignmentLabels[check.criterion][locale]} · {check.verdict}</span>
+                                          <span className="block">{check.note}</span>
+                                        </li>)}</ul>
+                                      </details>
+                                    </div> : item.formalAttempts[0]?.alignment ? <p role="alert" className="text-meta text-danger-700 mt-2">
+                                      {locale === "vi" ? "Hồ sơ ánh xạ không vượt qua kiểm tra toàn vẹn." : "Alignment record failed integrity validation."}
+                                    </p> : canReview ? <details className="mt-3">
+                                      <summary className="text-meta text-ink cursor-pointer font-medium">{locale === "vi" ? "Đánh giá ánh xạ và ghi nhận" : "Review and retain mapping"}</summary>
+                                      <form action={attestMathPilotFormalAlignmentAction} className="mt-3 space-y-4">
+                                        <input type="hidden" name="slug" value={workspaceSlug} />
+                                        <input type="hidden" name="formalAttemptId" value={item.formalAttempts[0]?.id} />
+                                        {FORMAL_ALIGNMENT_CHECKS.map((criterion) => <div key={criterion} className="border-line rounded-md border p-3">
+                                          <label className="text-meta text-ink block font-medium">{alignmentLabels[criterion][locale]}
+                                            <select name={`verdict_${criterion}`} defaultValue="UNRESOLVED" className={inputClass}>
+                                              <option value="UNRESOLVED">{locale === "vi" ? "Chưa xác định" : "Unresolved"}</option>
+                                              <option value="ALIGNED">{locale === "vi" ? "Khớp" : "Aligned"}</option>
+                                              <option value="ISSUE">{locale === "vi" ? "Có vấn đề" : "Issue"}</option>
+                                            </select>
+                                          </label>
+                                          <label className="text-meta text-ink mt-3 block font-medium">{locale === "vi" ? "Giải thích cụ thể" : "Specific reasoning"}
+                                            <textarea name={`note_${criterion}`} required minLength={20} maxLength={1000} rows={2} className={inputClass} />
+                                          </label>
+                                        </div>)}
+                                        <label className="text-meta text-ink block font-medium">{locale === "vi" ? "Kết luận và giới hạn" : "Conclusion and limits"}
+                                          <textarea name="rationale" required minLength={40} maxLength={4000} rows={3} className={inputClass} />
+                                        </label>
+                                        <label className="text-meta text-ink flex items-start gap-2"><input type="checkbox" name="confirmed" className="mt-1" />
+                                          <span>{locale === "vi" ? "Tôi đã tự đối chiếu phát biểu Lean với hợp đồng gốc; đánh giá này không xác nhận tính mới hoặc cho phép công bố." : "I personally compared the Lean statement with the original contract; this does not certify novelty or authorize publication."}</span>
+                                        </label>
+                                        <Button type="submit" variant="secondary">{locale === "vi" ? "Lưu đánh giá bất biến" : "Retain immutable review"}</Button>
+                                      </form>
+                                    </details> : <p className="text-meta text-ink-muted mt-2">{locale === "vi" ? "Cần quyền đánh giá nghiên cứu để ghi nhận gate này." : "Research-review permission is required for this gate."}</p>}
+                                  </div> : null}
+                                </div> : null}
+                                <p className="text-meta text-warning-700 mt-3">{locale === "vi"
+                                  ? (formalAlignment?.status === "OPERATOR_ALIGNED"
+                                    ? "Ánh xạ đã được người vận hành xác nhận ở mức local; vẫn chưa có phản biện chuyên gia độc lập, kiểm tra tính mới hoặc quyết định công bố."
+                                    : "Chưa phải định lý được nghiệm thu: cần đối chiếu phát biểu–đề gốc; kernel replay không thay thế gate ngữ nghĩa.")
+                                  : (formalAlignment?.status === "OPERATOR_ALIGNED"
+                                    ? "Operator mapping is locally attested; independent expert review, novelty check and publication approval remain open."
+                                    : "Not an accepted theorem: statement alignment remains open; kernel replay does not replace that gate.")}</p>
+                              </> : item.formalAttempts.length ? <p role="alert" className="text-meta text-danger-700 mt-3">{locale === "vi" ? "Hồ sơ kiểm chứng không vượt qua kiểm tra toàn vẹn." : "Formal record failed integrity validation."}</p>
+                                : item.formalAttemptJobStatus === "DEAD_LETTER" ? <div className="mt-3">
+                                  <p role="alert" className="text-meta text-danger-700">{locale === "vi" ? "Job hình thức hóa thất bại; chưa có kết quả được lưu." : "Formalization job failed; no result was retained."}</p>
+                                  {item.formalAttemptDispatchCount === 1 && canRequest && queueEnabled && codexMode &&
+                                    getEnv().MATH_FORMAL_LEAN_IMAGE === PILOT_LEAN_IMAGE ?
+                                    <form action={requestMathPilotFormalAttemptAction} className="mt-3">
+                                      <input type="hidden" name="slug" value={workspaceSlug} />
+                                      <input type="hidden" name="caseId" value={item.id} />
+                                      <Button type="submit" variant="secondary">{locale === "vi" ? "Thử lại một lần sau khi kiểm tra" : "Retry once after inspection"}</Button>
+                                    </form> : null}
+                                </div>
+                                : ["PENDING", "READY", "RUNNING"].includes(item.formalAttemptJobStatus ?? "") ? <p className="text-meta text-ink-muted mt-3">{locale === "vi" ? "Đang xếp hàng/chạy kiểm chứng hình thức…" : "Formal check queued/running…"}</p>
+                                : canRequest && queueEnabled && codexMode && getEnv().MATH_FORMAL_LEAN_IMAGE === PILOT_LEAN_IMAGE &&
+                                  ["AWAITING_REVIEW", "APPROVED"].includes(item.researchRun.status) ?
+                                  <form action={requestMathPilotFormalAttemptAction} className="mt-4">
+                                    <input type="hidden" name="slug" value={workspaceSlug} />
+                                    <input type="hidden" name="caseId" value={item.id} />
+                                    <Button type="submit" variant="secondary">{locale === "vi" ? "Thử hình thức hóa và kiểm tra Lean" : "Attempt formalization and Lean check"}</Button>
+                                  </form> : <p className="text-meta text-ink-muted mt-3">{locale === "vi" ? "Pilot Lean chưa được cấu hình hoặc hồ sơ chưa đủ điều kiện." : "Lean pilot is not configured or this case is not eligible."}</p>}
+                            </section>
                           ) : null}
                           <p className="text-meta text-ink-muted mt-3 break-all">SHA-256: {item.researchRun.mathModelAttemptDigest}</p>
                         </div>
@@ -453,10 +741,44 @@ export default async function MathPilotPage({
                                       {agentLedger.disposition === "AI_REVIEWED" ? copy.agentReviewReviewed : copy.agentReviewInconclusive}
                                     </StatusBadge>
                                     <p className="text-meta text-ink-muted mt-2">{copy.conclusion[agentLedger.conclusion]}</p>
+                                    {item.caseType === "BENCHMARK_EXACT" && agentLedger.exactReplay ? (
+                                      <p className="text-meta text-ink-muted mt-2 break-all">
+                                        {copy.exactReplay}: {agentLedger.exactReplay.status} · {agentLedger.exactReplay.reason}
+                                        {agentLedger.exactReplay.image ? ` · ${agentLedger.exactReplay.image}` : ""}
+                                        {agentLedger.exactReplay.observedAnswer ? ` · ${copy.exactObserved}: ${agentLedger.exactReplay.observedAnswer}` : ""}
+                                        {` · SHA-256 ${agentLedger.exactReplay.codeDigest}`}
+                                      </p>
+                                    ) : null}
+                                    {item.caseType === "BENCHMARK_EXACT" && agentLedger.exactInterval ? (
+                                      <div className="border-line bg-surface mt-3 min-w-0 rounded-md border p-3">
+                                        <p className="text-meta text-ink font-semibold">
+                                          {copy.exactInterval}: {agentLedger.exactInterval.status} · {agentLedger.exactInterval.reason}
+                                          {agentLedger.exactInterval.floor ? ` · ⌊10^9 E⌋ = ${agentLedger.exactInterval.floor}` : ""}
+                                        </p>
+                                        <p className="text-meta text-ink-muted mt-1">{copy.exactCaution}</p>
+                                        {agentLedger.exactInterval.lowerScaled && agentLedger.exactInterval.upperScaled ? (
+                                          <details className="text-meta text-ink-muted mt-2 min-w-0">
+                                            <summary className="cursor-pointer">{copy.exactIntervalBounds}</summary>
+                                            <p className="mt-2 break-all font-mono">[{agentLedger.exactInterval.lowerScaled}, {agentLedger.exactInterval.upperScaled}] / 10^80</p>
+                                          </details>
+                                        ) : null}
+                                        <p className="text-meta text-ink-muted mt-2 break-all">
+                                          {copy.exactIntervalSource}: SHA-256 {agentLedger.exactInterval.programDigest}
+                                          {agentLedger.exactInterval.image ? ` · ${agentLedger.exactInterval.image}` : ""}
+                                          {agentLedger.exactInterval.outputDigest ? ` · output SHA-256 ${agentLedger.exactInterval.outputDigest}` : ""}
+                                        </p>
+                                      </div>
+                                    ) : null}
                                     <div className="border-line mt-3 grid gap-3 border-t pt-3">
                                       {agentLedger.reports.map((report) => (
                                         <div key={report.role} className="min-w-0">
                                           <p className="text-meta text-ink font-semibold">{copy.agentRole[report.role]} · {report.verdict}</p>
+                                          {agentLedger.version === 3 ? (
+                                            <p className="text-meta text-ink-muted mt-1 break-all">
+                                              {copy.agentRequestedModel}: {agentLedger.reviewerModels?.find((model) => model.role === report.role)?.requestedModelName}
+                                              {` · ${copy.agentRequestedModelEvidence}`}
+                                            </p>
+                                          ) : null}
                                           <p className="text-meta text-ink-muted mt-1 whitespace-pre-wrap break-words"><MathText text={report.reasoning} /></p>
                                           {report.unresolvedGap ? <p className="text-meta text-danger-700 mt-1 whitespace-pre-wrap break-words"><MathText text={report.unresolvedGap} /></p> : null}
                                         </div>
@@ -638,9 +960,14 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
   const obligations = cycle?.trace ? projectMathProofObligations({ cycleId: cycle.id,
     ledgerDigest: cycle.events.at(-1)?.digest ?? "", trace: cycle.trace }) : [];
   const guided = cycle?.trace?.find((event) => event.phase === "HUMAN_STEERED");
+  const mixedEvidence = cycle?.trace?.find((event) => event.phase === "MIXED_CORE_EVIDENCE")?.evidence;
+  const mixedRefutations = cycle?.trace?.filter((event) => event.phase === "MIXED_CORE_CLAIM_REFUTED") ?? [];
   const seededReplay = cycle?.trace?.find((event) => event.phase === "PRIOR_COUNTEREXAMPLE_REPLAY");
   const gateDossier = cycle?.trace?.find((event) => event.phase === "PRIOR_GATE_DOSSIER");
   const priorFindingEvent = cycle?.trace?.find((event) => event.phase === "PRIOR_FINDINGS");
+  const portfolioEvent = cycle?.trace?.find((event) => event.phase === "PORTFOLIO_PLANNED");
+  const portfolio = portfolioEvent?.phase === "PORTFOLIO_PLANNED" ? portfolioEvent.portfolio : null;
+  const portfolioSummary = cycle?.trace && portfolio ? summarizeMathPortfolio(portfolio, cycle.trace) : [];
   const historicalFindings = history.flatMap((previous) => {
     if (!previous.trace) return [];
     const finding = priorFiniteFindingFromTrace({ cycleId: previous.id,
@@ -670,38 +997,82 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
         <p className="mt-2">{label.unknownNovelty}</p>
         {retrospective ? <p className="mt-2">{label.retrospective}</p> : null}
       </div>
-      {!cycle ? gaps.length && canRequest ? rootContract && hasErdosStrausEquation(rootContract) ? (
-        <MathCycleSteeringForm slug={slug} caseId={caseId} locale={locale} />
-      ) : (
-        <form action={requestMathResearchCycleAction} className="border-line mt-4 flex flex-wrap items-end gap-3 border-t pt-4">
-          <input type="hidden" name="slug" value={slug} />
-          <input type="hidden" name="caseId" value={caseId} />
-          <label className="text-meta text-ink min-w-36 flex-1 font-medium">{label.rounds}
-            <select name="maxRounds" defaultValue="2" className={inputClass}>
-              <option value="1">1</option><option value="2">2</option>
-            </select>
-          </label>
-          <label className="text-meta text-ink min-w-40 flex-1 font-medium">{label.tokens}
-            <select name="maxObservedTokens" defaultValue="60000" className={inputClass}>
-              <option value="20000">20,000</option><option value="60000">60,000</option><option value="120000">120,000</option><option value="200000">200,000</option>
-            </select>
-          </label>
-          <Button type="submit" className="self-end">{label.start}</Button>
-          <p className="text-meta text-ink-muted w-full">{label.externalDiscovery}</p>
-        </form>
-      ) : <p className="text-meta text-ink-muted mt-3">{label.noGap}</p> : (
+      {!cycle ? gaps.length && canRequest ? <>
+        <MathPortfolioLaunchForm slug={slug} caseId={caseId} locale={locale} />
+        {rootContract && hasErdosStrausEquation(rootContract) ? <details className="border-line mt-4 rounded-md border p-3 sm:p-4">
+          <summary className="text-meta text-ink cursor-pointer font-semibold">{vi
+            ? "Hoặc: định hướng một vòng bằng cửa A do người chọn"
+            : "Alternatively: steer one round with a human-selected A gate"}</summary>
+          <p className="text-meta text-ink-muted mt-2">{vi
+            ? "Đây là chế độ thay thế, không chạy đồng thời với portfolio tự trị; đợt đã niêm phong không thể chuyển chế độ."
+            : "This is an alternative mode, not concurrent with the autonomous portfolio; a sealed campaign cannot switch modes."}</p>
+          <MathCycleSteeringForm slug={slug} caseId={caseId} locale={locale} />
+        </details> : null}
+      </> : <p className="text-meta text-ink-muted mt-3">{label.noGap}</p> : (
         <>
           <dl className="border-line text-meta mt-4 grid gap-3 border-y py-3 sm:grid-cols-3">
             <div><dt className="text-ink-muted">{label.limit}</dt><dd className="text-ink font-medium">{cycle.completedRounds}/{cycle.maxRounds} {label.rounds.toLowerCase()} · {cycle.callsStarted}/{cycle.maxCalls} {label.calls}</dd></div>
             <div><dt className="text-ink-muted">{label.tokens}</dt><dd className="text-ink font-medium">{cycle.observedTokens.toLocaleString(locale)} / {cycle.maxObservedTokens.toLocaleString(locale)} {label.used}</dd></div>
             <div><dt className="text-ink-muted">{label.time}</dt><dd className="text-ink font-medium">{cycle.deadlineAt.toLocaleString(locale)}</dd></div>
           </dl>
+          {portfolio ? <section className="border-line mt-4 rounded-md border p-3 sm:p-4"
+            aria-label={vi ? "Danh mục nhánh nghiên cứu" : "Research branch portfolio"}>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <h6 className="text-meta text-ink font-semibold">{vi ? "Danh mục nhánh nghiên cứu" : "Research branch portfolio"}</h6>
+                <p className="text-meta text-ink-muted mt-1">{vi
+                  ? "Planner đề xuất tối đa 3 hướng; bộ điều phối chạy tối đa 2 vòng. Nhánh chưa chạy không phải kết quả âm tính."
+                  : "The planner proposes up to 3 lines; the scheduler runs at most 2 rounds. An unrun branch is not a negative result."}</p>
+              </div>
+              <span className="text-meta text-ink-muted">{portfolio.branches.length} {vi ? "nhánh" : "branches"}</span>
+            </div>
+            <ol className="mt-3 grid gap-3 lg:grid-cols-2">{portfolio.branches.map((branch, index) => {
+              const selected = cycle.trace?.find((event) => event.phase === "BRANCH_SELECTED" &&
+                event.branchId === branch.branchId);
+              const summary = portfolioSummary.find((item) => item.branchId === branch.branchId);
+              const state = selected && summary?.state === "NOT_RUN" ? "RUNNING" : summary?.state ?? "NOT_RUN";
+              return <li key={branch.branchId} className="border-line bg-surface min-w-0 rounded-md border p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-meta text-ink font-semibold">{index + 1}. {branch.strategy.replaceAll("_", " ")}</p>
+                  <StatusBadge tone={state === "FAILED" ? "danger" : state === "AI_REVIEWED" ? "success" : "neutral"}>
+                    {state === "NOT_RUN" ? (vi ? "Chưa chạy" : "Not run") : state}
+                  </StatusBadge>
+                </div>
+                <p className="text-meta text-ink-muted mt-2"><MathText text={branch.proposal.hypothesis} /></p>
+                <p className="text-meta text-ink-muted mt-2">{vi ? "Phép bác bỏ dự kiến" : "Anticipated falsifier"}: <MathText text={branch.anticipatedFalsifier} /></p>
+                <p className="text-meta text-ink-muted mt-2">{vi ? "Công cụ" : "Tools"}: {branch.toolNeeds.join(", ") || (vi ? "Không" : "None")}
+                  {` · ≤${branch.maxObservedTokens.toLocaleString(locale)} ${vi ? "token quan sát" : "observed tokens"}`}
+                  {` · ≤${Math.floor(branch.maxWallSeconds / 60)} ${vi ? "phút trước lượt kế" : "minutes before next call"}`}</p>
+                {summary && summary.state !== "NOT_RUN" ? <p className="text-meta text-ink-muted mt-1">{vi ? "Lý do" : "Reason"}: {summary.reason}</p> : null}
+                {branch.parentObligationIds.length ? <p className="text-meta text-ink-muted mt-2 break-all">
+                  {vi ? "Nghĩa vụ gốc" : "Parent obligations"}: {branch.parentObligationIds.map((id) => id.slice(0, 12)).join(", ")}</p> : null}
+              </li>;
+            })}</ol>
+            <p className="text-meta text-ink-muted mt-3 break-all">SHA-256: {portfolio.portfolioDigest}</p>
+          </section> : null}
           {guided ? <div className="border-line text-meta text-ink-muted mt-3 rounded-md border p-3">
               <p className="text-ink font-medium">{vi ? "Chỉ thị người dùng đã xác nhận" : "Human-confirmed research directive"}</p>
               <p className="mt-1">{guided.steering.focus} · A={guided.steering.targetA}</p>
               {guided.steering.note ? <p className="mt-1 whitespace-pre-wrap break-words"><MathText text={guided.steering.note} /></p> : null}
               <p className="mt-1 break-all">SHA-256: {guided.steeringDigest}</p>
             </div> : null}
+          {mixedEvidence ? <details className="border-line text-meta text-ink-muted mt-3 min-w-0 rounded-md border p-3">
+              <summary className="text-ink cursor-pointer font-medium">{vi ? "Chứng chỉ core hỗn hợp trước planner" : "Mixed-core evidence before planning"} · {mixedEvidence.replay.status}</summary>
+              <p className="mt-2">{vi ? "Dữ liệu được lưu trong sổ sự kiện của đợt này, gắn với hợp đồng gốc và phát lại bằng Python độc lập. Không phải bản xem trước của workbench." : "Retained in this cycle's event ledger, bound to the root contract and independently Python-replayed. Not a workbench preview."}</p>
+              <ul className="mt-2 space-y-1">{mixedEvidence.packet.certificates.map((c) => <li key={c.p}>
+                p={c.p.toLocaleString(locale)} · {vi ? "core tối thiểu trong họ chuẩn hóa" : "minimum support in the normalized family"}: {c.minimumSupport ?? "?"}
+                {` · ${c.singleCore.candidatesChecked} ${vi ? "ứng viên một-core đã kiểm" : "single-core candidates checked"}`}
+              </li>)}</ul>
+              <p className="mt-2"><MathText text={vi ? "Phản ví dụ occupancy: $m=1224$, $s=4895$; $105-12=93$ là cận trên, nhưng chỉ có $92$ lớp tỷ số." : "Occupancy counterexample: $m=1224$, $s=4895$; $105-12=93$ is an upper bound, but there are only $92$ ratio classes."} /></p>
+              <p className="mt-2">{vi ? "Loại trừ một-core dùng kiểm tra hữu hạn và lập luận đuôi viết tay. Chưa kiểm chứng hình thức, tính mới hoặc giải bài toán gốc. Chốt typed chỉ nhận diện hai ID mệnh đề; nội dung diễn đạt khác vẫn cần phản biện." : "Single-core exclusion uses finite checks plus a written tail argument. No formal verification, novelty or root solution. The typed gate recognizes only two claim IDs; other prose still needs review."}</p>
+              {mixedRefutations.map((event) => <p key={`${event.round}-${event.claim}`} className="text-danger-700 mt-2 break-words">{vi ? "Mệnh đề đã bị chặn trước solver" : "Claim blocked before solver"} · {event.claim} · {vi ? "vòng" : "round"} {event.round}</p>)}
+              <dl className="mt-3 space-y-1 break-all">
+                <div><dt className="inline">Root SHA-256: </dt><dd className="inline">{mixedEvidence.rootContractDigest}</dd></div>
+                <div><dt className="inline">Evidence SHA-256: </dt><dd className="inline">{mixedEvidence.evidenceDigest}</dd></div>
+                <div><dt className="inline">Python SHA-256: </dt><dd className="inline">{mixedEvidence.replay.scriptDigest}</dd></div>
+                <div><dt className="inline">Output SHA-256: </dt><dd className="inline">{mixedEvidence.replay.outputDigest ?? "n/a"}</dd></div>
+              </dl>
+            </details> : <p className="text-meta text-ink-muted mt-3">{vi ? "Đợt này chưa lưu chứng chỉ core hỗn hợp. Không bổ sung chứng cứ mới vào lịch sử cũ; đợt Erdős–Straus mới sẽ phát lại trước planner." : "No mixed-core evidence retained for this cycle. Historical records are not retroactively rewritten; a new Erdős–Straus cycle replays it before planning."}</p>}
           {seededReplay?.phase === "PRIOR_COUNTEREXAMPLE_REPLAY" ? <details className="border-line text-meta text-ink-muted mt-3 rounded-md border p-3">
               <summary className="text-ink cursor-pointer font-medium">{vi ? "Chứng chỉ phản ví dụ trước planner" : "Counterexample replay before planning"} · {seededReplay.report.status} · p={seededReplay.candidate.prime.toLocaleString(locale)} · A≤{seededReplay.candidate.failedThroughA}</summary>
               <p className="mt-2">{vi ? "Kiểm bằng hai chương trình riêng trước cuộc gọi AI đầu tiên." : "Checked by two separate programs before the first AI call."}</p>
@@ -947,7 +1318,9 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
                     <p className="mt-2">{vi ? "Chỉ chứng minh đồng nhất thức trên cấp số được ghi. Giới hạn A/mẫu số đầu của bài toán gốc, toàn bộ lớp còn sót lại và tính mới cần kiểm riêng." : "Only the identity on this progression is checked. Root-specific A/first-denominator bounds, the full residual class and novelty need separate checks."}</p>
                   </details> : null}
                   {reviewed.map((event) => event.phase === "REVIEWED" ? <p key={event.role} className="text-meta text-ink-muted mt-2 whitespace-pre-wrap break-words">
-                    <span className="text-ink font-medium">{label.review} · {event.role} · {event.report.verdict}:</span> <MathText text={event.report.reasoning} />
+                    <span className="text-ink font-medium">{label.review} · {event.role} · {event.report.verdict}:</span>
+                    {event.reviewerModel ? ` ${vi ? "Mô hình yêu cầu" : "Requested model"}: ${event.reviewerModel.requestedModelName} (${vi ? "theo cấu hình CLI" : "CLI setting only"}). ` : " "}
+                    <MathText text={event.report.reasoning} />
                     {event.report.unresolvedGap ? <> · <MathText text={event.report.unresolvedGap} /></> : ""}
                   </p> : null)}
                 </li>;
@@ -993,6 +1366,34 @@ function MathCycleDesk({ cycle, history, locale, canRequest, slug, caseId, rootC
       <p className="text-meta text-ink-muted border-line mt-4 border-t pt-3">{label.caution}</p>
     </section>
   );
+}
+
+function MathPortfolioLaunchForm({ slug, caseId, locale }: {
+  slug: string; caseId: string; locale: "vi" | "en";
+}) {
+  const vi = locale === "vi";
+  return <form action={requestMathResearchCycleAction} className="border-line mt-4 flex flex-wrap items-end gap-3 border-t pt-4">
+    <input type="hidden" name="slug" value={slug} />
+    <input type="hidden" name="caseId" value={caseId} />
+    <p className="text-meta text-ink w-full font-semibold">{vi ? "Portfolio nghiên cứu tự trị" : "Autonomous research portfolio"}</p>
+    <p className="text-meta text-ink-muted w-full">{vi
+      ? "AI lập tối đa 3 hướng từ khoảng trống phản biện; bộ điều phối chọn tối đa 2 vòng và ghi rõ nhánh chưa chạy. Giới hạn được kiểm trước từng lượt gọi, không cắt ngang lượt đang chạy."
+      : "AI plans up to 3 lines from review gaps; the scheduler selects at most 2 rounds and records unrun lines. Limits are checked before each call, not mid-call."}</p>
+    <label className="text-meta text-ink min-w-36 flex-1 font-medium">{vi ? "Số vòng tối đa" : "Maximum rounds"}
+      <select name="maxRounds" defaultValue="2" className={inputClass}>
+        <option value="1">1</option><option value="2">2</option>
+      </select>
+    </label>
+    <label className="text-meta text-ink min-w-40 flex-1 font-medium">{vi ? "Ngưỡng token quan sát" : "Observed token threshold"}
+      <select name="maxObservedTokens" defaultValue="60000" className={inputClass}>
+        <option value="20000">20,000</option><option value="60000">60,000</option><option value="120000">120,000</option><option value="200000">200,000</option>
+      </select>
+    </label>
+    <Button type="submit" className="self-end">{vi ? "Khởi động portfolio" : "Start portfolio"}</Button>
+    <p className="text-meta text-ink-muted w-full">{vi
+      ? "Codex local dùng phiên đăng nhập ChatGPT, không gọi API trả phí. Kết quả AI không tự xác nhận định lý hoặc tính mới."
+      : "Local Codex uses the ChatGPT login, not a paid API. AI output does not certify a theorem or novelty."}</p>
+  </form>;
 }
 
 function MathCycleSteeringForm({ slug, caseId, locale, repeat = false }: {

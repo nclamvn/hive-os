@@ -12,6 +12,7 @@ import {
   type ResearchRequest,
 } from "../contracts";
 import { ResearchSandboxError } from "../errors";
+import { splitExactBenchmarkArgument } from "../math-tex";
 
 const CODEX_MODEL = "gpt-6-sol";
 const OUTPUT_LIMIT = 1_048_576;
@@ -62,6 +63,29 @@ const benchmarkOutputJsonSchema = {
   required: ["attemptType", "argument", "candidateCounterexample", "selfChecks", "limitations"],
   additionalProperties: false,
 } as const;
+
+const exactBenchmarkOutputJsonSchema = {
+  type: "object",
+  properties: {
+    ...benchmarkOutputJsonSchema.properties,
+    exactAnswer: { type: ["string", "null"] },
+    computationPython: { type: ["string", "null"] },
+  },
+  required: [...benchmarkOutputJsonSchema.required, "exactAnswer", "computationPython"],
+  additionalProperties: false,
+} as const;
+
+/** Preserve the model's original argument while recovering code it put there
+ * despite the structured field. The origin is sealed alongside the code. */
+export function normalizeExactBenchmarkOutput(output: z.infer<typeof modelOutputSchema>) {
+  if (output.computationPython) {
+    return { ...output, computationOrigin: "MODEL_FIELD" as const };
+  }
+  const embeddedCode = splitExactBenchmarkArgument(output.argument).embeddedCode;
+  if (!embeddedCode || embeddedCode.length > 12_000) return output;
+  return { ...output, computationPython: embeddedCode,
+    computationOrigin: "EXTRACTED_FROM_ARGUMENT" as const };
+}
 
 interface CodexEvent {
   type?: string;
@@ -192,15 +216,22 @@ export class CodexLocalMathProvider implements ResearchProvider {
         throw new ResearchSandboxError("INVALID_TRANSITION", "Local Codex must use ChatGPT subscription sign-in, not an API key");
       }
       const schemaPath = join(directory, "result.schema.json");
-      await writeFile(schemaPath, JSON.stringify(input.mathPilot?.caseType === "BENCHMARK_PROOF"
+      await writeFile(schemaPath, JSON.stringify(input.mathPilot?.caseType === "BENCHMARK_EXACT"
+        ? exactBenchmarkOutputJsonSchema : input.mathPilot?.caseType === "BENCHMARK_PROOF"
         ? benchmarkOutputJsonSchema : outputJsonSchema), { mode: 0o600 });
       const prompt = [
         "You are testing a local mathematics-research workflow, not certifying a theorem.",
-        "Do not use tools, shell commands, web search, local files or external sources.",
+        input.mathPilot?.caseType === "BENCHMARK_EXACT"
+          ? "You may use only local Python arithmetic through a shell tool in this empty read-only sandbox. Do not browse, read files, inspect the host, or use external sources. Keep computation bounded and stdlib-only."
+          : "Do not use tools, shell commands, web search, local files or external sources.",
         "Work only from the following exact statement and definitions. Do not silently alter the quantifiers or domain.",
         "Return a proof attempt, a concrete counterexample attempt, partial progress, or an explicit inconclusive result.",
         "Check every algebraic step or candidate against the stated definitions. List remaining limitations.",
-        ...(input.mathPilot?.caseType === "BENCHMARK_PROOF" ? [] : [
+        ...(input.mathPilot?.caseType === "BENCHMARK_EXACT" ? [
+          "For this exact-answer public sample, set exactAnswer to the computed nonnegative decimal integer, or null if unresolved. Set computationPython to a self-contained Python 3 stdlib-only program defining answer() that returns the integer, or null if unresolved. The worker separately replays the code in a networkless resource-capped container. Include your mathematical derivation and numerical error control in argument; do not hard-code a published answer.",
+          "If you develop any executable code, put its complete source in computationPython even when you cannot execute it yourself or exactAnswer remains null. Never leave code only inside argument. Try running answer() with the local shell before responding; if execution is unavailable, say so accurately and submit the code for independent replay.",
+          "Do not confuse a matching integer with a verified derivation or a blind benchmark score.",
+        ] : input.mathPilot?.caseType === "BENCHMARK_PROOF" ? [] : [
           "If scope contains a bounded exact-computation record, use only its declared finite domain. A failure within a bounded A-family refutes that auxiliary bound, not the general Erdős–Straus conjecture; a zero-failure finite scan never proves an infinite statement.",
           "For an Erdős–Straus task, place up to four concrete (n,x,y,z) positive-integer decompositions in erdosStrausWitnesses as decimal strings. Use [] if none; never invent a tuple. These are checked independently by exact integer arithmetic after your response.",
           "For a genuine infinite-family task, you may supply up to two erdosStrausPolynomialFamilies. Each array lists coefficients from constant to highest power of t for n(t),x(t),y(t),z(t), with nonnegative decimal-integer coefficients, n(t) affine, t>=0. Supply [] unless you can show n(t) is a primitive progression 1 mod 840, denominators stay positive, and 4xyz=n(xy+xz+yz) is a polynomial identity. A checked family covers only that progression; it is not a proof of the full conjecture or novelty.",
@@ -215,11 +246,13 @@ export class CodexLocalMathProvider implements ResearchProvider {
         "--output-schema", schemaPath, "-C", directory, "-",
       ], directory, prompt);
       const parsed = parseCodexEvents(output);
+      const normalizedOutput = input.mathPilot?.caseType === "BENCHMARK_EXACT"
+        ? normalizeExactBenchmarkOutput(parsed.output) : parsed.output;
       const mathAttempt = mathModelAttemptSchema.parse({
         providerName: this.providerName,
         modelName: this.modelName,
         threadId: parsed.threadId,
-        ...parsed.output,
+        ...normalizedOutput,
         usage: {
           inputTokens: parsed.usage.input_tokens,
           cachedInputTokens: parsed.usage.cached_input_tokens,

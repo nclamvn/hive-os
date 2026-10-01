@@ -14,6 +14,7 @@ import {
   type SandboxExecutor,
 } from "./contracts";
 import { ResearchSandboxError } from "./errors";
+import { digestMathPilotContract, mathPilotContractSchema, type MathPilotRequest } from "./math-pilot";
 import {
   digestResearchResult,
   validateResearchProviderResult,
@@ -80,7 +81,7 @@ export async function executeResearchJob(
     if (typeof payload.runId !== "string") throw new ResearchSandboxError("INVALID_INPUT", "Research job payload is invalid");
     const run = await tx.researchRun.findFirst({
       where: { id: payload.runId, organizationId: input.organizationId },
-      include: { mathPilotCase: { select: { id: true } } },
+      include: { mathPilotCase: { select: { id: true, caseType: true, contract: true, contractDigest: true } } },
     });
     if (!run) throw new ResearchSandboxError("NOT_FOUND", "Research run not found");
     const expectedJobType = run.providerName === "codex-local" && run.mathPilotCase
@@ -98,6 +99,21 @@ export async function executeResearchJob(
   });
 
   try {
+    const mathPilot: MathPilotRequest | undefined = loaded.run.mathPilotCase
+      ? (() => {
+          const pilotCase = loaded.run.mathPilotCase;
+          const contract = mathPilotContractSchema.safeParse(pilotCase.contract);
+          if (!contract.success || contract.data.caseType !== pilotCase.caseType ||
+            digestMathPilotContract(contract.data) !== pilotCase.contractDigest) {
+            throw new ResearchSandboxError("INTEGRITY_FAILURE", "Sealed math case contract is invalid before provider dispatch");
+          }
+          return contract.data.caseType === "OPEN"
+            ? { caseType: "OPEN", statement: contract.data.statement, definitions: contract.data.definitions,
+                assumptions: contract.data.assumptions, falsificationCriterion: contract.data.falsificationCriterion,
+                successCriterion: contract.data.successCriterion, exclusions: contract.data.exclusions }
+            : { caseType: contract.data.caseType };
+        })()
+      : undefined;
     if (loaded.alreadyComplete) {
       const existingUsage = researchProviderUsageSchema.safeParse(loaded.run.providerUsage);
       return completeJob({
@@ -151,6 +167,7 @@ export async function executeResearchJob(
         modelName: loaded.run.modelName,
         sourcePolicy,
         queryPlan,
+        ...(mathPilot ? { mathPilot } : {}),
       }),
       { providerName: loaded.run.providerName, modelName: loaded.run.modelName, sourcePolicy },
     );

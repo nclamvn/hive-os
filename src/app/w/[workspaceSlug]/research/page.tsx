@@ -31,7 +31,7 @@ import {
   listComputationRuns,
   listResearchRuns,
   listResearchTargets,
-} from "@/modules/research-sandbox";
+} from "@/modules/research-sandbox/kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 
 export const dynamic = "force-dynamic";
