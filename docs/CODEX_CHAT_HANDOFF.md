@@ -2747,3 +2747,266 @@ fingerprints instead of silently rewriting prior pinned implementations or
 their reports. This delivery therefore does NOT claim zero staged whitespace
 warnings. No private-key/API-token pattern was found in the80-file candidate
 set; that bounded pattern scan is not a comprehensive security certification.
+
+## 2026-10-02 — TIP-042 exact occupied-half density accepted locally
+
+Owner requested “tiếp tục một chiến dịch công phá bài toán”. AGENTS/handoff,
+complete Vibecode Kit v6.2 and QA/TIP-report instructions read. Separate primary
+and replay Builders, skeptical context and Contractor acceptance; no Main
+product coding. Standalone bounded research only, not autonomous/publication
+promotion. HEAD/origin remainsd18aac215ce94e68a01ecce4a2d141f8cc42549e on
+codex/tip-023a-organization-graph. No commit/push this turn. Existing dirty
+screenshots, workspace YAML and Python cache preserved.
+
+Frozen contract8f633bc61a0c5a14127bd02418d1039b238660bdd74badbf246861f6d59ea402
+added to current manifest before BUILD. Exactly all191 TIP-041 rows/order,
+unchanged35 baseline certificates/mechanisms. ALL191 are now EXPOSED development;
+PRIMALITY_ONLY_120 is historical provenance, not held-out benchmark status.
+Prior P1_h79 occupancy87>78 was disclosed hypothesis evidence, not new discovery.
+Pre-outcome L2 wire clarification: inherited density allocation0/0/0 N/A;
+embedded original allocation untouched. No outcome-driven policy/input/cap tuning.
+
+New occupied-density.ts/audit.ts/check.ts/replay.ts/replay.py and two tests
+add standard strict pigeonhole counting in the SAME full quotientQ=U(m)/K.
+Distinct complete original half images on disjoint unused support satisfy
+|SA|+|SB|>|Q|. Scan original ascending masks, stop first sufficient split,
+then first numeric canonical A match with target/B coset. Actual residues
+require an already paid K correction. Sum A/B/J vectors and invert only the
+whole vector; recheck uvk=T,u+v=mA,gcd,valuation bounds, strict sorted tuple,
+exact4xyz=p(xy+xz+yz) and two p-divisible denominators. Not massN/energyL,
+smaller generated group, CRT projections, reused support or direct truth routing.
+NOT_CERTIFIED is sufficient-test failure, not MISS/exclusion/minimum witness.
+
+A and B BOTH completed191 new method rows; Contractor directly compared ALL
+inputs/newrows/summary/embedded baseline rows from fresh independently executed
+source bytes. Only after complete agreement did Main explicitly open truth/
+comparison, including S. S's own complete method oracle remained private until
+that checkpoint. No early truth/comparison deviation in042. Subsequent collector
+hardening and test-fixture refinement changed no scientific decisions.
+
+Total191:35INHERITED,8DENSITY,148NOT_CERTIFIED. Original71:4/1/66;
+historicalnew120:31/7/82. Independent retrospective truth old11hits/60misses,
+new63hits/57misses. Zero lost/false certificates, all117misses uncertified.
+Known-hit recovery35/74=47.30%→43/74=58.11%, still31 known hits uncertified.
+GainsP1_h79,N2_h83,N3_h47,N4_h47,N5_h23,N5_h47,N5_h71,N6_h83.
+P1_h79's firstmask1 actuallyuses5+74>78, not prior max87. Its witness
+(u,v,k,A)=(1,6161,8140,78), strict tuple
+(50150540,127366273268520,784703609607351720). All8 new outputs use trivial
+K lift1; proof-only nonidentityK control is not an extra campaign root.
+Six old known hits remainP0_h103,P2_h19,P2_h31,P2_h79,P3_h71,P3_h103;
+25additional known-hit failures and all exact gained tuples listed in Main report.
+
+Main independently trial-checked all191 domain/factors and full coprime divisor
+pairs after checkpoint:24618pairs/1891054work/1460ms including freshTS,
+truthrecords90228ef75a5034411705cfa5463080b1716547149a5d6c53c8e942bc24b4cbaf.
+S own complete method oracle and independently reconstructed truth agree;
+truth27936pairs/311197work/53.534ms. B separate truth100328pairs/2886323work/
+5235states/505ms also agrees. Counters differ by enumeration, not equal-work
+performance, model throughput or benchmark accuracy.
+
+Stable new content e9fcbee161256e09693a27100aee3571a785376155cf0ddd4de5c3ea9b24056b,
+rows0ebd2ae6ea4bcb6271b313f34fa45424976425f8e2621c9ff59d87286d2a8ab5.
+Unchanged basecontent4d00cb143ae028bcda5f636df617c049ed4d006bcd54bed3f585c1c58e048347,
+baserows e51794b81610642e49920bd9016835891f046d909de7a00ecdd0da61e52c5bee.
+Final Python04a1f3b1a7a47ee2e97856dbc4595abb21e3f92bacd684e929c81f6ebdf46b1b;
+Main actual verified-byte freshPASS2159ms, receipt diagnostic fingerprint
+2695f6ed2504ab1dc309686cac82bbfa06e648c4e8333a23240e49d59f9a9221.
+Python862ms/21896states/2510239work/95791pairs/2950526bytes;
+primary943ms/34908states/347017work/0pairs/2950495bytes.
+Main finalCLI exit0 COMPLETE1045ms/2950496packetbytes plus newline, same science.
+
+One shared outer60s/2Mstates/50Mwork/50Mpairs/191campaignrows/8MiB, starting
+before source/load/base work through density and observed finalization. Baseline
+actual lower declarations and counters retained, never silently relabeled.
+Pinned Python dependency executes SAME verified bytes in an inert namespace,
+reusing one trusted Budget instance. Immutable checker declares separate50M
+ceiling plus shared observed deadline, not fabricated producer ticks.
+AtomicBASELINE/ROW/FINALIZE; incomplete base never authorizes density.
+Output removes ordered suffix or explicitly omits too-large base with no rows/
+certificates. PARTIAL neverPASS. Known COMPLETE base fingerprints reject
+coherent histogram/image forgeries; no weakened scopedPASS manufactured.
+Main19 effective rehashed faults reject, six actual lower-cap prefixes validate
+asPARTIAL/nonPASS. Coherent additional-work underreport can remain locally
+consistent: source/runtime claims are trusted collector evidence, not signed
+CPU/interpreter/executable attestation. Cached TS loading and PATHPython remain
+local trust; synchronous timing is not universal hard preemption. Optional
+caller receipt-digest hashing is after return/outside wrapper elapsed/admission.
+No real mathematical contradiction observed; only bounded synthetic controls.
+
+Repairs disclosed: finite Python cap domain, actual tighter final stdout and
+bounded diagnostic limits, TS mid-base timeout canonical BASELINE_PARTIAL with
+exact embeddedTIME_LIMIT, refreshed partial output-trimming elapsed, no-op
+zero-half/lift fixtures and recursive spy harness. Prefreeze source drift
+correctly preventedPASS. Unintended pnpm auto-install interruptedexit130 after
+moving31 npm-managed packages; exact31 restored to missing paths/no overwrite,
+trackedlockfiles unchanged. Generated cache preserved at
+/private/tmp/hiveos-tip042-pnpm-recovery-9a7qzV/pnpm-store. No dependency change
+accepted; final checks use direct existing Node runners.
+
+First Mainwholeunit788/789,104/105files,65.20s,start09:25:32+07 failed only
+synthetic trimming fixture's unchanged30s timeout (30521ms). Near-final cap
+fixture now forces only a small suffix removal, still validates actual shorter
+prefix/OUTPUT_LIMIT/1500ms elapsed; no production or timeout/cap widening.
+A final22/22 PASS13.17s; B13/13 PASS54.38s; S original35/35 plus final revised
+namedcase1/1 PASS7.33s, not36 unique tests. MainFINAL789/789,105/105files,
+66.63s,start09:28:29+07; final type/full-lint/six-owned-lint exit0.
+35new unique tests. All42 old source/test pins and84manifest entries preserved;
+seven new pins in Main report. Founding unchanged. Tracked/new13file whitespace
+clean and3display KaTeX formulas parse; no UI-rendering/build/DB/liveAPI/agent
+E2E claim. S final5/5 PASS_WITH_SCOPE_LIMITS, report
+b7ceef00aa6cd8517c1cdf46ee16520c8865ad31f1348d830c634fd756625dae.
+MainREADY_WITH_DEFERRED5/5, missing0 within bounded slice, not full research.
+
+Separate Owner request “cho tôi link UI” restored existing demo127.0.0.1:3001,
+RESEARCH_CODEX_LOCAL_ENABLED=true,MATH_PILOT_QUEUE_ENABLED=false. Sandbox
+listenEPERM retried with approved local-server permission; Ready, signinGET200,
+unauthenticated caseGET307signin. Port3000 unrelated Docker listener untouched.
+No worker/API/provisioner or authenticated browserE2E; no case/history writes.
+Server remains running for Owner. TIP042 results are NOT integrated into UI.
+Case URL is /w/mathematics-pilot-lab-156de0/research/math-pilot with missionId
+31943653-4a30-462a-af11-ecd99f9ebfa2,caseId9cc36477-fb4a-4630-849f-e080dd1079ae.
+
+Next justified mathematical obligation: preregister a general factor-supply/
+image-occupancy root bridge or different constructive mechanism, independently
+seek counterexamples and review proof/literature; exposed finite recovery is
+not novelty. Six broader gates remain: unbounded root supply; prior-art/novelty
+acceptance; formal/external review; governed tool/UI/agent admission;
+uncontaminated equal-budget live-model comparison; productE2E/integration.
+Withdrawn arXiv2609.09204v2 excluded as authority; status screen not novelty
+clearance. Original Erdős242 remainsNOT_ESTABLISHED.
+
+Contract:TIP-042_OCCUPIED_HALF_DENSITY.
+Research:MATH_PILOT_OCCUPIED_HALF_DENSITY_2026-10-02
+(SHAba8ba1c3cd5a032079fffb2d4db7938928bdd685b577a02aff8d230925d912e8).
+Verify:TIP-042_OCCUPIED_HALF_DENSITY_VERIFY_REPORT
+(SHA0a09b0593fead10120ad979d53f5de3af7db0622064e60c15df32e63ec3b9244).
+
+## 2026-10-02 — TIP-043 root-coupled inert supply accepted locally
+
+Owner requested “tiếp tục công phá”. Read AGENTS/handoff and complete Vibecode
+Kit/QA/TIP instructions before changes; PDF skill before published theorem
+inspection. Skill-required separate primary/replay Builders and skeptical
+context; Contractor Main owns contract,manifest,research,verify,handoff only.
+Same-model contexts/host, not independent-model or external certification.
+No new human checkpoint needed for this reversible bounded local research.
+HEAD/origin unchangedd18aac215ce94e68a01ecce4a2d141f8cc42549e, branch
+codex/tip-023a-organization-graph. No commit/push, provider/API, app/DB history,
+UI, worker/queue or deployment changes. Existing demo server remains separate;
+TIP042/043 outputs are NOT integrated into the browser case. Preserve unrelated
+70 dirty screenshots, pnpm-workspace.yaml, Python cache and all TIP042 files.
+
+Frozen contractafa95e7d3939795128eeeee0307af307411d6b290b40d9e0769840692966bed2
+added to current manifest before BUILD. Exact12 previous roots/order times15
+prime shifts=180 existing rows;11composite rows excluded by theorem domain,
+not outcome. All180 EXPOSED development, no benchmark or holdout. Prior211023
+exploratory abstract controls disclosed hypothesis-only. No outcome-driven
+mathematical predicate/menu/default cap tuning.
+
+General root reciprocity: for primep1mod4, primeh3mod4,h<p,T=(p+h)/4,
+each oddq|T has(q/h)=(p/q); supplementary2character agrees if2|T.
+Residualp1mod840 fixes2,3,5,7split; labels are root-coupled, not independent
+shift randomness. Derived classical eventual supply: leastQNRq isprime,
+Burgess q<=C_epsilon p^.16 plus publishedXylouris progression h=-p mod4q
+exponent5.18 weakened5.2 yieldsh<=Cp^.832<p eventually,q>7|T,(q/h)=-1.
+Banks–Guov1IntroductionEq1.1 and originalpublishedXylourisActaArith150(2011)
+Theorem1.1p66 checked directly by Main/contexts. No explicitC/p0/cutoff,
+finite-root admission, GRH, novelty, totalnegativecharacter or hit follows.
+Withdrawn2609.09204v2 excluded asauthority; no exhaustive novelty clearance.
+
+Exact inverse-direction lemma: generated splitL hasoddorder but isnot paid
+bounded coverage. Allinertcosets in{aL,a^-1L},a smallestinertanchor;d=ord(aL)
+even2mod4,d maybelowambientindex,E=suminertvaluations. Projectedimage
+exacta^[-E,E], target(-1)L=a^(d/2)L;E<d/2exactlocalshiftMISS independent
+ofpaidL. E>=d/2 ANDactualfullsplitcoverage suffices for constructiveHIT.
+FullLcoverage sufficient/notnecessary forparticularcorrection; unpaid/incoherent
+positivebranches remainUNKNOWN. Greedyinertt=d/2 and retainedsplitcorrection
+use disjointsupport; only whole-vector inversion. No freegeneratedLlift,
+duplicatedvaluations, totalcharacter/span=>hit or independentCRTshortcut.
+S3,880abstractprofiles nofalseassertions, notcampaign/benchmark/proof substitute.
+
+StandaloneTS signedDP and independentPython positivecoprimedivisorpairs/
+frontierL/repeatedquotientorder importnopriorproducer/factors/outcomes.
+InitialactualTSCLI failedCJS/top-levelawait whilePythoncomplete; truthgate
+correctlyCLOSED despitepassingAPItests. Asyncwrapper andpositiveCLIregression
+repaired before Mainopenedcheckpoint2026-10-02T02:58:19.974Z afterbothactual
+CLI0COMPLETE180 andall12scientificfields/allrowsdeepagreement. Onlythen
+allfourcontexts ranindependentregisteredfulltruth. Postgate entry/resource
+hardening changednoscientificrows/content. FinalproductionCLIcomparison
+03:04:34.247Z stillall180agree, wrapper711ms;TS112ms/15158states/1603242work/
+307351JSONbytes,Python434ms/9389states/1508663work/307350bytes. Noequalwork
+performance/modelscoreclaim. Runtimeexcludedfromsciencefingerprints.
+
+Stablecontent99aedb00bc75c12ed2de7ee74a175c93c5da1cf9ba171c1107114e1b536da1f2,
+rows e73c247f2ab46d32971a126d04925451db00b3a20c9e5835d83fc07c060d52d0.
+61NO_INERT_LOCAL_MISS +8COHERENT_SHORT_LOCAL_MISS alltruthMISS;
+40COHERENT_PAID_SPLIT_HIT alltruthHIT;68COHERENT_UNPAID_UNKNOWN33hit35miss;
+3INCOHERENT_UNKNOWN1hit2miss. Total74knownhits106misses, all109assertions
+correct;71unknowns retained34hit37miss. All40strictwitnesses independently
+replayeduvk=T,u+v=Ah,coprime/valuation,strictsorted(T,Apuk,Apvk),exact
+4xyz=p(xy+xz+yz), exactlytwo p-divisible. LocalMISS notroot/TypeI/general
+TypeIIexclusion. Mainindependenttruth26380pairs1407729work217ms(inclfreshTS),
+record1b6f36c0d232064256c617de5101bb49b1ac7ef050f7041046e03a3c0cb9527c.
+SeparateB/Struthagree with separatelyschematizedrecords/counters, notsamework.
+
+MainfreshTIP042CLIunchangede9fcbee161256e09693a27100aee3571a785376155cf0ddd4de5c3ea9b24056b.
+Old43certs +newstandalone40 overlap32 →portfolio51/74=68.92% versus43/74=58.11%.
+8additionalSTRUCTURALCERTSforALREADYKNOWNHITS:P2_h19,P3_h71,P6_h47,P6_h79,
+P7_h79,P8_h107,P9_h79,P10_h79. Exact(u,v;k;A):
+(1,10032835;5;528044),(18,202829;9;2857),(9,179;30882;4),
+(94,9623;55;123),(1,49751750;1;629769),(87,127;4503;2),
+(5,226172;44;2863),(10,3229;1541;41),respectively.
+11oldcerts not recovered herepreserved;23knownhits stilluncertifiedbyunion.
+No8newsolutions/rootcoverage/novelty/benchmark/runtimeinheritance/UIclaim.
+
+Perproducer60s180rows2Mstates50Mlogicalwork8MiB,tighterfiniteonly.
+ActualbothCLIlowerrows/state/work/output/timelimits honestatomicPARTIAL;
+19effectivefullyrehashedfaultsfreshsemanticmismatch. Alternativelegalwitness
+canpassarithmeticyetfailregisteredcanonicalwire. Runtimeunderreport remains
+locallytrustedcollectorissue,notsignedCPU/interpreterattestation. Python
+retrospectivetruthseparateboundedpostgenerationphase/trustedchronologyboolean,
+notsealedagentgate. Observedhash/serializationdeadlinecheckpointnothard
+synchronouspreemption. Tiny1e-09vs1e-9reserializationbytechange notproducerbug;
+rawPython1379declared1379. SyntheticINVESTIGATIONnotrealmathrefutation.
+
+Technicalhistoryretained:initialCJSCLI,no-op HITfaulttestfixedclearwitness/
+effective-rehash;directfinitebudgets/timestamps,strictwitness/finalserialization
+hardening. Mainfirstwhole827/82766.51s10:00:41+07 overlappedBresourceedits,
+notfinalsnapshot. Second826/827106files71.69s10:02:34failedonlyexisting5000ms
+outputfixturetimeout; testONLYnarrowedmaxRows4/output4096stillforcesactual
+suffixtrim/checkspending,limits,hashes,exactbytes. No timeout/cap/input/math
+widening. Bfinal13/13PASS5.38s10:06:03;Afinal25/25PASS;Sfocused38/38PASS
+13.39sbeforetestcostrepair. MainFINAL827/827107/107files67.24s10:06:48+07;
+finaltype/fullESLint0. Directinstalledrunners, nodependencyinstall.
+ExistingBetterAuthBaseURLwarning remains; notproductionauth acceptance.
+38uniquenewtests. NoNextbuild/UI/DB/providerE2Ewithinthisslice.
+
+49oldsource/testpinsand85currentmanifestentries verified;currentSHA
+b9122ae134adeda99764c745afce7431bfc41863501252f5fe2615e5a9dbd0ca.
+FoundingSHA2a2dafa24464338de9c60091cd039ea2705537a670ec6b4e49a9b0a196f8c4b4
+exactHEADbytes. Legacyarchivenamespace/missingarchivedoriginalMANIFEST.sha
+notcurrentpathverificationclaim.11newTIP043files/trackedwhitespaceclean;
+priorpinnedwhitespaceuntouched.7displayformulasparseKaTeXtrustfalse,notUIE2E.
+
+Finalnewpins:
+9530d76f180678288909abc55bc2dad53396e695c66fd457c7816d0949db6feb inert-direction.ts
+ebeda98e1720940992eb4013f6e38b9be55f03ca4ce0dfb45e6d85d4a7159510 inert-direction-audit.ts
+323c674c4a720a5b7b53c6f8e01a0d0a8f00e7a8b667d7960258f475c0826257 inert-direction-replay.py
+fe7597762636f2887f54fb9f27d90934f4c9c5797cb687de3ef5cf266ab0df78 inert-direction.test.ts
+2738a54ac9f95459d177b7e1c832e62e70371df3e4091233760b5acf5c2f7c23 inert-direction-replay.test.ts
+
+TIP043MainREADY_WITH_DEFERRED5/5,missing0inboundedscope,S5/5PASS_WITH_SCOPE_LIMITS.
+Research MATH_PILOT_ROOT_COUPLED_INERT_SUPPLY_2026-10-02 SHA
+ca70eb88f7743518aff2d8cfc210ca10fff6e98c4cb9bc98a1cbec740abd869a.
+Main TIP-043_ROOT_COUPLED_INERT_SUPPLY_VERIFY_REPORT SHA
+ad184d6a23eaf14e687a58123c172a5ae0e1bc332f02e10df02aa8737db67a28.
+Acompletion3629b6779d5cc5be99f617b309fef6556b86da9c0a5a606392f7fb0379cb0cce.
+Bcompletion01bff419726a11a13ace17c7f219a57e2909eb4f85f4807c1e0cdbd091ad4f55.
+Sreport035905099b602fde1e33ee62705f28006ff7f389d6811508056fa0be3f4cf7fb.
+
+Nextjustifiedmove: separatelypreregisterrootbridgefromeventualinertsupplyto
+enoughactualvaluation/quotienttargetcoverageandsplitcorrection,orproved
+target-sensitiveexpansion. Directiondiversityaloneinsufficient; no blindmenu
+expansion or classicalcorollarynoveltypromotion. Sixbroadergatesdeferred:
+unboundedroot-supply-to-hit;prior-art/novelty;formal/externalreview;
+governedtool/UI/agentadmission;uncontaminatedequalbudgetlivemodelcomparison;
+productE2E/integration. OriginalErdős242NOT_ESTABLISHED,nobreakthroughclaimed.
