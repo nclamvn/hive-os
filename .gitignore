@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store/
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,6 +16,8 @@
 
 # next.js
 /.next/
+# Reusable QA/build outputs and legacy generated Next folders, never evidence.
+/.next-*/
 /out/
 
 # production
@@ -48,4 +51,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+__pycache__/
+*.py[cod]
 next-env.d.ts

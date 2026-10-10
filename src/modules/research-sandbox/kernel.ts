@@ -14,6 +14,8 @@ import {
 } from "@/modules/identity-workspace";
 import { withOrganizationTenant } from "@/server/tenant-context";
 import { getEnv } from "@/server/env";
+import { requireLrcCampaignCapability } from "./math-lrc-campaign-integration";
+import {frozenMethodUnitFiniteSourcePins} from "./math-method-unit-source-registry";
 
 import {
   requestComputationRunSchema,
@@ -127,6 +129,23 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
   if (!parsed.success) invalid("Research request violates its bounded contract");
   const input = parsed.data;
   const mathContract = input.mathPilot ? resolveMathPilotContract(input.mathPilot) : null;
+  if(mathContract?.lrcMethodUnitScope) {
+    // G1 authorizes offline implementation only. Existing queue flags, a POST,
+    // or caller-created WorkspaceContext must not create prospective live work.
+    throw new ResearchSandboxError("INVALID_TRANSITION","Method-unit dispatch requires a separately approved authenticated G2 ingress");
+  }
+  if (mathContract?.lrcProofUnitScope) {
+    requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+    if (input.providerName !== "codex-local" || input.modelName !== "gpt-6-sol") invalid("Proof-unit audits require the fixed local Codex lane");
+  }
+  if (mathContract?.lrcCampaignScope) {
+    requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+    if(input.providerName !== "codex-local") invalid("Campaign references require the local Codex lane");
+  }
+  if (mathContract?.lrcFiniteScope && (input.providerName !== "codex-local" ||
+    !["development", "test"].includes(process.env.NODE_ENV ?? ""))) {
+    invalid("Finite LRC certificates are local Codex development/test cases only");
+  }
   if (input.providerName === "codex-local" && (!mathContract || !getEnv().RESEARCH_CODEX_LOCAL_ENABLED)) {
     invalid("Local Codex may only run for an explicitly enabled sealed mathematics pilot");
   }
@@ -186,18 +205,22 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
               { OR: mathContract.caseType === "OPEN" || mathContract.caseType === "BENCHMARK_PROOF" || mathContract.caseType === "BENCHMARK_EXACT" ? [
                 { researchRun: { status: { in: ["QUEUED", "RUNNING"] } } },
                 { researchRun: { status: "AWAITING_REVIEW" }, agentReview: { is: null } },
-                { researchRun: { status: { in: ["AWAITING_REVIEW", "APPROVED"] } },
-                  researchCycles: { some: { status: { in: ["QUEUED", "RUNNING"] } } } },
+                ...(mathContract.lrcProofUnitScope ? [{researchCycles:{some:{status:{in:["QUEUED","RUNNING"] as Array<"QUEUED"|"RUNNING">}}}}] :
+                  [{ researchRun: { status: { in: ["AWAITING_REVIEW", "APPROVED"] as Array<"AWAITING_REVIEW"|"APPROVED"> } },
+                    researchCycles: { some: { status: { in: ["QUEUED", "RUNNING"] as Array<"QUEUED"|"RUNNING"> } } } }]),
               ] : [{ researchRun: { status: { in: ["QUEUED", "RUNNING", "AWAITING_REVIEW"] } } }] },
             ],
           },
-          select: { id: true, researchRun: { select: { status: true } }, agentReview: { select: { id: true } } },
+          select: { id: true, researchRun: { select: { status: true } }, agentReview: { select: { id: true } },
+            ...(mathContract.lrcProofUnitScope ? {researchCycles:{where:{status:{in:["QUEUED","RUNNING"] as Array<"QUEUED"|"RUNNING">}},select:{id:true},take:1}} : {}) },
           take: 500,
         });
         if (activeCandidates.length === 500) {
           throw new ResearchSandboxError("INVALID_TRANSITION", "Too many active math cases to safely authorize another run");
         }
         for (const active of activeCandidates) {
+          if(mathContract.lrcProofUnitScope && (active.researchCycles as Array<{id:string}> | undefined)?.length)
+            throw new ResearchSandboxError("INVALID_TRANSITION","An active controlled cycle blocks proof-unit dispatch");
           if (active.researchRun.status === "AWAITING_REVIEW" && !active.agentReview &&
             ["OPEN", "BENCHMARK_PROOF", "BENCHMARK_EXACT"].includes(mathContract.caseType)) {
             const terminalReview = await tx.durableJob.findFirst({
@@ -442,9 +465,11 @@ export async function getApprovedResearchBundle(ctx: WorkspaceContext, runId: st
         }
       } else {
         aiLedger = validateRecordedMathAgentReview({
+          caseId:run.mathPilotCase.id,runId:run.id,
           contract: run.mathPilotCase.contract, contractDigest: run.mathPilotCase.contractDigest,
           attempt: run.mathModelAttempt, attemptDigest: run.mathModelAttemptDigest,
           researchDigest: dossierDigest, review: run.mathPilotCase.agentReview,
+          ...(contract.data.lrcMethodUnitScope?{finiteSourcePins:frozenMethodUnitFiniteSourcePins(),reviewJobId:run.mathPilotCase.agentReview?.jobId??undefined}:{}),
         });
         if (!["AWAITING_REVIEW", "APPROVED"].includes(run.status) || aiLedger?.disposition !== "AI_REVIEWED") {
           throw new ResearchSandboxError("INVALID_TRANSITION", "Math pilot needs a valid AI or human assessment before authoring import");

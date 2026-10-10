@@ -98,6 +98,7 @@ export async function reviewMathPilotResearchAction(formData: FormData) {
 export async function requestMathPilotCaseAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "");
   const caseType = String(formData.get("caseType") ?? "");
+  if(caseType==="LRC_METHOD_UNIT"||formData.has("lrcMethodUnitScope")||formData.has("lrcMethodUnitEvidence")||formData.has("lrcMethodUnitFiniteEvidence"))throw new Error("G2_AUTHORITY_NOT_AUTHORIZED");
   const request = mathPilotRequestSchema.parse(caseType === "OPEN" ? {
     caseType,
     statement: String(formData.get("statement") ?? ""),
@@ -106,7 +107,7 @@ export async function requestMathPilotCaseAction(formData: FormData) {
     falsificationCriterion: String(formData.get("falsificationCriterion") ?? ""),
     successCriterion: String(formData.get("successCriterion") ?? ""),
     exclusions: String(formData.get("exclusions") ?? ""),
-  } : { caseType });
+  } : caseType === "LRC_FINITE" ? { caseType, preset: String(formData.get("preset") ?? "") } : { caseType });
   const contract = resolveMathPilotContract(request);
   const ctx = await resolveWorkspaceContext(await headers(), slug);
   const useLocalCodex = getEnv().RESEARCH_CODEX_LOCAL_ENABLED;
@@ -130,6 +131,14 @@ export async function requestMathPilotCaseAction(formData: FormData) {
       request: "failed",
     }).toString()}`);
   }
+}
+
+/** Prospective session-authenticated ingress; G1 deliberately cannot mint G2. */
+export async function requestLrcMethodUnitCaseAction(formData:FormData){
+  const slug=String(formData.get("slug")??"");
+  await resolveWorkspaceContext(await headers(),slug);
+  const {authorizeProspectiveMethodUnitG2}=await import("@/server/operations/math-method-unit-authority");
+  return authorizeProspectiveMethodUnitG2();
 }
 
 export async function assessMathPilotCaseAction(formData: FormData) {
@@ -210,7 +219,14 @@ export async function requestMathResearchCycleAction(formData: FormData) {
   const missionId = String(formData.get("missionId") ?? "");
   let failure: "cycle-conflict" | "cycle-failed" | null = null;
   try {
+    const commitmentText = formData.get("researchCommitment");
+    if (typeof commitmentText !== "string" || Buffer.byteLength(commitmentText) > 131072 ||
+      formData.get("confirmResearchCommitment") !== "on") throw new ResearchSandboxError("INVALID_INPUT", "Explicit bounded commitment required");
+    let commitmentChoice: unknown;
+    try { commitmentChoice = JSON.parse(commitmentText); }
+    catch { throw new ResearchSandboxError("INVALID_INPUT", "Malformed research commitment"); }
     const outcome = await requestMathResearchCycle(ctx, {
+      commitment: { choice: commitmentChoice, confirmed: true },
       caseId: String(formData.get("caseId") ?? ""),
       maxRounds: Number(formData.get("maxRounds") ?? 1),
       maxObservedTokens: Number(formData.get("maxObservedTokens") ?? 60_000),

@@ -1,0 +1,12 @@
+{
+  "kind": "REQUEST_RESERVED",
+  "atMonotonic": 342318.300218541,
+  "ordinal": 4,
+  "identity": "POLY19_METHOD_ATTEMPT",
+  "remaining": {
+    "seconds": 599.926096250012,
+    "tool_limit": 12,
+    "tool_seconds": 120.0,
+    "trace_cap": 524288
+  }
+}

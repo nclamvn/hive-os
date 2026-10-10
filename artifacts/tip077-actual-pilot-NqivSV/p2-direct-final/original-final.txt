@@ -1,0 +1,55 @@
+**Answer.** The only pair is
+\[
+\boxed{(a,b)=(1,1)}.
+\]
+
+**Proof.** Suppose positive integers \(g,N\) satisfy
+\[
+\gcd(a^n+b,b^n+a)=g\qquad\text{for every integer }n\ge N.
+\]
+Put \(m=ab+1\). Any common divisor of \(a\) and \(m\) divides both \(ab\) and \(ab+1\), hence divides \(1\). Therefore
+\[
+\gcd(a,m)=\gcd(b,m)=1.
+\]
+By Bézout’s identity, both \(a\) and \(b\) have multiplicative inverses modulo \(m\).
+
+There is a positive integer \(t\) such that
+\[
+a^t\equiv b^t\equiv1\pmod m.
+\]
+Indeed, the \(m^2+1\) residue pairs
+\[
+(a^r\bmod m,\ b^r\bmod m),\qquad 0\le r\le m^2,
+\]
+take at most \(m^2\) possible values. By the pigeonhole principle, two coincide, at indices \(i<j\). Cancelling the invertible factors \(a^i\) and \(b^i\) gives the claimed congruences with \(t=j-i\ge1\).
+
+Choose a positive integer \(k\) large enough that \(kt-1\ge N\). Since \(ab\equiv-1\pmod m\),
+\[
+a\bigl(a^{kt-1}+b\bigr)=a^{kt}+ab\equiv1-1=0\pmod m.
+\]
+Cancelling \(a\) gives \(m\mid a^{kt-1}+b\). Likewise,
+\[
+b\bigl(b^{kt-1}+a\bigr)=b^{kt}+ab\equiv0\pmod m,
+\]
+so \(m\mid b^{kt-1}+a\). Thus
+\[
+m\mid\gcd(a^{kt-1}+b,b^{kt-1}+a)=g.
+\]
+
+The hypothesis also applies at exponent \(kt\), so \(g\) divides both \(a^{kt}+b\) and \(b^{kt}+a\). Consequently \(m\) divides both expressions. Reducing modulo \(m\) yields
+\[
+m\mid b+1,\qquad m\mid a+1.
+\]
+Since these are positive integers,
+\[
+ab+1=m\le b+1,\qquad ab+1=m\le a+1.
+\]
+Hence \(ab\le b\) and \(ab\le a\). Dividing by \(b>0\) and \(a>0\), respectively, gives \(a\le1\) and \(b\le1\). Positivity therefore forces \(a=b=1\).
+
+Conversely, when \(a=b=1\),
+\[
+\gcd(1^n+1,1^n+1)=2
+\]
+for every positive integer \(n\). Thus \(g=2\) and \(N=1\) suffice.
+
+**Scope and gaps.** This proves necessity and sufficiency for all positive integer pairs. There are no unresolved gaps or computational assumptions.

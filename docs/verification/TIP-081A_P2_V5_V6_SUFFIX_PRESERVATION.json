@@ -1,0 +1,10 @@
+{
+  "purpose": "P2_V5_V6_EXACT_GRAMMAR_SUFFIX_PRESERVATION",
+  "equal": true,
+  "v5Start": 55702,
+  "v6Start": 58195,
+  "delta": 2493,
+  "suffixUtf16Units": 871721,
+  "imported": false,
+  "milliseconds": 4.785708
+}

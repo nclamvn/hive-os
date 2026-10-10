@@ -1,0 +1,20 @@
+{
+  "verifiedArtifactHashes": 72,
+  "mismatches": [],
+  "eventKinds": [
+    "agent_message",
+    "command_execution"
+  ],
+  "requests": 24,
+  "failedOrCancelled": [],
+  "offeredDeadlineDisclosures": [
+    {
+      "session": "P1_DIRECT_FINAL",
+      "offeredExcessSeconds": 2.5,
+      "actualEndBeforeArmDeadlineSeconds": 397.283
+    }
+  ],
+  "actualArmDeadlinesMet": true,
+  "actualPairDeadlinesMet": true,
+  "currentScope": "INFORMAL_OBSERVATIONAL_NOT_FORMAL_ACCEPTANCE"
+}

@@ -1,0 +1,5 @@
+An infinite positive-integer sequence (a_n) and a positive integer N satisfy:
+for each n>N, a_n is the multiplicity of a_(n-1) among a_1,...,a_(n-1).
+Show that either (a_(2j-1))_(j>=1) or (a_(2j))_(j>=1) is eventually periodic.
+Eventually periodic means b_(m+p)=b_m for every m>=M, for some positive integers
+p,M. Prove this for every allowed initial segment, not just simulated examples.

@@ -1,0 +1,1657 @@
+{
+  "status": "COMPLETE_FINITE",
+  "seconds": 0.0042251250124536455,
+  "result": {
+    "checks_passed": 21,
+    "complete_examples": [
+      {
+        "name": "reducible_control",
+        "result": {
+          "weights": [
+            1,
+            2
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ]
+          ],
+          "bad_vertices": [],
+          "root_admissible": false,
+          "leading_minors": [
+            "1",
+            "1"
+          ],
+          "ldl_pivots": [
+            "1",
+            "1"
+          ],
+          "inverse_diagonal": [
+            "2",
+            "1"
+          ],
+          "complete_box_points": 8,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    1,
+                    1
+                  ],
+                  "b": [
+                    -1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                }
+              ]
+            }
+          ],
+          "irreducible_vertices": [
+            0
+          ]
+        }
+      },
+      {
+        "name": "norm1_control",
+        "result": {
+          "weights": [
+            1
+          ],
+          "edges": [],
+          "bad_vertices": [],
+          "root_admissible": false,
+          "leading_minors": [
+            "1"
+          ],
+          "ldl_pivots": [
+            "1"
+          ],
+          "inverse_diagonal": [
+            "1"
+          ],
+          "complete_box_points": 2,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0
+          ]
+        }
+      },
+      {
+        "name": "norm2_control",
+        "result": {
+          "weights": [
+            2
+          ],
+          "edges": [],
+          "bad_vertices": [],
+          "root_admissible": false,
+          "leading_minors": [
+            "2"
+          ],
+          "ldl_pivots": [
+            "2"
+          ],
+          "inverse_diagonal": [
+            "1/2"
+          ],
+          "complete_box_points": 2,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0
+          ]
+        }
+      },
+      {
+        "name": "A2_control",
+        "result": {
+          "weights": [
+            2,
+            2
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ]
+          ],
+          "bad_vertices": [],
+          "root_admissible": false,
+          "leading_minors": [
+            "2",
+            "3"
+          ],
+          "ldl_pivots": [
+            "2",
+            "3/2"
+          ],
+          "inverse_diagonal": [
+            "2/3",
+            "2/3"
+          ],
+          "complete_box_points": 4,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0,
+            1
+          ]
+        }
+      },
+      {
+        "name": "chain_213",
+        "result": {
+          "weights": [
+            2,
+            1,
+            3
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "bad_vertices": [
+            1
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "2",
+            "1",
+            "1"
+          ],
+          "ldl_pivots": [
+            "2",
+            "1/2",
+            "1"
+          ],
+          "inverse_diagonal": [
+            "2",
+            "6",
+            "1"
+          ],
+          "complete_box_points": 38,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    1,
+                    1,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                }
+              ]
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  -2,
+                  2
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 30,
+              "tested": 30,
+              "ellipsoid_points": 8,
+              "ordered_decompositions": 6,
+              "outside_binary": 4,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    -1,
+                    -2,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    2,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    -1,
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    1,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    0,
+                    1,
+                    1
+                  ],
+                  "b": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 1
+                }
+              ]
+            }
+          ],
+          "irreducible_vertices": [
+            1
+          ]
+        }
+      },
+      {
+        "name": "star_2_222",
+        "result": {
+          "weights": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "bad_vertices": [
+            0
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "2",
+            "3",
+            "4",
+            "4"
+          ],
+          "ldl_pivots": [
+            "2",
+            "3/2",
+            "4/3",
+            "1"
+          ],
+          "inverse_diagonal": [
+            "2",
+            "1",
+            "1",
+            "1"
+          ],
+          "complete_box_points": 20,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 3,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "name": "star_2_234",
+        "result": {
+          "weights": [
+            2,
+            2,
+            3,
+            4
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "bad_vertices": [
+            0
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "2",
+            "3",
+            "7",
+            "22"
+          ],
+          "ldl_pivots": [
+            "2",
+            "3/2",
+            "7/3",
+            "22/7"
+          ],
+          "inverse_diagonal": [
+            "12/11",
+            "17/22",
+            "5/11",
+            "7/22"
+          ],
+          "complete_box_points": 12,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 3,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "name": "star_3_3333",
+        "result": {
+          "weights": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "bad_vertices": [
+            0
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "3",
+            "8",
+            "21",
+            "54",
+            "135"
+          ],
+          "ldl_pivots": [
+            "3",
+            "8/3",
+            "21/8",
+            "18/7",
+            "5/2"
+          ],
+          "inverse_diagonal": [
+            "3/5",
+            "2/5",
+            "2/5",
+            "2/5",
+            "2/5"
+          ],
+          "complete_box_points": 10,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 3,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 4,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            }
+          ],
+          "irreducible_vertices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      {
+        "name": "chain_4122",
+        "result": {
+          "weights": [
+            4,
+            1,
+            2,
+            2
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "bad_vertices": [
+            1
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "ldl_pivots": [
+            "4",
+            "3/4",
+            "2/3",
+            "1/2"
+          ],
+          "inverse_diagonal": [
+            "1",
+            "12",
+            "6",
+            "2"
+          ],
+          "complete_box_points": 312,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  -3,
+                  3
+                ],
+                [
+                  -2,
+                  2
+                ],
+                [
+                  -1,
+                  1
+                ]
+              ],
+              "box_points": 210,
+              "tested": 210,
+              "ellipsoid_points": 16,
+              "ordered_decompositions": 14,
+              "outside_binary": 11,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    0,
+                    -3,
+                    -2,
+                    -1
+                  ],
+                  "b": [
+                    1,
+                    3,
+                    2,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 3,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    0,
+                    -2,
+                    -2,
+                    -1
+                  ],
+                  "b": [
+                    1,
+                    2,
+                    2,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    0,
+                    -2,
+                    -1,
+                    -1
+                  ],
+                  "b": [
+                    1,
+                    2,
+                    1,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    0,
+                    -2,
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    2,
+                    1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 2
+                }
+              ]
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -1,
+                  2
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 12,
+              "tested": 12,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -2,
+                  2
+                ],
+                [
+                  -1,
+                  2
+                ],
+                [
+                  -1,
+                  1
+                ]
+              ],
+              "box_points": 60,
+              "tested": 60,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    0,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    1,
+                    1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    0,
+                    1,
+                    1,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                }
+              ]
+            },
+            {
+              "vertex": 3,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -2,
+                  2
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 30,
+              "tested": 30,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    0,
+                    -1,
+                    -1,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    1,
+                    1,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    0,
+                    1,
+                    1,
+                    1
+                  ],
+                  "b": [
+                    0,
+                    -1,
+                    -1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                }
+              ]
+            }
+          ],
+          "irreducible_vertices": [
+            1
+          ]
+        }
+      },
+      {
+        "name": "bad_root_reducible_control",
+        "result": {
+          "weights": [
+            2,
+            1,
+            3,
+            3
+          ],
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "bad_vertices": [
+            0
+          ],
+          "root_admissible": true,
+          "leading_minors": [
+            "2",
+            "1",
+            "2",
+            "3"
+          ],
+          "ldl_pivots": [
+            "2",
+            "1/2",
+            "2",
+            "3/2"
+          ],
+          "inverse_diagonal": [
+            "3",
+            "4",
+            "2/3",
+            "2/3"
+          ],
+          "complete_box_points": 44,
+          "vertices": [
+            {
+              "vertex": 0,
+              "box": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 6,
+              "tested": 6,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    0,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1,
+                    0,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                },
+                {
+                  "a": [
+                    1,
+                    1,
+                    0,
+                    0
+                  ],
+                  "b": [
+                    0,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 1
+                }
+              ]
+            },
+            {
+              "vertex": 1,
+              "box": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 2,
+              "tested": 2,
+              "ellipsoid_points": 2,
+              "ordered_decompositions": 0,
+              "outside_binary": 0,
+              "irreducible": true,
+              "witnesses": []
+            },
+            {
+              "vertex": 2,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "box_points": 18,
+              "tested": 18,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    -1,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1,
+                    1,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    1,
+                    1,
+                    1,
+                    0
+                  ],
+                  "b": [
+                    -1,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 1
+                }
+              ]
+            },
+            {
+              "vertex": 3,
+              "box": [
+                [
+                  -1,
+                  1
+                ],
+                [
+                  -1,
+                  1
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "box_points": 18,
+              "tested": 18,
+              "ellipsoid_points": 4,
+              "ordered_decompositions": 2,
+              "outside_binary": 1,
+              "irreducible": false,
+              "witnesses": [
+                {
+                  "a": [
+                    -1,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "b": [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  "inner": 0,
+                  "norm_a": 1,
+                  "norm_b": 2
+                },
+                {
+                  "a": [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  "b": [
+                    -1,
+                    -1,
+                    0,
+                    0
+                  ],
+                  "inner": 0,
+                  "norm_a": 2,
+                  "norm_b": 1
+                }
+              ]
+            }
+          ],
+          "irreducible_vertices": [
+            1
+          ]
+        }
+      }
+    ],
+    "negative_controls": [
+      {
+        "name": "semidefinite",
+        "refusal": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "name": "indefinite",
+        "refusal": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "name": "no_bad",
+        "refusal": "UNIQUE_BAD_REQUIRED"
+      },
+      {
+        "name": "two_bad",
+        "refusal": "UNIQUE_BAD_REQUIRED"
+      },
+      {
+        "name": "disconnected",
+        "refusal": "DISCONNECTED"
+      },
+      {
+        "name": "cycle",
+        "refusal": "NOT_ACYCLIC"
+      },
+      {
+        "name": "duplicate",
+        "refusal": "DUPLICATE_EDGE"
+      },
+      {
+        "name": "weight_limit",
+        "refusal": "WEIGHT_LIMIT"
+      },
+      {
+        "name": "vertex_limit",
+        "refusal": "VERTEX_LIMIT"
+      },
+      {
+        "name": "work_limit",
+        "refusal": "EXCESSIVE_COMPLETE_BOX:20"
+      }
+    ]
+  }
+}

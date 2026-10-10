@@ -1,0 +1,45 @@
+**Answer.** The only pair is \(\boxed{(a,b)=(1,1)}\), with \(g=2\).
+
+**Proof.** Suppose positive integers \(g,N\) satisfy
+\[
+\gcd(a^n+b,b^n+a)=g \qquad\text{for every }n\ge N.
+\]
+Set \(m=ab+1\). Then \(m\ge2\) and
+\[
+\gcd(a,m)=\gcd(b,m)=1,
+\]
+because a common divisor of either \(a\) or \(b\) with \(m\) must divide \(m-ab=1\).
+
+There exists a positive integer \(T\) such that
+\[
+a^T\equiv b^T\equiv1\pmod m.
+\]
+Indeed, among the \(m^2+1\) pairs
+\[
+(a^j\bmod m,\ b^j\bmod m),\qquad 0\le j\le m^2,
+\]
+two coincide, at indices \(r>s\). Since \(a\) and \(b\) are coprime to \(m\), their powers can be cancelled modulo \(m\), yielding the claim with \(T=r-s\). Such cancellation follows from Bézout’s identity: an integer coprime to \(m\) has an inverse modulo \(m\).
+
+Choose a positive integer \(k\) large enough that \(kT-1\ge N\). Since \(ab\equiv-1\pmod m\),
+\[
+a\bigl(a^{kT-1}+b\bigr)=a^{kT}+ab\equiv1-1=0\pmod m.
+\]
+Cancelling \(a\) gives \(m\mid a^{kT-1}+b\). Similarly,
+\[
+b\bigl(b^{kT-1}+a\bigr)\equiv0\pmod m,
+\]
+so \(m\mid b^{kT-1}+a\). Consequently, \(m\mid g\).
+
+At the next exponent \(n=kT\), the gcd is again \(g\). Therefore \(m\) divides both expressions. Reducing them modulo \(m\) gives
+\[
+m\mid b+1,\qquad m\mid a+1.
+\]
+Thus \(ab\equiv1\pmod m\). But the definition of \(m\) also gives \(ab\equiv-1\pmod m\), so \(m\mid2\). Since \(m\ge2\), we obtain \(m=2\), hence \(ab=1\). Positivity forces \(a=b=1\).
+
+Conversely, for \(a=b=1\),
+\[
+\gcd(1^n+1,1^n+1)=2
+\]
+for every positive integer \(n\), establishing sufficiency.
+
+**Scope and gaps.** This proves the complete classification for all positive integer pairs. There are no unresolved gaps.

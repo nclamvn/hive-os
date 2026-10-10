@@ -1,0 +1,18 @@
+{
+  "task": "P2",
+  "arm": "METHOD",
+  "stage": "FINAL",
+  "registrationSha256": "d9e7b814880214f16772063e36de307d36ccd49c13ec5cdd2b35787723300ffa",
+  "inputPins": {
+    "common-policy.txt": "f146ce27428abe86ea6621b34e6caef87603735b68583b08a3ab23e85cc6a23a",
+    "method-policy.txt": "a92cb408de6a12c374ccf509c1dbf59048a799ee430749c2617ee8bd771b3a30",
+    "p2.txt": "5388cd1b442bd6492266f9a1cc92e3eea80ea3eeab550501e0f0b8504e06b07d",
+    "/private/tmp/hiveos-tip077-pilot-NqivSV/p2-method-attempt/original-final.txt": "0ce27c6605b9acce1665453815c5cb7d31c832c10fae2345dc8d93d240eb41a1",
+    "/private/tmp/hiveos-tip077-pilot-NqivSV/p2-method-critic/original-final.txt": "d50d491ef61bff152a8eeadb88c2db1cd9838eba123dc5eb16549b15ccd39ec2"
+  },
+  "literalStage": "Use only the same-arm original attempt and criticism below. Produce your final complete proof or explicitly identify remaining essential gaps. This last completed revision is the immutable submission; no later repair is permitted.",
+  "promptBytes": 7340,
+  "requestPosition": 3,
+  "remainingSeconds": 443.0,
+  "promptSha256": "b0696c7f82c00b0641609a19545ca387b2a3df277c0f315dedbf2f184ab98e1b"
+}

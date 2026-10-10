@@ -1,0 +1,73 @@
+**C01. The draft is sound. The supremum is \(\boxed{1}\), and \(q=1\) is admissible.** I find no substantive error. The following checks explain why the key estimates and sharpness construction work.
+
+For the upper bound, the decomposition \(\omega=\rho+g\) is legitimate: with the smooth solution’s velocity fixed, evolve the two initial components by the same linear advection–diffusion equation. Positivity, mass control, and \(L^p\) contraction give the stated component bounds. Also,
+\[
+\|\rho\|_{H^{-1}}
+\le \|\operatorname{curl}u\|_{H^{-1}}+\|g\|_{H^{-1}}
+\le C(p,M).
+\]
+On \(\mathbb R^2\), the use of the **inhomogeneous** norm matters. For \(1<p<2\), \(H^1\hookrightarrow L^{p'}\) provides the required dual estimate; for \(p\ge2\), interpolation between \(L^1\) and \(L^p\) controls \(L^2\).
+
+The positive resolvent kernel therefore yields
+\[
+C\ge \|\rho\|_{H^{-1}}^2
+=\iint K(x-y)\rho(x)\rho(y)\,dx\,dy
+\ge c\log(1/r)
+ \iint_{|x-y|\le2r}\rho(x)\rho(y)\,dx\,dy.
+\]
+Positivity of \(\rho\) is exactly what permits restricting this integral without cancellation. The heat-kernel representation supplies the asserted logarithmic lower bound on both domains.
+
+The mollification argument is also correct. Indeed, the convolution kernel \(\eta_r*\widetilde\eta_r\) is supported within distance \(2r\) and bounded by \(Cr^{-2}\), so
+\[
+y\le \frac{C}{r^2\log(1/r)}+Cr^2z,
+\qquad
+y=\|\rho\|_2^2,\quad z=\|\nabla\rho\|_2^2.
+\]
+With \(r^2=A/(y\log y)\),
+\[
+\log(1/r)=\tfrac12(\log y+\log\log y-\log A).
+\]
+Thus a sufficiently large fixed \(A\), followed by a sufficiently large threshold for \(y\), makes the first term at most \(y/2\). Consequently,
+\[
+z\ge c y^2\log y.
+\]
+There is no reversed inequality in the subsequent ODE argument:
+\[
+y'=-2\nu z,\qquad
+c\nu t\le\int_{y(t)}^\infty\frac{ds}{s^2\log s}
+\le\frac1{y(t)\log y(t)}.
+\]
+Hence \(y(t)\log y(t)\le C/(\nu t)\), which gives the claimed bound
+\[
+y(t)\le C\left(1+\frac1{\nu t\log(1/(\nu t))}\right).
+\]
+The alternative in which \(y\) has fallen below the fixed threshold is covered by the constant term.
+
+The signed-component smoothing exponent is correct. For \(1<p<2\), the displayed interpolation inequality implies, above a fixed threshold,
+\[
+\|\nabla g\|_2^2\ge c\|g\|_2^{\,4/(2-p)}.
+\]
+Combining this with the component energy identity yields
+\[
+\|g(t)\|_2^2\lesssim 1+(\nu t)^{-(2/p-1)}.
+\]
+Its contribution to \(D_\nu\) is therefore \(O(\nu^{2-2/p})\), smaller than the logarithmic bound.
+
+The approximation step introduces no unresolved gap. Spatial convolution preserves the decomposition and the required bounds, while the initial velocities converge strongly in \(L^2\). The stated difference estimate, integrated by Gronwall using the energy-class bounds, gives stability for each fixed \(\nu\). Lower semicontinuity transfers the dissipation estimate.
+
+For sharpness, the radial construction correctly cancels total circulation, making its velocity square-integrable. Its energy grows at most like
+\[
+a_\nu^2\bigl(1+\log(1/\nu)\bigr),
+\]
+so \(a_\nu=b/\sqrt{\log(1/\nu)}\) keeps every required initial bound uniform.
+
+Radial swirl is tangent to vorticity level sets, so vorticity evolves exactly by heat diffusion. Heat scaling gives the displayed formula, and \(L^2\) contraction implies, uniformly for \(t\in[1/2,1]\),
+\[
+\|\omega^\nu(t)\|_2
+\ge a_\nu\left(\nu^{-1/2}\|e^\Delta\phi\|_2-\|\phi\|_2\right).
+\]
+Thus \(D_\nu\ge c/\log(1/\nu)\). For any \(q>1\),
+\[
+D_\nu[\log(1/\nu)]^q\ge c[\log(1/\nu)]^{q-1}\longrightarrow\infty,
+\]
+contradicting admissibility. A counterexample on \(\mathbb R^2\) suffices because admissibility requires the bound on both domains.

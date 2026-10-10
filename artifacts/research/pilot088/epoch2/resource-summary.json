@@ -1,0 +1,384 @@
+{
+  "epoch": 2,
+  "actual_math_calls": 28,
+  "cases": {
+    "C01": {
+      "A1": {
+        "valid_transport": true,
+        "wall_seconds": 156.4146460829943,
+        "usage": {
+          "input_tokens": 13903,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4843,
+          "reasoning_output_tokens": 2869
+        },
+        "stop_reason": null
+      },
+      "A2": {
+        "valid_transport": false,
+        "wall_seconds": 120.009772874997,
+        "usage": null,
+        "stop_reason": "timeout"
+      },
+      "B1": {
+        "valid_transport": true,
+        "wall_seconds": 198.763707584003,
+        "usage": {
+          "input_tokens": 13903,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5062,
+          "reasoning_output_tokens": 3061
+        },
+        "stop_reason": null
+      },
+      "B2": {
+        "valid_transport": true,
+        "wall_seconds": 92.09460183299961,
+        "usage": {
+          "input_tokens": 15927,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2124,
+          "reasoning_output_tokens": 959
+        },
+        "stop_reason": null
+      },
+      "B3": {
+        "valid_transport": true,
+        "wall_seconds": 70.63882108300459,
+        "usage": {
+          "input_tokens": 17083,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2504,
+          "reasoning_output_tokens": 367
+        },
+        "stop_reason": null
+      }
+    },
+    "C02": {
+      "A1": {
+        "valid_transport": false,
+        "wall_seconds": 240.00915379199432,
+        "usage": null,
+        "stop_reason": "timeout"
+      },
+      "B1": {
+        "valid_transport": true,
+        "wall_seconds": 225.3292335840233,
+        "usage": {
+          "input_tokens": 13263,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4161,
+          "reasoning_output_tokens": 3445
+        },
+        "stop_reason": null
+      },
+      "B2": {
+        "valid_transport": true,
+        "wall_seconds": 32.99127374999807,
+        "usage": {
+          "input_tokens": 14002,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 776,
+          "reasoning_output_tokens": 271
+        },
+        "stop_reason": null
+      },
+      "B3": {
+        "valid_transport": true,
+        "wall_seconds": 63.804864957986865,
+        "usage": {
+          "input_tokens": 14498,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1449,
+          "reasoning_output_tokens": 695
+        },
+        "stop_reason": null
+      }
+    },
+    "C03": {
+      "A1": {
+        "valid_transport": false,
+        "wall_seconds": 240.00884774999577,
+        "usage": null,
+        "stop_reason": "timeout"
+      },
+      "B1": {
+        "valid_transport": true,
+        "wall_seconds": 235.9571456249978,
+        "usage": {
+          "input_tokens": 13342,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5879,
+          "reasoning_output_tokens": 4780
+        },
+        "stop_reason": null
+      },
+      "B2": {
+        "valid_transport": true,
+        "wall_seconds": 49.260448458982864,
+        "usage": {
+          "input_tokens": 14464,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1032,
+          "reasoning_output_tokens": 359
+        },
+        "stop_reason": null
+      },
+      "B3": {
+        "valid_transport": true,
+        "wall_seconds": 55.88546374998987,
+        "usage": {
+          "input_tokens": 15128,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1583,
+          "reasoning_output_tokens": 286
+        },
+        "stop_reason": null
+      }
+    },
+    "C04": {
+      "A1": {
+        "valid_transport": true,
+        "wall_seconds": 116.43719349999446,
+        "usage": {
+          "input_tokens": 13348,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2794,
+          "reasoning_output_tokens": 2244
+        },
+        "stop_reason": null
+      },
+      "A2": {
+        "valid_transport": false,
+        "wall_seconds": 120.01017241700902,
+        "usage": null,
+        "stop_reason": "timeout"
+      },
+      "B1": {
+        "valid_transport": false,
+        "wall_seconds": 240.0086412919918,
+        "usage": null,
+        "stop_reason": "timeout"
+      }
+    },
+    "C05": {
+      "A1": {
+        "valid_transport": true,
+        "wall_seconds": 60.767533499980345,
+        "usage": {
+          "input_tokens": 13303,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1383,
+          "reasoning_output_tokens": 816
+        },
+        "stop_reason": null
+      },
+      "A2": {
+        "valid_transport": true,
+        "wall_seconds": 33.56513366699801,
+        "usage": {
+          "input_tokens": 13880,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 862,
+          "reasoning_output_tokens": 185
+        },
+        "stop_reason": null
+      },
+      "A3": {
+        "valid_transport": true,
+        "wall_seconds": 24.42948437499581,
+        "usage": {
+          "input_tokens": 14555,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 665,
+          "reasoning_output_tokens": 57
+        },
+        "stop_reason": null
+      },
+      "B1": {
+        "valid_transport": true,
+        "wall_seconds": 53.2328852500068,
+        "usage": {
+          "input_tokens": 13303,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1302,
+          "reasoning_output_tokens": 799
+        },
+        "stop_reason": null
+      },
+      "B2": {
+        "valid_transport": true,
+        "wall_seconds": 27.705818250018638,
+        "usage": {
+          "input_tokens": 13830,
+          "cached_input_tokens": 12288,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 544,
+          "reasoning_output_tokens": 111
+        },
+        "stop_reason": null
+      },
+      "B3": {
+        "valid_transport": true,
+        "wall_seconds": 24.703425165993394,
+        "usage": {
+          "input_tokens": 14254,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 657,
+          "reasoning_output_tokens": 69
+        },
+        "stop_reason": null
+      }
+    },
+    "C06": {
+      "A1": {
+        "valid_transport": true,
+        "wall_seconds": 149.87171074998332,
+        "usage": {
+          "input_tokens": 13459,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3508,
+          "reasoning_output_tokens": 2070
+        },
+        "stop_reason": null
+      },
+      "A2": {
+        "valid_transport": true,
+        "wall_seconds": 80.77213412499987,
+        "usage": {
+          "input_tokens": 14906,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2339,
+          "reasoning_output_tokens": 792
+        },
+        "stop_reason": null
+      },
+      "A3": {
+        "valid_transport": true,
+        "wall_seconds": 84.51285912501044,
+        "usage": {
+          "input_tokens": 16451,
+          "cached_input_tokens": 12288,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2411,
+          "reasoning_output_tokens": 829
+        },
+        "stop_reason": null
+      },
+      "B1": {
+        "valid_transport": true,
+        "wall_seconds": 150.72656820801785,
+        "usage": {
+          "input_tokens": 13459,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4114,
+          "reasoning_output_tokens": 2588
+        },
+        "stop_reason": null
+      },
+      "B2": {
+        "valid_transport": true,
+        "wall_seconds": 65.19619191600941,
+        "usage": {
+          "input_tokens": 15008,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1495,
+          "reasoning_output_tokens": 836
+        },
+        "stop_reason": null
+      },
+      "B3": {
+        "valid_transport": true,
+        "wall_seconds": 54.55771820800146,
+        "usage": {
+          "input_tokens": 15658,
+          "cached_input_tokens": 9856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1797,
+          "reasoning_output_tokens": 175
+        },
+        "stop_reason": null
+      }
+    }
+  },
+  "arms": {
+    "A": {
+      "calls": 12,
+      "valid_transport_calls": 8,
+      "wall_child_seconds": 1426.8086419589526,
+      "usage_known_calls": 8,
+      "usage_missing_calls": 4,
+      "observed_usage": {
+        "input_tokens": 113805,
+        "cached_input_tokens": 71424,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 18805,
+        "reasoning_output_tokens": 9862
+      },
+      "final_submitted_cases": [
+        "C05",
+        "C06"
+      ],
+      "initial_submitted_cases": [
+        "C01",
+        "C04",
+        "C05",
+        "C06"
+      ]
+    },
+    "B": {
+      "calls": 16,
+      "valid_transport_calls": 15,
+      "wall_child_seconds": 1640.8568089160253,
+      "usage_known_calls": 15,
+      "usage_missing_calls": 1,
+      "observed_usage": {
+        "input_tokens": 217122,
+        "cached_input_tokens": 140416,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 34479,
+        "reasoning_output_tokens": 18801
+      },
+      "final_submitted_cases": [
+        "C01",
+        "C02",
+        "C03",
+        "C05",
+        "C06"
+      ],
+      "initial_submitted_cases": [
+        "C01",
+        "C02",
+        "C03",
+        "C05",
+        "C06"
+      ]
+    }
+  },
+  "interpretation": "Usage sums cover completed turns only. Missing timeout usage UNKNOWN, never0. Cached input is included in input; reasoning is not added again to output.",
+  "valid_math_calls": 23,
+  "timeout_calls": 5,
+  "tool_contamination_count": 0,
+  "mathematics_start_utc": "2026-10-09T08:52:51.671899+00:00",
+  "mathematics_end_utc": "2026-10-09T09:27:17.975183+00:00"
+}

@@ -1,0 +1,24 @@
+{
+  "status": "PASS_SCOPED_PARTIAL_ROOT",
+  "unique_focused_controls": 39,
+  "failures": 0,
+  "errors": 0,
+  "python_sources_syntax": 5,
+  "fixed_laminar_crosschecks_both098algorithms": 10,
+  "central_apex_bound": "17/74",
+  "margin": "1/4514",
+  "reference_laminar_area": "14/61",
+  "reference_cut_thresholds": [
+    "93/122",
+    "32/61",
+    "99/122",
+    "37/61"
+  ],
+  "residual_graphs_closed": 65,
+  "unclosed_masks": [
+    1023
+  ],
+  "abstract_set_obstruction_NOT_triangle_witness": "191/960",
+  "elapsed_seconds": 0.13642029100446962,
+  "scope": "Main inspected geometry proof and source; finite checks do not independently referee universal proof or bound allK5offsets."
+}

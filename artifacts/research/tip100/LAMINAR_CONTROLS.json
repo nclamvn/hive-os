@@ -1,0 +1,4327 @@
+{
+  "tests": 12,
+  "names": [
+    "__main__.Controls.test_all_offsets_zero_ties",
+    "__main__.Controls.test_concurrent_left_lines_and_cuts",
+    "__main__.Controls.test_fixed_complete_rational_one",
+    "__main__.Controls.test_fixed_complete_rational_two",
+    "__main__.Controls.test_increasing_ray",
+    "__main__.Controls.test_reflected_witness",
+    "__main__.Controls.test_refuses_nonstrict_and_malformed",
+    "__main__.Controls.test_source_symmetric",
+    "__main__.Controls.test_source_symmetric_reflected_reversal",
+    "__main__.Controls.test_source_witness",
+    "__main__.Controls.test_thresholds_boundaries_and_never_merges",
+    "__main__.Controls.test_translation_invariance"
+  ],
+  "failures": 0,
+  "errors": 0,
+  "fixed_case_count": 10,
+  "cases": [
+    {
+      "name": "zero_ties",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "scaled_apices": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "1/2",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "1/2",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "1/2",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "1/2",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [],
+        "event_heights": [
+          "0",
+          "1/2",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/2",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "1",
+            "scaled_area": "7/8",
+            "actual_area": "7/40"
+          },
+          {
+            "bottom": "1/2",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "5/8",
+            "actual_area": "1/8"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "1/2",
+          "simultaneous_cut_positions": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "children": [
+            {
+              "labels": [
+                1
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                2
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                5
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 14
+        },
+        "area": "3/10",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "3/10",
+      "area_098_affine": "3/10"
+    },
+    {
+      "name": "concurrent_left_lines",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "-1/20",
+          "-1/10",
+          "-3/20",
+          "-1/5"
+        ],
+        "scaled_apices": [
+          "1",
+          "7/4",
+          "5/2",
+          "13/4",
+          "4"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "5/8",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "5/8",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "5/8",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "5/8",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              2,
+              3
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "1/4"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "1/4",
+          "5/8",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/4",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "2"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "2",
+            "scaled_area": "11/32",
+            "actual_area": "11/160"
+          },
+          {
+            "bottom": "1/4",
+            "top": "5/8",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "0"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "0",
+            "scaled_area": "63/128",
+            "actual_area": "63/640"
+          },
+          {
+            "bottom": "5/8",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "45/128",
+            "actual_area": "9/128"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "5/8",
+          "simultaneous_cut_positions": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "children": [
+            {
+              "labels": [
+                1
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                2
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                5
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 14
+        },
+        "area": "19/80",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "19/80",
+      "area_098_affine": "19/80"
+    },
+    {
+      "name": "complete_rational_one",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "-1/20",
+          "-1/30",
+          "-1/10",
+          "-1/8"
+        ],
+        "scaled_apices": [
+          "1",
+          "7/4",
+          "17/6",
+          "7/2",
+          "35/8"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "5/8",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "11/24",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "9/16",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "1/4"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "1/12"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "1/6"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "5/32"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "1/8"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "1/8"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "11/48"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "1/8"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "1/12",
+          "1/8",
+          "5/32",
+          "1/6",
+          "11/48",
+          "1/4",
+          "1/3",
+          "11/24",
+          "9/16",
+          "5/8",
+          "2/3",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/12",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "13/8"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "13/8",
+            "scaled_area": "17/144",
+            "actual_area": "17/720"
+          },
+          {
+            "bottom": "1/12",
+            "top": "1/8",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-3",
+                "scaled_affine_intercept": "35/24"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "35/24",
+            "scaled_area": "55/1152",
+            "actual_area": "11/1152"
+          },
+          {
+            "bottom": "1/8",
+            "top": "5/32",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "13/12"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "13/12",
+            "scaled_area": "13/384",
+            "actual_area": "13/1920"
+          },
+          {
+            "bottom": "5/32",
+            "top": "1/6",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "13/12"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "13/12",
+            "scaled_area": "13/1152",
+            "actual_area": "13/5760"
+          },
+          {
+            "bottom": "1/6",
+            "top": "11/48",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "13/12"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "13/12",
+            "scaled_area": "13/192",
+            "actual_area": "13/960"
+          },
+          {
+            "bottom": "11/48",
+            "top": "1/4",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "2",
+                "scaled_affine_intercept": "5/8"
+              }
+            ],
+            "scaled_affine_slope": "2",
+            "scaled_affine_intercept": "5/8",
+            "scaled_area": "53/2304",
+            "actual_area": "53/11520"
+          },
+          {
+            "bottom": "1/4",
+            "top": "1/3",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "3/8"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "3/8",
+            "scaled_area": "5/48",
+            "actual_area": "1/48"
+          },
+          {
+            "bottom": "1/3",
+            "top": "11/24",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "3/8"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "3/8",
+            "scaled_area": "25/128",
+            "actual_area": "5/128"
+          },
+          {
+            "bottom": "11/24",
+            "top": "9/16",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "3/4"
+              },
+              {
+                "labels": [
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "1",
+                "scaled_affine_intercept": "13/24"
+              }
+            ],
+            "scaled_affine_slope": "1",
+            "scaled_affine_intercept": "31/24",
+            "scaled_area": "865/4608",
+            "actual_area": "173/4608"
+          },
+          {
+            "bottom": "9/16",
+            "top": "5/8",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "3/4"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "2/3"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-1",
+            "scaled_affine_intercept": "29/12",
+            "scaled_area": "175/1536",
+            "actual_area": "35/1536"
+          },
+          {
+            "bottom": "5/8",
+            "top": "2/3",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "2/3"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "11/3",
+            "scaled_area": "83/1152",
+            "actual_area": "83/5760"
+          },
+          {
+            "bottom": "2/3",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "5/18",
+            "actual_area": "1/18"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "11/24",
+          "simultaneous_cut_positions": [
+            2
+          ],
+          "children": [
+            {
+              "labels": [
+                1,
+                2
+              ],
+              "split_height": "5/8",
+              "simultaneous_cut_positions": [
+                1
+              ],
+              "children": [
+                {
+                  "labels": [
+                    1
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    2
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3,
+                4,
+                5
+              ],
+              "split_height": "9/16",
+              "simultaneous_cut_positions": [
+                4
+              ],
+              "children": [
+                {
+                  "labels": [
+                    3,
+                    4
+                  ],
+                  "split_height": "2/3",
+                  "simultaneous_cut_positions": [
+                    3
+                  ],
+                  "children": [
+                    {
+                      "labels": [
+                        3
+                      ],
+                      "binary_refinement_count": 1
+                    },
+                    {
+                      "labels": [
+                        4
+                      ],
+                      "binary_refinement_count": 1
+                    }
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    5
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 1
+        },
+        "area": "481/1920",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "481/1920",
+      "area_098_affine": "481/1920"
+    },
+    {
+      "name": "complete_rational_two",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "1/50",
+          "-1/50",
+          "1/100",
+          "-1/100"
+        ],
+        "scaled_apices": [
+          "1",
+          "21/10",
+          "29/10",
+          "81/20",
+          "99/20"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "9/20",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "3/5",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "17/40",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "11/20",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "1/20"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "1/80"
+          },
+          {
+            "labels": [
+              2,
+              3
+            ],
+            "height": "1/5"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "1/40"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "1/20"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "1/10"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "1/80",
+          "1/40",
+          "1/20",
+          "1/10",
+          "1/5",
+          "17/40",
+          "9/20",
+          "11/20",
+          "3/5",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/80",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "6/5"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "6/5",
+            "scaled_area": "19/1280",
+            "actual_area": "19/6400"
+          },
+          {
+            "bottom": "1/80",
+            "top": "1/40",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "6/5"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "6/5",
+            "scaled_area": "93/6400",
+            "actual_area": "93/32000"
+          },
+          {
+            "bottom": "1/40",
+            "top": "1/20",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/20"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "23/20",
+            "scaled_area": "23/800",
+            "actual_area": "23/4000"
+          },
+          {
+            "bottom": "1/20",
+            "top": "1/10",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "2",
+                "scaled_affine_intercept": "21/20"
+              }
+            ],
+            "scaled_affine_slope": "2",
+            "scaled_affine_intercept": "21/20",
+            "scaled_area": "3/50",
+            "actual_area": "3/250"
+          },
+          {
+            "bottom": "1/10",
+            "top": "1/5",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "19/20"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "19/20",
+            "scaled_area": "7/50",
+            "actual_area": "7/250"
+          },
+          {
+            "bottom": "1/5",
+            "top": "17/40",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "19/20"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "19/20",
+            "scaled_area": "1359/3200",
+            "actual_area": "1359/16000"
+          },
+          {
+            "bottom": "17/40",
+            "top": "9/20",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "1",
+                "scaled_affine_intercept": "9/10"
+              },
+              {
+                "labels": [
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "9/10"
+              }
+            ],
+            "scaled_affine_slope": "1",
+            "scaled_affine_intercept": "9/5",
+            "scaled_area": "179/3200",
+            "actual_area": "179/16000"
+          },
+          {
+            "bottom": "9/20",
+            "top": "11/20",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2,
+                  3
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "4/5"
+              },
+              {
+                "labels": [
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "9/10"
+              }
+            ],
+            "scaled_affine_slope": "-1",
+            "scaled_affine_intercept": "27/10",
+            "scaled_area": "11/50",
+            "actual_area": "11/250"
+          },
+          {
+            "bottom": "11/20",
+            "top": "3/5",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2,
+                  3
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "4/5"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "19/5",
+            "scaled_area": "83/800",
+            "actual_area": "83/4000"
+          },
+          {
+            "bottom": "3/5",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "2/5",
+            "actual_area": "2/25"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "17/40",
+          "simultaneous_cut_positions": [
+            3
+          ],
+          "children": [
+            {
+              "labels": [
+                1,
+                2,
+                3
+              ],
+              "split_height": "9/20",
+              "simultaneous_cut_positions": [
+                1
+              ],
+              "children": [
+                {
+                  "labels": [
+                    1
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    2,
+                    3
+                  ],
+                  "split_height": "3/5",
+                  "simultaneous_cut_positions": [
+                    2
+                  ],
+                  "children": [
+                    {
+                      "labels": [
+                        2
+                      ],
+                      "binary_refinement_count": 1
+                    },
+                    {
+                      "labels": [
+                        3
+                      ],
+                      "binary_refinement_count": 1
+                    }
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4,
+                5
+              ],
+              "split_height": "11/20",
+              "simultaneous_cut_positions": [
+                4
+              ],
+              "children": [
+                {
+                  "labels": [
+                    4
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    5
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 1
+        },
+        "area": "117/400",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "117/400",
+      "area_098_affine": "117/400"
+    },
+    {
+      "name": "increasing_ray_1_100",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "1/100",
+          "1/50",
+          "3/100",
+          "1/25"
+        ],
+        "scaled_apices": [
+          "1",
+          "41/20",
+          "31/10",
+          "83/20",
+          "26/5"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "19/40",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "19/40",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "19/40",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "19/40",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [],
+        "event_heights": [
+          "0",
+          "19/40",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "19/40",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "6/5"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "6/5",
+            "scaled_area": "2907/3200",
+            "actual_area": "2907/16000"
+          },
+          {
+            "bottom": "19/40",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "441/640",
+            "actual_area": "441/3200"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "19/40",
+          "simultaneous_cut_positions": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "children": [
+            {
+              "labels": [
+                1
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                2
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                5
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 14
+        },
+        "area": "639/2000",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "639/2000",
+      "area_098_affine": "639/2000"
+    },
+    {
+      "name": "reflected_witness",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "-12/305",
+          "-10/61",
+          "-47/305",
+          "-79/305"
+        ],
+        "scaled_apices": [
+          "1",
+          "110/61",
+          "133/61",
+          "197/61",
+          "226/61"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "37/61",
+            "attaining_cross_pairs": [
+              [
+                1,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "99/122",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "32/61",
+            "attaining_cross_pairs": [
+              [
+                2,
+                4
+              ],
+              [
+                2,
+                5
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "93/122",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "12/61"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "25/61"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "47/183"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "79/244"
+          },
+          {
+            "labels": [
+              2,
+              3
+            ],
+            "height": "38/61"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "35/122"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "67/183"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "29/122"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "32/61"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "12/61",
+          "29/122",
+          "47/183",
+          "35/122",
+          "79/244",
+          "67/183",
+          "25/61",
+          "32/61",
+          "37/61",
+          "38/61",
+          "93/122",
+          "99/122",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "12/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "140/61"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "140/61",
+            "scaled_area": "1320/3721",
+            "actual_area": "264/3721"
+          },
+          {
+            "bottom": "12/61",
+            "top": "29/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-4",
+                "scaled_affine_intercept": "128/61"
+              }
+            ],
+            "scaled_affine_slope": "-4",
+            "scaled_affine_intercept": "128/61",
+            "scaled_area": "375/7442",
+            "actual_area": "75/7442"
+          },
+          {
+            "bottom": "29/122",
+            "top": "47/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "2891/133956",
+            "actual_area": "2891/669780"
+          },
+          {
+            "bottom": "47/183",
+            "top": "35/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "4345/133956",
+            "actual_area": "869/133956"
+          },
+          {
+            "bottom": "35/122",
+            "top": "79/244",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "144/3721",
+            "actual_area": "144/18605"
+          },
+          {
+            "bottom": "79/244",
+            "top": "67/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "496/11163",
+            "actual_area": "496/55815"
+          },
+          {
+            "bottom": "67/183",
+            "top": "25/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "512/11163",
+            "actual_area": "512/55815"
+          },
+          {
+            "bottom": "25/61",
+            "top": "32/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "2",
+                "scaled_affine_intercept": "14/61"
+              }
+            ],
+            "scaled_affine_slope": "2",
+            "scaled_affine_intercept": "14/61",
+            "scaled_area": "497/3721",
+            "actual_area": "497/18605"
+          },
+          {
+            "bottom": "32/61",
+            "top": "37/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "49/61"
+              },
+              {
+                "labels": [
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "78/61",
+            "scaled_area": "390/3721",
+            "actual_area": "78/3721"
+          },
+          {
+            "bottom": "37/61",
+            "top": "38/61",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2,
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              },
+              {
+                "labels": [
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "189/61",
+            "scaled_area": "153/7442",
+            "actual_area": "153/37210"
+          },
+          {
+            "bottom": "38/61",
+            "top": "93/122",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2,
+                  3
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              }
+            ],
+            "scaled_affine_slope": "-1",
+            "scaled_affine_intercept": "113/61",
+            "scaled_area": "4811/29768",
+            "actual_area": "4811/148840"
+          },
+          {
+            "bottom": "93/122",
+            "top": "99/122",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2,
+                  3
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "206/61",
+            "scaled_area": "186/3721",
+            "actual_area": "186/18605"
+          },
+          {
+            "bottom": "99/122",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "2645/29768",
+            "actual_area": "529/29768"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "32/61",
+          "simultaneous_cut_positions": [
+            3
+          ],
+          "children": [
+            {
+              "labels": [
+                1,
+                2,
+                3
+              ],
+              "split_height": "37/61",
+              "simultaneous_cut_positions": [
+                1
+              ],
+              "children": [
+                {
+                  "labels": [
+                    1
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    2,
+                    3
+                  ],
+                  "split_height": "99/122",
+                  "simultaneous_cut_positions": [
+                    2
+                  ],
+                  "children": [
+                    {
+                      "labels": [
+                        2
+                      ],
+                      "binary_refinement_count": 1
+                    },
+                    {
+                      "labels": [
+                        3
+                      ],
+                      "binary_refinement_count": 1
+                    }
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4,
+                5
+              ],
+              "split_height": "93/122",
+              "simultaneous_cut_positions": [
+                4
+              ],
+              "children": [
+                {
+                  "labels": [
+                    4
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    5
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 1
+        },
+        "area": "14/61",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "14/61",
+      "area_098_affine": "14/61"
+    },
+    {
+      "name": "source_symmetric",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "4/15",
+          "1/5",
+          "2/15",
+          "1/15",
+          "0"
+        ],
+        "scaled_apices": [
+          "7/3",
+          "3",
+          "11/3",
+          "13/3",
+          "5"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              3
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "1/3"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "1/3",
+          "2/3",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/3",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "7/3"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "7/3",
+            "scaled_area": "1/2",
+            "actual_area": "1/10"
+          },
+          {
+            "bottom": "1/3",
+            "top": "2/3",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "-1/3"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "-1/3",
+            "scaled_area": "7/18",
+            "actual_area": "7/90"
+          },
+          {
+            "bottom": "2/3",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "5/18",
+            "actual_area": "1/18"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "2/3",
+          "simultaneous_cut_positions": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "children": [
+            {
+              "labels": [
+                1
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                2
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                5
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 14
+        },
+        "area": "7/30",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "7/30",
+      "area_098_affine": "7/30"
+    },
+    {
+      "name": "source_symmetric_reflected_reversal",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "0",
+          "-1/15",
+          "-2/15",
+          "-1/5",
+          "-4/15"
+        ],
+        "scaled_apices": [
+          "1",
+          "5/3",
+          "7/3",
+          "3",
+          "11/3"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                2,
+                3
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "2/3",
+            "attaining_cross_pairs": [
+              [
+                4,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              3
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "1/3"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "1/3"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "1/3",
+          "2/3",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "1/3",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "7/3"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "7/3",
+            "scaled_area": "1/2",
+            "actual_area": "1/10"
+          },
+          {
+            "bottom": "1/3",
+            "top": "2/3",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "3",
+                "scaled_affine_intercept": "-1/3"
+              }
+            ],
+            "scaled_affine_slope": "3",
+            "scaled_affine_intercept": "-1/3",
+            "scaled_area": "7/18",
+            "actual_area": "7/90"
+          },
+          {
+            "bottom": "2/3",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "5/18",
+            "actual_area": "1/18"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "2/3",
+          "simultaneous_cut_positions": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "children": [
+            {
+              "labels": [
+                1
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                2
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                4
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                5
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 14
+        },
+        "area": "7/30",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "7/30",
+      "area_098_affine": "7/30"
+    },
+    {
+      "name": "source_witness",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "79/305",
+          "47/305",
+          "10/61",
+          "12/305",
+          "0"
+        ],
+        "scaled_apices": [
+          "140/61",
+          "169/61",
+          "233/61",
+          "256/61",
+          "5"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "93/122",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "32/61",
+            "attaining_cross_pairs": [
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "99/122",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "37/61",
+            "attaining_cross_pairs": [
+              [
+                3,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "32/61"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "29/122"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "67/183"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "79/244"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "35/122"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "47/183"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "38/61"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "25/61"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "12/61"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "12/61",
+          "29/122",
+          "47/183",
+          "35/122",
+          "79/244",
+          "67/183",
+          "25/61",
+          "32/61",
+          "37/61",
+          "38/61",
+          "93/122",
+          "99/122",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "12/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "140/61"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "140/61",
+            "scaled_area": "1320/3721",
+            "actual_area": "264/3721"
+          },
+          {
+            "bottom": "12/61",
+            "top": "29/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-4",
+                "scaled_affine_intercept": "128/61"
+              }
+            ],
+            "scaled_affine_slope": "-4",
+            "scaled_affine_intercept": "128/61",
+            "scaled_area": "375/7442",
+            "actual_area": "75/7442"
+          },
+          {
+            "bottom": "29/122",
+            "top": "47/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "2891/133956",
+            "actual_area": "2891/669780"
+          },
+          {
+            "bottom": "47/183",
+            "top": "35/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "4345/133956",
+            "actual_area": "869/133956"
+          },
+          {
+            "bottom": "35/122",
+            "top": "79/244",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "144/3721",
+            "actual_area": "144/18605"
+          },
+          {
+            "bottom": "79/244",
+            "top": "67/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "496/11163",
+            "actual_area": "496/55815"
+          },
+          {
+            "bottom": "67/183",
+            "top": "25/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "512/11163",
+            "actual_area": "512/55815"
+          },
+          {
+            "bottom": "25/61",
+            "top": "32/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "2",
+                "scaled_affine_intercept": "14/61"
+              }
+            ],
+            "scaled_affine_slope": "2",
+            "scaled_affine_intercept": "14/61",
+            "scaled_area": "497/3721",
+            "actual_area": "497/18605"
+          },
+          {
+            "bottom": "32/61",
+            "top": "37/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "49/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "78/61",
+            "scaled_area": "390/3721",
+            "actual_area": "78/3721"
+          },
+          {
+            "bottom": "37/61",
+            "top": "38/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "189/61",
+            "scaled_area": "153/7442",
+            "actual_area": "153/37210"
+          },
+          {
+            "bottom": "38/61",
+            "top": "93/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-1",
+            "scaled_affine_intercept": "113/61",
+            "scaled_area": "4811/29768",
+            "actual_area": "4811/148840"
+          },
+          {
+            "bottom": "93/122",
+            "top": "99/122",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "206/61",
+            "scaled_area": "186/3721",
+            "actual_area": "186/18605"
+          },
+          {
+            "bottom": "99/122",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "2645/29768",
+            "actual_area": "529/29768"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "32/61",
+          "simultaneous_cut_positions": [
+            2
+          ],
+          "children": [
+            {
+              "labels": [
+                1,
+                2
+              ],
+              "split_height": "93/122",
+              "simultaneous_cut_positions": [
+                1
+              ],
+              "children": [
+                {
+                  "labels": [
+                    1
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    2
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3,
+                4,
+                5
+              ],
+              "split_height": "37/61",
+              "simultaneous_cut_positions": [
+                4
+              ],
+              "children": [
+                {
+                  "labels": [
+                    3,
+                    4
+                  ],
+                  "split_height": "99/122",
+                  "simultaneous_cut_positions": [
+                    3
+                  ],
+                  "children": [
+                    {
+                      "labels": [
+                        3
+                      ],
+                      "binary_refinement_count": 1
+                    },
+                    {
+                      "labels": [
+                        4
+                      ],
+                      "binary_refinement_count": 1
+                    }
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    5
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 1
+        },
+        "area": "14/61",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "14/61",
+      "area_098_affine": "14/61"
+    },
+    {
+      "name": "translated_witness",
+      "laminar": {
+        "status": "EXACT_K5_AREA_CONDITIONAL_ON_MAIN_LAMINAR_THEOREM",
+        "offsets": [
+          "2372/915",
+          "2276/915",
+          "457/183",
+          "2171/915",
+          "7/3"
+        ],
+        "scaled_apices": [
+          "2555/183",
+          "2642/183",
+          "2834/183",
+          "2903/183",
+          "50/3"
+        ],
+        "cut_thresholds": [
+          {
+            "cut_after_label": 1,
+            "threshold": "93/122",
+            "attaining_cross_pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 2,
+            "threshold": "32/61",
+            "attaining_cross_pairs": [
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 3,
+            "threshold": "99/122",
+            "attaining_cross_pairs": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "cut_after_label": 4,
+            "threshold": "37/61",
+            "attaining_cross_pairs": [
+              [
+                3,
+                5
+              ]
+            ]
+          }
+        ],
+        "left_line_crossings": [
+          {
+            "labels": [
+              1,
+              2
+            ],
+            "height": "32/61"
+          },
+          {
+            "labels": [
+              1,
+              3
+            ],
+            "height": "29/122"
+          },
+          {
+            "labels": [
+              1,
+              4
+            ],
+            "height": "67/183"
+          },
+          {
+            "labels": [
+              1,
+              5
+            ],
+            "height": "79/244"
+          },
+          {
+            "labels": [
+              2,
+              4
+            ],
+            "height": "35/122"
+          },
+          {
+            "labels": [
+              2,
+              5
+            ],
+            "height": "47/183"
+          },
+          {
+            "labels": [
+              3,
+              4
+            ],
+            "height": "38/61"
+          },
+          {
+            "labels": [
+              3,
+              5
+            ],
+            "height": "25/61"
+          },
+          {
+            "labels": [
+              4,
+              5
+            ],
+            "height": "12/61"
+          }
+        ],
+        "event_heights": [
+          "0",
+          "12/61",
+          "29/122",
+          "47/183",
+          "35/122",
+          "79/244",
+          "67/183",
+          "25/61",
+          "32/61",
+          "37/61",
+          "38/61",
+          "93/122",
+          "99/122",
+          "1"
+        ],
+        "slabs": [
+          {
+            "bottom": "0",
+            "top": "12/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-5",
+                "scaled_affine_intercept": "140/61"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "140/61",
+            "scaled_area": "1320/3721",
+            "actual_area": "264/3721"
+          },
+          {
+            "bottom": "12/61",
+            "top": "29/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-4",
+                "scaled_affine_intercept": "128/61"
+              }
+            ],
+            "scaled_affine_slope": "-4",
+            "scaled_affine_intercept": "128/61",
+            "scaled_area": "375/7442",
+            "actual_area": "75/7442"
+          },
+          {
+            "bottom": "29/122",
+            "top": "47/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "2891/133956",
+            "actual_area": "2891/669780"
+          },
+          {
+            "bottom": "47/183",
+            "top": "35/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              }
+            ],
+            "scaled_affine_slope": "-2",
+            "scaled_affine_intercept": "99/61",
+            "scaled_area": "4345/133956",
+            "actual_area": "869/133956"
+          },
+          {
+            "bottom": "35/122",
+            "top": "79/244",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "144/3721",
+            "actual_area": "144/18605"
+          },
+          {
+            "bottom": "79/244",
+            "top": "67/183",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "496/11163",
+            "actual_area": "496/55815"
+          },
+          {
+            "bottom": "67/183",
+            "top": "25/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "64/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "64/61",
+            "scaled_area": "512/11163",
+            "actual_area": "512/55815"
+          },
+          {
+            "bottom": "25/61",
+            "top": "32/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "2",
+                "scaled_affine_intercept": "14/61"
+              }
+            ],
+            "scaled_affine_slope": "2",
+            "scaled_affine_intercept": "14/61",
+            "scaled_area": "497/3721",
+            "actual_area": "497/18605"
+          },
+          {
+            "bottom": "32/61",
+            "top": "37/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4,
+                  5
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "49/61"
+              }
+            ],
+            "scaled_affine_slope": "0",
+            "scaled_affine_intercept": "78/61",
+            "scaled_area": "390/3721",
+            "actual_area": "78/3721"
+          },
+          {
+            "bottom": "37/61",
+            "top": "38/61",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-2",
+                "scaled_affine_intercept": "99/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "189/61",
+            "scaled_area": "153/7442",
+            "actual_area": "153/37210"
+          },
+          {
+            "bottom": "38/61",
+            "top": "93/122",
+            "blocks": [
+              {
+                "labels": [
+                  1,
+                  2
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "29/61"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-1",
+            "scaled_affine_intercept": "113/61",
+            "scaled_area": "4811/29768",
+            "actual_area": "4811/148840"
+          },
+          {
+            "bottom": "93/122",
+            "top": "99/122",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3,
+                  4
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "0",
+                "scaled_affine_intercept": "23/61"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-3",
+            "scaled_affine_intercept": "206/61",
+            "scaled_area": "186/3721",
+            "actual_area": "186/18605"
+          },
+          {
+            "bottom": "99/122",
+            "top": "1",
+            "blocks": [
+              {
+                "labels": [
+                  1
+                ],
+                "minimum_left_label": 1,
+                "maximum_left_label": 1,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  2
+                ],
+                "minimum_left_label": 2,
+                "maximum_left_label": 2,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  3
+                ],
+                "minimum_left_label": 3,
+                "maximum_left_label": 3,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  4
+                ],
+                "minimum_left_label": 4,
+                "maximum_left_label": 4,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              },
+              {
+                "labels": [
+                  5
+                ],
+                "minimum_left_label": 5,
+                "maximum_left_label": 5,
+                "scaled_affine_slope": "-1",
+                "scaled_affine_intercept": "1"
+              }
+            ],
+            "scaled_affine_slope": "-5",
+            "scaled_affine_intercept": "5",
+            "scaled_area": "2645/29768",
+            "actual_area": "529/29768"
+          }
+        ],
+        "split_tree": {
+          "labels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "split_height": "32/61",
+          "simultaneous_cut_positions": [
+            2
+          ],
+          "children": [
+            {
+              "labels": [
+                1,
+                2
+              ],
+              "split_height": "93/122",
+              "simultaneous_cut_positions": [
+                1
+              ],
+              "children": [
+                {
+                  "labels": [
+                    1
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    2
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            },
+            {
+              "labels": [
+                3,
+                4,
+                5
+              ],
+              "split_height": "37/61",
+              "simultaneous_cut_positions": [
+                4
+              ],
+              "children": [
+                {
+                  "labels": [
+                    3,
+                    4
+                  ],
+                  "split_height": "99/122",
+                  "simultaneous_cut_positions": [
+                    3
+                  ],
+                  "children": [
+                    {
+                      "labels": [
+                        3
+                      ],
+                      "binary_refinement_count": 1
+                    },
+                    {
+                      "labels": [
+                        4
+                      ],
+                      "binary_refinement_count": 1
+                    }
+                  ],
+                  "binary_refinement_count": 1
+                },
+                {
+                  "labels": [
+                    5
+                  ],
+                  "binary_refinement_count": 1
+                }
+              ],
+              "binary_refinement_count": 1
+            }
+          ],
+          "binary_refinement_count": 1
+        },
+        "area": "14/61",
+        "scope": "strict K5 only; finite input evaluation, NOT universal lower bound or root closure"
+      },
+      "area_098_trapezoid": "14/61",
+      "area_098_affine": "14/61"
+    }
+  ],
+  "runtime_seconds": 0.016466209024656564,
+  "scope": "fixed exact finite crosschecks, not all-K5 lower bound, no sampling/optimization"
+}

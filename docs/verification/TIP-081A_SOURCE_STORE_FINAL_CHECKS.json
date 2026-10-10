@@ -1,0 +1,587 @@
+{
+  "purpose": "TIP081_SOURCE_STORE_BOUNDED_REGRESSION",
+  "predecessorBefore": [
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json",
+      "status": "MATCH",
+      "expected": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+      "actual": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json",
+      "status": "MATCH",
+      "expected": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+      "actual": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json",
+      "status": "MATCH",
+      "expected": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+      "actual": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs",
+      "status": "MATCH",
+      "expected": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+      "actual": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+    },
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "status": "MATCH",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "status": "MATCH",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "status": "MATCH",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "status": "MATCH",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+    },
+    {
+      "path": "next.config.ts",
+      "status": "MATCH",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+    },
+    {
+      "path": "package.json",
+      "status": "MATCH",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "MATCH",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+    },
+    {
+      "path": "tsconfig.json",
+      "status": "MATCH",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "status": "MATCH",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "status": "MATCH",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "status": "MATCH",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "status": "MATCH",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+      "actual": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "status": "MATCH",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "status": "MATCH",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "status": "MATCH",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "status": "MATCH",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "status": "MATCH",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "status": "MATCH",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "status": "MATCH",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41"
+    }
+  ],
+  "predecessorAfter": [
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json",
+      "status": "MATCH",
+      "expected": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+      "actual": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json",
+      "status": "MATCH",
+      "expected": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+      "actual": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json",
+      "status": "MATCH",
+      "expected": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+      "actual": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs",
+      "status": "MATCH",
+      "expected": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+      "actual": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+    },
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "status": "MATCH",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "status": "MATCH",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "status": "MATCH",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "status": "MATCH",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+    },
+    {
+      "path": "next.config.ts",
+      "status": "MATCH",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+    },
+    {
+      "path": "package.json",
+      "status": "MATCH",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "MATCH",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+    },
+    {
+      "path": "tsconfig.json",
+      "status": "MATCH",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "status": "MATCH",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "status": "MATCH",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "status": "MATCH",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "status": "MATCH",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+      "actual": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "status": "MATCH",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "status": "MATCH",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "status": "MATCH",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "status": "MATCH",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "status": "MATCH",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "status": "MATCH",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "status": "MATCH",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41"
+    }
+  ],
+  "before": {
+    "scripts/test/store-tip081-inventory-source.mjs": {
+      "size": 15214,
+      "digest": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+    },
+    "tests/unit/evidence-studio-source-store.test.ts": {
+      "size": 17150,
+      "digest": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a"
+    },
+    "scripts/test/verify-tip081-inventory-source.mjs": {
+      "size": 22118,
+      "digest": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+    },
+    "tests/unit/evidence-studio-source-store-verifier.test.ts": {
+      "size": 11211,
+      "digest": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02"
+    }
+  },
+  "after": {
+    "scripts/test/store-tip081-inventory-source.mjs": {
+      "size": 15214,
+      "digest": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+    },
+    "tests/unit/evidence-studio-source-store.test.ts": {
+      "size": 17150,
+      "digest": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a"
+    },
+    "scripts/test/verify-tip081-inventory-source.mjs": {
+      "size": 22118,
+      "digest": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+    },
+    "tests/unit/evidence-studio-source-store-verifier.test.ts": {
+      "size": 11211,
+      "digest": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02"
+    }
+  },
+  "unchanged": true,
+  "previousCumulativeMilliseconds": 673823.221251,
+  "cumulativeMilliseconds": 714396.1805,
+  "remainingMilliseconds": 185603.81949999998,
+  "results": [
+    {
+      "name": "unit",
+      "limitMilliseconds": 120000,
+      "milliseconds": 7954.787416,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m54 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 466\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m32 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 1216\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-manifest-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m36 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 534\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory.test.ts \u001b[2m(\u001b[22m\u001b[2m33 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 540\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m69 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 121\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-manifest.test.ts \u001b[2m(\u001b[22m\u001b[2m36 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 461\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[33m\u001b[2m✓\u001b[22m\u001b[39m M2-12 site growth refuses before exceeding the logical entry envelope \u001b[33m 319\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-store.test.ts \u001b[2m(\u001b[22m\u001b[2m17 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 697\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 301\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-graph.test.ts \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 334\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-graph-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m14 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 403\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-store-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m12 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 427\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 38\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 26\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 21\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m14 passed\u001b[39m\u001b[22m\u001b[90m (14)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m402 passed\u001b[39m\u001b[22m\u001b[90m (402)\u001b[39m\n\u001b[2m   Start at \u001b[22m 12:16:15\n\u001b[2m   Duration \u001b[22m 7.53s\u001b[2m (transform 333ms, setup 0ms, import 661ms, tests 5.59s, environment 1ms)\u001b[22m\n\n",
+      "stderr": "",
+      "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))"
+    },
+    {
+      "name": "lint",
+      "limitMilliseconds": 180000,
+      "milliseconds": 2024.293791,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "",
+      "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))"
+    },
+    {
+      "name": "type",
+      "limitMilliseconds": 180000,
+      "milliseconds": 30593.878042000004,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "",
+      "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))"
+    }
+  ],
+  "milliseconds": 40613.702958
+}

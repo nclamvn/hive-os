@@ -1,0 +1,59 @@
+{
+  "label": "B1",
+  "started_utc": "2026-10-09T09:22:01.938358+00:00",
+  "command": [
+    "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+    "exec",
+    "--json",
+    "--ephemeral",
+    "--ignore-user-config",
+    "--skip-git-repo-check",
+    "--sandbox",
+    "read-only",
+    "--model",
+    "gpt-6.1-sol",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "-c",
+    "web_search=\"disabled\"",
+    "-C",
+    "/private/tmp/codex-tmp-pilot088e2-20261009.lvirJB",
+    "-"
+  ],
+  "requested_model": "gpt-6.1-sol",
+  "requested_reasoning_effort": "high",
+  "effective_backend_model": null,
+  "timeout_seconds": 240,
+  "raw_byte_cap": 2097152,
+  "instructed_word_cap": 1400,
+  "response_words": 749,
+  "context_mode": "explicit_replay_ephemeral",
+  "exit_code": 0,
+  "wall_seconds": 150.72656820801785,
+  "stop_reason": null,
+  "process_cleanup": {
+    "sigterm_sent": false,
+    "sigkill_sent": false,
+    "leader_reaped": true,
+    "stdin_writer_finished": true
+  },
+  "usage": {
+    "input_tokens": 13459,
+    "cached_input_tokens": 9856,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 4114,
+    "reasoning_output_tokens": 2588
+  },
+  "turn_completed_count": 1,
+  "malformed_jsonl_lines": [],
+  "contamination_events": [],
+  "failure_events": [],
+  "observed_usage_fields": {
+    "input_tokens": 13459,
+    "cached_input_tokens": 9856,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 4114,
+    "reasoning_output_tokens": 2588
+  },
+  "valid_transport": true
+}

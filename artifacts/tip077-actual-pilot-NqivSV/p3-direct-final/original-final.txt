@@ -1,0 +1,185 @@
+## Answer
+
+For every allowed initial segment, at least one of the two parity subsequences is eventually periodic.
+
+## Proof
+
+Let
+\[
+C_t(x)=\#\{j\le t:a_j=x\}.
+\]
+The recurrence is
+\[
+a_{t+1}=C_t(a_t)\qquad(t\ge N).
+\]
+
+### 1. The infinitely recurring values form an initial interval
+
+Set \(K=\max(a_1,\ldots,a_N)\). We first show that every value greater than \(K\) occurs at most \(K\) times.
+
+Otherwise, let \(t\) be the first index at which any value greater than \(K\) reaches multiplicity \(K+1\). Write the occurrence positions of that value \(x\) as
+\[
+t_1<\cdots<t_{K+1}=t.
+\]
+Since \(x>K\), all these positions exceed \(N\). Their predecessors \(y_i=a_{t_i-1}\) satisfy
+\[
+C_{t_i-1}(y_i)=x>K.
+\]
+Minimality of \(t\) forces every \(y_i\le K\). Moreover, the \(y_i\) are distinct: the cumulative counts at successive occurrences of a fixed value strictly increase, so that value cannot generate the same successor \(x\) twice. This gives \(K+1\) distinct values in \(\{1,\ldots,K\}\), a contradiction.
+
+Let \(S\) be the set of values occurring infinitely often. Thus
+\[
+S\subseteq\{1,\ldots,K\}.
+\]
+The sequence is unbounded. Indeed, if its range were finite, some value would occur infinitely often, and its unbounded occurrence counts would appear as subsequent terms, contradicting boundedness. Hence infinitely many distinct values first appear after position \(N\). Each such first appearance is followed by \(1\), so \(1\in S\).
+
+Put \(r=|S|\ge1\). Choose an integer \(L\ge\max(K,N)\) that also bounds the total multiplicity of each finitely occurring value in \(\{1,\ldots,K\}\). The preceding bound then shows that every value outside \(S\) has total multiplicity at most \(L\).
+
+Fix \(x>L\). Every occurrence of \(x\) has a predecessor in \(S\), because no value outside \(S\) can have cumulative count \(x\). Each \(s\in S\) generates \(x\) exactly once, immediately after its \(x\)-th occurrence. That occurrence has index at least \(x>N\), so the recurrence applies. Consequently, every \(x>L\) occurs exactly \(r\) times.
+
+These \(r\) occurrences of \(x\) are followed, in chronological order, by
+\[
+1,2,\ldots,r.
+\]
+As there are infinitely many such \(x\), every value in \(\{1,\ldots,r\}\) occurs infinitely often. Therefore
+\[
+\{1,\ldots,r\}\subseteq S,
+\]
+and equality follows from \(|S|=r\):
+\[
+S=\{1,\ldots,r\}. \tag{1}
+\]
+
+Choose a time after which all values in \(S\) have cumulative count greater than \(L\). Any later occurrence of a value in \(S\) is followed by a value greater than \(L\). Conversely, every occurrence of a value greater than \(L\) is followed by a value in \(\{1,\ldots,r\}=S\), since its total multiplicity is \(r\).
+
+Starting at a sufficiently late occurrence in \(S\), the sequence therefore alternates between values in \(S\) and values greater than \(L\).
+
+### 2. The small terms satisfy a counter rule
+
+Write the small terms in this alternating tail as
+\[
+b_1,b_2,\ldots\in\{1,\ldots,r\}.
+\]
+Let \(c_i(m)\) be the number of occurrences of \(i\) strictly before the position of \(b_m\). Then
+\[
+c_i(m+1)=c_i(m)+\mathbf1_{\{i=b_m\}}. \tag{2}
+\]
+The large term between \(b_m\) and \(b_{m+1}\) is
+\[
+u=c_{b_m}(m)+1=c_{b_m}(m+1)>L.
+\]
+
+Each \(i\in S\) generates \(u\) exactly once, immediately after its \(u\)-th occurrence. By the position of the current large term, this generation has happened exactly when
+\[
+c_i(m+1)\ge u.
+\]
+Indeed, the current term is large, so every small occurrence counted here lies strictly before it and has already produced its successor. Thus the current multiplicity of \(u\), which determines \(b_{m+1}\), is
+\[
+b_{m+1}
+=\#\{i:c_i(m+1)\ge c_{b_m}(m+1)\}. \tag{3}
+\]
+Every counter \(c_i(m)\) tends to infinity, because every \(i\in S\) occurs infinitely often.
+
+We prove the needed assertion about this counter process.
+
+### 3. Counter lemma
+
+**Lemma.** Suppose integer counters \(c_1,\ldots,c_r\) and a selected label \(b\in\{1,\ldots,r\}\) evolve as follows: increase \(c_b\) by \(1\), then replace \(b\) by
+\[
+q=\#\{i:c_i\ge c_b\},
+\]
+using the updated counters. If every counter tends to infinity, then the sequence of selected labels is eventually periodic.
+
+**Proof.** For \(r=1\), the selected label is always \(1\). Assume \(r\ge2\).
+
+At each state, sort the counters in decreasing order:
+\[
+d_1\ge d_2\ge\cdots\ge d_r.
+\]
+For each label \(i\), define
+\[
+e_i=c_i-d_i+\mathbf1_{\{i=b\}}.
+\]
+We claim that every \(e_i\) is invariant.
+
+Suppose the selected counter has value \(t\) before its increment. Because the counters are integers,
+\[
+q=1+\#\{i:c_i>t\},
+\]
+where the right-hand side uses the old counters. Hence \(d_q=t\). Replacing one counter equal to \(t\) by \(t+1\) changes the sorted vector precisely by increasing its \(q\)-th coordinate by \(1\). This also holds at ties: all preceding coordinates are at least \(t+1\), and all following coordinates are at most \(t\).
+
+Writing primes for the next state, we therefore have
+\[
+c_i'=c_i+\mathbf1_{\{i=b\}},\qquad
+d_i'=d_i+\mathbf1_{\{i=q\}},\qquad b'=q.
+\]
+It follows that
+\[
+e_i'
+=c_i+\mathbf1_{\{i=b\}}
+-d_i-\mathbf1_{\{i=q\}}
++\mathbf1_{\{i=q\}}
+=e_i.
+\]
+
+Set
+\[
+E=1+\max_i|e_i|.
+\]
+At every state,
+\[
+|c_i-d_i|\le E. \tag{4}
+\]
+
+Consider a sorted gap
+\[
+d_k-d_{k+1}>2E,\qquad 1\le k<r.
+\]
+For labels \(i\le k<j\), (4) gives
+\[
+c_i\ge d_k-E>d_{k+1}+E\ge c_j.
+\]
+Thus the counters with labels \(1,\ldots,k\) strictly exceed all the remaining counters.
+
+The selected label cannot belong to \(\{1,\ldots,k\}\). If it did, its increment would preserve this separation. Its new rank \(q\) would be at most \(k\), so the next selected label would again belong to the same group. Repeating this argument would keep all future increments in that group. The remaining counters would stay constant, contradicting their divergence to infinity.
+
+Therefore, whenever this gap exceeds \(2E\), the selected counter is in the lower group. Its increment cannot increase the gap. To see this precisely, the upper counters remain unchanged. Before the increment every lower counter is at most the minimum upper counter minus \(1\); afterwards it is still at most that minimum. Thus the \(k\)-th sorted counter remains the minimum upper counter, while the \((k+1)\)-st is the maximum lower counter, which cannot decrease.
+
+When the gap is at most \(2E\), one update can increase it by at most \(1\), since exactly one sorted coordinate increases by \(1\). Consequently, with
+\[
+B=\max\left(
+2E+1,\,
+\max_{1\le k<r}\bigl(d_k(1)-d_{k+1}(1)\bigr)
+\right),
+\]
+induction shows that every sorted gap is at most \(B\) forever. In particular,
+\[
+\max_i c_i-\min_i c_i
+=d_1-d_r\le(r-1)B. \tag{5}
+\]
+
+Normalize the counters by subtracting their minimum:
+\[
+\widehat c_i=c_i-\min_j c_j.
+\]
+By (5), the state
+\[
+(\widehat c_1,\ldots,\widehat c_r,b)
+\]
+takes values in a finite set. Its transition is deterministic, because adding a common constant to all counters changes neither the comparison defining \(q\) nor the next normalized state.
+
+An infinite trajectory in a finite set repeats a state. Determinism then makes its entire future periodic. In particular, its selected-label sequence is eventually periodic. This proves the lemma. \(\square\)
+
+### 4. Return to the original sequence
+
+Equations (2) and (3) give exactly the counter rule in the lemma, and all its counters tend to infinity. Hence
+\[
+b_1,b_2,\ldots
+\]
+is eventually periodic.
+
+These small terms occupy every other position of a tail of the original sequence. Their positions have one fixed parity. Therefore the corresponding subsequence—either \((a_{2j-1})_{j\ge1}\) or \((a_{2j})_{j\ge1}\)—is eventually periodic.
+
+## Scope and gaps
+
+The proof applies to every positive integer \(N\) and every positive-integer initial segment. All blocking lemmas are proved above; no essential gap or computational assumption remains.

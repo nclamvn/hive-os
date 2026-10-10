@@ -1,0 +1,45 @@
+**C05.** Let \(E(x)\) be the number of nonsquare perfect powers at most \(x\). Every such number can be written as \(a^b\), where \(a\ge2\) and
+\[
+3\le b\le\lfloor\log_2 x\rfloor.
+\]
+Indeed, an exponent \(b=2\) would give a square, while \(2^b\le a^b\le x\). Counting representations, which may overcount numbers, gives
+\[
+E(x)\le \sum_{b=3}^{\lfloor\log_2 x\rfloor}\lfloor x^{1/b}\rfloor
+\le x^{1/3}\log_2 x.
+\]
+Consequently,
+\[
+E(m^2)\le 2m^{2/3}\log_2 m=o(m).
+\]
+There are exactly \(m\) positive squares at most \(m^2\), including \(1\), so
+\[
+A_{m^2}=m+E(m^2)<2m+1
+\]
+for all sufficiently large \(m\).
+
+We next show that infinitely many open intervals
+\[
+(m^2,(m+1)^2)
+\]
+contain no perfect power. If there were only finitely many, then for some \(m_0\), every such interval with \(m\ge m_0\) would contain a perfect power. Since these intervals contain no squares, each would contain a nonsquare perfect power. Their disjointness would therefore imply
+\[
+E(M^2)\ge M-m_0\qquad(M>m_0),
+\]
+contradicting \(E(M^2)=o(M)\).
+
+Choose any sufficiently large \(m\) for which this interval contains no perfect power, and set \(k=A_{m^2}\). For every integer in the block
+\[
+m^2,\ m^2+1,\ldots,(m+1)^2-1,
+\]
+we have \(A_n=k\): the square \(m^2\) has already been counted, and no further perfect power occurs before \((m+1)^2\).
+
+This block contains \(2m+1\ge k\) consecutive integers. Any \(k\) consecutive integers contain every residue class modulo \(k\), so the block contains an integer \(n\) satisfying
+\[
+n\equiv-2024\pmod{k}.
+\]
+For this integer,
+\[
+A_n=k\mid n+2024.
+\]
+
+There are infinitely many eligible \(m\), and their integer blocks are disjoint. Thus these choices yield infinitely many distinct integers \(n\) with the required property. \(\square\)

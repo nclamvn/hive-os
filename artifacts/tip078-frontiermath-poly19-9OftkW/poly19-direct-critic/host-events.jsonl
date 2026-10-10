@@ -1,0 +1,4 @@
+{"kind": "request-reserved", "wall": "2026-10-06T01:54:28.478139+00:00", "elapsed": 0.0008342090295627713, "ordinal": 2}
+{"kind": "spawned", "wall": "2026-10-06T01:54:28.480804+00:00", "elapsed": 0.0035177500103600323, "pid": 46170}
+{"kind": "tool-start", "wall": "2026-10-06T01:54:45.323218+00:00", "elapsed": 16.845913666998968, "toolId": "item_1", "toolCount": 1}
+{"kind": "tool-end", "wall": "2026-10-06T01:54:45.323319+00:00", "elapsed": 16.846006500010844, "toolId": "item_1", "observedSeconds": 0.00010270799975842237}

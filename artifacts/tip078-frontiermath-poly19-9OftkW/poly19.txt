@@ -1,0 +1,13 @@
+Construct a polynomial p of degree 19 such that the curve
+X = {(x,y): p(x)=p(y)} in P^1 x P^1 has at least three irreducible
+components over C, not all linear. Require p to be odd, monic, with real
+coefficients and linear coefficient -19. Calculate p(19).
+
+Shared evaluation constraint, ADDITIONAL to the original real-coefficient task:
+choose an integer-coefficient construction. Supply exactly one fenced json
+block containing exactly two keys: "coefficients" (20 integers in ascending
+order, from constant through degree19, each at most256bits) and "claimed_value"
+(integer, at most512bits). Supply a self-contained mathematical proof separately.
+An unsupported coefficient domain or certificate is not automatically an
+incorrect answer to the original problem. Do not substitute a scalar-only answer.
+This is a public sample, not an unpublished or official scored benchmark.

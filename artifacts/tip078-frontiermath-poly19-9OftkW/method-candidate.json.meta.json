@@ -1,0 +1,20 @@
+{
+  "bothOriginalSeals": {
+    "DIRECT": {
+      "ordinal": 3,
+      "originalSha256": "647e7febb6bc5298c40223ae40196efd97c49ff8d5d6c091d2132aa9a12c6591",
+      "receiptSha256": "a7cb0afe84f1bd41d30553d8f04cd31258a744526efa537e5f70b36c3e6e694f",
+      "bytes": 5161
+    },
+    "METHOD": {
+      "ordinal": 6,
+      "originalSha256": "5b98df4e62f42d2cc8f728539864fccd36735795ee033049b52f8b8f49aa49b7",
+      "receiptSha256": "01a69ee0efaaeb431dbb464d5ed313e4250b55486abeab7e705c530883dd0a12",
+      "bytes": 6264
+    }
+  },
+  "arm": "METHOD",
+  "candidateSha256": "ea4237d1e2071f9114f572e1c37a98290aa43f1d868863bb66d58dbe49732fac",
+  "candidateBytes": 154,
+  "extraction": "ORIGINAL_FENCED_BYTES_NO_FIX"
+}

@@ -1,0 +1,13 @@
+{
+  "scope": "FINITE_SMOKE_OF_C05_CONSTRUCTION_NOT_PROOF_OF_INFINITUDE",
+  "limit": 90601,
+  "m_range": [
+    1,
+    300
+  ],
+  "clean_blocks": 255,
+  "constructions_checked": 255,
+  "perfect_powers_including1": 349,
+  "elapsed_seconds": 0.0030245840025600046,
+  "assertions": "PASS"
+}

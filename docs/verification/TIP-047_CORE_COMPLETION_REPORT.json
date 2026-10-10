@@ -1,0 +1,41 @@
+{
+  "tip": "TIP-047",
+  "role": "CORE Builder",
+  "status": "DONE",
+  "contractSha256": "c45f7f55655a9b303c08f2589ad257ce5ca3a54b28a382268b66f4798d9e227b",
+  "ownedRequirementCoverage": { "implemented": 2, "total": 2, "percent": 100, "ids": ["R2", "R3"], "additionalFocusedEvidence": ["R4 arithmetic controls", "R5 primary limits", "R8 negative tests"] },
+  "filesCreated": [
+    { "path": "src/modules/research-sandbox/math-lrc-modular-certificates.ts", "sha256": "e54b0474fc76100a6626236bd7359aa6a8041e1b77a2402a2cd15044eee845d6", "purpose": "New strict ordered modular-fiber scope, bounded producer and separate exact consumer" },
+    { "path": "tests/unit/math-lrc-modular-certificates.test.ts", "sha256": "b8050d08b8f7921f153882adc6ef84621eb6d12da6eec4afe40f63bbb956e26c", "purpose": "Thirteen focused arithmetic, actual imported control, domain, mutation and resource tests" },
+    { "path": "docs/verification/TIP-047_CORE_COMPLETION_REPORT.json", "purpose": "Quantified Builder completion and limitations" }
+  ],
+  "filesModified": [],
+  "implementation": {
+    "scope": "N14, exactly13 ordered coordinate labels, prime17..257, positive nonzero-p parent residues, repeats permitted, integral target/parent lift factor>=2, target<=14, sorted nonempty digit axes, at most20000 ordered tuples",
+    "liftFormula": "(parentResidues[i]+parentLevel*prime*digit[i]) modulo (targetLevel*prime)",
+    "producer": "GRID-first common-witness box compression, otherwise split until singleton. Singleton exhaustive symmetric-grid failure precedes exact omit-one-coordinate GCD tests and SURVIVOR. No orbit quotient or author executable.",
+    "consumer": "Separate BigInt arithmetic. Exact root/scope binding, strict bytes/schema/digests, unique reachable acyclic single-parent tree and ordered disjoint exhaustive partitions. GRID equality accepted; OMIT_GCD divisor must equal gcd(targetLevel,ALL choices in every nonomitted coordinate). SURVIVOR must be singleton and exhaust both fixed-grid and omit-GCD conditions.",
+    "summary": "Counts and lexicographic survivor digits/residues recomputed from leaves. COMPLETE means finite arithmetic classification, including any SURVIVOR; it is not conditional-proper or theorem acceptance.",
+    "lowerDependency": "LOWER_LRC_12_DECLARED_NOT_REPLAYED",
+    "bounds": { "tuples": 20000, "nodes": 40000, "certificateBytes": 8388608, "work": 20000000, "observedMilliseconds": 10000 },
+    "limits": "Stricter generator node/work/time/output caps produce whole-scope unresolved or exhaustive partial partitions. Observed final sealing/serialization deadlines checked. Consumer work/deadline exhaustion rejects admission. Cooperative host checkpoints are not hard synchronous CPU preemption."
+  },
+  "testResults": {
+    "focused": { "command": "node node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-modular-certificates.test.ts", "exitCode": 0, "files": 1, "passed": 13, "failed": 0, "overallMilliseconds": 292, "testMilliseconds": 122, "startedLocal": "2026-10-03 15:04:02 Asia/Ho_Chi_Minh" },
+    "ownedLint": { "command": "node node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-modular-certificates.ts tests/unit/math-lrc-modular-certificates.test.ts", "exitCode": 0 },
+    "typecheck": { "command": "node node_modules/typescript/bin/tsc --noEmit", "exitCode": 0, "scope": "Whole repository at this Builder checkpoint, not final product freeze" },
+    "binaryTight": { "tuples": 8192, "classified": 8192, "grid": 8187, "gcd": 2, "survivors": 3, "unresolved": 0, "authorResidueSetEquals": true },
+    "binaryGw": { "tuples": 8192, "classified": 8192, "grid": 8190, "gcd": 1, "survivors": 1, "unresolved": 0, "authorResidueSetEquals": true },
+    "terminalShards": { "scopes": 4, "tuplesEach": 49, "totalTuples": 196, "allClassificationsEqualIndependentFullGridFlatEnumeration": true, "eachArchivedSingletonGrid": 0, "eachArchivedSingletonGcd": 1, "eachArchivedSingletonSurvivors": 0 },
+    "negativeCoverage": ["malformed prime/level/residue/digit/dependency/source domain", "repeated labels preserved", "exact equality and symmetric witness", "false or nonmaximal omit-coordinate gcd", "uniform gcd across every choice", "false or nonsingleton survivor", "fully rehashed missing/overlap/reordered/duplicate/unreachable/reused/cyclic/shrunken-root trees", "source/prime/parent-label/digit-scope/root drift", "forged summary/unknown leaf fields", "work/time/node/output caps", "post-sealing and post-summary deadline faults", "byte overflow and non-JSON input"]
+  },
+  "deviations": [
+    "No mathematical/API/scope deviation. Producer intentionally compresses only uniform GRID boxes; GCD remains singleton to preserve exact GRID-first per-tuple counters. Consumer accepts sound uniform exact-GCD boxes without claiming they are individually grid-free."
+  ],
+  "issues": [
+    { "severity": "ENVIRONMENT_INCIDENT_REPAIRED_BY_MAIN", "description": "First focused command used pnpm exec, which unexpectedly triggered pnpm dependency-status auto-install, moved31 existing npm packages to node_modules/.ignored and attempted registry fetches that failed ENOTFOUND. Immediately interrupted with SIGINT, exit130, before any test. Main solely restored exact existing directories after absent-destination checks, without overwrite, download or intentional install. Subsequent direct-node tests/lint/typecheck passed. No Builder dependency repair or additional pnpm invocation." }
+  ],
+  "deferred": ["Independent Python and retained-report/product/UI acceptance belong to other Builders and Main", "Final full-unit/lint/type/build/browser acceptance", "Entire Allikvere level1 orbit domain, other primes, full terminal7^13 fibers, lower-case induction and analytic product-bound proof", "Universal LRC, novelty/formal/external acceptance and15-runner result"],
+  "suggestions": ["Keep COMPLETE finite classification separate from conditional proper and global NOT_ESTABLISHED verdicts", "Treat imported author aggregate counts as inert assertions, not full branch traces or independent coverage certificates"],
+  "executionScope": "No DB/model/provider/API/worker/Git/migration/install/deployment operations intentionally performed. Original finite v1 and unrelated dirty files untouched. Local test execution incident disclosed above."
+}

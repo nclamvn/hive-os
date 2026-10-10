@@ -301,3 +301,21 @@ const en: typeof vi = {
 export function getMathPilotCopy(locale: Locale) {
   return locale === "en" ? en : vi;
 }
+
+export function getLrcCopy(locale: Locale) {
+  return locale === "vi" ? {
+    axes: "trục vận tốc", nodes: "nút", leaves: "lá", replay: "phát lại độc lập PASS",
+    title: "Lonely Runner · chứng chỉ miền hữu hạn", start: "Khởi tạo hồ sơ hữu hạn", locked: "Cần hai calibration đạt, quyền tạo hồ sơ, Codex local và hàng đợi được bật.",
+    hint: "Chứng chỉ được kiểm tra độc lập trước solver. Miền hữu hạn không chứng minh giả thuyết tổng quát; không dùng vòng nghiên cứu Erdős–Straus.",
+    presets: { LIFTS_6_42: "6 người chạy · 7.776 bộ nâng · M = 42", GRID_6_14: "6 người chạy · lưới M = 14", SINGLETON_14_28: "14 người chạy · bộ đơn · M = 28", SINGLETON_15_30: "15 người chạy · bộ đơn · M = 30" },
+    retained: "Bằng chứng LRC đã lưu", absent: "Hồ sơ này chưa có chứng chỉ LRC hữu hạn đã lưu. Không chạy công cụ khi mở trang.", invalid: "Bằng chứng không khớp miền hoặc hợp đồng đã niêm phong; không được dùng để phản biện.",
+    domain: "Miền", covered: "Đã kiểm tra", witnesses: "Bộ có nhân chứng", excluded: "Bộ loại trừ trên lưới cố định", unresolved: "Chưa giải quyết", limitation: "Loại trừ lưới chỉ áp dụng các thời điểm j/M, không phải phản ví dụ thời gian liên tục. PASS là kiểm tra chứng chỉ, không phải nghiệm thu định lý.",
+  } : {
+    axes: "speed axes", nodes: "nodes", leaves: "leaves", replay: "independent replay PASS",
+    title: "Lonely Runner · finite-domain certificates", start: "Start finite case", locked: "Requires both calibrations, request permission, local Codex and an enabled queue.",
+    hint: "Independent certificate replay precedes the solver. Finite scope does not prove the universal conjecture and cannot launch the Erdős–Straus campaign.",
+    presets: { LIFTS_6_42: "6 runners · 7,776 lifts · M = 42", GRID_6_14: "6 runners · M = 14 grid", SINGLETON_14_28: "14 runners · singleton · M = 28", SINGLETON_15_30: "15 runners · singleton · M = 30" },
+    retained: "Retained LRC evidence", absent: "No retained finite LRC certificate for this historical case. Opening this page runs no tool.", invalid: "Evidence does not match the sealed scope or contract; it cannot authorize review.",
+    domain: "Domain", covered: "Checked", witnesses: "Witness tuples", excluded: "Fixed-grid excluded tuples", unresolved: "Unresolved", limitation: "Grid exclusion concerns only times j/M, not a continuous-time counterexample. PASS verifies a certificate, not a universal theorem.",
+  };
+}

@@ -1,0 +1,1435 @@
+{
+  "version": 1,
+  "date": "2026-10-07",
+  "purpose": "TIP081_DECLARATION_ONLY_PREFLIGHT_EVIDENCE",
+  "diagnosticSource": {
+    "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+    "digest": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+    "bytes": 10744,
+    "base64": "Ly8gRGVjbGFyYXRpb24tb25seSBiYXRjaCBkaWFnbm9zaXM7IG5ldmVyIGRlcmVmZXJlbmNlIGEgZGVjbGFyZWQgcmVmZXJlbmNlLgppbXBvcnQgcGF0aCBmcm9tICdub2RlOnBhdGgnOwppbXBvcnQge2NyZWF0ZUhhc2h9IGZyb20gJ25vZGU6Y3J5cHRvJzsKaW1wb3J0IHtvcGVuZGlyU3luY30gZnJvbSAnbm9kZTpmcyc7CmltcG9ydCB7CiBjcmVhdGVJbnZlbnRvcnlBY2Nlc3Msc3RhdEludmVudG9yeVBhdGgscmVhZEludmVudG9yeUZpbGUsCiBoYXNoSW52ZW50b3J5RmlsZSxpbnZlbnRvcnlKc29uLGludmVudG9yeVBhdGgsaW52ZW50b3J5QWNjb3VudGluZyxJTlZFTlRPUllfUk9PVFMKfSBmcm9tICcuL2FjcXVpcmUtdGlwMDgxLWludmVudG9yeS5tanMnOwppbXBvcnQge2Nhbm9uaWNhbE1hbmlmZXN0LG1hbmlmZXN0RGlnZXN0fSBmcm9tICcuL3J1bnRpbWUtdGlwMDgxLW1hbmlmZXN0Lm1qcyc7Cgpjb25zdCBMSU1JVFM9T2JqZWN0LmZyZWV6ZSh7Ynl0ZXM6NjcxMDg4NjQsZW50cmllczoyMDAwMCxzb3VyY2VCeXRlczo0MTk0MzA0LG1pbGxpc2Vjb25kczoxMjAwMDB9KTsKY29uc3QgUk9PVF9UUkFDRT0nLm5leHQtdGlwMDgwL25leHQtc2VydmVyLmpzLm5mdC5qc29uJyxTRVJWRVI9Jy5uZXh0LXRpcDA4MC9zZXJ2ZXInOwpjb25zdCBDTEFTU0VTPU9iamVjdC5mcmVlemUoWydQUk9KRUNUX0FMTE9XRUQnLCdERVBFTkRFTkNZX0FMTE9XRUQnLCdESVJFQ1RPUllfUkVGRVJFTkNFX09QRU4nLCdDQVRFR09SWV9DT05GTElDVCcsJ1BBVEhfUkVGVVNFRF9TVVBQUkVTU0VEJywnTUFMRk9STUVEX1JFRl9TVVBQUkVTU0VEJ10pOwpjb25zdCBvcmRlcj0oYSxiKT0+YTxiPy0xOmE+Yj8xOjA7CmNvbnN0IHNoYT1iPT5jcmVhdGVIYXNoKCdzaGEyNTYnKS51cGRhdGUoYikuZGlnZXN0KCdoZXgnKTsKZnVuY3Rpb24gZnJvemVuKHYpe2lmKHYmJnR5cGVvZiB2PT09J29iamVjdCcpe2Zvcihjb25zdCB4IG9mIE9iamVjdC52YWx1ZXModikpZnJvemVuKHgpO09iamVjdC5mcmVlemUodik7fXJldHVybiB2O30KZnVuY3Rpb24gZGF0YU9iamVjdCh2KXtyZXR1cm4gdiE9PW51bGwmJnR5cGVvZiB2PT09J29iamVjdCcmJiFBcnJheS5pc0FycmF5KHYpJiZPYmplY3QuZ2V0UHJvdG90eXBlT2Yodik9PT1PYmplY3QucHJvdG90eXBlO30KZnVuY3Rpb24gY2xhc3NpZmljYXRpb24ocmVmKXsKIC8vIFNhbWUgcmF3LXN0cmluZyBhbmQgbm9ybWFsaXplZCB2aXJ0dWFsLXBhdGggZ3JhbW1hciBhcyB0aGUgZnJvemVuIHByb2R1Y2VyLgogLy8gTm8gb3JpZ2luYWwgcmVqZWN0ZWQgc3RyaW5nLCBPUyBlcnJvciBtZXNzYWdlIG9yIHRhcmdldCBieXRlcyBhcmUgcmV0dXJuZWQuCiBpZih0eXBlb2YgcmVmIT09J3N0cmluZyd8fCFyZWZ8fHJlZi5sZW5ndGg+MjA0OClyZXR1cm4ge2tpbmQ6J01BTEZPUk1FRF9SRUZfU1VQUFJFU1NFRCd9OwogaWYocGF0aC5wb3NpeC5pc0Fic29sdXRlKHJlZil8fC9bXFw6XHUwMDAwLVx1MDAxZlx1MDA3Zl0vLnRlc3QocmVmKXx8Lyg/OlwuZW52fFwuZ2l0fGFydGlmYWN0c3xwMTM5fGF0dGVtcHRbLV8gXT81fGdyYW50KS9pLnRlc3QocmVmKSlyZXR1cm4ge2tpbmQ6J1BBVEhfUkVGVVNFRF9TVVBQUkVTU0VEJ307CiByZXR1cm4ge2tpbmQ6bnVsbCxyZWZ9Owp9CmZ1bmN0aW9uIG5vcm1hbGl6ZWRDbGFzcyh0cmFjZSxyZWYpewogY29uc3QgaW5pdGlhbD1jbGFzc2lmaWNhdGlvbihyZWYpO2lmKGluaXRpYWwua2luZClyZXR1cm4gaW5pdGlhbDsKIGNvbnN0IHZpcnR1YWw9cGF0aC5wb3NpeC5ub3JtYWxpemUocGF0aC5wb3NpeC5qb2luKHBhdGgucG9zaXguZGlybmFtZSh0cmFjZSksaW5pdGlhbC5yZWYpKTsKIHRyeXtpbnZlbnRvcnlQYXRoKHZpcnR1YWwpO31jYXRjaHtyZXR1cm4ge2tpbmQ6J1BBVEhfUkVGVVNFRF9TVVBQUkVTU0VEJ307fQogaWYodmlydHVhbD09PSdub2RlX21vZHVsZXMnKXJldHVybiB7a2luZDonRElSRUNUT1JZX1JFRkVSRU5DRV9PUEVOJyxwYXRoOnZpcnR1YWx9OwogaWYodmlydHVhbC5zdGFydHNXaXRoKCdub2RlX21vZHVsZXMvJykpe2NvbnN0IHJlbGF0aXZlPXZpcnR1YWwuc2xpY2UoMTMpO3JldHVybiByZWxhdGl2ZT09PScubmV4dC10aXAwODAvc3RhbmRhbG9uZSd8fHJlbGF0aXZlLnN0YXJ0c1dpdGgoJy5uZXh0LXRpcDA4MC9zdGFuZGFsb25lLycpP3traW5kOidDQVRFR09SWV9DT05GTElDVCcscGF0aDp2aXJ0dWFsfTp7a2luZDonREVQRU5ERU5DWV9BTExPV0VEJ307fQogY29uc3QgYWxsb3dlZD12aXJ0dWFsPT09J3BhY2thZ2UuanNvbid8fHZpcnR1YWwuc3RhcnRzV2l0aCgnLm5leHQtdGlwMDgwLycpfHx2aXJ0dWFsPT09J3B1YmxpYyd8fHZpcnR1YWwuc3RhcnRzV2l0aCgncHVibGljLycpOwogY29uc3QgZmFpbGVkT3V0cHV0PXZpcnR1YWw9PT0nLm5leHQtdGlwMDgwL3N0YW5kYWxvbmUnfHx2aXJ0dWFsLnN0YXJ0c1dpdGgoJy5uZXh0LXRpcDA4MC9zdGFuZGFsb25lLycpOwogcmV0dXJuIGFsbG93ZWQmJiFmYWlsZWRPdXRwdXQ/e2tpbmQ6J1BST0pFQ1RfQUxMT1dFRCd9OntraW5kOidDQVRFR09SWV9DT05GTElDVCcscGF0aDp2aXJ0dWFsfTsKfQoKZXhwb3J0IGZ1bmN0aW9uIGluc3BlY3RSYXdEZWNsYXJhdGlvbnMoKXsKIGlmKGFyZ3VtZW50cy5sZW5ndGgpdGhyb3cgbmV3IEVycm9yKCdUSVAwODFfUkFXX1BSRUZMSUdIVF9BUkdVTUVOVF9SRUZVU0VEJyk7CiBjb25zdCBzdGFydGVkPXBlcmZvcm1hbmNlLm5vdygpO2xldCBhY2Nlc3M9bnVsbCxlbnRyaWVzPTAsc291cmNlQnl0ZXM9MCxtZXRhZGF0YUJ5dGVzPTAscmVmZXJlbmNlQ291bnQ9MCxkaXJlY3RvcnlPcGVucz0wLGRpcmVjdG9yeUVudHJ5UmVhZHM9MDsKIGNvbnN0IHRyYWNlcz1bXSxkaXJlY3Rvcmllcz1bXSxjb25mbGljdHM9bmV3IE1hcCgpLHRvdGFscz1PYmplY3QuZnJvbUVudHJpZXMoQ0xBU1NFUy5tYXAoaz0+W2ssMF0pKTsKIGNvbnN0IHN0YXRzPSgpPT5hY2Nlc3M/aW52ZW50b3J5QWNjb3VudGluZyhhY2Nlc3MpOntyZWFkQXR0ZW1wdHM6MCxyZWFkQnl0ZXM6MCxtZXRhZGF0YUF0dGVtcHRzOjAsbWF4QnVmZmVyQnl0ZXM6MH07CiBmdW5jdGlvbiBzdG9wKGNvZGUsZXh0cmE9e30pe2NvbnN0IGU9bmV3IEVycm9yKGNvZGUpO2UuY29kZT1jb2RlO2UuZGV0YWlscz17c3RhZ2U6J1JBV19ERUNMQVJBVElPTl9QUkVGTElHSFQnLHRyYWNlQ291bnQ6dHJhY2VzLmxlbmd0aCxlbnRyaWVzLHNvdXJjZUJ5dGVzLHJlZmVyZW5jZUNvdW50LC4uLnN0YXRzKCksZGVjbGFyZWRSZWZlcmVuY2VUYXJnZXRzOidOT1RfQUNDRVNTRUQnLHJ1bnRpbWVTdGF0dXM6J1JVTlRJTUVfT1BFTicsLi4uZXh0cmF9O3Rocm93IGU7fQogZnVuY3Rpb24gY2hlY2soKXtjb25zdCBlbGFwc2VkPXBlcmZvcm1hbmNlLm5vdygpLXN0YXJ0ZWQ7aWYoIU51bWJlci5pc0Zpbml0ZShlbGFwc2VkKXx8ZWxhcHNlZDwwfHxlbGFwc2VkPkxJTUlUUy5taWxsaXNlY29uZHMpc3RvcCgnVElQMDgxX1JBV19QUkVGTElHSFRfVElNRV9SRUZVU0VEJyk7fQogZnVuY3Rpb24gcmVzZXJ2ZShieXRlcyxjb3VudD0wKXtjaGVjaygpO2lmKCFOdW1iZXIuaXNTYWZlSW50ZWdlcihieXRlcyl8fGJ5dGVzPDB8fGVudHJpZXMrY291bnQ+TElNSVRTLmVudHJpZXN8fG1ldGFkYXRhQnl0ZXMrYnl0ZXMrNSpzb3VyY2VCeXRlcz5MSU1JVFMuYnl0ZXMpc3RvcCgnVElQMDgxX1JBV19QUkVGTElHSFRfUkVTT1VSQ0VfUkVGVVNFRCcpO2VudHJpZXMrPWNvdW50O21ldGFkYXRhQnl0ZXMrPWJ5dGVzO30KIGZ1bmN0aW9uIHNvdXJjZU9wZXJhdGlvbihmaWxlLG9wZXJhdGlvbil7dHJ5e3JldHVybiBvcGVyYXRpb24oKTt9Y2F0Y2goZSl7aWYodHlwZW9mIGU/LmNvZGU9PT0nc3RyaW5nJyYmL15USVAwODFfW0EtWjAtOV9dKyQvLnRlc3QoZS5jb2RlKSlzdG9wKGUuY29kZSx7dHJhY2U6ZmlsZX0pO3N0b3AoJ1RJUDA4MV9SQVdfUFJFRkxJR0hUX1NPVVJDRV9SRUZVU0VEJyx7dHJhY2U6ZmlsZX0pO319CiBmdW5jdGlvbiByZWFkRGlyZWN0b3J5KGZpbGUpewogIGludmVudG9yeVBhdGgoZmlsZSk7aWYoZmlsZSE9PVNFUlZFUiYmIWZpbGUuc3RhcnRzV2l0aChTRVJWRVIrJy8nKSlzdG9wKCdUSVAwODFfUkFXX1BSRUZMSUdIVF9ESVJFQ1RPUllfU0NPUEVfUkVGVVNFRCcpOwogIGNvbnN0IGJlZm9yZT1zb3VyY2VPcGVyYXRpb24oZmlsZSwoKT0+c3RhdEludmVudG9yeVBhdGgoYWNjZXNzLCdwcm9qZWN0JyxmaWxlKSk7CiAgaWYoYmVmb3JlLnR5cGUhPT0nZGlyZWN0b3J5J3x8YmVmb3JlLnVpZCE9PXByb2Nlc3MuZ2V0dWlkPy4oKSlzdG9wKCdUSVAwODFfUkFXX1BSRUZMSUdIVF9ESVJFQ1RPUllfT1dORVJfUkVGVVNFRCcse3RyYWNlOmZpbGV9KTsKICBjb25zdCBtZW1iZXJzPVtdO2xldCBkaXJlY3Rvcnk7CiAgdHJ5ewogICBkaXJlY3Rvcnk9c291cmNlT3BlcmF0aW9uKGZpbGUsKCk9Pm9wZW5kaXJTeW5jKHBhdGguam9pbihJTlZFTlRPUllfUk9PVFMucHJvamVjdFJvb3QsZmlsZSkpKTtkaXJlY3RvcnlPcGVucysrOwogICBmb3IoOzspe2NoZWNrKCk7Y29uc3QgaXRlbT1zb3VyY2VPcGVyYXRpb24oZmlsZSwoKT0+ZGlyZWN0b3J5LnJlYWRTeW5jKCkpO2RpcmVjdG9yeUVudHJ5UmVhZHMrKztpZihpdGVtPT09bnVsbClicmVhazsKICAgIGludmVudG9yeVBhdGgoaXRlbS5uYW1lKTtyZXNlcnZlKDQqQnVmZmVyLmJ5dGVMZW5ndGgoaXRlbS5uYW1lKSs2NCwxKTttZW1iZXJzLnB1c2goaXRlbS5uYW1lKTsKICAgfQogIH1maW5hbGx5e2lmKGRpcmVjdG9yeSlzb3VyY2VPcGVyYXRpb24oZmlsZSwoKT0+ZGlyZWN0b3J5LmNsb3NlU3luYygpKTt9CiAgY29uc3QgYWZ0ZXI9c291cmNlT3BlcmF0aW9uKGZpbGUsKCk9PnN0YXRJbnZlbnRvcnlQYXRoKGFjY2VzcywncHJvamVjdCcsZmlsZSkpOwogIGlmKGNhbm9uaWNhbE1hbmlmZXN0KGJlZm9yZSkhPT1jYW5vbmljYWxNYW5pZmVzdChhZnRlcikpc3RvcCgnVElQMDgxX1JBV19QUkVGTElHSFRfTUVNQkVSU0hJUF9DSEFOR0VEJyx7dHJhY2U6ZmlsZX0pOwogIHJldHVybiBtZW1iZXJzLnNvcnQob3JkZXIpOwogfQogY29uc3QgZGlzY292ZXJ5PVtdOwogZnVuY3Rpb24gd2FsayhmaWxlKXsKICBpbnZlbnRvcnlQYXRoKGZpbGUpO3Jlc2VydmUoNCpCdWZmZXIuYnl0ZUxlbmd0aChmaWxlKSsyNTYsMSk7CiAgY29uc3Qgc3Q9c291cmNlT3BlcmF0aW9uKGZpbGUsKCk9PnN0YXRJbnZlbnRvcnlQYXRoKGFjY2VzcywncHJvamVjdCcsZmlsZSkpOwogIGlmKHN0LnR5cGU9PT0nZGlyZWN0b3J5Jyl7CiAgIGNvbnN0IG1lbWJlcnM9cmVhZERpcmVjdG9yeShmaWxlKTsKICAgcmVzZXJ2ZSgzMjAsMSk7CiAgIGRpcmVjdG9yaWVzLnB1c2goe3BhdGg6ZmlsZSxzdGF0OnN0LG1lbWJlcnN9KTtmb3IoY29uc3QgbmFtZSBvZiBtZW1iZXJzKXdhbGsoZmlsZSsnLycrbmFtZSk7CiAgfWVsc2UgaWYoZmlsZS5lbmRzV2l0aCgnLm5mdC5qc29uJykpe3Jlc2VydmUoNCpCdWZmZXIuYnl0ZUxlbmd0aChmaWxlKSszMjAsMSk7ZGlzY292ZXJ5LnB1c2goe3BhdGg6ZmlsZSxzdGF0OnN0fSk7fQogfQogYWNjZXNzPWNyZWF0ZUludmVudG9yeUFjY2Vzcyh7bW9kZTonRkFJTEVEX0JVSUxENF9GRUFTSUJJTElUWScsLi4uSU5WRU5UT1JZX1JPT1RTfSk7CiB3YWxrKFNFUlZFUik7cmVzZXJ2ZSg0KkJ1ZmZlci5ieXRlTGVuZ3RoKFJPT1RfVFJBQ0UpKzMyMCwxKTsKIGNvbnN0IHJvb3RTdGF0PXNvdXJjZU9wZXJhdGlvbihST09UX1RSQUNFLCgpPT5zdGF0SW52ZW50b3J5UGF0aChhY2Nlc3MsJ3Byb2plY3QnLFJPT1RfVFJBQ0UpKTsKIGlmKHJvb3RTdGF0LnR5cGUhPT0nZmlsZScpc3RvcCgnVElQMDgxX1JBV19QUkVGTElHSFRfUk9PVF9UUkFDRV9SRUZVU0VEJyk7cmVzZXJ2ZSgzMjAsMSk7ZGlzY292ZXJ5LnB1c2goe3BhdGg6Uk9PVF9UUkFDRSxzdGF0OnJvb3RTdGF0fSk7CiBkaXNjb3Zlcnkuc29ydCgoYSxiKT0+b3JkZXIoYS5wYXRoLGIucGF0aCkpOwogaWYoZGlzY292ZXJ5Lmxlbmd0aCE9PTU3KXN0b3AoJ1RJUDA4MV9SQVdfUFJFRkxJR0hUX1RSQUNFX0NPVU5UX1JFRlVTRUQnLHtkaXNjb3ZlcmVkOmRpc2NvdmVyeS5sZW5ndGh9KTsKIGxldCBpbnZhbGlkU2NoZW1hcz0wLHVuY2xhc3NpZmllZFRyYWNlcz0wLGRlY2xhcmVkUmVmZXJlbmNlcz0wOwogZm9yKGNvbnN0IGl0ZW0gb2YgZGlzY292ZXJ5KXsKICBjaGVjaygpO2lmKHNvdXJjZUJ5dGVzK2l0ZW0uc3RhdC5zaXplPkxJTUlUUy5zb3VyY2VCeXRlc3x8bWV0YWRhdGFCeXRlcys1Kihzb3VyY2VCeXRlcytpdGVtLnN0YXQuc2l6ZSk+TElNSVRTLmJ5dGVzKXN0b3AoJ1RJUDA4MV9SQVdfUFJFRkxJR0hUX1NPVVJDRV9DQVAnLHt0cmFjZTppdGVtLnBhdGh9KTsKICAvLyBSZXNlcnZlIHNvdXJjZSArIGRlY29kaW5nL0pTT04tY29weSB0cmFuc2llbnQgcmVwcmVzZW50YXRpb25zIGJlZm9yZSByZWFkaW5nLgogIHNvdXJjZUJ5dGVzKz1pdGVtLnN0YXQuc2l6ZTsKICBjb25zdCBieXRlcz1zb3VyY2VPcGVyYXRpb24oaXRlbS5wYXRoLCgpPT5yZWFkSW52ZW50b3J5RmlsZShhY2Nlc3MsJ3Byb2plY3QnLGl0ZW0ucGF0aCkpOwogIGNvbnN0IGRpZ2VzdD1zaGEoYnl0ZXMpO2xldCBkYXRhPW51bGwsc2NoZW1hPSdWQUxJRCcscmVmQ291bnQ9bnVsbDsKICB0cnl7ZGF0YT1pbnZlbnRvcnlKc29uKGJ5dGVzKTt9Y2F0Y2h7c2NoZW1hPSdJTlZBTElEX0pTT04nO30KICBjb25zdCBsb2NhbD1PYmplY3QuZnJvbUVudHJpZXMoQ0xBU1NFUy5tYXAoaz0+W2ssMF0pKTsKICBpZighZGF0YU9iamVjdChkYXRhKXx8IUFycmF5LmlzQXJyYXkoZGF0YS5maWxlcykpe2lmKHNjaGVtYT09PSdWQUxJRCcpc2NoZW1hPSdJTlZBTElEX1NDSEVNQSc7dW5jbGFzc2lmaWVkVHJhY2VzKys7fQogIGVsc2UgewogICByZWZDb3VudD1kYXRhLmZpbGVzLmxlbmd0aDtkZWNsYXJlZFJlZmVyZW5jZXMrPXJlZkNvdW50OwogICBpZihkYXRhLnZlcnNpb24hPT0xfHxPYmplY3Qua2V5cyhkYXRhKS5zb21lKGs9PiFbJ3ZlcnNpb24nLCdmaWxlcyddLmluY2x1ZGVzKGspKSlzY2hlbWE9J0lOVkFMSURfU0NIRU1BJzsKICAgaWYocmVmQ291bnQ+ODE5MilzdG9wKCdUSVAwODFfUkFXX1BSRUZMSUdIVF9SRUZFUkVOQ0VfQ0FQJyx7dHJhY2U6aXRlbS5wYXRofSk7CiAgIGNvbnN0IHNlZW49bmV3IFNldCgpOwogICBmb3IoY29uc3QgcmVmIG9mIGRhdGEuZmlsZXMpewogICAgLy8gQ291bnQgYWxsIHJlZmVyZW5jZSBvY2N1cnJlbmNlcywgaW5jbHVkaW5nIGR1cGxpY2F0ZXM7IG5ldmVyIHJldGFpbiByYXcgdmFsdWVzLgogICAgcmVzZXJ2ZSgyNTYsMSk7cmVmZXJlbmNlQ291bnQrKzsKICAgIGlmKHR5cGVvZiByZWY9PT0nc3RyaW5nJyl7CiAgICAgcmVzZXJ2ZSg0KkJ1ZmZlci5ieXRlTGVuZ3RoKHJlZikrMzIsc2Vlbi5oYXMocmVmKT8wOjEpOwogICAgIGlmKHNlZW4uaGFzKHJlZikpc2NoZW1hPSdJTlZBTElEX0RVUExJQ0FURV9SRUZFUkVOQ0UnO2Vsc2Ugc2Vlbi5hZGQocmVmKTsKICAgIH0KICAgIGNvbnN0IHJlc3VsdD1ub3JtYWxpemVkQ2xhc3MoaXRlbS5wYXRoLHJlZik7aWYocmVzdWx0LmtpbmQ9PT0nTUFMRk9STUVEX1JFRl9TVVBQUkVTU0VEJylzY2hlbWE9J0lOVkFMSURfUkVGRVJFTkNFX1NIQVBFJztsb2NhbFtyZXN1bHQua2luZF0rKzt0b3RhbHNbcmVzdWx0LmtpbmRdKys7CiAgICBpZihyZXN1bHQua2luZD09PSdDQVRFR09SWV9DT05GTElDVCd8fHJlc3VsdC5raW5kPT09J0RJUkVDVE9SWV9SRUZFUkVOQ0VfT1BFTicpewogICAgIGxldCByb3c9Y29uZmxpY3RzLmdldChyZXN1bHQucGF0aCk7CiAgICAgaWYoIXJvdyl7cmVzZXJ2ZSg0KkJ1ZmZlci5ieXRlTGVuZ3RoKHJlc3VsdC5wYXRoKSszMjAsMSk7cm93PXtwYXRoOnJlc3VsdC5wYXRoLGNsYXNzaWZpY2F0aW9uOnJlc3VsdC5raW5kLG9yaWdpbnM6bmV3IFNldCgpfTtjb25mbGljdHMuc2V0KHJlc3VsdC5wYXRoLHJvdyk7fQogICAgIGlmKCFyb3cub3JpZ2lucy5oYXMoaXRlbS5wYXRoKSl7cmVzZXJ2ZSg0KkJ1ZmZlci5ieXRlTGVuZ3RoKGl0ZW0ucGF0aCkrMzIsMSk7cm93Lm9yaWdpbnMuYWRkKGl0ZW0ucGF0aCk7fQogICAgfQogICB9CiAgfQogIGlmKHNjaGVtYSE9PSdWQUxJRCcpaW52YWxpZFNjaGVtYXMrKzsKICBjb25zdCBhdWRpdD1zb3VyY2VPcGVyYXRpb24oaXRlbS5wYXRoLCgpPT5oYXNoSW52ZW50b3J5RmlsZShhY2Nlc3MsJ3Byb2plY3QnLGl0ZW0ucGF0aCkpOwogIGNvbnN0IG5vdz1zb3VyY2VPcGVyYXRpb24oaXRlbS5wYXRoLCgpPT5zdGF0SW52ZW50b3J5UGF0aChhY2Nlc3MsJ3Byb2plY3QnLGl0ZW0ucGF0aCkpOwogIGlmKGF1ZGl0LmRpZ2VzdCE9PWRpZ2VzdHx8Y2Fub25pY2FsTWFuaWZlc3Qobm93KSE9PWNhbm9uaWNhbE1hbmlmZXN0KGl0ZW0uc3RhdCkpc3RvcCgnVElQMDgxX1JBV19QUkVGTElHSFRfU09VUkNFX0NIQU5HRUQnLHt0cmFjZTppdGVtLnBhdGh9KTsKICByZXNlcnZlKDEwMjQrNCpCdWZmZXIuYnl0ZUxlbmd0aChpdGVtLnBhdGgpLDEpOwogIHRyYWNlcy5wdXNoKHtwYXRoOml0ZW0ucGF0aCxzaXplOmJ5dGVzLmxlbmd0aCxkaWdlc3Qsc2NoZW1hLHJlZkNvdW50LGNsYXNzZXM6bG9jYWx9KTsKIH0KIGZvcihjb25zdCBkaXJlY3Rvcnkgb2YgZGlyZWN0b3JpZXMpewogIGNvbnN0IG5vdz1zb3VyY2VPcGVyYXRpb24oZGlyZWN0b3J5LnBhdGgsKCk9PnN0YXRJbnZlbnRvcnlQYXRoKGFjY2VzcywncHJvamVjdCcsZGlyZWN0b3J5LnBhdGgpKTsKICBjb25zdCBtZW1iZXJzPXJlYWREaXJlY3RvcnkoZGlyZWN0b3J5LnBhdGgpOwogIGlmKGNhbm9uaWNhbE1hbmlmZXN0KG5vdykhPT1jYW5vbmljYWxNYW5pZmVzdChkaXJlY3Rvcnkuc3RhdCl8fGNhbm9uaWNhbE1hbmlmZXN0KG1lbWJlcnMpIT09Y2Fub25pY2FsTWFuaWZlc3QoZGlyZWN0b3J5Lm1lbWJlcnMpKXN0b3AoJ1RJUDA4MV9SQVdfUFJFRkxJR0hUX01FTUJFUlNISVBfQ0hBTkdFRCcse3RyYWNlOmRpcmVjdG9yeS5wYXRofSk7CiB9CiBmb3IoY29uc3QgdHJhY2Ugb2YgdHJhY2VzKXsKICBjb25zdCBpdGVtPWRpc2NvdmVyeS5maW5kKHJvdz0+cm93LnBhdGg9PT10cmFjZS5wYXRoKTsKICBjb25zdCBhdWRpdD1zb3VyY2VPcGVyYXRpb24odHJhY2UucGF0aCwoKT0+aGFzaEludmVudG9yeUZpbGUoYWNjZXNzLCdwcm9qZWN0Jyx0cmFjZS5wYXRoKSk7CiAgY29uc3Qgbm93PXNvdXJjZU9wZXJhdGlvbih0cmFjZS5wYXRoLCgpPT5zdGF0SW52ZW50b3J5UGF0aChhY2Nlc3MsJ3Byb2plY3QnLHRyYWNlLnBhdGgpKTsKICBpZihhdWRpdC5kaWdlc3QhPT10cmFjZS5kaWdlc3R8fGNhbm9uaWNhbE1hbmlmZXN0KG5vdykhPT1jYW5vbmljYWxNYW5pZmVzdChpdGVtLnN0YXQpKXN0b3AoJ1RJUDA4MV9SQVdfUFJFRkxJR0hUX1NPVVJDRV9DSEFOR0VEJyx7dHJhY2U6dHJhY2UucGF0aH0pOwogfQogY2hlY2soKTsKIGxldCBvdXRwdXRFbnRyaWVzPWNvbmZsaWN0cy5zaXplO2Zvcihjb25zdCByb3cgb2YgY29uZmxpY3RzLnZhbHVlcygpKW91dHB1dEVudHJpZXMrPXJvdy5vcmlnaW5zLnNpemU7cmVzZXJ2ZSgzMjAqY29uZmxpY3RzLnNpemUsb3V0cHV0RW50cmllcyk7CiBjb25zdCB0YXJnZXRzPVsuLi5jb25mbGljdHMudmFsdWVzKCldLm1hcChyPT4oe3BhdGg6ci5wYXRoLGNsYXNzaWZpY2F0aW9uOnIuY2xhc3NpZmljYXRpb24sb3JpZ2luczpbLi4uci5vcmlnaW5zXS5zb3J0KG9yZGVyKX0pKS5zb3J0KChhLGIpPT5vcmRlcihhLnBhdGgsYi5wYXRoKSk7CiBjb25zdCBib2R5PXt2ZXJzaW9uOjEscHVycG9zZTonVElQMDgxX0JBVENIX1JBV19ERUNMQVJBVElPTl9QUkVGTElHSFQnLGVwb2NoOidGQUlMRURfQlVJTEQ0X0ZFQVNJQklMSVRZJyxyb290OklOVkVOVE9SWV9ST09UUy5wcm9qZWN0Um9vdCxzdGF0dXM6aW52YWxpZFNjaGVtYXM/J0RFQ0xBUkFUSU9OX1NDSEVNQV9PUEVOJzonREVDTEFSQVRJT05TX0NMQVNTSUZJRURfUlVOVElNRV9PUEVOJyxzY29wZTonRVhBQ1RfNTdfUkFXX0RFQ0xBUkFUSU9OU19PTkxZJyxjbGFzc2lmaWNhdGlvblNlbWFudGljczonU1lOVEFYX09OTFlfSU5WQUxJRF9TQ0hFTUFfUk9XU19VTkFETUlUVEVEX05PX0ZTX1BSRVNFTkNFX0NMQUlNJyx0cmFjZUNvdW50OnRyYWNlcy5sZW5ndGgsZGVjbGFyZWRSZWZlcmVuY2VzLGNsYXNzaWZpZWRSZWZlcmVuY2VzOnJlZmVyZW5jZUNvdW50LGludmFsaWRTY2hlbWFzLHVuY2xhc3NpZmllZFRyYWNlcyxjbGFzc2VzOnRvdGFscyxjb25mbGljdHM6dGFyZ2V0cyx0cmFjZXMsYWNjb3VudGluZzp7ZW50cmllcyxzb3VyY2VCeXRlcyxyZXRhaW5lZE1ldGFkYXRhUmVzZXJ2YXRpb246bWV0YWRhdGFCeXRlcyxkaXJlY3RvcnlPcGVucyxkaXJlY3RvcnlFbnRyeVJlYWRzLC4uLnN0YXRzKCl9LHNvdXJjZVJhY2VNb2RlbDonTk9GT0xMT1dfQ0hFQ0tTX0FORF9TQU1FX1VJRF9TVEFCSUxJVFlfTk9UX0FUT01JQ19ESVJGRF9TRUNVUklUWScsZGVjbGFyZWRSZWZlcmVuY2VUYXJnZXRzOidOT1RfQUNDRVNTRUQnLGluc3RhbGxlZFRyZWU6J05PVF9UUkFWRVJTRUQnLHJ1bnRpbWVTdGF0dXM6J1JVTlRJTUVfT1BFTicsZ3JhcGhTdGF0dXM6J0FDUVVJUkVEX0dSQVBIX1VOUlVOJyxmdWxsUnVudGltZUNsb3N1cmU6J05PVF9BQ0NFUFRFRCcsZXhlY3V0aW9uOmZhbHNlLG1hdGVyaWFsaXphdGlvbjpmYWxzZX07CiBjb25zdCByZXN1bHQ9ey4uLmJvZHksZGlnZXN0Om1hbmlmZXN0RGlnZXN0KGJvZHkpfTsKIHJlc2VydmUoQnVmZmVyLmJ5dGVMZW5ndGgoY2Fub25pY2FsTWFuaWZlc3QocmVzdWx0KSkpO2NoZWNrKCk7cmV0dXJuIGZyb3plbihyZXN1bHQpOwp9Cg=="
+  },
+  "sourceReview": "Main complete source read +independent reviewer CLEAR; no target FS from raw refs; dependency standalone parity corrected before effects",
+  "preflightPins": {
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+    "scripts/test/start-tip081-standalone.mjs": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+    "node_modules/next/dist/build/utils.js": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+    "node_modules/next/dist/build/collect-build-traces.js": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+    "node_modules/next/dist/compiled/@vercel/nft/index.js": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+    "next.config.ts": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+    "package.json": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+    "package-lock.json": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+    "tsconfig.json": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+    "node_modules/next/dist/compiled/acorn/acorn.js": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+    "node_modules/next/dist/compiled/acorn/package.json": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+    "scripts/test/acquire-tip081-inventory.mjs": "104de3668412d54df55adb9dc98eefc8b8a8bd32a839f94b97b2d76d6b35588f",
+    "scripts/test/verify-tip081-inventory.mjs": "a3b391338cb07155d41d5e8f004f536c9761633e2ed7f856230f6672cf6d6aba",
+    "tests/unit/evidence-studio-inventory.test.ts": "361ed4046a1f525486645da3711da402aede6634119abe2285aff5880234bfa7",
+    "tests/unit/evidence-studio-inventory-verifier.test.ts": "2573302a8be8be5db0a7afbf6684a7991471b740244e279bee8746ea31d2bdc1",
+    "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+    "scripts/test/runtime-tip081-manifest.mjs": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+    "scripts/test/verify-tip081-manifest.mjs": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+    "node_modules/next/package.json": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+    "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+    "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+    "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+    "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+    "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+    "node_modules/next/dist/server/require.js": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+    "node_modules/next/dist/build/index.js": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+    "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+    "scripts/test/preflight-tip081-raw-traces.mjs": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+  },
+  "run": {
+    "purpose": "TIP081_RAW_DECLARATION_BATCH_DIAGNOSTIC",
+    "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (literal \"/dev/null\")))",
+    "previousCumulativeMilliseconds": 433879.611542,
+    "cumulativeMilliseconds": 436477.64891700004,
+    "remainingMilliseconds": 463522.35108299996,
+    "results": [
+      {
+        "name": "syntax",
+        "milliseconds": 44.324875,
+        "limitMilliseconds": 120000,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "milliseconds": 2322.51425,
+        "limitMilliseconds": 180000,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "batch",
+        "milliseconds": 231.19824999999992,
+        "limitMilliseconds": 120000,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "{\"beforePins\":32,\"afterPins\":32,\"result\":{\"version\":1,\"purpose\":\"TIP081_BATCH_RAW_DECLARATION_PREFLIGHT\",\"epoch\":\"FAILED_BUILD4_FEASIBILITY\",\"root\":\"/private/tmp/hiveos-tip081-shadow-QGsthQ\",\"status\":\"DECLARATIONS_CLASSIFIED_RUNTIME_OPEN\",\"scope\":\"EXACT_57_RAW_DECLARATIONS_ONLY\",\"classificationSemantics\":\"SYNTAX_ONLY_INVALID_SCHEMA_ROWS_UNADMITTED_NO_FS_PRESENCE_CLAIM\",\"traceCount\":57,\"declaredReferences\":3678,\"classifiedReferences\":3678,\"invalidSchemas\":0,\"unclassifiedTraces\":0,\"classes\":{\"PROJECT_ALLOWED\":3521,\"DEPENDENCY_ALLOWED\":47,\"DIRECTORY_REFERENCE_OPEN\":56,\"CATEGORY_CONFLICT\":54,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0},\"conflicts\":[{\"path\":\"docs/research/lrc-allikvere-p199/author-kill-logs.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/author-root-readme.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/provenance.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/retained-cover-report.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/retained-frontier-report.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/retained-report.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-p199/retained-unit-report.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-cascade.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-covering-number.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-generation.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-terminal.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-properness-bridge.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]},{\"path\":\"node_modules\",\"classification\":\"DIRECTORY_REFERENCE_OPEN\",\"origins\":[\".next-tip080/next-server.js.nft.json\",\".next-tip080/server/app/_global-error/page.js.nft.json\",\".next-tip080/server/app/_not-found/page.js.nft.json\",\".next-tip080/server/app/api/auth/[...all]/route.js.nft.json\",\".next-tip080/server/app/api/health/live/route.js.nft.json\",\".next-tip080/server/app/api/health/ready/route.js.nft.json\",\".next-tip080/server/app/api/health/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/audit/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/dossier/[exportId]/parts/[sequence]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/mission/[missionId]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/pilot/[missionId]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/release/[releaseId]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/exports/verification/[reportId]/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/export/route.js.nft.json\",\".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/status/route.js.nft.json\",\".next-tip080/server/app/check-email/page.js.nft.json\",\".next-tip080/server/app/favicon.ico/route.js.nft.json\",\".next-tip080/server/app/forgot-password/page.js.nft.json\",\".next-tip080/server/app/invitations/[token]/page.js.nft.json\",\".next-tip080/server/app/onboarding/page.js.nft.json\",\".next-tip080/server/app/page.js.nft.json\",\".next-tip080/server/app/reset-password/page.js.nft.json\",\".next-tip080/server/app/settings/security/page.js.nft.json\",\".next-tip080/server/app/sign-in/page.js.nft.json\",\".next-tip080/server/app/sign-up/page.js.nft.json\",\".next-tip080/server/app/verify-email/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/claims/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/control-room/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/evidence/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/execution/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/missions/[missionId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/missions/new/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/missions/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/observatory/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/reports/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/reports/pilot/[missionId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/evidence-studio/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/permutations/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/settings/audit/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/settings/members/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/settings/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/settings/workspace/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/skills/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/templates/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/verification/page.js.nft.json\",\".next-tip080/server/app/workspaces/page.js.nft.json\",\".next-tip080/server/middleware.js.nft.json\"]},{\"path\":\"scripts/operations/higherpower-core-check.ts\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json\"]},{\"path\":\"scripts/operations/higherpower-core-replay.ts\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json\"]},{\"path\":\"scripts/operations/install-permutation-bridge-source.ts\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json\"]},{\"path\":\"src/server/research/mixed-core-power-evidence.ts\",\"classification\":\"CATEGORY_CONFLICT\",\"origins\":[\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\"]}],\"traces\":[{\"path\":\".next-tip080/next-server.js.nft.json\",\"size\":2208,\"digest\":\"8d9fbb65fefbdaf40c4ae029f2393a48d0270565f38963aa245a4638649c2867\",\"schema\":\"VALID\",\"refCount\":28,\"classes\":{\"PROJECT_ALLOWED\":0,\"DEPENDENCY_ALLOWED\":27,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/_global-error/page.js.nft.json\",\"size\":1487,\"digest\":\"0c7925c2cb7f3860244ba2e6f03243739b2415865677a51d61d0f38bfe97addc\",\"schema\":\"VALID\",\"refCount\":63,\"classes\":{\"PROJECT_ALLOWED\":62,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/_not-found/page.js.nft.json\",\"size\":1487,\"digest\":\"0c7925c2cb7f3860244ba2e6f03243739b2415865677a51d61d0f38bfe97addc\",\"schema\":\"VALID\",\"refCount\":63,\"classes\":{\"PROJECT_ALLOWED\":62,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/auth/[...all]/route.js.nft.json\",\"size\":1893,\"digest\":\"03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/health/live/route.js.nft.json\",\"size\":1893,\"digest\":\"03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/health/ready/route.js.nft.json\",\"size\":1893,\"digest\":\"03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/health/route.js.nft.json\",\"size\":1704,\"digest\":\"f5a7b0f3b129ab1306eb8894a564700bfefc000c7e869d62ee66a1dfed8c122c\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json\",\"size\":3069,\"digest\":\"e416f783f5be9a8c60fc332bd1eb063c8fd07bb0e429859d42c4246a9cd3db82\",\"schema\":\"VALID\",\"refCount\":69,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":3,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/audit/route.js.nft.json\",\"size\":2436,\"digest\":\"b681e693ccf0f00bcb97de691cd320eb175e73a2df6680e18ec867c5b186374f\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/dossier/[exportId]/parts/[sequence]/route.js.nft.json\",\"size\":3021,\"digest\":\"e4a188889bcd59e223f5d27125f7575d668ff153e6f6f092035b0f0652a17554\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/mission/[missionId]/route.js.nft.json\",\"size\":2631,\"digest\":\"e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/pilot/[missionId]/route.js.nft.json\",\"size\":2631,\"digest\":\"e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/release/[releaseId]/route.js.nft.json\",\"size\":2631,\"digest\":\"e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/exports/verification/[reportId]/route.js.nft.json\",\"size\":2631,\"digest\":\"e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.js.nft.json\",\"size\":2826,\"digest\":\"1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/export/route.js.nft.json\",\"size\":2826,\"digest\":\"1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/status/route.js.nft.json\",\"size\":2826,\"digest\":\"1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2\",\"schema\":\"VALID\",\"refCount\":66,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":2,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/check-email/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/favicon.ico/route.js.nft.json\",\"size\":1478,\"digest\":\"a96a0bfa4c4152cab270438e0a5d30f23cda9e779f10ba900e16977e85c6c64c\",\"schema\":\"VALID\",\"refCount\":63,\"classes\":{\"PROJECT_ALLOWED\":62,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/forgot-password/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/invitations/[token]/page.js.nft.json\",\"size\":1703,\"digest\":\"0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/onboarding/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/page.js.nft.json\",\"size\":1325,\"digest\":\"c3dbbbd3efcd511887cc5cd2a929e12f86e8e67da0fca02e2581687fbdcf223a\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/reset-password/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/settings/security/page.js.nft.json\",\"size\":1703,\"digest\":\"0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/sign-in/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/sign-up/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/verify-email/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json\",\"size\":2297,\"digest\":\"9c3e0069f940755d4e8b8b9f6fbe0df16baf645989a894a5df063a463abd8d7e\",\"schema\":\"VALID\",\"refCount\":67,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":3,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json\",\"size\":2099,\"digest\":\"4811a0ffd56696d7ceffa45d81fdb866de70e33c9873776e3944462121b32dbc\",\"schema\":\"VALID\",\"refCount\":67,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":3,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/claims/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/control-room/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/evidence/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/execution/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/missions/[missionId]/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/missions/new/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/missions/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/observatory/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/page.js.nft.json\",\"size\":1703,\"digest\":\"0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/reports/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/reports/pilot/[missionId]/page.js.nft.json\",\"size\":2270,\"digest\":\"936d1bacb4f30091e1a37650170e588144ab5605bdbabe4fcccbf05e38ecb39e\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/evidence-studio/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json\",\"size\":3135,\"digest\":\"cb1d3f77829fd63746a833a5dafd0f84d741bedfc1b64f477e4265e0e058a6ab\",\"schema\":\"VALID\",\"refCount\":77,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":13,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json\",\"size\":3405,\"digest\":\"ac8d318b5f7b7900db37837a96980a820d81ddba38cb3e4a684ffa2120ecf3cb\",\"schema\":\"VALID\",\"refCount\":80,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":16,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json\",\"size\":2907,\"digest\":\"338ae9cf773cb372174f2b370b011a5fcecfe7a3c14e1d70aba8683555509773\",\"schema\":\"VALID\",\"refCount\":77,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":13,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/permutations/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json\",\"size\":2297,\"digest\":\"9c3e0069f940755d4e8b8b9f6fbe0df16baf645989a894a5df063a463abd8d7e\",\"schema\":\"VALID\",\"refCount\":67,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":3,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/settings/audit/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/settings/members/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/settings/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/settings/workspace/page.js.nft.json\",\"size\":2081,\"digest\":\"019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/skills/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/templates/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/verification/page.js.nft.json\",\"size\":1892,\"digest\":\"a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/app/workspaces/page.js.nft.json\",\"size\":1514,\"digest\":\"1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6\",\"schema\":\"VALID\",\"refCount\":64,\"classes\":{\"PROJECT_ALLOWED\":63,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/instrumentation.js.nft.json\",\"size\":1058,\"digest\":\"a3751d98008d7bac6048b1076b176791b1734cde83c59ea326872f543111395e\",\"schema\":\"VALID\",\"refCount\":61,\"classes\":{\"PROJECT_ALLOWED\":61,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":0,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}},{\"path\":\".next-tip080/server/middleware.js.nft.json\",\"size\":1079,\"digest\":\"d2278299690cb78c3c3ce43fa32237d6422d699e0975607aa013d70366bab56c\",\"schema\":\"VALID\",\"refCount\":62,\"classes\":{\"PROJECT_ALLOWED\":61,\"DEPENDENCY_ALLOWED\":0,\"DIRECTORY_REFERENCE_OPEN\":1,\"CATEGORY_CONFLICT\":0,\"PATH_REFUSED_SUPPRESSED\":0,\"MALFORMED_REF_SUPPRESSED\":0}}],\"accounting\":{\"entries\":8810,\"sourceBytes\":116043,\"retainedMetadataReservation\":1905132,\"directoryOpens\":166,\"directoryEntryReads\":828,\"readAttempts\":171,\"readBytes\":348129,\"metadataAttempts\":17782,\"maxBufferBytes\":3405},\"sourceRaceModel\":\"NOFOLLOW_CHECKS_AND_SAME_UID_STABILITY_NOT_ATOMIC_DIRFD_SECURITY\",\"declaredReferenceTargets\":\"NOT_ACCESSED\",\"installedTree\":\"NOT_TRAVERSED\",\"runtimeStatus\":\"RUNTIME_OPEN\",\"graphStatus\":\"ACQUIRED_GRAPH_UNRUN\",\"fullRuntimeClosure\":\"NOT_ACCEPTED\",\"execution\":false,\"materialization\":false,\"digest\":\"9a592b20a4b094aefdf882755bff8047b7384cb9ac3188f7243cd979a6e3fe38\"}}\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "parsedResult": {
+    "beforePins": 32,
+    "afterPins": 32,
+    "result": {
+      "version": 1,
+      "purpose": "TIP081_BATCH_RAW_DECLARATION_PREFLIGHT",
+      "epoch": "FAILED_BUILD4_FEASIBILITY",
+      "root": "/private/tmp/hiveos-tip081-shadow-QGsthQ",
+      "status": "DECLARATIONS_CLASSIFIED_RUNTIME_OPEN",
+      "scope": "EXACT_57_RAW_DECLARATIONS_ONLY",
+      "classificationSemantics": "SYNTAX_ONLY_INVALID_SCHEMA_ROWS_UNADMITTED_NO_FS_PRESENCE_CLAIM",
+      "traceCount": 57,
+      "declaredReferences": 3678,
+      "classifiedReferences": 3678,
+      "invalidSchemas": 0,
+      "unclassifiedTraces": 0,
+      "classes": {
+        "PROJECT_ALLOWED": 3521,
+        "DEPENDENCY_ALLOWED": 47,
+        "DIRECTORY_REFERENCE_OPEN": 56,
+        "CATEGORY_CONFLICT": 54,
+        "PATH_REFUSED_SUPPRESSED": 0,
+        "MALFORMED_REF_SUPPRESSED": 0
+      },
+      "conflicts": [
+        {
+          "path": "docs/research/lrc-allikvere-p199/author-kill-logs.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/author-root-readme.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/provenance.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/retained-cover-report.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/retained-frontier-report.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/retained-report.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-p199/retained-unit-report.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-p83-cascade.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-p83-covering-number.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-p83-generation.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-p83-terminal.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-properness-bridge.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "node_modules",
+          "classification": "DIRECTORY_REFERENCE_OPEN",
+          "origins": [
+            ".next-tip080/next-server.js.nft.json",
+            ".next-tip080/server/app/_global-error/page.js.nft.json",
+            ".next-tip080/server/app/_not-found/page.js.nft.json",
+            ".next-tip080/server/app/api/auth/[...all]/route.js.nft.json",
+            ".next-tip080/server/app/api/health/live/route.js.nft.json",
+            ".next-tip080/server/app/api/health/ready/route.js.nft.json",
+            ".next-tip080/server/app/api/health/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/audit/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/dossier/[exportId]/parts/[sequence]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/mission/[missionId]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/pilot/[missionId]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/release/[releaseId]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/exports/verification/[reportId]/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/export/route.js.nft.json",
+            ".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/status/route.js.nft.json",
+            ".next-tip080/server/app/check-email/page.js.nft.json",
+            ".next-tip080/server/app/favicon.ico/route.js.nft.json",
+            ".next-tip080/server/app/forgot-password/page.js.nft.json",
+            ".next-tip080/server/app/invitations/[token]/page.js.nft.json",
+            ".next-tip080/server/app/onboarding/page.js.nft.json",
+            ".next-tip080/server/app/page.js.nft.json",
+            ".next-tip080/server/app/reset-password/page.js.nft.json",
+            ".next-tip080/server/app/settings/security/page.js.nft.json",
+            ".next-tip080/server/app/sign-in/page.js.nft.json",
+            ".next-tip080/server/app/sign-up/page.js.nft.json",
+            ".next-tip080/server/app/verify-email/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/claims/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/control-room/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/evidence/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/execution/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/missions/[missionId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/missions/new/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/missions/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/observatory/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/reports/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/reports/pilot/[missionId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/evidence-studio/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/permutations/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/settings/audit/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/settings/members/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/settings/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/settings/workspace/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/skills/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/templates/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/verification/page.js.nft.json",
+            ".next-tip080/server/app/workspaces/page.js.nft.json",
+            ".next-tip080/server/middleware.js.nft.json"
+          ]
+        },
+        {
+          "path": "scripts/operations/higherpower-core-check.ts",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "scripts/operations/higherpower-core-replay.ts",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "scripts/operations/install-permutation-bridge-source.ts",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json"
+          ]
+        },
+        {
+          "path": "src/server/research/mixed-core-power-evidence.ts",
+          "classification": "CATEGORY_CONFLICT",
+          "origins": [
+            ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+            ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "path": ".next-tip080/next-server.js.nft.json",
+          "size": 2208,
+          "digest": "8d9fbb65fefbdaf40c4ae029f2393a48d0270565f38963aa245a4638649c2867",
+          "schema": "VALID",
+          "refCount": 28,
+          "classes": {
+            "PROJECT_ALLOWED": 0,
+            "DEPENDENCY_ALLOWED": 27,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/_global-error/page.js.nft.json",
+          "size": 1487,
+          "digest": "0c7925c2cb7f3860244ba2e6f03243739b2415865677a51d61d0f38bfe97addc",
+          "schema": "VALID",
+          "refCount": 63,
+          "classes": {
+            "PROJECT_ALLOWED": 62,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/_not-found/page.js.nft.json",
+          "size": 1487,
+          "digest": "0c7925c2cb7f3860244ba2e6f03243739b2415865677a51d61d0f38bfe97addc",
+          "schema": "VALID",
+          "refCount": 63,
+          "classes": {
+            "PROJECT_ALLOWED": 62,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/auth/[...all]/route.js.nft.json",
+          "size": 1893,
+          "digest": "03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/health/live/route.js.nft.json",
+          "size": 1893,
+          "digest": "03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/health/ready/route.js.nft.json",
+          "size": 1893,
+          "digest": "03bfd8635eafddca2847f431890f7c89ddd6f67d34aeb784039e51e9e407a566",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/health/route.js.nft.json",
+          "size": 1704,
+          "digest": "f5a7b0f3b129ab1306eb8894a564700bfefc000c7e869d62ee66a1dfed8c122c",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/authoring/[documentId]/export/[format]/route.js.nft.json",
+          "size": 3069,
+          "digest": "e416f783f5be9a8c60fc332bd1eb063c8fd07bb0e429859d42c4246a9cd3db82",
+          "schema": "VALID",
+          "refCount": 69,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 3,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/audit/route.js.nft.json",
+          "size": 2436,
+          "digest": "b681e693ccf0f00bcb97de691cd320eb175e73a2df6680e18ec867c5b186374f",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/dossier/[exportId]/parts/[sequence]/route.js.nft.json",
+          "size": 3021,
+          "digest": "e4a188889bcd59e223f5d27125f7575d668ff153e6f6f092035b0f0652a17554",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/mission/[missionId]/route.js.nft.json",
+          "size": 2631,
+          "digest": "e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/pilot/[missionId]/route.js.nft.json",
+          "size": 2631,
+          "digest": "e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/release/[releaseId]/route.js.nft.json",
+          "size": 2631,
+          "digest": "e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/exports/verification/[reportId]/route.js.nft.json",
+          "size": 2631,
+          "digest": "e3ee96271e240cb9483a85c5b02253e638c8bfcdb677df02192dff30e547dc3c",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.js.nft.json",
+          "size": 2826,
+          "digest": "1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/export/route.js.nft.json",
+          "size": 2826,
+          "digest": "1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/api/w/[workspaceSlug]/research/poly19/[runId]/status/route.js.nft.json",
+          "size": 2826,
+          "digest": "1adeda775705449d57caa049705caf702929d2c18679f775628f5d9f79e801b2",
+          "schema": "VALID",
+          "refCount": 66,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 2,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/check-email/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/favicon.ico/route.js.nft.json",
+          "size": 1478,
+          "digest": "a96a0bfa4c4152cab270438e0a5d30f23cda9e779f10ba900e16977e85c6c64c",
+          "schema": "VALID",
+          "refCount": 63,
+          "classes": {
+            "PROJECT_ALLOWED": 62,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/forgot-password/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/invitations/[token]/page.js.nft.json",
+          "size": 1703,
+          "digest": "0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/onboarding/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/page.js.nft.json",
+          "size": 1325,
+          "digest": "c3dbbbd3efcd511887cc5cd2a929e12f86e8e67da0fca02e2581687fbdcf223a",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/reset-password/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/settings/security/page.js.nft.json",
+          "size": 1703,
+          "digest": "0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/sign-in/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/sign-up/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/verify-email/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/authoring/[documentId]/page.js.nft.json",
+          "size": 2297,
+          "digest": "9c3e0069f940755d4e8b8b9f6fbe0df16baf645989a894a5df063a463abd8d7e",
+          "schema": "VALID",
+          "refCount": 67,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 3,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/authoring/page.js.nft.json",
+          "size": 2099,
+          "digest": "4811a0ffd56696d7ceffa45d81fdb866de70e33c9873776e3944462121b32dbc",
+          "schema": "VALID",
+          "refCount": 67,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 3,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/claims/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/control-room/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/evidence/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/execution/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/missions/[missionId]/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/missions/new/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/missions/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/observatory/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/page.js.nft.json",
+          "size": 1703,
+          "digest": "0698c47b17e850be17f9134138e97195918651263255fca2b703b1e13ad1f517",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/reports/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/reports/pilot/[missionId]/page.js.nft.json",
+          "size": 2270,
+          "digest": "936d1bacb4f30091e1a37650170e588144ab5605bdbabe4fcccbf05e38ecb39e",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/evidence-studio/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/math-pilot/page.js.nft.json",
+          "size": 3135,
+          "digest": "cb1d3f77829fd63746a833a5dafd0f84d741bedfc1b64f477e4265e0e058a6ab",
+          "schema": "VALID",
+          "refCount": 77,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 13,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js.nft.json",
+          "size": 3405,
+          "digest": "ac8d318b5f7b7900db37837a96980a820d81ddba38cb3e4a684ffa2120ecf3cb",
+          "schema": "VALID",
+          "refCount": 80,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 16,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/page.js.nft.json",
+          "size": 2907,
+          "digest": "338ae9cf773cb372174f2b370b011a5fcecfe7a3c14e1d70aba8683555509773",
+          "schema": "VALID",
+          "refCount": 77,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 13,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/permutations/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/research/poly19/page.js.nft.json",
+          "size": 2297,
+          "digest": "9c3e0069f940755d4e8b8b9f6fbe0df16baf645989a894a5df063a463abd8d7e",
+          "schema": "VALID",
+          "refCount": 67,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 3,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/settings/audit/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/settings/members/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/settings/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/settings/workspace/page.js.nft.json",
+          "size": 2081,
+          "digest": "019641b89b4672c03c1541122254e277f2818a16398d2c23676fff7103208f48",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/skills/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/templates/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/w/[workspaceSlug]/verification/page.js.nft.json",
+          "size": 1892,
+          "digest": "a311fbd3fcafc8abf5972ce3574a86511b17d51666ba4d59da2ea75f69ad8388",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/app/workspaces/page.js.nft.json",
+          "size": 1514,
+          "digest": "1065249b01751557f271ac4bbcddf460037aa74b452be10983a03b2b7e1201b6",
+          "schema": "VALID",
+          "refCount": 64,
+          "classes": {
+            "PROJECT_ALLOWED": 63,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/instrumentation.js.nft.json",
+          "size": 1058,
+          "digest": "a3751d98008d7bac6048b1076b176791b1734cde83c59ea326872f543111395e",
+          "schema": "VALID",
+          "refCount": 61,
+          "classes": {
+            "PROJECT_ALLOWED": 61,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 0,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        },
+        {
+          "path": ".next-tip080/server/middleware.js.nft.json",
+          "size": 1079,
+          "digest": "d2278299690cb78c3c3ce43fa32237d6422d699e0975607aa013d70366bab56c",
+          "schema": "VALID",
+          "refCount": 62,
+          "classes": {
+            "PROJECT_ALLOWED": 61,
+            "DEPENDENCY_ALLOWED": 0,
+            "DIRECTORY_REFERENCE_OPEN": 1,
+            "CATEGORY_CONFLICT": 0,
+            "PATH_REFUSED_SUPPRESSED": 0,
+            "MALFORMED_REF_SUPPRESSED": 0
+          }
+        }
+      ],
+      "accounting": {
+        "entries": 8810,
+        "sourceBytes": 116043,
+        "retainedMetadataReservation": 1905132,
+        "directoryOpens": 166,
+        "directoryEntryReads": 828,
+        "readAttempts": 171,
+        "readBytes": 348129,
+        "metadataAttempts": 17782,
+        "maxBufferBytes": 3405
+      },
+      "sourceRaceModel": "NOFOLLOW_CHECKS_AND_SAME_UID_STABILITY_NOT_ATOMIC_DIRFD_SECURITY",
+      "declaredReferenceTargets": "NOT_ACCESSED",
+      "installedTree": "NOT_TRAVERSED",
+      "runtimeStatus": "RUNTIME_OPEN",
+      "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+      "fullRuntimeClosure": "NOT_ACCEPTED",
+      "execution": false,
+      "materialization": false,
+      "digest": "9a592b20a4b094aefdf882755bff8047b7384cb9ac3188f7243cd979a6e3fe38"
+    }
+  },
+  "groups": {
+    "Research JSON": {
+      "unique": 16,
+      "occurrences": 34,
+      "paths": [
+        "docs/research/lrc-allikvere-p199/author-kill-logs.json",
+        "docs/research/lrc-allikvere-p199/author-root-readme.json",
+        "docs/research/lrc-allikvere-p199/provenance.json",
+        "docs/research/lrc-allikvere-p199/retained-cover-report.json",
+        "docs/research/lrc-allikvere-p199/retained-frontier-report.json",
+        "docs/research/lrc-allikvere-p199/retained-report.json",
+        "docs/research/lrc-allikvere-p199/retained-unit-report.json",
+        "docs/research/lrc-allikvere-v2/retained-p83-cascade.json",
+        "docs/research/lrc-allikvere-v2/retained-p83-covering-number.json",
+        "docs/research/lrc-allikvere-v2/retained-p83-generation.json",
+        "docs/research/lrc-allikvere-v2/retained-p83-terminal.json",
+        "docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json",
+        "docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json",
+        "docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json",
+        "docs/research/lrc-allikvere-v2/retained-properness-bridge.json",
+        "docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json"
+      ]
+    },
+    "Operations scripts": {
+      "unique": 3,
+      "occurrences": 18,
+      "paths": [
+        "scripts/operations/higherpower-core-check.ts",
+        "scripts/operations/higherpower-core-replay.ts",
+        "scripts/operations/install-permutation-bridge-source.ts"
+      ]
+    },
+    "Source file": {
+      "unique": 1,
+      "occurrences": 2,
+      "paths": [
+        "src/server/research/mixed-core-power-evidence.ts"
+      ]
+    }
+  },
+  "existingPinMetadata": {
+    "basis": "Previously admitted frozen configFinalBundle metadata in session; separately pinned old080 metadata-only file check",
+    "mapping": [
+      {
+        "path": "docs/research/lrc-allikvere-p199/author-kill-logs.json",
+        "assetPin": "70a19806e1baa7b32dad0ada99a7d122ecd494f1a8c58352e0a2498d8b70f5b2",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/author-root-readme.json",
+        "assetPin": "a0157df9b2701b3537d5d5c56b7407a2d81caa950347bb8bcb2e11fec2413fe6",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/provenance.json",
+        "assetPin": "f72aa3f932e7baee063e35bee7a4ece0f849bd084590107713ca2da95a2694f5",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/retained-cover-report.json",
+        "assetPin": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/retained-frontier-report.json",
+        "assetPin": "a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/retained-report.json",
+        "assetPin": "82092f2b32be89999bc834d426be71aea5fa408f9865a53a795b765b3e2deb20",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-p199/retained-unit-report.json",
+        "assetPin": "78519d5c7113a63bf79ed6ab8352adcf221937a6b13bfa0647251ce5478d99d4",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-p83-cascade.json",
+        "assetPin": "0872e1bd95533fea3cfbdd2eab2834607283739c5796ef4c82e5636a57affbb1",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-p83-covering-number.json",
+        "assetPin": "540adb5504a3c3b1ed9e277c304ccc20027711a0bbd29dd3d8f765c91cdd9d06",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-p83-generation.json",
+        "assetPin": "72d26052dd11ddc2c46ca5d08676975cefe398f701580a00e6499076ca2a08ef",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-p83-terminal.json",
+        "assetPin": "f5e85bcad566519149f4a5267672b08bbb0f0064882a4585215d2280f4ab3230",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json",
+        "assetPin": "e17d97fa1d4a8f05e899e06cfb2da24fb439376fe25b6783eb9c10da650ab8f6",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json",
+        "assetPin": "3387eca4befe5d67845278c3120e65b098764a742af26f6e615b6da2512bf693",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json",
+        "assetPin": "8f0d79ea33d484bcbd9e966096e91b0af4f7081fe46b4e3fb554f38bd2108962",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-properness-bridge.json",
+        "assetPin": "caabe317e7bd8692e00a39e57f349255557701d568489613ade4f25a4b7f5d02",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json",
+        "assetPin": "b29cd15b4520e74943e12c194765155a1238857ae39c2ab473119e9309c808fd",
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      },
+      {
+        "path": "scripts/operations/higherpower-core-check.ts",
+        "assetPin": null,
+        "sourcePin": null,
+        "supportPin": "fb2f8cc44564f86c4bb8982ee28efbdcb914505ec8ccb77e8a22354b122945cd",
+        "oldSourcePin": null
+      },
+      {
+        "path": "scripts/operations/higherpower-core-replay.ts",
+        "assetPin": null,
+        "sourcePin": null,
+        "supportPin": "6c9b2c41bcdf3016f6271385d1a3689a9ff759ed14beb2d6c2f63ea1e14ac7e7",
+        "oldSourcePin": null
+      },
+      {
+        "path": "scripts/operations/install-permutation-bridge-source.ts",
+        "assetPin": null,
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": "527ca3a2686d2de098349a6dfc5b23740a52264944d828f0e1ddc729924776e9"
+      },
+      {
+        "path": "src/server/research/mixed-core-power-evidence.ts",
+        "assetPin": null,
+        "sourcePin": null,
+        "supportPin": null,
+        "oldSourcePin": null
+      }
+    ],
+    "oldBundleCheck": {
+      "milliseconds": 55.70366700000001,
+      "exitCode": 0,
+      "stdout": "{\"purpose\":\"EXISTING_ADMITTED_SOURCE_METADATA_ONLY\",\"bundleDigest\":\"bc4f5ca90ac5d9a2b85698f05cc8717a889ce4a8ad93c3d7b7211a43b4de28cd\",\"matches\":[{\"path\":\"docs/research/lrc-allikvere-p199/author-kill-logs.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/author-root-readme.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/provenance.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/retained-cover-report.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/retained-frontier-report.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/retained-report.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-p199/retained-unit-report.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-cascade.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-covering-number.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-generation.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-p83-terminal.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-properness-bridge.json\",\"pin\":null},{\"path\":\"docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json\",\"pin\":null},{\"path\":\"scripts/operations/higherpower-core-check.ts\",\"pin\":null},{\"path\":\"scripts/operations/higherpower-core-replay.ts\",\"pin\":null},{\"path\":\"scripts/operations/install-permutation-bridge-source.ts\",\"pin\":\"527ca3a2686d2de098349a6dfc5b23740a52264944d828f0e1ddc729924776e9\"},{\"path\":\"src/server/research/mixed-core-power-evidence.ts\",\"pin\":null}],\"referencedTargetsAccessed\":false}\n",
+      "stderr": ""
+    },
+    "knownPinnedPathCount": 19,
+    "targetBytesRevalidatedThisTurn": false
+  },
+  "cumulativeMilliseconds": 436533.35258400004,
+  "limitMilliseconds": 900000,
+  "remainingMilliseconds": 463466.64741599996,
+  "productionSourcesModified": false,
+  "newTestFamily": false,
+  "fullSuiteRun": false,
+  "latestPriorSuite": "328/328 PASS previous route checkpoint only",
+  "newBuilds": 0,
+  "apiCalls": 0,
+  "browserE2E": "UNRUN",
+  "actualInventoryAcquisition": "UNRUN_THIS_DIAGNOSTIC_ONLY",
+  "graph": "UNRUN",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "stop": "COMPLETE_DECLARATION_CATEGORY_DIAGNOSIS_NO_POLICY_CHANGE_OR_TARGET_READ",
+  "derivedFinalLogicalReservation": {"emittedPreOutputReservationBytes":2485347,"finalCanonicalOutputChargeBytes":32664,"totalLogicalReservationBytes":2518011,"scope":"logical ledger, not RSS; arithmetic derived from emitted ASCII metadata"},
+  "finalIndependentConsistencyReview": "CLEAR; counts/pin metadata/digest/canonical output charge/cumulative arithmetic and diagnosis-only OPEN boundaries independently confirmed"
+}

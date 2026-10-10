@@ -29,6 +29,8 @@ import {
 import { getObjectStorage } from "@/server/storage";
 import { getEnv } from "@/server/env";
 import { withOrganizationTenant } from "@/server/tenant-context";
+import type { CampaignWorkerInput } from "@/modules/research-sandbox/research-campaign/contracts";
+import { runResearchCampaignWorkerCycle } from "./research-campaign-cycle";
 
 export interface ResearchSandboxWorkerConfig {
   organizationId: string;
@@ -39,10 +41,18 @@ export interface ResearchSandboxWorkerConfig {
   codexLocal?: boolean;
   dockerRuntimes?: DockerRuntimeDefinition[];
   claimFirst?: number;
+  /** Explicit installed local QA provider; never activated by existing live flags. */
+  campaign?: Pick<CampaignWorkerInput,"provider"|"onBoundary"> & {jobIds?:readonly string[];outboxIds?:readonly string[];leaseSeconds?:number};
 }
 
 /** One bounded tenant cycle. Unsupported jobs are never claimed. */
 export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorkerConfig) {
+  if(config.campaign) {
+    if(config.openai || config.codexLocal || config.dockerRuntimes?.length) throw new Error("Controlled campaign QA cannot activate legacy live adapters");
+    return runResearchCampaignWorkerCycle({organizationId:config.organizationId,actorUserId:config.actorUserId,workerId:config.workerId,
+      correlationId:config.correlationId,claimFirst:config.claimFirst,campaign:{...config.campaign,
+        jobIds:config.campaign.jobIds??[],outboxIds:config.campaign.outboxIds??[]}});
+  }
   const jobTypes = [
     ...(config.openai ? ["research.run.execute"] : []),
     ...(config.codexLocal ? ["math-pilot.codex-local.execute", "math-pilot.codex-local.review", "math-pilot.exact-interval.verify", "math-pilot.formalize.check", "math-pilot.formal-replay.check", "math-pilot.cycle.round"] : []),
@@ -81,10 +91,10 @@ export async function runResearchSandboxWorkerCycle(config: ResearchSandboxWorke
           agents: {
             modelName: solver.modelName,
             reviewRoleModels: reviewer.roleModels,
-            proposePortfolio: (root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy) =>
-              planner.proposePortfolio(root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy),
-            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy) =>
-              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy),
+            proposePortfolio: (root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy, commitment) =>
+              planner.proposePortfolio(root, gaps, prior, priorArt, findings, gateDossier, priorObligations, mixed, strategy, ...(commitment ? [commitment] as const : [] as const)),
+            propose: (root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy, commitment) =>
+              planner.propose(root, gaps, prior, priorArt, steering, findings, gateDossier, priorObligations, mixed, strategy, ...(commitment ? [commitment] as const : [] as const)),
             verify: (root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed, strategy) =>
               planner.verify(root, gaps, prior, proposal, priorArt, steering, findings, assessments, gateDossier, structuralProbe, priorObligations, mixed, strategy),
             buildFrontierDossier: (root) => planner.buildFrontierDossier(root),

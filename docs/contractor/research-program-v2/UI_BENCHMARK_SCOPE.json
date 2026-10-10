@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "id": "RESEARCH_PROGRAM_V2_UI_BENCHMARK_SCOPE",
+  "status": "PRE_SEAL_PLANNING_ONLY",
+  "authority": {
+    "g1": "OFFLINE_065_068_APPROVED_BY_PARENT",
+    "productImplementation": "WAIT_FOR_CONTRACTOR_SEAL",
+    "liveBenchmark": "NOT_AUTHORIZED",
+    "models": "NOT_AUTHORIZED",
+    "browser": "NOT_AUTHORIZED",
+    "dbExperiments": "NOT_AUTHORIZED",
+    "historical064": "IMMUTABLE_NO_RECOVERY_OR_RETRY"
+  },
+  "parentDocuments": [
+    { "path": "docs/proposals/BLUEPRINT_MATH_RESEARCH_PROGRAM_V2.md", "sha256": "c0aac1b91d6f274f3d5e514c8bbac1ad44bbd115eda892158d0f4d1b1c3697e6" },
+    { "path": "docs/proposals/TIP-065_068_RESEARCH_PROGRAM_DRAFT_PACKS.md", "sha256": "b42ffff08dcca56ffa59d73963d15bfb6887c80bec63c68eefe9a3f848cd6c40" }
+  ],
+  "surface": {
+    "route": "/w/[workspaceSlug]/research/math-pilot",
+    "newDashboard": false,
+    "context": "EXISTING_AUTHORIZED_WORKSPACE_MISSION_SELECTED_CASE",
+    "layout": ["GOAL_MODE_RETAINED_STRATEGY", "MASTER_OBLIGATIONS_CRITICAL_PATH", "INVESTIGATION_EVIDENCE", "HISTORICAL_NATIVE_DISCLOSURE"],
+    "componentMode": "SERVER_PASSIVE_NATIVE_DETAILS",
+    "sources": {
+      "goal": "EXACT_ADMITTED_VERSIONED_CORE_BASELINE_NOT_NEWEST_CASE",
+      "mode": "REPRODUCTION_OR_DISCOVERY_FROM_ADMITTED_BASELINE_OR_EXPERIMENT",
+      "strategy": "VALID_RETAINED_SELECTION_AND_TARGETED_OBLIGATION_OR_NOT_RECORDED",
+      "obligations": "CORE_ADMITTED_MASTER_PROJECTION_NOT_MODEL_STATUS",
+      "evidence": "EXACT_VALIDATED_CASE_RUN_ROLE_TOOL_INPUT_BINDINGS",
+      "failure": "DRIVER_SAFE_TYPED_DIAGNOSTIC_PROJECTION_OR_CAUSE_UNKNOWN",
+      "old064Failure": "CAUSE_UNKNOWN_OUTPUT_MISSING_REVIEWERS_NOT_RUN_USAGE_UNAVAILABLE"
+    },
+    "passiveGet": {
+      "allowed": ["AUTH_TENANT_CAPABILITY_READ", "BOUNDED_EXISTING_READERS", "PURE_CANONICAL_BINDING_ADMISSION", "SAFE_SANITIZED_PROJECTION", "LITERAL_ESCAPED_PROSE", "EXPLICIT_SAFE_TEX_RENDER", "GET_NAVIGATION"],
+      "forbidden": ["LITERATURE_FETCH", "RAW_DIAGNOSTIC_READ", "FILESYSTEM_CAPTURE_REPLAY_PURGE", "IMPORTER", "CHECKER", "CERTIFICATE_REPLAY", "AUDIT_PREPARATION", "MODEL_PROVIDER", "RECORD_WRITE", "POLLING", "AUTOMATIC_RETRY", "NEW_FAMILY_LEGACY_TOOL_FALLBACK"]
+    },
+    "newFamilyGuard": {
+      "contractVersion": 4,
+      "ledgerVersion": 7,
+      "caseSelector": "LRC_METHOD_UNIT",
+      "markerKeys": ["lrcMethodUnitScope", "lrcMethodUnitEvidence", "lrcMethodUnitFeedback", "lrcMethodUnitInput", "lrcMethodUnitAuditSummary", "lrcMethodUnitFiniteSeed", "lrcMethodUnitFiniteEvidence"],
+      "rule": "CLASSIFY_MALFORMED_NULL_MARKERS_AND_VERSION_MARKERS_BEFORE_ADMISSION_BEFORE_ANY_LEGACY_ACTION_OR_CYCLE_READ",
+      "finalMarkerSet": "CONFIRM_ALL_CORE_LEDGER_ORACLE_SUMMARY_KEYS_AT_SEAL",
+      "refusal": "INVALID_OR_MISSING_PASSIVE_ONLY_NO_GENERIC_OPEN_FORM_CYCLE_POLLING"
+    },
+    "statusDimensions": ["OPERATIONAL", "SOURCE_REPORTED_OR_ADOPTED", "LOCAL_FINITE_SCOPE_COVERAGE", "MATHEMATICAL_PREDICATE_AND_CONDITIONAL_ALIGNMENT", "FORMAL_STATEMENT_ALIGNMENT", "EXTERNAL_ACCEPTANCE", "NOVELTY"],
+    "methodLane": {
+      "order": ["SOLVER", "ADVERSARY", "HOST_FINITE_CHECK", "CRITIC"],
+      "finiteEvidence": "HOST_ONLY_LEDGER7_LRC_METHOD_UNIT_FINITE_EVIDENCE_AFTER_ACTUAL_BOUNDED_CHECK_NOT_MODEL_SUPPLIED",
+      "criticBinding": "EXACT_SOLVER_ATTEMPT_DIGEST_PLUS_FINITE_EVIDENCE_DIGEST_AND_HOST_COMPACT_SUMMARY",
+      "criticFiniteSummaryUtf8Bytes": 1024,
+      "criticAdversaryProse": false,
+      "missingSeed": "MISSING_NO_CHECKER_CALL_NO_FABRICATED_COUNTERS_AGGREGATE_INCONCLUSIVE",
+      "finiteStatuses": ["CHECKED_FINITE", "MISSING", "UNSUPPORTED", "CERTIFICATE_REFUSED", "RESOURCE_REFUSED"],
+      "passiveRead": "VALIDATE_RETAINED_BINDINGS_AND_SOURCE_PINS_ONLY_NEVER_EXECUTE_CHECKER_ON_GET"
+    },
+    "closureRules": [
+      "23_V1_ENTRIES_ARE_AGGREGATE_MASTER_DEPENDENCIES_NOT_23_PER_PRIME_APPLICATIONS",
+      "P83_SUPPORT_DOES_NOT_CLOSE_ALL_61_PRIMES_OR_15_RUNNERS",
+      "NODE_STATUS_AND_CONNECTED_DAG_DO_NOT_ADMIT_CRITICAL_IMPLICATIONS",
+      "SOURCE_ADOPTION_IS_EXPLICIT_CONDITIONAL_RESEARCH_NOT_LOCAL_INDEPENDENT_REPRODUCTION",
+      "NEGATIVE_CERTIFICATE_OR_APPLICABILITY_IS_NOT_LRC_COUNTEREXAMPLE",
+      "ENGINEERING_FAILURE_IS_NOT_MATHEMATICAL_REFUTATION"
+    ],
+    "design": {
+      "tokens": { "canvas": "#f4f6f8", "surface": "#ffffff", "ink": "#0c1424", "muted": "#617086", "line": "#dce3eb", "lineStrong": "#c4cfdb" },
+      "theme": "EXISTING_HIVE_LIGHT_DARK_TOKENS_NO_NEW_PALETTE",
+      "font": "EXISTING_INTER_INTERFACE_IBM_PLEX_MONO_UTILITY_NO_INSTALL",
+      "alignment": "LEFT_ALIGNED_RESEARCH_DOSSIER",
+      "readingMeasureMaxCh": 76,
+      "locales": ["vi", "en"],
+      "viewports": [320, 390, 768, 1440],
+      "prose": "LITERAL_REACT_ESCAPED_NO_LEGACY_HEURISTIC_CONVERSION",
+      "math": "EXPLICIT_STRING_RAW_DELIMITED_TEX_SAFE_MATHTEXT_COMPANIONS",
+      "navigation": "DYNAMIC_WORKSPACE_BASE_NO_HARDCODED_TENANT",
+      "archive": "NATIVE_DETAILS_WITH_UNCHANGED_HISTORICAL_RECORDS_OR_PASSIVE_RETAINED_ROUTE_LINKS_NO_HEAVY_IMPORT",
+      "accessibility": "SEMANTIC_HEADINGS_DL_LISTS_REGION_STATUS_NATIVE_DETAILS_KEYBOARD_FOCUS_NO_COLOR_ONLY_VERDICT",
+      "responsive": "MIN_WIDTH_ZERO_FLEX_WRAP_LONG_PROSE_HASH_BREAKS_LOCAL_FORMULA_SCROLL_IF_NEEDED",
+      "motion": "NONE",
+      "visualAcceptance": "NOT_RUN_UNTIL_ACTUAL_AUTHORIZED_BROWSER_OBSERVATION"
+    }
+  },
+  "proposedApis": {
+    "core": [
+      "math-lrc-research-program.ts: fixed baseline and buildLrcResearchProgramProjection(readonly admitted artifacts)",
+      "math-lrc-method-unit.ts: fixed quantified shift packet, finite certificate schemas and pure recorded-report admission",
+      "method live/review: host-only ledger7 lrcMethodUnitFiniteEvidence, critic finiteEvidenceDigest and compact host report without adversary prose",
+      "math-pilot/contracts/agent-review: exact v4 and ledger7 read validators with external actual caseId/runId"
+    ],
+    "driver": ["SAFE_TYPED_DIAGNOSTIC_METADATA_ONLY_NO_RAW_PATH_BYTES_OR_REPLAY_SEAM"],
+    "ui": [
+      "isLrcResearchProgramRecord(contract, attempt, ledger): broad malformed-family classifier",
+      "projectLrcResearchCockpitPresentation(readonly admitted baseline, artifacts, retained selection, actual row IDs, sanitized diagnostics)",
+      "MathLrcResearchCockpitPanel(view, locale, dynamic workspace base, archived children/links)",
+      "getLrcResearchCockpitCopy(locale)",
+      "prepareMatchedMathBenchmarkManifest(fixed fixture ID, identical pair exposure/caps)",
+      "validateMatchedMathBenchmarkReport(raw, exact manifest): pure offline report validation no execution"
+    ],
+    "state": "PROPOSED_NAMES_AND_SHAPES_NOT_RUNTIME_CONTRACT_AUTHORITY",
+    "sourceCheckerPins": "PENDING_CORE_CONTRACTOR_SEAL_NO_SUBSTITUTE_OR_UNPINNED_RUNTIME"
+  },
+  "benchmark": {
+    "id": "LRC_METHOD_MATCHED_OFFLINE_V1",
+    "status": "FIXTURE_PREPARATION_ONLY_NOT_RUN",
+    "arms": ["DIRECT_SOLVER", "METHOD_ASSISTED"],
+    "difference": "ORCHESTRATION_AND_STRUCTURED_METHOD_APPLICATION_ONLY_NOT_ADDITIONAL_INFORMATION",
+    "matchedFields": ["exactStatement", "quantifiersDomainConvention", "sourceBytesDigestsExposure", "toolRegistrySchemaSourceVersion", "requestedModel", "roleAllowance", "resourceCaps", "admissionOracle", "candidateInput", "reportCeilings"],
+    "sharedExposure": {
+      "source": "arXiv:2609.02604v2_SECTION_4.4_AND_EXACT_FIXED_SHIFT_PACKET",
+      "sourcePacketDigest": "PENDING_CORE_SEAL_SAME_BYTES_FOR_BOTH_ARMS",
+      "sourceVisible": true,
+      "heldOut": false,
+      "tools": ["PINNED_HOST_FINITE_SHIFT_CHECKER_REFERENCE"],
+      "formalKernel": "UNAVAILABLE_NOT_INVENTED",
+      "networkLiterature": false,
+      "requestedProvider": "codex-local",
+      "requestedModel": "gpt-6-sol",
+      "actualProviderModelUsage": "UNAVAILABLE_NOT_RUN",
+      "roleAllowance": ["SOLVER", "ADVERSARY", "CRITIC"],
+      "methodLaneOrder": ["SOLVER", "ADVERSARY", "HOST_FINITE_CHECK", "CRITIC"],
+      "hostFiniteSummaryUtf8Bytes": 1024,
+      "criticAdversaryProse": false,
+      "maxCallsPerArm": 3,
+      "retries": 0
+    },
+    "resourceCaps": {
+      "originalDeadlineMs": 1800000,
+      "childDeadlineMs": 240000,
+      "perRoleStdoutBytes": 1048576,
+      "preparedInputUtf8Bytes": 49152,
+      "solverMathUtf8Bytes": 16384,
+      "roleFindingsUtf8Bytes": 8192,
+      "feedbackSummaryChars": 1024,
+      "findingReasonChars": 256,
+      "hostAuditReportUtf8Bytes": 32768,
+      "finiteChecker": { "inputUtf8Bytes": 32768, "componentBits": 256, "deadlineMs": 5000, "explicitOperations": 2000000, "allowedD": [3, 5], "allowedE": { "3": [2], "5": [2, 3, 4] } },
+      "authority": "PLANNED_MATCHED_CEILINGS_NOT_EXECUTION_PERMISSION_NO_LEGACY_CAP_CHANGE"
+    },
+    "fixtures": [
+      {
+        "id": "KNOWN_SHIFT_CONDITIONAL_LEMMA_V1",
+        "kind": "KNOWN_LEMMA",
+        "mode": "REPRODUCTION",
+        "statement": "For fourteen positive integer moving speeds and prime d, let e count speeds not divisible by d and m_d=ceil(2d/15). Under e>=2 and e*m_d<d, with LRC(m) for every 1<=m<=12 explicitly adopted, reproduce the source few-exception shift argument without promoting finite controls into the universal real-time theorem.",
+        "finiteControl": { "d": 3, "e": 2, "residues": [1, 1], "rationalPhases": [{ "numerator": "1", "denominator": "30" }, { "numerator": "1", "denominator": "3" }], "shifts": [0, 1, 2], "boundary": "BAD_IF_DISTANCE_STRICTLY_LESS_THAN_1_OVER_15" },
+        "answerOracle": "EXACT_FINITE_SCOPE_AND_KNOWN_CONDITIONAL_CEILING_ONLY",
+        "expectedCeiling": "FINITE_CONTROL_CHECKED_PLUS_REVIEWED_CONDITIONAL_NOT_GLOBAL_OR_NOVEL",
+        "negativeControl": "MISSING_LOWER_OR_REAL_TIME_ALIGNMENT_MUST_REMAIN_DEBT"
+      },
+      {
+        "id": "INCOMPLETE_SHIFT_CERTIFICATE_V1",
+        "kind": "INCOMPLETE_CERTIFICATE",
+        "mode": "REPRODUCTION",
+        "statement": "Audit a purported complete finite phase-partition certificate for d=5,e=4 under the actual Core schema. Remove the first OPEN cell from the unitResidue1 partition of a valid certificate while retaining its boundaries; distinguish incomplete partition coverage from a mathematical counterexample.",
+        "finiteControl": { "version": 1, "predicateId": "SHIFT_PHASE_PARTITION_AND_COMMON_SHIFT_FINITE_V1", "d": 5, "e": 4, "unitResidues": [1, 1, 1, 1], "offsets": [{ "numerator": "0", "denominator": "1" }, { "numerator": "1", "denominator": "5" }, { "numerator": "2", "denominator": "5" }, { "numerator": "3", "denominator": "5" }], "boundary": "BAD_IF_DISTANCE_STRICTLY_LESS_THAN_1_OVER_15" },
+        "certificateControl": { "schemaVersion": "LRC_SHIFT_PHASE_CERTIFICATE_V1", "validBase": "BUILD_PINNED_VALID_CERTIFICATE_OFFLINE_ONLY_AFTER_SEAL", "mutation": "REMOVE_FIRST_OPEN_CELL_IN_PARTITION_WITH_UNIT_RESIDUE_1_KEEP_ALL_BOUNDARIES", "certificateDigest": "RECOMPUTE_COHERENT_BODY_DIGEST_TO_TEST_SEMANTIC_COMPLETENESS_NOT_HASH_ONLY", "additionalControls": ["OMIT_REQUIRED_BOUNDARY", "OMIT_REQUIRED_UNIT_PARTITION", "WRONG_BAD_SHIFT_MASK"] },
+        "answerOracle": "CERTIFICATE_REFUSED_MISSING_REQUIRED_PHASE_CELL",
+        "expectedCeiling": "INCOMPLETE_CERTIFICATE_REJECTED_NOT_LRC_REFUTED",
+        "negativeControl": "COHERENT_REHASH_OR_MODEL_COMPLETENESS_CLAIM_MUST_NOT_REPAIR_MISSING_CELL_BOUNDARY_UNIT_OR_WRONG_MASK"
+      },
+      {
+        "id": "SHIFT_SURVIVOR_LOWER_BOUND_PLUS_ONE_FINITE_V1",
+        "kind": "PLAUSIBLE_FALSE_CANDIDATE",
+        "mode": "DISCOVERY",
+        "statement": "Strengthened finite candidate: every admissible d=3,e=2 shift instance has at least d-e*m_d+1=2 good shifts, rather than the source union-bound guarantee of at least1. Refute or clarify this exact strengthened finite predicate, not the source lemma or LRC.",
+        "finiteControl": { "d": 3, "e": 2, "residues": [1, 1], "rationalPhases": [{ "numerator": "1", "denominator": "30" }, { "numerator": "1", "denominator": "3" }], "shifts": [0, 1, 2], "claimedMinimumGoodShifts": 2, "boundary": "BAD_IF_DISTANCE_STRICTLY_LESS_THAN_1_OVER_15" },
+        "externalLinkage": { "fourteenSpeeds": [1, 10, 3, 6, 9, 12, 15, 18, 21, 24, 27, 33, 36, 39], "time": { "numerator": "1", "denominator": "30" }, "linkageStatus": "PROSPECTIVE_FIXED_FIXTURE_NOT_EXECUTED" },
+        "answerOracle": "EXACT_REGISTERED_FINITE_PREDICATE_REFUTATION_ONLY",
+        "expectedCeiling": "ONE_GOOD_SHIFT_CONTROL_IF_INDEPENDENTLY_CHECKED_NOT_LRC_COUNTEREXAMPLE",
+        "negativeControl": "NO_GENERAL_METHOD_FAMILY_OR_SOURCE_LEMMA_REJECTION"
+      },
+      {
+        "id": "BAD_SHIFT_OVERLAP_STRUCTURAL_GAIN_V1",
+        "kind": "DISCOVERY_CANDIDATE_NO_ANSWER_ORACLE",
+        "mode": "DISCOVERY",
+        "statement": "Propose a falsifiable structural condition on overlaps of bad-shift sets that would improve the sufficient union-bound strategy. State the exact predicate/domain/quantifiers, source difference, strongest objection and discriminating output before claiming any gain. The task has no preset successful conjecture or answer oracle.",
+        "finiteControl": "ONLY_D3_E2_OR_D5_E2_TO4_IF_A_NEW_EXACT_PREDICATE_IS_ADMITTED",
+        "answerOracle": "NONE",
+        "expectedCeiling": "CANDIDATE_NOVELTY_PENDING_NOT_DISPATCHABLE_WITHOUT_EXACT_DOMAIN_ADMISSION",
+        "negativeControl": "RATIONAL_SAMPLES_OR_MODEL_AGREEMENT_DO_NOT_PROVE_UNIVERSAL_OVERLAP_OR_NOVELTY"
+      }
+    ],
+    "plannedReport": {
+      "execution": "NOT_RUN",
+      "actualCalls": null,
+      "actualElapsedMs": null,
+      "actualUsage": null,
+      "roleContexts": null,
+      "actualCheckerResults": null,
+      "admittedMathematicalOutcomes": null,
+      "meaningOfNull": "UNAVAILABLE_NOT_ZERO",
+      "allowedDimensions": ["ENGINEERING_FIXTURE_TESTS", "TRANSPORT_ATTEMPT_RETURN_ADMISSION", "ALIGNED_OBLIGATIONS_DISCHARGED", "EXACT_PREDICATES_REFUTED", "COMPLETE_FINITE_DOMAINS_CHECKED", "UNRESOLVED_CRITICAL_PREMISES", "REUSABLE_KNOWN_LEMMA", "NOVELTY_ASSESSMENT"],
+      "efficacyClaim": "NONE_ONE_PAIRED_PILOT_CANNOT_ESTABLISH_SUPERIORITY",
+      "votesAreMetric": false
+    }
+  },
+  "sealDependencies": ["FINAL_CORE_BASELINE_MASTER_DAG_SIZE_AND_SOURCE_PINS", "EXACT_SHIFT_PACKET_CERTIFICATE_CHECKER_VERSION", "FINAL_V4_LEDGER7_FIELDSET_READ_GUARDS", "SAFE_DRIVER_DIAGNOSTIC_SCHEMA", "CONTRACTOR_ACCEPTANCE_OF_MATCHED_FIXTURE_STATEMENTS_AND_CAPS"],
+  "implementationState": "ZERO_PRODUCT_EDITS_NO_TESTS_OR_RUNS_IN_THIS_PLANNING_ARTIFACT"
+}

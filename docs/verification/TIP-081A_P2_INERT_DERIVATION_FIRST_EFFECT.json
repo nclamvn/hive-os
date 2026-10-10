@@ -1,0 +1,9 @@
+{
+  "purpose": "P2_ONE_SHOT_INERT_DERIVATION",
+  "status": 1,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "",
+  "stderr": "/Users/os/hiveos/node_modules/typescript/lib/typescript.js:120463\n    Debug.assert(state > 0 /* Uninitialized */, \"Cannot start a block scope during initialization.\");\n          ^\n\nError: Debug Failure. False expression: Cannot start a block scope during initialization.\n    at Object.startBlockScope (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:120463:11)\n    at visitIterationBody (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:95301:11)\n    at visitEachChildOfForStatement (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:95953:7)\n    at Object.visitEachChild (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:95332:33)\n    at visit (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:417:28)\n    at Object.visitNode (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:95084:19)\n    at file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:178:67\n    at Array.map (<anonymous>)\n    at visitFunction (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:178:47)\n    at visit (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:248:38)\n\nNode.js v24.14.1\n",
+  "milliseconds": 285.235666
+}

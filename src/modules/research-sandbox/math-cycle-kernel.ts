@@ -32,13 +32,13 @@ import { runIndependentResidualReplay, validateIndependentReplayRecord, validate
 import { verifyErdosStrausPolynomialFamily } from "./math-parametric";
 import { runStructuralCounterexampleReplay, validateStructuralCounterexampleReport,
   type StructuralCounterexampleReport } from "./math-structural-counterexample";
-import { runStructuralGateDossier, validateStructuralGateDossier,
+import { validateStructuralGateDossier,
   type StructuralGateDossier } from "./math-gate-dossier";
 import { runStructuralProbe, validateStructuralProbeReport, type StructuralProbeReport } from "./math-structural-probe";
 import { projectMathProofObligations, repeatedMathClaim, type MathProofObligation } from "./math-proof-obligations";
 import { branchResourceStopReason, sealMathPortfolio, selectMathPortfolioBranch,
   summarizeMathPortfolio, validMathPortfolio, type MathPortfolio } from "./math-portfolio";
-import { mixedCoreRefutation, runMixedCoreAgentEvidence, validateMixedCoreAgentEvidence,
+import { mixedCoreRefutation, validateMixedCoreAgentEvidence,
   mixedCoreEvidencePassed, mixedCoreEvidenceMatchesMethod, type MixedCoreMethod,
   type MixedCoreAgentEvidence } from "./math-mixed-core-agent";
 import { adaptiveSelection, commandAdaptivePolicy, projectResearchOutcomes,
@@ -46,8 +46,14 @@ import { adaptiveSelection, commandAdaptivePolicy, projectResearchOutcomes,
 import { buildResearchMethodPacket, admitResearchMethodPacket, verifyResearchMethodPacketIntegrity } from "./math-method-map";
 import { normalizePublicationIdentity } from "./math-source-status";
 import { validMathLemmaGraph } from "./math-lemma-graph";
+import { admitResearchCommitment, admitCommittedWork, commitmentContext, committedOperationBinding,
+  parseResearchCommitmentChoice, projectCommitmentHistory, RESEARCH_COMMITMENT_LIMITS, sealResearchCommitment,
+  finiteCommitmentClosures,
+  type CommitmentPlanningContext, type ResearchCommitment, type ResearchCommitmentBinding,
+  type commitmentOperationSchema } from "./math-research-commitment";
+import type { z } from "zod";
 
-type CycleStopReason = "ROUND_LIMIT" | "TOKEN_LIMIT" | "TIME_LIMIT" | "BRANCH_TOKEN_LIMIT" | "BRANCH_TIME_LIMIT" | "NO_GAP" | "METHOD_DEFERRED" | "DUPLICATE_CLAIM" | "VERIFICATION_REJECTED" | "COUNTEREXAMPLE_REJECTED" | "STRUCTURAL_PROBE_HOLD" | "STRUCTURAL_REFUTED" | "FRONTIER_HOLD" | "KNOWN_SCOPE" | "MODEL_FAILURE" | "INTEGRITY_FAILURE";
+type CycleStopReason = Extract<MathCycleEventPayload, { phase: "STOPPED" }>["reason"];
 
 export interface MathCycleAgents {
   modelName: string;
@@ -55,13 +61,13 @@ export interface MathCycleAgents {
   proposePortfolio?(root: MathPilotContract, availableGaps: string[], previousTasks: string[],
     priorArt: readonly MathPriorArtFact[], priorFindings: readonly PriorFiniteFinding[],
     gateDossier: StructuralGateDossier | null, priorObligations: readonly MathProofObligation[],
-    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null): Promise<{
+    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null, commitment?: CommitmentPlanningContext | null): Promise<{
     output: unknown; threadId: string; usage: MathCycleUsage;
   }>;
   propose(root: MathPilotContract, availableGaps: string[], previousTasks: string[], priorArt: readonly MathPriorArtFact[],
     steering?: MathCycleSteering | null, priorFindings?: readonly PriorFiniteFinding[],
     gateDossier?: StructuralGateDossier | null, priorObligations?: readonly MathProofObligation[],
-    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null): Promise<{
+    mixedCoreEvidence?: MixedCoreAgentEvidence | null, strategy?: AdaptiveResearchContext | null, commitment?: CommitmentPlanningContext | null): Promise<{
     output: MathCycleProposal; threadId: string; usage: MathCycleUsage;
   }>;
   verify(root: MathPilotContract, availableGaps: string[], previousTasks: string[], proposal: MathCycleProposal,
@@ -122,11 +128,24 @@ export function validateMathCycleTrace(events: Array<{ sequence: number; round: 
   const mixedCoreRefutedRounds = new Set<number>();
   let declaredPolicy: AdaptivePolicy | null = null;
   let strategyEvent: Extract<MathCycleEventPayload, { phase: "RESEARCH_METHOD_MAP" }> | null = null;
+  let commitmentBinding: ResearchCommitmentBinding | null = null;
+  const committedRounds = new Set<number>();
   for (const [index, event] of events.entries()) {
     const parsed = mathCycleEventPayloadSchema.safeParse(event.payload);
     if (!parsed.success || event.sequence !== index + 1 || event.round !== parsed.data.round ||
       event.phase !== parsed.data.phase || event.previousDigest !== previous ||
       event.digest !== mathCycleEventDigest(previous, parsed.data)) return null;
+    if (parsed.data.phase === "COMMITMENT_BOUND") {
+      if (commitmentBinding || payloads.some(e => ["CALL_STARTED", "COMMITMENT_WORK_STARTED", "PROPOSED", "MIXED_CORE_EVIDENCE", "FRONTIER_DOSSIER"].includes(e.phase))) return null;
+      try { admitResearchCommitment(parsed.data.binding, expectedRootDigest ? { rootContractDigest: expectedRootDigest } : {}); }
+      catch { return null; }
+      commitmentBinding = parsed.data.binding;
+    }
+    if (parsed.data.phase === "COMMITMENT_WORK_STARTED") {
+      if (!commitmentBinding || parsed.data.commitmentDigest !== commitmentBinding.commitmentDigest || committedRounds.has(parsed.data.round)) return null;
+      committedRounds.add(parsed.data.round);
+    }
+    if (commitmentBinding && ["CALL_STARTED", "COMPUTED", "INDEPENDENT_REPLAY", "FRONTIER_DOSSIER", "FRONTIER_REVIEWED", "RESEARCH_FRONTIER_BASELINE", "RESEARCH_METHOD_MAP", "STRUCTURAL_PROBED", "MIXED_CORE_EVIDENCE", "ATTEMPTED"].includes(parsed.data.phase) && !committedRounds.has(parsed.data.round)) return null;
     if (expectedPolicy && index === 0 && parsed.data.phase !== "ADAPTIVE_POLICY_DECLARED") return null;
     if (parsed.data.phase === "ADAPTIVE_POLICY_DECLARED") {
       if (index !== 0 || declaredPolicy || !expectedPolicy || canonicalJson(parsed.data.policy) !== canonicalJson(expectedPolicy) ||
@@ -383,6 +402,19 @@ async function rootCase(tx: TenantTransaction, organizationId: string, workspace
   });
   if (!item || !item.agentReview) throw new ResearchSandboxError("INVALID_TRANSITION", "A retained OPEN AI review is required");
   const contract = mathPilotContractSchema.safeParse(item.contract);
+  const record=(value:unknown)=>value && typeof value==="object" && !Array.isArray(value) ? value as Record<string,unknown> : null;
+  const rawContract = record(item.contract);
+  const rawAttempt = record(item.researchRun.mathModelAttempt);
+  const rawLedger = record(item.agentReview.ledger);
+  if (rawContract && (String(rawContract.version) === "4" || "lrcMethodUnitScope" in rawContract) ||
+    rawAttempt && ["lrcMethodUnitEvidence","lrcMethodUnitFeedback","lrcMethodUnitFiniteSeed"].some(k=>k in rawAttempt) || rawLedger && (String(rawLedger.version)==="7"||["lrcMethodUnitEvidence","lrcMethodUnitFiniteEvidence","lrcMethodUnitAuditSummary"].some(k=>k in rawLedger)) ||
+    rawContract && (rawContract.version === 3 || "lrcProofUnitScope" in rawContract) ||
+    rawAttempt && ("lrcProofUnitEvidence" in rawAttempt || "lrcProofUnitFeedback" in rawAttempt) || rawLedger?.version === 6) {
+    throw new ResearchSandboxError("INVALID_TRANSITION", "Proof-unit audits cannot enter controlled cycles or portfolios");
+  }
+  if (contract.success && (contract.data.lrcFiniteScope || contract.data.lrcCampaignScope)) {
+    throw new ResearchSandboxError("INVALID_TRANSITION", "Finite LRC cases cannot enter the Erdős–Straus controlled-cycle or portfolio route");
+  }
   const attempt = mathModelAttemptSchema.safeParse(item.researchRun.mathModelAttempt);
   const researchDigest = researchDossierDigest(item.researchRun);
   const ledger = validateRecordedMathAgentReview({
@@ -400,10 +432,13 @@ async function rootCase(tx: TenantTransaction, organizationId: string, workspace
 
 export async function requestMathResearchCycle(ctx: WorkspaceContext, raw: {
   caseId: string; maxRounds: number; maxObservedTokens: number;
+  commitment?: { choice: unknown; confirmed: boolean };
   steering?: { focus: "STRUCTURAL_LEMMA" | "FINITE_FALSIFICATION"; targetA: number; note: string; confirmed: boolean;
     replayCandidate?: { prime: number; failedThroughA: number } };
 }) {
   await requireWorkspaceAuthorization(ctx, "research.request");
+  if (!raw.commitment || raw.commitment.confirmed !== true) throw new ResearchSandboxError("INVALID_INPUT", "Explicit research commitment confirmation required");
+  const commitmentChoice = parseResearchCommitmentChoice(raw.commitment.choice);
   if (!getEnv().RESEARCH_CODEX_LOCAL_ENABLED || !getEnv().MATH_PILOT_QUEUE_ENABLED) {
     throw new ResearchSandboxError("INVALID_TRANSITION", "Local Codex mathematics dispatch is disabled");
   }
@@ -424,10 +459,10 @@ export async function requestMathResearchCycle(ctx: WorkspaceContext, raw: {
   const cycleId = randomUUID();
   const commandId = randomUUID();
   return executeDurableCommand(ctx, {
-    commandId, commandType: "math-pilot.cycle.request", idempotencyKey: `math-cycle:${choice ? cycleId : raw.caseId}`,
+    commandId, commandType: "math-pilot.cycle.request", idempotencyKey: `math-cycle:${cycleId}`,
     requiredCapability: "research.request", payload: { caseId: raw.caseId,
       maxRounds: limits.maxRounds, maxUsageUnits: limits.maxObservedTokens,
-      steeringChoice: choice },
+      steeringChoice: choice, commitmentChoice },
   }, async (tx) => {
     const { item, ledger, contract } = await rootCase(tx, organizationId, ctx.workspace.id, raw.caseId);
     if (!rootGaps(ledger).length) throw new ResearchSandboxError("INVALID_TRANSITION", "Review contains no explicit unresolved gap");
@@ -436,10 +471,20 @@ export async function requestMathResearchCycle(ctx: WorkspaceContext, raw: {
     }
     await tx.$queryRaw`SELECT 1::INTEGER AS locked FROM pg_advisory_xact_lock(hashtextextended(${`${organizationId}:math-cycle-root:${item.id}`}, 0))`;
     const prior = await tx.mathResearchCycle.findFirst({ where: { rootCaseId: item.id, organizationId,
-      ...(choice ? { status: { in: ["QUEUED", "RUNNING", "FAILED"] } } : {}) },
-      orderBy: [{ createdAt: "desc" }, { id: "desc" }] });
+      status: { in: ["QUEUED", "RUNNING", "FAILED"] } }, orderBy: [{ createdAt: "desc" }, { id: "desc" }] });
     if (prior) {
       throw new ResearchSandboxError("INVALID_TRANSITION", "An active, failed or unsteered prior cycle blocks this request");
+    }
+    const history = await commitmentHistory(tx, { organizationId, workspaceId: item.workspaceId,
+      rootCaseId: item.id, rootContractDigest: item.contractDigest, rootReviewDigest: item.agentReview!.ledgerDigest });
+    const previous = history.at(-1)?.binding ?? null;
+    if (previous) projectCommitmentHistory(admitResearchCommitment(previous, {}), history);
+    const commitment = sealResearchCommitment({ choice: commitmentChoice, confirmed: true, previous, host: {
+      organizationId, workspaceId: item.workspaceId, rootCaseId: item.id, rootContractDigest: item.contractDigest,
+      rootReviewDigest: item.agentReview!.ledgerDigest, cycleId, commandId, approvedByUserId: ctx.user.id, approvedAt: new Date().toISOString() } });
+    if (commitmentChoice.revision === "CONTINUE") {
+      const state = projectCommitmentHistory(admitResearchCommitment(commitment, {}), history);
+      if (state.stopped) throw new ResearchSandboxError("INVALID_TRANSITION", state.reason ?? "Commitment stopped");
     }
     const steering = choice ? mathCycleSteeringSchema.parse({ ...choice, method: "HUMAN_STEERED_TWO_GATE_V1",
       approvedByUserId: ctx.user.id, approvedAt: new Date().toISOString(), rootContractDigest: item.contractDigest }) : null;
@@ -454,9 +499,9 @@ export async function requestMathResearchCycle(ctx: WorkspaceContext, raw: {
     const strategyPolicy: AdaptivePolicy | null = hasErdosStrausEquation(contract) ? {
       policyId: steering ? "ADAPTIVE_RESEARCH_V1" : "ADAPTIVE_RESEARCH_V2", cycleId, rootContractDigest: item.contractDigest,
       rootReviewDigest: item.agentReview!.ledgerDigest } : null;
-    return { outcome: { cycleId, status: "QUEUED", ...(strategyPolicy ? { strategyPolicy } : {}) }, outbox: [{
+    return { outcome: { cycleId, status: "QUEUED", commitment, ...(strategyPolicy ? { strategyPolicy } : {}) }, outbox: [{
       topic: "math-pilot.cycle.round", aggregateType: "MathResearchCycle", aggregateId: cycleId,
-      payload: { cycleId, round: 1, ...(strategyPolicy ? { strategyPolicy } : {}),
+      payload: { cycleId, round: 1, commitment, ...(strategyPolicy ? { strategyPolicy } : {}),
         ...(steering ? { steering, steeringDigest: mathCycleSteeringDigest(steering) } : {}) },
     }] };
   });
@@ -529,6 +574,9 @@ async function appendEvent(tx: TenantTransaction, cycle: MathResearchCycle, jobI
 }
 
 async function lockedCycle(tx: TenantTransaction, organizationId: string, cycleId: string) {
+  // Consistent request/revision/execution order: root lock, then cycle lock.
+  const root = await tx.mathResearchCycle.findFirstOrThrow({ where: { id: cycleId, organizationId }, select: { rootCaseId: true } });
+  await tx.$queryRaw`SELECT 1::INTEGER AS locked FROM pg_advisory_xact_lock(hashtextextended(${`${organizationId}:math-cycle-root:${root.rootCaseId}`}, 0))`;
   await tx.$queryRaw`SELECT 1::INTEGER AS locked FROM pg_advisory_xact_lock(hashtextextended(${`${organizationId}:math-cycle:${cycleId}`}, 0))`;
   return tx.mathResearchCycle.findFirstOrThrow({ where: { id: cycleId, organizationId },
     include: { command: { select: { outcome: true } } } });
@@ -536,6 +584,59 @@ async function lockedCycle(tx: TenantTransaction, organizationId: string, cycleI
 
 function cyclePolicy(cycle: MathResearchCycle & { command?: { outcome: unknown } }): AdaptivePolicy | null {
   return commandAdaptivePolicy(cycle.command?.outcome, cycle);
+}
+
+type CommitmentCycle = MathResearchCycle & { command?: { outcome: unknown } };
+function cycleCommitment(cycle: CommitmentCycle): ResearchCommitment {
+  const outcome = cycle.command?.outcome;
+  if (!outcome || typeof outcome !== "object" || !("commitment" in outcome)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Executable legacy cycle lacks research commitment");
+  try { return admitResearchCommitment((outcome as { commitment: unknown }).commitment, {
+    organizationId: cycle.organizationId, workspaceId: cycle.workspaceId, rootCaseId: cycle.rootCaseId,
+    rootContractDigest: cycle.rootContractDigest, rootReviewDigest: cycle.rootReviewDigest, cycleId: cycle.id, commandId: cycle.commandId }); }
+  catch { throw new ResearchSandboxError("INTEGRITY_FAILURE", "Research commitment command binding failed"); }
+}
+async function commitmentHistory(tx: TenantTransaction, root: Pick<ResearchCommitmentBinding,
+  "organizationId" | "workspaceId" | "rootCaseId" | "rootContractDigest" | "rootReviewDigest">) {
+  const rows = await tx.mathResearchCycle.findMany({ where: { organizationId: root.organizationId, rootCaseId: root.rootCaseId },
+    include: { command: { select: { outcome: true } }, events: { orderBy: { sequence: "asc" }, take: RESEARCH_COMMITMENT_LIMITS.events + 1 } },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }], take: RESEARCH_COMMITMENT_LIMITS.cycles + 1 });
+  if (rows.length > RESEARCH_COMMITMENT_LIMITS.cycles) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment complete history overflow");
+  let begun = false;
+  return rows.flatMap(row => {
+    if (row.events.length > RESEARCH_COMMITMENT_LIMITS.events) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment event history overflow");
+    const trace = validateMathCycleTrace(row.events, row.rootContractDigest, cyclePolicy(row));
+    if (!trace) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment history ledger invalid");
+    const outcome = row.command?.outcome;
+    const hasMarker = Boolean(outcome && typeof outcome === "object" && "commitment" in outcome);
+    if (!hasMarker) {
+      if (begun) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment history marker missing");
+      return []; // Historical pre-commitment records remain readable, never executable.
+    }
+    begun = true;
+    const binding = commitmentContext(cycleCommitment(row));
+    if (["organizationId", "workspaceId", "rootCaseId", "rootContractDigest", "rootReviewDigest"].some(k =>
+      binding[k as keyof typeof root] !== root[k as keyof typeof root])) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment history root drift");
+    const markers = trace.filter(e => e.phase === "COMMITMENT_BOUND");
+    if (trace.length && (markers.length !== 1 || canonicalJson(markers[0].binding) !== canonicalJson(binding))) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Commitment history event marker missing/tampered");
+    return [{ binding, trace, status: row.status }];
+  });
+}
+async function guardCycleWork(tx: TenantTransaction, cycle: CommitmentCycle, round: number,
+  operation: z.infer<typeof commitmentOperationSchema>, proposal?: MathCycleProposal) {
+  const token = cycleCommitment(cycle), binding = commitmentContext(token);
+  const history = await commitmentHistory(tx, binding);
+  if (!history.some(row => row.binding.cycleId === cycle.id)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Current cycle missing from complete history");
+  const state = projectCommitmentHistory(token, history);
+  const current = history.find(row => row.binding.cycleId === cycle.id)!;
+  const already = current.trace.some(e => e.phase === "COMMITMENT_WORK_STARTED" && e.round === round);
+  if (state.scientificScope === "FINITE_ONLY" || state.noClosure >= binding.choice.maxNoClosure ||
+    state.work > binding.choice.maxWork || (!already && state.work >= binding.choice.maxWork)) throw new ResearchSandboxError("INVALID_TRANSITION", state.reason ?? "Commitment stopped");
+  if (proposal) admitCommittedWork(token, proposal.workBinding, operation, proposal);
+  else committedOperationBinding(token, operation);
+  return token;
+}
+async function refuseUnsupportedCommittedTool(name: string): Promise<void> {
+  throw new ResearchSandboxError("INVALID_TRANSITION", `Commitment refuses unsupported ${name} scope`);
 }
 
 function adaptiveDossierSafe(dossier: FrontierDossier): boolean {
@@ -554,6 +655,10 @@ async function reserveCall(input: CycleJobInput, cycleId: string, round: number,
   return withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
     const cycle = await lockedCycle(tx, input.organizationId, cycleId);
     if (cycle.status !== "RUNNING" || cycle.completedRounds + 1 !== round) throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before call reservation");
+    const proposalRow = await tx.mathResearchCycleEvent.findFirst({ where: { cycleId, round, phase: "PROPOSED" }, orderBy: { sequence: "desc" } });
+    const proposalEvent = proposalRow ? mathCycleEventPayloadSchema.parse(proposalRow.payload) : null;
+    const operation = role === "SOLVER" ? "PROOF_ATTEMPT" : role === "SOURCE_ANALYST" || role === "SOURCE_CHALLENGER" ? "SOURCE_REVIEW" : role;
+    await guardCycleWork(tx, cycle, round, operation, proposalEvent?.phase === "PROPOSED" ? proposalEvent.proposal : undefined);
     const reason = cycleResourceStopReason({ callsStarted: cycle.callsStarted, maxCalls: cycle.maxCalls,
       observedTokens: cycle.observedTokens, maxObservedTokens: cycle.maxObservedTokens,
       deadlineAt: cycle.deadlineAt, now: new Date() });
@@ -639,6 +744,9 @@ async function finishJob(input: CycleJobInput, cycleId: string, round: number,
       cycle.observedTokens < cycle.maxObservedTokens && Date.now() < cycle.deadlineAt.getTime() &&
       cycle.callsStarted < cycle.maxCalls);
     let stop: CycleStopReason | null = branchLocal && canSwitch ? null : reason;
+    const commitment = cycleCommitment(cycle);
+    const commitmentState = projectCommitmentHistory(commitment, await commitmentHistory(tx, commitmentContext(commitment)));
+    if (commitmentState.stopped) stop = commitmentState.reason as CycleStopReason;
     if (!stop) stop = completedRounds >= cycle.maxRounds ? "ROUND_LIMIT"
       : cycle.observedTokens >= cycle.maxObservedTokens ? "TOKEN_LIMIT"
       : Date.now() >= cycle.deadlineAt.getTime() ? "TIME_LIMIT"
@@ -661,6 +769,7 @@ async function finishJob(input: CycleJobInput, cycleId: string, round: number,
       organizationId: cycle.organizationId, workspaceId: cycle.workspaceId, commandId: cycle.commandId,
       topic: "math-pilot.cycle.round", aggregateType: "MathResearchCycle", aggregateId: cycle.id,
       payload: { cycleId: cycle.id, round: round + 1,
+        commitment: commitmentContext(commitment),
         ...(cyclePolicy(cycle) ? { strategyPolicy: cyclePolicy(cycle) } : {}) },
     } });
     await tx.durableJob.update({ where: { id: job.id }, data: {
@@ -687,6 +796,8 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     const payload = job.payload as Record<string, unknown>;
     if (typeof payload.cycleId !== "string" || typeof payload.round !== "number") throw new ResearchSandboxError("INVALID_INPUT", "Cycle job payload is invalid");
     const cycle = await lockedCycle(tx, input.organizationId, payload.cycleId);
+    const commitmentToken = cycleCommitment(cycle), commitment = commitmentContext(commitmentToken);
+    if (canonicalJson(payload.commitment ?? null) !== canonicalJson(commitment)) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Outbox commitment differs from authenticated command");
     const round = payload.round as number;
     if (cycle.workspaceId !== job.workspaceId || cycle.completedRounds + 1 !== round || cycle.status !== "QUEUED") {
       throw new ResearchSandboxError("JOB_CONFLICT", "Cycle round is not queued exactly once");
@@ -704,6 +815,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     }
     const trace = validateMathCycleTrace(events, cycle.rootContractDigest, strategyPolicy);
     if (!trace) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Cycle event chain is invalid");
+    await guardCycleWork(tx, cycle, round, "PLANNER");
     const payloadSteering = payload.steering === undefined ? null : mathCycleSteeringSchema.parse(payload.steering);
     if (payloadSteering && (round !== 1 || payload.steeringDigest !== mathCycleSteeringDigest(payloadSteering) ||
       payloadSteering.rootContractDigest !== cycle.rootContractDigest)) {
@@ -775,6 +887,9 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       phase: "ADAPTIVE_POLICY_DECLARED", round: 1, policy: strategyPolicy });
     if (payloadSteering) await appendEvent(tx, cycle, job.id, { phase: "HUMAN_STEERED", round: 1,
       steering: payloadSteering, steeringDigest: mathCycleSteeringDigest(payloadSteering) });
+    if (!trace.some(e => e.phase === "COMMITMENT_BOUND")) await appendEvent(tx, cycle, job.id, {
+      phase: "COMMITMENT_BOUND", round: 1, binding: commitment });
+    await appendEvent(tx, cycle, job.id, { phase: "COMMITMENT_WORK_STARTED", round, commitmentDigest: commitment.commitmentDigest });
     if (priorFindings.length) await appendEvent(tx, cycle, job.id, { phase: "PRIOR_FINDINGS", round,
       findings: priorFindings });
     // Preserve the retained method on subsequent rounds; never silently upgrade history.
@@ -790,55 +905,35 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     return { cycleId: cycle.id, round, rootContract: root.contract, gaps, priorTasks, priorArt,
       steering, priorFindings, priorObligations, trace, rootReviewDigest: cycle.rootReviewDigest,
       maxRounds: cycle.maxRounds, maxObservedTokens: cycle.maxObservedTokens, mixedCoreMethod, strategyPolicy,
-      priorOutcomes: checkedPriorCycles.flatMap(({ cycle: previous, trace: checked }) => projectResearchOutcomes({
+      commitment, priorOutcomes: checkedPriorCycles.flatMap(({ cycle: previous, trace: checked }) => projectResearchOutcomes({
         cycleId: previous.id, ledgerDigest: previous.events.at(-1)?.digest ?? "", trace: checked })).slice(-32) };
   });
   const { cycleId, round, rootContract, gaps, priorTasks, priorArt, steering, priorFindings,
-    priorObligations, trace, rootReviewDigest, maxRounds, maxObservedTokens, mixedCoreMethod, strategyPolicy, priorOutcomes } = loaded;
+    priorObligations, trace, rootReviewDigest, maxRounds, maxObservedTokens, mixedCoreMethod, strategyPolicy, priorOutcomes, commitment } = loaded;
+  const beforeOperation = async (operation: z.infer<typeof commitmentOperationSchema>, proposal?: MathCycleProposal) =>
+    withOrganizationTenant(input.organizationId, input.actorUserId, async tx => {
+      const cycle = await lockedCycle(tx, input.organizationId, cycleId);
+      if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before committed operation");
+      return guardCycleWork(tx, cycle, round, operation, proposal);
+    });
   const priorPortfolioEvent = trace.find((event) => event.phase === "PORTFOLIO_PLANNED");
   const priorPortfolio = priorPortfolioEvent?.phase === "PORTFOLIO_PLANNED" ? priorPortfolioEvent.portfolio : null;
   if (priorPortfolio && priorPortfolio.rootReviewDigest !== rootReviewDigest) {
     return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
   }
   if (!gaps.length && !priorPortfolio) return finishJob(input, cycleId, round, "NO_GAP");
-  let mixedCoreEvidence = trace.find((event) => event.phase === "MIXED_CORE_EVIDENCE")?.evidence ?? null;
+  const mixedCoreEvidence = trace.find((event) => event.phase === "MIXED_CORE_EVIDENCE")?.evidence ?? null;
   if (round === 1 && mixedCoreMethod && !mixedCoreEvidence) {
-    mixedCoreEvidence = await runMixedCoreAgentEvidence(digestMathPilotContract(rootContract), mixedCoreMethod);
-    await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
-      const cycle = await lockedCycle(tx, input.organizationId, cycleId);
-      if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before mixed-core replay");
-      await appendEvent(tx, cycle, input.jobId, { phase: "MIXED_CORE_EVIDENCE", round: 1, evidence: mixedCoreEvidence! });
-    });
+    // No typed committed adapter for old mixed-core pre-planner work yet.
+    await refuseUnsupportedCommittedTool("mixed-core pre-planner tool");
   }
   if (mixedCoreEvidence && (!validateMixedCoreAgentEvidence(mixedCoreEvidence, digestMathPilotContract(rootContract)) ||
     !mixedCoreEvidencePassed(mixedCoreEvidence) || !mixedCoreMethod ||
     !mixedCoreEvidenceMatchesMethod(mixedCoreEvidence, mixedCoreMethod))) return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
-  let effectivePriorFindings = priorFindings;
-  let gateDossier: StructuralGateDossier | null = null;
+  const effectivePriorFindings = priorFindings;
+  const gateDossier: StructuralGateDossier | null = null;
   if (steering?.replayCandidate) {
-    const candidate = steering.replayCandidate;
-    const report = await runStructuralCounterexampleReplay(candidate);
-    const event: MathCycleEventPayload = { phase: "PRIOR_COUNTEREXAMPLE_REPLAY", round: 1, candidate, report };
-    const appended = await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
-      const cycle = await lockedCycle(tx, input.organizationId, cycleId);
-      if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before prior counterexample replay");
-      return appendEvent(tx, cycle, input.jobId, event);
-    });
-    if (report.status !== "PASS" || !validateStructuralCounterexampleReport(candidate, report)) {
-      return finishJob(input, cycleId, round, "COUNTEREXAMPLE_REJECTED");
-    }
-    const finding = priorFiniteFindingFromTrace({ cycleId, sourceLedgerDigest: appended.digest, trace: [event] });
-    if (!finding) return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
-    effectivePriorFindings = [finding, ...priorFindings].slice(0, 8);
-    gateDossier = await runStructuralGateDossier(candidate, steering.targetA);
-    if (gateDossier) {
-      const dossierEvent: MathCycleEventPayload = { phase: "PRIOR_GATE_DOSSIER", round: 1, dossier: gateDossier };
-      await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
-        const cycle = await lockedCycle(tx, input.organizationId, cycleId);
-        if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before gate dossier");
-        await appendEvent(tx, cycle, input.jobId, dossierEvent);
-      });
-    }
+    await refuseUnsupportedCommittedTool("steering replay");
   }
 
   // Reject an independently false steering seed before even source discovery.
@@ -848,10 +943,11 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   if (strategyPolicy) {
     const retainedMap = trace.find((event) => event.phase === "RESEARCH_METHOD_MAP");
     const baseline = trace.find((event) => event.phase === "RESEARCH_FRONTIER_BASELINE");
-    prePlannerDossier = baseline?.dossier ??
-      await input.agents.buildFrontierDossier(rootContract);
+    if (!baseline) await beforeOperation("PREPLANNER_FRONTIER");
+    prePlannerDossier = baseline?.dossier ?? await input.agents.buildFrontierDossier(rootContract);
     if (!prePlannerDossier || !verifyFrontierDossier(prePlannerDossier) || !adaptiveDossierSafe(prePlannerDossier))
       return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
+    if (!retainedMap) await beforeOperation("PREPLANNER_FRONTIER");
     const packet = retainedMap?.packet ?? await buildResearchMethodPacket(rootContract, prePlannerDossier.dossierDigest);
     const admittedAt = retainedMap?.admittedAt ?? new Date().toISOString();
     if (!admitResearchMethodPacket(packet, strategyPolicy.rootContractDigest, prePlannerDossier.dossierDigest,
@@ -882,7 +978,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       if (!input.agents.proposePortfolio) throw new ResearchSandboxError("INTEGRITY_FAILURE", "Portfolio planner is unavailable");
       if (!await reserve("PLANNER")) return;
       const planned = await input.agents.proposePortfolio(rootContract, gaps, priorTasks, priorArt,
-        effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy);
+        effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy, commitment);
       portfolio = sealMathPortfolio({ draft: planned.output, rootReviewDigest, availableGaps: gaps,
         priorObligations, maxObservedTokens, maxRounds, methodPacket: strategy?.packet,
         ...(strategyPolicy?.policyId === "ADAPTIVE_RESEARCH_V2" ? { graphPolicy: { cycleId, root: rootContract } } : {}) });
@@ -952,12 +1048,14 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
       return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
     if (!await reserve("PLANNER")) return;
     plan = await input.agents.propose(rootContract, gaps, priorTasks, priorArt, steering,
-      effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy);
+      effectivePriorFindings, gateDossier, priorObligations, mixedCoreEvidence, strategy, commitment);
     const proposed = mathCycleProposalSchema.parse(plan.output);
     await retainResult(input, cycleId, { phase: "PROPOSED", round, proposal: proposed,
       context: { threadId: plan.threadId, usage: plan.usage } }, plan.usage);
   }
   const proposal = mathCycleProposalSchema.parse(plan.output);
+  // The mandatory scope gate precedes ALL proposal-dependent tools/source/models.
+  await beforeOperation("VERIFIER", proposal);
   if (mixedCoreEvidence && proposal.mixedCoreClaim && mixedCoreRefutation(proposal.mixedCoreClaim, mixedCoreEvidence)) {
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
       const cycle = await lockedCycle(tx, input.organizationId, cycleId);
@@ -995,6 +1093,7 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     return finishJob(input, cycleId, round, "STRUCTURAL_PROBE_HOLD");
   }
 
+  await beforeOperation("SOURCE_REVIEW", proposal);
   const dossier = prePlannerDossier ?? await input.agents.buildFrontierDossier(rootContract);
   if (!verifyFrontierDossier(dossier)) {
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
@@ -1059,12 +1158,14 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   if (!deterministic.accepted) return finishJob(input, cycleId, round, "VERIFICATION_REJECTED");
 
   const contract = taskContract(rootContract, proposal);
+  if (proposal.exactSurveyPlan) await beforeOperation("FINITE_SURVEY", proposal);
   const computation = proposal.exactSurveyPlan ? surveyResidualInterval(proposal.exactSurveyPlan) : null;
   if (computation) await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
     const cycle = await lockedCycle(tx, input.organizationId, cycleId);
     if (cycle.status !== "RUNNING") throw new ResearchSandboxError("JOB_CONFLICT", "Cycle moved before exact computation");
     await appendEvent(tx, cycle, input.jobId, { phase: "COMPUTED", round, evidence: computation });
   });
+  if (computation) await beforeOperation("INDEPENDENT_REPLAY", proposal);
   const replay = computation ? await runIndependentResidualReplay(computation) : null;
   if (replay) {
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
@@ -1075,6 +1176,13 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
     if (replay.status !== "PASS" || !validateIndependentReplayReport(computation!, replay)) {
       return finishJob(input, cycleId, round, "INTEGRITY_FAILURE");
     }
+    const closures = await withOrganizationTenant(input.organizationId, input.actorUserId, async tx => {
+      const cycle = await lockedCycle(tx, input.organizationId, cycleId), token = cycleCommitment(cycle);
+      const row = (await commitmentHistory(tx, commitmentContext(token))).find(row => row.binding.cycleId === cycleId)!;
+      return finiteCommitmentClosures(token, row.trace);
+    });
+    if (closures.length)
+      return finishJob(input, cycleId, round, "COMMITTED_FINITE_OBLIGATION_CLOSED");
   }
   if (!await reserve("SOLVER")) return;
   const attempt = mathModelAttemptSchema.parse(await input.agents.solve(contract, computation, replay, gateDossier, mixedCoreEvidence, strategy));
@@ -1084,6 +1192,8 @@ export async function executeMathResearchCycleRound(input: CycleJobInput) {
   }
   await retainResult(input, cycleId, { phase: "ATTEMPTED", round, contract, attempt }, attempt.usage);
   const candidate = attempt.erdosStrausGateCounterexample;
+  if (candidate || attempt.erdosStrausWitnesses?.length || attempt.erdosStrausPolynomialFamilies?.length)
+    await refuseUnsupportedCommittedTool("solver-authored arithmetic certificate");
   if (candidate && !hasErdosStrausEquation(rootContract)) {
     return finishJob(input, cycleId, round, "COUNTEREXAMPLE_REJECTED");
   }

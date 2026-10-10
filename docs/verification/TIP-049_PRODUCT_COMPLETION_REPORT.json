@@ -1,0 +1,88 @@
+{
+  "tip": "TIP-049",
+  "builder": "target_skeptic (Product Builder, not independent mathematical reviewer)",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "contractDigest": "04e2cb6a61cb254341e9bea42567f560018d51d39c9147c332f5795033e34def",
+  "scope": "R4/R5 owned collector, retained checkpoint/report and minimal UI. Core owns selection/composition and Replay owns independent execution; Main owns final R6 acceptance. Computational loop stopped, research classification PARTIAL, global NOT_ESTABLISHED.",
+  "requirements": {
+    "R4": {
+      "implemented": true,
+      "evidence": "Explicit local CLI observes one120s budget from before reads/imports to final serialization/write/stdout checks: verifies immutable048 raw bytes, deterministically chooses8 frozen jobs, runs existing capped trusted tools, seals separate packet, invokes pinned independent composition with remaining budget, validates report and stops. Optional --write atomically replaces only NEW retained-frontier-report.json. Pure retained projection validates within30s/128MiB and launches no producer, Python, research fetch or model. No old evidence/gate/worker architecture change."
+    },
+    "R5": {
+      "implemented": true,
+      "evidence": "Restrained bilingual MathText panel on existing retained Allikvere route. Four parent rows show previous/current/delta/unresolved and exact accessible remaining-frontier prefixes/cardinalities. Eight jobs show closure-control/strategic-mass labels, statuses, parent/root/source/child/Python provenance. Explicit computational tool-agent loop, not LLM campaign. Preserves both old panels and anchors; five global gaps/lower dependency/whole ZIP warning remain. No aggregate global completion percentage or unique-velocity claim."
+    }
+  },
+  "design_plan": {
+    "direction": "Existing HIVE typography/theme/Panel tokens retained. Lead with stopped-loop and scope disclosure, then four parent comparisons, eight locked jobs, provenance and unestablished obligations. No dashboard redesign, new palette, gratuitous motion or dispatch controls.",
+    "layout": "Left-aligned prose, mobile one-column/desktop two-column counts, wrapping identifiers, scroll-mt24 anchors and vertically bounded exact-frontier details.",
+    "skills": "Vibecode Kit separates owned Builder implementation from Contractor acceptance. Frontend-design restraint and full installed Next server/client guide used before editing; server-only retained projection, no browser arithmetic/secret/tool bundle."
+  },
+  "files": [
+    { "path": "src/modules/research-sandbox/math-lrc-frontier-report.ts", "sha256": "6de0f0c8f8a627fc3c0441fc3eeea6d8264459f64723b0f9422294a19054b847" },
+    { "path": "scripts/operations/allikvere-frontier-audit.ts", "sha256": "1473d8ca5f08d10dd53d4e971ebc4b29f67ff01a6101b98af69c01ccfff77654" },
+    { "path": "src/components/research/math-lrc-frontier-panel.tsx", "sha256": "bdf884ef158da9b1f52d6b4fbf88f5464476c720a1fa27830e4d72666a9df77c" },
+    { "path": "tests/unit/math-lrc-frontier-report.test.ts", "sha256": "1b64328b49575f79b76294c062dd42cd907f3eb1d282032661543f2bf0bc44ea" },
+    { "path": "src/app/w/[workspaceSlug]/research/math-tools/page.tsx", "sha256": "05e033037dd788482f4cebb42b18fbfa28a9ee7d745f83278da621d8d7c728ba" },
+    { "path": "docs/research/lrc-allikvere-p199/retained-frontier-report.json", "sha256": "a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268" }
+  ],
+  "retained_checkpoint": {
+    "reportDigest": "e1f1825b817e21b1672e64e025a1c4790d4e1518b94a9e1ab866cb757604f420",
+    "bytes": 5847016,
+    "status": "PARTIAL",
+    "loopKind": "LOCAL_COMPUTATIONAL_TOOL_AGENT_LOOP",
+    "phases": ["CHOOSE", "EXECUTE", "INDEPENDENT_REPLAY", "COMPOSE", "STOP"],
+    "closureControlsComplete": 4,
+    "strategicMassPartial": 4,
+    "globalVerdict": "NOT_ESTABLISHED",
+    "rows": [
+      { "parentId": "p199-tight-terminal-0-full", "previousClassified": "137649330", "currentClassified": "260155553", "deltaClassified": "122506223", "unresolved": "96628854854", "remainingDomains": 62, "status": "PARTIAL" },
+      { "parentId": "p199-tight-terminal-1-full", "previousClassified": "160170710", "currentClassified": "316139670", "deltaClassified": "155968960", "unresolved": "96572870737", "remainingDomains": 55, "status": "PARTIAL" },
+      { "parentId": "p199-tight-terminal-2-full", "previousClassified": "71093610", "currentClassified": "160043457", "deltaClassified": "88949847", "unresolved": "96728966950", "remainingDomains": 64, "status": "PARTIAL" },
+      { "parentId": "p199-gw-terminal-0-full", "previousClassified": "95497374", "currentClassified": "219045631", "deltaClassified": "123548257", "unresolved": "96669964776", "remainingDomains": 54, "status": "PARTIAL" }
+    ],
+    "countSemantics": "These actual deltas are finite ordered-coordinate domain classifications, not unique velocities, quotient orbits, blind benchmark results or mathematical novelty. Four closure controls classify117649/16807/16807/16807 points; four mass jobs remain PARTIAL. All current classified points are cover-bound witness labels in this retained packet, with0 conditional gcd/checked survivor labels; no inference about unknown survivors. Anchored domains and previously established leaves remain in the unchanged048 parent."
+  },
+  "verification": {
+    "focused_unit": { "status": "PASS", "passed": 19, "total": 19, "files": 1, "duration_ms": 40800, "command": "node node_modules/vitest/vitest.mjs run tests/unit/math-lrc-frontier-report.test.ts", "exit_code": 0 },
+    "actual_fixture": "Exactly eight genuine maxNodes1 tool envelopes plus one actual pinned composition replay, not a second default campaign. Instrumented named execFile records9 positive calls; pure GET checks add0 after clearing the same observed instrument. Actual parent and final retained artifact independently pure-admitted in tests.",
+    "report_mutations": { "fully_outer_report_rehashed": 10, "all_rejected": true, "additional_partial_to_complete_rejected": true, "scope": "Outer report integrity/boundary tests, not a claim that unsigned hashes authenticate physical execution. Core/Replay and Main own deeper coherently resealed domain/arithmetic mutants." },
+    "pure_read": "Valid PARTIAL admitted without execFile or fetch; expired aggregate30s observation rejected. Neither GET nor UI invokes the coordinator. CLI negative guards actually reject production/extra switches before imports/generation/writes.",
+    "ui": "Actual server render VI/EN on valid independently replayed fixture and invalid fallback; includes exact frontier details, non-LLM/non-blind/global-partial copy, selected labels, wrapping provenance, scroll offset and no forms/buttons. Static route test preserves original ES guard and047/048 panels. Visible desktop/mobile verification remains Main responsibility.",
+    "actual_default_collector": { "status": "PASS_ATTRIBUTED_MAIN", "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-frontier-audit.ts --write", "elapsed_ms": 36279, "note": "Only Main invoked the actual default8job collector and retained the new checkpoint. Builder inspected exact report hashes/counts and pure-validated it in focused tests. No artifact rewrite by Builder." },
+    "typecheck": { "status": "PASS", "command": "node node_modules/typescript/bin/tsc --noEmit", "exit_code": 0, "note": "Final check includes new retained artifact import and final panel/test/route." },
+    "owned_eslint": { "status": "PASS", "files": 5, "exit_code": 0, "errors": 0, "warnings": 0 },
+    "whitespace": { "status": "PASS", "exit_code": 0 },
+    "not_run_by_builder": ["default collector", "full repository unit suite", "production build", "visible browser", "database", "worker", "model/API calls", "Git publication"]
+  },
+  "peer_snapshot_reviewed": {
+    "core": "d13e482fa1381fd14703c3cf078794346f9b39e2c2eaae1759c90a8942427e9f",
+    "replayAdapter": "acf5e72b0d00681ff16efa567acedb3087383ae17bc14155d6e76535bf91214f",
+    "pythonDriver": "3dd6f02b2207e6a1e1d724a6403a55af932cae211b645f1243c1e2acdecdb3e2",
+    "composedProgram": "16cd594ffa4f644dd3db251a8ece148b3f0959e57712db2ca0718669d2ebd2bf",
+    "review": "Read complete Core, Replay and Python driver. Fixed canonical parent pin binds original leaves; deterministic selection/child scope/root retains13 coordinate labels; child prefixes already use original axes, not concatenation. Exact replacement/count/cardinality and inherited disjoint partitions preserve paid parent proofs. Core additionally checks final frontier antichain. Python reconstructs only valid verified parent/child trees, so derived regions are disjoint without trusting supplied frontier labels. Both source programs execute literal verified bytes in a non-main private namespace; no author/model/request-supplied code. No remaining product-seam blocker observed. This is same-model code review, not independent foundations/expert/formal certification."
+  },
+  "failure_history": [
+    "Product's first fixture run began while Replay draft still contained PIN_PENDING. The source guard correctly threw Frontier composed program drift and all18tests skipped at beforeAll. No evidence was accepted or report retained. After peer computed literal-program16cd594f pin,18/18passed29.50s with unchanged methodology.",
+    "Strengthened new GET regression to instrument the actual named ESM execFile export, with9-call positive control followed by0-read-call check. Added actual retained report/route test and exact remaining-frontier details. Final19/19passed40.80s; no production trust weakening or cap increase.",
+    "Minimal static route import was held until Main's actual default collector created the independently admitted artifact. No placeholder, manually forged checkpoint, anchored-only substitution or summary fallback was used."
+  ],
+  "preservation": {
+    "tip047ReportSha256": "82092f2b32be89999bc834d426be71aea5fa408f9865a53a795b765b3e2deb20",
+    "tip048ReportSha256": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "tip047PanelSha256": "d40db8aaf4b34711271a73142f31effbf8706fcce290d6eb20a356dcc4ef6d1f",
+    "tip048PanelSha256": "b16fd3bc4a91477700529370e3db3345bc7b6a3bb8042c7c8ef0a4921473b3d0",
+    "note": "Old report/panel hashes independently checked unchanged. Only minimal new import/link/render added to math-tools; original ES computation path and retained-only bypass remain. No old source schemas/case grades/agent admission/worker/reviewer API, unrelated dirty screenshot/doc or dependency mutation."
+  },
+  "limitations_and_deferred": [
+    "Computational choose-execute-verify-compose-stop is implemented as one fixed8job local batch; not a fresh HIVE model/worker campaign or unrestricted autonomous research program. Future selection/checkpoints need separate frozen authority.",
+    "All4FULL parent domains remain PARTIAL. Local closure-control completion and verified finite deltas do not establish full terminal coverage, absence of unknown survivors, full14/15 theorem, novelty or universal agent-success acceptance.",
+    "All five original obligations remain open: level1 all-orbit, other primes, all terminal branches, lower LRC12, analytic/prime-product bound. Whole archive is unverified; known Allikvere pruning is not new mathematics.",
+    "Pre-BUILD feasibility scan is disclosed; finite controls/gains are not blind/held-out benchmark or an AI-model capability score.",
+    "CLI checks original048 raw bytes. Pure GET checks immutable canonical data and the retained raw-pin declaration, not a fresh disk raw-byte read or source execution. Trusted collector/unsigned hashes are not external host/interpreter attestation.",
+    "Shared120s collector and30s pure admission are cooperative observed checkpoints, not hard synchronous JavaScript CPU preemption. Existing child wrapper keeps its old30s cap; tighter generation plus before/after shared checks prevents aggregate acceptance reset. New independent wrapper receives at most remaining40s; report admits only within remaining30s.",
+    "Atomic replacement happens only after all8 tools/independent composition/pure report and serialized-size checks. Subsequent I/O/deadline failure can still report failure after a valid new artifact was committed; it cannot rewrite the old base or upgrade classification.",
+    "Main owns final full suite/type/lint/build, live bilingual/mobile UI, preservation/current manifest/handoff and6requirement acceptance. No DB/model/provider/install/Git/deployment work here."
+  ]
+}

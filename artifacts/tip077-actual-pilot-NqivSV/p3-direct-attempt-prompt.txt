@@ -1,0 +1,38 @@
+You are one solver in an authorized bounded mathematics experiment. This is a
+fresh task-only session. Work solely from the supplied problem and same-arm
+artifacts explicitly included in this prompt. No project/repository/history,
+other arm, reference solution, web search, external source, MCP, plugin, extra
+model/agent, credentials or environment-file inspection. Do not read files.
+Do not install dependencies or write files. All tools are optional. Only in-memory
+Python/arithmetic shell computations are allowed; do not contact any network,
+launch agents, browse, access filesystem, or ask approval to weaken the sandbox.
+At most 12 computation commands per arm; each <=60 seconds and <=120 seconds
+aggregate. Output must be <=32KiB UTF-8. These bounds include failed work.
+Your arm's entire allowance is four visible model requests and 600 seconds,
+including any planning/review/revision. Current request usage and time remaining
+are supplied by the operator. Actual token budgets/model-version are unverified.
+Provide a self-contained rigorous proof or a clearly labelled partial attempt.
+Do not claim a finite computation establishes an unbounded theorem. Explicitly
+state any essential gap. No task-specific hint or solution is being supplied.
+Final format: Answer; Proof (with all blocking lemmas justified); Scope and gaps.
+Use English and readable LaTeX math delimiters. Do not cite remembered official
+solutions as proof. You may use established elementary results only if you state
+them and justify applicability. Submit the final proof in your final message.
+
+
+Choose whatever solving, checking and revision strategy you think strongest
+within the same allowance. You may use your own planning and adversarial review.
+No method-specific constraints are imposed. Do not deliberately save resources
+if further useful solving or checking work fits your remaining allowance.
+
+
+An infinite positive-integer sequence (a_n) and a positive integer N satisfy:
+for each n>N, a_n is the multiplicity of a_(n-1) among a_1,...,a_(n-1).
+Show that either (a_(2j-1))_(j>=1) or (a_(2j))_(j>=1) is eventually periodic.
+Eventually periodic means b_(m+p)=b_m for every m>=M, for some positive integers
+p,M. Prove this for every allowed initial segment, not just simulated examples.
+
+
+Produce your original proof attempt under the policy and remaining allowance. No external artifacts are provided. State essential unresolved gaps honestly.
+
+OPERATOR RESOURCE NOTICE: This is request position 1 (ATTEMPT) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 600 seconds. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.

@@ -1,0 +1,474 @@
+{
+  "purpose": "TIP081_P2_ACTUAL_ALLOCATION_PREREQUISITE_ONLY",
+  "status": "PARTIAL_NOT_FULL_P2",
+  "milestone": "SAME081D8_ENGINEERING",
+  "requirements": {
+    "W1": "PARTIAL_NO_COMPLETE_GRAMMAR",
+    "W2": "PARTIAL_A00_A16_KERNEL_ONLY",
+    "W3": "PARTIAL_NO_AST_HELPER_GRAMMAR_DEPTH",
+    "W4": "PARTIAL_PARSER_ALWAYS_OFF",
+    "W5": "PARTIAL_31_KERNEL_CONTROLS_NOT_GRAMMAR",
+    "W6": "ACCEPTED_SCOPED_REPORT_ACCOUNTING",
+    "fullGrammarRequirementsClosed": 0,
+    "fullGrammarRequirements": 5
+  },
+  "checks": [
+    {
+      "name": "syntax-module",
+      "timeout": 3000,
+      "milliseconds": 33.678916,
+      "status": 0,
+      "signal": null,
+      "errorCode": null
+    },
+    {
+      "name": "unit-p2-kernel",
+      "timeout": 20000,
+      "milliseconds": 1896.507708,
+      "status": 0,
+      "signal": null,
+      "errorCode": null
+    },
+    {
+      "name": "lint-new-three",
+      "timeout": 8000,
+      "milliseconds": 2264.6216670000003,
+      "status": 0,
+      "signal": null,
+      "errorCode": null
+    },
+    {
+      "name": "types-p2-new-roots",
+      "timeout": 8000,
+      "milliseconds": 2114.379916,
+      "status": 0,
+      "signal": null,
+      "errorCode": null
+    }
+  ],
+  "unit": {
+    "files": [
+      "/Users/os/hiveos/tests/unit/evidence-studio-p2-allocation-kernel.test.ts"
+    ],
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "uniqueIDs": 31,
+    "controls": [
+      {
+        "id": "P201",
+        "title": "P201 actual node defaults, shallow copy and schema attempts retain charges",
+        "status": "passed",
+        "duration": 1.321458000000007,
+        "failureMessages": []
+      },
+      {
+        "id": "P202",
+        "title": "P202 multiple shallow copies never refund overwritten defaults/aliases",
+        "status": "passed",
+        "duration": 0.18550000000001887,
+        "failureMessages": []
+      },
+      {
+        "id": "P203",
+        "title": "P203 complete output exact cap and minus one refuse without salvaging root",
+        "status": "passed",
+        "duration": 1.0042919999999924,
+        "failureMessages": []
+      },
+      {
+        "id": "P204",
+        "title": "P204 one-byte-short Node reserve refuses before construction",
+        "status": "passed",
+        "duration": 0.23304100000001426,
+        "failureMessages": []
+      },
+      {
+        "id": "P205",
+        "title": "P205 growing real arrays retain old/new backings and occupied-slot entries",
+        "status": "passed",
+        "duration": 0.272041999999999,
+        "failureMessages": []
+      },
+      {
+        "id": "P206",
+        "title": "P206 occupied capacity does not allocate another backing",
+        "status": "passed",
+        "duration": 0.19354200000000787,
+        "failureMessages": []
+      },
+      {
+        "id": "P207",
+        "title": "P207 real scope/map fanout charges each enclosing name reference",
+        "status": "passed",
+        "duration": 0.26154099999999403,
+        "failureMessages": []
+      },
+      {
+        "id": "P208",
+        "title": "P208 null-prototype dictionary keys cannot invoke inherited setters",
+        "status": "passed",
+        "duration": 0.1002499999999884,
+        "failureMessages": []
+      },
+      {
+        "id": "P209",
+        "title": "P209 structural scope boundary128 is allowed and129 refuses before scope work",
+        "status": "passed",
+        "duration": 0.9821249999999964,
+        "failureMessages": []
+      },
+      {
+        "id": "P210",
+        "title": "P210 real raw/cooked strings charge slices, pieces and concat overlap",
+        "status": "passed",
+        "duration": 0.19545800000000213,
+        "failureMessages": []
+      },
+      {
+        "id": "P211",
+        "title": "P211 abandoned raw/cooked attempt remains charged before replacement",
+        "status": "passed",
+        "duration": 0.13108300000001805,
+        "failureMessages": []
+      },
+      {
+        "id": "P212",
+        "title": "P212 repeated exercise/observation preserves original monotone reservation",
+        "status": "passed",
+        "duration": 0.08670799999998735,
+        "failureMessages": []
+      },
+      {
+        "id": "P213",
+        "title": "P213 unsupported cooked spelling/Unicode refuse and retire owner",
+        "status": "passed",
+        "duration": 0.27404200000000856,
+        "failureMessages": []
+      },
+      {
+        "id": "P214",
+        "title": "P214 slice out-of-range refusal invalidates partial owner",
+        "status": "passed",
+        "duration": 0.07987500000001546,
+        "failureMessages": []
+      },
+      {
+        "id": "P215",
+        "title": "P215 exact primitive admission never reflects/coerces caller objects",
+        "status": "passed",
+        "duration": 0.11616700000001856,
+        "failureMessages": []
+      },
+      {
+        "id": "P216",
+        "title": "P216 wrong arity and invalid metadata cannot revoke another owner",
+        "status": "passed",
+        "duration": 0.19274999999998954,
+        "failureMessages": []
+      },
+      {
+        "id": "P217",
+        "title": "P217 unknown mode never retries Script/Module",
+        "status": "passed",
+        "duration": 0.09762499999999363,
+        "failureMessages": []
+      },
+      {
+        "id": "P218",
+        "title": "P218 forged/retired handles cannot observe or revive retained state",
+        "status": "passed",
+        "duration": 0.08916600000000585,
+        "failureMessages": []
+      },
+      {
+        "id": "P219",
+        "title": "P219 live owner prevents implicit second allocation envelope",
+        "status": "passed",
+        "duration": 0.06320900000000051,
+        "failureMessages": []
+      },
+      {
+        "id": "P220",
+        "title": "P220 metadata output exposes no actual object/array/map/source string",
+        "status": "passed",
+        "duration": 0.5320419999999899,
+        "failureMessages": []
+      },
+      {
+        "id": "P221",
+        "title": "P221 grammar entry is always disabled even after successful allocations",
+        "status": "passed",
+        "duration": 0.11779099999998266,
+        "failureMessages": []
+      },
+      {
+        "id": "P222",
+        "title": "P222 caller completeness/profile/missing-guard metadata cannot authorize grammar",
+        "status": "passed",
+        "duration": 0.09799999999998477,
+        "failureMessages": []
+      },
+      {
+        "id": "P223",
+        "title": "P223 post-import array constructor replacement cannot capture private backing",
+        "status": "passed",
+        "duration": 0.42199999999999704,
+        "failureMessages": []
+      },
+      {
+        "id": "P224",
+        "title": "P224 huge scalar request hits actual before-growth cap, never preallocates vector",
+        "status": "passed",
+        "duration": 0.08379199999998832,
+        "failureMessages": []
+      },
+      {
+        "id": "P225",
+        "title": "P225 rejected native syntax is not reported invalid by this nonparser",
+        "status": "passed",
+        "duration": 0.05662499999999682,
+        "failureMessages": []
+      },
+      {
+        "id": "P226",
+        "title": "P226 inherited object operator setter cannot observe private copy",
+        "status": "passed",
+        "duration": 0.11591599999999858,
+        "failureMessages": []
+      },
+      {
+        "id": "P227",
+        "title": "P227 inherited array numeric setter cannot receive private node/key",
+        "status": "passed",
+        "duration": 0.1292500000000132,
+        "failureMessages": []
+      },
+      {
+        "id": "P228",
+        "title": "P228 actual allocated-node attempts200000 and+1 refuse conjunctively",
+        "status": "passed",
+        "duration": 142.480875,
+        "failureMessages": []
+      },
+      {
+        "id": "P229",
+        "title": "P229 actual occupied-slot entries20000 and+1 refuse conjunctively",
+        "status": "passed",
+        "duration": 8.250291000000004,
+        "failureMessages": []
+      },
+      {
+        "id": "P230",
+        "title": "P230 captured actual clock enforces original deadline, not observation renewal",
+        "status": "passed",
+        "duration": 1203.8950829999999,
+        "failureMessages": []
+      },
+      {
+        "id": "P231",
+        "title": "P231 expired lost owner retires before fresh fixture admission",
+        "status": "passed",
+        "duration": 31.660542000000078,
+        "failureMessages": []
+      }
+    ]
+  },
+  "typeScope": {
+    "errors": 0,
+    "scope": "P2_KERNEL_NEW_ROOTS_ONLY",
+    "strict": true,
+    "allowJs": true,
+    "checkJs": false,
+    "incremental": false,
+    "noEmit": true
+  },
+  "p230": {
+    "status": "passed",
+    "duration": 1203.8950829999999,
+    "sourceAsserts": "firstElapsed>=500 and <1000; finalElapsed>=1000; finalElapsed-firstElapsed<1000; TIME_REFUSED then AUTHORITY_REFUSED",
+    "rawElapsedCapture": "NOT_CAPTURED_JSON_REPORTER_SUPPRESSED_CONSOLE",
+    "reconstructed": false,
+    "rerun": false,
+    "claim": "FINITE_CONTROL_NOT_OS_OR_GRAMMAR_CERTIFICATE"
+  },
+  "pins": {
+    "frozen15AndReviewed5Matched": true,
+    "rows": [
+      {
+        "path": "scripts/test/store-tip081-inventory-source.mjs",
+        "bytes": 15214,
+        "hash": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+        "match": true
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory-source.mjs",
+        "bytes": 22118,
+        "hash": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+        "match": true
+      },
+      {
+        "path": "scripts/test/runtime-tip081-manifest.mjs",
+        "bytes": 28909,
+        "hash": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+        "match": true
+      },
+      {
+        "path": "scripts/test/codec-tip081-source-v2.mjs",
+        "bytes": 12768,
+        "hash": "dc8cafe0f8c3951c56cf1955eeebfb7e994ca386b244b9422cda1e56b31c81ae",
+        "match": true
+      },
+      {
+        "path": "scripts/test/admit-tip081-source-v2.mjs",
+        "bytes": 9330,
+        "hash": "3128824b9e1ff8133585ee5a9d5768d0ff6e6ad6d81d53c040f8ebd8ed880a1e",
+        "match": true
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+        "bytes": 121634,
+        "hash": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+        "match": true
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/package.json",
+        "bytes": 51,
+        "hash": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+        "match": true
+      },
+      {
+        "path": "vitest-tip081.config.ts",
+        "bytes": 594,
+        "hash": "f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13",
+        "match": true
+      },
+      {
+        "path": "tsconfig.json",
+        "bytes": 862,
+        "hash": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+        "match": true
+      },
+      {
+        "path": "next.config.ts",
+        "bytes": 1831,
+        "hash": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+        "match": true
+      },
+      {
+        "path": "tests/unit/evidence-studio-source-v2.test.ts",
+        "bytes": 17700,
+        "hash": "22c6262baffd22e7a7e21fe9f74cbc83c967a5c0aab52e2a9bdca7f25c870e1b",
+        "match": true
+      },
+      {
+        "path": "scripts/test/guard-scanners-tip081-p1.mjs",
+        "bytes": 18065,
+        "hash": "ff48aea7c85d69e0db09aec37764b75586b3cfbfb276c9bb5b0e8cf9313a967e",
+        "match": true
+      },
+      {
+        "path": "tests/unit/evidence-studio-p1-guard-scanners.test.ts",
+        "bytes": 20892,
+        "hash": "287236975760b4ef7daa107f3a5776333e1e61b5c5df4eb0c7e0c0dca1a1cad2",
+        "match": true
+      },
+      {
+        "path": "vitest-tip081-p1.config.ts",
+        "bytes": 376,
+        "hash": "dcd8bc0241e5c763ee79e05ff2012e1fff73e5007f6b8de2b6c957b68c0554a8",
+        "match": true
+      },
+      {
+        "path": "docs/verification/TIP-081A_P1_ALLOCATION.md",
+        "bytes": 13321,
+        "hash": "e66966811133e521d54d8899840ac3ec8c911a2ab09492f76e52ca1db1d4acc5",
+        "match": true
+      },
+      {
+        "path": "scripts/test/allocations-tip081-p2.mjs",
+        "bytes": 13796,
+        "hash": "a3742ae7ea5368722b94c13c41d342f963d47feac5515d324547f2edac91351e",
+        "match": true
+      },
+      {
+        "path": "tests/unit/evidence-studio-p2-allocation-kernel.test.ts",
+        "bytes": 16245,
+        "hash": "a0260b296c2e2a9a48d0bc7ca90ede976e1d2e95f58e3f25e474655b4f3d6098",
+        "match": true
+      },
+      {
+        "path": "vitest-tip081-p2.config.ts",
+        "bytes": 381,
+        "hash": "a8711ba47c013cbdd03834b0184231d77ad1d4f269a07f086aa957ee64607f42",
+        "match": true
+      },
+      {
+        "path": "docs/verification/TIP-081A_P2_ALLOCATION.md",
+        "bytes": 11535,
+        "hash": "4430b846d06b168705c583066a553a8ea245215887b78adaca37681d60881aa5",
+        "match": true
+      },
+      {
+        "path": "docs/verification/TIP-081A_P2_BUILDER_REPORT.md",
+        "bytes": 7157,
+        "hash": "2cc6d2be2b5d2da05e213c9ce14a9e17cf25fce0f1673fe0dadb3c48e4afc948",
+        "match": true
+      }
+    ]
+  },
+  "resources": {
+    "start": 793967.657875,
+    "limit": 900000,
+    "entries": [
+      {
+        "kind": "frozen-before-capture",
+        "milliseconds": 6.018791,
+        "allowance": 1000,
+        "upper": 1006.018791
+      },
+      {
+        "kind": "first-module-text-capture",
+        "milliseconds": 0.7967079999999989,
+        "allowance": 1000,
+        "upper": 1000.796708
+      },
+      {
+        "kind": "reviewed-source-text-cut",
+        "milliseconds": 1.8122499999999988,
+        "allowance": 1000,
+        "upper": 1001.81225
+      },
+      {
+        "kind": "first-check-four-jobs",
+        "milliseconds": 6310.72725,
+        "allowance": 1000,
+        "upper": 7310.72725
+      },
+      {
+        "kind": "after-frozen-reviewed-pins",
+        "milliseconds": 5.473457999999997,
+        "allowance": 1000,
+        "upper": 1005.473458
+      }
+    ],
+    "cumulativeUpper": 805292.486332,
+    "remaining": 94707.513668,
+    "reset": false
+  },
+  "boundaries": {
+    "parserDisabled": true,
+    "grammarImplemented": false,
+    "adapterPin": "NOT_ISSUED",
+    "inventoryAdmissionPin": "NOT_ISSUED",
+    "scopeDepthOnly": true,
+    "nodeChainASTDepth": "OPEN",
+    "nativePhysicalMemory": "OPEN",
+    "P3toP5": "NOT_GRANTED",
+    "realSource": "NOT_RUN",
+    "buildE2E": "NOT_RUN",
+    "git": "NOT_RUN",
+    "predecessorOpen": 62,
+    "fullRuntimeClosure": "NOT_ACCEPTED"
+  }
+}

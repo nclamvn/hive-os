@@ -1,0 +1,19 @@
+{
+  "tip":"TIP-048",
+  "role":"Contractor Main",
+  "result":"DONE",
+  "status":"READY_WITH_DEFERRED",
+  "requirements":{"total":8,"implemented":8,"verified":8,"missing":0,"coverage_percent":100,"scope":"TIP implementation, not theorem coverage"},
+  "completed":"Separate compact symbolic prefix-tree certificates, independent source-pinned Python and own BigInt consumer, eight-domain retained report and bilingual LaTeX UI. Known union-bound method, no theorem promotion or new HIVE model campaign.",
+  "verify_report":"docs/verification/TIP-048_COMPACT_COVER_VERIFY_REPORT.json",
+  "verify_report_sha256":"b0acdfd1f758bca9a52aee007ab78267015cfa30a5cdcbdb870314d6cc77ab86",
+  "observed":{"anchored_scopes":4,"anchored_tuples_each":"5764801","anchored_witness_each":"5764800","anchored_conditional_gcd_each":"1","anchored_unresolved_each":"0","full_scopes":4,"full_tuples_each":"96889010407","full_status_each":"PARTIAL","full_classified_in_order":["137649330","160170710","71093610","95497374"],"actual_independent_python_retained_scopes":8,"global_verdict":"NOT_ESTABLISHED","lower_dependency":"LOWER_LRC_12_DECLARED_NOT_REPLAYED","overlap_warning":"Anchored subsets overlap corresponding full domains; no unique aggregate total"},
+  "qa":{"whole_unit_files":118,"whole_unit_passed":983,"whole_unit_failed":0,"whole_unit_seconds":126.73,"final_focused_passed":45,"final_focused_total":45,"typecheck":"PASS","lint":"PASS","build":"PASS","visible_browser":"PASS_VN_EN_DESKTOP1280_MOBILE390_KATEX","database_integration":"NOT_RUN_THIS_TURN","new_agent_campaign":"NOT_RUN_NOT_ADMITTED"},
+  "method":"Vibecode Kit required Builder-owned implementation and Contractor acceptance. Main independently ran flat grid/gcd controls, coherently rehashed semantic faults, exact eight-scope Python replay, whole QA and live browser checks. Frontend-design guided restrained scope-first disclosure using existing HIVE tokens. Same-host/model contexts and unsigned receipts are not external certification.",
+  "repaired":["Fail-closed initial consumer work-limit exhaustion via own independently derived prefix-mask propagation, no cap/scope expansion","Final Python serialization observation checkpoint and pin update","Builder test-only fixture/type issues","Loopback server restart and stale browser tab recovery"],
+  "next_priority":"Separate sealed resumable frontier/composition contract so agents can refine exact UNRESOLVED domains without recomputing established proof leaves or treating PARTIAL as theorem success.",
+  "deferred":["Complete level1 all-orbit coverage","Other primes","Complete terminal fibers","Lower LRC12 replay","Analytic prime-product proof","Full14/15 theorem, formal/external review and novelty","Typed compact evidence dispatch into a fresh bounded HIVE agent cycle"],
+  "final_runtime":"127.0.0.1:3001 server running, queue disabled, worker stopped. No model/API campaign, dependency install, DB mutation/migration, commit/push or deployment. HEAD4d108227498d3578c9ac3fe60305c10da5aa905b unchanged.",
+  "ui":"http://127.0.0.1:3001/w/mathematics-pilot-lab-156de0/research/math-tools?view=allikvere#allikvere-cover",
+  "screenshot":"/private/tmp/hive-tip048.O6LcMz/cover-desktop-vi.png"
+}

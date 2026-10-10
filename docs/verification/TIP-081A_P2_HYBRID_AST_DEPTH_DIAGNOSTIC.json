@@ -1,0 +1,65 @@
+{
+  "driver": "import{spawnSync}from\"node:child_process\";import{openSync,fstatSync,readSync,closeSync,constants}from\"node:fs\";import{createHash}from\"node:crypto\";const start=performance.now(),expected=[{\"path\":\"scripts/test/admit-private-grammar-tip081-p2.mjs\",\"bytes\":7175,\"sha256\":\"edff822828d693b2860ad597a787c237c7c1c4fa936693181f053ef908e728c0\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs\",\"bytes\":931985,\"sha256\":\"114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json\",\"bytes\":5710072,\"sha256\":\"41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.profile.json\",\"bytes\":2491,\"sha256\":\"9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8\"}],jobs=[{\"name\":\"syntax-fixed-hybrid-diagnostic\",\"args\":[\"--check\",\"scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"fixed-hybrid-depth-diagnostic\",\"args\":[\"scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs\"],\"timeout\":5000}],pins=[];let diagnosticText;for(const p of [...expected,{path:\"scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs\",bytes:0,sha256:null}]){const fd=openSync(p.path,constants.O_RDONLY|constants.O_NOFOLLOW);try{const a=fstatSync(fd);if(!a.isFile()||a.size<1||a.size>(p.bytes||16384)||p.bytes&&a.size!==p.bytes)throw Error(\"PIN_SIZE\");const b=Buffer.alloc(a.size);let n=0;while(n<b.length){const q=readSync(fd,b,n,Math.min(32768,b.length-n),n);if(!q)throw Error(\"SHORT\");n+=q;}if(readSync(fd,Buffer.alloc(1),0,1,b.length))throw Error(\"GROWTH\");const z=fstatSync(fd),sha256=createHash(\"sha256\").update(b).digest(\"hex\");if(a.dev!==z.dev||a.ino!==z.ino||a.size!==z.size||a.mtimeMs!==z.mtimeMs||a.ctimeMs!==z.ctimeMs||p.sha256&&sha256!==p.sha256)throw Error(\"DRIFT\");pins.push({path:p.path,bytes:b.length,sha256});if(!p.sha256)diagnosticText=new TextDecoder(\"utf-8\",{fatal:true}).decode(b);}finally{closeSync(fd);}}const results=[];for(const j of jobs){const t=performance.now(),r=spawnSync(process.execPath,[\"--max-old-space-size=384\",...j.args],{cwd:\"/Users/os/hiveos\",env:{PATH:\"/usr/local/bin:/usr/bin:/bin\",TMPDIR:\"/private/tmp\",NO_COLOR:\"1\"},timeout:j.timeout,maxBuffer:16384,encoding:\"utf8\",killSignal:\"SIGKILL\"});results.push({...j,milliseconds:performance.now()-t,status:r.status,signal:r.signal,errorCode:r.error?.code??null,stdout:r.stdout??\"\",stderr:r.stderr??\"\"});if(r.status!==0||r.error)break;}console.log(JSON.stringify({purpose:\"P2_REVIEWED_FIXED_HYBRID_AST_DEPTH_DIAGNOSTIC\",pins,diagnosticText,results,milliseconds:performance.now()-start,conservativeAllowances:(results.length+1)*1000}));",
+  "snapshot": {
+    "purpose": "P2_REVIEWED_FIXED_HYBRID_AST_DEPTH_DIAGNOSTIC",
+    "pins": [
+      {
+        "path": "scripts/test/admit-private-grammar-tip081-p2.mjs",
+        "bytes": 7175,
+        "sha256": "edff822828d693b2860ad597a787c237c7c1c4fa936693181f053ef908e728c0"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs",
+        "bytes": 931985,
+        "sha256": "114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json",
+        "bytes": 5710072,
+        "sha256": "41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.profile.json",
+        "bytes": 2491,
+        "sha256": "9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8"
+      },
+      {
+        "path": "scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs",
+        "bytes": 2419,
+        "sha256": "c72de3c1bbe3e43278bbe6e42328595169ffe3458da4a115e3e9c08a3142be8c"
+      }
+    ],
+    "diagnosticText": "// One fixed, nonadaptive diagnostic batch. Main owns execution authorization.\n// Plain callchain ENTRY domination remains preserved in predecessor evidence.\n// This does not issue admission, change caps/artifacts or accept CLI input.\nimport {loadAdmittedSyntheticGrammarP2} from \"./admit-private-grammar-tip081-p2.mjs\";\n\nif (process.argv.length !== 2) throw new Error(\"FIXED_DIAGNOSTIC_NO_ARGUMENTS\");\n\nconst grammar = await loadAdmittedSyntheticGrammarP2();\nconst CAP = 67108864;\nconst TTL = 120000;\nconst CASES = Object.freeze([\n  Object.freeze({prefixes: 31, calls: 94, predicted: \"SYNTHETIC_ANALYZED\", structuralOnlyPredictedDepth: 128}),\n  Object.freeze({prefixes: 32, calls: 94, predicted: \"DEPTH_REFUSED\", structuralOnlyPredictedDepth: 129}),\n]);\nconst rows = [];\n\nfor (const item of CASES) {\n  // At most222 ASCII characters. Prefix AST construction follows call parsing;\n  // these depth predictions do not claim observed private frame/AST metadata.\n  const source = \"!\".repeat(item.prefixes) + \"a\" + \"()\".repeat(item.calls) + \";\";\n  let handle = null;\n  let outcome = \"UNEXPECTED_FAILURE\";\n  let observation = null;\n  let disposed = false;\n  try {\n    handle = grammar.createSyntheticGrammarFixtureP2(source, \"SCRIPT\", CAP, TTL);\n    grammar.analyzeSyntheticGrammarFixtureP2(handle);\n    observation = grammar.observeSyntheticGrammarFixtureP2(handle);\n    outcome = observation.phase;\n  } catch (error) {\n    // Only fixed refusal scalars leave this diagnostic. No private source/AST.\n    if (error && typeof error === \"object\" && typeof error.code === \"string\" &&\n        error.code.length <= 64 && error.realParserDisabled === true) outcome = error.code;\n  } finally {\n    if (handle !== null) {\n      try { grammar.retireSyntheticGrammarFixtureP2(handle); } catch { /* Owned refusals retire. */ }\n      try { grammar.observeSyntheticGrammarFixtureP2(handle); }\n      catch (error) { disposed = error?.code === \"AUTHORITY_REFUSED\"; }\n    }\n  }\n  rows.push({prefixes: item.prefixes, calls: item.calls, predicted: item.predicted,\n    structuralOnlyPredictedDepth: item.structuralOnlyPredictedDepth, outcome, disposed, observation});\n}\n\nconst result = JSON.stringify({scope: \"FIXED_SYNTHETIC_HYBRID_DEPTH_DIAGNOSTIC_ONLY\",\n  realParserDisabled: true, fullP2Accepted: false, cap: CAP, ttl: TTL, rows});\nif (result.length > 8192) throw new Error(\"DIAGNOSTIC_OUTPUT_BOUND\");\nprocess.stdout.write(result + \"\\n\");\n",
+    "results": [
+      {
+        "name": "syntax-fixed-hybrid-diagnostic",
+        "args": [
+          "--check",
+          "scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 42.492541,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "fixed-hybrid-depth-diagnostic",
+        "args": [
+          "scripts/test/diagnose-private-grammar-hybrid-depth-tip081-p2.mjs"
+        ],
+        "timeout": 5000,
+        "milliseconds": 250.30525,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "{\"scope\":\"FIXED_SYNTHETIC_HYBRID_DEPTH_DIAGNOSTIC_ONLY\",\"realParserDisabled\":true,\"fullP2Accepted\":false,\"cap\":67108864,\"ttl\":120000,\"rows\":[{\"prefixes\":31,\"calls\":94,\"predicted\":\"SYNTHETIC_ANALYZED\",\"structuralOnlyPredictedDepth\":128,\"outcome\":\"SYNTHETIC_ANALYZED\",\"disposed\":true,\"observation\":{\"purpose\":\"TIP081_P2_SYNTHETIC_GRAMMAR_ONLY\",\"realParserDisabled\":true,\"syntheticAdapterEnabled\":true,\"profile\":\"SCRIPT\",\"phase\":\"SYNTHETIC_ANALYZED\",\"totalBytes\":40573726,\"producerBytes\":9605244,\"outputBytes\":576,\"attemptedNodes\":128,\"conservativeInternalEntries\":19216,\"catalogueSitesMeasured\":false,\"bodyLength\":1,\"firstStatementType\":\"ExpressionStatement\",\"firstNumericLiteral\":null}},{\"prefixes\":32,\"calls\":94,\"predicted\":\"DEPTH_REFUSED\",\"structuralOnlyPredictedDepth\":129,\"outcome\":\"DEPTH_REFUSED\",\"disposed\":true,\"observation\":null}]}\n",
+        "stderr": ""
+      }
+    ],
+    "milliseconds": 300.634167,
+    "conservativeAllowances": 3000
+  }
+}

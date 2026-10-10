@@ -1,0 +1,28 @@
+{
+  "id": "TIP-047",
+  "date": "2026-10-03",
+  "title": "Imported Allikvere modular fiber replay with explicit global gaps",
+  "priority": "P1",
+  "depends_on": ["TIP-046"],
+  "task": "Import real author data as inert pinned evidence; independently certify exact classification and complete trees for two actual p199 binary fibers and four explicitly restricted terminal shards. Show results in local UI without claiming full Allikvere verification.",
+  "decisions": [
+    "Owner continuation approves this bounded implementation in existing research tools architecture. No migration or universal theorem admission.",
+    "Fresh arxiv2609.02604v2 uses 61 primes for14 runners, 71 for15. Archived14 computation covers111; these sets must not be conflated.",
+    "Author kill logs give aggregate counters, not every prune trace. Full 7^13 coverage cannot be certified from log counts alone. Independently regenerated bounded shards are not the original full tree.",
+    "New modular schema preserves ordered coordinate labels and repeated residues. Never widen finite-grid v1 or normalize orbit cardinalities using naive group multiplication.",
+    "Contractor writes contract and verifies; core/replay/product Builders own separate implementation seams under Vibecode Kit. Existing TIP046 and dirty historical work remain untouched."
+  ],
+  "requirements": [
+    {"id":"R1","criterion":"Retain exact inert imported p199 author kill_tight_final.txt and kill_gw_final.txt bytes with DOI, archive member, compressed range/CRC metadata and observed SHA256. No author executable runs; partial archive download never claims full ZIP MD5 verification."},
+    {"id":"R2","criterion":"Strict new versioned ordered modular-fiber scope: N14,k13,p199, parent level, target level, c=target/parent, nonzero-p parent residues, digit axes, explicit LOWER_LRC_12_DECLARED_NOT_REPLAYED dependency. Repeated residues allowed, no unit/orbit quotient or scale omission. Exactly seal all8192 binary lifts for each of two actual base roots."},
+    {"id":"R3","criterion":"Separate primary generator/consumer verifies complete flat tree, exact root/child partitions, unique reachable acyclic nodes, leaf GRID witness, OMIT_GCD exact omit-one coordinate condition gcd(level,other residues)>1, or singleton SURVIVOR exhausts all fixed-grid times and gcd tests. Equality accepted. Arithmetic classification does not discharge lower-case premise or theorem."},
+    {"id":"R4","criterion":"Import four actual author level2 survivors and terminal digit prefixes. Independently recovered full binary survivor sets must equal author lists. For each restricted level14 shard fix first11 archived digits and enumerate all7x7 last digits; retain and verify full49 scope, not whole7^13. Every archive witness-free leaf individually exhausts grid and satisfies proper gcd clause."},
+    {"id":"R5","criterion":"New independent bounded Python checker, no primary producer import, replays exact tree plus scope binding. Pin source and strict compare summary; fail closed on missing branches, overlap/reused/unreachable/cycle, prime/level/source/root drift, false witness/gcd/survivor/count, timeout/output limits/partial. Domain maximum20000tuples40000nodes8MiB,p<=257,target<=14; bounded local offline execution only."},
+    {"id":"R6","criterion":"Generate retained immutable report for six actual scopes with pins, counts, survivors and explicit uncovered global obligations. Pure report validator; CLI replay explicit only, no process/network onGET. Global verdict NOT_ESTABLISHED always: level1 all-orbit completeness, other primes, all terminal7^13 fibers, lower-case induction, product-bound analytic proof remain open."},
+    {"id":"R7","criterion":"Local UI bilingual retained-only panel and link from math pilot show imported prime199 scope, distinction classified versus conditional proper versus survivor, actual49-shard scope, no fabricated new case or historic grade, no auto agent dispatch or theorem gate from partial artifact."},
+    {"id":"R8","criterion":"Builder focused tests plus Main independent arithmetic/mutants, final unit/type/lint/build and visible browser evidence. Quantified completion/verification and append-only handoff. No paid API/new model calls, Git publication, install/migration, remote deployment or huge autonomous campaign."}
+  ],
+  "source": {"record":"https://zenodo.org/records/22066772","archive_url":"https://zenodo.org/api/records/22066772/files/fourteen_lonely_runners_package.zip/content","archive_size":174600959,"archive_md5_declared":"9b6564895671a1d5e03d4ff21e124f7c","archive_whole_verified":false,"paper":"https://arxiv.org/html/2609.02604v2","license":"CC BY4.0, Jaan Allikvere"},
+  "source_ranges_available": {"partial_archive":"/private/tmp/hive-tip047.zrPyjb/fourteen_lonely_runners_package.zip","central_start":"/private/tmp/hive-tip047.zrPyjb/zip-central-start.bin","central_start_offset":96348654,"members":{"kill_gw_final.txt":{"local_offset":61841,"compressed_bytes":216,"uncompressed_bytes":340},"kill_tight_final.txt":{"local_offset":62490,"compressed_bytes":289,"uncompressed_bytes":894}}},
+  "acceptance": "R1-R8 evidenced for bounded imported fibers; independent verification of full Allikvere theorem is explicitly NOT_ESTABLISHED, not silently deferred as PASS."
+}

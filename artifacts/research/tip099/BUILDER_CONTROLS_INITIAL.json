@@ -1,0 +1,49 @@
+{
+  "scope": "DEVELOPMENT_SMALL_CONTROLS_ONLY",
+  "tests": 13,
+  "failures": [
+    [
+      "test_wall_counts (__main__.Controls.test_wall_counts)",
+      "Traceback (most recent call last):\n  File \"/Users/os/hiveos/artifacts/research/tip099/test_tip099.py\", line 68, in test_wall_counts\n    self.assertEqual([len(walls(n)) for n in (3, 4, 5)], [13, 36, 78])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [13, 35, 78] != [13, 36, 78]\n\nFirst differing element 1:\n35\n36\n\n- [13, 35, 78]\n?       ^\n\n+ [13, 36, 78]\n?       ^\n\n"
+    ]
+  ],
+  "errors": [],
+  "native_runs": [
+    {
+      "control": "cellcap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=CELL_LIMIT planes=0 cells=1 bytes=1806\n",
+      "stderr": ""
+    },
+    {
+      "control": "coefficientcap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=NORMAL_COEFFICIENT_LIMIT planes=0 cells=0 bytes=560\n",
+      "stderr": ""
+    },
+    {
+      "control": "cube",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=0 cells=1 bytes=1404\n",
+      "stderr": ""
+    },
+    {
+      "control": "degenerate",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=2 cells=4 bytes=1728\n",
+      "stderr": "planes=1 cells=2 vertices=16 seconds=0.000112084\nplanes=2 cells=4 vertices=18 seconds=0.000339375\n"
+    },
+    {
+      "control": "repeated",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=4 cells=3 bytes=2484\n",
+      "stderr": "planes=1 cells=2 vertices=24 seconds=0.000536875\nplanes=2 cells=2 vertices=24 seconds=0.000545666\nplanes=3 cells=3 vertices=32 seconds=0.000985833\nplanes=4 cells=3 vertices=32 seconds=0.000994125\n"
+    },
+    {
+      "control": "timecap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=TIME_LIMIT planes=0 cells=1 bytes=1420\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "root": "FIRST_PROOF_WEIGHTED_TREE_097",
+  "provenance": "Main transcribed compact summary of actual visible command outputs; NOT full raw stdout, backend receipt, or universal machine proof",
+  "checker_invocations_total": 8,
+  "checker_invocation_ceiling": 8,
+  "historical_builder_invocations": 6,
+  "main_runs": [
+    {
+      "invocation": 7,
+      "command": "python3 -B artifacts/research/tip097/check_weighted_tree.py --self-test",
+      "exit_code": 0,
+      "status": "COMPLETE_FINITE",
+      "reported_seconds": 0.008814875007374212,
+      "distinct_controls": 26,
+      "complete_decomposition_examples": 10,
+      "root_admissible_decomposition_examples": 6,
+      "complete_box_points": 452,
+      "decomposition_refusal_controls": 10,
+      "direct_identity_control": 1,
+      "positive_forest_graph_controls": 4,
+      "forest_scalar_identity_evaluations": 66,
+      "forest_injection_recovery_evaluations": 140,
+      "source_cycle_injection_collision_controls": 1,
+      "subchecks_are_not_added_to_distinct_controls": true
+    },
+    {
+      "invocation": 8,
+      "command": "python3 -B artifacts/research/tip097/check_weighted_tree.py --candidate-sample",
+      "exit_code": 0,
+      "status": "COMPLETE_FINITE",
+      "reported_seconds": 0.26006374999997206,
+      "generated_labeled_inputs": 187,
+      "complete_pd_root_admissible_inputs": 160,
+      "non_pd_refusals": 27,
+      "complete_box_points": 7438,
+      "candidate_counterexamples": 0,
+      "final_selector_crosschecks_passed": 160,
+      "not_all_trees_up_to_any_size": true
+    }
+  ],
+  "final_stdout_preservation": "Tool display truncated long stdout; only compact observed summary retained here. Historical complete Builder outputs remain unchanged. No ninth replay authorized or executed.",
+  "mathematics": {
+    "first_attempt": "INCOMPLETE_BEFORE_SOURCE; false stronger claim retained with explicit counterexample",
+    "final": "SOURCE_ASSISTED_FULL_WRITTEN_PROOF",
+    "independent_human_review": false,
+    "formal_lean_verification": false,
+    "causal_method_advantage": "NOT_MEASURED",
+    "official_benchmark_score": "NONE"
+  },
+  "unknowns": ["actual model backend", "token/compute/cache usage", "subscription usage cost", "human effort"],
+  "manually_called_paid_api": 0,
+  "product_ui_worker_e2e": false,
+  "builds_installs_database_auth_git_mutations": 0,
+  "scratch_or_distdir_created": [],
+  "removed": []
+}

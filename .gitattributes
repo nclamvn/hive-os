@@ -1,0 +1,9 @@
+# Preserve exact evidence/font/image bytes and avoid text whitespace diagnostics.
+*.pdf binary
+*.bin binary
+*.woff binary
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary

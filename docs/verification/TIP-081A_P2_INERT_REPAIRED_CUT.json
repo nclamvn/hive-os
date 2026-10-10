@@ -1,0 +1,41 @@
+{
+  "purpose": "P2_REPAIRED_INERT_CUT_TEXT_ONLY",
+  "files": [
+    {
+      "path": "scripts/test/derive-private-grammar-tip081-p2.mjs",
+      "bytes": 60305,
+      "sha256": "3fcfe285add43b86b45f7bf228290cd03473e23a4244e39942e73edce5c9a9e1"
+    },
+    {
+      "path": "scripts/test/private-grammar-runtime-tip081-p2.mjs",
+      "bytes": 55532,
+      "sha256": "934b6aa4158d247005d70f162062cdc71518af3f870f489d326355ad929630b7"
+    },
+    {
+      "path": "scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+      "bytes": 14174,
+      "sha256": "f3b22a9e9e44c084fd74bea0918baba0c6d2453dc87166b8c888a7d6eef3ad41"
+    },
+    {
+      "path": "scripts/test/admit-private-grammar-tip081-p2.mjs",
+      "bytes": 6840,
+      "sha256": "35bd23e0baaf0cfedd0311ebe4739b265d55d4f12158ca2f6ba800481bfef118"
+    },
+    {
+      "path": "scripts/test/capture-private-grammar-tip081-p2.mjs",
+      "bytes": 9466,
+      "sha256": "9898bfb777edae70fa4b10e42f8536c5c22716e0218f1ddee3f871d7339075f3"
+    },
+    {
+      "path": "tests/unit/private-grammar-tip081-p2.test.ts",
+      "bytes": 26589,
+      "sha256": "9d2539f3f0a6172cf9944a9a4964ccc0a1241857d52cd856ececafc758d00c3b"
+    },
+    {
+      "path": "vitest-tip081-p2-grammar.config.ts",
+      "bytes": 377,
+      "sha256": "d0d9c9cbe13cc901e5d4d5c296faec99eea38d55572fc0f4caa01bacd2f11465"
+    }
+  ],
+  "milliseconds": 18.0995
+}

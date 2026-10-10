@@ -1,0 +1,26 @@
+[
+  {
+    "id": "C01",
+    "problem": "Let \\(\\Omega\\) be either \\(\\mathbb T^2=(\\mathbb R/\\mathbb Z)^2\\), with volume one, or \\(\\mathbb R^2\\), with Lebesgue measure. For \\(0<\\nu<e^{-1}\\), consider the unforced incompressible Navier–Stokes equations\n\\[\n\\partial_tu^\\nu+u^\\nu\\cdot\\nabla u^\\nu+\\nabla\\pi^\\nu=\\nu\\Delta u^\\nu,\\qquad \\nabla\\cdot u^\\nu=0,\\qquad u^\\nu(0)=u_0^\\nu.\n\\]\nTake distributional solutions belonging to \\(L^\\infty(0,S;L^2(\\Omega;\\mathbb R^2))\\cap L^2(0,S;H^1(\\Omega;\\mathbb R^2))\\) for every finite \\(S>0\\), attaining their initial data strongly in \\(L^2\\), and satisfying\n\\[\n\\frac12\\|u^\\nu(t)\\|_2^2+\\nu\\int_0^t\\|\\nabla u^\\nu(s)\\|_2^2\\,ds\\leq\\frac12\\|u_0^\\nu\\|_2^2.\n\\]\nHere \\(H^1\\) consists of square-integrable functions with square-integrable weak first derivatives, and all spatial norms are over \\(\\Omega\\).\n\nWrite \\(\\omega^\\nu=\\partial_1u_2^\\nu-\\partial_2u_1^\\nu\\). For parameters \\(1<p<\\infty\\) and \\(M>0\\), suppose the initial vorticities are finite signed measures admitting decompositions\n\\[\n\\omega_0^\\nu=\\mu_0^\\nu+f_0^\\nu,\n\\]\nwhere \\(\\mu_0^\\nu\\) is a finite nonnegative measure and \\(f_0^\\nu\\in L^1(\\Omega)\\cap L^p(\\Omega)\\), with\n\\[\n\\sup_{0<\\nu<e^{-1}}\\bigl(\\|u_0^\\nu\\|_2+|\\omega_0^\\nu|(\\Omega)+\\|f_0^\\nu\\|_1+\\|f_0^\\nu\\|_p\\bigr)\\leq M.\n\\]\nThe notation \\(|\\omega_0^\\nu|(\\Omega)\\) denotes total variation. Initial data may depend arbitrarily on \\(\\nu\\) subject to these bounds. Define\n\\[\nD_\\nu=\\nu\\int_{1/2}^{1}\\|\\omega^\\nu(t)\\|_2^2\\,dt.\n\\]\nCall \\(q\\geq0\\) admissible if, for every \\(p,M\\), there exist constants \\(C>0\\) and \\(\\nu_0\\in(0,e^{-1})\\), depending only on \\(q,p,M\\), such that\n\\[\nD_\\nu\\leq C[\\log(1/\\nu)]^{-q}\\qquad(0<\\nu<\\nu_0)\n\\]\nholds for both choices of \\(\\Omega\\) and every family satisfying the assumptions. The logarithm is natural. What is the supremum of the admissible exponents?\n"
+  },
+  {
+    "id": "C02",
+    "problem": "Let C be a set of ordered 5-tuples with entries in {0,1,2,3,4,5}. Require that any two distinct tuples in C have equal entries in at most one coordinate position. What is the largest possible cardinality of C?\n"
+  },
+  {
+    "id": "C03",
+    "problem": "There exists a function \\(f:\\mathbb{R}\\to\\mathbb{R}\\) satisfying\n\\[\nf\\left(\\frac{x+2y}{3}\\right)\\leq\\frac{f(x)+2f(y)}{3}\\qquad\\text{for all }x,y\\in\\mathbb{R}\\text{ with }x\\leq y,\n\\]\nfor which there exist \\(u,v\\in\\mathbb{R}\\) such that\n\\[\nf\\left(\\frac{u+2v}{3}\\right)>\\frac{f(u)+2f(v)}{3}.\n\\]\n"
+  },
+  {
+    "id": "C04",
+    "problem": "For every finite simple graph \\(G=(V,E)\\) with \\(V\\ne\\varnothing\\) and every integer \\(r\\), if \\(D(G,r)=0\\), then \\(r\\in\\{0,-2\\}\\). Here a graph is simple if its edges are unordered pairs of distinct vertices, a subset \\(S\\subseteq V\\) is dominating if every vertex in \\(V\\setminus S\\) is adjacent to some vertex of \\(S\\), and its domination polynomial is\n\\[\nD(G,x)=\\sum_{\\substack{S\\subseteq V\\\\ S\\text{ is dominating}}}x^{|S|}.\n\\]\n"
+  },
+  {
+    "id": "C05",
+    "problem": "For a positive integer $n$, let $A_{n}$ be the number of perfect powers less than or equal to $n$. Here, a perfect power is a number that can be expressed in the form $a^{b}$, where $a$ is a positive integer and $b$ is an integer greater than or equal to 2. Prove that there are infinitely many $n$ such that $A_{n}$ divides $n+2024$."
+  },
+  {
+    "id": "C06",
+    "problem": "There are 120 students in DeepMind highschool, and each student `loves' some of the students. Here `love' is not always a mutual relationship; a student A may love B while B may not love A, and it is also possible that a student loves oneself. For the set $F$ of all $2^{120}$ subsets of the students, define the function $f: F \\rightarrow F$ as the function that maps each $X \\in F$ to the set of students loved by one or more students in $X$. For $A, B \\in F$, $A$ and $B$ are said to have a 'lovely relationship' iff there exists a natural number $k$ such that $f^{k}(A)=B$. Now we want to select distinct elements $A_{1}, A_{2}, \\cdots A_{t}$ from $F$ such that for any $1 \\leq i<j \\leq t$, $A_{i}$ and $A_{j}$ have a lovely relationship. Let $M(f)$ be the maximum possible value of $t$.  Show that $M(f) \\leq 2^{70}$. "
+  }
+]

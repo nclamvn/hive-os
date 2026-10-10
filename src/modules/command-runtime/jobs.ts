@@ -98,11 +98,31 @@ function integer(
   return value;
 }
 
+function exactJobIds(value: readonly string[] | undefined) {
+  if (value === undefined) return undefined;
+  if (
+    !Array.isArray(value) ||
+    value.length > 100 ||
+    [...value].some((id) =>
+      typeof id !== "string" || !id || id.length > 200 ||
+      /\s|[\u0000-\u001f\u007f]/u.test(id),
+    )
+  ) {
+    throw new CommandRuntimeError(
+      "INVALID_INPUT",
+      "Job selector must contain at most 100 exact bounded IDs",
+    );
+  }
+  return [...new Set(value)];
+}
+
 export async function claimJobs(input: {
   organizationId: string;
   actorUserId: string;
   workerId: string;
   jobTypes?: string[];
+  /** Omitted preserves batch behavior; an empty list selects no work. */
+  jobIds?: readonly string[];
   first?: number;
   leaseSeconds?: number;
   now?: Date;
@@ -116,6 +136,12 @@ export async function claimJobs(input: {
     3_600,
   );
   const now = input.now ?? new Date();
+  const jobIds = exactJobIds(input.jobIds);
+  const idFilter = jobIds === undefined
+    ? Prisma.empty
+    : jobIds.length
+      ? Prisma.sql`AND id IN (${Prisma.join(jobIds)})`
+      : Prisma.sql`AND FALSE`;
   const jobTypes = (input.jobTypes ?? []).map((jobType) =>
     text(jobType, "Job type", 120),
   );
@@ -133,6 +159,7 @@ export async function claimJobs(input: {
         SELECT id, workspace_id, attempts
         FROM durable_job
         WHERE organization_id = ${input.organizationId}
+          ${idFilter}
           ${jobTypes.length ? Prisma.sql`AND job_type IN (${Prisma.join(jobTypes)})` : Prisma.empty}
           AND status = 'RUNNING'
           AND lease_expires_at <= ${now}
@@ -143,7 +170,7 @@ export async function claimJobs(input: {
       `;
       for (const row of exhausted) {
         await tx.durableJob.update({
-          where: { id: row.id },
+          where: { id: row.id, organizationId: input.organizationId },
           data: {
             status: "DEAD_LETTER",
             lockedBy: null,
@@ -171,6 +198,7 @@ export async function claimJobs(input: {
         SELECT id
         FROM durable_job
         WHERE organization_id = ${input.organizationId}
+          ${idFilter}
           ${jobTypes.length ? Prisma.sql`AND job_type IN (${Prisma.join(jobTypes)})` : Prisma.empty}
           AND attempts < max_attempts
           AND (
@@ -185,7 +213,7 @@ export async function claimJobs(input: {
       const claimed = [];
       for (const row of locked) {
         const job = await tx.durableJob.update({
-          where: { id: row.id },
+          where: { id: row.id, organizationId: input.organizationId },
           data: {
             status: "RUNNING",
             attempts: { increment: 1 },

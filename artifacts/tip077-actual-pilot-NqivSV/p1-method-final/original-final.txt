@@ -1,0 +1,84 @@
+## Answer
+
+Exactly the even integers:
+\[
+\boxed{\alpha\in2\mathbb Z}.
+\]
+
+## Proof
+
+For any integer \(m\) and real \(x\),
+\[
+\lfloor m+x\rfloor=m+\lfloor x\rfloor,
+\]
+because adding \(m\) preserves the inequalities defining the floor.
+
+Write
+\[
+\alpha=2q+r,\qquad q=\left\lfloor\frac{\alpha}{2}\right\rfloor\in\mathbb Z,
+\qquad 0\le r<2.
+\]
+For every positive integer \(n\),
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=2q\sum_{k=1}^{n}k+\sum_{k=1}^{n}\lfloor kr\rfloor
+=q\,n(n+1)+\sum_{k=1}^{n}\lfloor kr\rfloor.
+\]
+Thus \(\alpha\) has the required property if and only if \(r\) does. This reduction holds also for negative \(\alpha\).
+
+We exclude every \(r>0\).
+
+**If \(0<r<1\),** choose
+\[
+n=\left\lceil\frac1r\right\rceil\ge2.
+\]
+Since \(n-1<1/r\), every \(1\le k<n\) satisfies \(0<kr<1\). Also, \(1/r\le n<1/r+1\), so
+\[
+1\le nr<1+r<2.
+\]
+Therefore
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor=1,
+\]
+which is not divisible by \(n\ge2\).
+
+**If \(1\le r<2\),** put \(\beta=2-r\in(0,1]\) and choose
+\[
+n=\left\lfloor\frac1\beta\right\rfloor+1\ge2.
+\]
+For \(1\le k<n\), we have \(0<k\beta\le1\). Consequently,
+\[
+2k-1\le kr=2k-k\beta<2k,
+\]
+and hence \(\lfloor kr\rfloor=2k-1\).
+
+At \(k=n\), the choice of \(n\) gives
+\[
+1<n\beta\le1+\beta\le2.
+\]
+Thus
+\[
+2n-2\le nr<2n-1,
+\qquad \lfloor nr\rfloor=2n-2.
+\]
+It follows that
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor
+=\sum_{k=1}^{n}(2k-1)-1
+=n^2-1.
+\]
+This is congruent to \(-1\) modulo \(n\), so it is not divisible by \(n\ge2\).
+
+Both cases contradict the required property. Therefore \(r=0\), proving that \(\alpha=2q\) is an even integer.
+
+Conversely, if \(\alpha=2q\) for any \(q\in\mathbb Z\), then
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=\sum_{k=1}^{n}2qk
+=q\,n(n+1),
+\]
+which is divisible by \(n\) for every positive integer \(n\).
+
+## Scope and gaps
+
+The proof covers all real \(\alpha\), including negative values. The inclusive bounds handle all threshold equalities. No essential gaps or computational assumptions remain.

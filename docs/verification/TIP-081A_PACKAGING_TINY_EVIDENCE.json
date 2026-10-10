@@ -1,0 +1,163 @@
+{
+  "purpose": "TIP081_PACKAGING_TINY_ONLY",
+  "applicationBuilds": 0,
+  "fullProductMaterialization": "OPEN",
+  "prepare": {
+    "purpose": "TIP081_PACKAGING_TINY_ONLY",
+    "fixtureRoot": "/private/tmp/hiveos-tip081-packaging-s3OrEI",
+    "TMPDIR": "/private/tmp/hiveos-tip081-packaging-s3OrEI/tmp",
+    "baselineOutput": "/private/tmp/hiveos-tip081-packaging-s3OrEI/baseline/.next-tip081-probe/standalone",
+    "physicalOutput": "/private/tmp/hiveos-tip081-packaging-s3OrEI/physical/.next-tip081-probe/standalone",
+    "resultPath": "/private/tmp/hiveos-tip081-packaging-s3OrEI/tip081-packaging-result.json",
+    "entries": 45,
+    "bytes": 4810,
+    "applicationBuilds": 0
+  },
+  "copy": {
+    "version": 1,
+    "purpose": "TIP081_PACKAGING_TINY_ONLY",
+    "status": "TINY_COPY_PASS_LOAD_PENDING",
+    "nextVersion": "16.2.11",
+    "sourceDigest": "ceecc54f764a04179cdce2c956b192759ce021c2145e7261b9c42c8e69f82711",
+    "buildDigest": "f268a3bb1ab6a998895120f0c8c9dbed1a19907f0e1a353ab37f96ce71f566a8",
+    "baseline": {
+      "trace": {
+        "entries": 2,
+        "missingDependencies": 7,
+        "missingPackageMetadata": true,
+        "bareRoot": true
+      },
+      "copy": {
+        "purpose": "TIP081_PACKAGING_TINY_ONLY",
+        "status": "REFUSED",
+        "message": "EPERM: operation not permitted, copyfile '/private/tmp/hiveos-tip081-packaging-s3OrEI/baseline/node_modules/@tip081/root/package.json' -> '/private/tmp/hiveos-tip081-packaging-s3OrEI/baseline/.next-tip081-probe/standalone/node_modules/@tip081/root/package.json'",
+        "errorCode": "EPERM",
+        "stackFrames": [
+          " at async Object.copyFile (node:internal/fs/promises:622:10)",
+          " at async /Users/os/hiveos/node_modules/next/dist/build/utils.js:1001:21",
+          " at async Promise.all (index 0)",
+          " at async handleTraceFiles (/Users/os/hiveos/node_modules/next/dist/build/utils.js:966:9)",
+          " at async copyTracedFiles (/Users/os/hiveos/node_modules/next/dist/build/utils.js:1069:5)",
+          " at async runPackagingProbe (file:///Users/os/hiveos/scripts/test/probe-tip081-packaging.mjs:39:270)",
+          " at async file:///Users/os/hiveos/scripts/test/probe-tip081-packaging.mjs:41:359"
+        ],
+        "applicationBuilds": 0
+      }
+    },
+    "physical": {
+      "trace": {
+        "entries": 8,
+        "missingDependencies": 0,
+        "missingPackageMetadata": false,
+        "bareRoot": false
+      },
+      "files": 7,
+      "bytes": 423,
+      "independentFiles": true
+    },
+    "durationMilliseconds": 19.042,
+    "inputBytes": 1939,
+    "fixtureBeforeResult": {
+      "entries": 63,
+      "bytes": 6265
+    },
+    "applicationBuilds": 0,
+    "fullProductMaterialization": "OPEN"
+  },
+  "isolatedLoad": [
+    {
+      "purpose": "TIP081_PACKAGING_TINY_ONLY",
+      "status": "TINY_ISOLATED_LOAD_PASS",
+      "value": 81,
+      "asset": "engineering-only",
+      "isolationRequired": "MAIN_OS_DENY_SOURCE_AND_INSTALLED_READS",
+      "files": 7,
+      "bytes": 423,
+      "applicationBuilds": 0,
+      "fullProductMaterialization": "OPEN"
+    },
+    {
+      "phase": "ACTUAL_ISOLATED_LOAD",
+      "status": 0,
+      "negativeReadControls": [
+        {
+          "label": "ORIGINAL_FIXTURE",
+          "errorCode": "EPERM"
+        },
+        {
+          "label": "INSTALLED_DEPENDENCIES",
+          "errorCode": "EPERM"
+        }
+      ],
+      "durationMilliseconds": 45.145042000000004,
+      "applicationBuilds": 0
+    }
+  ],
+  "finalAudit": {
+    "sourceEntries": 115,
+    "oldPins": 79,
+    "newPins": 21,
+    "assetPins": 16,
+    "bundleSHA": "e730b4b949965b1b5aa1459167c3246c46728a7a209c102ba5c73006383e12f2",
+    "reviewSHA": "f4bb2a633f14fb157a25e6eb246316c5d229472c176802bbd0eecbc5919a0d32",
+    "archiveBytes": 120417,
+    "archiveSHA": "976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2",
+    "probe": {
+      "inputBytes": 1939,
+      "fixture": {
+        "entries": 64,
+        "bytes": 7898
+      },
+      "descriptorSHA": "f1f741378a4003a51756c676d57c99310545ed1f74dc7ba884e5e9eadde6f7a3",
+      "resultSHA": "68a77fb91c964b1beb28ab6cca1053ef580e6c8fcb30d3fb4e468d46c0f99e8f"
+    },
+    "historical": {
+      "tip081-build4-consumed.json": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+      "tip081-build4-result.json": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+      "tip081-shadow.json": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+    }
+  },
+  "actualRefusalsAndToolchain": [
+    {
+      "label": "RETAINED_BARE_NFT",
+      "refusal": "TIP081_NFT_BARE_DEPENDENCY_ROOT_REFUSED",
+      "effects": 0
+    },
+    {
+      "label": "RETAINED_LINKED_PACKAGE",
+      "refusal": "TIP081_DEPENDENCY_DIRECTORY_REFUSED",
+      "effects": 0
+    },
+    {
+      "installedFile": "next/dist/build/utils.js",
+      "bytes": 52281,
+      "sha": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+    },
+    {
+      "installedFile": "next/dist/build/collect-build-traces.js",
+      "bytes": 24686,
+      "sha": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+    },
+    {
+      "installedFile": "next/dist/compiled/@vercel/nft/index.js",
+      "bytes": 265370,
+      "sha": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+    }
+  ],
+  "probe1Retained": {
+    "root": "/private/tmp/hiveos-tip081-packaging-I1bfpi",
+    "status": "REFUSED_BEFORE_COPY",
+    "refusal": "TIP081_PACKAGING_CLOSURE_REFUSED",
+    "outerMilliseconds": 237.508416,
+    "sources": [
+      {
+        "file": "scripts/test/probe-tip081-packaging.mjs",
+        "sha": "45c8e61131763322e06ed7ae308d61790264f355dbc22f59f60461f2b55e1c5e"
+      },
+      {
+        "file": "tests/unit/evidence-studio-packaging.test.ts",
+        "sha": "b38af0c338e16f63bf2fe337fff84bc17018762823f0bebe44e329ac1160b385"
+      }
+    ]
+  }
+}

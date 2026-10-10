@@ -1,0 +1,247 @@
+## Answer
+
+For every allowed initial segment, at least one of the odd-indexed and even-indexed subsequences is eventually periodic.
+
+## Proof
+
+For integers \(t\ge0\) and \(x,k\ge1\), define
+\[
+C_t(x)=\#\{i\le t:a_i=x\},
+\qquad
+H_t(k)=\#\{x\ge1:C_t(x)\ge k\}.
+\]
+Both quantities are zero when \(t=0\).
+
+We first identify the values occurring infinitely often, then prove a counter lemma that gives periodicity.
+
+### 1. A uniform bound for large values
+
+For \(n\ge N\) and \(k\ge1\),
+\[
+C_n(k)-C_N(k)=H_{n-1}(k)-H_{N-1}(k).
+\tag{1}
+\]
+Indeed, for each \(i=N,\ldots,n-1\), the recurrence says
+\[
+a_{i+1}=C_i(a_i).
+\]
+Thus \(a_{i+1}=k\) precisely when index \(i\) is the \(k\)-th occurrence of its value. The number of such occurrences between indices \(N\) and \(n-1\) is the right-hand side of (1).
+
+Set
+\[
+K=\max\{N,a_1,\ldots,a_N\}.
+\]
+For \(k>K\), we have \(C_N(k)=0\) and \(H_{N-1}(k)=0\). Consequently,
+\[
+C_n(k)=H_{n-1}(k)
+\qquad(n\ge N,\ k>K).
+\tag{2}
+\]
+Since \(H_{n-1}(k)\) is nonincreasing in \(k\), so is \(C_n(k)\) on \(k>K\).
+
+We claim that
+\[
+C_n(k)\le K
+\qquad(n\ge N,\ k>K).
+\tag{3}
+\]
+It suffices by monotonicity to prove this for \(k=K+1\). Suppose its count first reaches \(k\) at index \(n\). Then \(n>N\) and
+\[
+C_{n-1}(k)=k-1.
+\]
+Monotonicity gives \(C_{n-1}(x)\le k-1\) for every \(x\ge k\). Therefore only the \(k-1\) positive integers below \(k\) could have count at least \(k\), giving
+\[
+H_{n-1}(k)\le k-1.
+\]
+But (2) gives \(H_{n-1}(k)=C_n(k)=k\), a contradiction. This proves (3).
+
+### 2. The infinitely recurring values
+
+Let \(R\) be the set of values occurring infinitely often. By (3),
+\[
+R\subseteq\{1,\ldots,K\}.
+\tag{4}
+\]
+Moreover, \(R\) is nonempty. If only finitely many distinct values occur, at least one must occur infinitely often. If infinitely many distinct values occur, infinitely many first occurrences lie after index \(N\). Every such first occurrence is followed by \(1\), so \(1\) occurs infinitely often.
+
+Write \(r=|R|\), so \(1\le r\le K\). For \(x\notin R\), write \(C_\infty(x)\) for its finite total number of occurrences. There exists an integer \(L\ge K\) such that
+\[
+C_\infty(x)\le L\qquad(x\notin R).
+\tag{5}
+\]
+Indeed, (3) bounds these totals by \(K\) for \(x>K\), and only finitely many other values remain.
+
+For \(k>L\), (2) and (5) imply
+\[
+C_n(k)
+=\#\{x\in R:C_{n-1}(x)\ge k\}
+\qquad(n\ge N).
+\tag{6}
+\]
+For each fixed \(k>L\), all \(r\) counts on the right eventually exceed \(k\). Hence
+\[
+C_\infty(k)=r\qquad(k>L).
+\tag{7}
+\]
+
+Now fix \(j\in\{1,\ldots,r\}\). Every value \(k>L\) has a \(j\)-th occurrence, by (7). This occurrence lies after \(N\), because \(k>K\) is absent from the initial segment, and its successor is \(j\). Distinct values \(k\) give distinct occurrence positions and hence distinct successor positions. Thus \(j\) occurs infinitely often. We have proved
+\[
+\{1,\ldots,r\}\subseteq R,
+\]
+and equality follows because both sets have cardinality \(r\):
+\[
+R=\{1,\ldots,r\}.
+\tag{8}
+\]
+
+### 3. Eventual alternation
+
+Choose \(T\ge N+1\) large enough that, for every \(t\ge T\),
+
+* \(a_t\notin\{r+1,\ldots,L\}\);
+* \(C_t(i)>L\) for all \(1\le i\le r\).
+
+Such a \(T\) exists by (8).
+
+If \(a_t\le r\), then
+\[
+a_{t+1}=C_t(a_t)>L.
+\]
+If \(a_t>L\), then (6) gives \(C_t(a_t)\le r\), while its occurrence at index \(t\) gives \(C_t(a_t)\ge1\). Hence
+\[
+1\le a_{t+1}\le r.
+\]
+The sequence therefore eventually alternates between values in \(\{1,\ldots,r\}\) and values greater than \(L\).
+
+Choose \(t_0\ge T\) with \(a_{t_0}\le r\), and put
+\[
+b_m=a_{t_0+2m},\qquad h_m=a_{t_0+2m+1}
+\qquad(m\ge0).
+\]
+Thus \(b_m\le r\) and \(h_m>L\). Define counters immediately before the occurrence of \(b_m\):
+\[
+c_i(m)=C_{t_0+2m-1}(i),\qquad 1\le i\le r.
+\]
+Since the intervening \(h_m\) contributes nothing to these counters,
+\[
+c_i(m+1)=c_i(m)+\mathbf1_{\{i=b_m\}},
+\qquad
+h_m=c_{b_m}(m+1).
+\tag{9}
+\]
+Applying (6) at the index containing \(h_m\), and then applying the recurrence, gives
+\[
+b_{m+1}
+=\#\{i\in\{1,\ldots,r\}:c_i(m+1)\ge c_{b_m}(m+1)\}.
+\tag{10}
+\]
+Every \(c_i(m)\) tends to infinity, because every \(i\le r\) occurs infinitely often.
+
+### 4. Counter lemma
+
+**Lemma.** Consider integer counters \(c_1,\ldots,c_r\) and a current index \(b\in\{1,\ldots,r\}\). Each step increments \(c_b\) by one and sets
+\[
+b'=\#\{i:c'_i\ge c'_b\},
+\]
+where \(c'\) denotes the updated counters. If every counter tends to infinity, then the index sequence is eventually periodic.
+
+**Proof.** At each stage, let
+\[
+s_1\ge s_2\ge\cdots\ge s_r
+\]
+be the counter values sorted in decreasing order, retaining repetitions. Let \(e_i\) be the \(i\)-th unit vector.
+
+An update satisfies
+\[
+c'=c+e_b,\qquad s'=s+e_{b'}.
+\tag{11}
+\]
+To prove the second equality, put \(v=c_b\) before the update and
+\[
+q=\#\{i:c_i\ge v+1\}.
+\]
+The old sorted entry \(s_{q+1}\) equals \(v\). Increasing the chosen counter from \(v\) to \(v+1\) increases precisely this sorted entry by one. The new number of counters at least \(v+1\) is \(q+1\), so \(b'=q+1\). This reasoning includes all ties.
+
+It follows from (11) that the vector
+\[
+u=c-s+e_b
+\tag{12}
+\]
+is invariant, because
+\[
+c'-s'+e_{b'}=c-s+e_b.
+\]
+Set
+\[
+D=1+\max_i|u_i|.
+\]
+At every stage,
+\[
+|c_i-s_i|\le D.
+\tag{13}
+\]
+
+For \(1\le k<r\), consider the sorted gap
+\[
+g_k=s_k-s_{k+1}.
+\]
+If \(g_k>2D\), then every counter labelled \(1,\ldots,k\) strictly exceeds every counter labelled \(k+1,\ldots,r\). Indeed, for \(i\le k<j\), (13) gives
+\[
+c_i\ge s_k-D>s_{k+1}+D\ge c_j.
+\tag{14}
+\]
+
+At such a stage, the current index cannot satisfy \(b\le k\). If it did, incrementing that counter would preserve the strict separation between the two labelled groups. Its updated rank count would be at most \(k\), so the next index would again lie in the first group. Inductively, the separation would persist and every subsequent update would remain in that group. All counters in the second group would stay constant, contrary to their assumed divergence. This argument preserves the labelled separation (14); it does not require the sorted gap to remain greater than \(2D\).
+
+Thus, whenever \(g_k>2D\), the chosen counter lies in the lower group. Its old value is at most \(s_{k+1}\). Incrementing it by one cannot raise \(s_k\), because the integer inequality \(s_{k+1}<s_k\) gives
+\[
+s_{k+1}+1\le s_k.
+\]
+Nor can any sorted order statistic decrease when one counter is increased. Therefore
+\[
+g'_k\le g_k\qquad\text{if }g_k>2D.
+\tag{15}
+\]
+For every update, (11) also gives \(g'_k\le g_k+1\). Consequently, at every stage \(m\),
+\[
+g_k(m)\le G_k:=\max\{g_k(0),2D+1\}.
+\tag{16}
+\]
+Indeed, a gap above \(2D\) cannot increase, and a gap at most \(2D\) can rise only to \(2D+1\).
+
+Summing the gaps bounds the counter range:
+\[
+\max_i c_i(m)-\min_i c_i(m)
+=s_1(m)-s_r(m)
+\le B:=\sum_{k=1}^{r-1}G_k.
+\tag{17}
+\]
+For \(r=1\), the sum is empty and the range is zero.
+
+Normalize the counters by defining
+\[
+d_i(m)=c_i(m)-\min_j c_j(m).
+\]
+Every \(d_i(m)\) is an integer in \(\{0,\ldots,B\}\). Hence the states
+\[
+\bigl(b_m,d_1(m),\ldots,d_r(m)\bigr)
+\]
+belong to a finite set.
+
+The next normalized state is determined entirely by the current state: increment the selected coordinate, compute the next index by the rank rule, and subtract the new minimum. Adding a common constant to all counters affects none of these operations.
+
+Some state therefore repeats. Determinism implies, by induction, that all subsequent states repeat with the same positive period. In particular, the index sequence is eventually periodic. \(\square\)
+
+### 5. Conclusion
+
+Equations (9)–(10) give exactly the process in the lemma, and all its counters tend to infinity. Therefore \((b_m)_{m\ge0}\) is eventually periodic.
+
+Since
+\[
+b_m=a_{t_0+2m},
+\]
+this sequence is a tail of the odd-indexed subsequence if \(t_0\) is odd, and a tail of the even-indexed subsequence if \(t_0\) is even. The corresponding parity subsequence is therefore eventually periodic. \(\square\)
+
+## Scope and gaps
+
+The proof applies to every positive integer \(N\) and every allowed positive initial segment, including \(N=1\), \(r=1\), and counter ties. No essential gap remains. The finite-state argument rests on a proved uniform bound, not on simulation.

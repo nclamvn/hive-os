@@ -1,0 +1,23 @@
+{
+  "purpose": "TIP081_P3_E01_INERT_RAW_FIRST",
+  "exitCode": 0,
+  "signal": null,
+  "reason": "EXIT",
+  "milliseconds": 559.272834,
+  "bytes": 8726,
+  "stdoutJsonDataPersistedByChild": "docs/verification/TIP-081A_P3_DERIVATION_EFFECT.json",
+  "childReportedMilliseconds": 502.36283299999997,
+  "execReportedWallSeconds": 0.478178834,
+  "rawClockDiscrepancyPreserved": true,
+  "accountingMilliseconds": 559.272834,
+  "accountingRule": "Use larger supervisor/exec observation, do not add contained child time; retain3000 conservative allowances",
+  "allowancesMilliseconds": 3000,
+  "incrementMilliseconds": 3559.272834,
+  "aggregateMilliseconds": 870882.767416,
+  "aggregateCeilingMilliseconds": 900000,
+  "remainingAggregateMilliseconds": 29117.232584,
+  "parserImported": false,
+  "checks": "UNRUN",
+  "admission": "NOT_ISSUED",
+  "acceptance": "NOT_READY"
+}

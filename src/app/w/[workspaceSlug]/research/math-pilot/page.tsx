@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { ArrowLeft, ArrowRight, FlaskConical } from "lucide-react";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import {
@@ -16,15 +17,26 @@ import {
   requestMathPilotCaseAction,
 } from "@/app/actions/research-sandbox";
 import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
+import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
+import { Poly19ShowcaseRegion } from "@/components/research/poly19-showcase-region";
 import { MathText } from "@/components/research/math-text";
 import { MathMixedCorePowerPanel } from "@/components/research/math-mixed-core-power-panel";
 import { MathAdaptiveStrategyPanel } from "@/components/research/math-adaptive-strategy-panel";
 import { MathLemmaGraphPanel } from "@/components/research/math-lemma-graph-panel";
+import { MathLrcEvidencePanel } from "@/components/research/math-lrc-evidence-panel";
+import { MathLrcCampaignPanel } from "@/components/research/math-lrc-campaign-panel";
+import { isLrcCampaignRecord } from "@/components/research/math-lrc-campaign-presentation";
+import { isLrcProofUnitRunRecord } from "@/components/research/math-lrc-proof-unit-run-presentation";
+import { MathLrcProofUnitRunPanel } from "@/components/research/math-lrc-proof-unit-run-panel";
+import { isLrcResearchProgramRecord } from "@/components/research/math-lrc-research-cockpit-family";
+import { MathLrcResearchCockpitPanel } from "@/components/research/math-lrc-research-cockpit-panel";
+import { MathLrcLoopReadinessPanel } from "@/components/research/math-lrc-loop-readiness-panel";
+import { frozenMethodUnitFiniteSourcePins } from "@/modules/research-sandbox/math-method-unit-source-registry";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { getMathPilotCopy } from "@/i18n/math-pilot-copy";
+import { getMathPilotCopy, getLrcCopy } from "@/i18n/math-pilot-copy";
 import { getTranslator } from "@/i18n/server";
 import { hasCapability } from "@/modules/identity-workspace";
 import {
@@ -32,6 +44,7 @@ import {
   MATH_PILOT_BENCHMARK,
   MATH_PILOT_EXACT_BENCHMARK,
   MATH_PILOT_CALIBRATIONS,
+  MATH_LRC_PRESETS,
   MATH_REVIEW_CRITERIA,
   digestMathReviewChecklist,
   mathPilotContractSchema,
@@ -44,6 +57,7 @@ import { loadMathCalibrationReadiness } from "@/modules/research-sandbox/math-do
 import { parseDossierQuery, encodeDossierCursor } from "@/modules/research-sandbox/math-dossier-pagination";
 import { validateRecordedMathAgentReview } from "@/modules/research-sandbox/agent-review";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { loadLrcLoopReadiness } from "@/server/operations/math-lrc-loop-readiness";
 import { getEnv } from "@/server/env";
 import { researchProviderUsageSchema } from "@/modules/research-sandbox/contracts";
 import { mathModelAttemptSchema } from "@/modules/research-sandbox/contracts";
@@ -80,12 +94,14 @@ export default async function MathPilotPage({
 }: {
   params: Promise<{ workspaceSlug: string }>;
   searchParams: Promise<{ missionId?: string | string[]; request?: string; caseId?: string | string[];
-    cycleId?: string | string[]; casesAfter?: string | string[]; cyclesAfter?: string | string[] }>;
+    cycleId?: string | string[]; casesAfter?: string | string[]; cyclesAfter?: string | string[];
+    campaignId?: string | string[]; campaignAction?: string }>;
 }) {
   const [{ workspaceSlug }, query] = await Promise.all([params, searchParams]);
   const data = await loadWorkspacePage(workspaceSlug);
   const { locale } = await getTranslator();
   const copy = getMathPilotCopy(locale);
+  const lrcCopy = getLrcCopy(locale);
   if (!hasCapability(data.ctx.membership.role, "research.read")) notFound();
 
   const targets = await listResearchTargets(data.ctx);
@@ -106,7 +122,15 @@ export default async function MathPilotPage({
   const passed = calibration.passed;
   const activeCalibrationTypes = selectedMissionId ? await listMathPilotCalibrationActivity(data.ctx, selectedMissionId, pilotProvider, pilotModel)
     : new Set<"CALIBRATION_PROOF" | "CALIBRATION_COUNTEREXAMPLE">();
-  const cyclePage = selectedMissionId && cases[0] ? await listMathResearchCyclePage(data.ctx, selectedMissionId, cases[0].id,
+  const selectedMethodUnit = cases[0] && isLrcResearchProgramRecord(cases[0].contract,cases[0].researchRun.mathModelAttempt,cases[0].agentReview?.ledger);
+  const selectedProofUnit = selectedMethodUnit || cases[0] && isLrcProofUnitRunRecord(cases[0].contract,cases[0].researchRun.mathModelAttempt,cases[0].agentReview?.ledger);
+  const historical064 = cases[0]?.id === "b396580a-7bc7-4a8d-a966-0ad3eaa3e246";
+  const HistoryContainer = historical064 ? "details" : "section";
+  const selectedCampaign = selectedProofUnit || cases[0] && isLrcCampaignRecord(cases[0].contract,cases[0].researchRun.mathModelAttempt,cases[0].agentReview?.ledger);
+  const loopReadiness = selectedProofUnit && selectedMissionId && cases[0]
+    ? await loadLrcLoopReadiness({ headers: new Headers(await headers()), workspaceSlug,
+      missionId: selectedMissionId, caseIds: [cases[0].id] }) : null;
+  const cyclePage = selectedMissionId && cases[0] && !selectedCampaign ? await listMathResearchCyclePage(data.ctx, selectedMissionId, cases[0].id,
     selection?.cyclesAfter, selection?.cycleId)
     : { items: [], total: 0, hasMore: false, last: null };
   const cycles = cyclePage.items;
@@ -147,22 +171,27 @@ export default async function MathPilotPage({
             <h1 className="text-page-title text-ink-strong">{copy.title}</h1>
             <p className="text-body text-ink-muted mt-2 max-w-3xl">{copy.subtitle}</p>
           </div>
-          <ResearchLiveRefresh
+          {selectedCampaign ? <p className="text-meta text-ink-muted max-w-sm">{locale==="vi"?"Quan sát chỉ đọc · làm mới trang thủ công để xem dữ liệu đã lưu.":"Read-only observation · reload manually to view retained updates."}</p> : <ResearchLiveRefresh
             active={hasActiveWork}
             activeLabel={locale === "vi" ? "Đang theo dõi" : "Live tracking"}
             idleLabel={locale === "vi" ? "Không có tác vụ đang chạy" : "No active work"}
             refreshLabel={locale === "vi" ? "Làm mới" : "Refresh"}
             updatedLabel={locale === "vi" ? "lúc" : "at"}
-          />
+          />}
         </div>
 
         {["development", "test"].includes(getEnv().NODE_ENV) &&
           (!getEnv().DEPLOYMENT_ENV || ["development", "test"].includes(getEnv().DEPLOYMENT_ENV!)) ? (
-          <Link href={`/w/${workspaceSlug}/research/math-tools`}
+          <div className="grid min-w-0 gap-3"><Link href={`/w/${workspaceSlug}/research/math-tools`}
             className="border-line bg-surface text-body text-ink hover:border-line-strong rounded-panel flex min-h-12 flex-wrap items-center justify-between gap-2 border px-4 py-3">
             <span>{locale === "vi" ? "Bàn kiểm chứng số học · phát lại Python độc lập" : "Exact arithmetic workbench · independent Python replay"}</span>
             <span className="text-meta text-ink-muted">{locale === "vi" ? "Local · chỉ đọc →" : "Local · read only →"}</span>
           </Link>
+          <Link href={`/w/${workspaceSlug}/research/math-tools?view=allikvere#allikvere`}
+            className="border-line bg-surface text-body text-ink hover:border-line-strong rounded-panel flex min-h-12 flex-wrap items-center justify-between gap-2 border px-4 py-3">
+            <span>{locale === "vi" ? "Allikvere p=199 · chứng chỉ mô-đun đã lưu" : "Allikvere p=199 · retained modular certificates"}</span>
+            <span className="text-meta text-ink-muted">{locale === "vi" ? "Chỉ đọc · không chạy công cụ →" : "Retained only · no tool execution →"}</span>
+          </Link></div>
         ) : null}
 
         {targets.missions.length ? (
@@ -180,6 +209,13 @@ export default async function MathPilotPage({
         ) : (
           <Panel className="p-6"><p className="text-body text-ink">{copy.noMission}</p></Panel>
         )}
+
+        <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} campaignId={typeof query.campaignId === "string" ? query.campaignId : undefined}
+          actionRefused={query.campaignAction === "refused"} canRequest={canRequest} canReview={canReview}/>
+
+        <Poly19ShowcaseRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} canRequest={canRequest} canReview={canReview} compact/>
 
         {selectedMissionId ? (
           <form method="get" className="border-line bg-surface rounded-panel flex flex-wrap items-end gap-3 border p-4">
@@ -223,7 +259,7 @@ export default async function MathPilotPage({
         {query.missionId !== undefined && !selectedMissionId ? <Panel className="p-4" role="alert"><p className="text-meta text-danger-700">{locale === "vi" ? "Lựa chọn nhiệm vụ không hợp lệ hoặc không truy cập được." : "Mission selection is invalid or unavailable."}</p></Panel> : null}
         {selectedMissionId && !calibration.complete ? <Panel className="p-4" role="alert"><p className="text-meta text-ink-muted">{locale === "vi" ? "Chưa xác lập hiệu chuẩn: lượt đọc bằng chứng đã đạt giới hạn an toàn. Không xem đây là kết luận thất bại hiệu chuẩn." : "Calibration not established: evidence scan reached its safety limit. This is not a definitive calibration failure."}</p></Panel> : null}
 
-        {query.request === "failed" ? (
+        {!selectedProofUnit && query.request === "failed" ? (
           <Panel className="border-danger-500 p-4" role="alert">
             <p className="text-body text-ink">
               {locale === "vi"
@@ -232,16 +268,16 @@ export default async function MathPilotPage({
             </p>
           </Panel>
         ) : null}
-        {query.request === "formal-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+        {!selectedProofUnit && query.request === "formal-failed" ? <Panel className="border-danger-500 p-4" role="alert">
           <p className="text-body text-ink">{locale === "vi" ? "Không thể giao ca Lean. Kiểm tra trạng thái job trước đó, quyền truy cập và hồ sơ chứng minh đã niêm phong." : "Could not queue the Lean attempt. Check the previous job, access rights, and sealed proof case."}</p>
         </Panel> : null}
-        {query.request === "replay-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+        {!selectedProofUnit && query.request === "replay-failed" ? <Panel className="border-danger-500 p-4" role="alert">
           <p className="text-body text-ink">{locale === "vi" ? "Không thể giao ca phát lại kernel. Kiểm tra image checker, trạng thái job và hồ sơ Lean đã niêm phong." : "Could not queue fresh kernel replay. Check the checker image, job status, and sealed Lean record."}</p>
         </Panel> : null}
-        {query.request === "alignment-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+        {!selectedProofUnit && query.request === "alignment-failed" ? <Panel className="border-danger-500 p-4" role="alert">
           <p className="text-body text-ink">{locale === "vi" ? "Không thể lưu đánh giá ánh xạ. Kiểm tra đủ bốn tiêu chí, ghi chú cụ thể và hồ sơ replay." : "Could not retain alignment review. Check all four criteria, detailed notes, and replay evidence."}</p>
         </Panel> : null}
-        {query.request === "cycle-conflict" || query.request === "cycle-failed" ? <Panel className="border-danger-500 p-4" role="alert">
+        {!selectedProofUnit && (query.request === "cycle-conflict" || query.request === "cycle-failed") ? <Panel className="border-danger-500 p-4" role="alert">
           <p className="text-body text-ink">{query.request === "cycle-conflict"
             ? (locale === "vi" ? "Yêu cầu không được giao: khóa của hồ sơ này đã gắn với yêu cầu trước có người thực hiện hoặc giới hạn khác. Lịch sử được giữ nguyên; không tự chạy lại."
               : "Request not queued: this case's key is bound to an earlier request with a different actor or limits. History is preserved; no automatic retry.")
@@ -254,6 +290,11 @@ export default async function MathPilotPage({
 
         {selectedMissionId ? (
           <>
+            {selectedProofUnit ? <Panel className="min-w-0 p-4" role="status"><p className="text-body text-ink max-w-[76ch]">
+              {selectedMethodUnit ? (locale === "vi" ? "Hồ sơ method-unit được quan sát chỉ đọc. Các biểu mẫu giao bài, kiểm chứng và vòng lặp thông thường không áp dụng; không tự thử lại khi thiếu bằng chứng."
+                : "This method-unit case is observation-only. Ordinary intake, verification and cycle forms do not apply; missing evidence never triggers an automatic retry.") : locale === "vi" ? "Hồ sơ proof-unit được quan sát chỉ đọc. Các biểu mẫu giao bài, kiểm chứng và vòng lặp thông thường không áp dụng tại đây; chọn hồ sơ khác để quay lại quy trình riêng."
+                : "This proof-unit case is observation-only. Ordinary intake, verification and cycle forms do not apply here; select another case to return to its separate workflow."}
+            </p></Panel> : <>
             <Panel className="p-4" role="status">
               <p className="text-body text-ink">{queueEnabled ? copy.dispatchReady : copy.dispatchLocked}</p>
               {codexMode ? <p className="text-meta text-ink-muted mt-2">{copy.codexMode}</p> : null}
@@ -398,10 +439,42 @@ export default async function MathPilotPage({
               </Panel>
             </section>
 
-            <section aria-labelledby="math-history-title">
+            <section aria-labelledby="math-lrc-title">
+              <Panel className="min-w-0 p-5 sm:p-6">
+                <SectionHeader title={lrcCopy.title} id="math-lrc-title" />
+                <p className="text-body text-ink-muted mt-2">{lrcCopy.hint}</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {(Object.keys(MATH_LRC_PRESETS) as (keyof typeof MATH_LRC_PRESETS)[]).map((preset) => <form key={preset} action={requestMathPilotCaseAction} className="border-line min-w-0 rounded-lg border p-4">
+                    <input type="hidden" name="slug" value={workspaceSlug} /><input type="hidden" name="missionId" value={selectedMissionId} />
+                    <input type="hidden" name="caseType" value="LRC_FINITE" /><input type="hidden" name="preset" value={preset} />
+                    <input type="hidden" name="idempotencyKey" value={`math-lrc:${randomUUID()}`} />
+                    <p className="text-meta text-ink mb-3 font-medium">{lrcCopy.presets[preset]}</p>
+                    <Button type="submit" variant="secondary" disabled={!(passed.size === 2 && canRequest && queueEnabled && codexMode && ["development", "test"].includes(process.env.NODE_ENV))}>{lrcCopy.start}</Button>
+                  </form>)}
+                </div>
+                {!(passed.size === 2 && canRequest && queueEnabled && codexMode && ["development", "test"].includes(process.env.NODE_ENV)) ? <p className="text-meta text-ink-muted mt-3">{lrcCopy.locked}</p> : null}
+              </Panel>
+            </section>
+
+            </>}
+            {loopReadiness ? <MathLrcLoopReadinessPanel locale={locale} readiness={loopReadiness} reloadHref={hrefFor({})} /> : null}
+            {historical064 && cases[0] ? <MathLrcResearchCockpitPanel locale={locale} toolsBase={`/w/${workspaceSlug}/research/math-tools`} record={{
+              caseId:cases[0].id,runId:cases[0].researchRun.id,runStatus:cases[0].researchRun.status,contract:cases[0].contract,contractDigest:cases[0].contractDigest,
+              attempt:cases[0].researchRun.mathModelAttempt,attemptDigest:cases[0].researchRun.mathModelAttemptDigest,
+              researchDigest:cases[0].researchIntegrityDigest,review:cases[0].agentReview,reviewJobStatus:cases[0].agentReviewJobStatus}} /> : null}
+            <HistoryContainer aria-labelledby="math-history-title" className="min-w-0">
+              {historical064 ? <summary className="text-body text-ink cursor-pointer font-medium">{locale === "vi" ? "Hồ sơ 064 nguyên trạng · lần chạy lịch sử" : "Unchanged 064 record · historical run"}</summary> : null}
               <SectionHeader title={copy.history} id="math-history-title" />
               <div className="mt-4 space-y-4">
                 {selectedHistory.cases.length ? selectedHistory.cases.map((item) => {
+                  const methodUnitCase = isLrcResearchProgramRecord(item.contract,item.researchRun.mathModelAttempt,item.agentReview?.ledger);
+                  if (methodUnitCase) return <MathLrcResearchCockpitPanel key={item.id} locale={locale} toolsBase={`/w/${workspaceSlug}/research/math-tools`} record={{
+                    caseId:item.id,runId:item.researchRun.id,runStatus:item.researchRun.status,contract:item.contract,contractDigest:item.contractDigest,
+                    attempt:item.researchRun.mathModelAttempt,attemptDigest:item.researchRun.mathModelAttemptDigest,
+                    researchDigest:item.researchIntegrityDigest,review:item.agentReview,reviewJobStatus:item.agentReviewJobStatus,reviewJobId:item.agentReview?.jobId,
+                    finiteSourcePins:frozenMethodUnitFiniteSourcePins()}} />;
+                  const proofUnitCase = isLrcProofUnitRunRecord(item.contract,item.researchRun.mathModelAttempt,item.agentReview?.ledger);
+                  const campaignCase = proofUnitCase || isLrcCampaignRecord(item.contract,item.researchRun.mathModelAttempt,item.agentReview?.ledger);
                   const parsed = mathPilotContractSchema.safeParse(item.contract);
                   const contractValid = parsed.success && digestMathPilotContract(parsed.data) === item.contractDigest;
                   const usage = researchProviderUsageSchema.safeParse(item.researchRun.providerUsage);
@@ -409,7 +482,7 @@ export default async function MathPilotPage({
                   const attempt = parsedAttempt.success && digestResearchResult(parsedAttempt.data) === item.researchRun.mathModelAttemptDigest
                     ? parsedAttempt
                     : { success: false as const };
-                  const attemptPriorArt = parsed.success && attempt.success
+                  const attemptPriorArt = !proofUnitCase && parsed.success && attempt.success
                     ? knownScopeForTask(parsed.data, attempt.data.argument)
                     : null;
                   const independentReviewer = canReview && item.researchRun.requestedByMembershipId !== data.ctx.membership.id;
@@ -417,7 +490,7 @@ export default async function MathPilotPage({
                   const providerValid = item.researchRun.providerName !== "openai" || usage.success;
                   const checklist = item.assessment ? mathReviewChecklistSchema.safeParse(item.assessment.reviewChecklist) : null;
                   const checklistValid = checklist?.success && digestMathReviewChecklist(checklist.data) === item.assessment?.reviewChecklistDigest;
-                  const agentLedger = validateRecordedMathAgentReview({
+                  const agentLedger = proofUnitCase ? null : validateRecordedMathAgentReview({
                     contract: item.contract, contractDigest: item.contractDigest,
                     attempt: item.researchRun.mathModelAttempt, attemptDigest: item.researchRun.mathModelAttemptDigest,
                     researchDigest: item.researchIntegrityDigest, review: item.agentReview,
@@ -449,13 +522,22 @@ export default async function MathPilotPage({
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="text-eyebrow text-ink-muted">{item.caseType === "BENCHMARK_PROOF" ? copy.benchmarkTitle : item.caseType === "BENCHMARK_EXACT" ? copy.exactBenchmarkTitle : item.caseType.replaceAll("_", " ")}</p>
-                          <h3 aria-label={item.researchRun.question} className="text-section-title text-ink-strong mt-2 break-words"><MathText text={item.researchRun.question} /></h3>
+                          <h3 aria-label={item.researchRun.question} className="text-section-title text-ink-strong mt-2 break-words">{proofUnitCase ? item.researchRun.question : <MathText text={item.researchRun.question} />}</h3>
                         </div>
                         <StatusBadge tone={item.researchRun.status === "APPROVED" ? "success" : item.researchRun.status === "FAILED" || item.researchRun.status === "REJECTED" ? "danger" : "warning"}>
                           {item.researchRun.status}
                         </StatusBadge>
                       </div>
                       <p className="text-meta text-ink-muted mt-3 break-all">{copy.contract}: {contractValid ? item.contractDigest : "INTEGRITY FAILURE"}</p>
+                      {proofUnitCase ? <MathLrcProofUnitRunPanel locale={locale} toolsBase={`/w/${workspaceSlug}/research/math-tools`} record={{
+                        caseId:item.id,runId:item.researchRun.id,runStatus:item.researchRun.status,contract:item.contract,contractDigest:item.contractDigest,
+                        attempt:item.researchRun.mathModelAttempt,attemptDigest:item.researchRun.mathModelAttemptDigest,
+                        researchDigest:item.researchIntegrityDigest,review:item.agentReview,reviewJobStatus:item.agentReviewJobStatus}} />
+                        : campaignCase ? <MathLrcCampaignPanel locale={locale} toolsBase={`/w/${workspaceSlug}/research/math-tools`} record={{contract:item.contract,contractDigest:item.contractDigest,
+                        attempt:item.researchRun.mathModelAttempt,attemptDigest:item.researchRun.mathModelAttemptDigest,
+                        researchDigest:item.researchIntegrityDigest,review:item.agentReview,reviewJobStatus:item.agentReviewJobStatus}} />
+                        : item.caseType === "OPEN" ? <MathLrcEvidencePanel scope={contractValid && parsed.success ? parsed.data.lrcFiniteScope : undefined} contractDigest={item.contractDigest} evidence={attempt.success ? attempt.data.lrcEvidence : null} locale={locale} /> : null}
+                      {!campaignCase ? <>
                       <div className="border-line mt-3 border-t pt-3">
                         <p className="text-meta text-ink-muted font-semibold">{copy.providerUsage}</p>
                         <p className="text-meta text-ink-muted mt-1">
@@ -725,7 +807,7 @@ export default async function MathPilotPage({
                                 {item.researchRun.sources.map((source) => <li key={source.canonicalUri} className="break-all">{copy.sourceLabel}: {source.canonicalUri}</li>)}
                               </ul>
                             ) : <p className="text-meta text-ink-muted mt-2">{copy.noExternalSource}</p>}
-                            {item.researchRun.status === "AWAITING_REVIEW" && independentReviewer && contractValid && attemptValid && providerValid ? (
+                            {!campaignCase && item.researchRun.status === "AWAITING_REVIEW" && independentReviewer && contractValid && attemptValid && providerValid ? (
                               <form action={reviewMathPilotResearchAction} className="mt-3 grid gap-4">
                                 <input type="hidden" name="slug" value={workspaceSlug} />
                                 <input type="hidden" name="runId" value={item.researchRun.id} />
@@ -791,7 +873,7 @@ export default async function MathPilotPage({
 
                           <section className="border-line min-w-0 border-l-2 pl-4" aria-label={copy.stageMath}>
                             <h5 className="text-meta text-ink font-semibold">{copy.stageMath}</h5>
-                            {codexMode && attempt.success && contractValid && ["AWAITING_REVIEW", "APPROVED"].includes(item.researchRun.status) ? (
+                            {!campaignCase && codexMode && attempt.success && contractValid && ["AWAITING_REVIEW", "APPROVED"].includes(item.researchRun.status) ? (
                               <div className="border-line bg-surface-subtle mt-3 rounded-md border p-4">
                                 <p className="text-body text-ink font-semibold">{copy.agentReviewTitle}</p>
                                 <p className="text-meta text-ink-muted mt-1">{copy.agentReviewHint}</p>
@@ -833,7 +915,7 @@ export default async function MathPilotPage({
                                       {agentLedger.reports.map((report) => (
                                         <div key={report.role} className="min-w-0">
                                           <p className="text-meta text-ink font-semibold">{copy.agentRole[report.role]} · {report.verdict}</p>
-                                          {agentLedger.version === 3 ? (
+                                          {agentLedger.version >= 3 ? (
                                             <p className="text-meta text-ink-muted mt-1 break-all">
                                               {copy.agentRequestedModel}: {agentLedger.reviewerModels?.find((model) => model.role === report.role)?.requestedModelName}
                                               {` · ${copy.agentRequestedModelEvidence}`}
@@ -860,7 +942,7 @@ export default async function MathPilotPage({
                                 ) : null}
                               </div>
                             ) : null}
-                            {codexMode && item.caseType === "OPEN" && agentLedger && contractValid && attempt.success ? (
+                            {!campaignCase && codexMode && item.caseType === "OPEN" && agentLedger && contractValid && attempt.success && parsed.success && !parsed.data.lrcFiniteScope ? (
                               <div className="min-w-0">
                               <div className="text-meta text-ink-muted mb-3 flex flex-wrap items-center gap-3">
                                 <span>{locale === "vi" ? `Đang hiển thị ${cycles.length}/${cyclePage.total} đợt, mỗi đợt tải trọn chuỗi sự kiện.` : `Showing ${cycles.length}/${cyclePage.total} campaigns, each with its full event chain.`}</span>
@@ -903,7 +985,7 @@ export default async function MathPilotPage({
                                 ) : <p className="text-meta text-ink-muted mt-3">{item.assessment.reviewChecklist ? copy.integrityBad : copy.legacyChecklist}</p>}
                                 <p className="text-meta text-ink-muted mt-3">{copy.positiveCaution}</p>
                               </div>
-                            ) : independentReviewer && contractValid && item.approvedIntegrityValid && item.researchRun.status === "APPROVED" && providerValid && attemptValid ? (
+                            ) : !campaignCase && independentReviewer && contractValid && item.approvedIntegrityValid && item.researchRun.status === "APPROVED" && providerValid && attemptValid ? (
                               <form action={assessMathPilotCaseAction} className="mt-3 grid gap-4">
                                 <input type="hidden" name="slug" value={workspaceSlug} />
                                 <input type="hidden" name="caseId" value={item.id} />
@@ -948,6 +1030,7 @@ export default async function MathPilotPage({
                           </section>
                         </div>
                       </div>
+                      </> : null}
                       <Link href={`/w/${workspaceSlug}/research#research-runs`} className="text-meta text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium">
                         {copy.research} <ArrowRight className="size-4" aria-hidden="true" />
                       </Link>
@@ -955,7 +1038,7 @@ export default async function MathPilotPage({
                   );
                 }) : <Panel className="p-6"><p className="text-body text-ink-muted">{copy.empty}</p></Panel>}
               </div>
-            </section>
+            </HistoryContainer>
           </>
         ) : null}
       </div>

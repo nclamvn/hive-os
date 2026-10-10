@@ -1,0 +1,46 @@
+{
+  "tip": "TIP-048",
+  "role": "CORE Builder",
+  "status": "DONE",
+  "contractSha256": "4712dc80fed2331ad8bc87627840205d0a31eaa97fa42f95f7d0bbde2f39ad2b",
+  "ownedRequirements": { "implemented": 3, "total": 3, "percent": 100, "ids": ["R2", "R3", "R5"] },
+  "filesCreated": [
+    { "path": "src/modules/research-sandbox/math-lrc-cover-bound.ts", "sha256": "c2b1d813e18c597930a768e59d0e020c2a8d67e172f5dc64e4a3966486819143", "purpose": "Separate symbolic-domain scope, bounded prefix producer and independent BigInt consumer" },
+    { "path": "tests/unit/math-lrc-cover-bound.test.ts", "sha256": "cd2ed42d2ea168e4ce173128fe33c94a2e277870830165c0394a13fa39fd9bff", "purpose": "Fifteen arithmetic, small-oracle, actual scoped, rehashed adversarial and resource tests" },
+    { "path": "docs/verification/TIP-048_CORE_COMPLETION_REPORT.json", "purpose": "Quantified completion and scope boundaries" }
+  ],
+  "filesModified": [],
+  "proof": {
+    "source": "Allikvere arxiv2609.02604v2 section4.3 Lemma4.3, known union-bound reasoning, not novelty",
+    "claim": "For a checked prefix, let U be all folded grid times good for assigned coordinates. For each remaining coordinate i, independently reconstruct b_i=max over ALL legal digits d of |U intersect B_i,d|. If |U|>sum b_i, then for every completion its chosen bad-set union covers at most sum b_i times, leaving a time good for every coordinate. This is forall completion exists witness, not one common witness.",
+    "folding": "j=0 fails positive threshold; j and M-j have identical distances. Exact j=1..floor(M/2) masks preserve existence, including equality and midpoint.",
+    "prefixInvariant": "Consumer derives its own BigInt good masks; root U is exact folded grid. Exact legal child-prefix validation precedes independent intersection with that coordinate/digit good mask, so child U is exactly the times good for all assigned coordinates by induction.",
+    "counts": "Exact decimal BigInt cardinality of each leaf is product of lengths of all unassigned original scope axes. Checked exhaustive ordered partitions imply disjoint total coverage. No Cartesian tuple enumeration occurs in production cover-bound verification.",
+    "gcd": "Only fully assigned empty-U leaves may use exact gcd(targetLevel,all other residues)>1. Lower LRC12 remains explicitly declared and unreplayed. SURVIVOR likewise requires singleton empty U and all13 omit-coordinate gcds equal1; no continuous-time exclusion is claimed."
+  },
+  "implementation": {
+    "method": "LRC_MODULAR_BOUND_TREE_V1",
+    "scope": "Exactly13 ordered axes, repeated residues retained, prime17..257, target<=14 and integral proper lift factor, sorted legal digit subsets with at most7 choices each, source/root/lower-dependency binding. Maximum symbolic cardinality7^13=96889010407; TIP046/047 schemas remain unchanged.",
+    "producerPolicy": "Coordinate order0..12 and sorted legal digit order. Exact maxBad union bound before branch. Prefix children reserved in full before descent. After work/time/node latch, existing pending sibling regions become exact UNRESOLVED leaves without further scientific arithmetic. Final output/time checks fail closed.",
+    "consumer": "Separate BigInt residue construction, independent prefix U propagation, exact count and strict inequality reconstruction, complete flat-tree validation, own stricter-only work/time options for aggregate pure retained checks. Never calls producer, author executable, filesystem, network or process.",
+    "limits": { "nodes": 20000, "logicalWork": 20000000, "observedMilliseconds": 10000, "certificateBytes": 16777216 },
+    "limitation": "Cooperative observed checkpoints and logical work units are not hard synchronous CPU preemption or externally signed execution attestation. PARTIAL is valid independently checked partition coverage with unresolved mathematical regions; verifier resource exhaustion is INVALID, not a proof of partial classification."
+  },
+  "checks": {
+    "focusedTests": { "command": "node node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-cover-bound.test.ts", "exitCode": 0, "files": 1, "passed": 15, "failed": 0, "overallMilliseconds": 9320, "testMilliseconds": 9160, "startedLocal": "2026-10-03 16:18:26 Asia/Ho_Chi_Minh" },
+    "ownedLint": { "command": "node node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-cover-bound.ts tests/unit/math-lrc-cover-bound.test.ts", "exitCode": 0 },
+    "checkpointTypecheck": { "command": "node node_modules/typescript/bin/tsc --noEmit", "exitCode": 0, "scope": "Whole repository at Builder checkpoint, not final product freeze" },
+    "smallFlatOracles": "Eight-tuple ordered-coordinate control domain plus four genuine343-tuple anchored terminal controls: full j=0..M-1 integer enumeration agrees with finite leaf classification. Separate repeated-residue equality/domain controls preserve coordinate labels.",
+    "quantifierControl": "A valid actual COVER_BOUND leaf with multiple completions has zero COMMON witnesses on all2786 grid times; its checked strict union bound still certifies forall completion exists a witness.",
+    "actualAnchoredScopes": { "rows": 4, "cardinalityEach": "5764801", "statusEach": "COMPLETE", "witnessEach": "5764800", "conditionalGcdEach": "1", "survivorEach": "0", "unresolvedEach": "0" },
+    "actualFullRoots": { "rows": 4, "cardinalityEach": "96889010407", "statusEach": "PARTIAL", "originalDefaultLimitsUsed": true, "errorsEach": [], "eachClassifiedPlusUnresolvedEqualsFullCardinality": true, "eachClassifiedPositive": true, "eachUnresolvedPositive": true },
+    "adversarialCoverage": ["strict equality not prunable", "optimistic existential-per-axis minima cannot replace maxima", "false U/maxBad after rehash", "missing/reordered/reused/cyclic/unreachable/duplicate/root-shrunk/drifting-prefix partitions", "source/prime/parent-label/digit-scope/root drift", "forged cardinality/unknown schema fields", "conditional GCD requires singleton empty U and exact divisor", "false survivor GCD", "initial precompute work/time checks", "reserved sibling completeness after work/node limits", "output-size collapse", "producer final hashing and consumer final serialization timeout faults", "verification stricter limits cannot be widened", "byte overflow and non-JSON input"]
+  },
+  "issuesAndRepairs": [
+    { "severity": "REPAIRED_FAIL_CLOSED_CHECKABILITY", "description": "Main's first actual collector aborted before report retention: three original full-root generated trees exhausted the unchanged20M consumer work cap when the consumer redundantly refolded every full prefix at every leaf. The failure was fail-closed, not a false proof. Main approved independent checked-edge U propagation as exact reconstruction by induction; own BigInt masks and all structural/arithmetic checks remain. All eight original default-limit scopes now pass own focused checks as four COMPLETE anchors and four honest PARTIAL full roots. No cap increase, input/order change or reinterpretation of coverage." }
+  ],
+  "deviations": ["No scope, wire, cap or proof change. Consumer prefix-mask propagation is a within-contract implementation refinement approved by Main; reconstruction remains independent and exact."],
+  "deferred": ["Independent pinned Python, immutable retained report, collector and UI acceptance are separately owned", "Final whole-unit/type/lint/build and visible browser acceptance", "Other prime/all-orbit, full terminal closure, lower LRC12 and analytic product-bound obligations", "Universal theorem, novelty/formal/external acceptance and agent admission"],
+  "executionScope": "Read-only bounded1000-node precontract diagnostic, then owned source/tests/completion and direct-node local QA. No pnpm/package manager/install, author code, DB/model/provider/API, worker, Git, migration or deployment. Existing TIP046/047 files and historical dirty work preserved.",
+  "overall": "Core R2/R3/R5 READY_WITH_DEFERRED. Actual research coverage is COMPLETE only for four preregistered anchored shards; all four full terminal roots remain PARTIAL and global verdict NOT_ESTABLISHED."
+}

@@ -1,0 +1,769 @@
+{
+  "schema": "hive-os.permutation-bridge.v1",
+  "binding": {
+    "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+    "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+    "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+    "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+    "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+    "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+    "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+    "provenance": "CODEX_ASSISTED"
+  },
+  "events": [
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 1,
+      "previousDigest": null,
+      "commandId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "kind": "DRAFT",
+      "at": "2026-10-06T06:08:23.460Z",
+      "detail": {
+        "limits": {
+          "roles": 4,
+          "exportBytes": 1048576,
+          "promptBytes": 131072,
+          "wallSeconds": 900,
+          "ledgerRecords": 64,
+          "originalBytes": 32768
+        },
+        "sourceBundleText": "{\"purpose\":\"CODEX_ASSISTED_PERMUTATIONS\",\"reviewDigest\":\"3c3669859473eff04660b9b9ac7d9026defd3da6cf1e7dfb3aa95f2863a91465\",\"reviewReport\":\"docs/verification/TIP-080_SOURCE_REVIEW.md\",\"reviewer\":\"MAIN_INDEPENDENT_SOURCE_REVIEW\",\"sourcePins\":{\"docs/contractor/tips/TIP-080_CODEX_ASSISTED_PERMUTATIONS.md\":\"2a96608888f9300509b1bb505e97cce047b6e8b9846965f375c7b15e159c5fe8\",\"docs/research/PERMUTATION_CHECKER_LEMMA.md\":\"29e8fb05a3a0b1ac03237d9a32be4329b66e0ccf7a542b68ccd526ef24850617\",\"next.config.ts\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\",\"postcss.config.mjs\":\"7f3b03516f1aa19056022b209cc174e61f786ec3183e56bf2db464ee9e4c8da5\",\"scripts/operations/install-permutation-bridge-source.ts\":\"527ca3a2686d2de098349a6dfc5b23740a52264944d828f0e1ddc729924776e9\",\"scripts/test/build-tip080.mjs\":\"faa4cea740c45175ccb138b35f9ff33317be138265fe435196c42efe68445e9a\",\"scripts/test/playwright-tip080.config.ts\":\"6c7aca55ddf5c164df05e618c968a1c8b41d142981e51adac5c27b9639fc8bc0\",\"scripts/test/start-tip080-standalone.mjs\":\"d7ddaea8de0af48101b472c49891733b8d3f5c1f010d2f1bc3c86050b32e3034\",\"src/app/actions/permutation-bridge.ts\":\"9c63ba6031f449175db5da420125e0594af5bb83217d1272ef25942a26da8c72\",\"src/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.ts\":\"142b10e6730c7cede45e936816ebde588e64278797147064422e8bb942b1d402\",\"src/app/globals.css\":\"1849de86bdafda40f8edf662161f07185298658dc043b017d9be3b5172de2d4e\",\"src/app/layout.tsx\":\"71808baab414296871b755b14dc3d8c42d9e0a24da4d1141e68dd4c4d79190ce\",\"src/app/w/[workspaceSlug]/research/permutations/page.tsx\":\"96ea6118190a5ee509256213778923236d6f2f425fbcc8887baaa19d69b4a981\",\"src/components/focus-modality.tsx\":\"bd84bfcc0b37c0db4e35bc3b5fb08c2bd3e89b9eb5551ad359355cd4e099d70e\",\"src/components/preferences/preferences-controls.tsx\":\"d8f87696df67245b0c7a3128f48ccb021428f07c1c870f7bb40a3f55909da3dd\",\"src/components/preferences/preferences-provider.tsx\":\"9ee8199df54324a18eb6c88cf06946197fe6ea49b58800b8106053b2cbacf4cc\",\"src/components/research/math-text.tsx\":\"319fd25670cd539a20861304121f0bf8ea14bcc2ec11c29c71ed3c03f953c69e\",\"src/components/research/permutation-bridge-panel.tsx\":\"08ca406ae8d66bd11996a8da5876121de4e8e1763920d70114eac6cb12a72ca9\",\"src/components/shell/account-menu-actions.tsx\":\"3818f3c30f44d5a4913fee4366086b79bb3960b37fa2a95e4356498fd4a1d306\",\"src/components/shell/app-shell.tsx\":\"2e94e56a7c0f166541eaf3173fde8597c7e234524aa275b223ab10803fedf49e\",\"src/components/shell/mobile-nav.tsx\":\"a594159e0d86801ae2e20f5f58b2444632dfd7ddd1077817194dbb977340e80f\",\"src/components/shell/nav-item-link.tsx\":\"d3d22289148eeef91b6d2c24c93d041e381d810af45d27f7f4c5e8c3478aa6be\",\"src/components/shell/navigation.ts\":\"e3a756d7225cb881f770eefbc073c836e7f017f5f58f721df4f29dfd2811b022\",\"src/components/shell/sidebar-content.tsx\":\"3f3fe1f0aad2be2d46f3c73fd7d0b799a7e209b47e3dcc7a29dd43500bb0379b\",\"src/components/shell/sign-out-button.tsx\":\"d0df0707aa5f08045bdd93ae59e988ddffa100c3770b3f68c90395287ef5a748\",\"src/components/shell/top-header.tsx\":\"1188830398d58227baea959b9c031ef478cb6b46d0ae6f6da751633e69af4a1f\",\"src/components/shell/workspace-shell.tsx\":\"57fb3927521897bde5f830005ffa2a6545b889b1677d6707f196d67a1f3f2b78\",\"src/components/ui/button.tsx\":\"b9ac8ce3a3a89c9cfaf1f117e4e1c681ec3c0f824421ed671961d3a086ea40d2\",\"src/components/ui/panel.tsx\":\"df18c913edef96267ae49435c4d61061bbcb3265e2d959d9ec36ae01ff872a26\",\"src/components/ui/status-badge.tsx\":\"3ba33c1def426e4b7e5dc4fd92015afe6fbce209edbc309f6eac34be537187da\",\"src/i18n/config.ts\":\"6fddb6fcfb76a99bd3813d1a348349e0e676f4acfb7d745dec624d2d2e726a73\",\"src/i18n/permutation-bridge-copy.ts\":\"d2372de31c371a3144250c3e03c84bb6dd079a4bb5291d26e4a2e7200091fb76\",\"src/i18n/server.ts\":\"aa81f33aa8da3ab7e2f2fb72ad775eee34d30f9214790f5f838e1478d01132f3\",\"src/lib/auth-client.ts\":\"edb0e1bd53a813dc787d619cde5debff7d935363e13c281985e7dc62b26555e2\",\"src/modules/authorization/errors.ts\":\"c61d1c8364dad564ffd2e0eaeda0c87299a826a3404d7a3e95623d89181e291b\",\"src/modules/authorization/index.ts\":\"a1563720b504c99cf217567146c2426f2228dbbc8a28ac2718105a6241134ffa\",\"src/modules/authorization/kernel.ts\":\"3ac35eef9e95a65dd7d74750b76fe03c9ea3d08263d90f3470e637966d897b11\",\"src/modules/authorization/roles.ts\":\"5cf58853ea6222d599ffbb0c37108d73ac81f110b498e010275bed3d7a2f129e\",\"src/modules/command-runtime/contracts.ts\":\"0a678cf160db8ff5cfac05691e30f4e61a5cdc53f8ede995fd4dc26deb1e3e24\",\"src/modules/command-runtime/errors.ts\":\"bbe3ef50c07e304549f342dfbe20a03def75c75ccefb06612ce575937e7dd972\",\"src/modules/command-runtime/index.ts\":\"b141f701ab394ad299e0a7632335ad8164a5b09a75df97c1c1a75657ee76044c\",\"src/modules/command-runtime/jobs.ts\":\"052a37800a57d8541af4d071b69b5f2dc9f7cdd27a36e76d72fe47a491130789\",\"src/modules/command-runtime/kernel.ts\":\"81eab8a58400f0ebe5f61c12ac275c3c6c63ce22ad30c20a53c51e77521bfcc9\",\"src/modules/execution-fabric/contracts.ts\":\"61f6db26bdd8bb3b48025a5dddbd8f475fcd7f81e240ec24104994b0285f7637\",\"src/modules/execution-fabric/errors.ts\":\"5efed5bc8b9aa3555d634dc46796f2df93ed7cc655a10ef999ca711d055dc004\",\"src/modules/identity-workspace/audit.ts\":\"e6869915e8101b99d28452f580b72b7d7c6dc8e7d26d0d92960a011c2935f47b\",\"src/modules/identity-workspace/context.ts\":\"b6f346442c1850b57e4ea64ce1338677c521f3802968355cb27f790fb892f3a5\",\"src/modules/identity-workspace/errors.ts\":\"71f9da4c0c0cc76a243003faf0f9d8962333da1cded8a6b1996dcfc99b616951\",\"src/modules/identity-workspace/index.ts\":\"87812ea5809f7246ef22b80e5258fe6dfec252639c9b123652355911b7817c24\",\"src/modules/identity-workspace/permissions.ts\":\"8ffda9101743f8dc2d171914fea8fb992878830b4b72f72a3b366930fc381c18\",\"src/modules/permutation-bridge/checker.ts\":\"7b3f25a1bdcf041d0f938979deb4c0517591189927305b6c26c987aa06279ca4\",\"src/modules/permutation-bridge/contracts.ts\":\"1cf74bdd58b5ca135711638adf8fafd7ceeaeae3eae9f66d7349aa00c71b164b\",\"src/modules/permutation-bridge/index.ts\":\"12ece22721f121a5a89ee4fe312f71e80c8f31ef1190e0a95c0f8ea0821ef898\",\"src/modules/permutation-bridge/kernel.ts\":\"7d4237f432aac145155ecff3984e88b7b6fbb234100599a69aa9a635d215caa9\",\"src/modules/permutation-bridge/ledger.ts\":\"87956fe0ecc64634769b1e1383ddcb05d8adca1fbd0fdc2cecd32cd4894d6837\",\"src/modules/permutation-bridge/source.ts\":\"e6cf8388e3b8e59e8d5299aff95d391b5468b63f36f530f6155e428de7f07310\",\"src/modules/research-sandbox/math-tex.ts\":\"c99b343b18daf307991b37070e31a1fcda05bd4c6c51f4ee1a046be6a6198280\",\"src/modules/research-sandbox/research-core-v3/bounded-json.ts\":\"752b1cec9e865922c19e96134e40b04f405bc17bd43b8319da1ffbcf131683f1\",\"src/modules/research-sandbox/research-core-v3/types.ts\":\"f68a557a8f3bca9b6d3de03416dfcbad0d5d0a68d5d4c45fd1eb62750c9aef18\",\"src/server/auth/index.ts\":\"102aff45430fdf5eb4132c6bbae1c05e201de383dbe6f94ab8a8f8534b11df06\",\"src/server/auth/session.ts\":\"00d15f41e66f5aa928741465d6431bd2f8e3ee393f28d21c9af51cd9760b636c\",\"src/server/auth/workspace-page.ts\":\"254914ef2e94df685a1a47e0a7beac95330fee447dd44cefa0c5852e2fcdc471\",\"src/server/db.ts\":\"40cf6e193ac0929d9cc7b4d51374b4e38052b94fe3ab6f9f90575777aca43841\",\"src/server/env.ts\":\"f5d6e5258d8bb4628d85397d5682afb95ad18c1cfc5b8950e0925cc340f4e68c\",\"src/server/storage/index.ts\":\"09ab462e211600e523e9f52eb8d6f8afbdf4ab565e2b68b4f8c1e1dcecf0f4dc\",\"src/server/storage/local.ts\":\"b4b06cea1e80b8c7628bd790c0f2a00d729b0c0493b992528cc0d8be1bfb391e\",\"src/server/storage/s3.ts\":\"6080ae781eb859d9935303ea49c790765c65c3e49c1126c9f75f5d01c6b4218c\",\"src/server/storage/types.ts\":\"975cf6a5121939644ea9cc3cc48228d252b75596c21830db36bd1f653d3af8a7\",\"src/server/tenant-context.ts\":\"44e8f52a411757cc1755328d5c9b254e8b0afba02b60c5c42f5fb1a888487aa4\",\"tests/e2e/auth-helpers.ts\":\"8d8ce5aa1dc42680e59183b35446f646a1bc9ff3a31657cad7069a7b33a6d6bd\",\"tests/e2e/env.ts\":\"0abbc14a98e1e8763321c55f7ec3b1065b15d46bc82d889ee826b2488dc34653\",\"tests/e2e/permutation-bridge.spec.ts\":\"a11c1bb9a6a4e00648abfdb721dc275f6c9e6d42ed9e752e4356ebd529d06ce5\",\"tests/integration/helpers.ts\":\"86132fe06b78a77792d0399523c418e26ea994e07cc61720a1721d8e68d2fede\",\"tests/integration/permutation-bridge.test.ts\":\"457e2f0b4645576adf5354501a1d27715363137a8d1e499b28f227ca4ff6f630\",\"tests/unit/permutation-bridge-ui.test.ts\":\"e075dc9ee4107a9b8cbfaab06b69e4754e3789332e2fe9d4f7113bc4dc7538c8\",\"tests/unit/permutation-bridge.test.ts\":\"04babefd9041404c5fdfeb6b8d99b291516dfdeb555ab1c5fe6c94a1e8b990e2\",\"tests/unit/permutation-checker.test.ts\":\"fa609c817db66ccf77863a4d0c8e910191d36f09aefd0e4e7f1410ed1885bfe5\",\"vitest-tip080.config.ts\":\"7c8dcffb65d0de7bf29f85cb86cb1e30012708656921f9b5e6e5ea099f6fa056\"},\"version\":1}",
+        "upstreamAuthentication": "OPERATOR_IMPORT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED",
+        "sourcePreflightReadBytes": 460055
+      },
+      "eventDigest": "2479bea3d616dd367da59461ec540c92ab386cc28ebec6ed214c0fa6f42eac46"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 2,
+      "previousDigest": "2479bea3d616dd367da59461ec540c92ab386cc28ebec6ed214c0fa6f42eac46",
+      "commandId": "efd78b56-fc89-4093-8ffb-c05fdad8f2ef",
+      "kind": "START",
+      "at": "2026-10-06T06:13:01.884Z",
+      "detail": {
+        "approval": {
+          "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+          "purpose": "OWNER_RECORDING_READY_ONE_RUN_080",
+          "version": 1,
+          "expiresAt": "2026-10-06T07:15:00.000Z",
+          "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+          "noPaidApi": true,
+          "freshRoles": 4,
+          "provenance": "CODEX_ASSISTED",
+          "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+          "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+          "maximumRuns": 1,
+          "wallSeconds": 900,
+          "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+          "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+          "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+          "recordingReady": true
+        }
+      },
+      "eventDigest": "e41577b4afdea8f2ddb8c5eb2019c454de79208c7b4f207d9414acf008ac68eb"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 3,
+      "previousDigest": "e41577b4afdea8f2ddb8c5eb2019c454de79208c7b4f207d9414acf008ac68eb",
+      "commandId": "09dd15d3-ebf7-465b-8609-8aeca6c5b6e8",
+      "kind": "ROLE_RESERVED",
+      "at": "2026-10-06T06:13:18.237Z",
+      "detail": {
+        "role": "ATTEMPT",
+        "prompt": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/PROMPT-ATTEMPT/2ebd58bbc76540eb9102adeb3a3e6a52c518377616f5ace8e3360ca6d126b683.txt",
+          "bytes": 1066,
+          "digest": "2ebd58bbc76540eb9102adeb3a3e6a52c518377616f5ace8e3360ca6d126b683"
+        },
+        "promptDigest": "2ebd58bbc76540eb9102adeb3a3e6a52c518377616f5ace8e3360ca6d126b683"
+      },
+      "eventDigest": "15dab8b49735f66febf6fa7ba0215d7ab3b0997a1d2b2421b1576013b5dd438a"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 4,
+      "previousDigest": "15dab8b49735f66febf6fa7ba0215d7ab3b0997a1d2b2421b1576013b5dd438a",
+      "commandId": "847dbc6b-3525-4901-ad1d-4c98ec76c6c9",
+      "kind": "IMPORT_RETAINED",
+      "at": "2026-10-06T06:15:21.217Z",
+      "detail": {
+        "role": "ATTEMPT",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/ATTEMPT/88e4c88835482abd4c126996cecc798c3f37bc92a8a1ef8d324e5a19ea0b5427.txt",
+          "bytes": 4041,
+          "model": null,
+          "digest": "88e4c88835482abd4c126996cecc798c3f37bc92a8a1ef8d324e5a19ea0b5427",
+          "thread": "/root/permutation080_attempt",
+          "accepted": true,
+          "freshContextAttested": true
+        }
+      },
+      "eventDigest": "4ebbe83f9b10a5a4d1a4d010f9af49c2979f3a0fb297c8d482a6065c73174f70"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 5,
+      "previousDigest": "4ebbe83f9b10a5a4d1a4d010f9af49c2979f3a0fb297c8d482a6065c73174f70",
+      "commandId": "8e372148-27ea-4d1f-81bc-142d7c6195e9",
+      "kind": "ROLE_RESERVED",
+      "at": "2026-10-06T06:15:32.927Z",
+      "detail": {
+        "role": "CRITIC",
+        "prompt": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/PROMPT-CRITIC/1bc64199d3521feaf8d19bcb14e4906d4c6be7dee7e01feb94d45ac85769643d.txt",
+          "bytes": 5189,
+          "digest": "1bc64199d3521feaf8d19bcb14e4906d4c6be7dee7e01feb94d45ac85769643d"
+        },
+        "promptDigest": "1bc64199d3521feaf8d19bcb14e4906d4c6be7dee7e01feb94d45ac85769643d"
+      },
+      "eventDigest": "92da13b2905652b1f28f4cde3f32192047a261563440173eed7c006ee917ecf5"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 6,
+      "previousDigest": "92da13b2905652b1f28f4cde3f32192047a261563440173eed7c006ee917ecf5",
+      "commandId": "eda3917f-77a7-4802-bc94-d2ebe00ac650",
+      "kind": "IMPORT_RETAINED",
+      "at": "2026-10-06T06:16:40.688Z",
+      "detail": {
+        "role": "CRITIC",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/CRITIC/560fa3c67d891e5c86faa3d0d8d6731b4d8b8d2ff6a5a25969eea8ab933aecf6.txt",
+          "bytes": 4175,
+          "model": null,
+          "digest": "560fa3c67d891e5c86faa3d0d8d6731b4d8b8d2ff6a5a25969eea8ab933aecf6",
+          "thread": "/root/permutation080_critic",
+          "accepted": true,
+          "freshContextAttested": true
+        }
+      },
+      "eventDigest": "a563e31a91a4b9637f322538bd48e35cab04e92d386e50b11225ab242967a76a"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 7,
+      "previousDigest": "a563e31a91a4b9637f322538bd48e35cab04e92d386e50b11225ab242967a76a",
+      "commandId": "8e80fb6f-0444-4eb2-a972-e4ff0612e703",
+      "kind": "ROLE_RESERVED",
+      "at": "2026-10-06T06:16:48.084Z",
+      "detail": {
+        "role": "FINAL",
+        "prompt": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/PROMPT-FINAL/e22ac20f1c14a2aee8753a1a5ed4f6d4374f591a736d2483a6f3d1ff03af2a93.txt",
+          "bytes": 9690,
+          "digest": "e22ac20f1c14a2aee8753a1a5ed4f6d4374f591a736d2483a6f3d1ff03af2a93"
+        },
+        "promptDigest": "e22ac20f1c14a2aee8753a1a5ed4f6d4374f591a736d2483a6f3d1ff03af2a93"
+      },
+      "eventDigest": "4ab1aae5c053cc1844ef82883318156506375a7c5fb81d3c8127a0e389eb2ce2"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 8,
+      "previousDigest": "4ab1aae5c053cc1844ef82883318156506375a7c5fb81d3c8127a0e389eb2ce2",
+      "commandId": "f76a883b-c33d-48cd-b76b-7483ece29eb5",
+      "kind": "IMPORT_RETAINED",
+      "at": "2026-10-06T06:17:50.275Z",
+      "detail": {
+        "role": "FINAL",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/FINAL/cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1.txt",
+          "bytes": 3310,
+          "model": null,
+          "digest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+          "thread": "/root/permutation080_final",
+          "accepted": true,
+          "freshContextAttested": true
+        }
+      },
+      "eventDigest": "9f4b6df5cfcc22bcfc6010801628f51914e76b8d49c462297fe003d959f57ffb"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 9,
+      "previousDigest": "9f4b6df5cfcc22bcfc6010801628f51914e76b8d49c462297fe003d959f57ffb",
+      "commandId": "5ef3d92b-9ef2-46cf-8892-18d797b57af7",
+      "kind": "CHECKED",
+      "at": "2026-10-06T06:17:59.811Z",
+      "detail": {
+        "result": {
+          "reason": "ARITHMETIC_ONLY_MATCH_PROOF_REVIEW_REQUIRED",
+          "status": "SUPPORTED_UNDER_LEMMA_ARITHMETIC",
+          "binding": {
+            "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+            "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+            "finalDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+            "sourceBundleDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597"
+          },
+          "arithmetic": {
+            "n": "1000000000000",
+            "log10": {
+              "lower": {
+                "numerator": "23",
+                "denominator": "10"
+              },
+              "upper": {
+                "numerator": "231",
+                "denominator": "100"
+              },
+              "partial": {
+                "numerator": "6714579034858146244172921088148816422073728",
+                "denominator": "2916383892936159917587477271740677008736775"
+              },
+              "remainderUpper": {
+                "numerator": "10301051460877537453973547267843",
+                "denominator": "42227553490705105710912305084198420"
+              }
+            },
+            "seriesTerms": 16,
+            "derivedFloor": "499999999972",
+            "harmonicBounds": {
+              "lower": {
+                "numerator": "138",
+                "denominator": "5"
+              },
+              "upper": {
+                "numerator": "357071",
+                "denominator": "12600"
+              },
+              "strict": true
+            },
+            "expectationBounds": {
+              "lower": {
+                "numerator": "6299999999649229",
+                "denominator": "12600"
+              },
+              "upper": {
+                "numerator": "4999999999729",
+                "denominator": "10"
+              },
+              "strict": true
+            }
+          },
+          "assumptions": [
+            "Written maximum-root/postorder interval lemma: an inverse adjacent-value descent survives exactly when a larger label separates the reversed pair.",
+            "Uniform S_n relative-order symmetry, oriented adjacent-block counting and linearity of expectation give X=(n+1)/2-H_n.",
+            "Written integral comparison and finite geometric-series logarithm remainder justify the rational bounds; not machine-formalized foundations.",
+            "Only the arithmetic certificate is assessed; proof text requires separate NON-FORMAL argument review. No official score, novelty or model-ability acceptance."
+          ],
+          "formalProof": "NOT_ESTABLISHED",
+          "claimedFloor": "499999999972",
+          "measurements": {
+            "gcdIterations": 2196,
+            "peakIntegerBits": 258,
+            "rationalOperations": 76,
+            "elapsedMilliseconds": 1.4701249999925494
+          },
+          "officialScore": "NOT_ESTABLISHED",
+          "candidateDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+          "proofValidation": "NOT_VALIDATED_NON_FORMAL_REVIEW_REQUIRED",
+          "certificateDigest": "f58d9be310572624f2fa335055a7e5bd85ca319d7aff95058e9ca734cfdecfe0"
+        }
+      },
+      "eventDigest": "1dc79f9ee51d15aff85f84916fc0a2afadbdc3e728902b3e059ca4b9e669d056"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 10,
+      "previousDigest": "1dc79f9ee51d15aff85f84916fc0a2afadbdc3e728902b3e059ca4b9e669d056",
+      "commandId": "6ae4a3e5-b8b6-4378-b759-6104597d44fb",
+      "kind": "ROLE_RESERVED",
+      "at": "2026-10-06T06:18:07.111Z",
+      "detail": {
+        "role": "POSTREVIEW",
+        "prompt": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/PROMPT-POSTREVIEW/7184e2162b53869d02c109ec858b20c3bdd1765db8d44166bc2db3b5753f4cd8.txt",
+          "bytes": 6897,
+          "digest": "7184e2162b53869d02c109ec858b20c3bdd1765db8d44166bc2db3b5753f4cd8"
+        },
+        "promptDigest": "7184e2162b53869d02c109ec858b20c3bdd1765db8d44166bc2db3b5753f4cd8"
+      },
+      "eventDigest": "c7c14e204ba582364edfbb9053091d4c60bb40d33a123c451e39897ef5c956ab"
+    },
+    {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+      "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+      "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+      "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+      "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+      "provenance": "CODEX_ASSISTED",
+      "sequence": 11,
+      "previousDigest": "c7c14e204ba582364edfbb9053091d4c60bb40d33a123c451e39897ef5c956ab",
+      "commandId": "73c21be3-0e1d-48f4-b7fa-6b783aa37846",
+      "kind": "IMPORT_RETAINED",
+      "at": "2026-10-06T06:19:06.180Z",
+      "detail": {
+        "role": "POSTREVIEW",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/POSTREVIEW/858171f27ff9e3b5cb20891ae2e7963b9dd4f7bcb9ebb2223a1e3964b826386e.txt",
+          "bytes": 6183,
+          "model": null,
+          "digest": "858171f27ff9e3b5cb20891ae2e7963b9dd4f7bcb9ebb2223a1e3964b826386e",
+          "thread": "/root/permutation080_postreview",
+          "accepted": true,
+          "freshContextAttested": true
+        }
+      },
+      "eventDigest": "87b4ad1ec0af42b44bdcfbc9b2474d427de9b0e066e6787b8d7e7b6614be3527"
+    }
+  ],
+  "state": {
+    "status": "COMPLETED",
+    "startedAt": "2026-10-06T06:13:01.884Z",
+    "deadlineAt": "2026-10-06T06:28:01.884Z",
+    "stages": [
+      {
+        "role": "ATTEMPT",
+        "promptDigest": "2ebd58bbc76540eb9102adeb3a3e6a52c518377616f5ace8e3360ca6d126b683",
+        "reservedAt": "2026-10-06T06:13:18.237Z",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/ATTEMPT/88e4c88835482abd4c126996cecc798c3f37bc92a8a1ef8d324e5a19ea0b5427.txt",
+          "digest": "88e4c88835482abd4c126996cecc798c3f37bc92a8a1ef8d324e5a19ea0b5427",
+          "bytes": 4041,
+          "accepted": true,
+          "model": null,
+          "thread": "/root/permutation080_attempt",
+          "freshContextAttested": true
+        }
+      },
+      {
+        "role": "CRITIC",
+        "promptDigest": "1bc64199d3521feaf8d19bcb14e4906d4c6be7dee7e01feb94d45ac85769643d",
+        "reservedAt": "2026-10-06T06:15:32.927Z",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/CRITIC/560fa3c67d891e5c86faa3d0d8d6731b4d8b8d2ff6a5a25969eea8ab933aecf6.txt",
+          "digest": "560fa3c67d891e5c86faa3d0d8d6731b4d8b8d2ff6a5a25969eea8ab933aecf6",
+          "bytes": 4175,
+          "accepted": true,
+          "model": null,
+          "thread": "/root/permutation080_critic",
+          "freshContextAttested": true
+        }
+      },
+      {
+        "role": "FINAL",
+        "promptDigest": "e22ac20f1c14a2aee8753a1a5ed4f6d4374f591a736d2483a6f3d1ff03af2a93",
+        "reservedAt": "2026-10-06T06:16:48.084Z",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/FINAL/cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1.txt",
+          "digest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+          "bytes": 3310,
+          "accepted": true,
+          "model": null,
+          "thread": "/root/permutation080_final",
+          "freshContextAttested": true
+        }
+      },
+      {
+        "role": "POSTREVIEW",
+        "promptDigest": "7184e2162b53869d02c109ec858b20c3bdd1765db8d44166bc2db3b5753f4cd8",
+        "reservedAt": "2026-10-06T06:18:07.111Z",
+        "original": {
+          "key": "392166c0-cf16-444c-89eb-f08628bb6f37/permutation-080/8ec3fa5b-d423-4055-85ba-c2764ace4fdf/POSTREVIEW/858171f27ff9e3b5cb20891ae2e7963b9dd4f7bcb9ebb2223a1e3964b826386e.txt",
+          "digest": "858171f27ff9e3b5cb20891ae2e7963b9dd4f7bcb9ebb2223a1e3964b826386e",
+          "bytes": 6183,
+          "accepted": true,
+          "model": null,
+          "thread": "/root/permutation080_postreview",
+          "freshContextAttested": true
+        }
+      }
+    ],
+    "reason": null,
+    "checker": {
+      "status": "SUPPORTED_UNDER_LEMMA_ARITHMETIC",
+      "reason": "ARITHMETIC_ONLY_MATCH_PROOF_REVIEW_REQUIRED",
+      "binding": {
+        "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+        "finalDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+        "sourceBundleDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+        "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454"
+      },
+      "candidateDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+      "certificateDigest": "f58d9be310572624f2fa335055a7e5bd85ca319d7aff95058e9ca734cfdecfe0",
+      "claimedFloor": "499999999972",
+      "arithmetic": {
+        "n": "1000000000000",
+        "seriesTerms": 16,
+        "derivedFloor": "499999999972",
+        "log10": {
+          "partial": {
+            "numerator": "6714579034858146244172921088148816422073728",
+            "denominator": "2916383892936159917587477271740677008736775"
+          },
+          "remainderUpper": {
+            "numerator": "10301051460877537453973547267843",
+            "denominator": "42227553490705105710912305084198420"
+          },
+          "lower": {
+            "numerator": "23",
+            "denominator": "10"
+          },
+          "upper": {
+            "numerator": "231",
+            "denominator": "100"
+          }
+        },
+        "harmonicBounds": {
+          "lower": {
+            "numerator": "138",
+            "denominator": "5"
+          },
+          "upper": {
+            "numerator": "357071",
+            "denominator": "12600"
+          },
+          "strict": true
+        },
+        "expectationBounds": {
+          "lower": {
+            "numerator": "6299999999649229",
+            "denominator": "12600"
+          },
+          "upper": {
+            "numerator": "4999999999729",
+            "denominator": "10"
+          },
+          "strict": true
+        }
+      },
+      "assumptions": [
+        "Written maximum-root/postorder interval lemma: an inverse adjacent-value descent survives exactly when a larger label separates the reversed pair.",
+        "Uniform S_n relative-order symmetry, oriented adjacent-block counting and linearity of expectation give X=(n+1)/2-H_n.",
+        "Written integral comparison and finite geometric-series logarithm remainder justify the rational bounds; not machine-formalized foundations.",
+        "Only the arithmetic certificate is assessed; proof text requires separate NON-FORMAL argument review. No official score, novelty or model-ability acceptance."
+      ],
+      "proofValidation": "NOT_VALIDATED_NON_FORMAL_REVIEW_REQUIRED",
+      "formalProof": "NOT_ESTABLISHED",
+      "officialScore": "NOT_ESTABLISHED",
+      "measurements": {
+        "elapsedMilliseconds": 1.4701249999925494,
+        "rationalOperations": 76,
+        "gcdIterations": 2196,
+        "peakIntegerBits": 258
+      }
+    }
+  },
+  "failed": [],
+  "sourceBundle": {
+    "version": 1,
+    "purpose": "CODEX_ASSISTED_PERMUTATIONS",
+    "reviewer": "MAIN_INDEPENDENT_SOURCE_REVIEW",
+    "reviewReport": "docs/verification/TIP-080_SOURCE_REVIEW.md",
+    "reviewDigest": "3c3669859473eff04660b9b9ac7d9026defd3da6cf1e7dfb3aa95f2863a91465",
+    "sourcePins": {
+      "docs/contractor/tips/TIP-080_CODEX_ASSISTED_PERMUTATIONS.md": "2a96608888f9300509b1bb505e97cce047b6e8b9846965f375c7b15e159c5fe8",
+      "docs/research/PERMUTATION_CHECKER_LEMMA.md": "29e8fb05a3a0b1ac03237d9a32be4329b66e0ccf7a542b68ccd526ef24850617",
+      "next.config.ts": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "postcss.config.mjs": "7f3b03516f1aa19056022b209cc174e61f786ec3183e56bf2db464ee9e4c8da5",
+      "scripts/operations/install-permutation-bridge-source.ts": "527ca3a2686d2de098349a6dfc5b23740a52264944d828f0e1ddc729924776e9",
+      "scripts/test/build-tip080.mjs": "faa4cea740c45175ccb138b35f9ff33317be138265fe435196c42efe68445e9a",
+      "scripts/test/playwright-tip080.config.ts": "6c7aca55ddf5c164df05e618c968a1c8b41d142981e51adac5c27b9639fc8bc0",
+      "scripts/test/start-tip080-standalone.mjs": "d7ddaea8de0af48101b472c49891733b8d3f5c1f010d2f1bc3c86050b32e3034",
+      "src/app/actions/permutation-bridge.ts": "9c63ba6031f449175db5da420125e0594af5bb83217d1272ef25942a26da8c72",
+      "src/app/api/w/[workspaceSlug]/research/permutations/[runId]/export/route.ts": "142b10e6730c7cede45e936816ebde588e64278797147064422e8bb942b1d402",
+      "src/app/globals.css": "1849de86bdafda40f8edf662161f07185298658dc043b017d9be3b5172de2d4e",
+      "src/app/layout.tsx": "71808baab414296871b755b14dc3d8c42d9e0a24da4d1141e68dd4c4d79190ce",
+      "src/app/w/[workspaceSlug]/research/permutations/page.tsx": "96ea6118190a5ee509256213778923236d6f2f425fbcc8887baaa19d69b4a981",
+      "src/components/focus-modality.tsx": "bd84bfcc0b37c0db4e35bc3b5fb08c2bd3e89b9eb5551ad359355cd4e099d70e",
+      "src/components/preferences/preferences-controls.tsx": "d8f87696df67245b0c7a3128f48ccb021428f07c1c870f7bb40a3f55909da3dd",
+      "src/components/preferences/preferences-provider.tsx": "9ee8199df54324a18eb6c88cf06946197fe6ea49b58800b8106053b2cbacf4cc",
+      "src/components/research/math-text.tsx": "319fd25670cd539a20861304121f0bf8ea14bcc2ec11c29c71ed3c03f953c69e",
+      "src/components/research/permutation-bridge-panel.tsx": "08ca406ae8d66bd11996a8da5876121de4e8e1763920d70114eac6cb12a72ca9",
+      "src/components/shell/account-menu-actions.tsx": "3818f3c30f44d5a4913fee4366086b79bb3960b37fa2a95e4356498fd4a1d306",
+      "src/components/shell/app-shell.tsx": "2e94e56a7c0f166541eaf3173fde8597c7e234524aa275b223ab10803fedf49e",
+      "src/components/shell/mobile-nav.tsx": "a594159e0d86801ae2e20f5f58b2444632dfd7ddd1077817194dbb977340e80f",
+      "src/components/shell/nav-item-link.tsx": "d3d22289148eeef91b6d2c24c93d041e381d810af45d27f7f4c5e8c3478aa6be",
+      "src/components/shell/navigation.ts": "e3a756d7225cb881f770eefbc073c836e7f017f5f58f721df4f29dfd2811b022",
+      "src/components/shell/sidebar-content.tsx": "3f3fe1f0aad2be2d46f3c73fd7d0b799a7e209b47e3dcc7a29dd43500bb0379b",
+      "src/components/shell/sign-out-button.tsx": "d0df0707aa5f08045bdd93ae59e988ddffa100c3770b3f68c90395287ef5a748",
+      "src/components/shell/top-header.tsx": "1188830398d58227baea959b9c031ef478cb6b46d0ae6f6da751633e69af4a1f",
+      "src/components/shell/workspace-shell.tsx": "57fb3927521897bde5f830005ffa2a6545b889b1677d6707f196d67a1f3f2b78",
+      "src/components/ui/button.tsx": "b9ac8ce3a3a89c9cfaf1f117e4e1c681ec3c0f824421ed671961d3a086ea40d2",
+      "src/components/ui/panel.tsx": "df18c913edef96267ae49435c4d61061bbcb3265e2d959d9ec36ae01ff872a26",
+      "src/components/ui/status-badge.tsx": "3ba33c1def426e4b7e5dc4fd92015afe6fbce209edbc309f6eac34be537187da",
+      "src/i18n/config.ts": "6fddb6fcfb76a99bd3813d1a348349e0e676f4acfb7d745dec624d2d2e726a73",
+      "src/i18n/permutation-bridge-copy.ts": "d2372de31c371a3144250c3e03c84bb6dd079a4bb5291d26e4a2e7200091fb76",
+      "src/i18n/server.ts": "aa81f33aa8da3ab7e2f2fb72ad775eee34d30f9214790f5f838e1478d01132f3",
+      "src/lib/auth-client.ts": "edb0e1bd53a813dc787d619cde5debff7d935363e13c281985e7dc62b26555e2",
+      "src/modules/authorization/errors.ts": "c61d1c8364dad564ffd2e0eaeda0c87299a826a3404d7a3e95623d89181e291b",
+      "src/modules/authorization/index.ts": "a1563720b504c99cf217567146c2426f2228dbbc8a28ac2718105a6241134ffa",
+      "src/modules/authorization/kernel.ts": "3ac35eef9e95a65dd7d74750b76fe03c9ea3d08263d90f3470e637966d897b11",
+      "src/modules/authorization/roles.ts": "5cf58853ea6222d599ffbb0c37108d73ac81f110b498e010275bed3d7a2f129e",
+      "src/modules/command-runtime/contracts.ts": "0a678cf160db8ff5cfac05691e30f4e61a5cdc53f8ede995fd4dc26deb1e3e24",
+      "src/modules/command-runtime/errors.ts": "bbe3ef50c07e304549f342dfbe20a03def75c75ccefb06612ce575937e7dd972",
+      "src/modules/command-runtime/index.ts": "b141f701ab394ad299e0a7632335ad8164a5b09a75df97c1c1a75657ee76044c",
+      "src/modules/command-runtime/jobs.ts": "052a37800a57d8541af4d071b69b5f2dc9f7cdd27a36e76d72fe47a491130789",
+      "src/modules/command-runtime/kernel.ts": "81eab8a58400f0ebe5f61c12ac275c3c6c63ce22ad30c20a53c51e77521bfcc9",
+      "src/modules/execution-fabric/contracts.ts": "61f6db26bdd8bb3b48025a5dddbd8f475fcd7f81e240ec24104994b0285f7637",
+      "src/modules/execution-fabric/errors.ts": "5efed5bc8b9aa3555d634dc46796f2df93ed7cc655a10ef999ca711d055dc004",
+      "src/modules/identity-workspace/audit.ts": "e6869915e8101b99d28452f580b72b7d7c6dc8e7d26d0d92960a011c2935f47b",
+      "src/modules/identity-workspace/context.ts": "b6f346442c1850b57e4ea64ce1338677c521f3802968355cb27f790fb892f3a5",
+      "src/modules/identity-workspace/errors.ts": "71f9da4c0c0cc76a243003faf0f9d8962333da1cded8a6b1996dcfc99b616951",
+      "src/modules/identity-workspace/index.ts": "87812ea5809f7246ef22b80e5258fe6dfec252639c9b123652355911b7817c24",
+      "src/modules/identity-workspace/permissions.ts": "8ffda9101743f8dc2d171914fea8fb992878830b4b72f72a3b366930fc381c18",
+      "src/modules/permutation-bridge/checker.ts": "7b3f25a1bdcf041d0f938979deb4c0517591189927305b6c26c987aa06279ca4",
+      "src/modules/permutation-bridge/contracts.ts": "1cf74bdd58b5ca135711638adf8fafd7ceeaeae3eae9f66d7349aa00c71b164b",
+      "src/modules/permutation-bridge/index.ts": "12ece22721f121a5a89ee4fe312f71e80c8f31ef1190e0a95c0f8ea0821ef898",
+      "src/modules/permutation-bridge/kernel.ts": "7d4237f432aac145155ecff3984e88b7b6fbb234100599a69aa9a635d215caa9",
+      "src/modules/permutation-bridge/ledger.ts": "87956fe0ecc64634769b1e1383ddcb05d8adca1fbd0fdc2cecd32cd4894d6837",
+      "src/modules/permutation-bridge/source.ts": "e6cf8388e3b8e59e8d5299aff95d391b5468b63f36f530f6155e428de7f07310",
+      "src/modules/research-sandbox/math-tex.ts": "c99b343b18daf307991b37070e31a1fcda05bd4c6c51f4ee1a046be6a6198280",
+      "src/modules/research-sandbox/research-core-v3/bounded-json.ts": "752b1cec9e865922c19e96134e40b04f405bc17bd43b8319da1ffbcf131683f1",
+      "src/modules/research-sandbox/research-core-v3/types.ts": "f68a557a8f3bca9b6d3de03416dfcbad0d5d0a68d5d4c45fd1eb62750c9aef18",
+      "src/server/auth/index.ts": "102aff45430fdf5eb4132c6bbae1c05e201de383dbe6f94ab8a8f8534b11df06",
+      "src/server/auth/session.ts": "00d15f41e66f5aa928741465d6431bd2f8e3ee393f28d21c9af51cd9760b636c",
+      "src/server/auth/workspace-page.ts": "254914ef2e94df685a1a47e0a7beac95330fee447dd44cefa0c5852e2fcdc471",
+      "src/server/db.ts": "40cf6e193ac0929d9cc7b4d51374b4e38052b94fe3ab6f9f90575777aca43841",
+      "src/server/env.ts": "f5d6e5258d8bb4628d85397d5682afb95ad18c1cfc5b8950e0925cc340f4e68c",
+      "src/server/storage/index.ts": "09ab462e211600e523e9f52eb8d6f8afbdf4ab565e2b68b4f8c1e1dcecf0f4dc",
+      "src/server/storage/local.ts": "b4b06cea1e80b8c7628bd790c0f2a00d729b0c0493b992528cc0d8be1bfb391e",
+      "src/server/storage/s3.ts": "6080ae781eb859d9935303ea49c790765c65c3e49c1126c9f75f5d01c6b4218c",
+      "src/server/storage/types.ts": "975cf6a5121939644ea9cc3cc48228d252b75596c21830db36bd1f653d3af8a7",
+      "src/server/tenant-context.ts": "44e8f52a411757cc1755328d5c9b254e8b0afba02b60c5c42f5fb1a888487aa4",
+      "tests/e2e/auth-helpers.ts": "8d8ce5aa1dc42680e59183b35446f646a1bc9ff3a31657cad7069a7b33a6d6bd",
+      "tests/e2e/env.ts": "0abbc14a98e1e8763321c55f7ec3b1065b15d46bc82d889ee826b2488dc34653",
+      "tests/e2e/permutation-bridge.spec.ts": "a11c1bb9a6a4e00648abfdb721dc275f6c9e6d42ed9e752e4356ebd529d06ce5",
+      "tests/integration/helpers.ts": "86132fe06b78a77792d0399523c418e26ea994e07cc61720a1721d8e68d2fede",
+      "tests/integration/permutation-bridge.test.ts": "457e2f0b4645576adf5354501a1d27715363137a8d1e499b28f227ca4ff6f630",
+      "tests/unit/permutation-bridge-ui.test.ts": "e075dc9ee4107a9b8cbfaab06b69e4754e3789332e2fe9d4f7113bc4dc7538c8",
+      "tests/unit/permutation-bridge.test.ts": "04babefd9041404c5fdfeb6b8d99b291516dfdeb555ab1c5fe6c94a1e8b990e2",
+      "tests/unit/permutation-checker.test.ts": "fa609c817db66ccf77863a4d0c8e910191d36f09aefd0e4e7f1410ed1885bfe5",
+      "vitest-tip080.config.ts": "7c8dcffb65d0de7bf29f85cb86cb1e30012708656921f9b5e6e5ea099f6fa056"
+    }
+  },
+  "originals": [
+    {
+      "role": "ATTEMPT",
+      "digest": "88e4c88835482abd4c126996cecc798c3f37bc92a8a1ef8d324e5a19ea0b5427",
+      "bytes": 4041,
+      "accepted": true,
+      "text": "The requested integer is 499999999972.\n\nFirst I determine the expected value exactly. For any word of distinct letters, take two letters a<b and consider the contiguous interval in the original word whose endpoints are a and b. The following observation follows from the recursive definition of F:\n\nIf the maximum of this interval is b, then a precedes b in F(w). If the interval contains a letter greater than b, then the relative order of a and b in F(w) is their original relative order.\n\nHere is a justification that also handles letters outside the interval. At any step of the recursion, if the maximum of the current word lies outside the interval between the two letters, both letters belong to the same recursive subword. We can therefore descend into that subword. Eventually the maximum is in the interval. If it is b, the definition puts b after every letter of its current subword, including a. Otherwise the maximum lies strictly between the two endpoints and exceeds b. The two letters then lie in the two different recursive subwords, and F concatenates those subwords in their original left-to-right order. Their relative order is consequently preserved. This proves the observation.\n\nApply it to a=i and b=i+1. The event that i+1 precedes i in F(sigma) occurs exactly when both of the following hold:\n\n(1) i+1 precedes i in sigma;\n(2) at least one letter greater than i+1 lies between them in sigma.\n\nLet k=n-i-1 be the number of letters greater than i+1. Delete all letters other than i, i+1, and these k greater letters. Their relative order is a uniform permutation of k+2 distinct letters. Condition (2) fails exactly when i and i+1 are adjacent in this reduced permutation. The probability of adjacency is\n\n\\[\n\\frac{2(k+1)!}{(k+2)!}=\\frac{2}{k+2}.\n\\]\n\nSwapping the labels i and i+1 preserves adjacency or nonadjacency and reverses which of them comes first. Therefore exactly half of the nonadjacent cases satisfy (1). It follows that\n\n\\[\n\\Pr\\bigl(\\operatorname{pos}_{F(\\sigma)}(i+1)\n <\\operatorname{pos}_{F(\\sigma)}(i)\\bigr)\n=\\frac12\\left(1-\\frac{2}{n-i+1}\\right)\n=\\frac12-\\frac{1}{n-i+1}.\n\\]\n\nBy linearity of expectation, with H_n denoting the nth harmonic number,\n\n\\[\nX=\\sum_{i=1}^{n-1}\\left(\\frac12-\\frac{1}{n-i+1}\\right)\n=\\frac{n-1}{2}-(H_n-1)\n=\\frac{n+1}{2}-H_n.\n\\]\n\nFor completeness, I give elementary rigorous bounds sufficient to take the floor at the specified large n, without relying on floating-point evaluation. I will show\n\n\\[\n\\frac{55}{2}<H_{10^{12}}<\\frac{57}{2}.\n\\]\n\nThe identity\n\n\\[\n\\log\\frac{1+t}{1-t}\n=2\\sum_{j=0}^{\\infty}\\frac{t^{2j+1}}{2j+1}\n\\qquad (0<t<1)\n\\]\n\nfollows by integrating the geometric series for 2/(1-t^2). All its terms are positive. Substituting t=1/2 gives the series for log 3, while t=1/19 gives the series for log(10/9). Thus\n\n\\[\n\\begin{aligned}\n\\log 10\n&=2\\log 3+\\log(10/9)\\\\\n&>2\\left(1+\\frac1{12}+\\frac1{80}+\\frac1{448}\\right)+\\frac2{19}\\\\\n&=\\frac{23}{10}+\\frac{89}{63840}\n>\\frac{23}{10}.\n\\end{aligned}\n\\]\n\nFor an upper bound, the tail of the log 3 series starting at j=2 is strictly less than the geometric bound obtained by replacing all its denominators by 5. Hence\n\n\\[\n\\log 3\n<1+\\frac1{12}+\\frac25\\sum_{j=2}^{\\infty}(1/2)^{2j+1}\n=1+\\frac1{12}+\\frac1{60}\n=\\frac{11}{10}.\n\\]\n\nSimilarly, replacing all the denominators in the other series by 1 gives\n\n\\[\n\\log(10/9)\n<2\\sum_{j=0}^{\\infty}(1/19)^{2j+1}\n=\\frac{19}{180}.\n\\]\n\nConsequently\n\n\\[\n\\log 10<\\frac{11}{5}+\\frac{19}{180}=\\frac{83}{36}.\n\\]\n\nSince 1/x is decreasing, integral comparison gives\n\n\\[\nH_n>\\log n\n\\quad\\text{and}\\quad\nH_n\\leq H_{10}+\\int_{10}^{n}\\frac{dx}{x}\n=H_{10}+\\log(n/10)\n\\qquad(n\\geq 10).\n\\]\n\nAt n=10^{12}, using H_10=7381/2520, these bounds imply\n\n\\[\nH_n>12\\cdot\\frac{23}{10}=\\frac{138}{5}>\\frac{55}{2},\n\\]\n\nand\n\n\\[\nH_n<\\frac{7381}{2520}+11\\cdot\\frac{83}{36}\n=\\frac{71291}{2520}\n<\\frac{71820}{2520}=\\frac{57}{2}.\n\\]\n\nFinally n/2=500000000000, so\n\n\\[\nX=500000000000+\\frac12-H_n.\n\\]\n\nThe bounds just proved give\n\n\\[\n499999999972<X<499999999973.\n\\]\n\nTherefore\n\n\\[\n\\boxed{\\lfloor X\\rfloor=499999999972}.\n\\]\n",
+      "base64": "VGhlIHJlcXVlc3RlZCBpbnRlZ2VyIGlzIDQ5OTk5OTk5OTk3Mi4KCkZpcnN0IEkgZGV0ZXJtaW5lIHRoZSBleHBlY3RlZCB2YWx1ZSBleGFjdGx5LiBGb3IgYW55IHdvcmQgb2YgZGlzdGluY3QgbGV0dGVycywgdGFrZSB0d28gbGV0dGVycyBhPGIgYW5kIGNvbnNpZGVyIHRoZSBjb250aWd1b3VzIGludGVydmFsIGluIHRoZSBvcmlnaW5hbCB3b3JkIHdob3NlIGVuZHBvaW50cyBhcmUgYSBhbmQgYi4gVGhlIGZvbGxvd2luZyBvYnNlcnZhdGlvbiBmb2xsb3dzIGZyb20gdGhlIHJlY3Vyc2l2ZSBkZWZpbml0aW9uIG9mIEY6CgpJZiB0aGUgbWF4aW11bSBvZiB0aGlzIGludGVydmFsIGlzIGIsIHRoZW4gYSBwcmVjZWRlcyBiIGluIEYodykuIElmIHRoZSBpbnRlcnZhbCBjb250YWlucyBhIGxldHRlciBncmVhdGVyIHRoYW4gYiwgdGhlbiB0aGUgcmVsYXRpdmUgb3JkZXIgb2YgYSBhbmQgYiBpbiBGKHcpIGlzIHRoZWlyIG9yaWdpbmFsIHJlbGF0aXZlIG9yZGVyLgoKSGVyZSBpcyBhIGp1c3RpZmljYXRpb24gdGhhdCBhbHNvIGhhbmRsZXMgbGV0dGVycyBvdXRzaWRlIHRoZSBpbnRlcnZhbC4gQXQgYW55IHN0ZXAgb2YgdGhlIHJlY3Vyc2lvbiwgaWYgdGhlIG1heGltdW0gb2YgdGhlIGN1cnJlbnQgd29yZCBsaWVzIG91dHNpZGUgdGhlIGludGVydmFsIGJldHdlZW4gdGhlIHR3byBsZXR0ZXJzLCBib3RoIGxldHRlcnMgYmVsb25nIHRvIHRoZSBzYW1lIHJlY3Vyc2l2ZSBzdWJ3b3JkLiBXZSBjYW4gdGhlcmVmb3JlIGRlc2NlbmQgaW50byB0aGF0IHN1YndvcmQuIEV2ZW50dWFsbHkgdGhlIG1heGltdW0gaXMgaW4gdGhlIGludGVydmFsLiBJZiBpdCBpcyBiLCB0aGUgZGVmaW5pdGlvbiBwdXRzIGIgYWZ0ZXIgZXZlcnkgbGV0dGVyIG9mIGl0cyBjdXJyZW50IHN1YndvcmQsIGluY2x1ZGluZyBhLiBPdGhlcndpc2UgdGhlIG1heGltdW0gbGllcyBzdHJpY3RseSBiZXR3ZWVuIHRoZSB0d28gZW5kcG9pbnRzIGFuZCBleGNlZWRzIGIuIFRoZSB0d28gbGV0dGVycyB0aGVuIGxpZSBpbiB0aGUgdHdvIGRpZmZlcmVudCByZWN1cnNpdmUgc3Vid29yZHMsIGFuZCBGIGNvbmNhdGVuYXRlcyB0aG9zZSBzdWJ3b3JkcyBpbiB0aGVpciBvcmlnaW5hbCBsZWZ0LXRvLXJpZ2h0IG9yZGVyLiBUaGVpciByZWxhdGl2ZSBvcmRlciBpcyBjb25zZXF1ZW50bHkgcHJlc2VydmVkLiBUaGlzIHByb3ZlcyB0aGUgb2JzZXJ2YXRpb24uCgpBcHBseSBpdCB0byBhPWkgYW5kIGI9aSsxLiBUaGUgZXZlbnQgdGhhdCBpKzEgcHJlY2VkZXMgaSBpbiBGKHNpZ21hKSBvY2N1cnMgZXhhY3RseSB3aGVuIGJvdGggb2YgdGhlIGZvbGxvd2luZyBob2xkOgoKKDEpIGkrMSBwcmVjZWRlcyBpIGluIHNpZ21hOwooMikgYXQgbGVhc3Qgb25lIGxldHRlciBncmVhdGVyIHRoYW4gaSsxIGxpZXMgYmV0d2VlbiB0aGVtIGluIHNpZ21hLgoKTGV0IGs9bi1pLTEgYmUgdGhlIG51bWJlciBvZiBsZXR0ZXJzIGdyZWF0ZXIgdGhhbiBpKzEuIERlbGV0ZSBhbGwgbGV0dGVycyBvdGhlciB0aGFuIGksIGkrMSwgYW5kIHRoZXNlIGsgZ3JlYXRlciBsZXR0ZXJzLiBUaGVpciByZWxhdGl2ZSBvcmRlciBpcyBhIHVuaWZvcm0gcGVybXV0YXRpb24gb2YgaysyIGRpc3RpbmN0IGxldHRlcnMuIENvbmRpdGlvbiAoMikgZmFpbHMgZXhhY3RseSB3aGVuIGkgYW5kIGkrMSBhcmUgYWRqYWNlbnQgaW4gdGhpcyByZWR1Y2VkIHBlcm11dGF0aW9uLiBUaGUgcHJvYmFiaWxpdHkgb2YgYWRqYWNlbmN5IGlzCgpcWwpcZnJhY3syKGsrMSkhfXsoaysyKSF9PVxmcmFjezJ9e2srMn0uClxdCgpTd2FwcGluZyB0aGUgbGFiZWxzIGkgYW5kIGkrMSBwcmVzZXJ2ZXMgYWRqYWNlbmN5IG9yIG5vbmFkamFjZW5jeSBhbmQgcmV2ZXJzZXMgd2hpY2ggb2YgdGhlbSBjb21lcyBmaXJzdC4gVGhlcmVmb3JlIGV4YWN0bHkgaGFsZiBvZiB0aGUgbm9uYWRqYWNlbnQgY2FzZXMgc2F0aXNmeSAoMSkuIEl0IGZvbGxvd3MgdGhhdAoKXFsKXFByXGJpZ2woXG9wZXJhdG9ybmFtZXtwb3N9X3tGKFxzaWdtYSl9KGkrMSkKIDxcb3BlcmF0b3JuYW1le3Bvc31fe0YoXHNpZ21hKX0oaSlcYmlncikKPVxmcmFjMTJcbGVmdCgxLVxmcmFjezJ9e24taSsxfVxyaWdodCkKPVxmcmFjMTItXGZyYWN7MX17bi1pKzF9LgpcXQoKQnkgbGluZWFyaXR5IG9mIGV4cGVjdGF0aW9uLCB3aXRoIEhfbiBkZW5vdGluZyB0aGUgbnRoIGhhcm1vbmljIG51bWJlciwKClxbClg9XHN1bV97aT0xfV57bi0xfVxsZWZ0KFxmcmFjMTItXGZyYWN7MX17bi1pKzF9XHJpZ2h0KQo9XGZyYWN7bi0xfXsyfS0oSF9uLTEpCj1cZnJhY3tuKzF9ezJ9LUhfbi4KXF0KCkZvciBjb21wbGV0ZW5lc3MsIEkgZ2l2ZSBlbGVtZW50YXJ5IHJpZ29yb3VzIGJvdW5kcyBzdWZmaWNpZW50IHRvIHRha2UgdGhlIGZsb29yIGF0IHRoZSBzcGVjaWZpZWQgbGFyZ2Ugbiwgd2l0aG91dCByZWx5aW5nIG9uIGZsb2F0aW5nLXBvaW50IGV2YWx1YXRpb24uIEkgd2lsbCBzaG93CgpcWwpcZnJhY3s1NX17Mn08SF97MTBeezEyfX08XGZyYWN7NTd9ezJ9LgpcXQoKVGhlIGlkZW50aXR5CgpcWwpcbG9nXGZyYWN7MSt0fXsxLXR9Cj0yXHN1bV97aj0wfV57XGluZnR5fVxmcmFje3ReezJqKzF9fXsyaisxfQpccXF1YWQgKDA8dDwxKQpcXQoKZm9sbG93cyBieSBpbnRlZ3JhdGluZyB0aGUgZ2VvbWV0cmljIHNlcmllcyBmb3IgMi8oMS10XjIpLiBBbGwgaXRzIHRlcm1zIGFyZSBwb3NpdGl2ZS4gU3Vic3RpdHV0aW5nIHQ9MS8yIGdpdmVzIHRoZSBzZXJpZXMgZm9yIGxvZyAzLCB3aGlsZSB0PTEvMTkgZ2l2ZXMgdGhlIHNlcmllcyBmb3IgbG9nKDEwLzkpLiBUaHVzCgpcWwpcYmVnaW57YWxpZ25lZH0KXGxvZyAxMAomPTJcbG9nIDMrXGxvZygxMC85KVxcCiY+MlxsZWZ0KDErXGZyYWMxezEyfStcZnJhYzF7ODB9K1xmcmFjMXs0NDh9XHJpZ2h0KStcZnJhYzJ7MTl9XFwKJj1cZnJhY3syM317MTB9K1xmcmFjezg5fXs2Mzg0MH0KPlxmcmFjezIzfXsxMH0uClxlbmR7YWxpZ25lZH0KXF0KCkZvciBhbiB1cHBlciBib3VuZCwgdGhlIHRhaWwgb2YgdGhlIGxvZyAzIHNlcmllcyBzdGFydGluZyBhdCBqPTIgaXMgc3RyaWN0bHkgbGVzcyB0aGFuIHRoZSBnZW9tZXRyaWMgYm91bmQgb2J0YWluZWQgYnkgcmVwbGFjaW5nIGFsbCBpdHMgZGVub21pbmF0b3JzIGJ5IDUuIEhlbmNlCgpcWwpcbG9nIDMKPDErXGZyYWMxezEyfStcZnJhYzI1XHN1bV97aj0yfV57XGluZnR5fSgxLzIpXnsyaisxfQo9MStcZnJhYzF7MTJ9K1xmcmFjMXs2MH0KPVxmcmFjezExfXsxMH0uClxdCgpTaW1pbGFybHksIHJlcGxhY2luZyBhbGwgdGhlIGRlbm9taW5hdG9ycyBpbiB0aGUgb3RoZXIgc2VyaWVzIGJ5IDEgZ2l2ZXMKClxbClxsb2coMTAvOSkKPDJcc3VtX3tqPTB9XntcaW5mdHl9KDEvMTkpXnsyaisxfQo9XGZyYWN7MTl9ezE4MH0uClxdCgpDb25zZXF1ZW50bHkKClxbClxsb2cgMTA8XGZyYWN7MTF9ezV9K1xmcmFjezE5fXsxODB9PVxmcmFjezgzfXszNn0uClxdCgpTaW5jZSAxL3ggaXMgZGVjcmVhc2luZywgaW50ZWdyYWwgY29tcGFyaXNvbiBnaXZlcwoKXFsKSF9uPlxsb2cgbgpccXVhZFx0ZXh0e2FuZH1ccXVhZApIX25cbGVxIEhfezEwfStcaW50X3sxMH1ee259XGZyYWN7ZHh9e3h9Cj1IX3sxMH0rXGxvZyhuLzEwKQpccXF1YWQoblxnZXEgMTApLgpcXQoKQXQgbj0xMF57MTJ9LCB1c2luZyBIXzEwPTczODEvMjUyMCwgdGhlc2UgYm91bmRzIGltcGx5CgpcWwpIX24+MTJcY2RvdFxmcmFjezIzfXsxMH09XGZyYWN7MTM4fXs1fT5cZnJhY3s1NX17Mn0sClxdCgphbmQKClxbCkhfbjxcZnJhY3s3MzgxfXsyNTIwfSsxMVxjZG90XGZyYWN7ODN9ezM2fQo9XGZyYWN7NzEyOTF9ezI1MjB9CjxcZnJhY3s3MTgyMH17MjUyMH09XGZyYWN7NTd9ezJ9LgpcXQoKRmluYWxseSBuLzI9NTAwMDAwMDAwMDAwLCBzbwoKXFsKWD01MDAwMDAwMDAwMDArXGZyYWMxMi1IX24uClxdCgpUaGUgYm91bmRzIGp1c3QgcHJvdmVkIGdpdmUKClxbCjQ5OTk5OTk5OTk3MjxYPDQ5OTk5OTk5OTk3My4KXF0KClRoZXJlZm9yZQoKXFsKXGJveGVke1xsZmxvb3IgWFxyZmxvb3I9NDk5OTk5OTk5OTcyfS4KXF0K"
+    },
+    {
+      "role": "CRITIC",
+      "digest": "560fa3c67d891e5c86faa3d0d8d6731b4d8b8d2ff6a5a25969eea8ab933aecf6",
+      "bytes": 4175,
+      "accepted": true,
+      "text": "CRITIC review\n\nVerdict: I find no concrete mathematical error or missing closure step in the retained attempt. Its answer, \\(\\lfloor X\\rfloor=499999999972\\), follows from its exact expectation formula and its rigorous harmonic-number bounds. The following checks explain why; this verdict does not rely on the attempt's stated confidence.\n\n1. The relative-order observation is valid.\n\nFor two letters \\(a<b\\), follow the recursive subword containing both letters. A maximum outside the interval between their positions removes only material on one side and leaves both endpoints in one recursive child. Thus the process eventually reaches a maximum in their interval. If that maximum is \\(b\\), the output puts \\(b\\) after every other letter of that subword, including \\(a\\). If the maximum is an interior letter larger than \\(b\\), the endpoints lie in different children. The output concatenates the left child's output before the right child's output, preserving the endpoints' original left-to-right order. Later concatenations cannot change their relative order. This accounts for outside letters and for either original ordering of the endpoints.\n\nConsequently an inversion between \\(i+1\\) and \\(i\\) in the output occurs precisely when \\(i+1\\) was originally first and their original interval contained a letter larger than \\(i+1\\). There is no unaccounted case in this event characterization.\n\n2. The probability calculation is valid.\n\nThe restriction of a uniform random permutation to any fixed collection of letters has uniform relative order. Restricting here to the two endpoints and the \\(k=n-i-1\\) larger letters turns the absence of a larger intervening letter into adjacency of the two endpoints. Contracting their adjacent pair, with its two possible orientations, gives \\(2(k+1)!\\) orders among \\((k+2)!\\) total orders. Swapping only the endpoint labels is a fixed-point-free pairing of the nonadjacent orders that reverses endpoint orientation and preserves nonadjacency. Hence the relevant probability is\n\n\\[\n\\frac12\\left(1-\\frac{2}{k+2}\\right)\n=\\frac12-\\frac{1}{n-i+1}.\n\\]\n\nThe edge case \\(i=n-1\\), where \\(k=0\\), gives zero as required because the maximum \\(n\\) is always last. No independence between different values of \\(i\\) is needed: linearity of expectation suffices. The sum of reciprocal terms runs over denominators \\(n,n-1,\\ldots,2\\), so the exact expectation is indeed\n\n\\[\nX=\\frac{n-1}{2}-(H_n-1)=\\frac{n+1}{2}-H_n.\n\\]\n\n3. The numerical enclosure is rigorous and its arithmetic checks out.\n\nThe positive-term logarithm series used in the attempt follows from the geometric series by integration on a compact interval inside \\((-1,1)\\). At \\(t=1/2\\), its first four terms are \\(1,1/12,1/80,1/448\\). The lower-bound sum satisfies\n\n\\[\n2\\left(1+\\frac1{12}+\\frac1{80}+\\frac1{448}\\right)+\\frac2{19}\n=\\frac{146921}{63840}\n=\\frac{23}{10}+\\frac{89}{63840}.\n\\]\n\nOmitted positive terms make the bound strict. For the upper bound on \\(\\log 3\\), replacing denominators in the tail starting at \\(j=2\\) by 5 gives a tail of \\(1/60\\). Equality at its first term does not prevent strictness, since subsequent denominators are strictly larger than 5. Thus \\(\\log 3<11/10\\). Likewise the geometric bound for \\(\\log(10/9)\\) is strictly less than \\(19/180\\), because denominators after its first term exceed 1. Therefore\n\n\\[\n\\frac{23}{10}<\\log 10<\\frac{83}{36}.\n\\]\n\nFor decreasing \\(1/x\\), the integral on each interval \\([j-1,j]\\), \\(j\\ge 11\\), is at least \\(1/j\\), which verifies the direction of the attempt's upper integral comparison. The lower comparison \\(H_n>\\log n\\) is also valid. With \\(H_{10}=7381/2520\\) and \\(n=10^{12}\\), they yield\n\n\\[\nH_n>12\\cdot\\frac{23}{10}=\\frac{138}{5}>\\frac{55}{2},\n\\]\n\nand\n\n\\[\nH_n<\\frac{7381}{2520}+11\\cdot\\frac{83}{36}\n=\\frac{71291}{2520}<\\frac{71820}{2520}=\\frac{57}{2}.\n\\]\n\nThese bounds need not approximate \\(H_n\\) closely: they enclose it strictly between the two half-integers relevant to taking this floor. Subtracting them from \\(500000000000+1/2\\) reverses the inequalities and gives precisely\n\n\\[\n499999999972<X<499999999973.\n\\]\n\nThus the requested floor is established. I have no substantive correction to propose.\n",
+      "base64": "Q1JJVElDIHJldmlldwoKVmVyZGljdDogSSBmaW5kIG5vIGNvbmNyZXRlIG1hdGhlbWF0aWNhbCBlcnJvciBvciBtaXNzaW5nIGNsb3N1cmUgc3RlcCBpbiB0aGUgcmV0YWluZWQgYXR0ZW1wdC4gSXRzIGFuc3dlciwgXChcbGZsb29yIFhccmZsb29yPTQ5OTk5OTk5OTk3MlwpLCBmb2xsb3dzIGZyb20gaXRzIGV4YWN0IGV4cGVjdGF0aW9uIGZvcm11bGEgYW5kIGl0cyByaWdvcm91cyBoYXJtb25pYy1udW1iZXIgYm91bmRzLiBUaGUgZm9sbG93aW5nIGNoZWNrcyBleHBsYWluIHdoeTsgdGhpcyB2ZXJkaWN0IGRvZXMgbm90IHJlbHkgb24gdGhlIGF0dGVtcHQncyBzdGF0ZWQgY29uZmlkZW5jZS4KCjEuIFRoZSByZWxhdGl2ZS1vcmRlciBvYnNlcnZhdGlvbiBpcyB2YWxpZC4KCkZvciB0d28gbGV0dGVycyBcKGE8YlwpLCBmb2xsb3cgdGhlIHJlY3Vyc2l2ZSBzdWJ3b3JkIGNvbnRhaW5pbmcgYm90aCBsZXR0ZXJzLiBBIG1heGltdW0gb3V0c2lkZSB0aGUgaW50ZXJ2YWwgYmV0d2VlbiB0aGVpciBwb3NpdGlvbnMgcmVtb3ZlcyBvbmx5IG1hdGVyaWFsIG9uIG9uZSBzaWRlIGFuZCBsZWF2ZXMgYm90aCBlbmRwb2ludHMgaW4gb25lIHJlY3Vyc2l2ZSBjaGlsZC4gVGh1cyB0aGUgcHJvY2VzcyBldmVudHVhbGx5IHJlYWNoZXMgYSBtYXhpbXVtIGluIHRoZWlyIGludGVydmFsLiBJZiB0aGF0IG1heGltdW0gaXMgXChiXCksIHRoZSBvdXRwdXQgcHV0cyBcKGJcKSBhZnRlciBldmVyeSBvdGhlciBsZXR0ZXIgb2YgdGhhdCBzdWJ3b3JkLCBpbmNsdWRpbmcgXChhXCkuIElmIHRoZSBtYXhpbXVtIGlzIGFuIGludGVyaW9yIGxldHRlciBsYXJnZXIgdGhhbiBcKGJcKSwgdGhlIGVuZHBvaW50cyBsaWUgaW4gZGlmZmVyZW50IGNoaWxkcmVuLiBUaGUgb3V0cHV0IGNvbmNhdGVuYXRlcyB0aGUgbGVmdCBjaGlsZCdzIG91dHB1dCBiZWZvcmUgdGhlIHJpZ2h0IGNoaWxkJ3Mgb3V0cHV0LCBwcmVzZXJ2aW5nIHRoZSBlbmRwb2ludHMnIG9yaWdpbmFsIGxlZnQtdG8tcmlnaHQgb3JkZXIuIExhdGVyIGNvbmNhdGVuYXRpb25zIGNhbm5vdCBjaGFuZ2UgdGhlaXIgcmVsYXRpdmUgb3JkZXIuIFRoaXMgYWNjb3VudHMgZm9yIG91dHNpZGUgbGV0dGVycyBhbmQgZm9yIGVpdGhlciBvcmlnaW5hbCBvcmRlcmluZyBvZiB0aGUgZW5kcG9pbnRzLgoKQ29uc2VxdWVudGx5IGFuIGludmVyc2lvbiBiZXR3ZWVuIFwoaSsxXCkgYW5kIFwoaVwpIGluIHRoZSBvdXRwdXQgb2NjdXJzIHByZWNpc2VseSB3aGVuIFwoaSsxXCkgd2FzIG9yaWdpbmFsbHkgZmlyc3QgYW5kIHRoZWlyIG9yaWdpbmFsIGludGVydmFsIGNvbnRhaW5lZCBhIGxldHRlciBsYXJnZXIgdGhhbiBcKGkrMVwpLiBUaGVyZSBpcyBubyB1bmFjY291bnRlZCBjYXNlIGluIHRoaXMgZXZlbnQgY2hhcmFjdGVyaXphdGlvbi4KCjIuIFRoZSBwcm9iYWJpbGl0eSBjYWxjdWxhdGlvbiBpcyB2YWxpZC4KClRoZSByZXN0cmljdGlvbiBvZiBhIHVuaWZvcm0gcmFuZG9tIHBlcm11dGF0aW9uIHRvIGFueSBmaXhlZCBjb2xsZWN0aW9uIG9mIGxldHRlcnMgaGFzIHVuaWZvcm0gcmVsYXRpdmUgb3JkZXIuIFJlc3RyaWN0aW5nIGhlcmUgdG8gdGhlIHR3byBlbmRwb2ludHMgYW5kIHRoZSBcKGs9bi1pLTFcKSBsYXJnZXIgbGV0dGVycyB0dXJucyB0aGUgYWJzZW5jZSBvZiBhIGxhcmdlciBpbnRlcnZlbmluZyBsZXR0ZXIgaW50byBhZGphY2VuY3kgb2YgdGhlIHR3byBlbmRwb2ludHMuIENvbnRyYWN0aW5nIHRoZWlyIGFkamFjZW50IHBhaXIsIHdpdGggaXRzIHR3byBwb3NzaWJsZSBvcmllbnRhdGlvbnMsIGdpdmVzIFwoMihrKzEpIVwpIG9yZGVycyBhbW9uZyBcKChrKzIpIVwpIHRvdGFsIG9yZGVycy4gU3dhcHBpbmcgb25seSB0aGUgZW5kcG9pbnQgbGFiZWxzIGlzIGEgZml4ZWQtcG9pbnQtZnJlZSBwYWlyaW5nIG9mIHRoZSBub25hZGphY2VudCBvcmRlcnMgdGhhdCByZXZlcnNlcyBlbmRwb2ludCBvcmllbnRhdGlvbiBhbmQgcHJlc2VydmVzIG5vbmFkamFjZW5jeS4gSGVuY2UgdGhlIHJlbGV2YW50IHByb2JhYmlsaXR5IGlzCgpcWwpcZnJhYzEyXGxlZnQoMS1cZnJhY3syfXtrKzJ9XHJpZ2h0KQo9XGZyYWMxMi1cZnJhY3sxfXtuLWkrMX0uClxdCgpUaGUgZWRnZSBjYXNlIFwoaT1uLTFcKSwgd2hlcmUgXChrPTBcKSwgZ2l2ZXMgemVybyBhcyByZXF1aXJlZCBiZWNhdXNlIHRoZSBtYXhpbXVtIFwoblwpIGlzIGFsd2F5cyBsYXN0LiBObyBpbmRlcGVuZGVuY2UgYmV0d2VlbiBkaWZmZXJlbnQgdmFsdWVzIG9mIFwoaVwpIGlzIG5lZWRlZDogbGluZWFyaXR5IG9mIGV4cGVjdGF0aW9uIHN1ZmZpY2VzLiBUaGUgc3VtIG9mIHJlY2lwcm9jYWwgdGVybXMgcnVucyBvdmVyIGRlbm9taW5hdG9ycyBcKG4sbi0xLFxsZG90cywyXCksIHNvIHRoZSBleGFjdCBleHBlY3RhdGlvbiBpcyBpbmRlZWQKClxbClg9XGZyYWN7bi0xfXsyfS0oSF9uLTEpPVxmcmFje24rMX17Mn0tSF9uLgpcXQoKMy4gVGhlIG51bWVyaWNhbCBlbmNsb3N1cmUgaXMgcmlnb3JvdXMgYW5kIGl0cyBhcml0aG1ldGljIGNoZWNrcyBvdXQuCgpUaGUgcG9zaXRpdmUtdGVybSBsb2dhcml0aG0gc2VyaWVzIHVzZWQgaW4gdGhlIGF0dGVtcHQgZm9sbG93cyBmcm9tIHRoZSBnZW9tZXRyaWMgc2VyaWVzIGJ5IGludGVncmF0aW9uIG9uIGEgY29tcGFjdCBpbnRlcnZhbCBpbnNpZGUgXCgoLTEsMSlcKS4gQXQgXCh0PTEvMlwpLCBpdHMgZmlyc3QgZm91ciB0ZXJtcyBhcmUgXCgxLDEvMTIsMS84MCwxLzQ0OFwpLiBUaGUgbG93ZXItYm91bmQgc3VtIHNhdGlzZmllcwoKXFsKMlxsZWZ0KDErXGZyYWMxezEyfStcZnJhYzF7ODB9K1xmcmFjMXs0NDh9XHJpZ2h0KStcZnJhYzJ7MTl9Cj1cZnJhY3sxNDY5MjF9ezYzODQwfQo9XGZyYWN7MjN9ezEwfStcZnJhY3s4OX17NjM4NDB9LgpcXQoKT21pdHRlZCBwb3NpdGl2ZSB0ZXJtcyBtYWtlIHRoZSBib3VuZCBzdHJpY3QuIEZvciB0aGUgdXBwZXIgYm91bmQgb24gXChcbG9nIDNcKSwgcmVwbGFjaW5nIGRlbm9taW5hdG9ycyBpbiB0aGUgdGFpbCBzdGFydGluZyBhdCBcKGo9MlwpIGJ5IDUgZ2l2ZXMgYSB0YWlsIG9mIFwoMS82MFwpLiBFcXVhbGl0eSBhdCBpdHMgZmlyc3QgdGVybSBkb2VzIG5vdCBwcmV2ZW50IHN0cmljdG5lc3MsIHNpbmNlIHN1YnNlcXVlbnQgZGVub21pbmF0b3JzIGFyZSBzdHJpY3RseSBsYXJnZXIgdGhhbiA1LiBUaHVzIFwoXGxvZyAzPDExLzEwXCkuIExpa2V3aXNlIHRoZSBnZW9tZXRyaWMgYm91bmQgZm9yIFwoXGxvZygxMC85KVwpIGlzIHN0cmljdGx5IGxlc3MgdGhhbiBcKDE5LzE4MFwpLCBiZWNhdXNlIGRlbm9taW5hdG9ycyBhZnRlciBpdHMgZmlyc3QgdGVybSBleGNlZWQgMS4gVGhlcmVmb3JlCgpcWwpcZnJhY3syM317MTB9PFxsb2cgMTA8XGZyYWN7ODN9ezM2fS4KXF0KCkZvciBkZWNyZWFzaW5nIFwoMS94XCksIHRoZSBpbnRlZ3JhbCBvbiBlYWNoIGludGVydmFsIFwoW2otMSxqXVwpLCBcKGpcZ2UgMTFcKSwgaXMgYXQgbGVhc3QgXCgxL2pcKSwgd2hpY2ggdmVyaWZpZXMgdGhlIGRpcmVjdGlvbiBvZiB0aGUgYXR0ZW1wdCdzIHVwcGVyIGludGVncmFsIGNvbXBhcmlzb24uIFRoZSBsb3dlciBjb21wYXJpc29uIFwoSF9uPlxsb2cgblwpIGlzIGFsc28gdmFsaWQuIFdpdGggXChIX3sxMH09NzM4MS8yNTIwXCkgYW5kIFwobj0xMF57MTJ9XCksIHRoZXkgeWllbGQKClxbCkhfbj4xMlxjZG90XGZyYWN7MjN9ezEwfT1cZnJhY3sxMzh9ezV9PlxmcmFjezU1fXsyfSwKXF0KCmFuZAoKXFsKSF9uPFxmcmFjezczODF9ezI1MjB9KzExXGNkb3RcZnJhY3s4M317MzZ9Cj1cZnJhY3s3MTI5MX17MjUyMH08XGZyYWN7NzE4MjB9ezI1MjB9PVxmcmFjezU3fXsyfS4KXF0KClRoZXNlIGJvdW5kcyBuZWVkIG5vdCBhcHByb3hpbWF0ZSBcKEhfblwpIGNsb3NlbHk6IHRoZXkgZW5jbG9zZSBpdCBzdHJpY3RseSBiZXR3ZWVuIHRoZSB0d28gaGFsZi1pbnRlZ2VycyByZWxldmFudCB0byB0YWtpbmcgdGhpcyBmbG9vci4gU3VidHJhY3RpbmcgdGhlbSBmcm9tIFwoNTAwMDAwMDAwMDAwKzEvMlwpIHJldmVyc2VzIHRoZSBpbmVxdWFsaXRpZXMgYW5kIGdpdmVzIHByZWNpc2VseQoKXFsKNDk5OTk5OTk5OTcyPFg8NDk5OTk5OTk5OTczLgpcXQoKVGh1cyB0aGUgcmVxdWVzdGVkIGZsb29yIGlzIGVzdGFibGlzaGVkLiBJIGhhdmUgbm8gc3Vic3RhbnRpdmUgY29ycmVjdGlvbiB0byBwcm9wb3NlLgo="
+    },
+    {
+      "role": "FINAL",
+      "digest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+      "bytes": 3310,
+      "accepted": true,
+      "text": "{\"proof\":\"The answer is 499999999972. First determine the exact expectation. For two letters a<b of any input word, consider the interval between their positions, including its endpoints. Follow the recursive subword containing both letters. Whenever its maximum lies outside that interval, both endpoints remain together in one child subword. Since the subwords strictly shorten, eventually the maximum lies in the interval. If that maximum is b, the recursive definition places b after a. Otherwise the maximum is an interior letter greater than b, and the endpoints lie in different child subwords. Their outputs are concatenated in original left-to-right order, so the relative order of a and b is preserved. Subsequent concatenations cannot alter this order. Thus b precedes a in F(w) if and only if b originally precedes a and a letter greater than b lies between them.\\n\\nApply this with a=i and b=i+1. There are k=n-i-1 letters greater than i+1. Restrict a uniform permutation to these k letters and the two endpoints. Its relative order is uniform among (k+2)! orders. A larger intervening letter is absent exactly when the endpoints are adjacent in this restriction. Contracting the adjacent pair, and allowing its two orientations, counts 2(k+1)! such orders; therefore adjacency has probability 2/(k+2). Swapping the two endpoint labels preserves nonadjacency and reverses their orientation, giving a bijection between the two orientations among the nonadjacent orders. Consequently the probability that i+1 precedes i in the output is (1/2)(1-2/(k+2))=1/2-1/(n-i+1). This also gives zero when i=n-1.\\n\\nWrite H_n=sum_{j=1}^n 1/j. By linearity of expectation, without any independence assumption, X=sum_{i=1}^{n-1}(1/2-1/(n-i+1))=(n-1)/2-(H_n-1)=(n+1)/2-H_n.\\n\\nIt remains to bound H_n rigorously at n=10^12. For 0<t<1, integration of the geometric series for 2/(1-t^2), uniformly convergent on [0,t], gives log((1+t)/(1-t))=2 sum_{j=0}^infinity t^(2j+1)/(2j+1). All terms are positive. Using t=1/2 for log 3 and t=1/19 for log(10/9), together with log 10=2 log 3+log(10/9), gives the strict lower bound log 10>2(1+1/12+1/80+1/448)+2/19=146921/63840=23/10+89/63840>23/10.\\n\\nFor an upper bound on log 3, replace the denominators in the tail j>=2 by 5. The bound is strict because the denominators for j>2 exceed 5. Thus log 3<1+1/12+(2/5) sum_{j=2}^infinity (1/2)^(2j+1)=1+1/12+1/60=11/10. Replacing all denominators in the series for log(10/9) by 1 likewise gives a strict bound log(10/9)<2 sum_{j=0}^infinity (1/19)^(2j+1)=19/180. Hence log 10<11/5+19/180=83/36.\\n\\nThe decreasing function 1/x gives H_n>log n and, for n>=10, H_n<=H_10+integral_{10}^n dx/x=H_10+log(n/10). For the first inequality, integrating on [j,j+1] for j=1,...,n-1 gives log n<sum_{j=1}^{n-1}1/j<H_n; for the second, integrating on [j-1,j] bounds 1/j from above for each j>=11. Direct summation gives H_10=7381/2520. At n=10^12 these inequalities and the logarithm bounds yield H_n>12(23/10)=138/5>55/2, and H_n<7381/2520+11(83/36)=71291/2520<71820/2520=57/2.\\n\\nFinally X=500000000000+1/2-H_n. Subtracting the strict enclosure 55/2<H_n<57/2 gives 499999999972<X<499999999973. Therefore floor(X)=499999999972.\",\"certificate\":{\"version\":1,\"kind\":\"EXPECTED_INVERSE_DESCENT_FLOOR\",\"n\":\"1000000000000\",\"floor\":\"499999999972\"}}\n",
+      "base64": "eyJwcm9vZiI6IlRoZSBhbnN3ZXIgaXMgNDk5OTk5OTk5OTcyLiBGaXJzdCBkZXRlcm1pbmUgdGhlIGV4YWN0IGV4cGVjdGF0aW9uLiBGb3IgdHdvIGxldHRlcnMgYTxiIG9mIGFueSBpbnB1dCB3b3JkLCBjb25zaWRlciB0aGUgaW50ZXJ2YWwgYmV0d2VlbiB0aGVpciBwb3NpdGlvbnMsIGluY2x1ZGluZyBpdHMgZW5kcG9pbnRzLiBGb2xsb3cgdGhlIHJlY3Vyc2l2ZSBzdWJ3b3JkIGNvbnRhaW5pbmcgYm90aCBsZXR0ZXJzLiBXaGVuZXZlciBpdHMgbWF4aW11bSBsaWVzIG91dHNpZGUgdGhhdCBpbnRlcnZhbCwgYm90aCBlbmRwb2ludHMgcmVtYWluIHRvZ2V0aGVyIGluIG9uZSBjaGlsZCBzdWJ3b3JkLiBTaW5jZSB0aGUgc3Vid29yZHMgc3RyaWN0bHkgc2hvcnRlbiwgZXZlbnR1YWxseSB0aGUgbWF4aW11bSBsaWVzIGluIHRoZSBpbnRlcnZhbC4gSWYgdGhhdCBtYXhpbXVtIGlzIGIsIHRoZSByZWN1cnNpdmUgZGVmaW5pdGlvbiBwbGFjZXMgYiBhZnRlciBhLiBPdGhlcndpc2UgdGhlIG1heGltdW0gaXMgYW4gaW50ZXJpb3IgbGV0dGVyIGdyZWF0ZXIgdGhhbiBiLCBhbmQgdGhlIGVuZHBvaW50cyBsaWUgaW4gZGlmZmVyZW50IGNoaWxkIHN1YndvcmRzLiBUaGVpciBvdXRwdXRzIGFyZSBjb25jYXRlbmF0ZWQgaW4gb3JpZ2luYWwgbGVmdC10by1yaWdodCBvcmRlciwgc28gdGhlIHJlbGF0aXZlIG9yZGVyIG9mIGEgYW5kIGIgaXMgcHJlc2VydmVkLiBTdWJzZXF1ZW50IGNvbmNhdGVuYXRpb25zIGNhbm5vdCBhbHRlciB0aGlzIG9yZGVyLiBUaHVzIGIgcHJlY2VkZXMgYSBpbiBGKHcpIGlmIGFuZCBvbmx5IGlmIGIgb3JpZ2luYWxseSBwcmVjZWRlcyBhIGFuZCBhIGxldHRlciBncmVhdGVyIHRoYW4gYiBsaWVzIGJldHdlZW4gdGhlbS5cblxuQXBwbHkgdGhpcyB3aXRoIGE9aSBhbmQgYj1pKzEuIFRoZXJlIGFyZSBrPW4taS0xIGxldHRlcnMgZ3JlYXRlciB0aGFuIGkrMS4gUmVzdHJpY3QgYSB1bmlmb3JtIHBlcm11dGF0aW9uIHRvIHRoZXNlIGsgbGV0dGVycyBhbmQgdGhlIHR3byBlbmRwb2ludHMuIEl0cyByZWxhdGl2ZSBvcmRlciBpcyB1bmlmb3JtIGFtb25nIChrKzIpISBvcmRlcnMuIEEgbGFyZ2VyIGludGVydmVuaW5nIGxldHRlciBpcyBhYnNlbnQgZXhhY3RseSB3aGVuIHRoZSBlbmRwb2ludHMgYXJlIGFkamFjZW50IGluIHRoaXMgcmVzdHJpY3Rpb24uIENvbnRyYWN0aW5nIHRoZSBhZGphY2VudCBwYWlyLCBhbmQgYWxsb3dpbmcgaXRzIHR3byBvcmllbnRhdGlvbnMsIGNvdW50cyAyKGsrMSkhIHN1Y2ggb3JkZXJzOyB0aGVyZWZvcmUgYWRqYWNlbmN5IGhhcyBwcm9iYWJpbGl0eSAyLyhrKzIpLiBTd2FwcGluZyB0aGUgdHdvIGVuZHBvaW50IGxhYmVscyBwcmVzZXJ2ZXMgbm9uYWRqYWNlbmN5IGFuZCByZXZlcnNlcyB0aGVpciBvcmllbnRhdGlvbiwgZ2l2aW5nIGEgYmlqZWN0aW9uIGJldHdlZW4gdGhlIHR3byBvcmllbnRhdGlvbnMgYW1vbmcgdGhlIG5vbmFkamFjZW50IG9yZGVycy4gQ29uc2VxdWVudGx5IHRoZSBwcm9iYWJpbGl0eSB0aGF0IGkrMSBwcmVjZWRlcyBpIGluIHRoZSBvdXRwdXQgaXMgKDEvMikoMS0yLyhrKzIpKT0xLzItMS8obi1pKzEpLiBUaGlzIGFsc28gZ2l2ZXMgemVybyB3aGVuIGk9bi0xLlxuXG5Xcml0ZSBIX249c3VtX3tqPTF9Xm4gMS9qLiBCeSBsaW5lYXJpdHkgb2YgZXhwZWN0YXRpb24sIHdpdGhvdXQgYW55IGluZGVwZW5kZW5jZSBhc3N1bXB0aW9uLCBYPXN1bV97aT0xfV57bi0xfSgxLzItMS8obi1pKzEpKT0obi0xKS8yLShIX24tMSk9KG4rMSkvMi1IX24uXG5cbkl0IHJlbWFpbnMgdG8gYm91bmQgSF9uIHJpZ29yb3VzbHkgYXQgbj0xMF4xMi4gRm9yIDA8dDwxLCBpbnRlZ3JhdGlvbiBvZiB0aGUgZ2VvbWV0cmljIHNlcmllcyBmb3IgMi8oMS10XjIpLCB1bmlmb3JtbHkgY29udmVyZ2VudCBvbiBbMCx0XSwgZ2l2ZXMgbG9nKCgxK3QpLygxLXQpKT0yIHN1bV97aj0wfV5pbmZpbml0eSB0XigyaisxKS8oMmorMSkuIEFsbCB0ZXJtcyBhcmUgcG9zaXRpdmUuIFVzaW5nIHQ9MS8yIGZvciBsb2cgMyBhbmQgdD0xLzE5IGZvciBsb2coMTAvOSksIHRvZ2V0aGVyIHdpdGggbG9nIDEwPTIgbG9nIDMrbG9nKDEwLzkpLCBnaXZlcyB0aGUgc3RyaWN0IGxvd2VyIGJvdW5kIGxvZyAxMD4yKDErMS8xMisxLzgwKzEvNDQ4KSsyLzE5PTE0NjkyMS82Mzg0MD0yMy8xMCs4OS82Mzg0MD4yMy8xMC5cblxuRm9yIGFuIHVwcGVyIGJvdW5kIG9uIGxvZyAzLCByZXBsYWNlIHRoZSBkZW5vbWluYXRvcnMgaW4gdGhlIHRhaWwgaj49MiBieSA1LiBUaGUgYm91bmQgaXMgc3RyaWN0IGJlY2F1c2UgdGhlIGRlbm9taW5hdG9ycyBmb3Igaj4yIGV4Y2VlZCA1LiBUaHVzIGxvZyAzPDErMS8xMisoMi81KSBzdW1fe2o9Mn1eaW5maW5pdHkgKDEvMileKDJqKzEpPTErMS8xMisxLzYwPTExLzEwLiBSZXBsYWNpbmcgYWxsIGRlbm9taW5hdG9ycyBpbiB0aGUgc2VyaWVzIGZvciBsb2coMTAvOSkgYnkgMSBsaWtld2lzZSBnaXZlcyBhIHN0cmljdCBib3VuZCBsb2coMTAvOSk8MiBzdW1fe2o9MH1eaW5maW5pdHkgKDEvMTkpXigyaisxKT0xOS8xODAuIEhlbmNlIGxvZyAxMDwxMS81KzE5LzE4MD04My8zNi5cblxuVGhlIGRlY3JlYXNpbmcgZnVuY3Rpb24gMS94IGdpdmVzIEhfbj5sb2cgbiBhbmQsIGZvciBuPj0xMCwgSF9uPD1IXzEwK2ludGVncmFsX3sxMH1ebiBkeC94PUhfMTArbG9nKG4vMTApLiBGb3IgdGhlIGZpcnN0IGluZXF1YWxpdHksIGludGVncmF0aW5nIG9uIFtqLGorMV0gZm9yIGo9MSwuLi4sbi0xIGdpdmVzIGxvZyBuPHN1bV97aj0xfV57bi0xfTEvajxIX247IGZvciB0aGUgc2Vjb25kLCBpbnRlZ3JhdGluZyBvbiBbai0xLGpdIGJvdW5kcyAxL2ogZnJvbSBhYm92ZSBmb3IgZWFjaCBqPj0xMS4gRGlyZWN0IHN1bW1hdGlvbiBnaXZlcyBIXzEwPTczODEvMjUyMC4gQXQgbj0xMF4xMiB0aGVzZSBpbmVxdWFsaXRpZXMgYW5kIHRoZSBsb2dhcml0aG0gYm91bmRzIHlpZWxkIEhfbj4xMigyMy8xMCk9MTM4LzU+NTUvMiwgYW5kIEhfbjw3MzgxLzI1MjArMTEoODMvMzYpPTcxMjkxLzI1MjA8NzE4MjAvMjUyMD01Ny8yLlxuXG5GaW5hbGx5IFg9NTAwMDAwMDAwMDAwKzEvMi1IX24uIFN1YnRyYWN0aW5nIHRoZSBzdHJpY3QgZW5jbG9zdXJlIDU1LzI8SF9uPDU3LzIgZ2l2ZXMgNDk5OTk5OTk5OTcyPFg8NDk5OTk5OTk5OTczLiBUaGVyZWZvcmUgZmxvb3IoWCk9NDk5OTk5OTk5OTcyLiIsImNlcnRpZmljYXRlIjp7InZlcnNpb24iOjEsImtpbmQiOiJFWFBFQ1RFRF9JTlZFUlNFX0RFU0NFTlRfRkxPT1IiLCJuIjoiMTAwMDAwMDAwMDAwMCIsImZsb29yIjoiNDk5OTk5OTk5OTcyIn19Cg=="
+    },
+    {
+      "role": "POSTREVIEW",
+      "digest": "858171f27ff9e3b5cb20891ae2e7963b9dd4f7bcb9ebb2223a1e3964b826386e",
+      "bytes": 6183,
+      "accepted": true,
+      "text": "SUPPORTED — NON-FORMAL independent mathematical review.\n\nI reviewed the exact retained FINAL argument supplied in the sealed POSTREVIEW prompt. Its proof establishes floor(X) = 499999999972 for n = 1000000000000. The arithmetic-only checker's matching answer is not my basis for accepting the proof. I find no essential gap or incorrect mathematical step in the written argument.\n\n1. Recursive interval lemma.\n\nThe recursive transformation preserves every letter exactly once, by induction on word length: the disjoint left and right subwords supply their letters, and their common maximum is appended once. Thus the output positions and relative orders in the question are well defined.\n\nFor fixed letters a < b, the proof correctly follows the contiguous recursive subword containing both endpoints until its maximum lies in the interval between their positions. While a maximum lies outside that interval, both endpoints and their entire intervening interval remain in the same child. That child is strictly shorter. Consequently this process must terminate, and the first maximum lying within the interval is the maximum of that interval. It cannot be a, since b is also in the interval.\n\nIf this maximum is b, the local output is F(L)F(R)b, so a precedes b, regardless of their original orientation. If the maximum is an interior letter, it is greater than b, the endpoints occupy different children, and F(L) is concatenated before F(R). Their relative order is therefore their original left-to-right order. Ancestor concatenations cannot change a relative order already established inside a child output. These cases prove both directions of the claimed equivalence:\n\n  b precedes a in F(w)\n  iff b precedes a in w and some letter greater than b lies between them.\n\nIn particular, smaller intervening letters do not affect this criterion. The interval reasoning does not rely on the arithmetic checker or on an unproved probabilistic property of F.\n\n2. Uniform relative order and counting.\n\nFor a = i and b = i+1, there are exactly k = n-i-1 larger letters. Restricting a uniform permutation to these k+2 distinct letters gives a uniform relative order: each fixed restricted order has the same number of full-permutation extensions. No greater intervening letter occurs exactly when a and b are adjacent in this restriction. Contracting the pair gives k+1 objects; there are (k+1)! orders for each of the two pair orientations. Hence adjacency has probability 2(k+1)!/(k+2)! = 2/(k+2).\n\nOn the complementary, nonadjacent event, exchanging the two endpoint labels leaves nonadjacency unchanged and switches their orientation. This is a bijection without fixed points, so exactly half of the nonadjacent orders have b before a. Combining this with the proved interval lemma gives\n\n  P(pos_F(sigma)(i+1) < pos_F(sigma)(i))\n    = (1/2)(1-2/(k+2))\n    = 1/2 - 1/(n-i+1).\n\nThe endpoint case k=0 is covered: all restricted orders are adjacent, and the probability is zero. There is no assumption that different descent events are independent.\n\n3. Expectation.\n\nThe count in the question is the sum of its n-1 indicator variables. Linearity of expectation gives the displayed sum of probabilities. As i runs from 1 to n-1, n-i+1 runs from n down to 2, so the reciprocal sum is H_n-1. Therefore\n\n  X = (n-1)/2 - (H_n-1) = (n+1)/2 - H_n.\n\nAll indices and the constant term are correct.\n\n4. Logarithm enclosures.\n\nFor 0<t<1, the geometric series for 2/(1-u^2) is uniformly convergent on 0<=u<=t, which justifies termwise integration. Its integral is log((1+t)/(1-t)), yielding the stated positive-term series. The substitutions t=1/2 and t=1/19 give log 3 and log(10/9), respectively, and log 10 = 2 log 3 + log(10/9) is correct.\n\nThe lower bound retains four terms for log 3 and one for log(10/9). Each omitted tail is positive, so the inequalities are strict. The explicit arithmetic is\n\n  1 + 1/12 + 1/80 + 1/448 = 7379/6720,\n  2(7379/6720) + 2/19 = 146921/63840,\n  146921/63840 = 23/10 + 89/63840 > 23/10.\n\nFor the upper bound on log 3, replacing denominators 2j+1 by 5 for j>=2 is an upper bound, with strictness supplied by every j>2 term. The geometric tail is\n\n  sum_{j=2}^infinity (1/2)^(2j+1) = (1/32)/(1-1/4) = 1/24.\n\nIt follows that log 3 < 1+1/12+(2/5)(1/24) = 11/10. Replacing every series denominator for log(10/9) by 1 is likewise strictly larger, because the j>=1 terms have larger actual denominators. Thus\n\n  log(10/9) < (2/19)/(1-1/361) = 19/180,\n  log 10 < 11/5 + 19/180 = 83/36.\n\nThe retained FINAL's particular rational bounds are valid independently of the different rational enclosure displayed in the arithmetic-checker evidence.\n\n5. Harmonic enclosure and the floor.\n\nThe integral comparisons have the correct directions. On [j,j+1], 1/x < 1/j away from the left endpoint, so log n < H_{n-1} < H_n for this n>1. On [j-1,j], 1/x > 1/j away from the right endpoint, so each reciprocal term for j>=11 is bounded above by that interval's integral. Summing gives H_n <= H_10 + log(n/10), as written; the non-strict version suffices.\n\nDirect summation for H_10 gives numerator\n\n  2520+1260+840+630+504+420+360+315+280+252 = 7381\n\nover denominator 2520. With n=10^12, log n = 12 log 10 and log(n/10) = 11 log 10. The resulting bounds are\n\n  H_n > 12(23/10) = 138/5 > 55/2,\n  H_n < 7381/2520 + 11(83/36)\n      = (7381+63910)/2520 = 71291/2520\n      < 71820/2520 = 57/2.\n\nStrictness in the upper enclosure follows from the strict logarithm bound even if the preceding integral comparison is written non-strictly. Finally (n+1)/2 = 500000000000+1/2. Subtracting 55/2 < H_n < 57/2 reverses the relevant inequality directions and gives\n\n  499999999972 < X < 499999999973.\n\nThis proves the claimed floor without requiring a closer numerical estimate of H_n.\n\nConclusion: SUPPORTED. This is a complete non-formal review of the supplied proof, not a machine-formalized proof, an official score, a novelty claim, or independent attestation of model/backend/hidden resource use. The checker supplies arithmetic-only evidence and does not itself establish the recursive lemma; that lemma and the subsequent counting have been assessed above on their own mathematical merits.\n",
+      "base64": "U1VQUE9SVEVEIOKAlCBOT04tRk9STUFMIGluZGVwZW5kZW50IG1hdGhlbWF0aWNhbCByZXZpZXcuCgpJIHJldmlld2VkIHRoZSBleGFjdCByZXRhaW5lZCBGSU5BTCBhcmd1bWVudCBzdXBwbGllZCBpbiB0aGUgc2VhbGVkIFBPU1RSRVZJRVcgcHJvbXB0LiBJdHMgcHJvb2YgZXN0YWJsaXNoZXMgZmxvb3IoWCkgPSA0OTk5OTk5OTk5NzIgZm9yIG4gPSAxMDAwMDAwMDAwMDAwLiBUaGUgYXJpdGhtZXRpYy1vbmx5IGNoZWNrZXIncyBtYXRjaGluZyBhbnN3ZXIgaXMgbm90IG15IGJhc2lzIGZvciBhY2NlcHRpbmcgdGhlIHByb29mLiBJIGZpbmQgbm8gZXNzZW50aWFsIGdhcCBvciBpbmNvcnJlY3QgbWF0aGVtYXRpY2FsIHN0ZXAgaW4gdGhlIHdyaXR0ZW4gYXJndW1lbnQuCgoxLiBSZWN1cnNpdmUgaW50ZXJ2YWwgbGVtbWEuCgpUaGUgcmVjdXJzaXZlIHRyYW5zZm9ybWF0aW9uIHByZXNlcnZlcyBldmVyeSBsZXR0ZXIgZXhhY3RseSBvbmNlLCBieSBpbmR1Y3Rpb24gb24gd29yZCBsZW5ndGg6IHRoZSBkaXNqb2ludCBsZWZ0IGFuZCByaWdodCBzdWJ3b3JkcyBzdXBwbHkgdGhlaXIgbGV0dGVycywgYW5kIHRoZWlyIGNvbW1vbiBtYXhpbXVtIGlzIGFwcGVuZGVkIG9uY2UuIFRodXMgdGhlIG91dHB1dCBwb3NpdGlvbnMgYW5kIHJlbGF0aXZlIG9yZGVycyBpbiB0aGUgcXVlc3Rpb24gYXJlIHdlbGwgZGVmaW5lZC4KCkZvciBmaXhlZCBsZXR0ZXJzIGEgPCBiLCB0aGUgcHJvb2YgY29ycmVjdGx5IGZvbGxvd3MgdGhlIGNvbnRpZ3VvdXMgcmVjdXJzaXZlIHN1YndvcmQgY29udGFpbmluZyBib3RoIGVuZHBvaW50cyB1bnRpbCBpdHMgbWF4aW11bSBsaWVzIGluIHRoZSBpbnRlcnZhbCBiZXR3ZWVuIHRoZWlyIHBvc2l0aW9ucy4gV2hpbGUgYSBtYXhpbXVtIGxpZXMgb3V0c2lkZSB0aGF0IGludGVydmFsLCBib3RoIGVuZHBvaW50cyBhbmQgdGhlaXIgZW50aXJlIGludGVydmVuaW5nIGludGVydmFsIHJlbWFpbiBpbiB0aGUgc2FtZSBjaGlsZC4gVGhhdCBjaGlsZCBpcyBzdHJpY3RseSBzaG9ydGVyLiBDb25zZXF1ZW50bHkgdGhpcyBwcm9jZXNzIG11c3QgdGVybWluYXRlLCBhbmQgdGhlIGZpcnN0IG1heGltdW0gbHlpbmcgd2l0aGluIHRoZSBpbnRlcnZhbCBpcyB0aGUgbWF4aW11bSBvZiB0aGF0IGludGVydmFsLiBJdCBjYW5ub3QgYmUgYSwgc2luY2UgYiBpcyBhbHNvIGluIHRoZSBpbnRlcnZhbC4KCklmIHRoaXMgbWF4aW11bSBpcyBiLCB0aGUgbG9jYWwgb3V0cHV0IGlzIEYoTClGKFIpYiwgc28gYSBwcmVjZWRlcyBiLCByZWdhcmRsZXNzIG9mIHRoZWlyIG9yaWdpbmFsIG9yaWVudGF0aW9uLiBJZiB0aGUgbWF4aW11bSBpcyBhbiBpbnRlcmlvciBsZXR0ZXIsIGl0IGlzIGdyZWF0ZXIgdGhhbiBiLCB0aGUgZW5kcG9pbnRzIG9jY3VweSBkaWZmZXJlbnQgY2hpbGRyZW4sIGFuZCBGKEwpIGlzIGNvbmNhdGVuYXRlZCBiZWZvcmUgRihSKS4gVGhlaXIgcmVsYXRpdmUgb3JkZXIgaXMgdGhlcmVmb3JlIHRoZWlyIG9yaWdpbmFsIGxlZnQtdG8tcmlnaHQgb3JkZXIuIEFuY2VzdG9yIGNvbmNhdGVuYXRpb25zIGNhbm5vdCBjaGFuZ2UgYSByZWxhdGl2ZSBvcmRlciBhbHJlYWR5IGVzdGFibGlzaGVkIGluc2lkZSBhIGNoaWxkIG91dHB1dC4gVGhlc2UgY2FzZXMgcHJvdmUgYm90aCBkaXJlY3Rpb25zIG9mIHRoZSBjbGFpbWVkIGVxdWl2YWxlbmNlOgoKICBiIHByZWNlZGVzIGEgaW4gRih3KQogIGlmZiBiIHByZWNlZGVzIGEgaW4gdyBhbmQgc29tZSBsZXR0ZXIgZ3JlYXRlciB0aGFuIGIgbGllcyBiZXR3ZWVuIHRoZW0uCgpJbiBwYXJ0aWN1bGFyLCBzbWFsbGVyIGludGVydmVuaW5nIGxldHRlcnMgZG8gbm90IGFmZmVjdCB0aGlzIGNyaXRlcmlvbi4gVGhlIGludGVydmFsIHJlYXNvbmluZyBkb2VzIG5vdCByZWx5IG9uIHRoZSBhcml0aG1ldGljIGNoZWNrZXIgb3Igb24gYW4gdW5wcm92ZWQgcHJvYmFiaWxpc3RpYyBwcm9wZXJ0eSBvZiBGLgoKMi4gVW5pZm9ybSByZWxhdGl2ZSBvcmRlciBhbmQgY291bnRpbmcuCgpGb3IgYSA9IGkgYW5kIGIgPSBpKzEsIHRoZXJlIGFyZSBleGFjdGx5IGsgPSBuLWktMSBsYXJnZXIgbGV0dGVycy4gUmVzdHJpY3RpbmcgYSB1bmlmb3JtIHBlcm11dGF0aW9uIHRvIHRoZXNlIGsrMiBkaXN0aW5jdCBsZXR0ZXJzIGdpdmVzIGEgdW5pZm9ybSByZWxhdGl2ZSBvcmRlcjogZWFjaCBmaXhlZCByZXN0cmljdGVkIG9yZGVyIGhhcyB0aGUgc2FtZSBudW1iZXIgb2YgZnVsbC1wZXJtdXRhdGlvbiBleHRlbnNpb25zLiBObyBncmVhdGVyIGludGVydmVuaW5nIGxldHRlciBvY2N1cnMgZXhhY3RseSB3aGVuIGEgYW5kIGIgYXJlIGFkamFjZW50IGluIHRoaXMgcmVzdHJpY3Rpb24uIENvbnRyYWN0aW5nIHRoZSBwYWlyIGdpdmVzIGsrMSBvYmplY3RzOyB0aGVyZSBhcmUgKGsrMSkhIG9yZGVycyBmb3IgZWFjaCBvZiB0aGUgdHdvIHBhaXIgb3JpZW50YXRpb25zLiBIZW5jZSBhZGphY2VuY3kgaGFzIHByb2JhYmlsaXR5IDIoaysxKSEvKGsrMikhID0gMi8oaysyKS4KCk9uIHRoZSBjb21wbGVtZW50YXJ5LCBub25hZGphY2VudCBldmVudCwgZXhjaGFuZ2luZyB0aGUgdHdvIGVuZHBvaW50IGxhYmVscyBsZWF2ZXMgbm9uYWRqYWNlbmN5IHVuY2hhbmdlZCBhbmQgc3dpdGNoZXMgdGhlaXIgb3JpZW50YXRpb24uIFRoaXMgaXMgYSBiaWplY3Rpb24gd2l0aG91dCBmaXhlZCBwb2ludHMsIHNvIGV4YWN0bHkgaGFsZiBvZiB0aGUgbm9uYWRqYWNlbnQgb3JkZXJzIGhhdmUgYiBiZWZvcmUgYS4gQ29tYmluaW5nIHRoaXMgd2l0aCB0aGUgcHJvdmVkIGludGVydmFsIGxlbW1hIGdpdmVzCgogIFAocG9zX0Yoc2lnbWEpKGkrMSkgPCBwb3NfRihzaWdtYSkoaSkpCiAgICA9ICgxLzIpKDEtMi8oaysyKSkKICAgID0gMS8yIC0gMS8obi1pKzEpLgoKVGhlIGVuZHBvaW50IGNhc2Ugaz0wIGlzIGNvdmVyZWQ6IGFsbCByZXN0cmljdGVkIG9yZGVycyBhcmUgYWRqYWNlbnQsIGFuZCB0aGUgcHJvYmFiaWxpdHkgaXMgemVyby4gVGhlcmUgaXMgbm8gYXNzdW1wdGlvbiB0aGF0IGRpZmZlcmVudCBkZXNjZW50IGV2ZW50cyBhcmUgaW5kZXBlbmRlbnQuCgozLiBFeHBlY3RhdGlvbi4KClRoZSBjb3VudCBpbiB0aGUgcXVlc3Rpb24gaXMgdGhlIHN1bSBvZiBpdHMgbi0xIGluZGljYXRvciB2YXJpYWJsZXMuIExpbmVhcml0eSBvZiBleHBlY3RhdGlvbiBnaXZlcyB0aGUgZGlzcGxheWVkIHN1bSBvZiBwcm9iYWJpbGl0aWVzLiBBcyBpIHJ1bnMgZnJvbSAxIHRvIG4tMSwgbi1pKzEgcnVucyBmcm9tIG4gZG93biB0byAyLCBzbyB0aGUgcmVjaXByb2NhbCBzdW0gaXMgSF9uLTEuIFRoZXJlZm9yZQoKICBYID0gKG4tMSkvMiAtIChIX24tMSkgPSAobisxKS8yIC0gSF9uLgoKQWxsIGluZGljZXMgYW5kIHRoZSBjb25zdGFudCB0ZXJtIGFyZSBjb3JyZWN0LgoKNC4gTG9nYXJpdGhtIGVuY2xvc3VyZXMuCgpGb3IgMDx0PDEsIHRoZSBnZW9tZXRyaWMgc2VyaWVzIGZvciAyLygxLXVeMikgaXMgdW5pZm9ybWx5IGNvbnZlcmdlbnQgb24gMDw9dTw9dCwgd2hpY2gganVzdGlmaWVzIHRlcm13aXNlIGludGVncmF0aW9uLiBJdHMgaW50ZWdyYWwgaXMgbG9nKCgxK3QpLygxLXQpKSwgeWllbGRpbmcgdGhlIHN0YXRlZCBwb3NpdGl2ZS10ZXJtIHNlcmllcy4gVGhlIHN1YnN0aXR1dGlvbnMgdD0xLzIgYW5kIHQ9MS8xOSBnaXZlIGxvZyAzIGFuZCBsb2coMTAvOSksIHJlc3BlY3RpdmVseSwgYW5kIGxvZyAxMCA9IDIgbG9nIDMgKyBsb2coMTAvOSkgaXMgY29ycmVjdC4KClRoZSBsb3dlciBib3VuZCByZXRhaW5zIGZvdXIgdGVybXMgZm9yIGxvZyAzIGFuZCBvbmUgZm9yIGxvZygxMC85KS4gRWFjaCBvbWl0dGVkIHRhaWwgaXMgcG9zaXRpdmUsIHNvIHRoZSBpbmVxdWFsaXRpZXMgYXJlIHN0cmljdC4gVGhlIGV4cGxpY2l0IGFyaXRobWV0aWMgaXMKCiAgMSArIDEvMTIgKyAxLzgwICsgMS80NDggPSA3Mzc5LzY3MjAsCiAgMig3Mzc5LzY3MjApICsgMi8xOSA9IDE0NjkyMS82Mzg0MCwKICAxNDY5MjEvNjM4NDAgPSAyMy8xMCArIDg5LzYzODQwID4gMjMvMTAuCgpGb3IgdGhlIHVwcGVyIGJvdW5kIG9uIGxvZyAzLCByZXBsYWNpbmcgZGVub21pbmF0b3JzIDJqKzEgYnkgNSBmb3Igaj49MiBpcyBhbiB1cHBlciBib3VuZCwgd2l0aCBzdHJpY3RuZXNzIHN1cHBsaWVkIGJ5IGV2ZXJ5IGo+MiB0ZXJtLiBUaGUgZ2VvbWV0cmljIHRhaWwgaXMKCiAgc3VtX3tqPTJ9XmluZmluaXR5ICgxLzIpXigyaisxKSA9ICgxLzMyKS8oMS0xLzQpID0gMS8yNC4KCkl0IGZvbGxvd3MgdGhhdCBsb2cgMyA8IDErMS8xMisoMi81KSgxLzI0KSA9IDExLzEwLiBSZXBsYWNpbmcgZXZlcnkgc2VyaWVzIGRlbm9taW5hdG9yIGZvciBsb2coMTAvOSkgYnkgMSBpcyBsaWtld2lzZSBzdHJpY3RseSBsYXJnZXIsIGJlY2F1c2UgdGhlIGo+PTEgdGVybXMgaGF2ZSBsYXJnZXIgYWN0dWFsIGRlbm9taW5hdG9ycy4gVGh1cwoKICBsb2coMTAvOSkgPCAoMi8xOSkvKDEtMS8zNjEpID0gMTkvMTgwLAogIGxvZyAxMCA8IDExLzUgKyAxOS8xODAgPSA4My8zNi4KClRoZSByZXRhaW5lZCBGSU5BTCdzIHBhcnRpY3VsYXIgcmF0aW9uYWwgYm91bmRzIGFyZSB2YWxpZCBpbmRlcGVuZGVudGx5IG9mIHRoZSBkaWZmZXJlbnQgcmF0aW9uYWwgZW5jbG9zdXJlIGRpc3BsYXllZCBpbiB0aGUgYXJpdGhtZXRpYy1jaGVja2VyIGV2aWRlbmNlLgoKNS4gSGFybW9uaWMgZW5jbG9zdXJlIGFuZCB0aGUgZmxvb3IuCgpUaGUgaW50ZWdyYWwgY29tcGFyaXNvbnMgaGF2ZSB0aGUgY29ycmVjdCBkaXJlY3Rpb25zLiBPbiBbaixqKzFdLCAxL3ggPCAxL2ogYXdheSBmcm9tIHRoZSBsZWZ0IGVuZHBvaW50LCBzbyBsb2cgbiA8IEhfe24tMX0gPCBIX24gZm9yIHRoaXMgbj4xLiBPbiBbai0xLGpdLCAxL3ggPiAxL2ogYXdheSBmcm9tIHRoZSByaWdodCBlbmRwb2ludCwgc28gZWFjaCByZWNpcHJvY2FsIHRlcm0gZm9yIGo+PTExIGlzIGJvdW5kZWQgYWJvdmUgYnkgdGhhdCBpbnRlcnZhbCdzIGludGVncmFsLiBTdW1taW5nIGdpdmVzIEhfbiA8PSBIXzEwICsgbG9nKG4vMTApLCBhcyB3cml0dGVuOyB0aGUgbm9uLXN0cmljdCB2ZXJzaW9uIHN1ZmZpY2VzLgoKRGlyZWN0IHN1bW1hdGlvbiBmb3IgSF8xMCBnaXZlcyBudW1lcmF0b3IKCiAgMjUyMCsxMjYwKzg0MCs2MzArNTA0KzQyMCszNjArMzE1KzI4MCsyNTIgPSA3MzgxCgpvdmVyIGRlbm9taW5hdG9yIDI1MjAuIFdpdGggbj0xMF4xMiwgbG9nIG4gPSAxMiBsb2cgMTAgYW5kIGxvZyhuLzEwKSA9IDExIGxvZyAxMC4gVGhlIHJlc3VsdGluZyBib3VuZHMgYXJlCgogIEhfbiA+IDEyKDIzLzEwKSA9IDEzOC81ID4gNTUvMiwKICBIX24gPCA3MzgxLzI1MjAgKyAxMSg4My8zNikKICAgICAgPSAoNzM4MSs2MzkxMCkvMjUyMCA9IDcxMjkxLzI1MjAKICAgICAgPCA3MTgyMC8yNTIwID0gNTcvMi4KClN0cmljdG5lc3MgaW4gdGhlIHVwcGVyIGVuY2xvc3VyZSBmb2xsb3dzIGZyb20gdGhlIHN0cmljdCBsb2dhcml0aG0gYm91bmQgZXZlbiBpZiB0aGUgcHJlY2VkaW5nIGludGVncmFsIGNvbXBhcmlzb24gaXMgd3JpdHRlbiBub24tc3RyaWN0bHkuIEZpbmFsbHkgKG4rMSkvMiA9IDUwMDAwMDAwMDAwMCsxLzIuIFN1YnRyYWN0aW5nIDU1LzIgPCBIX24gPCA1Ny8yIHJldmVyc2VzIHRoZSByZWxldmFudCBpbmVxdWFsaXR5IGRpcmVjdGlvbnMgYW5kIGdpdmVzCgogIDQ5OTk5OTk5OTk3MiA8IFggPCA0OTk5OTk5OTk5NzMuCgpUaGlzIHByb3ZlcyB0aGUgY2xhaW1lZCBmbG9vciB3aXRob3V0IHJlcXVpcmluZyBhIGNsb3NlciBudW1lcmljYWwgZXN0aW1hdGUgb2YgSF9uLgoKQ29uY2x1c2lvbjogU1VQUE9SVEVELiBUaGlzIGlzIGEgY29tcGxldGUgbm9uLWZvcm1hbCByZXZpZXcgb2YgdGhlIHN1cHBsaWVkIHByb29mLCBub3QgYSBtYWNoaW5lLWZvcm1hbGl6ZWQgcHJvb2YsIGFuIG9mZmljaWFsIHNjb3JlLCBhIG5vdmVsdHkgY2xhaW0sIG9yIGluZGVwZW5kZW50IGF0dGVzdGF0aW9uIG9mIG1vZGVsL2JhY2tlbmQvaGlkZGVuIHJlc291cmNlIHVzZS4gVGhlIGNoZWNrZXIgc3VwcGxpZXMgYXJpdGhtZXRpYy1vbmx5IGV2aWRlbmNlIGFuZCBkb2VzIG5vdCBpdHNlbGYgZXN0YWJsaXNoIHRoZSByZWN1cnNpdmUgbGVtbWE7IHRoYXQgbGVtbWEgYW5kIHRoZSBzdWJzZXF1ZW50IGNvdW50aW5nIGhhdmUgYmVlbiBhc3Nlc3NlZCBhYm92ZSBvbiB0aGVpciBvd24gbWF0aGVtYXRpY2FsIG1lcml0cy4K"
+    }
+  ],
+  "currentPrompt": null,
+  "liveReady": true,
+  "expired": false,
+  "checker": {
+    "status": "SUPPORTED_UNDER_LEMMA_ARITHMETIC",
+    "reason": "ARITHMETIC_ONLY_MATCH_PROOF_REVIEW_REQUIRED",
+    "binding": {
+      "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+      "finalDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+      "sourceBundleDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+      "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454"
+    },
+    "candidateDigest": "cc6eb2217e25f6673bd6412f92e51f96b95cb9bb6f33ea5f41bc254690e49eb1",
+    "certificateDigest": "f58d9be310572624f2fa335055a7e5bd85ca319d7aff95058e9ca734cfdecfe0",
+    "claimedFloor": "499999999972",
+    "arithmetic": {
+      "n": "1000000000000",
+      "seriesTerms": 16,
+      "derivedFloor": "499999999972",
+      "log10": {
+        "partial": {
+          "numerator": "6714579034858146244172921088148816422073728",
+          "denominator": "2916383892936159917587477271740677008736775"
+        },
+        "remainderUpper": {
+          "numerator": "10301051460877537453973547267843",
+          "denominator": "42227553490705105710912305084198420"
+        },
+        "lower": {
+          "numerator": "23",
+          "denominator": "10"
+        },
+        "upper": {
+          "numerator": "231",
+          "denominator": "100"
+        }
+      },
+      "harmonicBounds": {
+        "lower": {
+          "numerator": "138",
+          "denominator": "5"
+        },
+        "upper": {
+          "numerator": "357071",
+          "denominator": "12600"
+        },
+        "strict": true
+      },
+      "expectationBounds": {
+        "lower": {
+          "numerator": "6299999999649229",
+          "denominator": "12600"
+        },
+        "upper": {
+          "numerator": "4999999999729",
+          "denominator": "10"
+        },
+        "strict": true
+      }
+    },
+    "assumptions": [
+      "Written maximum-root/postorder interval lemma: an inverse adjacent-value descent survives exactly when a larger label separates the reversed pair.",
+      "Uniform S_n relative-order symmetry, oriented adjacent-block counting and linearity of expectation give X=(n+1)/2-H_n.",
+      "Written integral comparison and finite geometric-series logarithm remainder justify the rational bounds; not machine-formalized foundations.",
+      "Only the arithmetic certificate is assessed; proof text requires separate NON-FORMAL argument review. No official score, novelty or model-ability acceptance."
+    ],
+    "proofValidation": "NOT_VALIDATED_NON_FORMAL_REVIEW_REQUIRED",
+    "formalProof": "NOT_ESTABLISHED",
+    "officialScore": "NOT_ESTABLISHED",
+    "measurements": {
+      "elapsedMilliseconds": 1.4701249999925494,
+      "rationalOperations": 76,
+      "gcdIterations": 2196,
+      "peakIntegerBits": 258
+    }
+  },
+  "prompts": [
+    {
+      "role": "ATTEMPT",
+      "digest": "2ebd58bbc76540eb9102adeb3a3e6a52c518377616f5ace8e3360ca6d126b683",
+      "bytes": 1066,
+      "base64": "Q09ERVhfQVNTSVNURUQg4oCUIGZyZXNoIHNlcGFyYXRlIGNvbnRleHQ7IG9uZSB2aXNpYmxlIHJlcXVlc3QgZm9yIHRoaXMgcmVzZXJ2ZWQgcm9sZS4gTm8gcGFpZCBBUEkuIFRvb2xzL2hpZGRlbiB3b3JrIG1heSBiZSBVTktOT1dOOyBubyBpbmZlcmVuY2Utb25seSBndWFyYW50ZWUuCgpMZXQgVyBiZSB0aGUgZmluaXRlIHdvcmRzIG9mIGRpc3RpbmN0IHBvc2l0aXZlIGludGVnZXJzLiBEZWZpbmUgRihlbXB0eSk9ZW1wdHkuIElmIHc9TCBtIFIgd2l0aCBtYXhpbXVtIGxldHRlciBtLCBkZWZpbmUgRih3KT1GKEwpRihSKW0uIExldCBzaWdtYSBiZSB1bmlmb3JtbHkgcmFuZG9tIGFtb25nIHBlcm11dGF0aW9ucyBvZiB7MSwuLi4sbn0sIG49MTAwMDAwMDAwMDAwMC4gTGV0IFg9RVsje2k6MTw9aTxuLCBwb3NfRihzaWdtYSkoaSsxKTxwb3NfRihzaWdtYSkoaSl9XS4gQ29tcHV0ZSBmbG9vcihYKSwgd2l0aCBhIGNvbXBsZXRlIG1hdGhlbWF0aWNhbCBqdXN0aWZpY2F0aW9uLgoKS25vd24gcHVibGljIEZyb250aWVyTWF0aCBUaWVyIDIgc2FtcGxlLiBOb3QgYmxpbmQsIG9mZmljaWFsIHNjb3JlIG9yIGRpc2NvdmVyeS4gU3RhbmRhcmQgU19uIG1lYW5zIHBlcm11dGF0aW9ucyBvbiBuIGxldHRlcnMuCgpGaXhlZCBuPTEwMDAwMDAwMDAwMDAuIFJvbGU9QVRURU1QVC4gUnVuPThlYzNmYTViLWQ0MjMtNDA1NS04NWJhLWMyNzY0YWNlNGZkZi4gVGFza1NIQT03ZTMxZDU4MjU2YWNjZDA1NTA3NGM1YTQ3M2FmMTU4ODc1MGZmYWRkMTAyMWJkMTA3MDFjMjRjZGI4MDE5NDU0LiBTb3VyY2VTSEE9YWQ5M2U2MWE4MjZkYjFhNTg0YzhkZWQyYTE1OTg3NmYzOWRlZjMwNTE3Yzc3NWI2Zjk4MTk1ZGM0OTU5MjU5Ny4KCkRldmVsb3AgYW4gb3JpZ2luYWwgc29sdXRpb24gYW5kIGp1c3RpZmljYXRpb24uIEdpdmUgdGhlIHJlcXVlc3RlZCBpbnRlZ2VyIGFuZCB0aGUgbWF0aGVtYXRpY2FsIGFyZ3VtZW50LiBTdGF0ZSB1bnJlc29sdmVkIGdhcHMgaG9uZXN0bHkuCgpSZXR1cm4gdGhlIG9yaWdpbmFsIHJlYXNvbmluZyBhcyBwbGFpbiBVVEY4IHRleHQsIG1heGltdW0zMjc2OGJ5dGVzLg=="
+    },
+    {
+      "role": "CRITIC",
+      "digest": "1bc64199d3521feaf8d19bcb14e4906d4c6be7dee7e01feb94d45ac85769643d",
+      "bytes": 5189,
+      "base64": "Q09ERVhfQVNTSVNURUQg4oCUIGZyZXNoIHNlcGFyYXRlIGNvbnRleHQ7IG9uZSB2aXNpYmxlIHJlcXVlc3QgZm9yIHRoaXMgcmVzZXJ2ZWQgcm9sZS4gTm8gcGFpZCBBUEkuIFRvb2xzL2hpZGRlbiB3b3JrIG1heSBiZSBVTktOT1dOOyBubyBpbmZlcmVuY2Utb25seSBndWFyYW50ZWUuCgpMZXQgVyBiZSB0aGUgZmluaXRlIHdvcmRzIG9mIGRpc3RpbmN0IHBvc2l0aXZlIGludGVnZXJzLiBEZWZpbmUgRihlbXB0eSk9ZW1wdHkuIElmIHc9TCBtIFIgd2l0aCBtYXhpbXVtIGxldHRlciBtLCBkZWZpbmUgRih3KT1GKEwpRihSKW0uIExldCBzaWdtYSBiZSB1bmlmb3JtbHkgcmFuZG9tIGFtb25nIHBlcm11dGF0aW9ucyBvZiB7MSwuLi4sbn0sIG49MTAwMDAwMDAwMDAwMC4gTGV0IFg9RVsje2k6MTw9aTxuLCBwb3NfRihzaWdtYSkoaSsxKTxwb3NfRihzaWdtYSkoaSl9XS4gQ29tcHV0ZSBmbG9vcihYKSwgd2l0aCBhIGNvbXBsZXRlIG1hdGhlbWF0aWNhbCBqdXN0aWZpY2F0aW9uLgoKS25vd24gcHVibGljIEZyb250aWVyTWF0aCBUaWVyIDIgc2FtcGxlLiBOb3QgYmxpbmQsIG9mZmljaWFsIHNjb3JlIG9yIGRpc2NvdmVyeS4gU3RhbmRhcmQgU19uIG1lYW5zIHBlcm11dGF0aW9ucyBvbiBuIGxldHRlcnMuCgpGaXhlZCBuPTEwMDAwMDAwMDAwMDAuIFJvbGU9Q1JJVElDLiBSdW49OGVjM2ZhNWItZDQyMy00MDU1LTg1YmEtYzI3NjRhY2U0ZmRmLiBUYXNrU0hBPTdlMzFkNTgyNTZhY2NkMDU1MDc0YzVhNDczYWYxNTg4NzUwZmZhZGQxMDIxYmQxMDcwMWMyNGNkYjgwMTk0NTQuIFNvdXJjZVNIQT1hZDkzZTYxYTgyNmRiMWE1ODRjOGRlZDJhMTU5ODc2ZjM5ZGVmMzA1MTdjNzc1YjZmOTgxOTVkYzQ5NTkyNTk3LgoKQ3JpdGlxdWUgdGhlIHJldGFpbmVkIEFUVEVNUFQuIElkZW50aWZ5IGNvbmNyZXRlIG1hdGhlbWF0aWNhbCBnYXBzIG9yIGVycm9yczsgZG8gbm90IHJlbHkgb24gaXRzIGNvbmZpZGVuY2UuCgpSZXR1cm4gdGhlIG9yaWdpbmFsIHJlYXNvbmluZyBhcyBwbGFpbiBVVEY4IHRleHQsIG1heGltdW0zMjc2OGJ5dGVzLgoKUmV0YWluZWQgQVRURU1QVDsgZXhhY3QgcmVjZWl2ZWQgVVRGOCBTSEEyNTY9ODhlNGM4ODgzNTQ4MmFiZDRjMTI2OTk2Y2VjYzc5OGMzZjM3YmM5MmE4YTFlZjhkMzI0ZTVhMTllYTBiNTQyNwpUaGUgcmVxdWVzdGVkIGludGVnZXIgaXMgNDk5OTk5OTk5OTcyLgoKRmlyc3QgSSBkZXRlcm1pbmUgdGhlIGV4cGVjdGVkIHZhbHVlIGV4YWN0bHkuIEZvciBhbnkgd29yZCBvZiBkaXN0aW5jdCBsZXR0ZXJzLCB0YWtlIHR3byBsZXR0ZXJzIGE8YiBhbmQgY29uc2lkZXIgdGhlIGNvbnRpZ3VvdXMgaW50ZXJ2YWwgaW4gdGhlIG9yaWdpbmFsIHdvcmQgd2hvc2UgZW5kcG9pbnRzIGFyZSBhIGFuZCBiLiBUaGUgZm9sbG93aW5nIG9ic2VydmF0aW9uIGZvbGxvd3MgZnJvbSB0aGUgcmVjdXJzaXZlIGRlZmluaXRpb24gb2YgRjoKCklmIHRoZSBtYXhpbXVtIG9mIHRoaXMgaW50ZXJ2YWwgaXMgYiwgdGhlbiBhIHByZWNlZGVzIGIgaW4gRih3KS4gSWYgdGhlIGludGVydmFsIGNvbnRhaW5zIGEgbGV0dGVyIGdyZWF0ZXIgdGhhbiBiLCB0aGVuIHRoZSByZWxhdGl2ZSBvcmRlciBvZiBhIGFuZCBiIGluIEYodykgaXMgdGhlaXIgb3JpZ2luYWwgcmVsYXRpdmUgb3JkZXIuCgpIZXJlIGlzIGEganVzdGlmaWNhdGlvbiB0aGF0IGFsc28gaGFuZGxlcyBsZXR0ZXJzIG91dHNpZGUgdGhlIGludGVydmFsLiBBdCBhbnkgc3RlcCBvZiB0aGUgcmVjdXJzaW9uLCBpZiB0aGUgbWF4aW11bSBvZiB0aGUgY3VycmVudCB3b3JkIGxpZXMgb3V0c2lkZSB0aGUgaW50ZXJ2YWwgYmV0d2VlbiB0aGUgdHdvIGxldHRlcnMsIGJvdGggbGV0dGVycyBiZWxvbmcgdG8gdGhlIHNhbWUgcmVjdXJzaXZlIHN1YndvcmQuIFdlIGNhbiB0aGVyZWZvcmUgZGVzY2VuZCBpbnRvIHRoYXQgc3Vid29yZC4gRXZlbnR1YWxseSB0aGUgbWF4aW11bSBpcyBpbiB0aGUgaW50ZXJ2YWwuIElmIGl0IGlzIGIsIHRoZSBkZWZpbml0aW9uIHB1dHMgYiBhZnRlciBldmVyeSBsZXR0ZXIgb2YgaXRzIGN1cnJlbnQgc3Vid29yZCwgaW5jbHVkaW5nIGEuIE90aGVyd2lzZSB0aGUgbWF4aW11bSBsaWVzIHN0cmljdGx5IGJldHdlZW4gdGhlIHR3byBlbmRwb2ludHMgYW5kIGV4Y2VlZHMgYi4gVGhlIHR3byBsZXR0ZXJzIHRoZW4gbGllIGluIHRoZSB0d28gZGlmZmVyZW50IHJlY3Vyc2l2ZSBzdWJ3b3JkcywgYW5kIEYgY29uY2F0ZW5hdGVzIHRob3NlIHN1YndvcmRzIGluIHRoZWlyIG9yaWdpbmFsIGxlZnQtdG8tcmlnaHQgb3JkZXIuIFRoZWlyIHJlbGF0aXZlIG9yZGVyIGlzIGNvbnNlcXVlbnRseSBwcmVzZXJ2ZWQuIFRoaXMgcHJvdmVzIHRoZSBvYnNlcnZhdGlvbi4KCkFwcGx5IGl0IHRvIGE9aSBhbmQgYj1pKzEuIFRoZSBldmVudCB0aGF0IGkrMSBwcmVjZWRlcyBpIGluIEYoc2lnbWEpIG9jY3VycyBleGFjdGx5IHdoZW4gYm90aCBvZiB0aGUgZm9sbG93aW5nIGhvbGQ6CgooMSkgaSsxIHByZWNlZGVzIGkgaW4gc2lnbWE7CigyKSBhdCBsZWFzdCBvbmUgbGV0dGVyIGdyZWF0ZXIgdGhhbiBpKzEgbGllcyBiZXR3ZWVuIHRoZW0gaW4gc2lnbWEuCgpMZXQgaz1uLWktMSBiZSB0aGUgbnVtYmVyIG9mIGxldHRlcnMgZ3JlYXRlciB0aGFuIGkrMS4gRGVsZXRlIGFsbCBsZXR0ZXJzIG90aGVyIHRoYW4gaSwgaSsxLCBhbmQgdGhlc2UgayBncmVhdGVyIGxldHRlcnMuIFRoZWlyIHJlbGF0aXZlIG9yZGVyIGlzIGEgdW5pZm9ybSBwZXJtdXRhdGlvbiBvZiBrKzIgZGlzdGluY3QgbGV0dGVycy4gQ29uZGl0aW9uICgyKSBmYWlscyBleGFjdGx5IHdoZW4gaSBhbmQgaSsxIGFyZSBhZGphY2VudCBpbiB0aGlzIHJlZHVjZWQgcGVybXV0YXRpb24uIFRoZSBwcm9iYWJpbGl0eSBvZiBhZGphY2VuY3kgaXMKClxbClxmcmFjezIoaysxKSF9eyhrKzIpIX09XGZyYWN7Mn17aysyfS4KXF0KClN3YXBwaW5nIHRoZSBsYWJlbHMgaSBhbmQgaSsxIHByZXNlcnZlcyBhZGphY2VuY3kgb3Igbm9uYWRqYWNlbmN5IGFuZCByZXZlcnNlcyB3aGljaCBvZiB0aGVtIGNvbWVzIGZpcnN0LiBUaGVyZWZvcmUgZXhhY3RseSBoYWxmIG9mIHRoZSBub25hZGphY2VudCBjYXNlcyBzYXRpc2Z5ICgxKS4gSXQgZm9sbG93cyB0aGF0CgpcWwpcUHJcYmlnbChcb3BlcmF0b3JuYW1le3Bvc31fe0YoXHNpZ21hKX0oaSsxKQogPFxvcGVyYXRvcm5hbWV7cG9zfV97Rihcc2lnbWEpfShpKVxiaWdyKQo9XGZyYWMxMlxsZWZ0KDEtXGZyYWN7Mn17bi1pKzF9XHJpZ2h0KQo9XGZyYWMxMi1cZnJhY3sxfXtuLWkrMX0uClxdCgpCeSBsaW5lYXJpdHkgb2YgZXhwZWN0YXRpb24sIHdpdGggSF9uIGRlbm90aW5nIHRoZSBudGggaGFybW9uaWMgbnVtYmVyLAoKXFsKWD1cc3VtX3tpPTF9XntuLTF9XGxlZnQoXGZyYWMxMi1cZnJhY3sxfXtuLWkrMX1ccmlnaHQpCj1cZnJhY3tuLTF9ezJ9LShIX24tMSkKPVxmcmFje24rMX17Mn0tSF9uLgpcXQoKRm9yIGNvbXBsZXRlbmVzcywgSSBnaXZlIGVsZW1lbnRhcnkgcmlnb3JvdXMgYm91bmRzIHN1ZmZpY2llbnQgdG8gdGFrZSB0aGUgZmxvb3IgYXQgdGhlIHNwZWNpZmllZCBsYXJnZSBuLCB3aXRob3V0IHJlbHlpbmcgb24gZmxvYXRpbmctcG9pbnQgZXZhbHVhdGlvbi4gSSB3aWxsIHNob3cKClxbClxmcmFjezU1fXsyfTxIX3sxMF57MTJ9fTxcZnJhY3s1N317Mn0uClxdCgpUaGUgaWRlbnRpdHkKClxbClxsb2dcZnJhY3sxK3R9ezEtdH0KPTJcc3VtX3tqPTB9XntcaW5mdHl9XGZyYWN7dF57MmorMX19ezJqKzF9ClxxcXVhZCAoMDx0PDEpClxdCgpmb2xsb3dzIGJ5IGludGVncmF0aW5nIHRoZSBnZW9tZXRyaWMgc2VyaWVzIGZvciAyLygxLXReMikuIEFsbCBpdHMgdGVybXMgYXJlIHBvc2l0aXZlLiBTdWJzdGl0dXRpbmcgdD0xLzIgZ2l2ZXMgdGhlIHNlcmllcyBmb3IgbG9nIDMsIHdoaWxlIHQ9MS8xOSBnaXZlcyB0aGUgc2VyaWVzIGZvciBsb2coMTAvOSkuIFRodXMKClxbClxiZWdpbnthbGlnbmVkfQpcbG9nIDEwCiY9Mlxsb2cgMytcbG9nKDEwLzkpXFwKJj4yXGxlZnQoMStcZnJhYzF7MTJ9K1xmcmFjMXs4MH0rXGZyYWMxezQ0OH1ccmlnaHQpK1xmcmFjMnsxOX1cXAomPVxmcmFjezIzfXsxMH0rXGZyYWN7ODl9ezYzODQwfQo+XGZyYWN7MjN9ezEwfS4KXGVuZHthbGlnbmVkfQpcXQoKRm9yIGFuIHVwcGVyIGJvdW5kLCB0aGUgdGFpbCBvZiB0aGUgbG9nIDMgc2VyaWVzIHN0YXJ0aW5nIGF0IGo9MiBpcyBzdHJpY3RseSBsZXNzIHRoYW4gdGhlIGdlb21ldHJpYyBib3VuZCBvYnRhaW5lZCBieSByZXBsYWNpbmcgYWxsIGl0cyBkZW5vbWluYXRvcnMgYnkgNS4gSGVuY2UKClxbClxsb2cgMwo8MStcZnJhYzF7MTJ9K1xmcmFjMjVcc3VtX3tqPTJ9XntcaW5mdHl9KDEvMileezJqKzF9Cj0xK1xmcmFjMXsxMn0rXGZyYWMxezYwfQo9XGZyYWN7MTF9ezEwfS4KXF0KClNpbWlsYXJseSwgcmVwbGFjaW5nIGFsbCB0aGUgZGVub21pbmF0b3JzIGluIHRoZSBvdGhlciBzZXJpZXMgYnkgMSBnaXZlcwoKXFsKXGxvZygxMC85KQo8MlxzdW1fe2o9MH1ee1xpbmZ0eX0oMS8xOSleezJqKzF9Cj1cZnJhY3sxOX17MTgwfS4KXF0KCkNvbnNlcXVlbnRseQoKXFsKXGxvZyAxMDxcZnJhY3sxMX17NX0rXGZyYWN7MTl9ezE4MH09XGZyYWN7ODN9ezM2fS4KXF0KClNpbmNlIDEveCBpcyBkZWNyZWFzaW5nLCBpbnRlZ3JhbCBjb21wYXJpc29uIGdpdmVzCgpcWwpIX24+XGxvZyBuClxxdWFkXHRleHR7YW5kfVxxdWFkCkhfblxsZXEgSF97MTB9K1xpbnRfezEwfV57bn1cZnJhY3tkeH17eH0KPUhfezEwfStcbG9nKG4vMTApClxxcXVhZChuXGdlcSAxMCkuClxdCgpBdCBuPTEwXnsxMn0sIHVzaW5nIEhfMTA9NzM4MS8yNTIwLCB0aGVzZSBib3VuZHMgaW1wbHkKClxbCkhfbj4xMlxjZG90XGZyYWN7MjN9ezEwfT1cZnJhY3sxMzh9ezV9PlxmcmFjezU1fXsyfSwKXF0KCmFuZAoKXFsKSF9uPFxmcmFjezczODF9ezI1MjB9KzExXGNkb3RcZnJhY3s4M317MzZ9Cj1cZnJhY3s3MTI5MX17MjUyMH0KPFxmcmFjezcxODIwfXsyNTIwfT1cZnJhY3s1N317Mn0uClxdCgpGaW5hbGx5IG4vMj01MDAwMDAwMDAwMDAsIHNvCgpcWwpYPTUwMDAwMDAwMDAwMCtcZnJhYzEyLUhfbi4KXF0KClRoZSBib3VuZHMganVzdCBwcm92ZWQgZ2l2ZQoKXFsKNDk5OTk5OTk5OTcyPFg8NDk5OTk5OTk5OTczLgpcXQoKVGhlcmVmb3JlCgpcWwpcYm94ZWR7XGxmbG9vciBYXHJmbG9vcj00OTk5OTk5OTk5NzJ9LgpcXQo="
+    },
+    {
+      "role": "FINAL",
+      "digest": "e22ac20f1c14a2aee8753a1a5ed4f6d4374f591a736d2483a6f3d1ff03af2a93",
+      "bytes": 9690,
+      "base64": "Q09ERVhfQVNTSVNURUQg4oCUIGZyZXNoIHNlcGFyYXRlIGNvbnRleHQ7IG9uZSB2aXNpYmxlIHJlcXVlc3QgZm9yIHRoaXMgcmVzZXJ2ZWQgcm9sZS4gTm8gcGFpZCBBUEkuIFRvb2xzL2hpZGRlbiB3b3JrIG1heSBiZSBVTktOT1dOOyBubyBpbmZlcmVuY2Utb25seSBndWFyYW50ZWUuCgpMZXQgVyBiZSB0aGUgZmluaXRlIHdvcmRzIG9mIGRpc3RpbmN0IHBvc2l0aXZlIGludGVnZXJzLiBEZWZpbmUgRihlbXB0eSk9ZW1wdHkuIElmIHc9TCBtIFIgd2l0aCBtYXhpbXVtIGxldHRlciBtLCBkZWZpbmUgRih3KT1GKEwpRihSKW0uIExldCBzaWdtYSBiZSB1bmlmb3JtbHkgcmFuZG9tIGFtb25nIHBlcm11dGF0aW9ucyBvZiB7MSwuLi4sbn0sIG49MTAwMDAwMDAwMDAwMC4gTGV0IFg9RVsje2k6MTw9aTxuLCBwb3NfRihzaWdtYSkoaSsxKTxwb3NfRihzaWdtYSkoaSl9XS4gQ29tcHV0ZSBmbG9vcihYKSwgd2l0aCBhIGNvbXBsZXRlIG1hdGhlbWF0aWNhbCBqdXN0aWZpY2F0aW9uLgoKS25vd24gcHVibGljIEZyb250aWVyTWF0aCBUaWVyIDIgc2FtcGxlLiBOb3QgYmxpbmQsIG9mZmljaWFsIHNjb3JlIG9yIGRpc2NvdmVyeS4gU3RhbmRhcmQgU19uIG1lYW5zIHBlcm11dGF0aW9ucyBvbiBuIGxldHRlcnMuCgpGaXhlZCBuPTEwMDAwMDAwMDAwMDAuIFJvbGU9RklOQUwuIFJ1bj04ZWMzZmE1Yi1kNDIzLTQwNTUtODViYS1jMjc2NGFjZTRmZGYuIFRhc2tTSEE9N2UzMWQ1ODI1NmFjY2QwNTUwNzRjNWE0NzNhZjE1ODg3NTBmZmFkZDEwMjFiZDEwNzAxYzI0Y2RiODAxOTQ1NC4gU291cmNlU0hBPWFkOTNlNjFhODI2ZGIxYTU4NGM4ZGVkMmExNTk4NzZmMzlkZWYzMDUxN2M3NzViNmY5ODE5NWRjNDk1OTI1OTcuCgpQcm9kdWNlIHlvdXIgZmluYWwgYW5zd2VyIGFuZCBjb21wbGV0ZSBqdXN0aWZpY2F0aW9uIHVzaW5nIHRoZSByZXRhaW5lZCBhdHRlbXB0IGFuZCBjcml0aXF1ZS4gSWYgdW5yZXNvbHZlZCwgZXhwbGljaXRseSByZXBvcnQgaW5jb25jbHVzaXZlLgoKUmV0dXJuIG9uZSBzdHJpY3QgSlNPTiBvYmplY3QgeyJwcm9vZiI6ImNvbXBsZXRlIGFyZ3VtZW50IiwiY2VydGlmaWNhdGUiOnsidmVyc2lvbiI6MSwia2luZCI6IkVYUEVDVEVEX0lOVkVSU0VfREVTQ0VOVF9GTE9PUiIsIm4iOiIxMDAwMDAwMDAwMDAwIiwiZmxvb3IiOiJjYW5vbmljYWwgdW5zaWduZWQgZGVjaW1hbCBpbnRlZ2VyIn19LiBNYXhpbXVtMzI3NjhVVEY4Ynl0ZXMuIE5vIGV4dHJhIGZpZWxkcyBvciBtYXJrZG93biBmZW5jZXMuCgpSZXRhaW5lZCBBVFRFTVBUOyBleGFjdCByZWNlaXZlZCBVVEY4IFNIQTI1Nj04OGU0Yzg4ODM1NDgyYWJkNGMxMjY5OTZjZWNjNzk4YzNmMzdiYzkyYThhMWVmOGQzMjRlNWExOWVhMGI1NDI3ClRoZSByZXF1ZXN0ZWQgaW50ZWdlciBpcyA0OTk5OTk5OTk5NzIuCgpGaXJzdCBJIGRldGVybWluZSB0aGUgZXhwZWN0ZWQgdmFsdWUgZXhhY3RseS4gRm9yIGFueSB3b3JkIG9mIGRpc3RpbmN0IGxldHRlcnMsIHRha2UgdHdvIGxldHRlcnMgYTxiIGFuZCBjb25zaWRlciB0aGUgY29udGlndW91cyBpbnRlcnZhbCBpbiB0aGUgb3JpZ2luYWwgd29yZCB3aG9zZSBlbmRwb2ludHMgYXJlIGEgYW5kIGIuIFRoZSBmb2xsb3dpbmcgb2JzZXJ2YXRpb24gZm9sbG93cyBmcm9tIHRoZSByZWN1cnNpdmUgZGVmaW5pdGlvbiBvZiBGOgoKSWYgdGhlIG1heGltdW0gb2YgdGhpcyBpbnRlcnZhbCBpcyBiLCB0aGVuIGEgcHJlY2VkZXMgYiBpbiBGKHcpLiBJZiB0aGUgaW50ZXJ2YWwgY29udGFpbnMgYSBsZXR0ZXIgZ3JlYXRlciB0aGFuIGIsIHRoZW4gdGhlIHJlbGF0aXZlIG9yZGVyIG9mIGEgYW5kIGIgaW4gRih3KSBpcyB0aGVpciBvcmlnaW5hbCByZWxhdGl2ZSBvcmRlci4KCkhlcmUgaXMgYSBqdXN0aWZpY2F0aW9uIHRoYXQgYWxzbyBoYW5kbGVzIGxldHRlcnMgb3V0c2lkZSB0aGUgaW50ZXJ2YWwuIEF0IGFueSBzdGVwIG9mIHRoZSByZWN1cnNpb24sIGlmIHRoZSBtYXhpbXVtIG9mIHRoZSBjdXJyZW50IHdvcmQgbGllcyBvdXRzaWRlIHRoZSBpbnRlcnZhbCBiZXR3ZWVuIHRoZSB0d28gbGV0dGVycywgYm90aCBsZXR0ZXJzIGJlbG9uZyB0byB0aGUgc2FtZSByZWN1cnNpdmUgc3Vid29yZC4gV2UgY2FuIHRoZXJlZm9yZSBkZXNjZW5kIGludG8gdGhhdCBzdWJ3b3JkLiBFdmVudHVhbGx5IHRoZSBtYXhpbXVtIGlzIGluIHRoZSBpbnRlcnZhbC4gSWYgaXQgaXMgYiwgdGhlIGRlZmluaXRpb24gcHV0cyBiIGFmdGVyIGV2ZXJ5IGxldHRlciBvZiBpdHMgY3VycmVudCBzdWJ3b3JkLCBpbmNsdWRpbmcgYS4gT3RoZXJ3aXNlIHRoZSBtYXhpbXVtIGxpZXMgc3RyaWN0bHkgYmV0d2VlbiB0aGUgdHdvIGVuZHBvaW50cyBhbmQgZXhjZWVkcyBiLiBUaGUgdHdvIGxldHRlcnMgdGhlbiBsaWUgaW4gdGhlIHR3byBkaWZmZXJlbnQgcmVjdXJzaXZlIHN1YndvcmRzLCBhbmQgRiBjb25jYXRlbmF0ZXMgdGhvc2Ugc3Vid29yZHMgaW4gdGhlaXIgb3JpZ2luYWwgbGVmdC10by1yaWdodCBvcmRlci4gVGhlaXIgcmVsYXRpdmUgb3JkZXIgaXMgY29uc2VxdWVudGx5IHByZXNlcnZlZC4gVGhpcyBwcm92ZXMgdGhlIG9ic2VydmF0aW9uLgoKQXBwbHkgaXQgdG8gYT1pIGFuZCBiPWkrMS4gVGhlIGV2ZW50IHRoYXQgaSsxIHByZWNlZGVzIGkgaW4gRihzaWdtYSkgb2NjdXJzIGV4YWN0bHkgd2hlbiBib3RoIG9mIHRoZSBmb2xsb3dpbmcgaG9sZDoKCigxKSBpKzEgcHJlY2VkZXMgaSBpbiBzaWdtYTsKKDIpIGF0IGxlYXN0IG9uZSBsZXR0ZXIgZ3JlYXRlciB0aGFuIGkrMSBsaWVzIGJldHdlZW4gdGhlbSBpbiBzaWdtYS4KCkxldCBrPW4taS0xIGJlIHRoZSBudW1iZXIgb2YgbGV0dGVycyBncmVhdGVyIHRoYW4gaSsxLiBEZWxldGUgYWxsIGxldHRlcnMgb3RoZXIgdGhhbiBpLCBpKzEsIGFuZCB0aGVzZSBrIGdyZWF0ZXIgbGV0dGVycy4gVGhlaXIgcmVsYXRpdmUgb3JkZXIgaXMgYSB1bmlmb3JtIHBlcm11dGF0aW9uIG9mIGsrMiBkaXN0aW5jdCBsZXR0ZXJzLiBDb25kaXRpb24gKDIpIGZhaWxzIGV4YWN0bHkgd2hlbiBpIGFuZCBpKzEgYXJlIGFkamFjZW50IGluIHRoaXMgcmVkdWNlZCBwZXJtdXRhdGlvbi4gVGhlIHByb2JhYmlsaXR5IG9mIGFkamFjZW5jeSBpcwoKXFsKXGZyYWN7MihrKzEpIX17KGsrMikhfT1cZnJhY3syfXtrKzJ9LgpcXQoKU3dhcHBpbmcgdGhlIGxhYmVscyBpIGFuZCBpKzEgcHJlc2VydmVzIGFkamFjZW5jeSBvciBub25hZGphY2VuY3kgYW5kIHJldmVyc2VzIHdoaWNoIG9mIHRoZW0gY29tZXMgZmlyc3QuIFRoZXJlZm9yZSBleGFjdGx5IGhhbGYgb2YgdGhlIG5vbmFkamFjZW50IGNhc2VzIHNhdGlzZnkgKDEpLiBJdCBmb2xsb3dzIHRoYXQKClxbClxQclxiaWdsKFxvcGVyYXRvcm5hbWV7cG9zfV97Rihcc2lnbWEpfShpKzEpCiA8XG9wZXJhdG9ybmFtZXtwb3N9X3tGKFxzaWdtYSl9KGkpXGJpZ3IpCj1cZnJhYzEyXGxlZnQoMS1cZnJhY3syfXtuLWkrMX1ccmlnaHQpCj1cZnJhYzEyLVxmcmFjezF9e24taSsxfS4KXF0KCkJ5IGxpbmVhcml0eSBvZiBleHBlY3RhdGlvbiwgd2l0aCBIX24gZGVub3RpbmcgdGhlIG50aCBoYXJtb25pYyBudW1iZXIsCgpcWwpYPVxzdW1fe2k9MX1ee24tMX1cbGVmdChcZnJhYzEyLVxmcmFjezF9e24taSsxfVxyaWdodCkKPVxmcmFje24tMX17Mn0tKEhfbi0xKQo9XGZyYWN7bisxfXsyfS1IX24uClxdCgpGb3IgY29tcGxldGVuZXNzLCBJIGdpdmUgZWxlbWVudGFyeSByaWdvcm91cyBib3VuZHMgc3VmZmljaWVudCB0byB0YWtlIHRoZSBmbG9vciBhdCB0aGUgc3BlY2lmaWVkIGxhcmdlIG4sIHdpdGhvdXQgcmVseWluZyBvbiBmbG9hdGluZy1wb2ludCBldmFsdWF0aW9uLiBJIHdpbGwgc2hvdwoKXFsKXGZyYWN7NTV9ezJ9PEhfezEwXnsxMn19PFxmcmFjezU3fXsyfS4KXF0KClRoZSBpZGVudGl0eQoKXFsKXGxvZ1xmcmFjezErdH17MS10fQo9MlxzdW1fe2o9MH1ee1xpbmZ0eX1cZnJhY3t0XnsyaisxfX17MmorMX0KXHFxdWFkICgwPHQ8MSkKXF0KCmZvbGxvd3MgYnkgaW50ZWdyYXRpbmcgdGhlIGdlb21ldHJpYyBzZXJpZXMgZm9yIDIvKDEtdF4yKS4gQWxsIGl0cyB0ZXJtcyBhcmUgcG9zaXRpdmUuIFN1YnN0aXR1dGluZyB0PTEvMiBnaXZlcyB0aGUgc2VyaWVzIGZvciBsb2cgMywgd2hpbGUgdD0xLzE5IGdpdmVzIHRoZSBzZXJpZXMgZm9yIGxvZygxMC85KS4gVGh1cwoKXFsKXGJlZ2lue2FsaWduZWR9Clxsb2cgMTAKJj0yXGxvZyAzK1xsb2coMTAvOSlcXAomPjJcbGVmdCgxK1xmcmFjMXsxMn0rXGZyYWMxezgwfStcZnJhYzF7NDQ4fVxyaWdodCkrXGZyYWMyezE5fVxcCiY9XGZyYWN7MjN9ezEwfStcZnJhY3s4OX17NjM4NDB9Cj5cZnJhY3syM317MTB9LgpcZW5ke2FsaWduZWR9ClxdCgpGb3IgYW4gdXBwZXIgYm91bmQsIHRoZSB0YWlsIG9mIHRoZSBsb2cgMyBzZXJpZXMgc3RhcnRpbmcgYXQgaj0yIGlzIHN0cmljdGx5IGxlc3MgdGhhbiB0aGUgZ2VvbWV0cmljIGJvdW5kIG9idGFpbmVkIGJ5IHJlcGxhY2luZyBhbGwgaXRzIGRlbm9taW5hdG9ycyBieSA1LiBIZW5jZQoKXFsKXGxvZyAzCjwxK1xmcmFjMXsxMn0rXGZyYWMyNVxzdW1fe2o9Mn1ee1xpbmZ0eX0oMS8yKV57MmorMX0KPTErXGZyYWMxezEyfStcZnJhYzF7NjB9Cj1cZnJhY3sxMX17MTB9LgpcXQoKU2ltaWxhcmx5LCByZXBsYWNpbmcgYWxsIHRoZSBkZW5vbWluYXRvcnMgaW4gdGhlIG90aGVyIHNlcmllcyBieSAxIGdpdmVzCgpcWwpcbG9nKDEwLzkpCjwyXHN1bV97aj0wfV57XGluZnR5fSgxLzE5KV57MmorMX0KPVxmcmFjezE5fXsxODB9LgpcXQoKQ29uc2VxdWVudGx5CgpcWwpcbG9nIDEwPFxmcmFjezExfXs1fStcZnJhY3sxOX17MTgwfT1cZnJhY3s4M317MzZ9LgpcXQoKU2luY2UgMS94IGlzIGRlY3JlYXNpbmcsIGludGVncmFsIGNvbXBhcmlzb24gZ2l2ZXMKClxbCkhfbj5cbG9nIG4KXHF1YWRcdGV4dHthbmR9XHF1YWQKSF9uXGxlcSBIX3sxMH0rXGludF97MTB9XntufVxmcmFje2R4fXt4fQo9SF97MTB9K1xsb2cobi8xMCkKXHFxdWFkKG5cZ2VxIDEwKS4KXF0KCkF0IG49MTBeezEyfSwgdXNpbmcgSF8xMD03MzgxLzI1MjAsIHRoZXNlIGJvdW5kcyBpbXBseQoKXFsKSF9uPjEyXGNkb3RcZnJhY3syM317MTB9PVxmcmFjezEzOH17NX0+XGZyYWN7NTV9ezJ9LApcXQoKYW5kCgpcWwpIX248XGZyYWN7NzM4MX17MjUyMH0rMTFcY2RvdFxmcmFjezgzfXszNn0KPVxmcmFjezcxMjkxfXsyNTIwfQo8XGZyYWN7NzE4MjB9ezI1MjB9PVxmcmFjezU3fXsyfS4KXF0KCkZpbmFsbHkgbi8yPTUwMDAwMDAwMDAwMCwgc28KClxbClg9NTAwMDAwMDAwMDAwK1xmcmFjMTItSF9uLgpcXQoKVGhlIGJvdW5kcyBqdXN0IHByb3ZlZCBnaXZlCgpcWwo0OTk5OTk5OTk5NzI8WDw0OTk5OTk5OTk5NzMuClxdCgpUaGVyZWZvcmUKClxbClxib3hlZHtcbGZsb29yIFhccmZsb29yPTQ5OTk5OTk5OTk3Mn0uClxdCgoKUmV0YWluZWQgQ1JJVElDOyBleGFjdCByZWNlaXZlZCBVVEY4IFNIQTI1Nj01NjBmYTNjNjdkODkxZTVjODZmYWEzZDBkOGQ2NzMxYjRkOGI4ZDJmZjZhNWEyNTk2OWVlYThhYjkzM2FlY2Y2CkNSSVRJQyByZXZpZXcKClZlcmRpY3Q6IEkgZmluZCBubyBjb25jcmV0ZSBtYXRoZW1hdGljYWwgZXJyb3Igb3IgbWlzc2luZyBjbG9zdXJlIHN0ZXAgaW4gdGhlIHJldGFpbmVkIGF0dGVtcHQuIEl0cyBhbnN3ZXIsIFwoXGxmbG9vciBYXHJmbG9vcj00OTk5OTk5OTk5NzJcKSwgZm9sbG93cyBmcm9tIGl0cyBleGFjdCBleHBlY3RhdGlvbiBmb3JtdWxhIGFuZCBpdHMgcmlnb3JvdXMgaGFybW9uaWMtbnVtYmVyIGJvdW5kcy4gVGhlIGZvbGxvd2luZyBjaGVja3MgZXhwbGFpbiB3aHk7IHRoaXMgdmVyZGljdCBkb2VzIG5vdCByZWx5IG9uIHRoZSBhdHRlbXB0J3Mgc3RhdGVkIGNvbmZpZGVuY2UuCgoxLiBUaGUgcmVsYXRpdmUtb3JkZXIgb2JzZXJ2YXRpb24gaXMgdmFsaWQuCgpGb3IgdHdvIGxldHRlcnMgXChhPGJcKSwgZm9sbG93IHRoZSByZWN1cnNpdmUgc3Vid29yZCBjb250YWluaW5nIGJvdGggbGV0dGVycy4gQSBtYXhpbXVtIG91dHNpZGUgdGhlIGludGVydmFsIGJldHdlZW4gdGhlaXIgcG9zaXRpb25zIHJlbW92ZXMgb25seSBtYXRlcmlhbCBvbiBvbmUgc2lkZSBhbmQgbGVhdmVzIGJvdGggZW5kcG9pbnRzIGluIG9uZSByZWN1cnNpdmUgY2hpbGQuIFRodXMgdGhlIHByb2Nlc3MgZXZlbnR1YWxseSByZWFjaGVzIGEgbWF4aW11bSBpbiB0aGVpciBpbnRlcnZhbC4gSWYgdGhhdCBtYXhpbXVtIGlzIFwoYlwpLCB0aGUgb3V0cHV0IHB1dHMgXChiXCkgYWZ0ZXIgZXZlcnkgb3RoZXIgbGV0dGVyIG9mIHRoYXQgc3Vid29yZCwgaW5jbHVkaW5nIFwoYVwpLiBJZiB0aGUgbWF4aW11bSBpcyBhbiBpbnRlcmlvciBsZXR0ZXIgbGFyZ2VyIHRoYW4gXChiXCksIHRoZSBlbmRwb2ludHMgbGllIGluIGRpZmZlcmVudCBjaGlsZHJlbi4gVGhlIG91dHB1dCBjb25jYXRlbmF0ZXMgdGhlIGxlZnQgY2hpbGQncyBvdXRwdXQgYmVmb3JlIHRoZSByaWdodCBjaGlsZCdzIG91dHB1dCwgcHJlc2VydmluZyB0aGUgZW5kcG9pbnRzJyBvcmlnaW5hbCBsZWZ0LXRvLXJpZ2h0IG9yZGVyLiBMYXRlciBjb25jYXRlbmF0aW9ucyBjYW5ub3QgY2hhbmdlIHRoZWlyIHJlbGF0aXZlIG9yZGVyLiBUaGlzIGFjY291bnRzIGZvciBvdXRzaWRlIGxldHRlcnMgYW5kIGZvciBlaXRoZXIgb3JpZ2luYWwgb3JkZXJpbmcgb2YgdGhlIGVuZHBvaW50cy4KCkNvbnNlcXVlbnRseSBhbiBpbnZlcnNpb24gYmV0d2VlbiBcKGkrMVwpIGFuZCBcKGlcKSBpbiB0aGUgb3V0cHV0IG9jY3VycyBwcmVjaXNlbHkgd2hlbiBcKGkrMVwpIHdhcyBvcmlnaW5hbGx5IGZpcnN0IGFuZCB0aGVpciBvcmlnaW5hbCBpbnRlcnZhbCBjb250YWluZWQgYSBsZXR0ZXIgbGFyZ2VyIHRoYW4gXChpKzFcKS4gVGhlcmUgaXMgbm8gdW5hY2NvdW50ZWQgY2FzZSBpbiB0aGlzIGV2ZW50IGNoYXJhY3Rlcml6YXRpb24uCgoyLiBUaGUgcHJvYmFiaWxpdHkgY2FsY3VsYXRpb24gaXMgdmFsaWQuCgpUaGUgcmVzdHJpY3Rpb24gb2YgYSB1bmlmb3JtIHJhbmRvbSBwZXJtdXRhdGlvbiB0byBhbnkgZml4ZWQgY29sbGVjdGlvbiBvZiBsZXR0ZXJzIGhhcyB1bmlmb3JtIHJlbGF0aXZlIG9yZGVyLiBSZXN0cmljdGluZyBoZXJlIHRvIHRoZSB0d28gZW5kcG9pbnRzIGFuZCB0aGUgXChrPW4taS0xXCkgbGFyZ2VyIGxldHRlcnMgdHVybnMgdGhlIGFic2VuY2Ugb2YgYSBsYXJnZXIgaW50ZXJ2ZW5pbmcgbGV0dGVyIGludG8gYWRqYWNlbmN5IG9mIHRoZSB0d28gZW5kcG9pbnRzLiBDb250cmFjdGluZyB0aGVpciBhZGphY2VudCBwYWlyLCB3aXRoIGl0cyB0d28gcG9zc2libGUgb3JpZW50YXRpb25zLCBnaXZlcyBcKDIoaysxKSFcKSBvcmRlcnMgYW1vbmcgXCgoaysyKSFcKSB0b3RhbCBvcmRlcnMuIFN3YXBwaW5nIG9ubHkgdGhlIGVuZHBvaW50IGxhYmVscyBpcyBhIGZpeGVkLXBvaW50LWZyZWUgcGFpcmluZyBvZiB0aGUgbm9uYWRqYWNlbnQgb3JkZXJzIHRoYXQgcmV2ZXJzZXMgZW5kcG9pbnQgb3JpZW50YXRpb24gYW5kIHByZXNlcnZlcyBub25hZGphY2VuY3kuIEhlbmNlIHRoZSByZWxldmFudCBwcm9iYWJpbGl0eSBpcwoKXFsKXGZyYWMxMlxsZWZ0KDEtXGZyYWN7Mn17aysyfVxyaWdodCkKPVxmcmFjMTItXGZyYWN7MX17bi1pKzF9LgpcXQoKVGhlIGVkZ2UgY2FzZSBcKGk9bi0xXCksIHdoZXJlIFwoaz0wXCksIGdpdmVzIHplcm8gYXMgcmVxdWlyZWQgYmVjYXVzZSB0aGUgbWF4aW11bSBcKG5cKSBpcyBhbHdheXMgbGFzdC4gTm8gaW5kZXBlbmRlbmNlIGJldHdlZW4gZGlmZmVyZW50IHZhbHVlcyBvZiBcKGlcKSBpcyBuZWVkZWQ6IGxpbmVhcml0eSBvZiBleHBlY3RhdGlvbiBzdWZmaWNlcy4gVGhlIHN1bSBvZiByZWNpcHJvY2FsIHRlcm1zIHJ1bnMgb3ZlciBkZW5vbWluYXRvcnMgXChuLG4tMSxcbGRvdHMsMlwpLCBzbyB0aGUgZXhhY3QgZXhwZWN0YXRpb24gaXMgaW5kZWVkCgpcWwpYPVxmcmFje24tMX17Mn0tKEhfbi0xKT1cZnJhY3tuKzF9ezJ9LUhfbi4KXF0KCjMuIFRoZSBudW1lcmljYWwgZW5jbG9zdXJlIGlzIHJpZ29yb3VzIGFuZCBpdHMgYXJpdGhtZXRpYyBjaGVja3Mgb3V0LgoKVGhlIHBvc2l0aXZlLXRlcm0gbG9nYXJpdGhtIHNlcmllcyB1c2VkIGluIHRoZSBhdHRlbXB0IGZvbGxvd3MgZnJvbSB0aGUgZ2VvbWV0cmljIHNlcmllcyBieSBpbnRlZ3JhdGlvbiBvbiBhIGNvbXBhY3QgaW50ZXJ2YWwgaW5zaWRlIFwoKC0xLDEpXCkuIEF0IFwodD0xLzJcKSwgaXRzIGZpcnN0IGZvdXIgdGVybXMgYXJlIFwoMSwxLzEyLDEvODAsMS80NDhcKS4gVGhlIGxvd2VyLWJvdW5kIHN1bSBzYXRpc2ZpZXMKClxbCjJcbGVmdCgxK1xmcmFjMXsxMn0rXGZyYWMxezgwfStcZnJhYzF7NDQ4fVxyaWdodCkrXGZyYWMyezE5fQo9XGZyYWN7MTQ2OTIxfXs2Mzg0MH0KPVxmcmFjezIzfXsxMH0rXGZyYWN7ODl9ezYzODQwfS4KXF0KCk9taXR0ZWQgcG9zaXRpdmUgdGVybXMgbWFrZSB0aGUgYm91bmQgc3RyaWN0LiBGb3IgdGhlIHVwcGVyIGJvdW5kIG9uIFwoXGxvZyAzXCksIHJlcGxhY2luZyBkZW5vbWluYXRvcnMgaW4gdGhlIHRhaWwgc3RhcnRpbmcgYXQgXChqPTJcKSBieSA1IGdpdmVzIGEgdGFpbCBvZiBcKDEvNjBcKS4gRXF1YWxpdHkgYXQgaXRzIGZpcnN0IHRlcm0gZG9lcyBub3QgcHJldmVudCBzdHJpY3RuZXNzLCBzaW5jZSBzdWJzZXF1ZW50IGRlbm9taW5hdG9ycyBhcmUgc3RyaWN0bHkgbGFyZ2VyIHRoYW4gNS4gVGh1cyBcKFxsb2cgMzwxMS8xMFwpLiBMaWtld2lzZSB0aGUgZ2VvbWV0cmljIGJvdW5kIGZvciBcKFxsb2coMTAvOSlcKSBpcyBzdHJpY3RseSBsZXNzIHRoYW4gXCgxOS8xODBcKSwgYmVjYXVzZSBkZW5vbWluYXRvcnMgYWZ0ZXIgaXRzIGZpcnN0IHRlcm0gZXhjZWVkIDEuIFRoZXJlZm9yZQoKXFsKXGZyYWN7MjN9ezEwfTxcbG9nIDEwPFxmcmFjezgzfXszNn0uClxdCgpGb3IgZGVjcmVhc2luZyBcKDEveFwpLCB0aGUgaW50ZWdyYWwgb24gZWFjaCBpbnRlcnZhbCBcKFtqLTEsal1cKSwgXChqXGdlIDExXCksIGlzIGF0IGxlYXN0IFwoMS9qXCksIHdoaWNoIHZlcmlmaWVzIHRoZSBkaXJlY3Rpb24gb2YgdGhlIGF0dGVtcHQncyB1cHBlciBpbnRlZ3JhbCBjb21wYXJpc29uLiBUaGUgbG93ZXIgY29tcGFyaXNvbiBcKEhfbj5cbG9nIG5cKSBpcyBhbHNvIHZhbGlkLiBXaXRoIFwoSF97MTB9PTczODEvMjUyMFwpIGFuZCBcKG49MTBeezEyfVwpLCB0aGV5IHlpZWxkCgpcWwpIX24+MTJcY2RvdFxmcmFjezIzfXsxMH09XGZyYWN7MTM4fXs1fT5cZnJhY3s1NX17Mn0sClxdCgphbmQKClxbCkhfbjxcZnJhY3s3MzgxfXsyNTIwfSsxMVxjZG90XGZyYWN7ODN9ezM2fQo9XGZyYWN7NzEyOTF9ezI1MjB9PFxmcmFjezcxODIwfXsyNTIwfT1cZnJhY3s1N317Mn0uClxdCgpUaGVzZSBib3VuZHMgbmVlZCBub3QgYXBwcm94aW1hdGUgXChIX25cKSBjbG9zZWx5OiB0aGV5IGVuY2xvc2UgaXQgc3RyaWN0bHkgYmV0d2VlbiB0aGUgdHdvIGhhbGYtaW50ZWdlcnMgcmVsZXZhbnQgdG8gdGFraW5nIHRoaXMgZmxvb3IuIFN1YnRyYWN0aW5nIHRoZW0gZnJvbSBcKDUwMDAwMDAwMDAwMCsxLzJcKSByZXZlcnNlcyB0aGUgaW5lcXVhbGl0aWVzIGFuZCBnaXZlcyBwcmVjaXNlbHkKClxbCjQ5OTk5OTk5OTk3MjxYPDQ5OTk5OTk5OTk3My4KXF0KClRodXMgdGhlIHJlcXVlc3RlZCBmbG9vciBpcyBlc3RhYmxpc2hlZC4gSSBoYXZlIG5vIHN1YnN0YW50aXZlIGNvcnJlY3Rpb24gdG8gcHJvcG9zZS4K"
+    },
+    {
+      "role": "POSTREVIEW",
+      "digest": "7184e2162b53869d02c109ec858b20c3bdd1765db8d44166bc2db3b5753f4cd8",
+      "bytes": 6897,
+      "base64": "Q09ERVhfQVNTSVNURUQg4oCUIGZyZXNoIHNlcGFyYXRlIGNvbnRleHQ7IG9uZSB2aXNpYmxlIHJlcXVlc3QgZm9yIHRoaXMgcmVzZXJ2ZWQgcm9sZS4gTm8gcGFpZCBBUEkuIFRvb2xzL2hpZGRlbiB3b3JrIG1heSBiZSBVTktOT1dOOyBubyBpbmZlcmVuY2Utb25seSBndWFyYW50ZWUuCgpMZXQgVyBiZSB0aGUgZmluaXRlIHdvcmRzIG9mIGRpc3RpbmN0IHBvc2l0aXZlIGludGVnZXJzLiBEZWZpbmUgRihlbXB0eSk9ZW1wdHkuIElmIHc9TCBtIFIgd2l0aCBtYXhpbXVtIGxldHRlciBtLCBkZWZpbmUgRih3KT1GKEwpRihSKW0uIExldCBzaWdtYSBiZSB1bmlmb3JtbHkgcmFuZG9tIGFtb25nIHBlcm11dGF0aW9ucyBvZiB7MSwuLi4sbn0sIG49MTAwMDAwMDAwMDAwMC4gTGV0IFg9RVsje2k6MTw9aTxuLCBwb3NfRihzaWdtYSkoaSsxKTxwb3NfRihzaWdtYSkoaSl9XS4gQ29tcHV0ZSBmbG9vcihYKSwgd2l0aCBhIGNvbXBsZXRlIG1hdGhlbWF0aWNhbCBqdXN0aWZpY2F0aW9uLgoKS25vd24gcHVibGljIEZyb250aWVyTWF0aCBUaWVyIDIgc2FtcGxlLiBOb3QgYmxpbmQsIG9mZmljaWFsIHNjb3JlIG9yIGRpc2NvdmVyeS4gU3RhbmRhcmQgU19uIG1lYW5zIHBlcm11dGF0aW9ucyBvbiBuIGxldHRlcnMuCgpGaXhlZCBuPTEwMDAwMDAwMDAwMDAuIFJvbGU9UE9TVFJFVklFVy4gUnVuPThlYzNmYTViLWQ0MjMtNDA1NS04NWJhLWMyNzY0YWNlNGZkZi4gVGFza1NIQT03ZTMxZDU4MjU2YWNjZDA1NTA3NGM1YTQ3M2FmMTU4ODc1MGZmYWRkMTAyMWJkMTA3MDFjMjRjZGI4MDE5NDU0LiBTb3VyY2VTSEE9YWQ5M2U2MWE4MjZkYjFhNTg0YzhkZWQyYTE1OTg3NmYzOWRlZjMwNTE3Yzc3NWI2Zjk4MTk1ZGM0OTU5MjU5Ny4KCkluZGVwZW5kZW50bHkgcmV2aWV3IHRoZSBleGFjdCByZXRhaW5lZCBGSU5BTCBhcmd1bWVudC4gQ2hlY2sgZXZlcnkgbWF0aGVtYXRpY2FsIHN0ZXAgYW5kIHByZW1pc2UuIEFyaXRobWV0aWMgc3VwcG9ydCBkb2VzIG5vdCB2YWxpZGF0ZSB0aGUgcHJvb2Y7IGEgbWF0Y2hpbmcgbnVtYmVyIGlzIG5vdCBhY2NlcHRhbmNlLiBTdGF0ZSBTVVBQT1JURUQsIEVTU0VOVElBTF9HQVAsIElOQ09SUkVDVCBvciBJTkNPTkNMVVNJVkUgYW5kIGp1c3RpZnkuIFRoaXMgaXMgTk9OLUZPUk1BTCByZXZpZXcsIG5vdCBhbiBvZmZpY2lhbCBzY29yZS4KClJldHVybiB0aGUgb3JpZ2luYWwgcmVhc29uaW5nIGFzIHBsYWluIFVURjggdGV4dCwgbWF4aW11bTMyNzY4Ynl0ZXMuCgpSZXRhaW5lZCBGSU5BTDsgZXhhY3QgcmVjZWl2ZWQgVVRGOCBTSEEyNTY9Y2M2ZWIyMjE3ZTI1ZjY2NzNiZDY0MTJmOTJlNTFmOTZiOTVjYjliYjZmMzNlYTVmNDFiYzI1NDY5MGU0OWViMQp7InByb29mIjoiVGhlIGFuc3dlciBpcyA0OTk5OTk5OTk5NzIuIEZpcnN0IGRldGVybWluZSB0aGUgZXhhY3QgZXhwZWN0YXRpb24uIEZvciB0d28gbGV0dGVycyBhPGIgb2YgYW55IGlucHV0IHdvcmQsIGNvbnNpZGVyIHRoZSBpbnRlcnZhbCBiZXR3ZWVuIHRoZWlyIHBvc2l0aW9ucywgaW5jbHVkaW5nIGl0cyBlbmRwb2ludHMuIEZvbGxvdyB0aGUgcmVjdXJzaXZlIHN1YndvcmQgY29udGFpbmluZyBib3RoIGxldHRlcnMuIFdoZW5ldmVyIGl0cyBtYXhpbXVtIGxpZXMgb3V0c2lkZSB0aGF0IGludGVydmFsLCBib3RoIGVuZHBvaW50cyByZW1haW4gdG9nZXRoZXIgaW4gb25lIGNoaWxkIHN1YndvcmQuIFNpbmNlIHRoZSBzdWJ3b3JkcyBzdHJpY3RseSBzaG9ydGVuLCBldmVudHVhbGx5IHRoZSBtYXhpbXVtIGxpZXMgaW4gdGhlIGludGVydmFsLiBJZiB0aGF0IG1heGltdW0gaXMgYiwgdGhlIHJlY3Vyc2l2ZSBkZWZpbml0aW9uIHBsYWNlcyBiIGFmdGVyIGEuIE90aGVyd2lzZSB0aGUgbWF4aW11bSBpcyBhbiBpbnRlcmlvciBsZXR0ZXIgZ3JlYXRlciB0aGFuIGIsIGFuZCB0aGUgZW5kcG9pbnRzIGxpZSBpbiBkaWZmZXJlbnQgY2hpbGQgc3Vid29yZHMuIFRoZWlyIG91dHB1dHMgYXJlIGNvbmNhdGVuYXRlZCBpbiBvcmlnaW5hbCBsZWZ0LXRvLXJpZ2h0IG9yZGVyLCBzbyB0aGUgcmVsYXRpdmUgb3JkZXIgb2YgYSBhbmQgYiBpcyBwcmVzZXJ2ZWQuIFN1YnNlcXVlbnQgY29uY2F0ZW5hdGlvbnMgY2Fubm90IGFsdGVyIHRoaXMgb3JkZXIuIFRodXMgYiBwcmVjZWRlcyBhIGluIEYodykgaWYgYW5kIG9ubHkgaWYgYiBvcmlnaW5hbGx5IHByZWNlZGVzIGEgYW5kIGEgbGV0dGVyIGdyZWF0ZXIgdGhhbiBiIGxpZXMgYmV0d2VlbiB0aGVtLlxuXG5BcHBseSB0aGlzIHdpdGggYT1pIGFuZCBiPWkrMS4gVGhlcmUgYXJlIGs9bi1pLTEgbGV0dGVycyBncmVhdGVyIHRoYW4gaSsxLiBSZXN0cmljdCBhIHVuaWZvcm0gcGVybXV0YXRpb24gdG8gdGhlc2UgayBsZXR0ZXJzIGFuZCB0aGUgdHdvIGVuZHBvaW50cy4gSXRzIHJlbGF0aXZlIG9yZGVyIGlzIHVuaWZvcm0gYW1vbmcgKGsrMikhIG9yZGVycy4gQSBsYXJnZXIgaW50ZXJ2ZW5pbmcgbGV0dGVyIGlzIGFic2VudCBleGFjdGx5IHdoZW4gdGhlIGVuZHBvaW50cyBhcmUgYWRqYWNlbnQgaW4gdGhpcyByZXN0cmljdGlvbi4gQ29udHJhY3RpbmcgdGhlIGFkamFjZW50IHBhaXIsIGFuZCBhbGxvd2luZyBpdHMgdHdvIG9yaWVudGF0aW9ucywgY291bnRzIDIoaysxKSEgc3VjaCBvcmRlcnM7IHRoZXJlZm9yZSBhZGphY2VuY3kgaGFzIHByb2JhYmlsaXR5IDIvKGsrMikuIFN3YXBwaW5nIHRoZSB0d28gZW5kcG9pbnQgbGFiZWxzIHByZXNlcnZlcyBub25hZGphY2VuY3kgYW5kIHJldmVyc2VzIHRoZWlyIG9yaWVudGF0aW9uLCBnaXZpbmcgYSBiaWplY3Rpb24gYmV0d2VlbiB0aGUgdHdvIG9yaWVudGF0aW9ucyBhbW9uZyB0aGUgbm9uYWRqYWNlbnQgb3JkZXJzLiBDb25zZXF1ZW50bHkgdGhlIHByb2JhYmlsaXR5IHRoYXQgaSsxIHByZWNlZGVzIGkgaW4gdGhlIG91dHB1dCBpcyAoMS8yKSgxLTIvKGsrMikpPTEvMi0xLyhuLWkrMSkuIFRoaXMgYWxzbyBnaXZlcyB6ZXJvIHdoZW4gaT1uLTEuXG5cbldyaXRlIEhfbj1zdW1fe2o9MX1ebiAxL2ouIEJ5IGxpbmVhcml0eSBvZiBleHBlY3RhdGlvbiwgd2l0aG91dCBhbnkgaW5kZXBlbmRlbmNlIGFzc3VtcHRpb24sIFg9c3VtX3tpPTF9XntuLTF9KDEvMi0xLyhuLWkrMSkpPShuLTEpLzItKEhfbi0xKT0obisxKS8yLUhfbi5cblxuSXQgcmVtYWlucyB0byBib3VuZCBIX24gcmlnb3JvdXNseSBhdCBuPTEwXjEyLiBGb3IgMDx0PDEsIGludGVncmF0aW9uIG9mIHRoZSBnZW9tZXRyaWMgc2VyaWVzIGZvciAyLygxLXReMiksIHVuaWZvcm1seSBjb252ZXJnZW50IG9uIFswLHRdLCBnaXZlcyBsb2coKDErdCkvKDEtdCkpPTIgc3VtX3tqPTB9XmluZmluaXR5IHReKDJqKzEpLygyaisxKS4gQWxsIHRlcm1zIGFyZSBwb3NpdGl2ZS4gVXNpbmcgdD0xLzIgZm9yIGxvZyAzIGFuZCB0PTEvMTkgZm9yIGxvZygxMC85KSwgdG9nZXRoZXIgd2l0aCBsb2cgMTA9MiBsb2cgMytsb2coMTAvOSksIGdpdmVzIHRoZSBzdHJpY3QgbG93ZXIgYm91bmQgbG9nIDEwPjIoMSsxLzEyKzEvODArMS80NDgpKzIvMTk9MTQ2OTIxLzYzODQwPTIzLzEwKzg5LzYzODQwPjIzLzEwLlxuXG5Gb3IgYW4gdXBwZXIgYm91bmQgb24gbG9nIDMsIHJlcGxhY2UgdGhlIGRlbm9taW5hdG9ycyBpbiB0aGUgdGFpbCBqPj0yIGJ5IDUuIFRoZSBib3VuZCBpcyBzdHJpY3QgYmVjYXVzZSB0aGUgZGVub21pbmF0b3JzIGZvciBqPjIgZXhjZWVkIDUuIFRodXMgbG9nIDM8MSsxLzEyKygyLzUpIHN1bV97aj0yfV5pbmZpbml0eSAoMS8yKV4oMmorMSk9MSsxLzEyKzEvNjA9MTEvMTAuIFJlcGxhY2luZyBhbGwgZGVub21pbmF0b3JzIGluIHRoZSBzZXJpZXMgZm9yIGxvZygxMC85KSBieSAxIGxpa2V3aXNlIGdpdmVzIGEgc3RyaWN0IGJvdW5kIGxvZygxMC85KTwyIHN1bV97aj0wfV5pbmZpbml0eSAoMS8xOSleKDJqKzEpPTE5LzE4MC4gSGVuY2UgbG9nIDEwPDExLzUrMTkvMTgwPTgzLzM2LlxuXG5UaGUgZGVjcmVhc2luZyBmdW5jdGlvbiAxL3ggZ2l2ZXMgSF9uPmxvZyBuIGFuZCwgZm9yIG4+PTEwLCBIX248PUhfMTAraW50ZWdyYWxfezEwfV5uIGR4L3g9SF8xMCtsb2cobi8xMCkuIEZvciB0aGUgZmlyc3QgaW5lcXVhbGl0eSwgaW50ZWdyYXRpbmcgb24gW2osaisxXSBmb3Igaj0xLC4uLixuLTEgZ2l2ZXMgbG9nIG48c3VtX3tqPTF9XntuLTF9MS9qPEhfbjsgZm9yIHRoZSBzZWNvbmQsIGludGVncmF0aW5nIG9uIFtqLTEsal0gYm91bmRzIDEvaiBmcm9tIGFib3ZlIGZvciBlYWNoIGo+PTExLiBEaXJlY3Qgc3VtbWF0aW9uIGdpdmVzIEhfMTA9NzM4MS8yNTIwLiBBdCBuPTEwXjEyIHRoZXNlIGluZXF1YWxpdGllcyBhbmQgdGhlIGxvZ2FyaXRobSBib3VuZHMgeWllbGQgSF9uPjEyKDIzLzEwKT0xMzgvNT41NS8yLCBhbmQgSF9uPDczODEvMjUyMCsxMSg4My8zNik9NzEyOTEvMjUyMDw3MTgyMC8yNTIwPTU3LzIuXG5cbkZpbmFsbHkgWD01MDAwMDAwMDAwMDArMS8yLUhfbi4gU3VidHJhY3RpbmcgdGhlIHN0cmljdCBlbmNsb3N1cmUgNTUvMjxIX248NTcvMiBnaXZlcyA0OTk5OTk5OTk5NzI8WDw0OTk5OTk5OTk5NzMuIFRoZXJlZm9yZSBmbG9vcihYKT00OTk5OTk5OTk5NzIuIiwiY2VydGlmaWNhdGUiOnsidmVyc2lvbiI6MSwia2luZCI6IkVYUEVDVEVEX0lOVkVSU0VfREVTQ0VOVF9GTE9PUiIsIm4iOiIxMDAwMDAwMDAwMDAwIiwiZmxvb3IiOiI0OTk5OTk5OTk5NzIifX0KCgpSZXRhaW5lZCBhcml0aG1ldGljLW9ubHkgY2hlY2tlciBldmlkZW5jZSAobm90IHByb29mIHZhbGlkYXRpb24pOgp7InN0YXR1cyI6IlNVUFBPUlRFRF9VTkRFUl9MRU1NQV9BUklUSE1FVElDIiwicmVhc29uIjoiQVJJVEhNRVRJQ19PTkxZX01BVENIX1BST09GX1JFVklFV19SRVFVSVJFRCIsImJpbmRpbmciOnsicnVuSWQiOiI4ZWMzZmE1Yi1kNDIzLTQwNTUtODViYS1jMjc2NGFjZTRmZGYiLCJmaW5hbERpZ2VzdCI6ImNjNmViMjIxN2UyNWY2NjczYmQ2NDEyZjkyZTUxZjk2Yjk1Y2I5YmI2ZjMzZWE1ZjQxYmMyNTQ2OTBlNDllYjEiLCJzb3VyY2VCdW5kbGVEaWdlc3QiOiJhZDkzZTYxYTgyNmRiMWE1ODRjOGRlZDJhMTU5ODc2ZjM5ZGVmMzA1MTdjNzc1YjZmOTgxOTVkYzQ5NTkyNTk3IiwidGFza0RpZ2VzdCI6IjdlMzFkNTgyNTZhY2NkMDU1MDc0YzVhNDczYWYxNTg4NzUwZmZhZGQxMDIxYmQxMDcwMWMyNGNkYjgwMTk0NTQifSwiY2FuZGlkYXRlRGlnZXN0IjoiY2M2ZWIyMjE3ZTI1ZjY2NzNiZDY0MTJmOTJlNTFmOTZiOTVjYjliYjZmMzNlYTVmNDFiYzI1NDY5MGU0OWViMSIsImNlcnRpZmljYXRlRGlnZXN0IjoiZjU4ZDliZTMxMDU3MjYyNGYyZmEzMzUwNTVhN2U1YmQ4NWNhMzE5ZDdhZmY5NTA1OGU5Y2E3MzRjZmRlY2ZlMCIsImNsYWltZWRGbG9vciI6IjQ5OTk5OTk5OTk3MiIsImFyaXRobWV0aWMiOnsibiI6IjEwMDAwMDAwMDAwMDAiLCJzZXJpZXNUZXJtcyI6MTYsImRlcml2ZWRGbG9vciI6IjQ5OTk5OTk5OTk3MiIsImxvZzEwIjp7InBhcnRpYWwiOnsibnVtZXJhdG9yIjoiNjcxNDU3OTAzNDg1ODE0NjI0NDE3MjkyMTA4ODE0ODgxNjQyMjA3MzcyOCIsImRlbm9taW5hdG9yIjoiMjkxNjM4Mzg5MjkzNjE1OTkxNzU4NzQ3NzI3MTc0MDY3NzAwODczNjc3NSJ9LCJyZW1haW5kZXJVcHBlciI6eyJudW1lcmF0b3IiOiIxMDMwMTA1MTQ2MDg3NzUzNzQ1Mzk3MzU0NzI2Nzg0MyIsImRlbm9taW5hdG9yIjoiNDIyMjc1NTM0OTA3MDUxMDU3MTA5MTIzMDUwODQxOTg0MjAifSwibG93ZXIiOnsibnVtZXJhdG9yIjoiMjMiLCJkZW5vbWluYXRvciI6IjEwIn0sInVwcGVyIjp7Im51bWVyYXRvciI6IjIzMSIsImRlbm9taW5hdG9yIjoiMTAwIn19LCJoYXJtb25pY0JvdW5kcyI6eyJsb3dlciI6eyJudW1lcmF0b3IiOiIxMzgiLCJkZW5vbWluYXRvciI6IjUifSwidXBwZXIiOnsibnVtZXJhdG9yIjoiMzU3MDcxIiwiZGVub21pbmF0b3IiOiIxMjYwMCJ9LCJzdHJpY3QiOnRydWV9LCJleHBlY3RhdGlvbkJvdW5kcyI6eyJsb3dlciI6eyJudW1lcmF0b3IiOiI2Mjk5OTk5OTk5NjQ5MjI5IiwiZGVub21pbmF0b3IiOiIxMjYwMCJ9LCJ1cHBlciI6eyJudW1lcmF0b3IiOiI0OTk5OTk5OTk5NzI5IiwiZGVub21pbmF0b3IiOiIxMCJ9LCJzdHJpY3QiOnRydWV9fSwiYXNzdW1wdGlvbnMiOlsiV3JpdHRlbiBtYXhpbXVtLXJvb3QvcG9zdG9yZGVyIGludGVydmFsIGxlbW1hOiBhbiBpbnZlcnNlIGFkamFjZW50LXZhbHVlIGRlc2NlbnQgc3Vydml2ZXMgZXhhY3RseSB3aGVuIGEgbGFyZ2VyIGxhYmVsIHNlcGFyYXRlcyB0aGUgcmV2ZXJzZWQgcGFpci4iLCJVbmlmb3JtIFNfbiByZWxhdGl2ZS1vcmRlciBzeW1tZXRyeSwgb3JpZW50ZWQgYWRqYWNlbnQtYmxvY2sgY291bnRpbmcgYW5kIGxpbmVhcml0eSBvZiBleHBlY3RhdGlvbiBnaXZlIFg9KG4rMSkvMi1IX24uIiwiV3JpdHRlbiBpbnRlZ3JhbCBjb21wYXJpc29uIGFuZCBmaW5pdGUgZ2VvbWV0cmljLXNlcmllcyBsb2dhcml0aG0gcmVtYWluZGVyIGp1c3RpZnkgdGhlIHJhdGlvbmFsIGJvdW5kczsgbm90IG1hY2hpbmUtZm9ybWFsaXplZCBmb3VuZGF0aW9ucy4iLCJPbmx5IHRoZSBhcml0aG1ldGljIGNlcnRpZmljYXRlIGlzIGFzc2Vzc2VkOyBwcm9vZiB0ZXh0IHJlcXVpcmVzIHNlcGFyYXRlIE5PTi1GT1JNQUwgYXJndW1lbnQgcmV2aWV3LiBObyBvZmZpY2lhbCBzY29yZSwgbm92ZWx0eSBvciBtb2RlbC1hYmlsaXR5IGFjY2VwdGFuY2UuIl0sInByb29mVmFsaWRhdGlvbiI6Ik5PVF9WQUxJREFURURfTk9OX0ZPUk1BTF9SRVZJRVdfUkVRVUlSRUQiLCJmb3JtYWxQcm9vZiI6Ik5PVF9FU1RBQkxJU0hFRCIsIm9mZmljaWFsU2NvcmUiOiJOT1RfRVNUQUJMSVNIRUQiLCJtZWFzdXJlbWVudHMiOnsiZWxhcHNlZE1pbGxpc2Vjb25kcyI6MS40NzAxMjQ5OTk5OTI1NDk0LCJyYXRpb25hbE9wZXJhdGlvbnMiOjc2LCJnY2RJdGVyYXRpb25zIjoyMTk2LCJwZWFrSW50ZWdlckJpdHMiOjI1OH19"
+    }
+  ],
+  "task": {
+    "id": "PUBLIC_PERMUTATION_DEMO_080",
+    "n": "1000000000000",
+    "title": "A recursive construction on large permutations",
+    "source": "https://epoch.ai/frontiermath/tiers-1-4/benchmark-problems#tier-2",
+    "statement": "Let W be the finite words of distinct positive integers. Define F(empty)=empty. If w=L m R with maximum letter m, define F(w)=F(L)F(R)m. Let sigma be uniformly random among permutations of {1,...,n}, n=1000000000000. Let X=E[#{i:1<=i<n, pos_F(sigma)(i+1)<pos_F(sigma)(i)}]. Compute floor(X), with a complete mathematical justification.",
+    "exposure": "Known public FrontierMath Tier 2 sample. Not blind, official score or discovery. Standard S_n means permutations on n letters."
+  },
+  "limits": {
+    "roles": 4,
+    "wallSeconds": 900,
+    "originalBytes": 32768,
+    "promptBytes": 131072,
+    "exportBytes": 1048576,
+    "ledgerRecords": 64
+  },
+  "caveats": {
+    "upstream": "Received operator import, not cryptographic Codex authentication",
+    "tools": "UNKNOWN",
+    "usage": "UNKNOWN",
+    "actualBackend": "UNKNOWN",
+    "proof": "NON_FORMAL",
+    "officialScore": "NOT_ESTABLISHED",
+    "immutability": "Reviewed service/hash-chain integrity; database administrator and host owner trusted, not protection against coordinated datastore rewrite"
+  }
+}

@@ -1,0 +1,5 @@
+Find exactly the real numbers alpha with the following property:
+for every positive integer n,
+  n divides sum_{k=1}^n floor(k*alpha).
+Here floor is the greatest-integer function. Prove both necessity and sufficiency,
+including negative alpha.

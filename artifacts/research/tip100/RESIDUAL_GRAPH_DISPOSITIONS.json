@@ -1,0 +1,1071 @@
+[
+  {
+    "mask": 254,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 255,
+    "missing_pairs": [
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 493,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 495,
+    "missing_pairs": [
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "11/46",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 508,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 509,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 510,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "11/46",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 511,
+    "missing_pairs": [
+      [
+        4,
+        5
+      ]
+    ],
+    "lower_bound": "11/46",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 575,
+    "missing_pairs": [
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 607,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 638,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 639,
+    "missing_pairs": [
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 667,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 671,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 699,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 703,
+    "missing_pairs": [
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 731,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 735,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 763,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 766,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 767,
+    "missing_pairs": [
+      [
+        3,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 791,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 799,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 823,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 831,
+    "missing_pairs": [
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 855,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 863,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 887,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 894,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "11/46",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 895,
+    "missing_pairs": [
+      [
+        3,
+        4
+      ]
+    ],
+    "lower_bound": "17/74",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 919,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 921,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 923,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 925,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 927,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 947,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 951,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 953,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 955,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 957,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 959,
+    "missing_pairs": [
+      [
+        2,
+        5
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 963,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 967,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 971,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 973,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 975,
+    "missing_pairs": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 979,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 983,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 985,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 987,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 989,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 991,
+    "missing_pairs": [
+      [
+        2,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 995,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 999,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1001,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1003,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1005,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1007,
+    "missing_pairs": [
+      [
+        2,
+        3
+      ]
+    ],
+    "lower_bound": "17/74",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1011,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1015,
+    "missing_pairs": [
+      [
+        1,
+        5
+      ]
+    ],
+    "lower_bound": "1/4",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1017,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1019,
+    "missing_pairs": [
+      [
+        1,
+        4
+      ]
+    ],
+    "lower_bound": "7/30",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1020,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1021,
+    "missing_pairs": [
+      [
+        1,
+        3
+      ]
+    ],
+    "lower_bound": "23/95",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1022,
+    "missing_pairs": [
+      [
+        1,
+        2
+      ]
+    ],
+    "lower_bound": "11/46",
+    "status": "BOUND_PROVED_CONDITIONAL_ON_MAIN_ANALYTIC_LEMMAS"
+  },
+  {
+    "mask": 1023,
+    "missing_pairs": [],
+    "lower_bound": null,
+    "status": "UNRESOLVED_K5"
+  }
+]

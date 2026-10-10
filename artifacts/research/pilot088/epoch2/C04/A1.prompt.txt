@@ -1,0 +1,10 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Solve this problem directly.
+
+PROBLEM
+C04
+For every finite simple graph \(G=(V,E)\) with \(V\ne\varnothing\) and every integer \(r\), if \(D(G,r)=0\), then \(r\in\{0,-2\}\). Here a graph is simple if its edges are unordered pairs of distinct vertices, a subset \(S\subseteq V\) is dominating if every vertex in \(V\setminus S\) is adjacent to some vertex of \(S\), and its domination polynomial is
+\[
+D(G,x)=\sum_{\substack{S\subseteq V\\ S\text{ is dominating}}}x^{|S|}.
+\]

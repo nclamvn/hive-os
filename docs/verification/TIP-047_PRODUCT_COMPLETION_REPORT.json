@@ -1,0 +1,230 @@
+{
+  "tip": "TIP-047",
+  "builder": "target_skeptic (product/import Builder, not independent mathematical reviewer)",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "scope": "R1/R4/R6/R7 owned product/import implementation. Separate Builders own R2/R3 and R5; Contractor owns final R8/global acceptance. No full theorem acceptance.",
+  "requirements": {
+    "R1": {
+      "implemented": true,
+      "evidence": "Two exact inert author logs retained as base64 preserving CRLF. Local headers and central ZIP metadata agree on member identity/offsets/compression/CRC/sizes. Independent Node and Python decompression/CRC/SHA checks agree. Supplementary exact archived root README binds root logs to p199 as an author layout assertion; it is not mathematical authority. CC BY4.0 attribution and versioned DOI retained. Whole ZIP MD5 never marked verified."
+    },
+    "R4": {
+      "implemented": true,
+      "evidence": "The independently rebuilt complete binary fibers recover exactly the author's three tight and one gw survivors. All four actual terminal digit vectors define first11-fixed/last2-all7 scopes,49 points each. Retained certificates and pure consumer cover all49; they do not certify7^13. Own independent test exhausts all2786 times and all13 omit-one gcd tests for each archived terminal point: no grid witness, all gcd7. The lower LRC12 premise remains declared/not replayed."
+    },
+    "R6": {
+      "implemented": true,
+      "evidence": "Fixed explicit local CLI produces all6 reviewed source-bound envelopes, validates all before any artifact replacement, and atomically retains complete JSON. Aggregate cap64MiB/60s; each pinned primary/Python replay10s. No report written by ordinary viewing GET; no partial artifact fallback. Pure schema/descriptor/tree/envelope/author-list validator always retains global NOT_ESTABLISHED and all5 open obligations. Local collector hashes are not external execution attestation."
+    },
+    "R7": {
+      "implemented": true,
+      "evidence": "Bilingual retained-only Allikvere panel uses existing Panel/MathText styles with exact domains, chosen leaf classifications, conditional gcd, survivor coordinates, archived attribution, dependencies and wrapping SHA digests. math-tools?view=allikvere#allikvere bypasses legacy ES arithmetic/Python and hides ES form/presets; existing ES paths remain available by explicit navigation. Minimal math-pilot link; no model dispatch, case generation, old-case grading, agent gate changes or theorem admission."
+    }
+  },
+  "files": [
+    {
+      "path": "docs/research/lrc-allikvere-p199/author-kill-logs.json",
+      "sha256": "70a19806e1baa7b32dad0ada99a7d122ecd494f1a8c58352e0a2498d8b70f5b2"
+    },
+    {
+      "path": "docs/research/lrc-allikvere-p199/provenance.json",
+      "sha256": "f72aa3f932e7baee063e35bee7a4ece0f849bd084590107713ca2da95a2694f5"
+    },
+    {
+      "path": "docs/research/lrc-allikvere-p199/author-root-readme.json",
+      "sha256": "a0157df9b2701b3537d5d5c56b7407a2d81caa950347bb8bcb2e11fec2413fe6"
+    },
+    {
+      "path": "docs/research/lrc-allikvere-p199/retained-report.json",
+      "sha256": "82092f2b32be89999bc834d426be71aea5fa408f9865a53a795b765b3e2deb20"
+    },
+    {
+      "path": "src/modules/research-sandbox/math-lrc-allikvere-report.ts",
+      "sha256": "cef7c201f1712fb03660f8a55465d0c738bcafe64c556b16626d72daa6d8772a"
+    },
+    {
+      "path": "scripts/operations/allikvere-modular-audit.ts",
+      "sha256": "94d59590b9782efb25a76b6c284dcdc122059f3e0aa8c99e296b63ced2da52df"
+    },
+    {
+      "path": "src/components/research/math-lrc-allikvere-panel.tsx",
+      "sha256": "d40db8aaf4b34711271a73142f31effbf8706fcce290d6eb20a356dcc4ef6d1f"
+    },
+    {
+      "path": "src/app/w/[workspaceSlug]/research/math-tools/page.tsx",
+      "sha256": "c2c45e8c6115ec65d9236bf5058e4530d5437d4e7ec441c7608a789fb0c1da9f"
+    },
+    {
+      "path": "src/app/w/[workspaceSlug]/research/math-pilot/page.tsx",
+      "sha256": "2f90238cc64177389699cdabc66b0623d7e3a29cd727b9f47cf0abe68f5ea864"
+    },
+    {
+      "path": "tests/unit/math-lrc-allikvere-report.test.ts",
+      "sha256": "0c2f52a2d483e92a66f69a122f86a8670b9106f303ed862db97b6f337c240d55"
+    }
+  ],
+  "retained_artifact": {
+    "contentDigest": "da05c6a3722f72a29dd4ea11bf8dc74c15c76d347f10b72c58333289d876cf5a",
+    "bytes": 135832,
+    "rows": [
+      {
+        "id": "p199-tight-level2",
+        "total": 8192,
+        "grid": 8187,
+        "gcd": 2,
+        "survivors": 3
+      },
+      {
+        "id": "p199-gw-level2",
+        "total": 8192,
+        "grid": 8190,
+        "gcd": 1,
+        "survivors": 1
+      },
+      {
+        "id": "p199-tight-terminal-0",
+        "total": 49,
+        "grid": 48,
+        "gcd": 1,
+        "survivors": 0
+      },
+      {
+        "id": "p199-tight-terminal-1",
+        "total": 49,
+        "grid": 48,
+        "gcd": 1,
+        "survivors": 0
+      },
+      {
+        "id": "p199-tight-terminal-2",
+        "total": 49,
+        "grid": 48,
+        "gcd": 1,
+        "survivors": 0
+      },
+      {
+        "id": "p199-gw-terminal-0",
+        "total": 49,
+        "grid": 48,
+        "gcd": 1,
+        "survivors": 0
+      }
+    ],
+    "totalTuples": 16580,
+    "globalVerdict": "NOT_ESTABLISHED",
+    "lowerDependency": "LOWER_LRC_12_DECLARED_NOT_REPLAYED",
+    "countSemantics": "These are labels in this retained certificate partition. GRID and gcd conditions can overlap mathematically. Another valid proof tree may change label counts, not the domain/survivor conclusion.",
+    "pythonSourceDigest": "1bbc0d48a8e89937ddc5cf053dd38ab14768489b3e802288ec70aa3ca6304e5d"
+  },
+  "verification": {
+    "focused_unit": {
+      "status": "PASS",
+      "passed": 21,
+      "total": 21,
+      "files": 1,
+      "duration_ms": 2340,
+      "command": "node node_modules/vitest/vitest.mjs run tests/unit/math-lrc-allikvere-report.test.ts",
+      "exit_code": 0
+    },
+    "actual_cli_write": {
+      "status": "PASS",
+      "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-modular-audit.ts --write",
+      "elapsed_ms": 471,
+      "exit_code": 0,
+      "note": "All6 actual pinned Python replays and pure final admission completed before atomic retention."
+    },
+    "actual_cli_no_write": {
+      "status": "PASS",
+      "note": "Focused unit executes the actual fixed6scope CLI, compares domain counts and checks retained bytes remain unchanged. Unknown flags and production --write both fail closed before replacement."
+    },
+    "adversarial_report_mutations": {
+      "status": "PASS",
+      "fully_report_rehashed": 12,
+      "cases": [
+        "global theorem",
+        "whole ZIP verified",
+        "missing obligations",
+        "wrong ordered scope",
+        "cross root",
+        "source digest",
+        "author survivor narrowing",
+        "duplicate row",
+        "terminal domain expansion",
+        "false author matching",
+        "Python pin drift",
+        "unresolved classification"
+      ],
+      "note": "These are fully outer-report-rehashed mutations, not all recursively resealed inner certificates. Independent core/replay and Contractor own deeper arithmetic/tree mutations."
+    },
+    "terminal_points": {
+      "status": "PASS",
+      "points": 4,
+      "gridTimesEach": 2786,
+      "omitOneClausesEach": 13,
+      "witnessesEach": 0,
+      "gcdEach": 7,
+      "note": "Separate read-only exact arithmetic in focused test; no archive executable or broader cohort."
+    },
+    "retained_ui": {
+      "status": "PASS_STATIC_VI_EN",
+      "note": "Server component rendering validates retained report only; source projection regression guards explicit retained path away from legacy arithmetic. Visible browser and responsive acceptance remain Contractor responsibility."
+    },
+    "typecheck": {
+      "status": "PASS",
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "exit_code": 0
+    },
+    "owned_eslint": {
+      "status": "PASS",
+      "files": 6,
+      "errors": 0,
+      "warnings": 0,
+      "exit_code": 0
+    },
+    "whitespace": {
+      "status": "PASS",
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    "not_run_by_builder": [
+      "whole repository suite",
+      "production build",
+      "live database",
+      "browser E2E",
+      "worker",
+      "model/API calls",
+      "Git publication"
+    ]
+  },
+  "source_integrity": {
+    "record": "https://zenodo.org/records/22066772",
+    "doi": "10.5281/zenodo.22066772",
+    "doi_confirmation": "Official API read-only curl metadata confirmed by Contractor; concept DOI22066771 is distinct.",
+    "archiveDeclaredMd5": "9b6564895671a1d5e03d4ff21e124f7c",
+    "wholeArchiveVerified": false,
+    "authorGwRawSha256": "9a441e4a96750c519a53c8708292e816cb302eb1201f499882ba17e7cf6e9297",
+    "authorTightRawSha256": "946ba9d5cb77db00bf52aa7831beef3fc12acb7136095601550b074687b24a18",
+    "rootReadmeRawSha256": "532959514158484fdb3b2fb343b97131d841df9b0b35d39d323ea063c582f787",
+    "foreignCodeExecuted": false
+  },
+  "failure_history": [
+    "The kill logs themselves do not name prime199. Contractor flagged provenance ambiguity; retained exact archived README and checked its local/central metadata, CRC, size and SHA to bind the author's root-layout statement. Inputs and mathematical scope unchanged.",
+    "Direct web record/API reads were unavailable to Builder. Contractor read official API metadata with curl and confirmed versioned DOI22066772; no unverified whole-archive authenticity claim.",
+    "Initial20focused tests passed, but standalone TypeScript caught a test-only environment parameter inferred as arbitrary string. Narrowed to test/development/production literal union; final21tests and typecheck pass, with no implementation weakening.",
+    "Contractor reviewed initial VI typo and ES-specific header/form next to retained-only view. Corrected copy and made only the explicit retained path LRC-specific with separate ES navigation. Old arithmetic paths unchanged.",
+    "Contractor and independent reviewer noted valid GCD leaves can overlap mathematical GRID eligibility. UI/report explicitly label counts as selected proof-partition categories, not intrinsic disjoint conditions.",
+    "Another Builder's pnpm exec unexpectedly altered dependency layout before failing network. This Builder did not run pnpm/install. Contractor restored31existing folders locally; subsequent checks use direct installed Node tools. No dependency edits are owned by this Builder.",
+    "Contractor's final visible UI review caught overly broad no-network wording. Replaced it with no external research fetches and explicitly acknowledged normal workspace authentication/page loading. Added VI/EN text regressions; that focused21/21 run passed1.46s with two-file ESLint0. No collector, artifact, case, dispatch or gate change.",
+    "Actual anchor navigation initially hid the panel heading/global warning beneath the fixed workspace bar. Added only scroll-mt-24 to valid and invalid panel roots and render regressions for both. Latest focused21/21 passes2.34s, two-file ESLint0 and diff0; no architecture/data change."
+  ],
+  "scientific_and_authority_limits": [
+    "Only 2 binary fibers and 4 restricted shards are independently classified; no level-1 orbit, full-terminal, other-prime or global-product coverage.",
+    "GCD arithmetic is exact but its induction-to-properness remains conditional on LOWER_LRC_12_DECLARED_NOT_REPLAYED; not a universal LRC theorem.",
+    "Archived aggregate node counts and NO improper author assertions are never branch coverage evidence. The bounded trees are newly rebuilt, not the author's full original tree.",
+    "Archived 111 primes for 14, fresh manuscript 61 for 14 and 71 for 15 are separate scopes.",
+    "Source pin + actual local interpreter receipts rely on trusted local collector; pure GET checks recompute arithmetic and hashes but do not freshly execute Python or attest a compromised host/interpreter.",
+    "Outer60s and each10s are observation/child-timeout checkpoints, not preemption of synchronous TypeScript arithmetic. Report replacement requires all6 completed domains; post-commit I/O can still surface collector failure without turning a complete report into a partial result.",
+    "No paid API, worker/model calls, proof publication, installation, migration, autonomous case or historical regrade."
+  ],
+  "preservation": "Only parent-approved import/report/CLI/UI/link/test seams changed. TIP046 agent APIs/gates, historical cases, unrelated screenshots and dirty TIP044/045 documents left untouched."
+}

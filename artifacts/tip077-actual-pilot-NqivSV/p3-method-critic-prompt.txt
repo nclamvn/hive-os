@@ -1,0 +1,294 @@
+You are one solver in an authorized bounded mathematics experiment. This is a
+fresh task-only session. Work solely from the supplied problem and same-arm
+artifacts explicitly included in this prompt. No project/repository/history,
+other arm, reference solution, web search, external source, MCP, plugin, extra
+model/agent, credentials or environment-file inspection. Do not read files.
+Do not install dependencies or write files. All tools are optional. Only in-memory
+Python/arithmetic shell computations are allowed; do not contact any network,
+launch agents, browse, access filesystem, or ask approval to weaken the sandbox.
+At most 12 computation commands per arm; each <=60 seconds and <=120 seconds
+aggregate. Output must be <=32KiB UTF-8. These bounds include failed work.
+Your arm's entire allowance is four visible model requests and 600 seconds,
+including any planning/review/revision. Current request usage and time remaining
+are supplied by the operator. Actual token budgets/model-version are unverified.
+Provide a self-contained rigorous proof or a clearly labelled partial attempt.
+Do not claim a finite computation establishes an unbounded theorem. Explicitly
+state any essential gap. No task-specific hint or solution is being supplied.
+Final format: Answer; Proof (with all blocking lemmas justified); Scope and gaps.
+Use English and readable LaTeX math delimiters. Do not cite remembered official
+solutions as proof. You may use established elementary results only if you state
+them and justify applicability. Submit the final proof in your final message.
+
+
+Apply this task-independent research protocol within the SAME total allowance:
+1. Extract definitions, assumptions and quantifiers; identify blocking lemmas.
+2. Rank up to three approaches with a concrete discriminating check, then choose.
+3. Construct a proof attempt along the selected approach.
+4. Adversarially review circularity, unjustified lemmas and boundary cases.
+5. Repair if resources remain; distinguish proved scope from essential gaps.
+Planning and criticism are not extra/free model requests. You may execute the
+steps in this session or use remaining explicitly provided fresh role requests.
+Do not turn the checklist itself into a claimed mathematical result.
+
+
+An infinite positive-integer sequence (a_n) and a positive integer N satisfy:
+for each n>N, a_n is the multiplicity of a_(n-1) among a_1,...,a_(n-1).
+Show that either (a_(2j-1))_(j>=1) or (a_(2j))_(j>=1) is eventually periodic.
+Eventually periodic means b_(m+p)=b_m for every m>=M, for some positive integers
+p,M. Prove this for every allowed initial segment, not just simulated examples.
+
+
+Independently criticize the same-arm original attempt below. Check every essential implication and boundary case. Do not assume it is correct. Return specific justified objections or support; this criticism is not the final submission.
+
+OPERATOR RESOURCE NOTICE: This is request position 2 (CRITIC) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 313 seconds. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.
+
+SAME-ARM ORIGINAL ATTEMPT:
+
+## Answer
+
+At least one of the two parity subsequences is eventually periodic. This holds for every allowed initial segment.
+
+## Proof
+
+Write
+\[
+C_t(x)=\#\{i\le t:a_i=x\},\qquad
+H_t(k)=\#\{x\ge1:C_t(x)\ge k\},
+\]
+and put \(C_0(x)=H_0(k)=0\). Thus \(H_t(k)\) counts how many distinct values have appeared at least \(k\) times.
+
+The proof first identifies the values that occur infinitely often, then reduces their successive occurrences to a finite-state process.
+
+### 1. A counting identity
+
+For every \(n\ge N\) and \(k\ge1\),
+\[
+C_n(k)=C_N(k)+H_{n-1}(k)-H_{N-1}(k).
+\tag{1}
+\]
+
+Indeed, each occurrence of \(k\) at an index \(i+1>N\) corresponds, by the given recurrence, to the \(k\)-th occurrence of the value \(a_i\). The number of such \(k\)-th occurrences at indices \(N,\ldots,n-1\) is exactly
+\[
+H_{n-1}(k)-H_{N-1}(k).
+\]
+This proves (1), including the case \(n=N\).
+
+Choose
+\[
+K=\max\{N,a_1,\ldots,a_N\}.
+\]
+For \(k>K\), both \(C_N(k)\) and \(H_{N-1}(k)\) vanish. Consequently,
+\[
+C_n(k)=H_{n-1}(k)\qquad(n\ge N,\ k>K).
+\tag{2}
+\]
+In particular, for each fixed \(n\ge N\), the counts \(C_n(k)\) are nonincreasing as \(k\) ranges over \(K+1,K+2,\ldots\).
+
+We claim that
+\[
+C_n(k)<k\qquad(n\ge N,\ k>K).
+\tag{3}
+\]
+Otherwise, fix \(k>K\) and take the first \(n\) for which \(C_n(k)=k\). Since \(C_N(k)=0\), we have \(n>N\), \(a_n=k\), and \(C_{n-1}(k)=k-1\). The monotonicity just established gives
+\[
+C_{n-1}(x)\le k-1\qquad(x\ge k).
+\]
+Thus only the \(k-1\) values \(x<k\) could have appeared at least \(k\) times, so
+\[
+H_{n-1}(k)\le k-1.
+\]
+This contradicts (2), which gives \(H_{n-1}(k)=C_n(k)=k\).
+
+Applying (3) to \(K+1\), and then using monotonicity, yields
+\[
+C_n(k)\le K\qquad(n\ge N,\ k>K).
+\tag{4}
+\]
+
+### 2. The values occurring infinitely often form an initial interval
+
+Let \(R\) be the set of values occurring infinitely often. By (4),
+\[
+R\subseteq\{1,\ldots,K\}.
+\tag{5}
+\]
+
+Also, \(R\) is nonempty. If only finitely many distinct values occur, one occurs infinitely often. If infinitely many distinct values occur, infinitely many have their first occurrence after index \(N\); each such first occurrence is followed by \(1\), so \(1\) occurs infinitely often.
+
+Put \(r=|R|\), so \(1\le r\le K\). For a value outside \(R\), let \(C_\infty(x)\) denote its finite total number of occurrences. Choose an integer \(L\ge K\) large enough that
+\[
+C_\infty(x)\le L\qquad(x\notin R).
+\tag{6}
+\]
+Such a choice is possible: (4) already bounds all values \(x>K\) by \(K\), leaving only finitely many values to consider.
+
+For \(k>L\), equations (2) and (6) give
+\[
+C_n(k)
+=H_{n-1}(k)
+=\#\{x\in R:C_{n-1}(x)\ge k\}.
+\tag{7}
+\]
+Every count belonging to a value in \(R\) tends to infinity. Hence, for each fixed \(k>L\), the right-hand side eventually equals \(r\). Therefore
+\[
+C_\infty(k)=r\qquad(k>L).
+\tag{8}
+\]
+
+Now fix \(j\in\{1,\ldots,r\}\). Each value \(k>L\) has a \(j\)-th occurrence, and that occurrence is followed by \(j\). These occurrences lie after \(N\), because \(k>L\ge K\) does not appear in the initial segment. As there are infinitely many choices of \(k\), the value \(j\) occurs infinitely often. Thus
+\[
+\{1,\ldots,r\}\subseteq R.
+\]
+Both sets have cardinality \(r\), so
+\[
+R=\{1,\ldots,r\}.
+\tag{9}
+\]
+
+### 3. Eventual alternation and the counter recurrence
+
+Choose \(T\ge N+1\) such that:
+
+- none of the values \(r+1,\ldots,L\) occurs at or after \(T\);
+- \(C_t(i)>L\) for every \(i\in\{1,\ldots,r\}\) and every \(t\ge T\).
+
+This is possible by (9).
+
+For \(t\ge T\), if \(a_t\le r\), then
+\[
+a_{t+1}=C_t(a_t)>L.
+\]
+If \(a_t>L\), then (7) gives
+\[
+1\le a_{t+1}=C_t(a_t)\le r.
+\]
+Thus the sequence eventually alternates between values in \(\{1,\ldots,r\}\) and values greater than \(L\).
+
+Choose \(t_0\ge T\) with \(a_{t_0}\le r\), and define
+\[
+b_m=a_{t_0+2m},\qquad h_m=a_{t_0+2m+1}
+\qquad(m\ge0).
+\]
+Here \(b_m\in\{1,\ldots,r\}\) and \(h_m>L\).
+
+For \(1\le i\le r\), let
+\[
+c_i(m)=C_{t_0+2m-1}(i).
+\]
+These are the counts immediately before \(b_m\) occurs. Consequently,
+\[
+c_i(m+1)=c_i(m)+\mathbf1_{\{i=b_m\}},
+\qquad
+h_m=c_{b_m}(m)+1=c_{b_m}(m+1).
+\tag{10}
+\]
+Using (7) at the occurrence of \(h_m\), we obtain
+\[
+b_{m+1}
+=\#\{i\in\{1,\ldots,r\}:c_i(m+1)\ge c_{b_m}(m+1)\}.
+\tag{11}
+\]
+Furthermore, every \(c_i(m)\) tends to infinity, because every value \(1,\ldots,r\) occurs infinitely often.
+
+We now prove the counter lemma needed for (10)–(11).
+
+### 4. Counter lemma
+
+**Lemma.** Suppose a process has integer counters \(c_1,\ldots,c_r\) and an index \(b\in\{1,\ldots,r\}\). Each step increments counter \(b\) by one, then sets the next index to
+\[
+b'=\#\{i:c'_i\ge c'_b\},
+\]
+where \(c'\) is the updated counter vector. If every counter tends to infinity, then the index sequence is eventually periodic.
+
+**Proof.** Let
+\[
+s_1\ge s_2\ge\cdots\ge s_r
+\]
+be the counter values sorted in decreasing order, with repetitions retained. Write \(e_i\) for the \(i\)-th unit vector.
+
+Under one update,
+\[
+c'=c+e_b,\qquad s'=s+e_{b'}.
+\tag{12}
+\]
+To verify the second equality, write \(v=c_b\), and let \(q\) be the number of counters whose old values are at least \(v+1\). Since the counters are integers, incrementing the chosen counter from \(v\) to \(v+1\) changes only the \((q+1)\)-st sorted entry, increasing it by one. The updated number of counters at least \(v+1\) is \(q+1=b'\). This also handles all ties.
+
+It follows from (12) that
+\[
+u=c-s+e_b
+\tag{13}
+\]
+is invariant:
+\[
+c'-s'+e_{b'}=c-s+e_b.
+\]
+Set
+\[
+D=1+\max_i|u_i|.
+\]
+At every stage,
+\[
+|c_i-s_i|\le D.
+\tag{14}
+\]
+
+For \(1\le k<r\), consider the sorted gap
+\[
+g_k=s_k-s_{k+1}.
+\]
+Suppose \(g_k>2D\). By (14), every counter labelled \(1,\ldots,k\) is strictly larger than every counter labelled \(k+1,\ldots,r\). Indeed,
+\[
+c_i\ge s_k-D>s_{k+1}+D\ge c_j
+\qquad(i\le k<j).
+\tag{15}
+\]
+
+At such a stage, the current index cannot satisfy \(b\le k\). If it did, incrementing that counter would make the next index at most \(k\). The strict separation in (15) would persist, and induction would show that all subsequent updates occur among counters \(1,\ldots,k\). The remaining counters would stay constant, contradicting their assumed divergence.
+
+Hence \(b>k\) whenever \(g_k>2D\). The chosen counter then lies below the largest \(k\) counters. Incrementing it by one cannot increase \(s_k\), because its old value is at most \(s_{k+1}<s_k\). It cannot decrease \(s_{k+1}\). Therefore
+\[
+g'_k\le g_k\qquad\text{whenever }g_k>2D.
+\tag{16}
+\]
+For any step, (12) also gives \(g'_k\le g_k+1\). Together these observations imply
+\[
+g_k(m)\le G_k:=\max\{g_k(0),\,2D+1\}
+\qquad(m\ge0).
+\tag{17}
+\]
+
+Thus the difference between the largest and smallest counters is bounded:
+\[
+\max_i c_i(m)-\min_i c_i(m)
+=s_1(m)-s_r(m)
+\le B:=\sum_{k=1}^{r-1}G_k.
+\tag{18}
+\]
+For \(r=1\), the sum is empty and \(B=0\).
+
+Normalize the counters by subtracting their minimum:
+\[
+d_i(m)=c_i(m)-\min_j c_j(m).
+\]
+Every \(d_i(m)\) is an integer between \(0\) and \(B\). Hence there are only finitely many possible states
+\[
+\bigl(b_m,d_1(m),\ldots,d_r(m)\bigr).
+\]
+
+The next normalized state is determined entirely by the current one: increment \(d_{b_m}\), compute the next index by the rank rule, and subtract the new minimum. Adding a common constant to all counters changes none of these operations.
+
+A state must therefore repeat. Determinism then makes the subsequent states repeat periodically, so the index sequence is eventually periodic. This proves the lemma. \(\square\)
+
+### 5. Conclusion
+
+The counters in (10)–(11) satisfy the lemma, and all tend to infinity. Therefore \((b_m)\) is eventually periodic.
+
+Since
+\[
+b_m=a_{t_0+2m},
+\]
+this is a tail of the odd-indexed subsequence when \(t_0\) is odd, and a tail of the even-indexed subsequence when \(t_0\) is even. The corresponding parity subsequence is eventually periodic, as required. \(\square\)
+
+## Scope and gaps
+
+The proof covers every positive integer \(N\) and every positive initial segment. All blocking lemmas are proved above; no essential gap remains. The finite-state conclusion follows from a uniform mathematical bound, not from finite simulation.

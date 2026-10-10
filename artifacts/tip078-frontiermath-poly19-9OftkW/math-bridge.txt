@@ -1,0 +1,13 @@
+GRADER-ONLY trusted elementary bridge, not a candidate solution or official score.
+For a primitive19th root z and s_k=z^k+z^(-k), k=1,...,9, the monic quadratics
+Q_k=x^2+y^2-s_k*x*y+s_k^2-4 are irreducible over C: their discriminant in x is
+(s_k^2-4)*(y^2-4), with simple zeros at +/-2 when s_k^2-4 is nonzero. Hence it
+is not a square in C(y); Gauss's lemma applies. Distinct s_k imply nonassociate
+factors. Their projective closures in P1xP1 remain irreducible; bihomogenizations
+have no homogenizing-coordinate divisor. The diagonal has bidegree(1,1) and
+nine quadratics(2,2), total(19,19). If a submitted polynomial establishes the
+full exact affine product identity with these factors, it lifts to the whole
+equality divisor, with ten components and nine nonlinear. This is one supported
+certificate family; other valid constructions are not ruled out by its failure.
+Judge the ORIGINAL's proof, including its own justification, not a repaired proof
+supplied by this reference. Reviewer1 has no reference. No prior verdict is given.

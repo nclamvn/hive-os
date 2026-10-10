@@ -1,0 +1,265 @@
+{
+  "purpose": "P2_FULL_BOUNDED_GRAMMAR_SCOPED_COMPLETION_EVIDENCE",
+  "status": "P2_PRIVATE_BOUNDED_GRAMMAR_SYNTHETIC_ACCEPTED_REAL_OPEN",
+  "acceptedObligations": [
+    "W1",
+    "W2",
+    "W3",
+    "W4",
+    "W5",
+    "W6"
+  ],
+  "executionBaseMilliseconds": 805292.486332,
+  "continuationEffects": [
+    {
+      "kind": "first-generator-text-capture",
+      "milliseconds": 3.195416999999999,
+      "allowance": 1000,
+      "upper": 1003.195417
+    },
+    {
+      "kind": "inert-frozen-text-cut",
+      "milliseconds": 18.205,
+      "allowance": 1000,
+      "upper": 1018.205
+    },
+    {
+      "kind": "one-shot-inert-derivation",
+      "milliseconds": 285.235666,
+      "allowance": 1000,
+      "upper": 1285.235666
+    },
+    {
+      "kind": "repaired-inert-text-cut",
+      "milliseconds": 18.0995,
+      "allowance": 1000,
+      "upper": 1018.0995
+    },
+    {
+      "kind": "reviewed-corrected-inert-derivation",
+      "milliseconds": 804.5357919999999,
+      "allowance": 1000,
+      "upper": 1804.535792
+    },
+    {
+      "kind": "third-inert-text-cut",
+      "milliseconds": 1.6690000000000005,
+      "allowance": 1000,
+      "upper": 1001.669
+    },
+    {
+      "kind": "reviewed-third-inert-derivation",
+      "milliseconds": 1750.165917,
+      "allowance": 1000,
+      "upper": 2750.1659170000003
+    },
+    {
+      "kind": "third-output-inventory-diagnostic",
+      "milliseconds": 22.013792000000002,
+      "allowance": 1000,
+      "upper": 1022.013792
+    },
+    {
+      "kind": "fourth-inert-text-cut",
+      "milliseconds": 1.271207999999998,
+      "allowance": 1000,
+      "upper": 1001.271208
+    },
+    {
+      "kind": "reviewed-fourth-inert-derivation",
+      "milliseconds": 247.93570799999998,
+      "allowance": 1000,
+      "upper": 1247.935708
+    },
+    {
+      "kind": "fifth-inert-text-cut",
+      "milliseconds": 1.1989160000000005,
+      "allowance": 1000,
+      "upper": 1001.198916
+    },
+    {
+      "kind": "reviewed-fifth-inert-derivation",
+      "milliseconds": 1508.4932919999999,
+      "allowance": 1000,
+      "upper": 2508.493292
+    },
+    {
+      "kind": "sixth-inert-text-cut",
+      "milliseconds": 1.4137079999999997,
+      "allowance": 1000,
+      "upper": 1001.413708
+    },
+    {
+      "kind": "reviewed-sixth-inert-derivation",
+      "milliseconds": 1392.078459,
+      "allowance": 1000,
+      "upper": 2392.0784590000003
+    },
+    {
+      "kind": "sixth-output-inventory-diagnostic",
+      "milliseconds": 17.070292000000002,
+      "allowance": 1000,
+      "upper": 1017.070292
+    },
+    {
+      "kind": "fifth-sixth-grammar-suffix-preservation",
+      "milliseconds": 4.785708,
+      "allowance": 1000,
+      "upper": 1004.785708
+    },
+    {
+      "kind": "checked-release-capture-fresh-disk-pins",
+      "milliseconds": 136.94370800000002,
+      "allowance": 1000,
+      "upper": 1136.943708
+    },
+    {
+      "kind": "grammar-precheck-source-fixed-cut",
+      "milliseconds": 18.224041,
+      "allowance": 1000,
+      "upper": 1018.2240409999999
+    },
+    {
+      "kind": "grammar-first-scoped-check",
+      "milliseconds": 2322.025834,
+      "allowance": 9000,
+      "upper": 11322.025834
+    },
+    {
+      "kind": "grammar-corrected-health-first-unit",
+      "milliseconds": 4202.617542,
+      "allowance": 5000,
+      "upper": 9202.617542
+    },
+    {
+      "kind": "first-executed-109-test-text-preservation",
+      "milliseconds": 0.4292499999999997,
+      "allowance": 1000,
+      "upper": 1000.42925
+    },
+    {
+      "kind": "reviewed-fixed-depth-diagnostic",
+      "milliseconds": 267.479834,
+      "allowance": 3000,
+      "upper": 3267.4798339999998
+    },
+    {
+      "kind": "reviewed-fixed-hybrid-depth-diagnostic",
+      "milliseconds": 300.634167,
+      "allowance": 3000,
+      "upper": 3300.634167
+    },
+    {
+      "kind": "grammar-final-reviewed-scoped-check",
+      "milliseconds": 4677.784291000001,
+      "allowance": 4000,
+      "upper": 8677.784291
+    },
+    {
+      "kind": "grammar-final-named-preservation",
+      "milliseconds": 27.502208000000003,
+      "allowance": 1000,
+      "upper": 1027.502208
+    }
+  ],
+  "continuationUpperMilliseconds": 62031.008249999955,
+  "aggregateUpperMilliseconds": 867323.494582,
+  "aggregateCeilingMilliseconds": 900000,
+  "remainingMilliseconds": 32676.505418000044,
+  "reset": false,
+  "sourceReview": "docs/verification/TIP-081A_P2_CLOSURE_SOURCE_REVIEW.md",
+  "release": "docs/verification/TIP-081A_P2_CHECK_RELEASE_EFFECT.json",
+  "firstCheck": "docs/verification/TIP-081A_P2_GRAMMAR_FIRST_CHECK.json",
+  "firstUnitFailure": "docs/verification/TIP-081A_P2_GRAMMAR_CORRECTED_CHECK.json",
+  "firstExecutedTestSource": "docs/verification/TIP-081A_P2_GRAMMAR_FIRST_EXECUTED_TEST.json",
+  "plainCallDiagnostic": "docs/verification/TIP-081A_P2_AST_DEPTH_DIAGNOSTIC.json",
+  "hybridDiagnostic": "docs/verification/TIP-081A_P2_HYBRID_AST_DEPTH_DIAGNOSTIC.json",
+  "finalCheck": "docs/verification/TIP-081A_P2_GRAMMAR_FINAL_CHECK.json",
+  "afterPins": "docs/verification/TIP-081A_P2_GRAMMAR_AFTER_PINS.json",
+  "finalTests": {
+    "total": 109,
+    "passed": 109,
+    "failed": 0,
+    "pending": 0,
+    "files": 1,
+    "uniqueIds": 109,
+    "positiveProductionControls": 63,
+    "other108TextUnchanged": true
+  },
+  "sourceInventory": {
+    "originalAndReplacementRows": 7274,
+    "hookSites": 10349,
+    "emittedEffects": 17744,
+    "rules": 31,
+    "open": 0,
+    "unmatched": 0,
+    "emittedUnknown": 0,
+    "countsAloneNotProof": true
+  },
+  "namedPreservation": {
+    "predecessor": 20,
+    "current": 16,
+    "matched": 36,
+    "wholeGraphVerified": false
+  },
+  "finalTest": {
+    "path": "tests/unit/private-grammar-tip081-p2.test.ts",
+    "bytes": 30762,
+    "sha256": "2bd64e91080980920246513ca2ec5da5ee3f889e6dfac8e48e88085054996744"
+  },
+  "checkedTuple": [
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs",
+      "bytes": 931985,
+      "sha256": "114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef"
+    },
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json",
+      "bytes": 5710072,
+      "sha256": "41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9"
+    },
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.profile.json",
+      "bytes": 2491,
+      "sha256": "9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8"
+    }
+  ],
+  "rawOriginalDeadlineSample": {
+    "start": 470.668833,
+    "firstElapsed": 602.2192090000001,
+    "lastElapsed": 1204.583042,
+    "postCallElapsed": 1204.768,
+    "ttl": 1000,
+    "waits": [
+      600,
+      600
+    ],
+    "source": "final unit raw stdout",
+    "generalTimingTheorem": false
+  },
+  "limits": {
+    "logicalBytes": 67108864,
+    "attemptedNodes": 200000,
+    "conservativeEntries": 20000,
+    "structuralDepth": 128,
+    "privateCallDepth": 128,
+    "maximumTTLMilliseconds": 120000,
+    "numericSpellingUTF16": 1024
+  },
+  "unsupported": [
+    "target RegExp literal work",
+    "target BigInt literal work",
+    "Unicode identifiers"
+  ],
+  "realParserDisabled": true,
+  "P3Opened": false,
+  "P4Opened": false,
+  "P5Opened": false,
+  "predecessorOpenCount": 62,
+  "callerGraph": "OPEN",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "deepASTEquivalenceProved": false,
+  "physicalNativeRSSClosureProved": false,
+  "mathematicalMilestone": false,
+  "archivalLimit": "First failed 47194-byte generator source was not captured completely; earlier18776-byte draft is NOT that failed cut. Available failure pin/log/history are retained. Current acceptance binds the complete reviewed V6/final tuple, not reconstruction of that failure."
+}

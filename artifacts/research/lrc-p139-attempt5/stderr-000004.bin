@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "<string>", line 1210, in <module>
+    _make_bound_worker_entry(b'{"action":"VERIFY","binding":{"action":"VERIFY","attempt":5,"domain":{"divisor":14,"prime":139,"target":13},"grantSha256":"939db6c8587b6f0f3586e7433c973607d9df4d3c88c6dbc9416ff6a5c612c23c","headerSha256":"26c9f97483f5d6d5f3e6361c34ba8d8aa91e3ce72c15df3e8d35d4706d31c758","mode":"REPRODUCTION","obligation":"G","phaseId":4,"priorWholeAttempts":4,"releaseReviewSha256":"88e4767d033c3c2ebcec5d02c0a13cad9b277ee3eccfa5ff388d3773017a95d3","reservationSha256":"537328924766640909b002b61723f37877791c9e5a2e9c063b2f4a07081f1688","resourceContractSha256":"3da8f104d04bbfecb4e2a62d034a3c48802b032d1a59e0b84f91fc0c2db3864a","root":"LRC_P139_REPRODUCTION_075","sourcePins":{"checker":"65a55451e2d49649b3fe4ed598a383757efbbeee8a34a1481fa5f7d349dbe88b","host":"d2fe9d916e4536385ab6862d9273925797309f9ecb52aa6a19676c796dc4dcd9","producer":"d8d3ecd2337d4d2219eb6fd08756506b5eeb26b247109870f27fd448dcb3f7b6"},"startSha256":"a074db2808e18571bfbfae9f159358e321c3acac49fb8ace1e46e64b826925d9"},"cursor":null,"headerSha256":"26c9f97483f5d6d5f3e6361c34ba8d8aa91e3ce72c15df3e8d35d4706d31c758","maxEvents":0,"phaseId":4,"profile":"P139_RELEASE","reservationSha256":"537328924766640909b002b61723f37877791c9e5a2e9c063b2f4a07081f1688","sourcePins":{"checker":"65a55451e2d49649b3fe4ed598a383757efbbeee8a34a1481fa5f7d349dbe88b","host":"d2fe9d916e4536385ab6862d9273925797309f9ecb52aa6a19676c796dc4dcd9","producer":"d8d3ecd2337d4d2219eb6fd08756506b5eeb26b247109870f27fd448dcb3f7b6"},"startSha256":"a074db2808e18571bfbfae9f159358e321c3acac49fb8ace1e46e64b826925d9","tail":"c92166b3463c88d2c81fa90f46ee50ca897729c182c2aab7e38f636dae70b55f"}\n')(sys.stdin.buffer.read,sys.stdout.buffer.write)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 245, in entry
+    def entry(read,write): return worker(read,write,authority=authority)
+                                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 1153, in worker
+    if {k:sha(v) for k,v in sources(io).items()}!=h['pins']: fail('worker post source drift')
+                            ~~~~~~~^^^^
+  File "<string>", line 408, in sources
+    result[key]=read_meta(fd,name,io,SOURCE_BOUND)
+                ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 366, in read_meta
+    part=read_chunk(handle,size-len(raw),io)
+  File "<string>", line 354, in read_chunk
+    count=min(count,io.lim['chunkBytes']);io.charge('readBytes',count)
+                                          ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 317, in charge
+    self.tick()
+    ~~~~~~~~~^^
+  File "<string>", line 319, in tick
+    if self.deadline is not None and time.monotonic()>=self.deadline: fail('host deadline')
+                                                                      ~~~~^^^^^^^^^^^^^^^^^
+  File "<string>", line 63, in fail
+    raise Refused(str(reason)[:200])
+pinned075e_bound_worker.Refused: host deadline

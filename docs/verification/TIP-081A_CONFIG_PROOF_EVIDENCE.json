@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "purpose": "TIP081_NORMALIZED_CONFIG_PROOF",
+  "date": "2026-10-07",
+  "predecessor": {
+    "bundle": "0e1a580cde3af50fa32270ba8b5badd28ee2ba7a159ba28d67383778e03d7c65",
+    "review": "2c9e42bc2818f0da10e36f1e81160f7d557410a24b82b3b9d7d9844406a358d3"
+  },
+  "checks": [
+    [
+      {
+        "name": "unit",
+        "milliseconds": 2068.360792,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m46 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 355\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m69 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 116\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 274\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 34\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 19\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 14\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m201 passed\u001b[39m\u001b[22m\u001b[90m (201)\u001b[39m\n\u001b[2m   Start at \u001b[22m 09:03:16\n\u001b[2m   Duration \u001b[22m 1.63s\u001b[2m (transform 160ms, setup 0ms, import 334ms, tests 813ms, environment 0ms)\u001b[22m\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "milliseconds": 1933.674709,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "milliseconds": 26358.880583,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    [
+      {
+        "name": "unit",
+        "milliseconds": 1959.470333,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m46 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 359\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m69 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 109\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 272\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 36\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 18\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 18\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m201 passed\u001b[39m\u001b[22m\u001b[90m (201)\u001b[39m\n\u001b[2m   Start at \u001b[22m 09:05:41\n\u001b[2m   Duration \u001b[22m 1.60s\u001b[2m (transform 157ms, setup 0ms, import 316ms, tests 813ms, environment 0ms)\u001b[22m\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "milliseconds": 1835.9600420000002,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "milliseconds": 26461.089875,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    [
+      {
+        "name": "unit",
+        "milliseconds": 2066.423959,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m54 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 386\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m69 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 119\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 275\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 36\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 19\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 20\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m209 passed\u001b[39m\u001b[22m\u001b[90m (209)\u001b[39m\n\u001b[2m   Start at \u001b[22m 09:12:06\n\u001b[2m   Duration \u001b[22m 1.70s\u001b[2m (transform 171ms, setup 0ms, import 341ms, tests 855ms, environment 0ms)\u001b[22m\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "milliseconds": 1933.583416,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "milliseconds": 27531.487875,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  ],
+  "preparations": [
+    {
+      "before": {
+        "scripts/test/runtime-tip081-package.mjs": "953af16c3d8be429880d14df788fbe925ef9f5308899031a6f644eadaab657bd",
+        "scripts/test/build-tip081.mjs": "3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041",
+        "scripts/test/compiler-tip081-overlay.mjs": "72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4",
+        "next.config.ts": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+        "package.json": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+        "package-lock.json": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+        "tsconfig.json": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+      },
+      "after": {
+        "scripts/test/runtime-tip081-package.mjs": "953af16c3d8be429880d14df788fbe925ef9f5308899031a6f644eadaab657bd",
+        "scripts/test/build-tip081.mjs": "3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041",
+        "scripts/test/compiler-tip081-overlay.mjs": "72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4",
+        "next.config.ts": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+        "package.json": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+        "package-lock.json": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+        "tsconfig.json": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+      },
+      "milliseconds": 69.400334,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "{\"purpose\":\"TIP081_NORMALIZED_CONFIG_PROOF\",\"root\":\"/private/tmp/hiveos-tip081-runtime-zE7o8Q\",\"TMPDIR\":\"/private/tmp/hiveos-tip081-runtime-zE7o8Q/tmp\",\"inputBytes\":415188,\"inputEntries\":22,\"applicationBuilds\":0,\"probesRun\":0}\n",
+      "stderr": ""
+    },
+    {
+      "milliseconds": 66.57625,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "{\"purpose\":\"TIP081_NORMALIZED_CONFIG_PROOF\",\"root\":\"/private/tmp/hiveos-tip081-runtime-KMUn3D\",\"TMPDIR\":\"/private/tmp/hiveos-tip081-runtime-KMUn3D/tmp\",\"inputBytes\":415188,\"inputEntries\":22,\"applicationBuilds\":0,\"probesRun\":0}\n",
+      "stderr": ""
+    }
+  ],
+  "probeRefusals": [
+    {
+      "milliseconds": 51.888833000000005,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "{\"purpose\":\"TIP081_NORMALIZED_CONFIG_PROOF\",\"status\":\"OFFLINE_RUNTIME_REFUSED\",\"code\":\"TIP081_CONFIG_PROOF_ENV_REFUSED\",\"message\":\"TIP081_CONFIG_PROOF_ENV_REFUSED\",\"details\":{},\"phase\":\"UNKNOWN\",\"filePolicy\":null,\"nftInvoked\":null,\"outputsCreated\":null,\"applicationBuilds\":0,\"fullRuntimeClosure\":\"NOT_ACCEPTED\",\"__NEXT_ERROR_CODE\":null,\"stackFrames\":[\" at refuse (file:///Users/os/hiveos/scripts/test/runtime-tip081-package.mjs:23:42)\",\" at configProofProfile (file:///Users/os/hiveos/scripts/test/runtime-tip081-package.mjs:75:221)\",\" at probeConfigProof (file:///Users/os/hiveos/scripts/test/runtime-tip081-package.mjs:79:15)\",\" at file:///Users/os/hiveos/scripts/test/runtime-tip081-package.mjs:127:482\"],\"separateTransformCalls\":0}\n"
+    }
+  ],
+  "environmentDiagnostics": [
+    {
+      "milliseconds": 41.238167000000004,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "[\"HIVE_BUILD_PROFILE\",\"LANG\",\"NEXT_DISABLE_SWC_WASM\",\"NEXT_IGNORE_INCORRECT_LOCKFILE\",\"NEXT_TELEMETRY_DISABLED\",\"NODE_ENV\",\"PATH\",\"TMPDIR\",\"__CF_USER_TEXT_ENCODING\"]\n",
+      "stderr": ""
+    },
+    {
+      "names": {
+        "milliseconds": 41.63012500000001,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "[\"HIVE_BUILD_PROFILE\",\"LANG\",\"NEXT_DISABLE_SWC_WASM\",\"NEXT_IGNORE_INCORRECT_LOCKFILE\",\"NEXT_TELEMETRY_DISABLED\",\"NODE_ENV\",\"PATH\",\"TMPDIR\",\"__CF_USER_TEXT_ENCODING\"]\n",
+        "stderr": ""
+      },
+      "exactEnvironment": false,
+      "proof": null
+    },
+    {
+      "exitCode": 0,
+      "stdout": "{\"present\":true,\"hexSchema\":true,\"decimalSchema\":false,\"uidMatches\":true,\"length\":13}\n",
+      "stderr": ""
+    }
+  ],
+  "refusedSourceSnapshot": "docs/verification/TIP-081A_CONFIG_PROOF_ENV_REFUSAL_SOURCE.json",
+  "effectPolicy": {
+    "network": "DENY",
+    "configProbeWrites": "DENY_EXCEPT_DEV_NULL",
+    "envReads": "DENY",
+    "protectedAttempt5Reads": "DENY",
+    "originalInstallation": "READ_ONLY"
+  },
+  "newApplicationBuilds": 0,
+  "serverStarts": 0,
+  "browserE2E": 0,
+  "dbOrApiOrModelEffects": 0,
+  "generalProductNftInvocations": 0,
+  "actualNormalizedConfigProof": "PASS_FIXED_INSTALLED_NEXT_16_2_11",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "design": "docs/contractor/TIP-081A_RUNTIME_MANIFEST_DESIGN.md",
+  "note": "209distinct controls preserve184old; twoearlier201PASScuts retained notsummed. FirstENVrefusal beforeNext retained with source snapshot/root. Scoped UID-boundDarwin intrinsic validated then discarded, noOS-provenanceclaim; everyotherunknownenvrefuses. ActualNextconfig-onlySWCtranspilation/evaluation PASS under network/write/.env/protected denial. No separate/app transforms/compilerholders/builds/server/DB/API/model/Git. FullruntimeT2-T5OPEN.",
+  "actualProbe": {
+    "milliseconds": 260.150916,
+    "exitCode": 0,
+    "signal": null,
+    "errorCode": null,
+    "stdout": "{\"purpose\":\"TIP081_NORMALIZED_CONFIG_PROOF\",\"status\":\"ACTUAL_NORMALIZED_CONFIG_PROOF_PASS\",\"originalDigest\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\",\"sourcePins\":{\"scripts/test/runtime-tip081-package.mjs\":\"3154af6ca8f05227d96a7d02f160e09cc3d495eb0a4ebf81537607600e1f671a\",\"scripts/test/build-tip081.mjs\":\"3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041\",\"scripts/test/compiler-tip081-overlay.mjs\":\"72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4\"},\"installedPins\":{\"next/package.json\":\"a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79\",\"next/dist/server/config.js\":\"0e096f66b921a238d120dd3fb23c80fa29f8c34f83c6cca927913cc118ef47b9\",\"next/dist/server/config-shared.js\":\"22c01427abe01cdd1e087816cd8b45f561468b9a3607103d9e7176d9a174e248\",\"next/dist/build/next-config-ts/transpile-config.js\":\"e21549eed9354159ca1584cc0e7c227e8ccbb46b083d412e1ed2fac30e176151\",\"next/dist/build/next-config-ts/require-hook.js\":\"9e9d766f499ebd65d83f8356c9345379d9c31c9be094c45145dc6433ca907540\",\"next/dist/lib/find-root.js\":\"b6533326e39501aa9d246737685191f903d72d24fa6838d7854e9749fe004612\"},\"inputPins\":{\"next.config.ts\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\",\"package.json\":\"087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96\",\"package-lock.json\":\"aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c\",\"tsconfig.json\":\"2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0\"},\"discardedDarwinEncoding\":true,\"discardedEnvironmentKey\":\"__CF_USER_TEXT_ENCODING\",\"normalizedRootsEqual\":true,\"baselineIndependent\":true,\"predecessorExactHistoricalOverlay\":true,\"onlyOptionDelta\":\"output=undefined\",\"loaderDelta\":\"webpack.resolveLoader.symlinks=false\",\"hookContexts\":3,\"nativeSwcLoaded\":true,\"configOnlyTranspilation\":\"INSTALLED_NEXT_TRANSPILE_CONFIG\",\"pinnedConfigEvaluated\":true,\"separateTransformCalls\":0,\"applicationModulesImported\":0,\"compilerHolders\":0,\"applicationBuilds\":0,\"fullRuntimeClosure\":\"NOT_ACCEPTED\",\"durationMilliseconds\":194.835}\n",
+    "stderr": ""
+  },
+  "testCount": 209,
+  "currentRecordedChildMilliseconds": 93007.45379200001,
+  "predecessorRecordedChildMilliseconds": 105260.616333,
+  "recordedCumulativeChildMilliseconds": 198268.07012500003,
+  "sourceAdmission": {
+    "milliseconds": 185.33225000000002,
+    "exitCode": 0,
+    "signal": null,
+    "errorCode": null,
+    "stdout": "{\"status\":\"SOURCE_ADMISSION_PRESERVATION_PASS\",\"entries\":121,\"oldPins\":79,\"newPins\":23,\"assetPins\":16,\"assetBytes\":13117879,\"newManifestDigest\":\"844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f\",\"oldManifestDigest\":\"bc4f5ca90ac5d9a2b85698f05cc8717a889ce4a8ad93c3d7b7211a43b4de28cd\",\"configFixture\":{\"bytes\":415188,\"entries\":22,\"recordSourcePins\":{\"scripts/test/runtime-tip081-package.mjs\":\"3154af6ca8f05227d96a7d02f160e09cc3d495eb0a4ebf81537607600e1f671a\",\"scripts/test/build-tip081.mjs\":\"3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041\",\"scripts/test/compiler-tip081-overlay.mjs\":\"72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4\"}},\"archive\":{\"bytes\":120417,\"sha256\":\"976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2\"},\"refusedSourceCutHashes\":{\"scripts/test/runtime-tip081-package.mjs\":\"953af16c3d8be429880d14df788fbe925ef9f5308899031a6f644eadaab657bd\",\"scripts/test/build-tip081.mjs\":\"3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041\",\"tests/unit/evidence-studio-runtime-package.test.ts\":\"431be0c6fc0240b52cbef0f11dda7d32b91d957bf9c4a88e37dc55dafe324f06\",\"tests/unit/evidence-studio-harness.test.ts\":\"4e03cb7e4901d54ad5e0eb283b4c98a7f8bf392039b6901872feec5226418486\"},\"retained\":{\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json\":\"c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814\",\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json\":\"6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4\",\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json\":\"53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b\",\"/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs\":\"dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7\",\"scripts/test/start-tip081-standalone.mjs\":\"cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad\",\"node_modules/next/dist/build/utils.js\":\"df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e\",\"node_modules/next/dist/build/collect-build-traces.js\":\"1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734\",\"node_modules/next/dist/compiled/@vercel/nft/index.js\":\"19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e\"}}\n",
+    "stderr": ""
+  },
+  "cliRefusals": [
+    {
+      "mode": "--prepare",
+      "milliseconds": 50.413625,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:183:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:184:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    },
+    {
+      "mode": "--build-only",
+      "milliseconds": 45.810417,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:183:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:184:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    },
+    {
+      "mode": "--package-only",
+      "milliseconds": 46.08129100000001,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:148:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:183:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:184:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    }
+  ],
+  "finalSourcePins": {
+    "scripts/test/runtime-tip081-package.mjs": "3154af6ca8f05227d96a7d02f160e09cc3d495eb0a4ebf81537607600e1f671a",
+    "scripts/test/build-tip081.mjs": "3902aef7e2ded4b6bae0102d0fa5368bdba252a16a8fcf560ba50b124b6c3041",
+    "tests/unit/evidence-studio-harness.test.ts": "4e03cb7e4901d54ad5e0eb283b4c98a7f8bf392039b6901872feec5226418486",
+    "tests/unit/evidence-studio-runtime-package.test.ts": "09807403b0fa77b00a9c6b189e2081f0d8eb1663f0444fc66292e5eeb2a75b0f"
+  },
+  "finalReviewDigest": "4151805883669bead2087e956b445c9e2bd66d87cf2685897ef037d88eb78772",
+  "finalBundleDigest": "844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f"
+}

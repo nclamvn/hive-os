@@ -1,0 +1,50 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Self-check your preceding solution. Identify and correct errors or gaps.
+
+PROBLEM
+C04
+For every finite simple graph \(G=(V,E)\) with \(V\ne\varnothing\) and every integer \(r\), if \(D(G,r)=0\), then \(r\in\{0,-2\}\). Here a graph is simple if its edges are unordered pairs of distinct vertices, a subset \(S\subseteq V\) is dominating if every vertex in \(V\setminus S\) is adjacent to some vertex of \(S\), and its domination polynomial is
+\[
+D(G,x)=\sum_{\substack{S\subseteq V\\ S\text{ is dominating}}}x^{|S|}.
+\]
+
+
+REPLAYED RESPONSE 1
+**C04 — partial result; proof incomplete.**
+
+Every integer root is either \(0\) or a negative even integer. The remaining gap is excluding \(-4,-6,-8,\ldots\).
+
+Write \(N[S]\) for \(S\) together with all vertices adjacent to vertices of \(S\). Consider the finite set
+\[
+\mathcal P=\{(S,T):S,T\subseteq V,\ S\cap T=\varnothing,
+\text{ and no edge joins }S\text{ to }T\}.
+\]
+The map \((S,T)\mapsto(T,S)\) is an involution. Its only fixed point is \((\varnothing,\varnothing)\), because a fixed point must satisfy \(S=T\) and \(S\cap T=\varnothing\). Consequently, \(|\mathcal P|\) is odd.
+
+For each fixed \(S\), the allowed sets \(T\) are precisely the subsets of \(V\setminus N[S]\). Hence
+\[
+|\mathcal P|=\sum_{S\subseteq V}2^{|V\setminus N[S]|}.
+\]
+A summand is odd exactly when \(N[S]=V\), equivalently when \(S\) is dominating. Thus the number of dominating subsets is odd:
+\[
+D(G,1)\equiv1\pmod2.
+\]
+For any odd integer \(r\), every power \(r^{|S|}\) is odd, so
+\[
+D(G,r)\equiv D(G,1)\equiv1\pmod2.
+\]
+Therefore no odd integer is a root.
+
+For \(r>0\), all terms defining \(D(G,r)\) are nonnegative, and the dominating set \(V\) contributes \(r^{|V|}>0\). Thus no positive integer is a root. Since \(V\ne\varnothing\), the empty set is not dominating, so \(D(G,0)=0\). Also, \(-2\) can occur: for the graph \(K_2\),
+\[
+D(K_2,x)=2x+x^2=x(x+2).
+\]
+
+These arguments establish
+\[
+D(G,r)=0,\quad r\in\mathbb Z
+\quad\Longrightarrow\quad
+r\in\{0,-2,-4,-6,\ldots\}.
+\]
+I have not established \(D(G,-2m)\ne0\) for every \(m\ge2\); therefore this does **not** complete the asserted conclusion.

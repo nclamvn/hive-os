@@ -1,0 +1,25 @@
+Study FRONTIERMATH_POLY19_078 / root FM_POLY19_078.
+Epoch AI public Tier2 sample: Find the degree 19 polynomial.
+Source https://epoch.ai/frontiermath/tiers-1-4/benchmark-problems
+Retrieved2026-10-06; page footer CC-BY. Statement credited to Epoch AI.
+Main read public reference solution before design/solving; disclosed to Owner.
+Main, verifier Builder and design auditor are NOT answer-blind study solvers.
+Verifier engineering recurrence fixtures are ENGINEERING_ONLY, not model results.
+Fresh solver prompts include only statement, shared additional integer-domain
+format, task-independent policy, stage notice, exact same-arm prior originals.
+No source page/reference/checker family/Main history/other-arm projection.
+Training exposure UNKNOWN. Existing project selected-task historical scan scoped,
+not proof of absence of prior exposure. This public sample cannot establish
+private FrontierMath performance, training-unseen generality or novel discovery.
+Shared integer-domain constraint is a restriction relative to original real
+coefficients. Both arms identical task/format; direct-first order not randomized.
+One task and one cohort: n=1 cannot establish population-level method advantage.
+Fresh-context same-model postreviews are informal, not external-human assurance.
+Exact executable finite ring identity plus written trusted lemmas is not Lean.
+Prototype runtime E2E NOT_RUN; this is external Codex-assisted local evaluation.
+Paid API NOT_RUN. API-key environment excluded; existing ChatGPT login is used.
+Observable model/token fields retained; hidden calls/served version/currency and
+Main/engineering token cost remain UNKNOWN unless actually observed.
+Owner approved: two arms, three role requests each,600s perarm incltransfer,
+12commands each30s/120s aggregate perarm; two blinded reviews480s combined;
+one45minute cohort/max8requests/no paidAPI/no task swaps/retry.

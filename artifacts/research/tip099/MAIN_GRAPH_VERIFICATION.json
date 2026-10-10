@@ -1,0 +1,24 @@
+{
+  "status": "PASS_SCOPED_NOT_GLOBAL",
+  "table_entries_independently_recomputed": 1024,
+  "certifying_graphs": 958,
+  "unresolved_graphs": 66,
+  "unresolved_edge_count_distribution": {
+    "7": 24,
+    "8": 27,
+    "9": 10,
+    "6": 4,
+    "10": 1
+  },
+  "minimum_unresolved_edges": 6,
+  "retired_regions_independently_checked": 142,
+  "vertex_active_labels_checked": 20134,
+  "cover_status": "PARTIAL_COVER",
+  "processed_planes": 69,
+  "pending_planes": 9,
+  "active_regions_unresolved": 47681,
+  "full_run_seconds": 9.27316,
+  "peak_rss_native_units": 46874624,
+  "verification_seconds": 1.2920010830275714,
+  "scope_limit": "Does not independently enumerate every cell vertex or prove whole split tree completeness; no all-face minimization."
+}

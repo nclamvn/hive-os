@@ -1,0 +1,42 @@
+{
+  "id": "TIP-049",
+  "date": "2026-10-03",
+  "title": "Sealed frontier continuation and independently replayed certificate composition",
+  "depends_on": ["TIP-048"],
+  "priority": "P1",
+  "task": "Continue only exact unresolved leaves of the immutable TIP048 report through a bounded local computational tool-agent loop. Independently verify disjoint subdomain replacement and retain exact progress without global theorem or LLM-campaign promotion.",
+  "base": {
+    "path": "docs/research/lrc-allikvere-p199/retained-cover-report.json",
+    "rawSha256": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "reportDigest": "97fa7dfa80beab4e03c2cc9264d5ab02eb3c8ac05b44d6fa8c6b9f73131d5cac",
+    "contractDigest": "4712dc80fed2331ad8bc87627840205d0a31eaa97fa42f95f7d0bbde2f39ad2b"
+  },
+  "decisions": [
+    "Owner continuation authorizes a scoped reversible local upgrade; preserve all TIP046-048 schemas, artifacts, proof leaves, cases and grades. No paid API, model campaign, DB mutation, migration, installation, Git publication or deployment.",
+    "Vibecode Kit separates Core, replay and product Builders from Main acceptance. Existing local tool-agent coordinator is not a HIVE provider/worker campaign or independent external mathematical certification.",
+    "Plan locked before BUILD: select two distinct UNRESOLVED leaves per FULL row, deepest then lexicographically smallest for closure-control, and largest cardinality then lexicographically smallest among other leaves for strategic-mass. Existing scan-only feasibility is disclosed and is not blind research evidence; no further outcome-driven input or cap tuning.",
+    "Exactly eight jobs in tight0,tight1,tight2,gw0 order, closure then mass. Child scope preserves all thirteen ordered coordinates and source/premise; replace only assigned prefix axes by exact singleton digits. Do not concatenate child prefix to target prefix: child coordinates already use the original thirteen-axis order.",
+    "Retain a separate composition packet rather than flattening/grafting a larger TIP048 tree. Every selected original leaf is replaced at most once; parent base and all unselected/resolved leaves remain authoritative and immutable.",
+    "No success assumed. Valid partition or tool-loop completion is not full mathematical classification, continuous-time exclusion, full14/15 proof, novelty, or new LLM agent acceptance. Global verdict remains NOT_ESTABLISHED with all five obligations and lower-LRC12 dependency unchanged."
+  ],
+  "jobs": [
+    {"parent":"tight0","role":"closure-control","nodeId":"n12437","prefix":[0,0,0,3,2,6,1],"totalTuples":"117649"},
+    {"parent":"tight0","role":"strategic-mass","nodeId":"n12462","prefix":[1],"totalTuples":"13841287201"},
+    {"parent":"tight1","role":"closure-control","nodeId":"n12012","prefix":[0,0,0,3,6,5,3,3],"totalTuples":"16807"},
+    {"parent":"tight1","role":"strategic-mass","nodeId":"n12035","prefix":[1],"totalTuples":"13841287201"},
+    {"parent":"tight2","role":"closure-control","nodeId":"n13929","prefix":[0,0,0,1,5,2,2,2],"totalTuples":"16807"},
+    {"parent":"tight2","role":"strategic-mass","nodeId":"n13960","prefix":[1],"totalTuples":"13841287201"},
+    {"parent":"gw0","role":"closure-control","nodeId":"n13466","prefix":[0,0,0,2,2,3,6,5],"totalTuples":"16807"},
+    {"parent":"gw0","role":"strategic-mass","nodeId":"n13491","prefix":[1],"totalTuples":"13841287201"}
+  ],
+  "limits": {"perCertificate":"Unchanged TIP048:20000 nodes/20000000 work/10000ms/16MiB; tighter only","jobs":8,"compositionBytes":67108864,"retainedReportBytes":134217728,"pureCompositionMs":30000,"independentWrapperMs":40000,"independentStdoutBytes":1048576,"collectorMs":120000},
+  "requirements": [
+    {"id":"R1","criterion":"Strict source/base/contract-bound deterministic plan, exact unresolved target and child root/domain binding. Reject stale base, changed criterion, cross-parent root, narrowing/trailing-axis drift, duplicate or overlapping substitutions."},
+    {"id":"R2","criterion":"Pure independent admission reruns immutable base and children, proves child cardinality equals target, keeps established leaves, uses exact BigInt additive counts, reconstructs every remaining frontier and derives COMPLETE only if unresolved is zero. Never double-apply or upgrade global gaps."},
+    {"id":"R3","criterion":"Actual isolated Python composition driver independently reconstructs selection, domain, source binding, exact replacement/count/frontier logic and invokes only hash-pinned literal TIP048 checker bytes. Strict JSON/output and bounded aggregate clocks. No author code, TS producer, source imports or arbitrary execution supplied in evidence."},
+    {"id":"R4","criterion":"Explicit choose-execute-independent-replay-compose-stop CLI and separate retained checkpoint/report. Shared120s cap includes reads, validation, all jobs and final serialization; pure projection never generates, launches Python, fetches research or dispatches a model. Failclosed before atomic retention on any invalid result."},
+    {"id":"R5","criterion":"Bilingual restrained LaTeX panel shows previous/new/delta/remaining counts, closure-control vs strategic-mass, source/base/premise and untouched global gaps; explicit local computational loop not LLM campaign. Preserve old panels and anchors; desktop/mobile no horizontal overflow."},
+    {"id":"R6","criterion":"Main independent replay and coherently rehashed semantic mutants, focused and full unit/type/lint/build, visible UI proof, quantified Builder completions, append-only handoff, founding/current manifest checks. No claim of external attestation, blind benchmark or mathematical novelty."}
+  ],
+  "acceptance": "Implementation READY_WITH_DEFERRED may coexist with PARTIAL research classification. Continuing future checkpoints, full terminal closure, typed compact evidence in a HIVE model cycle and full theorem/formal/novelty/external acceptance remain separate work."
+}

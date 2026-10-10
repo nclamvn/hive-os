@@ -1,0 +1,14 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Solve this problem directly.
+
+PROBLEM
+C03
+There exists a function \(f:\mathbb{R}\to\mathbb{R}\) satisfying
+\[
+f\left(\frac{x+2y}{3}\right)\leq\frac{f(x)+2f(y)}{3}\qquad\text{for all }x,y\in\mathbb{R}\text{ with }x\leq y,
+\]
+for which there exist \(u,v\in\mathbb{R}\) such that
+\[
+f\left(\frac{u+2v}{3}\right)>\frac{f(u)+2f(v)}{3}.
+\]

@@ -1,0 +1,44 @@
+**C02.** I can rigorously establish
+\[
+\boxed{30\le \max |C|\le 36}.
+\]
+The exact maximum remains unresolved in this proof.
+
+For the **upper bound**, project each tuple onto its first two coordinates. This projection is injective: two tuples with the same projection would agree in at least two positions. There are only \(6^2=36\) possible projections, so \(|C|\le36\).
+
+For the **construction of 30 tuples**, use arithmetic modulo \(5\), with residues represented by \(0,1,2,3,4\). Start with
+\[
+D=\{(x,y,x+y,x+2y,x+3y):x,y\in\mathbb Z_5\}.
+\]
+Any two coordinate values uniquely determine \(x,y\), because the five corresponding linear forms are pairwise linearly independent. Consequently, distinct tuples in \(D\) agree in at most one coordinate.
+
+Index the coordinate positions by \(\mathbb Z_5\). Remove the five tuples
+\[
+T_t=(t,t,2t,3t,4t),\qquad t\in\mathbb Z_5.
+\]
+For each \(t\), insert two new tuples:
+
+- \(U_t\): replace the entries of \(T_t\) in positions \(t-1,t+1\) by \(5\);
+- \(V_t\): replace the entries of \(T_t\) in positions \(t-2,t+2\) by \(5\).
+
+All position indices are taken modulo \(5\). The resulting set contains
+\[
+25-5+10=30
+\]
+distinct tuples. We verify the agreement condition.
+
+1. **Two retained tuples:** The condition follows from the property of \(D\).
+
+2. **A retained tuple and a new tuple:** Replacing entries of \(T_t\) by \(5\) cannot create an agreement with a retained tuple, since retained tuples contain no \(5\). The retained tuple originally agreed with \(T_t\) in at most one position.
+
+3. **The two new tuples associated with the same \(t\):** Their replacement-position sets are disjoint and together contain four positions. Thus \(U_t,V_t\) agree only in the remaining position.
+
+4. **New tuples associated with different \(t\):** The tuples \(T_t,T_s\), for \(t\ne s\), differ in every position, since each coordinate is a nonzero multiple of the parameter modulo \(5\). Therefore, their modified tuples agree exactly where both have been replaced by \(5\). The ten replacement sets
+   \[
+   \{t-1,t+1\},\quad\{t-2,t+2\}\qquad(t\in\mathbb Z_5)
+   \]
+   are all distinct: each unordered pair of distinct positions has a unique midpoint \(t\), and its offsets from that midpoint are either \(\pm1\) or \(\pm2\). Two distinct two-element sets intersect in at most one position.
+
+Hence this construction satisfies the requirement.
+
+**Unresolved gap:** These arguments establish a valid size-\(30\) construction and the upper bound \(36\), but do not exclude sizes \(31\) through \(36\). Thus they do not determine the requested largest cardinality.

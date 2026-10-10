@@ -1,0 +1,19 @@
+**Submission X; INFORMALLY_REVIEWED_SUPPORTED**
+
+**Essential-step audit:** The proof faithfully uses the eventual equality for every exponent beyond an arbitrary threshold \(N\). Setting \(m=ab+1\) makes both \(a\) and \(b\) invertible modulo \(m\), because each is coprime to \(m\). The pigeonhole argument gives a simultaneous positive period \(t\); cancelling the earlier powers is justified by invertibility.
+
+Choosing \(k\) with \(kt-1\ge N\) ensures both exponents \(kt-1\) and \(kt\) satisfy the hypothesis. At the first exponent, the displayed congruences and valid cancellation show that \(m\) divides both terms, hence \(m\mid g\). At the next exponent, \(g\) divides both terms, so \(m\mid b+1\) and \(m\mid a+1\). Their positivity justifies the size inequalities, which force \(a=b=1\). Conversely, this pair gives gcd \(2\) for every positive exponent.
+
+**Defect/reference comparison:** No essential defect or circularity identified. The conclusion agrees with the supplied reference notes, but the submitted modular argument independently establishes necessity and sufficiency without requiring the reference’s bound on \(g\).
+
+**Remaining uncertainty:** None identified in this informal review. Cases with either coordinate equal to \(1\), period \(t=1\), and arbitrary positive \(N\) are covered.
+
+**Submission Y; INFORMALLY_REVIEWED_SUPPORTED**
+
+**Essential-step audit:** The assumptions and quantifiers match the problem. The derivation of coprimality with \(m=ab+1\), modular invertibility, and a simultaneous positive period \(T\) is valid. The pigeonhole collision permits cancellation of both earlier powers.
+
+The chosen exponents \(kT-1\) and \(kT\) both lie beyond the threshold. At \(kT-1\), the congruences imply that \(m\) divides both terms and therefore \(g\). At \(kT\), this forces \(a\equiv b\equiv-1\pmod m\). Multiplying gives \(ab\equiv1\pmod m\), while the definition of \(m\) gives \(ab\equiv-1\pmod m\). Thus \(m\mid2\); since \(m\ge2\), necessarily \(m=2\), whence \(ab=1\) and positivity forces \(a=b=1\). The converse correctly verifies \(g=2,N=1\).
+
+**Defect/reference comparison:** No essential defect or circularity identified. The classification agrees with the reference notes. Every decisive implication is justified within the submission, independently of the reference’s different argument.
+
+**Remaining uncertainty:** None identified in this informal review. Arbitrary thresholds, period \(T=1\), and the equality case \(m=2\) are handled.

@@ -1,0 +1,7 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Solve this problem directly.
+
+PROBLEM
+C05
+For a positive integer $n$, let $A_{n}$ be the number of perfect powers less than or equal to $n$. Here, a perfect power is a number that can be expressed in the form $a^{b}$, where $a$ is a positive integer and $b$ is an integer greater than or equal to 2. Prove that there are infinitely many $n$ such that $A_{n}$ divides $n+2024$.

@@ -1,0 +1,1 @@
+{"general_position_region_upper_bound_not_actual_cell_count": 47256031, "n4_hyperplane_count": 59, "n5_hyperplane_count": 184, "safe_linf_radius_strictly_less_than": "3/1525", "scope": "exact affine-event diagnostics, not full cell coverage", "zero_walls_at_reference": [[15, -20, 0, 5, -1]]}

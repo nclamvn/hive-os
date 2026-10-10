@@ -1,0 +1,64 @@
+{
+  "tip": "TIP-047",
+  "role": "Independent modular replay Builder",
+  "status": "DONE",
+  "scope": "R5 independent checker, fixed replay wrapper, retained-envelope integrity and focused negative controls",
+  "files_changed": [
+    "scripts/operations/replay-lrc-modular-certificates.py",
+    "src/modules/research-sandbox/math-lrc-modular-replay.ts",
+    "tests/unit/math-lrc-modular-replay.test.ts",
+    "docs/verification/TIP-047_MODULAR_REPLAY_COMPLETION_REPORT.json"
+  ],
+  "implementation": {
+    "domain": "Ordered thirteen-coordinate modular lifts; repeated parent residues allowed; nonzero modulo prime required; source/root/level/dependency sealed",
+    "independent_algorithm": "Python integer arithmetic exhausts the whole j=0..M-1 grid for singleton survivors, versus primary symmetric half-grid search; separately folds omit-one uniform gcd from targetLevel",
+    "coverage": "Unique reachable acyclic single-parent flat tree, exact complete root box, ordered disjoint exhaustive Cartesian axis partitions",
+    "classification": "GRID witnesses accept equality; OMIT_GCD requires the exact uniform gcd greater than one; SURVIVOR is singleton, no grid witness and no omit-one gcd condition",
+    "dependency": "LOWER_LRC_12_DECLARED_NOT_REPLAYED remains mandatory in scope and every summary",
+    "execution": "Exact pinned reviewed source bytes via python3 -I -S -B -c; no source-path reopen, author executable, producer import, network or model code; shell false and environment allowlist",
+    "limits": "20,000 tuples, 40,000 nodes, 8 MiB certificate, prime17..257, level<=14; absolute observed 10-second host deadline, remaining child timeout/SIGKILL, 256 KiB output",
+    "retention": "Strict certificate/primary/independent envelope with source/output/root/scope/evidence digests; pure retained validation reads no files and spawns no tools"
+  },
+  "verification": {
+    "command": "node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-modular-replay.test.ts --maxWorkers=1",
+    "tests_passed": 8,
+    "tests_failed": 0,
+    "duration_seconds": 1.46,
+    "actual_python_execution": true,
+    "controls": [
+      "Pinned actual source bytes and exact equality at N14/p17/level14 with repeated residue1",
+      "Exact uniform omit-one gcd, fake prime divisor, invalid omission, divisor1 and mixed-choice nonuniformity",
+      "Fully exhausted singleton survivor with exact retained digits/residues",
+      "Missing, overlapping, duplicate, unreachable, cyclic and reordered tree branches; root-scope shrinkage",
+      "Prime, level, source, root and lower-dependency drift; unknown fields and duplicate JSON keys",
+      "Fully rehashed summary counts, omitted/changed survivor, source/output fingerprint and PARTIAL downgrade",
+      "Injected source drift, timeout, output-overflow, unavailable process and malformed output",
+      "Production/staging denied; retained validation never invokes child process"
+    ],
+    "typecheck": "Fresh repository tsc --noEmit exit0",
+    "targeted_lint": "Fresh two owned TypeScript files exit0, zero warnings",
+    "tracked_diff_check": "git diff --check exit0",
+    "browser_e2e": "Not run by this Builder",
+    "integration": "Not run by this Builder",
+    "production_build": "Not run by this Builder",
+    "six_imported_scopes": "Core/Product/Contractor acceptance, not claimed from the diagnostic focused controls"
+  },
+  "fingerprints": {
+    "python": "1bbc0d48a8e89937ddc5cf053dd38ab14768489b3e802288ec70aa3ca6304e5d",
+    "wrapper": "b4218c1b4e58778072090ef3b3a5ac067a6628c0c51ffc195f7ed1d7cc3ad5a1",
+    "test": "9a5df1e777a51335e93661b06e07d82d9ba5816301408ab9da468d4371ba7503"
+  },
+  "failure_history": [
+    "Initial targeted lint rejected test-local variable names module; renamed actual, final lint and focused suite passed"
+  ],
+  "limitations": [
+    "COMPLETE means every declared finite tuple was arithmetically classified; survivors may remain",
+    "OMIT_GCD's mathematical use still requires the explicitly unverified lower-case premise",
+    "No all-prime or full seven-to-the-thirteenth author tree verification, universal LRC acceptance or novelty certification",
+    "Source/output hashes are local trusted collector byte consistency, not external signatures or Python binary attestation",
+    "A summary exceeding the fixed output cap fails closed rather than dropping survivors",
+    "Synchronous TypeScript checks use observed deadline checkpoints, not arbitrary hard JS preemption",
+    "No old finite-v1 file changes, DB, worker, API/model, Git or deployment actions by this Builder"
+  ],
+  "deviations": []
+}

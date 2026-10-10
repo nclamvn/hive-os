@@ -1,0 +1,664 @@
+{
+  "purpose": "TIP081_V2_CODEC_SYNTHETIC_ADMISSION_SCOPED_EVIDENCE",
+  "date": "2026-10-07",
+  "family": "SAME081D8",
+  "status": "V2_CODEC_SYNTHETIC_ADMISSION_ACCEPTED_LIVE_PARSER_OPEN",
+  "approval": "Direct Owner duyệt following synthetic-only codec/admission proposal",
+  "requirements": [
+    {
+      "id": "C1",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "id": "C2",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "id": "C3",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "id": "C4",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "id": "C5",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "id": "C6",
+      "status": "PASS_SCOPED"
+    }
+  ],
+  "requirementsPassed": 6,
+  "requirementsTotal": 6,
+  "uniqueFocusedControls": 33,
+  "focusedFiles": 1,
+  "finalSteps": [
+    {
+      "id": "syntax:scripts/test/codec-tip081-source-v2.mjs",
+      "exitCode": 0,
+      "milliseconds": 31.856042,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "syntax:scripts/test/admit-tip081-source-v2.mjs",
+      "exitCode": 0,
+      "milliseconds": 31.071000000000005,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "focused-unit",
+      "exitCode": 0,
+      "milliseconds": 631.888667,
+      "stdout": "\n RUN  v4.1.10 /Users/os/hiveos\n\n ✓ |tip081-unit| tests/unit/evidence-studio-source-v2.test.ts (33 tests) 120ms\n\n Test Files  1 passed (1)\n      Tests  33 passed (33)\n   Start at  15:12:04\n   Duration  252ms (transform 32ms, setup 0ms, import 39ms, tests 120ms, environment 0ms)\n\n",
+      "stderr": ""
+    },
+    {
+      "id": "focused-lint",
+      "exitCode": 0,
+      "milliseconds": 1648.184166,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "focused-type",
+      "exitCode": 0,
+      "milliseconds": 623.7647919999999,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "scripts/test/codec-tip081-source-v2.mjs",
+      "size": 12768,
+      "sha256": "dc8cafe0f8c3951c56cf1955eeebfb7e994ca386b244b9422cda1e56b31c81ae"
+    },
+    {
+      "path": "scripts/test/admit-tip081-source-v2.mjs",
+      "size": 9330,
+      "sha256": "3128824b9e1ff8133585ee5a9d5768d0ff6e6ad6d81d53c040f8ebd8ed880a1e"
+    },
+    {
+      "path": "tests/unit/evidence-studio-source-v2.test.ts",
+      "size": 17700,
+      "sha256": "22c6262baffd22e7a7e21fe9f74cbc83c967a5c0aab52e2a9bdca7f25c870e1b"
+    },
+    {
+      "path": "docs/verification/TIP-081A_V2_CODEC_ALLOCATION.md",
+      "size": 14555,
+      "sha256": "20743741b3f5bf83c9b5d07eca8d708b0f881df78b73b0f71a2e54002221622a"
+    }
+  ],
+  "sourceStable": true,
+  "predecessorPinsBefore": [
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "status": "MATCH"
+    },
+    {
+      "path": "next.config.ts",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "status": "MATCH"
+    },
+    {
+      "path": "package.json",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "status": "MATCH"
+    },
+    {
+      "path": "package-lock.json",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "status": "MATCH"
+    },
+    {
+      "path": "tsconfig.json",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/store-tip081-inventory-source.mjs",
+      "expected": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+      "actual": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-source-store.test.ts",
+      "expected": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a",
+      "actual": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-source.mjs",
+      "expected": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+      "actual": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-source-store-verifier.test.ts",
+      "expected": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02",
+      "actual": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02",
+      "status": "MATCH"
+    }
+  ],
+  "predecessorPinsAfter": [
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "status": "MATCH"
+    },
+    {
+      "path": "next.config.ts",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "status": "MATCH"
+    },
+    {
+      "path": "package.json",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "status": "MATCH"
+    },
+    {
+      "path": "package-lock.json",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "status": "MATCH"
+    },
+    {
+      "path": "tsconfig.json",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "status": "MATCH"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "status": "MATCH"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/store-tip081-inventory-source.mjs",
+      "expected": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+      "actual": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-source-store.test.ts",
+      "expected": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a",
+      "actual": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a",
+      "status": "MATCH"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-source.mjs",
+      "expected": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+      "actual": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+      "status": "MATCH"
+    },
+    {
+      "path": "tests/unit/evidence-studio-source-store-verifier.test.ts",
+      "expected": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02",
+      "actual": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02",
+      "status": "MATCH"
+    }
+  ],
+  "repositoryPinCount": 41,
+  "fixedRootPinsSkipped": 5,
+  "fixedRootRead": false,
+  "firstCheck": "TIP-081A_V2_CODEC_FIRST_CHECK.json",
+  "finalCheck": "TIP-081A_V2_CODEC_FINAL_CHECK.json",
+  "review": "TIP-081A_V2_CODEC_SOURCE_REVIEW.md",
+  "failures": {
+    "preExecutionSandboxApply": "Operation not permitted; no command executed,1000ms conservative charge",
+    "firstSourceReview": [
+      "MUTABLE_CLOCK_LOOKUP",
+      "UNJUSTIFIED_SCRATCH_ENVELOPE",
+      "PATH_SPLIT_ALLOCATIONS",
+      "REPEATED_SCANNER_REGEX_AND_LITERAL_ARRAY"
+    ],
+    "firstMeasuredCheck": {
+      "unit": "33/33 PASS",
+      "lint": "3 files PASS",
+      "focusedTypeErrors": 2,
+      "repairs": [
+        "always-throw helper @returns never annotations",
+        "Main checker lib aligned with repository esnext,dom,dom.iterable"
+      ]
+    }
+  },
+  "budget": {
+    "startCumulativeUpperMs": 771254.1296670001,
+    "pinScanMeasuredMs": 14.650667000000002,
+    "initialGuardFailureAllowanceMs": 1000,
+    "pinCaptureAllowanceMs": 1000,
+    "firstCheckMeasuredMs": 3561.553125,
+    "firstCheckWrapperAllowanceMs": 1000,
+    "finalCheckMeasuredMs": 2983.1384160000002,
+    "finalCheckWrapperAllowanceMs": 1000,
+    "endCumulativeUpperMs": 781813.471875,
+    "remainingMs": 118186.52812499995,
+    "limitMs": 900000,
+    "reset": false
+  },
+  "limits": {
+    "wireBytes": 16384,
+    "depth": 128,
+    "fields": 64,
+    "values": 4096,
+    "codecScratchBytes": 524288,
+    "syntheticOwnerBytes": 1048576,
+    "initialOwnerCharge": 655360,
+    "ttlMsMaximum": 120000
+  },
+  "unresolved": {
+    "parser": "NOT_IMPLEMENTED/UNRUN",
+    "ast": "NOT_IMPLEMENTED/UNRUN",
+    "realSourceAdmission": "NOT_IMPLEMENTED/UNRUN",
+    "crossVersionExclusion": "UNKNOWN_NOT_AUTHORITY",
+    "independentSyntaxReplay": "NOT_IMPLEMENTED/UNRUN",
+    "wholeGraph": "OPEN",
+    "fullRuntime": "NOT_ACCEPTED",
+    "predecessorOpenObligations": 62,
+    "mathematicalClosure": "NO_NEW_RESULT"
+  },
+  "effects": {
+    "targetExecution": false,
+    "actualRootRead": false,
+    "build": false,
+    "e2e": false,
+    "server": false,
+    "db": false,
+    "paidApi": false,
+    "gitCommitPush": false,
+    "mathCampaign": false
+  },
+  "nextProposalOnly": "Complete pinned-grammar allocation audit and private real source-consumer/replay implementation plan; new Owner routing before implementation, parser or real-source integration"
+}

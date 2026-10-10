@@ -1,0 +1,74 @@
+## Answer
+
+Exactly the even integers:
+\[
+\boxed{\alpha\in 2\mathbb Z}.
+\]
+
+## Proof
+
+Write
+\[
+\alpha=2q+r,\qquad q=\left\lfloor\frac{\alpha}{2}\right\rfloor\in\mathbb Z,\qquad 0\le r<2.
+\]
+For every positive integer \(n\),
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=q\,n(n+1)+\sum_{k=1}^{n}\lfloor kr\rfloor.
+\]
+The first term is divisible by \(n\). Thus \(\alpha\) has the required property if and only if \(r\) does. This reduction also applies to negative \(\alpha\).
+
+We prove that \(r>0\) is impossible.
+
+**Case 1: \(0<r<1\).** Set
+\[
+n=\left\lceil\frac1r\right\rceil\ge2.
+\]
+Then \(kr<1\) for \(1\le k<n\), while
+\[
+1\le nr<1+r<2.
+\]
+Consequently,
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor=1,
+\]
+which is not divisible by \(n\).
+
+**Case 2: \(1\le r<2\).** Put \(\beta=2-r\), so \(0<\beta\le1\), and set
+\[
+n=\left\lfloor\frac1\beta\right\rfloor+1\ge2.
+\]
+For \(1\le k<n\), we have \(0<k\beta\le1\), hence
+\[
+2k-1\le kr=2k-k\beta<2k,
+\]
+so \(\lfloor kr\rfloor=2k-1\). At \(k=n\),
+\[
+1<n\beta\le1+\beta\le2,
+\]
+giving
+\[
+2n-2\le nr<2n-1,
+\qquad \lfloor nr\rfloor=2n-2.
+\]
+Therefore,
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor
+=\sum_{k=1}^{n}(2k-1)-1
+=n^2-1,
+\]
+which is not divisible by \(n\ge2\).
+
+Both cases contradict the required property. Hence \(r=0\), and \(\alpha=2q\) is an even integer.
+
+Conversely, if \(\alpha=2q\) for any integer \(q\), including negative integers, then
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=\sum_{k=1}^{n}2qk
+=q\,n(n+1),
+\]
+which is divisible by \(n\) for every positive integer \(n\).
+
+## Scope and gaps
+
+The proof covers all real \(\alpha\), including negative values and exact threshold equalities. No unresolved gaps or computational assumptions remain.

@@ -19,6 +19,8 @@ import {
   reviewResearchRunAction,
 } from "@/app/actions/research-sandbox";
 import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
+import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
+import { getResearchCampaignCopy } from "@/i18n/research-campaign-copy";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
@@ -92,6 +94,7 @@ export default async function ResearchPage({
   const data = await loadWorkspacePage(workspaceSlug);
   const { locale } = await getTranslator();
   const copy = getResearchCopy(locale);
+  const campaignCopy = getResearchCampaignCopy(locale);
   if (!hasCapability(data.ctx.membership.role, "research.read")) notFound();
 
   const [runs, computations, targets] = await Promise.all([
@@ -118,6 +121,16 @@ export default async function ResearchPage({
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
+      <section className="mx-auto w-full max-w-5xl">
+        <Link href={`/w/${workspaceSlug}/research/kakeya`} className="text-meta text-ink mb-3 mr-5 inline-flex min-h-11 items-center underline underline-offset-4">{locale==="vi"?"Hồ sơ Kakeya · chặn dưới toàn cục cho năm tam giác":"Kakeya dossier · global lower bound for five triangles"}</Link>
+        {canRequest?<Link href={`/w/${workspaceSlug}/research/lean`} className="text-meta text-ink mb-3 inline-flex min-h-11 items-center underline underline-offset-4">{locale==="vi"?"Bàn nghiên cứu gọn · nhập đầu ra thủ công":"Lean research workbench · manual output import"}</Link>:null}
+        <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} canRequest={canRequest} canReview={canReview}/>
+        <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
+          className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
+        <Link href={`/w/${workspaceSlug}/research/poly19${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#poly19-showcase`}
+          className="text-meta text-ink mt-3 ml-4 inline-flex min-h-10 items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{locale==="vi"?"Bản chứng minh Poly19 và bằng chứng":"Poly19 proof and evidence"}</Link>
+      </section>
       <section id="new-research" className="mx-auto w-full max-w-5xl scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
           {selectedMission ? (

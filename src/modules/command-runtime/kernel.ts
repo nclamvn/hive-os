@@ -379,16 +379,42 @@ export async function executeDurableCommand(
   });
 }
 
+function exactOutboxIds(value: readonly string[] | undefined) {
+  if (value === undefined) return undefined;
+  if (
+    !Array.isArray(value) ||
+    value.length > 100 ||
+    [...value].some((id) =>
+      typeof id !== "string" || !id || id.length > 200 ||
+      /\s|[\u0000-\u001f\u007f]/u.test(id),
+    )
+  ) {
+    throw new CommandRuntimeError(
+      "INVALID_INPUT",
+      "Outbox selector must contain at most 100 exact bounded IDs",
+    );
+  }
+  return [...new Set(value)];
+}
+
 export async function dispatchOutboxBatch(input: {
   organizationId: string;
   actorUserId: string;
   workerId: string;
+  /** Omitted preserves batch behavior; an empty list selects no work. */
+  outboxIds?: readonly string[];
   first?: number;
   now?: Date;
 }) {
   const first = boundedInteger(input.first ?? 50, "Dispatch limit", 1, 100);
   const workerId = boundedText(input.workerId, "Worker id", 120);
   const now = input.now ?? new Date();
+  const outboxIds = exactOutboxIds(input.outboxIds);
+  const idFilter = outboxIds === undefined
+    ? Prisma.empty
+    : outboxIds.length
+      ? Prisma.sql`AND id IN (${Prisma.join(outboxIds)})`
+      : Prisma.sql`AND FALSE`;
   return withOrganizationTenant(
     input.organizationId,
     input.actorUserId,
@@ -397,6 +423,7 @@ export async function dispatchOutboxBatch(input: {
         SELECT id
         FROM outbox_event
         WHERE organization_id = ${input.organizationId}
+          ${idFilter}
           AND status = 'PENDING'
           AND available_at <= ${now}
         ORDER BY available_at ASC, id ASC
@@ -433,7 +460,7 @@ export async function dispatchOutboxBatch(input: {
           update: {},
         });
         await tx.outboxEvent.update({
-          where: { id: row.id },
+          where: { id: row.id, organizationId: input.organizationId },
           data: {
             status: "DISPATCHED",
             dispatchedAt: now,

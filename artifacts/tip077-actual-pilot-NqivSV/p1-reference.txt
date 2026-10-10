@@ -1,0 +1,3 @@
+GRADER-ONLY REFERENCE — acquired after all six submissions were sealed.
+Source: https://www.imo-official.org/assets/documents/problems/2024/IMO2024SL.pdf#page=13
+A1 (IMO P1), printed pages11–13: answer is all even integers. One official route splits the integer part by parity and uses induction on the floors. Alternative rigorous proofs are acceptable; matching the answer alone is insufficient.

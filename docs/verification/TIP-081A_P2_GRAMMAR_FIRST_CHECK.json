@@ -1,0 +1,201 @@
+{
+  "driver": "import{spawnSync}from\"node:child_process\";import{openSync,fstatSync,readSync,closeSync,constants}from\"node:fs\";import{createHash}from\"node:crypto\";const start=performance.now(),pins=[{\"path\":\"scripts/test/derive-private-grammar-tip081-p2.mjs\",\"bytes\":85462,\"sha256\":\"fd5c46b72a919d35f9d55282164989dae5cd4169f165740d885dd94dde5f272b\"},{\"path\":\"scripts/test/private-grammar-runtime-tip081-p2.mjs\",\"bytes\":58100,\"sha256\":\"84802f210e63cbb2ea9d1f069056abb9e785490bed03280b836514cf3f0e2531\"},{\"path\":\"scripts/test/scalar-grammar-bodies-tip081-p2.mjs\",\"bytes\":14174,\"sha256\":\"f3b22a9e9e44c084fd74bea0918baba0c6d2453dc87166b8c888a7d6eef3ad41\"},{\"path\":\"scripts/test/capture-private-grammar-tip081-p2.mjs\",\"bytes\":10651,\"sha256\":\"82f66a3cf587f598ac8de79da2d36cd22c63f48aa588e592823b436866fea76c\"},{\"path\":\"scripts/test/release-private-grammar-tip081-p2.mjs\",\"bytes\":12274,\"sha256\":\"fccebb1681effa4ea9747122283a291d0a4d2b5ae45b0bb0393c0d108db98770\"},{\"path\":\"scripts/test/admit-private-grammar-tip081-p2.mjs\",\"bytes\":7155,\"sha256\":\"8cafbb92422cab100a369a5233484ab3aba50ed9b98f8745a181e1956368e1cd\"},{\"path\":\"tests/unit/private-grammar-tip081-p2.test.ts\",\"bytes\":29368,\"sha256\":\"32e8b7baab7cdefe395afb973e96c77da431851b94b5741f092dee88abe2bfaf\"},{\"path\":\"vitest-tip081-p2-grammar.config.ts\",\"bytes\":377,\"sha256\":\"d0d9c9cbe13cc901e5d4d5c296faec99eea38d55572fc0f4caa01bacd2f11465\"},{\"path\":\"tsconfig-tip081-p2-grammar.json\",\"bytes\":542,\"sha256\":\"2ea894766eeb01c9e52e1151f33bbc6125276b4ed8ab20ac01b1ee3f45a22326\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs\",\"bytes\":931985,\"sha256\":\"114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json\",\"bytes\":5710072,\"sha256\":\"41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.checked.profile.json\",\"bytes\":2491,\"sha256\":\"9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.v6.candidate.mjs\",\"bytes\":931985,\"sha256\":\"dac5bda74d57e9e9f0fcfefa614c0802aa6458670307bd610a479923da8fa47a\"},{\"path\":\"scripts/test/generated/private-grammar-tip081-p2.v6.inventory.json\",\"bytes\":5709412,\"sha256\":\"989f367de85e4b6fa9728e23accc198a3763b72c459d257d4dcf3726a82f8c90\"}],jobs=[{\"name\":\"syntax:scripts/test/derive-private-grammar-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/derive-private-grammar-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/private-grammar-runtime-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/private-grammar-runtime-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/scalar-grammar-bodies-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/scalar-grammar-bodies-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/capture-private-grammar-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/capture-private-grammar-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/release-private-grammar-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/release-private-grammar-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/admit-private-grammar-tip081-p2.mjs\",\"args\":[\"--check\",\"scripts/test/admit-private-grammar-tip081-p2.mjs\"],\"timeout\":1000},{\"name\":\"syntax:scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs\",\"args\":[\"--check\",\"scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs\"],\"timeout\":1000},{\"name\":\"lint-reviewed-hand-authored\",\"args\":[\"node_modules/eslint/bin/eslint.js\",\"scripts/test/derive-private-grammar-tip081-p2.mjs\",\"scripts/test/private-grammar-runtime-tip081-p2.mjs\",\"scripts/test/scalar-grammar-bodies-tip081-p2.mjs\",\"scripts/test/capture-private-grammar-tip081-p2.mjs\",\"scripts/test/release-private-grammar-tip081-p2.mjs\",\"scripts/test/admit-private-grammar-tip081-p2.mjs\",\"tests/unit/private-grammar-tip081-p2.test.ts\",\"vitest-tip081-p2-grammar.config.ts\"],\"timeout\":8000},{\"name\":\"types-focused-harness\",\"args\":[\"node_modules/typescript/bin/tsc\",\"--project\",\"tsconfig-tip081-p2-grammar.json\"],\"timeout\":8000},{\"name\":\"unit-109-synthetic-first\",\"args\":[\"node_modules/vitest/vitest.mjs\",\"run\",\"--config\",\"vitest-tip081-p2-grammar.config.ts\",\"--maxWorkers=1\",\"--reporter=default\",\"--reporter=json\"],\"timeout\":20000}];for(const p of pins){const fd=openSync(p.path,constants.O_RDONLY|constants.O_NOFOLLOW);try{const a=fstatSync(fd);if(!a.isFile()||a.size!==p.bytes)throw Error(\"PIN_SIZE\");const b=Buffer.alloc(a.size);let n=0;while(n<b.length){const q=readSync(fd,b,n,Math.min(32768,b.length-n),n);if(!q)throw Error(\"PIN_SHORT\");n+=q;}if(readSync(fd,Buffer.alloc(1),0,1,b.length))throw Error(\"PIN_GROWTH\");const z=fstatSync(fd);if(a.ino!==z.ino||a.dev!==z.dev||a.size!==z.size||a.mtimeMs!==z.mtimeMs||a.ctimeMs!==z.ctimeMs||createHash(\"sha256\").update(b).digest(\"hex\")!==p.sha256)throw Error(\"PIN_DRIFT\");}finally{closeSync(fd);}}const results=[];for(const j of jobs){const t=performance.now();const r=spawnSync(process.execPath,[\"--max-old-space-size=384\",...j.args],{cwd:\"/Users/os/hiveos\",env:{PATH:\"/usr/local/bin:/usr/bin:/bin\",TMPDIR:\"/private/tmp\",CI:\"1\",NO_COLOR:\"1\"},timeout:j.timeout,maxBuffer:262144,encoding:\"utf8\",killSignal:\"SIGKILL\"});results.push({...j,milliseconds:performance.now()-t,status:r.status,signal:r.signal,errorCode:r.error?.code??null,stdout:r.stdout??\"\",stderr:r.stderr??\"\"});if(r.status!==0||r.error)break;}console.log(JSON.stringify({purpose:\"P2_GRAMMAR_FIRST_SCOPED_CHECK\",pins,results,milliseconds:performance.now()-start,conservativeAllowances:(results.length+1)*1000}));",
+  "snapshot": {
+    "purpose": "P2_GRAMMAR_FIRST_SCOPED_CHECK",
+    "pins": [
+      {
+        "path": "scripts/test/derive-private-grammar-tip081-p2.mjs",
+        "bytes": 85462,
+        "sha256": "fd5c46b72a919d35f9d55282164989dae5cd4169f165740d885dd94dde5f272b"
+      },
+      {
+        "path": "scripts/test/private-grammar-runtime-tip081-p2.mjs",
+        "bytes": 58100,
+        "sha256": "84802f210e63cbb2ea9d1f069056abb9e785490bed03280b836514cf3f0e2531"
+      },
+      {
+        "path": "scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+        "bytes": 14174,
+        "sha256": "f3b22a9e9e44c084fd74bea0918baba0c6d2453dc87166b8c888a7d6eef3ad41"
+      },
+      {
+        "path": "scripts/test/capture-private-grammar-tip081-p2.mjs",
+        "bytes": 10651,
+        "sha256": "82f66a3cf587f598ac8de79da2d36cd22c63f48aa588e592823b436866fea76c"
+      },
+      {
+        "path": "scripts/test/release-private-grammar-tip081-p2.mjs",
+        "bytes": 12274,
+        "sha256": "fccebb1681effa4ea9747122283a291d0a4d2b5ae45b0bb0393c0d108db98770"
+      },
+      {
+        "path": "scripts/test/admit-private-grammar-tip081-p2.mjs",
+        "bytes": 7155,
+        "sha256": "8cafbb92422cab100a369a5233484ab3aba50ed9b98f8745a181e1956368e1cd"
+      },
+      {
+        "path": "tests/unit/private-grammar-tip081-p2.test.ts",
+        "bytes": 29368,
+        "sha256": "32e8b7baab7cdefe395afb973e96c77da431851b94b5741f092dee88abe2bfaf"
+      },
+      {
+        "path": "vitest-tip081-p2-grammar.config.ts",
+        "bytes": 377,
+        "sha256": "d0d9c9cbe13cc901e5d4d5c296faec99eea38d55572fc0f4caa01bacd2f11465"
+      },
+      {
+        "path": "tsconfig-tip081-p2-grammar.json",
+        "bytes": 542,
+        "sha256": "2ea894766eeb01c9e52e1151f33bbc6125276b4ed8ab20ac01b1ee3f45a22326"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs",
+        "bytes": 931985,
+        "sha256": "114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json",
+        "bytes": 5710072,
+        "sha256": "41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.checked.profile.json",
+        "bytes": 2491,
+        "sha256": "9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.v6.candidate.mjs",
+        "bytes": 931985,
+        "sha256": "dac5bda74d57e9e9f0fcfefa614c0802aa6458670307bd610a479923da8fa47a"
+      },
+      {
+        "path": "scripts/test/generated/private-grammar-tip081-p2.v6.inventory.json",
+        "bytes": 5709412,
+        "sha256": "989f367de85e4b6fa9728e23accc198a3763b72c459d257d4dcf3726a82f8c90"
+      }
+    ],
+    "results": [
+      {
+        "name": "syntax:scripts/test/derive-private-grammar-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/derive-private-grammar-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 32.396833,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/private-grammar-runtime-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/private-grammar-runtime-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 31.97666600000001,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/scalar-grammar-bodies-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 33.01216699999999,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/capture-private-grammar-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/capture-private-grammar-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 32.17691599999998,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/release-private-grammar-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/release-private-grammar-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 30.072708000000006,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/admit-private-grammar-tip081-p2.mjs",
+        "args": [
+          "--check",
+          "scripts/test/admit-private-grammar-tip081-p2.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 29.879500000000007,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "syntax:scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs",
+        "args": [
+          "--check",
+          "scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs"
+        ],
+        "timeout": 1000,
+        "milliseconds": 40.712958000000015,
+        "status": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "lint-reviewed-hand-authored",
+        "args": [
+          "node_modules/eslint/bin/eslint.js",
+          "scripts/test/derive-private-grammar-tip081-p2.mjs",
+          "scripts/test/private-grammar-runtime-tip081-p2.mjs",
+          "scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+          "scripts/test/capture-private-grammar-tip081-p2.mjs",
+          "scripts/test/release-private-grammar-tip081-p2.mjs",
+          "scripts/test/admit-private-grammar-tip081-p2.mjs",
+          "tests/unit/private-grammar-tip081-p2.test.ts",
+          "vitest-tip081-p2-grammar.config.ts"
+        ],
+        "timeout": 8000,
+        "milliseconds": 2081.797375,
+        "status": 1,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n/Users/os/hiveos/scripts/test/admit-private-grammar-tip081-p2.mjs\n  114:5  error  Do not assign to the variable `module`. See: https://nextjs.org/docs/messages/no-assign-module-variable  @next/next/no-assign-module-variable\n\n/Users/os/hiveos/scripts/test/private-grammar-runtime-tip081-p2.mjs\n     9:7   warning  '__HIVE_P2_parseFloat' is assigned a value but never used  @typescript-eslint/no-unused-vars\n    36:7   warning  '__HIVE_P2_Number' is assigned a value but never used      @typescript-eslint/no-unused-vars\n   169:10  warning  '__HIVE_P2_maximumChildDepth' is defined but never used    @typescript-eslint/no-unused-vars\n   176:10  warning  '__HIVE_P2_checkArrayDepth' is defined but never used      @typescript-eslint/no-unused-vars\n   181:10  warning  '__HIVE_P2_reserveFunction' is defined but never used      @typescript-eslint/no-unused-vars\n   366:10  warning  '__HIVE_P2_increment' is defined but never used            @typescript-eslint/no-unused-vars\n   386:10  warning  '__HIVE_P2_binary' is defined but never used               @typescript-eslint/no-unused-vars\n   428:10  warning  '__HIVE_P2_unary' is defined but never used                @typescript-eslint/no-unused-vars\n   504:10  warning  '__HIVE_P2_invalidTemplate' is defined but never used      @typescript-eslint/no-unused-vars\n   632:10  warning  '__HIVE_P2_copyKeys' is defined but never used             @typescript-eslint/no-unused-vars\n   920:10  warning  '__HIVE_P2_toolRegex' is defined but never used            @typescript-eslint/no-unused-vars\n  1094:10  warning  '__char' is defined but never used                         @typescript-eslint/no-unused-vars\n  1095:10  warning  '__slice' is defined but never used                        @typescript-eslint/no-unused-vars\n  1096:10  warning  '__concat' is defined but never used                       @typescript-eslint/no-unused-vars\n  1097:10  warning  '__codePoint' is defined but never used                    @typescript-eslint/no-unused-vars\n  1098:10  warning  '__tick' is defined but never used                         @typescript-eslint/no-unused-vars\n  1099:10  warning  '__refuse' is defined but never used                       @typescript-eslint/no-unused-vars\n  1100:10  warning  '__number' is defined but never used                       @typescript-eslint/no-unused-vars\n\n✖ 19 problems (1 error, 18 warnings)\n\n",
+        "stderr": ""
+      }
+    ],
+    "milliseconds": 2322.025834,
+    "conservativeAllowances": 9000
+  }
+}

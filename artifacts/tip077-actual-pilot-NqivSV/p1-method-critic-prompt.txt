@@ -1,0 +1,120 @@
+You are one solver in an authorized bounded mathematics experiment. This is a
+fresh task-only session. Work solely from the supplied problem and same-arm
+artifacts explicitly included in this prompt. No project/repository/history,
+other arm, reference solution, web search, external source, MCP, plugin, extra
+model/agent, credentials or environment-file inspection. Do not read files.
+Do not install dependencies or write files. All tools are optional. Only in-memory
+Python/arithmetic shell computations are allowed; do not contact any network,
+launch agents, browse, access filesystem, or ask approval to weaken the sandbox.
+At most 12 computation commands per arm; each <=60 seconds and <=120 seconds
+aggregate. Output must be <=32KiB UTF-8. These bounds include failed work.
+Your arm's entire allowance is four visible model requests and 600 seconds,
+including any planning/review/revision. Current request usage and time remaining
+are supplied by the operator. Actual token budgets/model-version are unverified.
+Provide a self-contained rigorous proof or a clearly labelled partial attempt.
+Do not claim a finite computation establishes an unbounded theorem. Explicitly
+state any essential gap. No task-specific hint or solution is being supplied.
+Final format: Answer; Proof (with all blocking lemmas justified); Scope and gaps.
+Use English and readable LaTeX math delimiters. Do not cite remembered official
+solutions as proof. You may use established elementary results only if you state
+them and justify applicability. Submit the final proof in your final message.
+
+
+Apply this task-independent research protocol within the SAME total allowance:
+1. Extract definitions, assumptions and quantifiers; identify blocking lemmas.
+2. Rank up to three approaches with a concrete discriminating check, then choose.
+3. Construct a proof attempt along the selected approach.
+4. Adversarially review circularity, unjustified lemmas and boundary cases.
+5. Repair if resources remain; distinguish proved scope from essential gaps.
+Planning and criticism are not extra/free model requests. You may execute the
+steps in this session or use remaining explicitly provided fresh role requests.
+Do not turn the checklist itself into a claimed mathematical result.
+
+
+Find exactly the real numbers alpha with the following property:
+for every positive integer n,
+  n divides sum_{k=1}^n floor(k*alpha).
+Here floor is the greatest-integer function. Prove both necessity and sufficiency,
+including negative alpha.
+
+
+Independently criticize the same-arm original attempt below. Check every essential implication and boundary case. Do not assume it is correct. Return specific justified objections or support; this criticism is not the final submission.
+
+OPERATOR RESOURCE NOTICE: This is request position 2 (CRITIC) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 446 seconds. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.
+
+SAME-ARM ORIGINAL ATTEMPT:
+
+## Answer
+
+Exactly the even integers:
+\[
+\boxed{\alpha\in 2\mathbb Z}.
+\]
+
+## Proof
+
+Write
+\[
+\alpha=2q+r,\qquad q=\left\lfloor\frac{\alpha}{2}\right\rfloor\in\mathbb Z,\qquad 0\le r<2.
+\]
+For every positive integer \(n\),
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=q\,n(n+1)+\sum_{k=1}^{n}\lfloor kr\rfloor.
+\]
+The first term is divisible by \(n\). Thus \(\alpha\) has the required property if and only if \(r\) does. This reduction also applies to negative \(\alpha\).
+
+We prove that \(r>0\) is impossible.
+
+**Case 1: \(0<r<1\).** Set
+\[
+n=\left\lceil\frac1r\right\rceil\ge2.
+\]
+Then \(kr<1\) for \(1\le k<n\), while
+\[
+1\le nr<1+r<2.
+\]
+Consequently,
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor=1,
+\]
+which is not divisible by \(n\).
+
+**Case 2: \(1\le r<2\).** Put \(\beta=2-r\), so \(0<\beta\le1\), and set
+\[
+n=\left\lfloor\frac1\beta\right\rfloor+1\ge2.
+\]
+For \(1\le k<n\), we have \(0<k\beta\le1\), hence
+\[
+2k-1\le kr=2k-k\beta<2k,
+\]
+so \(\lfloor kr\rfloor=2k-1\). At \(k=n\),
+\[
+1<n\beta\le1+\beta\le2,
+\]
+giving
+\[
+2n-2\le nr<2n-1,
+\qquad \lfloor nr\rfloor=2n-2.
+\]
+Therefore,
+\[
+\sum_{k=1}^{n}\lfloor kr\rfloor
+=\sum_{k=1}^{n}(2k-1)-1
+=n^2-1,
+\]
+which is not divisible by \(n\ge2\).
+
+Both cases contradict the required property. Hence \(r=0\), and \(\alpha=2q\) is an even integer.
+
+Conversely, if \(\alpha=2q\) for any integer \(q\), including negative integers, then
+\[
+\sum_{k=1}^{n}\lfloor k\alpha\rfloor
+=\sum_{k=1}^{n}2qk
+=q\,n(n+1),
+\]
+which is divisible by \(n\) for every positive integer \(n\).
+
+## Scope and gaps
+
+The proof covers all real \(\alpha\), including negative values and exact threshold equalities. No unresolved gaps or computational assumptions remain.

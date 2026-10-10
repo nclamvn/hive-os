@@ -86,6 +86,51 @@ See [`docs/operations/LOCAL_PRODUCTION_REHEARSAL.md`](docs/operations/LOCAL_PROD
 
 ## Quality commands
 
+For the small, provider-free mathematics development slice, start here (using
+the already installed dependencies; no database or application build):
+
+```bash
+npm run research:check    # syntax, focused strict types, regression tests, real CLI smoke
+npm run research:replay   # known public permutation arithmetic engineering replay
+npm run research:lean     # synthetic primary-first execution controls; no model/API charge
+npm run research:lean -- --replay-file tests/fixtures/lean-retained-replay.json
+```
+
+This is **not** a fresh AI solve, proof validation, official FrontierMath score
+or full-application acceptance. Existing execution/security gates remain in force.
+See [lean research direction](docs/research/DEVELOPMENT_DIRECTION.md) for the
+scope and the distinction between developer checks and research claims.
+
+For the two fixed, exact LRC method demonstrations (installed Python 3, standard
+library only):
+
+```bash
+npm run research:lrc
+python3 -I -S -B tests/research/test_lrc_method.py
+```
+
+This independently replays continuous tightness of one 14-runner tuple and a
+constructive 15-runner shift witness. The accompanying argument establishes the
+stated infinite family, **not global LRC 14/15**, novelty or a blind benchmark.
+See [proof, actual results and limits](docs/research/LRC_METHOD_VALIDATION_084.md).
+The ordinary command is read-only; `--record` creates its fixed evidence file
+once and refuses to overwrite an existing record.
+
+The read-only visual presentation is available at
+`/w/<workspaceSlug>/research/lrc-demo`, linked from the mathematics workbench.
+Local demo startup (no install or production build):
+
+```bash
+DEMO_FIXTURES_ENABLED=true npm run dev -- --webpack --hostname 127.0.0.1 --port 3000
+```
+
+Open `http://localhost:3000`, the configured authentication origin, rather than
+`http://127.0.0.1:3000`. Existing demo credentials are prefilled only when the
+local development safeguards allow it; normal authentication still applies.
+See [UI verification and limits](docs/research/LRC_VISUAL_DEMONSTRATION_085.md).
+
+Full-application quality commands remain separate:
+
 ```bash
 npm run build
 npm run typecheck

@@ -1,0 +1,86 @@
+{
+  "tip": "TIP-050",
+  "builder": "target_skeptic (Product Builder, not independent mathematical reviewer)",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "contractDigest": "93acc34e6cd0ca009fc9e6a7ab65df0ec801b0cf956874c355ee861967a255e9",
+  "scope": "R4/R5 owned report, explicit collector and retained-only bilingual UI; Core owns proof extraction/action/union and Replay owns independent execution. Main owns final R6 acceptance. No new search, model campaign, theorem promotion or old schema/agent gate mutation.",
+  "requirements": {
+    "R4": { "implemented": true, "evidence": "Explicit local dev/test CLI observes shared120s from before imports/reads through final serialization, optional atomic NEW1MiB retention and stdout. Checks exact048/049 raw bytes, derives fixed complete action plan, executes one independent bounded wrapper with remaining<=90s, full pure admission with remaining<=60s and STOP. Pure report validates all arithmetic from immutable sources; no subprocess/generator/research fetch/model/cache on GET." },
+    "R5": { "implemented": true, "evidence": "Separate allikvere-unit view on existing authenticated local route renders only new server panel; old three panels render only old allikvere view, both skip ES tool path. VI/EN MathText action and prefix-ordinal formulas, four original/union/delta/remaining rows, raw multiplicity/overlap, complete digests/bounded examples and source/program provenance. PARTIAL/NOT_ESTABLISHED, no factor6 inference, ordered-domain/non-orbit semantics and all five old gaps remain explicit." }
+  },
+  "design_plan": {
+    "direction": "Retain HIVE theme/Panel/type tokens. Lead with finite proof reuse and scope, compare four rows, then expandable overlap/interval provenance and unestablished obligations. No dashboard redesign, dispatch controls, motion, global completion percentage or AI capability claims.",
+    "layout": "Left-aligned scope-first prose, mobile one-column/desktop two-column counts, wrapping SHA identifiers and interval strings, scroll-mt24 valid/invalid anchors. Normal workspace authentication/loading remains.",
+    "skills": "Vibecode Kit ownership and quantified completion, frontend-design restraint, and installed Next server/client guide read before implementation. Server-only arithmetic admission; no client certificate/tool bundle."
+  },
+  "files": [
+    { "path": "src/modules/research-sandbox/math-lrc-unit-report.ts", "sha256": "99f85df6ce11978b241eafa0c8f5cae46c78654992637c5558732faa0af590c3" },
+    { "path": "scripts/operations/allikvere-unit-audit.ts", "sha256": "f893984c5bdd446ccacb37243be52eedf7662c0d269d87f8cf5b80f1d08720ee" },
+    { "path": "src/components/research/math-lrc-unit-panel.tsx", "sha256": "daab269141b0c8e6a80a685611071ecefbada735c8c3d2f68149ed87ebacf7a2" },
+    { "path": "tests/unit/math-lrc-unit-report.test.ts", "sha256": "4e3939dd7bdee85651447357f58457dea342526df0c112d802008ea402977cfc" },
+    { "path": "src/app/w/[workspaceSlug]/research/math-tools/page.tsx", "sha256": "7635f3d94c029217f8000f56daeb27aede9095a3c68b58e3973aedcc7ea17b04" },
+    { "path": "tests/unit/math-lrc-frontier-report.test.ts", "sha256": "5fd95d57ea3020cec3649fa5aabfce5761b6b471e422ceae3f1e88e6174aaa38", "note": "Main approved only three mechanical static selector expectation changes: retainedOnly to oldRetainedView. Before SHA1b64328b49575f79b76294c062dd42cd907f3eb1d282032661543f2bf0bc44ea. No old test semantics/fixtures/caps changed." },
+    { "path": "tests/unit/math-lrc-allikvere-report.test.ts", "sha256": "927b045848eb19ff214ca0ce34a9b92a95c7c704e2f6e7acf07391b02d589ba4", "note": "Main-authorized static selector expectation only: replace old single retainedOnly query line with oldRetainedView/query allikvere, unitRetainedView/query allikvere-unit and their retainedOnly OR. Before SHA0c2f52a2d483e92a66f69a122f86a8670b9106f303ed862db97b6f337c240d55. Arithmetic/fixtures/caps unchanged." },
+    { "path": "tests/unit/math-lrc-cover-report.test.ts", "sha256": "3d223ca33b83b67e3f48fe970d9a1c622d37c1653a57367fbd21379bdb722f95", "note": "Main-authorized static selector expectation only: two old panels under oldRetainedView instead of retainedOnly. Before SHAb3ebf954c3dd5a3a6e7022db40e97b58cf76d613243cc8d8df37b7e600de4970. Arithmetic/fixtures/caps unchanged." },
+    { "path": "docs/research/lrc-allikvere-p199/retained-unit-report.json", "sha256": "78519d5c7113a63bf79ed6ab8352adcf221937a6b13bfa0647251ce5478d99d4", "owner": "Generated only by Main actual explicit collector; never written/replaced by Product Builder." }
+  ],
+  "retained_checkpoint": {
+    "reportDigest": "b155a25e6a6579ff2c5c74ed2d08285c60b0e7cad6142cd3cc25e36cc7cc0357",
+    "bytes": 16493,
+    "status": "PARTIAL",
+    "researchClassification": "PARTIAL",
+    "globalVerdict": "NOT_ESTABLISHED",
+    "rows": [
+      { "parentId": "p199-tight-terminal-0-full", "original": "260155553", "union": "1560933318", "delta": "1300777765", "remaining": "95328077089", "overlap": "0", "sourceLeaves": 21569, "candidateIntervals": 129414, "unionIntervals": 72, "complementIntervals": 72 },
+      { "parentId": "p199-tight-terminal-1-full", "original": "316139670", "union": "1896838020", "delta": "1580698350", "remaining": "94992172387", "overlap": "0", "sourceLeaves": 20658, "candidateIntervals": 123948, "unionIntervals": 79, "complementIntervals": 79 },
+      { "parentId": "p199-tight-terminal-2-full", "original": "160043457", "union": "960260742", "delta": "800217285", "remaining": "95928749665", "overlap": "0", "sourceLeaves": 23385, "candidateIntervals": 140310, "unionIntervals": 83, "complementIntervals": 83 },
+      { "parentId": "p199-gw-terminal-0-full", "original": "219045631", "union": "1314273786", "delta": "1095228155", "remaining": "95574736621", "overlap": "0", "sourceLeaves": 22429, "candidateIntervals": 134574, "unionIntervals": 58, "complementIntervals": 58 }
+    ],
+    "countSemantics": "Each original ordered domain has96889010407points. Exact independent reconstruction happens to give zero transported overlap on these exposed fixed sources, hence union equals raw six-action multiplicity here. This is an observed finite property, not a general factor6 rule: fixed points/overlap controls remain necessary. Do not sum four rows as unique velocity/orbit classes or claim global completion. Only FULL048 and049 child COVER_BOUND regions enter; no anchors047/GCD/SURVIVOR/unknown proof-label promotion."
+  },
+  "verification": {
+    "focused_unit": { "status": "PASS", "passed": 21, "total": 21, "files": 1, "start_local": "17:21:27 +07", "duration_ms": 87640, "command": "node node_modules/vitest/vitest.mjs run tests/unit/math-lrc-unit-report.test.ts", "exit_code": 0 },
+    "actual_fixture": "One genuine fixed-source runLrcUnitActionEvidence, no collector write/generation/new inputs. Instrumented named execFile observes1actual Python call, then0on retained GET after clearing the same instrument; global fetch also0. No mocked mathematical envelope or accepted synthetic execution receipt.",
+    "report_mutations": { "outer_report_fully_rehashed": 13, "rejected": 13, "scope": "Global/research/status promotion, archive trust, missing obligation, raw/content/contract/author drift, lower premise promotion, LLM label and missing STOP. Core/Replay/Main own deeper coherent arithmetic/receipt mutants." },
+    "read_boundaries": "Tighter0/negative/nonfinite/widened budget rejected; expired shared60s observation rejected. Report digest tested against canonical body; unsigned hashing is not physical execution authority. CLI production and extra switches actually rejected before imports/arithmetic/write; both old raw SHA pins unchanged.",
+    "ui": "Actual VI/EN server render of genuine replayed evidence plus invalid fallback; two KaTeX formulas, correct ordered interval/full-complement disclosure, wrapping provenance, anchor offset, no forms/buttons. Actual Main-retained artifact pure-admitted and static selector test verifies new view onlynewpanel/oldview onlyoldpanels plus shared ES bypass. Live desktop/mobile acceptance deferred to Main.",
+    "actual_default_collector": { "status": "PASS_ATTRIBUTED_MAIN", "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-unit-audit.ts --write", "elapsed_ms": 37806, "bytes": 16493, "note": "Only Main ran default collector and wrote new report. Product held static JSON import until file existed, inspected exact rows/digests and pure-admitted it in final focused tests." },
+    "typecheck": { "status": "PASS", "command": "node node_modules/typescript/bin/tsc --noEmit", "exit_code": 0, "note": "Post-route standalone check includes actual artifact import and final production files; it precedes the two subsequent Main-authorized old static-test expectation updates. Main owns final frozen-snapshot regression. Earlier pre-route check also0." },
+    "owned_eslint": { "status": "PASS", "files": 6, "exit_code": 0, "errors": 0, "warnings": 0 },
+    "additional_static_selector_repair": { "files": 2, "lint_exit_code": 0, "errors": 0, "warnings": 0, "diff_check_exit_code": 0, "expensive_tests_run_by_builder": false, "final_main_regression": "PENDING" },
+    "initial_whole_suite_attributed_main": { "passed": 1092, "failed": 2, "files": 124, "duration_ms": 458940, "failure_scope": "Exactly the two old static selector expectations repaired above; Main reported no arithmetic/process/resource failure. Final rerun remains pending." },
+    "whitespace": { "status": "PASS", "exit_code": 0 },
+    "not_run_by_builder": ["default collector or retained writes", "full repository suite", "production build", "visible browser", "DB/worker", "providers/models/APIs", "dependency install", "Git publication"]
+  },
+  "peer_snapshot_reviewed": {
+    "core": "0ca60b3ab73a753017cc2038c26a81bb4787a0c8c6bd9fe534deac045fc3f02c",
+    "replayAdapter": "93db2b47297fb9ebb3a6112863ef435d244b352fe1174cc0363209b97f700e64",
+    "pythonDriver": "e0c1cce7428adca12b6927529e4a84f551703ab32e1887ae5dd6dff17a24443f",
+    "composedProgram": "d8996f49ecf31cd803f49a276de962dec0a5ca19e5ed2c8867e9d1a79673fbe9",
+    "review": "Read actual Core/Replay/Python sources: old arithmetic/source admission plus canonical pinned descriptors prevent a supplied subset; all eligible COVER_BOUND nodes are extracted, child coordinates lifted compatibly rather than concatenated. Frozen six same-coordinate bijections use one common time permutation. TS sorted overlap/adjacency merge versus Python signed endpoint sweep independently reconstruct complete union/complement, symbolic counts/digests/examples. Independent runtime loads literal pinned048/049 sources in non-main namespaces, no caller/author/model code. Final Core additionally freezes nested unit arrays. No product-seam blocker observed; same-model contextual review is not formal/expert/model-foundation independence."
+  },
+  "decisions_and_failure_history": [
+    "Read full frozenTIP before edits, no post-outcome input/policy/cap tuning. Pre-BUILD SCAN counts exposed by Main are disclosed; not blind evaluation.",
+    "Held expensive Product fixture until Replay production pin freeze and Main actual default collector success. No PIN_PENDING failure, placeholder artifact, manually fabricated report or source-subset substitution.",
+    "Added outer status consistency early rejection to avoid unnecessary arithmetic on obvious invalid report; valid wire and science unchanged. Main-authorized TIP049 test update changes exactly three selector strings to preserve original old-view semantics.",
+    "No failed new Product focused/type/lint runs. Main whole regression subsequently found two other old static selector expectations, not arithmetic failures: TIP047 single-selector assertion and TIP048 two old-panel render assertions. Main explicitly authorized the mechanical five-line expectation update across those two files; no production/schema/fixture/cap change or expensive test rerun by Builder. Main final full regression is pending this final test-only snapshot. Whole-suite/build/visible results remain Main-owned and are not inferred from focused tests."
+  ],
+  "preservation": {
+    "tip048ReportSha256": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "tip049ReportSha256": "a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268",
+    "tip047PanelSha256": "d40db8aaf4b34711271a73142f31effbf8706fcce290d6eb20a356dcc4ef6d1f",
+    "tip048PanelSha256": "b16fd3bc4a91477700529370e3db3345bc7b6a3bb8042c7c8ef0a4921473b3d0",
+    "tip049PanelSha256": "bdf884ef158da9b1f52d6b4fbf88f5464476c720a1fa27830e4d72666a9df77c",
+    "note": "Fresh checked old raw reports/panels unchanged. No old schema/data/case/reviewer/agent/worker or unrelated dirty screenshot/doc edits. Only minimal route selector/import/link/render plus approved static selector expectation updates across TIP047/048/049 tests, with before/after pins above. No crossrequest admission cache or architecture rewrite."
+  },
+  "limitations_and_deferred": [
+    "All four domains remain PARTIAL; exact finite grid-witness reuse does not prove full terminal closure, global14/15 theorem, absence of unknown survivors, mathematical novelty or autonomous LLM capability.",
+    "Five old obligations and declared/unreplayed LRC12 remain; whole archive unverified. Unit orbits are known Allikvere Remark2.3 background, not a new theorem. Exposed pre-BUILD counts are not blind/held-out benchmark evidence.",
+    "Collector authenticates both actual raw files. Pure GET authenticates pinned canonical source objects and retained raw-pin declarations, not a new disk-byte read or fresh execution. Local unsigned hashes/receipts depend on trusted collector/storage/interpreter and are not external signed attestation/formal proof.",
+    "120scollector/60spure/90sindependent checks are cooperative observed deadlines, not synchronous JS CPU preemption. Old nested validators keep old budgets but before/after aggregate checks prevent late acceptance. Remaining deadlines passed to independent wrapper and report admission. Logical counters do not attest every physical CPU operation.",
+    "Bounded examples are not the full complement; admission reconstructs every source interval, exact union and remaining set before displaying. Compact output avoids retaining all expanded prefixes; no unchecked-summary bypass.",
+    "Atomic NEW report replacement is preceded by full arithmetic and byte/deadline checks. Later I/O/deadline failure can still be reported after a valid new artifact commit; old048/049 files cannot be overwritten by this collector.",
+    "New unit view avoids redundant old-panel arithmetic checks but still rechecks source certificates and union once per request; no performance cache. Main must verify real read latency/mobile/desktop and final build/full-suite/preservation/handoff.",
+    "No typed HIVE model evidence admission, new case/campaign, DB mutation, worker dispatch, paid/model call, dependency install, Git publication or deployment in this package."
+  ]
+}

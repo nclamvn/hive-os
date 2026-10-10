@@ -4,6 +4,18 @@ import { ArrowLeft, CheckCircle2, FlaskConical } from "lucide-react";
 
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { MathText } from "@/components/research/math-text";
+import { MathAllikvereReportPanel } from "@/components/research/math-lrc-allikvere-panel";
+import { MathLrcCoverPanel } from "@/components/research/math-lrc-cover-panel";
+import { MathLrcFrontierPanel } from "@/components/research/math-lrc-frontier-panel";
+import { MathLrcUnitPanel } from "@/components/research/math-lrc-unit-panel";
+import { MathLrcProofPanel } from "@/components/research/math-lrc-proof-panel";
+import { MathLrcProofUnitPanel } from "@/components/research/math-lrc-proof-unit-panel";
+import { LRC_PROOF_UNIT_PACKET } from "@/modules/research-sandbox/math-lrc-proof-unit";
+import allikvereReport from "../../../../../../docs/research/lrc-allikvere-p199/retained-report.json";
+import allikvereCoverReport from "../../../../../../docs/research/lrc-allikvere-p199/retained-cover-report.json";
+import allikvereFrontierReport from "../../../../../../docs/research/lrc-allikvere-p199/retained-frontier-report.json";
+import allikvereUnitReport from "../../../../../../docs/research/lrc-allikvere-p199/retained-unit-report.json";
+import allikvereProofReport from "../../../../../../docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json";
 import { Button } from "@/components/ui/button";
 import { Panel } from "@/components/ui/panel";
 import { getTranslator } from "@/i18n/server";
@@ -32,14 +44,20 @@ export default async function MathToolsPage({ params, searchParams }: {
   const { locale } = await getTranslator();
   const t = (vi: string, en: string) => locale === "vi" ? vi : en;
   const query = await searchParams;
+  const oldRetainedView = query.view === "allikvere";
+  const unitRetainedView = query.view === "allikvere-unit";
+  const strategyView = query.view === "allikvere-proof";
+  const proofUnitView = query.view === "allikvere-proof-unit";
+  const invalidView = query.view !== undefined && (typeof query.view !== "string" || !["allikvere", "allikvere-unit", "allikvere-proof", "allikvere-proof-unit"].includes(query.view));
+  const retainedOnly = oldRetainedView || unitRetainedView || strategyView || proofUnitView || invalidView;
   let scope: ReturnType<typeof parseDivisorLabQuery> | null = null;
-  try { scope = parseDivisorLabQuery(query); } catch { /* Invalid input is shown, never silently recomputed. */ }
+  if (!retainedOnly) try { scope = parseDivisorLabQuery(query); } catch { /* Invalid input is shown, never silently recomputed. */ }
   const primary = scope ? searchDivisorLed(scope.n, scope.maxS, scope.mode) : null;
   const replay = primary ? await replayDivisorLab(primary) : null;
   const structural = scope ? mixedCoreResearchPacket() : null;
   const structuralReplay = structural ? await replayMixedCorePacket(structural) : null;
-  const title = t("Bàn kiểm chứng số học", "Exact arithmetic workbench");
-  const subtitle = t("Erdős–Straus · Tìm theo ước s và phát lại độc lập", "Erdős–Straus · Divisor-led search and independent replay");
+  const title = invalidView ? t("Lựa chọn chế độ không hợp lệ", "Invalid view selector") : proofUnitView ? t("Proof unit toán học có điều kiện", "Conditional mathematical proof unit") : strategyView ? t("Tái lập định lý Lonely Runner", "Lonely Runner theorem reproduction") : unitRetainedView ? t("Hợp chứng cứ qua phép nhân đơn vị", "Unit-action evidence union") : retainedOnly ? t("Chứng chỉ mô-đun lưu trữ", "Retained modular certificates") : t("Bàn kiểm chứng số học", "Exact arithmetic workbench");
+  const subtitle = proofUnitView ? t("p83 · cầu nối 14/32 tới 224 · packet mới, không chạy audit", "p83 · 14/32 to 224 bridge · new packet, no audit dispatched") : strategyView ? t("Allikvere v2 · Chuỗi phụ thuộc 14/15 · số học có điều kiện", "Allikvere v2 · 14/15 dependency chain · conditional arithmetic") : retainedOnly ? t("Lonely Runner · Allikvere p=199 · chỉ đọc chứng chỉ đã lưu", "Lonely Runner · Allikvere p=199 · retained evidence only") : t("Erdős–Straus · Tìm theo ước s và phát lại độc lập", "Erdős–Straus · Divisor-led search and independent replay");
   const base = `/w/${workspaceSlug}/research/math-tools`;
   const presets = [
     { n: 131433121, s: 142, mode: "ALL", label: "s ≤ 142" },
@@ -60,8 +78,26 @@ export default async function MathToolsPage({ params, searchParams }: {
         <h1 className="text-page-title text-ink-strong">{title}</h1>
         <p className="text-body text-ink-muted mt-2">{subtitle}</p>
       </header>
+      <Link href={`/w/${workspaceSlug}/research/lrc-demo`} className="text-body text-ink hover:text-ink-strong min-h-11 self-start underline underline-offset-4">{t("Khám phá atlas LRC · hai kết quả đã phát lại độc lập", "Explore the LRC atlas · two independently replayed results")}</Link>
+      <Link href={`/w/${workspaceSlug}/research/kakeya`} className="text-body text-ink hover:text-ink-strong min-h-11 self-start underline underline-offset-4">{t("Hồ sơ Kakeya · kết quả và chứng chỉ cho năm tam giác", "Kakeya dossier · five-triangle result and certificates")}</Link>
 
-      <Panel className="p-5 sm:p-6">
+      <Link href={base + "?view=allikvere-proof#allikvere-proof"} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Mở hướng tái lập định lý 14/15 đã chọn", "Open the selected 14/15 theorem-reproduction plan")}</Link>
+      {strategyView && <MathLrcProofPanel raw={allikvereProofReport} base={base} locale={locale} />}
+      <Link href={`${base}?view=allikvere-proof-unit#allikvere-proof-unit`} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Đọc proof unit p83 mới, tách riêng hồ sơ TIP-062", "Read the new p83 proof unit, separate from TIP-062")}</Link>
+      {proofUnitView && <MathLrcProofUnitPanel raw={LRC_PROOF_UNIT_PACKET} locale={locale} />}
+      {invalidView && <Panel role="alert" className="min-w-0 p-5 sm:p-6"><p className="text-body text-ink">{t("Chế độ không rõ hoặc tham số view lặp. Chọn một liên kết bên dưới; chưa chạy số học, Python hay mô hình.", "Unknown or repeated view selector. Choose one link below; no arithmetic, Python or model was dispatched.")}</p></Panel>}
+      <Link href={`${base}?view=allikvere#allikvere`} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Mở báo cáo Allikvere p=199 đã lưu", "Open retained Allikvere p=199 report")}</Link>
+      {oldRetainedView && <MathAllikvereReportPanel raw={allikvereReport} locale={locale} />}
+      <Link href={`${base}?view=allikvere#allikvere-cover`} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Mở cây chặn phủ mới · gồm miền chưa giải quyết", "Open separate compact cover trees · unresolved regions retained")}</Link>
+      {oldRetainedView && <MathLrcCoverPanel raw={allikvereCoverReport} locale={locale} />}
+      <Link href={`${base}?view=allikvere#allikvere-frontier`} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Xem checkpoint tiếp tục · vòng công cụ đã dừng", "Open continuation checkpoint · tool loop stopped")}</Link>
+      {oldRetainedView && <MathLrcFrontierPanel raw={allikvereFrontierReport} base={allikvereCoverReport} locale={locale} />}
+      <Link href={`${base}?view=allikvere-unit#allikvere-unit`} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Xem hợp chính xác qua phép nhân đơn vị", "Open the exact unit-action union")}</Link>
+      {unitRetainedView && <MathLrcUnitPanel raw={allikvereUnitReport} base={allikvereCoverReport} frontier={allikvereFrontierReport} locale={locale} />}
+
+      {retainedOnly && <Link href={base} className="text-meta text-ink-muted hover:text-ink min-h-10 self-start underline">{t("Chuyển sang công cụ Erdős–Straus riêng", "Open the separate Erdős–Straus workbench")}</Link>}
+
+      {!retainedOnly && <Panel className="p-5 sm:p-6">
         <form key={scope ? `${scope.n}-${scope.maxS}-${scope.mode}` : "invalid"} method="get" className="grid items-end gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_0.7fr_1.3fr_auto]">
           <label className="text-meta text-ink min-w-0 font-medium">{t("Số nguyên tố p", "Prime p")}
             <input name="n" type="number" inputMode="numeric" min="841" max="200000000" required defaultValue={scope?.n ?? 131433121} className={inputClass} />
@@ -78,11 +114,11 @@ export default async function MathToolsPage({ params, searchParams }: {
           <Button type="submit" className="min-h-11 justify-center">{t("Tính và phát lại", "Compute and replay")}</Button>
         </form>
         <p className="text-meta text-ink-muted mt-4">{t("p ≡ 1 (mod 840), p ≤ 200.000.000; 3 ≤ s ≤ 4095. Không gọi API, không ghi hồ sơ, không kích hoạt vòng agent.", "p ≡ 1 (mod 840), p ≤ 200,000,000; 3 ≤ s ≤ 4095. No API calls, record writes, or agent-cycle dispatch.")}</p>
-      </Panel>
+      </Panel>}
 
-      {!primary ? <Panel role="alert" className="p-6"><h2 className="text-section-title text-ink-strong">{t("Dữ liệu ngoài phạm vi", "Input outside scope")}</h2>
+      {!primary && !retainedOnly ? <Panel role="alert" className="p-6"><h2 className="text-section-title text-ink-strong">{t("Dữ liệu ngoài phạm vi", "Input outside scope")}</h2>
         <p className="text-body text-ink-muted mt-2">{t("Cần p là số nguyên tố thuộc lớp 1 modulo 840 và giới hạn s từ 3 đến 4095. Tham số phải đầy đủ, không lặp. Chưa chạy phép tính hay Python.", "Require a prime p congruent to 1 modulo 840 and a bound from 3 to 4095. Parameters must be complete and non-repeated. Neither computation nor Python was run.")}</p>
-      </Panel> : <Panel className="min-w-0 overflow-hidden p-5 sm:p-6">
+      </Panel> : primary ? <Panel className="min-w-0 overflow-hidden p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-section-title text-ink-strong">{primary.status === "WITNESS" ? t("Tìm được nhân chứng chính xác", "Exact witness found") : t("Chưa tìm thấy trong khoảng s", "Not found in the s interval")}</h2>
@@ -112,7 +148,7 @@ export default async function MathToolsPage({ params, searchParams }: {
             {replay?.mismatches.length ? <div><dt>{t("Sai khác / lý do", "Mismatch / reason")}</dt><dd>{replay.mismatches.join(", ")}</dd></div> : null}
           </dl>
         </details>
-      </Panel>}
+      </Panel> : null}
 
       {structural && <Panel id="mixed-core" className="min-w-0 overflow-hidden p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -144,14 +180,14 @@ export default async function MathToolsPage({ params, searchParams }: {
         </details>
       </Panel>}
 
-      <section>
+      {!retainedOnly && <section>
         <h2 className="text-section-title text-ink-strong">{t("Đối chứng đã giữ lại", "Retained controls")}</h2>
         <p className="text-meta text-ink-muted mt-2">{t("So sánh cùng một p khi mở rộng khoảng hoặc chỉ giữ s nguyên tố. Mỗi lựa chọn tính và phát lại mới, không nạp kết quả mẫu.", "Compare the same p across bounds or with prime-only s. Each selection computes and replays afresh, rather than loading a sample result.")}</p>
         <div className="mt-4 flex flex-wrap gap-2">{presets.map((preset) => <a key={`${preset.n}-${preset.s}-${preset.mode}`}
           href={`${base}?n=${preset.n}&maxS=${preset.s}&mode=${preset.mode}`}
           aria-current={scope?.n === preset.n && scope.maxS === preset.s && scope.mode === preset.mode ? "page" : undefined}
           className="border-line bg-surface text-meta text-ink hover:border-line-strong aria-[current=page]:border-line-strong inline-flex min-h-11 items-center rounded-md border px-3 py-2">{preset.label}</a>)}</div>
-      </section>
+      </section>}
     </div>
   </WorkspaceShell>;
 }

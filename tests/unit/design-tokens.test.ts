@@ -79,7 +79,10 @@ describe("DS-01 locked design tokens", () => {
     expect(css).toMatch(/--font-sans:\s+var\(--font-interface\)/);
     expect(css).toMatch(/--font-serif:\s+var\(--font-interface\)/);
     expect(css).toMatch(/--font-mono:\s+var\(--font-utility\)/);
-    expect(rootLayout).toContain("IBM_Plex_Mono, Inter");
+    expect(rootLayout).toContain('import "./fonts.css"');
+    const fonts=readFileSync(path.resolve(__dirname,"../../src/app/fonts.css"),"utf8");
+    expect(fonts).toContain('font-family: Inter;');
+    expect(fonts).toContain('font-family: IBM Plex Mono;');
     expect(rootLayout).not.toContain("Literata");
     expect(rootLayout).not.toContain("Be_Vietnam_Pro");
   });

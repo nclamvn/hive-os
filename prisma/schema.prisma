@@ -418,6 +418,8 @@ model Organization {
   mathPilotCases         MathPilotCase[]
   mathPilotAssessments   MathPilotAssessment[]
   mathResearchCycles     MathResearchCycle[]
+  researchCampaigns      ResearchCampaign[]
+  researchShowcases      ResearchShowcaseRun[]
 
   @@map("organization")
 }
@@ -815,6 +817,8 @@ model CommandRecord {
   actor        OrganizationMembership @relation("CommandActor", fields: [organizationId, actorOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
   outboxEvents OutboxEvent[]
   mathResearchCycles MathResearchCycle[]
+  researchCampaigns ResearchCampaign[]
+  researchShowcases ResearchShowcaseRun[]
 
   @@unique([organizationId, id])
   @@unique([organizationId, idempotencyKey])
@@ -879,6 +883,8 @@ model DurableJob {
   mathPilotFormalAttempts MathPilotFormalAttempt[]
   mathPilotFormalReplay MathPilotFormalReplay?
   mathResearchCycleEvents MathResearchCycleEvent[]
+  researchCampaignEvents ResearchCampaignEvent[]
+  researchShowcaseEvents ResearchShowcaseEvent[]
 
   @@unique([organizationId, id])
   @@unique([organizationId, outboxEventId])
@@ -1160,6 +1166,8 @@ model Workspace {
   mathPilotCases             MathPilotCase[]
   mathPilotAssessments       MathPilotAssessment[]
   mathResearchCycles         MathResearchCycle[]
+  researchCampaigns          ResearchCampaign[]
+  researchShowcases          ResearchShowcaseRun[]
 
   @@unique([organizationId, id])
   @@index([organizationId, orgUnitId, status])
@@ -1456,6 +1464,8 @@ model Mission {
   mathPilotCases             MathPilotCase[]
   mathPilotAssessments       MathPilotAssessment[]
   mathResearchCycles         MathResearchCycle[]
+  researchCampaigns          ResearchCampaign[]
+  researchShowcases          ResearchShowcaseRun[]
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
@@ -3051,6 +3061,110 @@ model MathResearchCycleEvent {
 
 /// One independent, append-only classification. This is a human assessment,
 /// not a formal proof certificate or an automatic theorem claim.
+model ResearchCampaign {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  commandId          String   @map("command_id")
+  version            Int      @default(1)
+  contract           Json
+  contractDigest     String   @map("contract_digest")
+  envelope           Json
+  envelopeDigest     String   @map("envelope_digest")
+  sourceBundleDigest String   @map("source_bundle_digest")
+  authorityEpoch     String   @map("authority_epoch")
+  status             String   @default("QUEUED")
+  state              Json
+  stateDigest        String   @map("state_digest")
+  sequence           Int      @default(0)
+  tailDigest         String?  @map("tail_digest")
+  revokedAt          DateTime? @map("revoked_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace Workspace @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission Mission @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+  events ResearchCampaignEvent[]
+  @@unique([organizationId, workspaceId, id])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("research_campaign")
+}
+
+model ResearchCampaignEvent {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  campaignId String @map("campaign_id")
+  sequence Int
+  eventType String @map("event_type")
+  actionKey String @map("action_key")
+  payload Json
+  previousDigest String? @map("previous_digest")
+  digest String
+  jobId String? @map("job_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  campaign ResearchCampaign @relation(fields: [organizationId, workspaceId, campaignId], references: [organizationId, workspaceId, id], onDelete: Restrict)
+  job DurableJob? @relation(fields: [organizationId, jobId], references: [organizationId, id], onDelete: Restrict)
+  @@unique([campaignId, sequence])
+  @@unique([campaignId, actionKey])
+  @@index([organizationId, workspaceId, campaignId, sequence])
+  @@map("research_campaign_event")
+}
+
+/// Fixed local Poly19 demonstration, separate from controlled v3 campaigns.
+model ResearchShowcaseRun {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  missionId String @map("mission_id")
+  commandId String @map("command_id")
+  actorUserId String @map("actor_user_id")
+  provenance String
+  taskDigest String @map("task_digest")
+  sourceBundleDigest String @map("source_bundle_digest")
+  authorityEpoch String @map("authority_epoch")
+  version Int @default(1)
+  status String @default("QUEUED")
+  state Json
+  stateDigest String @map("state_digest")
+  sequence Int @default(0)
+  tailDigest String? @map("tail_digest")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  organization Organization @relation(fields:[organizationId],references:[id],onDelete:Restrict)
+  workspace Workspace @relation(fields:[organizationId,workspaceId],references:[organizationId,id],onDelete:Restrict)
+  mission Mission @relation(fields:[workspaceId,missionId],references:[workspaceId,id],onDelete:Restrict)
+  command CommandRecord @relation(fields:[organizationId,commandId],references:[organizationId,id],onDelete:Restrict)
+  events ResearchShowcaseEvent[]
+  @@unique([organizationId,workspaceId,id])
+  @@index([organizationId,workspaceId,missionId,createdAt])
+  @@map("research_showcase_run")
+}
+
+model ResearchShowcaseEvent {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  runId String @map("run_id")
+  sequence Int
+  eventType String @map("event_type")
+  actionKey String @map("action_key")
+  payload Json
+  previousDigest String? @map("previous_digest")
+  digest String
+  jobId String? @map("job_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  run ResearchShowcaseRun @relation(fields:[organizationId,workspaceId,runId],references:[organizationId,workspaceId,id],onDelete:Restrict)
+  job DurableJob? @relation(fields:[organizationId,jobId],references:[organizationId,id],onDelete:Restrict)
+  @@unique([runId,sequence])
+  @@unique([runId,actionKey])
+  @@index([organizationId,workspaceId,runId,sequence])
+  @@map("research_showcase_event")
+}
+
 model MathPilotAssessment {
   id                     String              @id @default(uuid())
   organizationId         String              @map("organization_id")

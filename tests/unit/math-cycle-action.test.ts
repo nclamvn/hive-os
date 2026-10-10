@@ -6,6 +6,7 @@ import { CommandRuntimeError } from "@/modules/command-runtime/errors";
 import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { commitmentChoice } from "../fixtures/math-research-commitment";
 
 vi.mock("next/headers", () => ({ headers: async () => new Headers() }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
@@ -17,6 +18,7 @@ const form = () => {
   const data = new FormData();
   data.set("slug", "trusted-lab"); data.set("caseId", "retained-root"); data.set("missionId", "test-mission");
   data.set("maxRounds", "2"); data.set("maxObservedTokens", "60000");
+  data.set("researchCommitment", JSON.stringify(commitmentChoice())); data.set("confirmResearchCommitment", "on");
   return data;
 };
 
@@ -27,7 +29,7 @@ describe("controlled-cycle action graceful failure", () => {
     await expect(requestMathResearchCycleAction(form())).rejects.toThrow("NEXT_REDIRECT:/w/trusted-lab/research/math-pilot?request=cycle-conflict&missionId=test-mission");
     expect(requestMathResearchCycle).toHaveBeenCalledTimes(1);
     expect(requestMathResearchCycle).toHaveBeenCalledWith(expect.anything(), {
-      caseId: "retained-root", maxRounds: 2, maxObservedTokens: 60000 });
+      caseId: "retained-root", maxRounds: 2, maxObservedTokens: 60000, commitment: { choice: commitmentChoice(), confirmed: true } });
     expect(revalidatePath).toHaveBeenCalledWith("/w/trusted-lab/research/math-pilot");
   });
   it("does not silently treat a stable FAILED command outcome as a queued cycle", async () => {
@@ -61,5 +63,14 @@ describe("controlled-cycle action graceful failure", () => {
     await requestMathResearchCycleAction(form());
     expect(revalidatePath).toHaveBeenCalledTimes(1);
     expect(redirect).not.toHaveBeenCalled();
+  });
+  it.each(["missing", "unconfirmed", "oversized", "malformed"])("refuses %s commitment before calling the request kernel", async fault => {
+    const data = form();
+    if (fault === "missing") data.delete("researchCommitment");
+    if (fault === "unconfirmed") data.delete("confirmResearchCommitment");
+    if (fault === "oversized") data.set("researchCommitment", "x".repeat(131073));
+    if (fault === "malformed") data.set("researchCommitment", "{");
+    await expect(requestMathResearchCycleAction(data)).rejects.toThrow("request=cycle-failed");
+    expect(requestMathResearchCycle).not.toHaveBeenCalled();
   });
 });

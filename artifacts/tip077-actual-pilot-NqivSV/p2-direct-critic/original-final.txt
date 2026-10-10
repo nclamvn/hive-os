@@ -1,0 +1,33 @@
+**Answer.** The original attempt is correct. Its classification, \((a,b)=(1,1)\), follows without an essential gap. Below is an independent audit of its implications.
+
+**Proof.**
+
+1. **Invertibility is justified.** With \(m=ab+1\), a divisor common to \(a\) and \(m\) divides \(ab\) and \(ab+1\), hence divides \(1\). Thus \(\gcd(a,m)=1\), and likewise \(\gcd(b,m)=1\). Also \(m\ge2\), including when \(a=b=1\).
+
+2. **A simultaneous period exists.** There are at most \(m^2\) residue pairs modulo \(m\). Therefore the \(m^2+1\) displayed pairs contain equal pairs at indices \(i<j\). The resulting congruences
+   \[
+   a^i a^{j-i}\equiv a^i,\qquad b^i b^{j-i}\equiv b^i\pmod m
+   \]
+   permit cancellation because both \(a^i\) and \(b^i\) are invertible. Hence \(t=j-i\ge1\) satisfies both required congruences. No assumption about prime \(m\) is needed.
+
+3. **Both chosen exponents lie in the eventual range.** Since \(t\ge1\), one can choose \(k\) with \(kt-1\ge N\); for example, \(k=N+1\) works. Then \(kt\ge N\) as well. Thus the fixed-gcd hypothesis legitimately applies at both exponents.
+
+4. **The first exponent forces \(m\mid g\).** At \(n=kt-1\),
+   \[
+   a(a^n+b)=a^{kt}+ab\equiv1-1=0\pmod m.
+   \]
+   Cancellation of the invertible factor \(a\) gives \(m\mid a^n+b\). The analogous calculation gives \(m\mid b^n+a\). Therefore \(m\) divides their gcd, which is \(g\). The proof correctly uses divisibility; it does not assume that this gcd equals \(m\).
+
+5. **The next exponent forces the decisive inequalities.** At \(n=kt\), the same fixed \(g\) divides both expressions. Since \(m\mid g\), reduction modulo \(m\) gives
+   \[
+   m\mid b+1,\qquad m\mid a+1.
+   \]
+   These numbers are positive, so each is at least \(m=ab+1\). Consequently,
+   \[
+   ab\le b,\qquad ab\le a.
+   \]
+   Dividing by the positive integers \(b\) and \(a\), respectively, yields \(a\le1\) and \(b\le1\). Thus \(a=b=1\).
+
+6. **Boundary cases and sufficiency are covered.** If \(a=1\), then \(m=b+1\mid a+1=2\), forcing \(b=1\); the case \(b=1\) is symmetric. For \((1,1)\), both expressions equal \(2\) for every positive exponent, so \(g=2,N=1\) suffice.
+
+**Scope and gaps.** No substantive objection or missing lemma was found. The argument covers all positive integer pairs and uses only elementary divisibility, invertibility, and the pigeonhole principle. It makes no computational or unbounded extrapolation assumption.

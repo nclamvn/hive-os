@@ -1,0 +1,9 @@
+Source-assisted audit of Main Lemma 1 only: in R^3, K_KT(beta) implies K_F(beta), 0<=beta<=1. This is not a new Kakeya theorem, full-paper verification, blind benchmark or method-superiority test.
+
+The imported primary text is an operator-prepared synthesis by the current Codex LLM of the preserved Main-authored proof notes, NOT a newly dispatched solver and NOT the historical SOLVER.response.txt.
+
+Let D(G)=sup_{V convex} sum_{T subset V}|T|/|V|, C_F(G,K)=D(G)|K|/sum_T|T|, lambda=sum|Y(T)|/sum|T|, mu=sum|Y(T)|/|union Y|. For 0<=beta<gamma<=1 set p=1-gamma/2, d=gamma-beta and F_gamma(r,n)=r^(2-3gamma)n^p. Geometric inputs are essentially distinct unit tubes, with N<=C delta^-4.
+
+Named published premises: Wang-Zahl arXiv2502.17655v1 Proposition4.6, Proposition6.3 including its balanced/almost-partitioning construction in section6.1, original Theorem6.2 and Definition6.1; Guth-Wang-Zahl arXiv2601.14411v1 generalized Lemmas3.7/3.9 with Remark3.6, Proposition5.1 including its product proof, Lemma6.4 with its density/radius tolerances. These are imported source lemmas, not independently re-proved here; E/D is not identified with K_KT/K_F.
+
+Audit the new branch B bridge in three precise respects: BGRID (two-measure cell lift and weighted core), BGEOM (coherent envelopes and LOCAL heavy-color comparison, without changing ownership), BLEDGER (density/count transfer really costs H=2t+kappa on the same families). Original notes remain preserved. No compatible universal analytic checker or Lean proof is available; null certificate is mandatory. A fresh separate-context same-family critic is a diagnostic, not independent certification.

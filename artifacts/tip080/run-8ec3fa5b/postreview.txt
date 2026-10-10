@@ -1,0 +1,80 @@
+SUPPORTED — NON-FORMAL independent mathematical review.
+
+I reviewed the exact retained FINAL argument supplied in the sealed POSTREVIEW prompt. Its proof establishes floor(X) = 499999999972 for n = 1000000000000. The arithmetic-only checker's matching answer is not my basis for accepting the proof. I find no essential gap or incorrect mathematical step in the written argument.
+
+1. Recursive interval lemma.
+
+The recursive transformation preserves every letter exactly once, by induction on word length: the disjoint left and right subwords supply their letters, and their common maximum is appended once. Thus the output positions and relative orders in the question are well defined.
+
+For fixed letters a < b, the proof correctly follows the contiguous recursive subword containing both endpoints until its maximum lies in the interval between their positions. While a maximum lies outside that interval, both endpoints and their entire intervening interval remain in the same child. That child is strictly shorter. Consequently this process must terminate, and the first maximum lying within the interval is the maximum of that interval. It cannot be a, since b is also in the interval.
+
+If this maximum is b, the local output is F(L)F(R)b, so a precedes b, regardless of their original orientation. If the maximum is an interior letter, it is greater than b, the endpoints occupy different children, and F(L) is concatenated before F(R). Their relative order is therefore their original left-to-right order. Ancestor concatenations cannot change a relative order already established inside a child output. These cases prove both directions of the claimed equivalence:
+
+  b precedes a in F(w)
+  iff b precedes a in w and some letter greater than b lies between them.
+
+In particular, smaller intervening letters do not affect this criterion. The interval reasoning does not rely on the arithmetic checker or on an unproved probabilistic property of F.
+
+2. Uniform relative order and counting.
+
+For a = i and b = i+1, there are exactly k = n-i-1 larger letters. Restricting a uniform permutation to these k+2 distinct letters gives a uniform relative order: each fixed restricted order has the same number of full-permutation extensions. No greater intervening letter occurs exactly when a and b are adjacent in this restriction. Contracting the pair gives k+1 objects; there are (k+1)! orders for each of the two pair orientations. Hence adjacency has probability 2(k+1)!/(k+2)! = 2/(k+2).
+
+On the complementary, nonadjacent event, exchanging the two endpoint labels leaves nonadjacency unchanged and switches their orientation. This is a bijection without fixed points, so exactly half of the nonadjacent orders have b before a. Combining this with the proved interval lemma gives
+
+  P(pos_F(sigma)(i+1) < pos_F(sigma)(i))
+    = (1/2)(1-2/(k+2))
+    = 1/2 - 1/(n-i+1).
+
+The endpoint case k=0 is covered: all restricted orders are adjacent, and the probability is zero. There is no assumption that different descent events are independent.
+
+3. Expectation.
+
+The count in the question is the sum of its n-1 indicator variables. Linearity of expectation gives the displayed sum of probabilities. As i runs from 1 to n-1, n-i+1 runs from n down to 2, so the reciprocal sum is H_n-1. Therefore
+
+  X = (n-1)/2 - (H_n-1) = (n+1)/2 - H_n.
+
+All indices and the constant term are correct.
+
+4. Logarithm enclosures.
+
+For 0<t<1, the geometric series for 2/(1-u^2) is uniformly convergent on 0<=u<=t, which justifies termwise integration. Its integral is log((1+t)/(1-t)), yielding the stated positive-term series. The substitutions t=1/2 and t=1/19 give log 3 and log(10/9), respectively, and log 10 = 2 log 3 + log(10/9) is correct.
+
+The lower bound retains four terms for log 3 and one for log(10/9). Each omitted tail is positive, so the inequalities are strict. The explicit arithmetic is
+
+  1 + 1/12 + 1/80 + 1/448 = 7379/6720,
+  2(7379/6720) + 2/19 = 146921/63840,
+  146921/63840 = 23/10 + 89/63840 > 23/10.
+
+For the upper bound on log 3, replacing denominators 2j+1 by 5 for j>=2 is an upper bound, with strictness supplied by every j>2 term. The geometric tail is
+
+  sum_{j=2}^infinity (1/2)^(2j+1) = (1/32)/(1-1/4) = 1/24.
+
+It follows that log 3 < 1+1/12+(2/5)(1/24) = 11/10. Replacing every series denominator for log(10/9) by 1 is likewise strictly larger, because the j>=1 terms have larger actual denominators. Thus
+
+  log(10/9) < (2/19)/(1-1/361) = 19/180,
+  log 10 < 11/5 + 19/180 = 83/36.
+
+The retained FINAL's particular rational bounds are valid independently of the different rational enclosure displayed in the arithmetic-checker evidence.
+
+5. Harmonic enclosure and the floor.
+
+The integral comparisons have the correct directions. On [j,j+1], 1/x < 1/j away from the left endpoint, so log n < H_{n-1} < H_n for this n>1. On [j-1,j], 1/x > 1/j away from the right endpoint, so each reciprocal term for j>=11 is bounded above by that interval's integral. Summing gives H_n <= H_10 + log(n/10), as written; the non-strict version suffices.
+
+Direct summation for H_10 gives numerator
+
+  2520+1260+840+630+504+420+360+315+280+252 = 7381
+
+over denominator 2520. With n=10^12, log n = 12 log 10 and log(n/10) = 11 log 10. The resulting bounds are
+
+  H_n > 12(23/10) = 138/5 > 55/2,
+  H_n < 7381/2520 + 11(83/36)
+      = (7381+63910)/2520 = 71291/2520
+      < 71820/2520 = 57/2.
+
+Strictness in the upper enclosure follows from the strict logarithm bound even if the preceding integral comparison is written non-strictly. Finally (n+1)/2 = 500000000000+1/2. Subtracting 55/2 < H_n < 57/2 reverses the relevant inequality directions and gives
+
+  499999999972 < X < 499999999973.
+
+This proves the claimed floor without requiring a closer numerical estimate of H_n.
+
+Conclusion: SUPPORTED. This is a complete non-formal review of the supplied proof, not a machine-formalized proof, an official score, a novelty claim, or independent attestation of model/backend/hidden resource use. The checker supplies arithmetic-only evidence and does not itself establish the recursive lemma; that lemma and the subsequent counting have been assessed above on their own mathematical merits.

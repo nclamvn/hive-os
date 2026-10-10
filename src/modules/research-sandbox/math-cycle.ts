@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { researchCommitmentBindingSchema, researchWorkBindingSchema } from "./math-research-commitment";
 
 import { canonicalJson } from "@/modules/execution-fabric/contracts";
 
@@ -108,6 +109,8 @@ export function steeringProposalIssue(steering: MathCycleSteering, proposal: Mat
 }
 
 export const mathCycleProposalSchema = z.object({
+  // Absent only for historical read compatibility; every new execution requires it.
+  workBinding: researchWorkBindingSchema.optional(),
   sourceGap: text(12, 2_000),
   hypothesis: text(20, 2_000),
   taskStatement: text(30, 4_000),
@@ -214,6 +217,8 @@ const priorArtFactSchema = z.object({
 }).strict();
 
 export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
+  z.object({ phase: z.literal("COMMITMENT_BOUND"), round: z.literal(1), binding: researchCommitmentBindingSchema }).strict(),
+  z.object({ phase: z.literal("COMMITMENT_WORK_STARTED"), round: z.number().int().positive(), commitmentDigest: digest }).strict(),
   z.object({ phase: z.literal("ADAPTIVE_POLICY_DECLARED"), round: z.literal(1), policy: adaptivePolicySchema }).strict(),
   z.object({ phase: z.literal("RESEARCH_FRONTIER_BASELINE"), round: z.literal(1), dossier: frontierDossierSchema }).strict(),
   z.object({ phase: z.literal("RESEARCH_METHOD_MAP"), round: z.literal(1), packet: researchMethodPacketSchema,
@@ -273,7 +278,7 @@ export const mathCycleEventPayloadSchema = z.discriminatedUnion("phase", [
   z.object({ phase: z.literal("REVIEWED"), round: z.number().int().positive(), role: z.enum(["CRITIC", "ADVERSARY"]),
     report: mathAgentReportSchema, reviewerModel: reviewerModelSchema.optional() }).strict(),
   z.object({ phase: z.literal("ROUND_CLOSED"), round: z.number().int().positive(), disposition: z.enum(["AI_REVIEWED", "INCONCLUSIVE"]), conclusion: z.enum(["PARTIAL", "INCONCLUSIVE"]), nextGap: text(12, 2_000).nullable() }).strict(),
-  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "BRANCH_TOKEN_LIMIT", "BRANCH_TIME_LIMIT", "NO_GAP", "METHOD_DEFERRED", "DUPLICATE_CLAIM", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE"]) }).strict(),
+  z.object({ phase: z.literal("STOPPED"), round: z.number().int().nonnegative(), reason: z.enum(["ROUND_LIMIT", "TOKEN_LIMIT", "TIME_LIMIT", "BRANCH_TOKEN_LIMIT", "BRANCH_TIME_LIMIT", "NO_GAP", "METHOD_DEFERRED", "DUPLICATE_CLAIM", "VERIFICATION_REJECTED", "COUNTEREXAMPLE_REJECTED", "STRUCTURAL_PROBE_HOLD", "STRUCTURAL_REFUTED", "FRONTIER_HOLD", "KNOWN_SCOPE", "MODEL_FAILURE", "INTEGRITY_FAILURE", "COMMITMENT_NO_CLOSURE_LIMIT", "COMMITMENT_WORK_LIMIT", "COMMITTED_FINITE_COMPLETE", "COMMITTED_FINITE_OBLIGATION_CLOSED", "COMMITMENT_REFUSED"]) }).strict(),
 ]);
 
 export type MathCycleProposal = z.infer<typeof mathCycleProposalSchema>;

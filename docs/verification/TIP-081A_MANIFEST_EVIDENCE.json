@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "purpose": "TIP081_DATA_ONLY_MANIFEST_CONTRACT_EVIDENCE",
+  "date": "2026-10-07",
+  "mode": "SAME081_PHASE_A_ENGINEERING_D8_STEP2",
+  "status": "SOURCE_CONTRACTS_ACCEPTED_FULL_PHASE_A_NOT_READY",
+  "base": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+    "bundleDigest": "844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW.md",
+    "reviewDigest": "4151805883669bead2087e956b445c9e2bd66d87cf2685897ef037d88eb78772"
+  },
+  "sourceExtensionDigest": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+  "sourceReviewDigest": "c4e2b44d2204b921b8d8c06d5f555db0e8344811e88381f5ecfb939d50c9f40e",
+  "finalSourcePins": {
+    "scripts/test/runtime-tip081-manifest.mjs": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+    "scripts/test/verify-tip081-manifest.mjs": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+    "tests/unit/evidence-studio-manifest.test.ts": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+    "tests/unit/evidence-studio-manifest-verifier.test.ts": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+  },
+  "firstCheck": {
+    "artifact": "docs/verification/TIP-081A_MANIFEST_FIRST_CHECK.json",
+    "unitPassed": 278,
+    "unitFailed": 3,
+    "totalTests": 281,
+    "classification": "TEST_FIXTURE_EDGE_SELECTOR_FAILURES",
+    "note": "Source/log cut retained; only the verifier test selectors changed. No auxiliary OPEN edges removed or verification algorithm relaxed.",
+    "milliseconds": 35114.894125000006
+  },
+  "preConditionCheckpoint": {
+    "artifact": "docs/verification/TIP-081A_MANIFEST_PRE_CONDITION_CHECK.json",
+    "unitPassed": 281,
+    "unitFailed": 0,
+    "note": "Not the accepted final cut: Main then found silent unknown-condition fallback. Both implementations corrected conservatively; final controls cover exports/imports and tampered fallback."
+  },
+  "conditionSourceReview": {
+    "nodeVersion": "v24.14.1",
+    "builtinSourceDigest": "1c0faed0af7033e5a662bc52dbbb35a067cb42d20f6c84f51ea00bd18762ccb9",
+    "module": "internal/modules/esm/utils",
+    "excerpt": "function initializeDefaultConditions() {\n  const userConditions = getOptionValue('--conditions');\n  const noAddons = getOptionValue('--no-addons');\n  const addonConditions = noAddons ? [] : ['node-addons'];\n  const moduleConditions = getOptionValue('--experimental-require-module') ? ['module-sync'] : [];\n  defaultConditions = ObjectFreeze([\n    'node',\n    'import',\n    ...moduleConditions,\n    ...addonConditions,\n    ...userConditions,\n  ]);\n  defaultConditionsSet = new SafeSet(defaultConditions);\n}\n\n/**\n * @param {string[]} [conditions]"
+  },
+  "finalChecks": {
+    "purpose": "TIP081_SOURCE_MANIFEST_CONTRACT_CHECKS",
+    "before": {
+      "scripts/test/runtime-tip081-manifest.mjs": {
+        "digest": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+        "bytes": 28909,
+        "sourcePinOnly": true
+      },
+      "scripts/test/verify-tip081-manifest.mjs": {
+        "digest": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+        "bytes": 33051,
+        "sourcePinOnly": true
+      },
+      "tests/unit/evidence-studio-manifest.test.ts": {
+        "digest": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+        "bytes": 21546,
+        "sourcePinOnly": true
+      },
+      "tests/unit/evidence-studio-manifest-verifier.test.ts": {
+        "digest": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+        "bytes": 26274,
+        "sourcePinOnly": true
+      }
+    },
+    "after": {
+      "scripts/test/runtime-tip081-manifest.mjs": {
+        "digest": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+        "bytes": 28909,
+        "sourcePinOnly": true
+      },
+      "scripts/test/verify-tip081-manifest.mjs": {
+        "digest": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+        "bytes": 33051,
+        "sourcePinOnly": true
+      },
+      "tests/unit/evidence-studio-manifest.test.ts": {
+        "digest": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+        "bytes": 21546,
+        "sourcePinOnly": true
+      },
+      "tests/unit/evidence-studio-manifest-verifier.test.ts": {
+        "digest": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+        "bytes": 26274,
+        "sourcePinOnly": true
+      }
+    },
+    "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))",
+    "environmentKeys": [
+      "PATH",
+      "LANG",
+      "TMPDIR",
+      "NODE_ENV"
+    ],
+    "results": [
+      {
+        "name": "unit",
+        "args": [
+          "node_modules/vitest/vitest.mjs",
+          "run",
+          "--config",
+          "vitest-tip081.config.ts",
+          "--configLoader",
+          "runner",
+          "--project",
+          "tip081-unit",
+          "--no-cache",
+          "--no-color"
+        ],
+        "limitMilliseconds": 120000,
+        "milliseconds": 3862.898666,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n RUN  v4.1.10 /Users/os/hiveos\n\n ✓ |tip081-unit| tests/unit/evidence-studio-runtime-package.test.ts (54 tests) 546ms\n ✓ |tip081-unit| tests/unit/evidence-studio-manifest-verifier.test.ts (36 tests) 537ms\n ✓ |tip081-unit| tests/unit/evidence-studio-harness.test.ts (69 tests) 145ms\n ✓ |tip081-unit| tests/unit/evidence-studio-manifest.test.ts (36 tests) 475ms\n     ✓ M2-12 site growth refuses before exceeding the logical entry envelope  336ms\n ✓ |tip081-unit| tests/unit/evidence-studio.test.ts (48 tests) 310ms\n ✓ |tip081-unit| tests/unit/evidence-studio-packaging.test.ts (24 tests) 43ms\n ✓ |tip081-unit| tests/unit/evidence-studio-compiler.test.ts (11 tests) 21ms\n ✓ |tip081-unit| tests/unit/evidence-studio-source-boundary.test.ts (3 tests) 24ms\n\n Test Files  8 passed (8)\n      Tests  281 passed (281)\n   Start at  09:50:45\n   Duration  3.37s (transform 251ms, setup 0ms, import 490ms, tests 2.10s, environment 1ms)\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "args": [
+          "node_modules/eslint/bin/eslint.js",
+          "scripts/test/runtime-tip081-manifest.mjs",
+          "scripts/test/verify-tip081-manifest.mjs",
+          "tests/unit/evidence-studio-manifest.test.ts",
+          "tests/unit/evidence-studio-manifest-verifier.test.ts"
+        ],
+        "limitMilliseconds": 180000,
+        "milliseconds": 2186.6858330000005,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "args": [
+          "node_modules/typescript/bin/tsc",
+          "--noEmit",
+          "--incremental",
+          "false"
+        ],
+        "limitMilliseconds": 180000,
+        "milliseconds": 36119.085917000004,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "sourceAdmission": {
+    "milliseconds": 307.21999999999997,
+    "exitCode": 0,
+    "signal": null,
+    "errorCode": null,
+    "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (literal \"/dev/null\")))",
+    "stdout": "{\"status\":\"SOURCE_EXTENSION_ADMISSION_PRESERVATION_PASS\",\"baseEntries\":121,\"baseOwned\":23,\"oldPins\":79,\"assets\":16,\"assetBytes\":13117879,\"extensionSourceFiles\":4,\"extensionReviewFiles\":1,\"extensionBundleFiles\":1,\"sourceEntries\":127,\"baseDigest\":\"844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f\",\"extensionDigest\":\"11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2\",\"checked\":{\"scripts/test/runtime-tip081-manifest.mjs\":{\"bytes\":28909,\"digest\":\"a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006\"},\"scripts/test/verify-tip081-manifest.mjs\":{\"bytes\":33051,\"digest\":\"3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa\"},\"tests/unit/evidence-studio-manifest.test.ts\":{\"bytes\":21546,\"digest\":\"5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed\"},\"tests/unit/evidence-studio-manifest-verifier.test.ts\":{\"bytes\":26274,\"digest\":\"ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8\"},\"docs/verification/TIP-081A_MANIFEST_SOURCE_REVIEW.md\":{\"bytes\":4237,\"digest\":\"c4e2b44d2204b921b8d8c06d5f555db0e8344811e88381f5ecfb939d50c9f40e\"},\"node_modules/next/dist/compiled/acorn/acorn.js\":{\"bytes\":121634,\"digest\":\"3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d\"},\"node_modules/next/dist/compiled/acorn/package.json\":{\"bytes\":51,\"digest\":\"aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca\"},\"node_modules/next/dist/build/utils.js\":{\"bytes\":52281,\"digest\":\"df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json\":{\"bytes\":601,\"digest\":\"c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json\":{\"bytes\":813,\"digest\":\"6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json\":{\"bytes\":699,\"digest\":\"53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs\":{\"bytes\":2661,\"digest\":\"dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7\"},\"scripts/test/start-tip081-standalone.mjs\":{\"bytes\":1885,\"digest\":\"cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad\"},\"node_modules/next/dist/build/collect-build-traces.js\":{\"bytes\":24686,\"digest\":\"1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734\"},\"node_modules/next/dist/compiled/@vercel/nft/index.js\":{\"bytes\":265370,\"digest\":\"19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e\"},\"next.config.ts\":{\"bytes\":1831,\"digest\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\"},\"package.json\":{\"bytes\":3852,\"digest\":\"087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96\"},\"package-lock.json\":{\"bytes\":387415,\"digest\":\"aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c\"},\"tsconfig.json\":{\"bytes\":862,\"digest\":\"2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0\"}},\"archive\":{\"path\":\"/Users/os/hiveos/artifacts/tip080/run-8ec3fa5b/completed-export.json\",\"bytes\":120417,\"digest\":\"976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2\"},\"fullRuntimeClosure\":\"NOT_ACCEPTED\",\"materializationAllowed\":false,\"executionAllowed\":false}\n",
+    "stderr": ""
+  },
+  "parsedAdmission": {
+    "status": "SOURCE_EXTENSION_ADMISSION_PRESERVATION_PASS",
+    "baseEntries": 121,
+    "baseOwned": 23,
+    "oldPins": 79,
+    "assets": 16,
+    "assetBytes": 13117879,
+    "extensionSourceFiles": 4,
+    "extensionReviewFiles": 1,
+    "extensionBundleFiles": 1,
+    "sourceEntries": 127,
+    "baseDigest": "844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f",
+    "extensionDigest": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+    "checked": {
+      "scripts/test/runtime-tip081-manifest.mjs": {
+        "bytes": 28909,
+        "digest": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+      },
+      "scripts/test/verify-tip081-manifest.mjs": {
+        "bytes": 33051,
+        "digest": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+      },
+      "tests/unit/evidence-studio-manifest.test.ts": {
+        "bytes": 21546,
+        "digest": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+      },
+      "tests/unit/evidence-studio-manifest-verifier.test.ts": {
+        "bytes": 26274,
+        "digest": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+      },
+      "docs/verification/TIP-081A_MANIFEST_SOURCE_REVIEW.md": {
+        "bytes": 4237,
+        "digest": "c4e2b44d2204b921b8d8c06d5f555db0e8344811e88381f5ecfb939d50c9f40e"
+      },
+      "node_modules/next/dist/compiled/acorn/acorn.js": {
+        "bytes": 121634,
+        "digest": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+      },
+      "node_modules/next/dist/compiled/acorn/package.json": {
+        "bytes": 51,
+        "digest": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+      },
+      "node_modules/next/dist/build/utils.js": {
+        "bytes": 52281,
+        "digest": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+      },
+      "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json": {
+        "bytes": 601,
+        "digest": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+      },
+      "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json": {
+        "bytes": 813,
+        "digest": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+      },
+      "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json": {
+        "bytes": 699,
+        "digest": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+      },
+      "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs": {
+        "bytes": 2661,
+        "digest": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+      },
+      "scripts/test/start-tip081-standalone.mjs": {
+        "bytes": 1885,
+        "digest": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+      },
+      "node_modules/next/dist/build/collect-build-traces.js": {
+        "bytes": 24686,
+        "digest": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+      },
+      "node_modules/next/dist/compiled/@vercel/nft/index.js": {
+        "bytes": 265370,
+        "digest": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+      },
+      "next.config.ts": {
+        "bytes": 1831,
+        "digest": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+      },
+      "package.json": {
+        "bytes": 3852,
+        "digest": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+      },
+      "package-lock.json": {
+        "bytes": 387415,
+        "digest": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+      },
+      "tsconfig.json": {
+        "bytes": 862,
+        "digest": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+      }
+    },
+    "archive": {
+      "path": "/Users/os/hiveos/artifacts/tip080/run-8ec3fa5b/completed-export.json",
+      "bytes": 120417,
+      "digest": "976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2"
+    },
+    "fullRuntimeClosure": "NOT_ACCEPTED",
+    "materializationAllowed": false,
+    "executionAllowed": false
+  },
+  "testCount": {
+    "distinct": 281,
+    "newNamed": 72,
+    "retainedPrior": 209,
+    "files": 8,
+    "note": "Grouped condition cases are assertions within existing named tests, not extra named tests; repeated runs not counted twice."
+  },
+  "resources": {
+    "predecessorRecordedChildMilliseconds": 198268.070125,
+    "firstAndPreConditionCheckMilliseconds": 75460.82212400003,
+    "finalCheckAndAdmissionMilliseconds": 42475.89041600001,
+    "recordedCumulativeChildMilliseconds": 316204.78266500006,
+    "cumulativeLimitMilliseconds": 900000,
+    "unitOrProbeLimitMilliseconds": 120000,
+    "lintTypeLimitMilliseconds": 180000,
+    "logicalBytes": 67108864,
+    "inventoryAndSites": 20000,
+    "astVisits": 200000,
+    "note": "Logical analysis/canonical-metadata bound, not process RSS. Read-only orchestration/source inspection time not a model budget reset. Tool parser overhead separate."
+  },
+  "review": {
+    "main": "Full source/test reading plus final condition and test-only refinements read",
+    "independent": "Separate read-only agent review cleared bounded checks; own verifier implementation shares pinned Acorn/accessor/schema/path assumptions, not producer traversal/resolver.",
+    "finalDocumentConsistency": "Independent read-only review of completion/evidence/ACTIVE/HANDOFF found no material inconsistency; scopedM1-M6 only, fullT2-T5 OPEN, no product or mathematical authority."
+  },
+  "effects": {
+    "newApplicationBuilds": 0,
+    "newServerStarts": 0,
+    "browserE2E": 0,
+    "db": 0,
+    "modelOrApi": 0,
+    "install": 0,
+    "productNftOrAcquisition": 0,
+    "productCopy": 0,
+    "gitCommitOrPush": 0,
+    "billingOrDeployOrPublication": 0
+  },
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "materializationAllowed": false,
+  "executionAllowed": false,
+  "remaining": [
+    "Actual admitted product inventory and complete entry universe",
+    "Runtime dynamic/native/assets/optional semantic coverage",
+    "Reviewed actual launcher configuration authority",
+    "Correct scoped physical copy policy and real package/bootstrap",
+    "Separately authorized fresh successful application build and isolated E2E"
+  ],
+  "head": "4d108227498d3578c9ac3fe60305c10da5aa905b"
+}

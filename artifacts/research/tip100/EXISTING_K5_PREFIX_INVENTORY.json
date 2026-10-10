@@ -1,0 +1,11 @@
+{
+  "status": "EXISTING_PREFIX_INVENTORY_ONLY",
+  "prior_cover_status": "PARTIAL_COVER",
+  "prior_processed_planes": 69,
+  "prior_pending_planes": 9,
+  "prior_active_cells": 47681,
+  "prefix_cells_in_strictK5": 21832,
+  "prefix_cells_excluded_by_current_disjoint_pair_theorem": 25849,
+  "elapsed_seconds": 0.09973275000811554,
+  "scope": "Count of old69wallprefix members. NOT final78wallcount, newcoverage, optimization, costguarantee or rootclosure."
+}

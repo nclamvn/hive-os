@@ -1,0 +1,9 @@
+{"timestamp":"2026-10-04T02:23:25.637Z","event":"CLI_BEGIN","mode":"preflight","target":{"workspaceSlug":"mathematics-pilot-lab-156de0","missionId":"31943653-4a30-462a-af11-ecd99f9ebfa2","preset":"ALLIKVERE_P83_14_V1","providerName":"codex-local","modelName":"gpt-6-sol","outerBudgetMs":1800000,"childBudgetMs":240000,"streamBytes":1048576,"importBudgetMs":10000,"leaseSeconds":1800},"elapsedMs":1.6535420000000158}
+{"timestamp":"2026-10-04T02:23:26.810Z","event":"BEGIN","mode":"preflight","target":{"workspaceSlug":"mathematics-pilot-lab-156de0","missionId":"31943653-4a30-462a-af11-ecd99f9ebfa2","preset":"ALLIKVERE_P83_14_V1","providerName":"codex-local","modelName":"gpt-6-sol","outerBudgetMs":1800000,"childBudgetMs":240000,"streamBytes":1048576,"importBudgetMs":10000,"leaseSeconds":1800},"usage":"UNAVAILABLE_UNTIL_RETAINED","noRetry":true}
+{"timestamp":"2026-10-04T02:23:26.830Z","event":"STAGE_STARTED","name":"preflight","elapsedMs":1194.755792}
+{"timestamp":"2026-10-04T02:23:27.101Z","event":"DISPATCH_CAPABILITIES","queueEnabled":false,"campaignEnabled":false,"sharedWorkerEnabled":false,"note":"Read-only readiness; dispatch authority remains closed"}
+{"timestamp":"2026-10-04T02:23:27.105Z","event":"STAGE_FINISHED","name":"preflight","elapsedMs":1470.391958}
+{"timestamp":"2026-10-04T02:23:27.108Z","event":"IDENTITY","organizationId":"df417826-de4a-43a9-99c4-c8e3f1735283","workspaceId":"14f5f602-75a6-4ab9-9eb3-527e867d17e8","actorUserId":"AgIBwpEasxthp9kPe4JT5dXpYAYCstXm","membershipId":"ae167174-6e0b-414c-adc5-7d1f33463328"}
+{"timestamp":"2026-10-04T02:23:27.112Z","event":"STAGE_STARTED","name":"subscription-login","elapsedMs":1477.410542}
+{"timestamp":"2026-10-04T02:23:27.138Z","event":"STAGE_FINISHED","name":"subscription-login","elapsedMs":1503.557542}
+{"timestamp":"2026-10-04T02:23:27.142Z","event":"FINAL","status":"READY_READ_ONLY","modelCalls":0}

@@ -1,0 +1,17 @@
+{
+  "task": "P2",
+  "arm": "DIRECT",
+  "stage": "CRITIC",
+  "registrationSha256": "d9e7b814880214f16772063e36de307d36ccd49c13ec5cdd2b35787723300ffa",
+  "inputPins": {
+    "common-policy.txt": "f146ce27428abe86ea6621b34e6caef87603735b68583b08a3ab23e85cc6a23a",
+    "direct-policy.txt": "a50f0a975883be5a1c9175384c647dec17aac073e73ae269f48d89f8b88d1c25",
+    "p2.txt": "5388cd1b442bd6492266f9a1cc92e3eea80ea3eeab550501e0f0b8504e06b07d",
+    "/private/tmp/hiveos-tip077-pilot-NqivSV/p2-direct-attempt/original-final.txt": "ce7aa385c028312b0e8aab4f8c2889af06bd85de4c103e70a9fdfa24666464ad"
+  },
+  "literalStage": "Independently criticize the same-arm original attempt below. Check every essential implication and boundary case. Do not assume it is correct. Return specific justified objections or support; this criticism is not the final submission.",
+  "promptBytes": 4221,
+  "requestPosition": 2,
+  "remainingSeconds": 509.0,
+  "promptSha256": "9fb3ccec7e05c56c38b50d7744f419019606edcc8bc7597bffb71839fcb960eb"
+}

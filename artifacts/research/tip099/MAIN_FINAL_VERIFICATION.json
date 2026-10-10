@@ -1,0 +1,53 @@
+{
+  "status": "PASS_SCOPED_NOT_GLOBAL",
+  "focused_controls": 17,
+  "focused_failures": 0,
+  "focused_errors": 0,
+  "python_sources_syntax_checked": 4,
+  "optimizer_partial_refusal": {
+    "status": "PARTIAL_BOUND",
+    "reason": "COVER_INCOMPLETE",
+    "cells_certified": 0,
+    "cells_pending": 47681,
+    "retired_graph_cells_pending": 142
+  },
+  "main_native_run_ledger": [
+    {
+      "status": "PARTIAL_COVER",
+      "reason": "CELL_LIMIT",
+      "processed_planes": 38,
+      "pending_planes": 40,
+      "cell_count": 9626,
+      "elapsed_seconds": 3.03349,
+      "peak_rss_native_units": 9961472
+    },
+    {
+      "status": "PARTIAL_COVER",
+      "reason": "CELL_LIMIT",
+      "processed_planes": 58,
+      "pending_planes": 20,
+      "cell_count": 47795,
+      "elapsed_seconds": 10.197,
+      "peak_rss_native_units": 42958848
+    },
+    {
+      "status": "PARTIAL_COVER",
+      "reason": "MAX_PLANES_LIMIT",
+      "processed_planes": 60,
+      "pending_planes": 18,
+      "cell_count": 41886,
+      "elapsed_seconds": 6.46014,
+      "peak_rss_native_units": 38797312
+    },
+    {
+      "status": "PARTIAL_COVER",
+      "reason": "CELL_LIMIT",
+      "processed_planes": 69,
+      "pending_planes": 9,
+      "cell_count": 47823,
+      "elapsed_seconds": 9.27316,
+      "peak_rss_native_units": 46874624
+    }
+  ],
+  "verification_seconds": 1.0118055840139277
+}

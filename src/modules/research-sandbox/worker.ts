@@ -14,7 +14,17 @@ import {
   type SandboxExecutor,
 } from "./contracts";
 import { ResearchSandboxError } from "./errors";
-import { digestMathPilotContract, mathPilotContractSchema, type MathPilotRequest } from "./math-pilot";
+import { digestMathPilotContract, mathPilotContractSchema, resolveMathPilotContract, type MathPilotRequest } from "./math-pilot";
+import { assertLrcCampaignBinding, assertNoProviderCampaignEvidence, guardedLrcCampaignCall, requireLrcCampaignCapability } from "./math-lrc-campaign-integration";
+import { snapshotLrcCampaignValue, unchangedLrcCampaignSnapshot } from "./math-lrc-campaign";
+import { assertLrcProofUnitAttemptBinding, assertLrcProofUnitLiveEvidence, createLrcProofUnitLiveEvidence, prepareLrcProofUnitSolverInput,
+  validateLrcProofUnitSolverOutput } from "./math-lrc-proof-unit-live";
+import { importLrcProofUnitIdentity } from "./math-lrc-proof-unit-identity";
+import {randomUUID} from "node:crypto";
+import {requireMethodUnitExecutionAuthority,beginMethodUnitStage,type MethodUnitJobRuntime} from "@/server/operations/math-method-unit-authority";
+import {MethodUnitTransportCapture} from "@/server/operations/math-method-unit-transport";
+import {assertLrcMethodUnitAttemptBinding,createLrcMethodUnitLiveEvidence,prepareLrcMethodUnitSolverInput,lrcMethodUnitSolverMathematics} from "./math-lrc-method-unit-live";
+import {MathDiagnosticError} from "./math-transport-diagnostics";
 import {
   digestResearchResult,
   validateResearchProviderResult,
@@ -28,6 +38,10 @@ interface WorkerJobInput {
   jobId: string;
   expectedVersion: number;
   correlationId: string;
+  signal?: AbortSignal;
+  proofUnitTarget?: {caseId:string;runId:string};
+  methodUnit?:MethodUnitJobRuntime;
+  methodUnitProvider?:(capture:MethodUnitTransportCapture)=>ResearchProvider;
 }
 
 async function failWorkerJob(
@@ -35,7 +49,7 @@ async function failWorkerJob(
   run: { id: string; kind: "research" | "sandbox"; mathPilot?: boolean },
   error: unknown,
 ) {
-  const code = error instanceof ResearchSandboxError ? error.code : "INVALID_INPUT";
+  const code = error instanceof ResearchSandboxError || error instanceof MathDiagnosticError ? error.code : "INVALID_INPUT";
   const failed = await failJob({
     organizationId: input.organizationId,
     actorUserId: input.actorUserId,
@@ -84,6 +98,19 @@ export async function executeResearchJob(
       include: { mathPilotCase: { select: { id: true, caseType: true, contract: true, contractDigest: true } } },
     });
     if (!run) throw new ResearchSandboxError("NOT_FOUND", "Research run not found");
+    const rawContract=run.mathPilotCase?.contract as Record<string,unknown>|undefined;
+    const parsedContract=mathPilotContractSchema.safeParse(rawContract);
+    const methodMarker=rawContract&&("lrcMethodUnitScope" in rawContract||String(rawContract.version)==="4");
+    if(methodMarker&&!parsedContract.success)throw new ResearchSandboxError("INTEGRITY_FAILURE","Malformed method contract cannot enter generic execution");
+    const methodScope=parsedContract.data?.lrcMethodUnitScope;
+    if(methodScope){
+      requireMethodUnitExecutionAuthority(input.methodUnit?.authority,{caseId:run.mathPilotCase!.id,runId:run.id});
+      if(!input.methodUnitProvider||input.signal?.aborted||job.attempts!==1||Object.keys(payload).length!==1||run.providerName!=="codex-local"||run.modelName!=="gpt-6-sol")
+        throw new ResearchSandboxError("INVALID_TRANSITION","Method unit requires its authorized captured one-shot lane");
+    } else if(input.methodUnit)throw new ResearchSandboxError("INTEGRITY_FAILURE","Method runtime cannot enter a legacy lane");
+    if(input.proofUnitTarget && (run.id!==input.proofUnitTarget.runId || run.mathPilotCase?.id!==input.proofUnitTarget.caseId ||
+      !mathPilotContractSchema.safeParse(run.mathPilotCase?.contract).data?.lrcProofUnitScope))
+      throw new ResearchSandboxError("INTEGRITY_FAILURE","One-shot proof-unit solver payload points outside its exact target");
     const expectedJobType = run.providerName === "codex-local" && run.mathPilotCase
       ? "math-pilot.codex-local.execute"
       : "research.run.execute";
@@ -107,14 +134,63 @@ export async function executeResearchJob(
             digestMathPilotContract(contract.data) !== pilotCase.contractDigest) {
             throw new ResearchSandboxError("INTEGRITY_FAILURE", "Sealed math case contract is invalid before provider dispatch");
           }
+          if(contract.data.lrcProofUnitScope) {
+            const request={caseType:"LRC_PROOF_UNIT",preset:"ALLIKVERE_P83_PROOF_UNIT_V1"} as const;
+            if(digestMathPilotContract(resolveMathPilotContract(request))!==pilotCase.contractDigest)
+              throw new ResearchSandboxError("INTEGRITY_FAILURE","Proof-unit contract differs from fixed preset");
+            return request;
+          }
+          if(contract.data.lrcMethodUnitScope){
+            const request={caseType:"LRC_METHOD_UNIT",preset:"FEW_EXCEPTION_SHIFT_14_V1"} as const;
+            if(digestMathPilotContract(resolveMathPilotContract(request))!==pilotCase.contractDigest)throw new ResearchSandboxError("INTEGRITY_FAILURE","Method contract differs from fixed preset");
+            return request;
+          }
+          if(contract.data.lrcCampaignScope) {
+            const request={caseType:"LRC_CAMPAIGN",preset:"ALLIKVERE_P83_14_V1"} as const;
+            if(digestMathPilotContract(resolveMathPilotContract(request))!==pilotCase.contractDigest)
+              throw new ResearchSandboxError("INTEGRITY_FAILURE","Campaign contract differs from fixed preset");
+            return request;
+          }
           return contract.data.caseType === "OPEN"
             ? { caseType: "OPEN", statement: contract.data.statement, definitions: contract.data.definitions,
                 assumptions: contract.data.assumptions, falsificationCriterion: contract.data.falsificationCriterion,
-                successCriterion: contract.data.successCriterion, exclusions: contract.data.exclusions }
+                successCriterion: contract.data.successCriterion, exclusions: contract.data.exclusions,
+                ...(contract.data.lrcFiniteScope ? { lrcFiniteScope: contract.data.lrcFiniteScope } : {}) }
             : { caseType: contract.data.caseType };
         })()
       : undefined;
     if (loaded.alreadyComplete) {
+      const retainedScope = mathPilot?.caseType === "OPEN" ? mathPilot.lrcFiniteScope : undefined;
+      const retained = mathModelAttemptSchema.safeParse(loaded.run.mathModelAttempt);
+      if(mathPilot?.caseType==="LRC_METHOD_UNIT") {
+        if(!retained.success||digestResearchResult(retained.data)!==loaded.run.mathModelAttemptDigest)throw new ResearchSandboxError("INTEGRITY_FAILURE","Completed method attempt digest invalid");
+        assertLrcMethodUnitAttemptBinding(retained.data,{contractDigest:loaded.run.mathPilotCase!.contractDigest,caseId:loaded.run.mathPilotCase!.id,runId:loaded.run.id,requestedModelName:loaded.run.modelName});
+      } else if(retained.success&&["lrcMethodUnitEvidence","lrcMethodUnitFeedback","lrcMethodUnitFiniteSeed"].some(k=>k in retained.data))throw new ResearchSandboxError("INTEGRITY_FAILURE","Method fields in legacy attempt");
+      if(mathPilot?.caseType === "LRC_PROOF_UNIT") {
+        requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+        if(!retained.success || digestResearchResult(retained.data)!==loaded.run.mathModelAttemptDigest)
+          throw new ResearchSandboxError("INTEGRITY_FAILURE","Completed proof-unit attempt digest invalid");
+        assertLrcProofUnitAttemptBinding(retained.data,{
+          contractDigest:loaded.run.mathPilotCase!.contractDigest,caseId:loaded.run.mathPilotCase!.id,
+          runId:loaded.run.id,requestedModelName:loaded.run.modelName });
+        validateLrcProofUnitSolverOutput({attemptType:retained.data.attemptType,argument:retained.data.argument,
+          candidateCounterexample:retained.data.candidateCounterexample,selfChecks:retained.data.selfChecks,
+          limitations:retained.data.limitations,lrcProofUnitFeedback:retained.data.lrcProofUnitFeedback});
+      } else if(retained.success && (retained.data.lrcProofUnitEvidence!==undefined || retained.data.lrcProofUnitFeedback!==undefined))
+        throw new ResearchSandboxError("INTEGRITY_FAILURE","Unexpected completed proof-unit evidence");
+      if(mathPilot?.caseType === "LRC_CAMPAIGN") {
+        requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+        if(!retained.success || digestResearchResult(retained.data)!==loaded.run.mathModelAttemptDigest)
+          throw new ResearchSandboxError("INTEGRITY_FAILURE","Completed campaign attempt digest invalid");
+        assertLrcCampaignBinding(resolveMathPilotContract(mathPilot),retained.data.lrcCampaignEvidence,retained.data);
+      } else if(loaded.run.mathModelAttempt && typeof loaded.run.mathModelAttempt === "object" &&
+        "lrcCampaignEvidence" in loaded.run.mathModelAttempt)
+        throw new ResearchSandboxError("INTEGRITY_FAILURE","Unexpected completed campaign evidence");
+      const { validateRetainedLrcEvidence } = await import("./math-lrc-replay");
+      if (retainedScope ? !retained.success || !validateRetainedLrcEvidence(retained.data.lrcEvidence,
+        retainedScope, loaded.run.mathPilotCase!.contractDigest) : retained.success && retained.data.lrcEvidence !== undefined) {
+        throw new ResearchSandboxError("INTEGRITY_FAILURE", "Existing attempt lacks valid sealed LRC evidence");
+      }
       const existingUsage = researchProviderUsageSchema.safeParse(loaded.run.providerUsage);
       return completeJob({
         organizationId: input.organizationId,
@@ -136,13 +212,90 @@ export async function executeResearchJob(
     if (input.provider.providerName !== loaded.run.providerName || input.provider.modelName !== loaded.run.modelName) {
       throw new ResearchSandboxError("PROVIDER_MISMATCH", "Connected research adapter does not match the requested provider identity");
     }
+    const lrcScope = mathPilot?.caseType === "OPEN" ? mathPilot.lrcFiniteScope : undefined;
+    const proofContract=mathPilot?.caseType === "LRC_PROOF_UNIT" ? resolveMathPilotContract(mathPilot) : null;
+    const proofBinding={contractDigest:loaded.run.mathPilotCase?.contractDigest ?? "",caseId:loaded.run.mathPilotCase?.id ?? "",
+      runId:loaded.run.id,requestedModelName:loaded.run.modelName};
+    const methodEvidence=mathPilot?.caseType==="LRC_METHOD_UNIT"?createLrcMethodUnitLiveEvidence({solverInput:prepareLrcMethodUnitSolverInput(proofBinding)}):undefined;
+    const checkMethod=()=>{if(methodEvidence){requireMethodUnitExecutionAuthority(input.methodUnit?.authority,proofBinding);if(input.signal?.aborted)throw new ResearchSandboxError("INVALID_TRANSITION","Method budget expired");}};
+    let methodCapture:MethodUnitTransportCapture|undefined;
+    if(methodEvidence){checkMethod();beginMethodUnitStage(input.methodUnit!.authority,proofBinding,"SOLVER");methodCapture=await MethodUnitTransportCapture.reserve(input.methodUnit!,{
+      organizationId:input.organizationId,workspaceId:loaded.run.workspaceId,missionId:loaded.run.missionId,actorUserId:input.actorUserId,
+      caseId:proofBinding.caseId,runId:proofBinding.runId,commandId:loaded.run.commandId,outboxId:loaded.job.outboxEventId!,jobId:loaded.job.id,
+      dispatchId:randomUUID(),attemptNumber:1,claimedVersion:input.expectedVersion,role:"SOLVER"});await methodCapture.prepared(methodEvidence.solverInput);checkMethod();}
+    const checkProofSignal=()=> {if(proofContract && input.signal?.aborted)
+      throw new ResearchSandboxError("INVALID_TRANSITION","Proof-unit observation budget expired");};
+    const proofEvidence=proofContract ? await (async()=> {
+      checkProofSignal();requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+      if(loaded.run.providerName!=="codex-local" || loaded.run.modelName!=="gpt-6-sol" || loaded.job.attempts!==1)
+        throw new ResearchSandboxError("INVALID_TRANSITION","Proof-unit requires the fixed local Codex lane");
+      const identityAdmission=await importLrcProofUnitIdentity();
+      checkProofSignal();
+      return createLrcProofUnitLiveEvidence({identityAdmission,solverInput:prepareLrcProofUnitSolverInput(proofBinding)});
+    })() : undefined;
+    const proofHost=proofEvidence ? {contract:proofContract,evidence:proofEvidence,binding:proofBinding} : null;
+    const proofSnapshot=proofHost ? snapshotLrcCampaignValue(proofHost) : null;
+    const checkProof=()=> {if(proofHost && proofSnapshot) {
+      checkProofSignal();
+      if(!unchangedLrcCampaignSnapshot(proofHost,proofSnapshot))
+        throw new ResearchSandboxError("INTEGRITY_FAILURE","Proof-unit host inputs changed during dispatch");
+      assertLrcProofUnitLiveEvidence(proofEvidence,proofBinding);
+    }};
+    const campaignContract=mathPilot?.caseType === "LRC_CAMPAIGN" ? resolveMathPilotContract(mathPilot) : null;
+    const lrcCampaignEvidence=campaignContract ? await (async()=> {
+      requireLrcCampaignCapability(getEnv().LRC_CAMPAIGN_LOCAL_ENABLED);
+      if(loaded.run.providerName!=="codex-local") throw new ResearchSandboxError("INVALID_TRANSITION","Campaign requires local Codex lane");
+      const {runLrcCampaignReference}=await import("./math-lrc-campaign-reference");
+      const evidence=await runLrcCampaignReference(campaignContract.lrcCampaignScope!,loaded.run.mathPilotCase!.contractDigest,{permission:true});
+      assertLrcCampaignBinding(campaignContract,evidence);return evidence;
+    })() : undefined;
+    const campaignHost=lrcCampaignEvidence ? {contract:loaded.run.mathPilotCase!.contract,evidence:lrcCampaignEvidence,
+      caseId:loaded.run.mathPilotCase!.id,contractDigest:loaded.run.mathPilotCase!.contractDigest} : null;
+    const campaignSnapshot=campaignHost ? snapshotLrcCampaignValue(campaignHost) : null;
+    const checkCampaign=()=> {if(campaignHost && campaignSnapshot) {
+      if(!unchangedLrcCampaignSnapshot(campaignHost,campaignSnapshot)) throw new ResearchSandboxError("INTEGRITY_FAILURE","Campaign host changed during dispatch");
+      assertLrcCampaignBinding(campaignContract!,lrcCampaignEvidence);
+    }};
+    // Fixed trusted local tool BEFORE the single-dispatch model fence. A failed
+    // certificate must not consume model authority or enter an immutable attempt.
+    const lrcEvidence = lrcScope ? await (async () => {
+      if (loaded.run.providerName !== "codex-local" || !["development", "test"].includes(process.env.NODE_ENV ?? "")) {
+        throw new ResearchSandboxError("INVALID_TRANSITION", "Finite LRC evidence is restricted to the local Codex lane");
+      }
+      const { runLrcCertificateEvidence, validateRetainedLrcEvidence } = await import("./math-lrc-replay");
+      const checked = await runLrcCertificateEvidence(lrcScope, loaded.run.mathPilotCase!.contractDigest);
+      if (!validateRetainedLrcEvidence(checked, lrcScope, loaded.run.mathPilotCase!.contractDigest)) {
+        throw new ResearchSandboxError("INTEGRITY_FAILURE", "LRC tool did not return complete root-bound evidence");
+      }
+      return checked;
+    })() : undefined;
     if (loaded.run.mathPilotCase) {
+      checkCampaign();checkProof();checkMethod();
       if (!getEnv().MATH_PILOT_QUEUE_ENABLED) {
         throw new ResearchSandboxError("INVALID_TRANSITION", "Math pilot provider dispatch is disabled");
       }
       await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
         await tx.$queryRaw`SELECT id FROM research_run WHERE organization_id = ${input.organizationId} AND id = ${loaded.run.id} FOR UPDATE`;
         const current = await tx.researchRun.findUniqueOrThrow({ where: { id: loaded.run.id } });
+        if(proofEvidence||methodEvidence) {
+          const currentJob=await tx.durableJob.findFirst({where:{id:input.jobId,organizationId:input.organizationId,
+            status:"RUNNING",lockedBy:input.workerId,version:input.expectedVersion,leaseExpiresAt:{gt:new Date()},jobType:"math-pilot.codex-local.execute"}});
+          const currentPayload=currentJob?.payload as Record<string,unknown>|null;
+          if(!currentJob || currentJob.attempts!==1 || !currentPayload || Object.keys(currentPayload).length!==1 || currentPayload.runId!==loaded.run.id)
+            throw new ResearchSandboxError("JOB_CONFLICT","Proof-unit solver lease or payload changed before fence");
+          const currentCase=await tx.mathPilotCase.findFirst({where:{id:proofBinding.caseId,organizationId:input.organizationId,researchRunId:current.id}});
+          if(!currentCase || currentCase.contractDigest!==proofBinding.contractDigest ||
+            digestMathPilotContract(mathPilotContractSchema.parse(currentCase.contract))!==proofBinding.contractDigest)
+            throw new ResearchSandboxError("INTEGRITY_FAILURE","Proof-unit case changed before fence");
+          checkProof();checkMethod();
+        }
+        if(campaignHost) {
+          const currentCase=await tx.mathPilotCase.findFirst({where:{id:campaignHost.caseId,organizationId:input.organizationId,researchRunId:current.id}});
+          if(!currentCase || currentCase.contractDigest!==campaignHost.contractDigest ||
+            digestMathPilotContract(mathPilotContractSchema.parse(currentCase.contract))!==campaignHost.contractDigest)
+            throw new ResearchSandboxError("INTEGRITY_FAILURE","Campaign case changed before fence");
+          assertLrcCampaignBinding(mathPilotContractSchema.parse(currentCase.contract),lrcCampaignEvidence);
+        }
         if (current.status !== "RUNNING" || current.jobId !== input.jobId || current.providerDispatchAttemptedAt !== null) {
           throw new ResearchSandboxError("PROVIDER_ACCOUNTING_UNVERIFIED", "Math provider dispatch may already have occurred; manual reconciliation is required");
         }
@@ -157,8 +310,7 @@ export async function executeResearchJob(
     }
     const sourcePolicy = sourcePolicySchema.parse(loaded.run.sourcePolicy);
     const queryPlan = queryPlanSchema.parse(loaded.run.queryPlan);
-    const result = validateResearchProviderResult(
-      await input.provider.execute({
+    const providerInput={
         missionId: loaded.run.missionId,
         documentId: loaded.run.documentId,
         question: loaded.run.question,
@@ -168,14 +320,46 @@ export async function executeResearchJob(
         sourcePolicy,
         queryPlan,
         ...(mathPilot ? { mathPilot } : {}),
-      }),
+        ...(lrcEvidence ? { lrcEvidence } : {}),
+        ...(lrcCampaignEvidence ? {lrcCampaignEvidence} : {}),
+        ...(proofEvidence ? {lrcProofUnitInput:proofEvidence.solverInput} : {}),
+        ...(methodEvidence?{lrcMethodUnitInput:methodEvidence.solverInput}:{}),
+      };
+    checkCampaign();checkProof();
+    checkMethod();
+    const provider=methodCapture?input.methodUnitProvider!(methodCapture):input.provider;
+    if(provider.providerName!==loaded.run.providerName||provider.modelName!==loaded.run.modelName)throw new ResearchSandboxError("PROVIDER_MISMATCH","Method adapter identity differs");
+    const providerOutput=lrcCampaignEvidence || proofEvidence || methodEvidence ? await guardedLrcCampaignCall(providerInput,view=>provider.execute(view)) : await provider.execute(providerInput);
+    checkCampaign();checkProof();checkMethod();assertNoProviderCampaignEvidence(providerOutput);
+    const rawAttempt=providerOutput.mathAttempt;
+    if(methodCapture)methodCapture.requireReturned(rawAttempt);
+    if(rawAttempt&&("lrcMethodUnitEvidence" in rawAttempt||"lrcMethodUnitInput" in rawAttempt||"lrcMethodUnitFiniteEvidence" in rawAttempt||!methodEvidence&&["lrcMethodUnitFeedback","lrcMethodUnitFiniteSeed"].some(k=>k in rawAttempt)))throw new ResearchSandboxError("INTEGRITY_FAILURE","Method host echo or cross-lane output");
+    if(rawAttempt && ("lrcProofUnitEvidence" in rawAttempt || "lrcProofUnitInput" in rawAttempt ||
+      (!proofEvidence && "lrcProofUnitFeedback" in rawAttempt)))
+      throw new ResearchSandboxError("INTEGRITY_FAILURE","Provider cannot author proof-unit host fields or cross lanes");
+    const result = validateResearchProviderResult(providerOutput,
       { providerName: loaded.run.providerName, modelName: loaded.run.modelName, sourcePolicy },
     );
-    const modelAttempt = result.mathAttempt ? mathModelAttemptSchema.parse(result.mathAttempt) : null;
+    if (result.mathAttempt?.lrcEvidence !== undefined) {
+      throw new ResearchSandboxError("INTEGRITY_FAILURE", "Provider output cannot author host LRC evidence");
+    }
+    const modelAttempt = result.mathAttempt ? mathModelAttemptSchema.parse({ ...result.mathAttempt,
+      ...(lrcEvidence ? { lrcEvidence } : {}),...(lrcCampaignEvidence ? {lrcCampaignEvidence} : {}),
+      ...(proofEvidence ? {lrcProofUnitEvidence:proofEvidence} : {}) }) : null;
+    const retainedModelAttempt=methodEvidence&&modelAttempt?mathModelAttemptSchema.parse({...modelAttempt,lrcMethodUnitEvidence:methodEvidence}):modelAttempt;
+    if(methodEvidence){if(!retainedModelAttempt)throw new ResearchSandboxError("INTEGRITY_FAILURE","Method output missing");lrcMethodUnitSolverMathematics(retainedModelAttempt);assertLrcMethodUnitAttemptBinding(retainedModelAttempt,proofBinding);}
+    if(proofEvidence) {
+      if(!modelAttempt) throw new ResearchSandboxError("INTEGRITY_FAILURE","Proof-unit mathematical output missing");
+      validateLrcProofUnitSolverOutput({attemptType:modelAttempt.attemptType,argument:modelAttempt.argument,
+        candidateCounterexample:modelAttempt.candidateCounterexample,selfChecks:modelAttempt.selfChecks,
+        limitations:modelAttempt.limitations,lrcProofUnitFeedback:modelAttempt.lrcProofUnitFeedback});
+      assertLrcProofUnitAttemptBinding(modelAttempt,proofBinding);
+    }
+    if(lrcCampaignEvidence) assertLrcCampaignBinding(campaignContract!,lrcCampaignEvidence,modelAttempt);
     if (loaded.run.providerName === "codex-local" && !modelAttempt) {
       throw new ResearchSandboxError("INVALID_INPUT", "Local Codex did not return a retained mathematical attempt");
     }
-    const modelAttemptDigest = modelAttempt ? digestResearchResult(modelAttempt) : null;
+    const modelAttemptDigest = retainedModelAttempt ? digestResearchResult(retainedModelAttempt) : null;
     const resultDigest = digestResearchResult({
       provider: result.providerName,
       model: result.modelName,
@@ -195,6 +379,27 @@ export async function executeResearchJob(
     await withOrganizationTenant(input.organizationId, input.actorUserId, async (tx) => {
       await tx.$queryRaw`SELECT id FROM research_run WHERE organization_id = ${input.organizationId} AND id = ${loaded.run.id} FOR UPDATE`;
       const current = await tx.researchRun.findUniqueOrThrow({ where: { id: loaded.run.id } });
+      checkCampaign();checkProof();checkMethod();
+      if(proofEvidence||methodEvidence) {
+        const currentJob=await tx.durableJob.findFirst({where:{id:input.jobId,organizationId:input.organizationId,
+          status:"RUNNING",lockedBy:input.workerId,version:input.expectedVersion,leaseExpiresAt:{gt:new Date()},jobType:"math-pilot.codex-local.execute"}});
+        const currentPayload=currentJob?.payload as Record<string,unknown>|null;
+        if(!currentJob || currentJob.attempts!==1 || !currentPayload || Object.keys(currentPayload).length!==1 || currentPayload.runId!==loaded.run.id)
+          throw new ResearchSandboxError("JOB_CONFLICT","Proof-unit solver lease or payload changed before retention");
+        const currentCase=await tx.mathPilotCase.findFirst({where:{id:proofBinding.caseId,organizationId:input.organizationId,researchRunId:current.id}});
+        if(!currentCase || currentCase.contractDigest!==proofBinding.contractDigest ||
+          digestMathPilotContract(mathPilotContractSchema.parse(currentCase.contract))!==proofBinding.contractDigest)
+          throw new ResearchSandboxError("INTEGRITY_FAILURE","Proof-unit case changed before retention");
+        if(proofEvidence)assertLrcProofUnitLiveEvidence(modelAttempt!.lrcProofUnitEvidence,proofBinding);
+        if(methodEvidence)assertLrcMethodUnitAttemptBinding(retainedModelAttempt,proofBinding);
+      }
+      if(campaignHost) {
+        const currentCase=await tx.mathPilotCase.findFirst({where:{id:campaignHost.caseId,organizationId:input.organizationId,researchRunId:current.id}});
+        if(!currentCase || currentCase.contractDigest!==campaignHost.contractDigest ||
+          digestMathPilotContract(mathPilotContractSchema.parse(currentCase.contract))!==campaignHost.contractDigest)
+          throw new ResearchSandboxError("INTEGRITY_FAILURE","Campaign case changed before retention");
+        assertLrcCampaignBinding(mathPilotContractSchema.parse(currentCase.contract),lrcCampaignEvidence,modelAttempt);
+      }
       if (current.status === "AWAITING_REVIEW") return;
       if (current.status !== "RUNNING" || current.jobId !== input.jobId) {
         throw new ResearchSandboxError("JOB_CONFLICT", "Research run is no longer owned by this job");
@@ -244,7 +449,7 @@ export async function executeResearchJob(
           status: "AWAITING_REVIEW",
           completedAt: new Date(),
           ...(modelAttempt ? {
-            mathModelAttempt: modelAttempt,
+            mathModelAttempt: retainedModelAttempt!,
             mathModelAttemptDigest: modelAttemptDigest!,
           } : {}),
           version: { increment: 1 },

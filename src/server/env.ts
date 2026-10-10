@@ -127,6 +127,9 @@ const envSchema = z
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+    // Retained-reference campaign lane is separate from queue/worker authority.
+    // Default OFF; importing a reference never permits a model or job dispatch.
+    LRC_CAMPAIGN_LOCAL_ENABLED: z.enum(["true", "false"]).default("false").transform((v) => v === "true"),
     RESEARCH_OPENAI_ENABLED: z
       .enum(["true", "false"])
       .default("false")
@@ -263,6 +266,9 @@ const envSchema = z
     }
     if (env.MATH_PILOT_QUEUE_ENABLED && !["development", "test"].includes(deploymentEnv ?? "")) {
       ctx.addIssue({ code: "custom", path: ["MATH_PILOT_QUEUE_ENABLED"], message: "math pilot queueing is local-only" });
+    }
+    if (env.LRC_CAMPAIGN_LOCAL_ENABLED && (env.NODE_ENV === "production" || !["development", "test"].includes(deploymentEnv ?? ""))) {
+      ctx.addIssue({ code: "custom", path: ["LRC_CAMPAIGN_LOCAL_ENABLED"], message: "LRC campaign references are development/test only" });
     }
     if (env.RESEARCH_CODEX_LOCAL_ENABLED && !["development", "test"].includes(deploymentEnv ?? "")) {
       ctx.addIssue({ code: "custom", path: ["RESEARCH_CODEX_LOCAL_ENABLED"], message: "Codex subscription bridge is local-only" });

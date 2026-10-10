@@ -1,0 +1,33 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Solve this problem directly.
+
+PROBLEM
+C01
+Let \(\Omega\) be either \(\mathbb T^2=(\mathbb R/\mathbb Z)^2\), with volume one, or \(\mathbb R^2\), with Lebesgue measure. For \(0<\nu<e^{-1}\), consider the unforced incompressible Navier–Stokes equations
+\[
+\partial_tu^\nu+u^\nu\cdot\nabla u^\nu+\nabla\pi^\nu=\nu\Delta u^\nu,\qquad \nabla\cdot u^\nu=0,\qquad u^\nu(0)=u_0^\nu.
+\]
+Take distributional solutions belonging to \(L^\infty(0,S;L^2(\Omega;\mathbb R^2))\cap L^2(0,S;H^1(\Omega;\mathbb R^2))\) for every finite \(S>0\), attaining their initial data strongly in \(L^2\), and satisfying
+\[
+\frac12\|u^\nu(t)\|_2^2+\nu\int_0^t\|\nabla u^\nu(s)\|_2^2\,ds\leq\frac12\|u_0^\nu\|_2^2.
+\]
+Here \(H^1\) consists of square-integrable functions with square-integrable weak first derivatives, and all spatial norms are over \(\Omega\).
+
+Write \(\omega^\nu=\partial_1u_2^\nu-\partial_2u_1^\nu\). For parameters \(1<p<\infty\) and \(M>0\), suppose the initial vorticities are finite signed measures admitting decompositions
+\[
+\omega_0^\nu=\mu_0^\nu+f_0^\nu,
+\]
+where \(\mu_0^\nu\) is a finite nonnegative measure and \(f_0^\nu\in L^1(\Omega)\cap L^p(\Omega)\), with
+\[
+\sup_{0<\nu<e^{-1}}\bigl(\|u_0^\nu\|_2+|\omega_0^\nu|(\Omega)+\|f_0^\nu\|_1+\|f_0^\nu\|_p\bigr)\leq M.
+\]
+The notation \(|\omega_0^\nu|(\Omega)\) denotes total variation. Initial data may depend arbitrarily on \(\nu\) subject to these bounds. Define
+\[
+D_\nu=\nu\int_{1/2}^{1}\|\omega^\nu(t)\|_2^2\,dt.
+\]
+Call \(q\geq0\) admissible if, for every \(p,M\), there exist constants \(C>0\) and \(\nu_0\in(0,e^{-1})\), depending only on \(q,p,M\), such that
+\[
+D_\nu\leq C[\log(1/\nu)]^{-q}\qquad(0<\nu<\nu_0)
+\]
+holds for both choices of \(\Omega\) and every family satisfying the assumptions. The logarithm is natural. What is the supremum of the admissible exponents?

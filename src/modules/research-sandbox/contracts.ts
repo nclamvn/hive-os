@@ -3,6 +3,11 @@ import { erdosStrausPolynomialFamilySchema } from "./math-parametric";
 import { structuralCounterexampleCandidateSchema } from "./math-structural-counterexample";
 
 import { mathPilotRequestSchema } from "./math-pilot";
+import { lrcCertificateEvidenceSchema, type LrcCertificateEvidence } from "./math-lrc-replay";
+import { lrcCampaignEvidenceSchema, type LrcCampaignEvidence } from "./math-lrc-campaign";
+import { lrcProofUnitFeedbackSchema, lrcProofUnitLiveEvidenceSchema, type PreparedLrcProofUnitLiveInput } from "./math-lrc-proof-unit-live";
+import { lrcMethodUnitFeedbackSchema,lrcMethodUnitLiveEvidenceSchema,type PreparedLrcMethodUnitLiveInput } from "./math-lrc-method-unit-live";
+import { lrcMethodUnitFiniteSeedSchema } from "./math-lrc-method-unit";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const identifier = z.string().trim().min(1).max(160);
@@ -116,6 +121,16 @@ export const mathModelAttemptSchema = z.object({
   // Adapter-only provenance when a model placed executable source in prose.
   // Optional to keep historical sealed attempts digest-readable.
   computationOrigin: z.enum(["MODEL_FIELD", "EXTRACTED_FROM_ARGUMENT"]).optional(),
+  // Host-only tool evidence; never part of the public request or LLM output schema.
+  lrcEvidence: lrcCertificateEvidenceSchema.optional(),
+  lrcCampaignEvidence: lrcCampaignEvidenceSchema.optional(),
+  // Host-only prospective envelope; absent (no defaults) in historical attempts.
+  lrcProofUnitEvidence: lrcProofUnitLiveEvidenceSchema.optional(),
+  // Model-authored conditional findings only; worker pairs with host envelope.
+  lrcProofUnitFeedback: lrcProofUnitFeedbackSchema.optional(),
+  lrcMethodUnitEvidence: lrcMethodUnitLiveEvidenceSchema.optional(),
+  lrcMethodUnitFeedback: lrcMethodUnitFeedbackSchema.optional(),
+  lrcMethodUnitFiniteSeed: lrcMethodUnitFiniteSeedSchema.nullable().optional(),
   usage: z.object({
     inputTokens: z.number().int().nonnegative(),
     cachedInputTokens: z.number().int().nonnegative(),
@@ -235,7 +250,7 @@ export type SandboxExecutorResult = z.infer<typeof sandboxExecutorResultSchema>;
 export interface ResearchProvider {
   readonly providerName: string;
   readonly modelName: string;
-  execute(input: Omit<ResearchRequest, "idempotencyKey">): Promise<ResearchProviderResult>;
+  execute(input: Omit<ResearchRequest, "idempotencyKey"> & { lrcEvidence?: LrcCertificateEvidence; lrcCampaignEvidence?: LrcCampaignEvidence; lrcProofUnitInput?: PreparedLrcProofUnitLiveInput; lrcMethodUnitInput?: PreparedLrcMethodUnitLiveInput }): Promise<ResearchProviderResult>;
 }
 
 export interface SandboxExecutor {

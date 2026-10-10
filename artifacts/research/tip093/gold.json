@@ -1,0 +1,110 @@
+{
+  "scope": "LOCAL_REFERENCE_ADJUDICATION_NOT_EXTERNAL_EXPERT_OR_FORMAL_CERTIFICATION",
+  "curatorExposure": "Current Codex curator knows every label; statements are derived from visible prior research motifs. Not a blind or official benchmark.",
+  "cases": [
+    {
+      "id": "PA-01",
+      "verdict": "INVALID_PROOF",
+      "targetTruth": "TRUE",
+      "criticalStep": "S2",
+      "fault": "A largest-cardinality class need not carry at least 1/M of shaded mass when individual densities vary. The named witness H is not a mass-pigeonhole witness.",
+      "referenceArgument": "The TARGET is true: choose a class carrying at least S/M of total shaded mass instead. Because its cardinality is at most N, lambda_H>=S/(M N v)=lambda_G/M. U_H subset U_G yields mu_G=S/|U_G|<=M S_H/|U_G|<=M S_H/|U_H|. This proves existence without assuming equal individual shade densities.",
+      "counterexample": {
+        "kind": "VARYING_SHADE_MASS",
+        "setVolume": "1",
+        "classes": [[0],[1,2,3,4,5,6,7]],
+        "shadedMasses": ["1","1/100","1/100","1/100","1/100","1/100","1/100","1/100"],
+        "totalMass": "107/100",
+        "chosenClassMass": "7/100",
+        "requiredClassMass": "107/200",
+        "chosenDensity": "1/100",
+        "requiredDensity": "107/1600"
+      },
+      "witnessRealization": "Take disjoint unit intervals T_i=[i,i+1], i=0..7, Y_0=T_0 and Y_i=[i,i+1/100] for i>=1. All sets are congruent, all shadings admissible and unions have positive volume. The largest-cardinality class uniquely has seven members, but both its claimed mass and density lower bounds fail.",
+      "minimalRepair": "Choose a heaviest TOTAL-SHADED-MASS class, not the largest-cardinality class; keep the original target. Claiming the target itself is false is incorrect.",
+      "scoringRequirements": ["REJECTED verdict for the submitted proof","Locate S2 or its count-to-mass implication","A valid mass/density counterexample or explicit nonuniform-density explanation","Repair keeps the existence target and chooses by shaded mass"],
+      "executableScope": "Exact finite rational counterexample to S2 and to the selected class's density bound; not a universal measure-theory proof."
+    },
+    {
+      "id": "PA-02",
+      "verdict": "VALID",
+      "targetTruth": "TRUE",
+      "criticalStep": null,
+      "fault": null,
+      "referenceArgument": "For each requested epsilon choose gamma in S within epsilon/12 of its infimum, then take the eta,delta_0 supplied by Q(gamma) at output epsilon/2. Their dependence on this gamma is allowed. Set h=gamma-alpha_*; exact division of F functions gives delta^-3h N^-h/2<=delta^-epsilon/4 for N>=1. The resulting loss is 3epsilon/4, which is no greater than epsilon for delta<1. Admissible sets do not depend on alpha, so the SAME datum lies in the SAME A(eta,delta). This establishes all quantifiers in Q(alpha_*) without uniformity in gamma, finite iteration or an additional closure theorem.",
+      "minimalRepair": "No repair needed. Rejecting the argument merely because eta depends on gamma would add a nonexistent uniformity requirement.",
+      "scoringRequirements": ["SUPPORTED verdict for the argument under its stated hypotheses","Respect for-all epsilon / exists eta,delta_0 order","No assertion of a finite iteration reaching the infimum","No imported theorem about actual Kakeya predicates"],
+      "executableScope": "Exact symbolic exponent and rational slack checks only; the quantified limiting argument is established by the complete written proof, not finite samples or a Lean kernel."
+    },
+    {
+      "id": "PA-03",
+      "verdict": "INVALID_PROOF",
+      "targetTruth": "FALSE",
+      "criticalStep": "S2",
+      "fault": "Retaining half of global mass does not retain half of the mass in a maximizing test interval. Upper D is monotone on subsets; the asserted lower D inheritance is unsupported and false.",
+      "referenceArgument": "For integer m>=2 let h=1/(4m). Take m labeled copies of I_0=[0,h], and m disjoint J_j=[(j-1)/m+1/(2m),(j-1)/m+3/(4m)], j=1..m. All are in K=[0,1] and have length h. Let H consist only of the J_j. It retains exactly half of shaded mass. Multiplicity of G is at most m at every point, hence for every interval J, sum_{I subset J}|I|<=integral_J multiplicity<=m|J|; I_0 realizes D(G)=m. The disjoint J_j give D(H)=1. Thus C_F(G)=m/(2mh)=2m and C_F(H)=1/(mh)=4. For m=16, the target requires 4>=16, false. This is an exact counterexample in the PERMITTED interval-multiset domain; it is not a claim about essentially distinct 3D tubes or a defect in the original Kakeya paper.",
+      "counterexample": {"kind":"INTERVAL_DENSITY","m":16,"h":"1/64","D_G":"16","D_H":"1","CF_G":"32","CF_H":"4","requiredCF_H":"16","retainedMassFraction":"1/2"},
+      "minimalRepair": "Reject/refute the original universal assertion. The valid one-sided upper inheritance is C_F(H)<= (#G/#H) C_F(G); it is not the requested lower bound and must be labeled a different statement. No repair of the unchanged false target exists.",
+      "scoringRequirements": ["REJECTED verdict","Locate S2's local-versus-global retention inference","Valid counterexample or equivalently decisive construction","Do not export this counterexample into the excluded essentially-distinct-tube domain","Do not report an upper bound as proof of the original lower bound"],
+      "executableScope": "Exhaustive endpoint-pair computation of D for the fixed finite m=16 interval multisets. A nonempty counted set of intervals can be enclosed in its tight endpoint hull; shrinking any test interval to that hull cannot reduce density. Therefore endpoint enumeration covers the full interval-test supremum for this finite witness, not merely selected samples."
+    },
+    {
+      "id": "PA-04",
+      "verdict": "VALID",
+      "targetTruth": "TRUE",
+      "criticalStep": null,
+      "fault": null,
+      "referenceArgument": "Each deletion removes a previously undeleted node or group. A fixed original threshold times at most A left deletions gives at most M_0/8 left charge; analogous right and group totals give M_0/8 each. Charge edges only on their first removal, so charges partition the removed mass and no group overlap causes double counting. The total charge is at most 3M_0/8 for every allowed deletion order, yielding the required retention. A surviving positive-weight label could not be below its threshold at termination; deleted labels have no edges. The algorithm terminates within A+B+C label deletions.",
+      "minimalRepair": "No repair needed. The thresholds are fixed from ORIGINAL counts and mass; replacing them with shrinking current counts/mass would change the procedure and is not what is stated.",
+      "scoringRequirements": ["SUPPORTED verdict","Use fixed original thresholds and first-deletion charging","Do not claim a uniform geometric density or tube-count consequence absent from this abstract theorem"],
+      "executableScope": "A small exact weighted incidence fixture corroborates the accounting and stopping invariants. It does NOT machine-prove all weighted graphs or all deletion orders; the written charging proof establishes those universal statements."
+    },
+    {
+      "id": "PA-05",
+      "verdict": "VALID",
+      "targetTruth": "TRUE",
+      "criticalStep": null,
+      "fault": null,
+      "referenceArgument": "Divide by positive G_B and bound each occurrence of G/G_B by one. Then L/G_B<=3/100+3/100+1/256+1/4096=6569/102400<1/4 since 6569<25600. This is a complete universal implication of the declared inequalities. It supplies no evidence that actual geometric parameters obey those inequalities.",
+      "certificate": {"kind":"EXACT_RATIONAL_BOUND","ratioBound":"6569/102400","fourTimesRatio":"6569/25600","quarter":"1/4"},
+      "minimalRepair": "No repair needed. Preserve the conditional nature of this arithmetic claim.",
+      "scoringRequirements": ["SUPPORTED verdict","Correct exact bound or equivalent rigorous inequality","Do not promote arithmetic verification into geometric or whole-Kakeya verification"],
+      "executableScope": "Exact rational expression and strict comparison verified in standard-library arithmetic; equivalent auxiliary predicate previously checked on the real UI in092. Does not certify the analytic ledger hypotheses."
+    },
+    {
+      "id": "PA-06",
+      "verdict": "INVALID_PROOF",
+      "targetTruth": "FALSE",
+      "criticalStep": "S3",
+      "fault": "A bounded strictly decreasing sequence need not attain its infimum at a finite index. Strictly positive pointwise improvement is not a uniform finite-step lower bound. S2 is also not justified for arbitrary discontinuous nu, but S3 alone is decisively false.",
+      "referenceArgument": "Take beta=0, gamma_0=1 and nu(gamma)=gamma/2 for every gamma in (0,1]. Then 0<nu(gamma)<=gamma-beta. By exact induction gamma_n=2^-n for all finite n: the base is one and the recurrence halves it. Every term is positive, so none equals beta although the infimum is beta. This refutes the unchanged target. Finite checks of the first terms alone do not establish this refutation; the induction supplies the all-finite-n statement.",
+      "counterexample": {"kind":"POSITIVE_HALVING","beta":"0","gamma_0":"1","stepRatio":"1/2","formula":"gamma_n=2^(-n)>0 for every finite n"},
+      "minimalRepair": "Reject/refute the finite-arrival claim. A separate closedness argument for quantified assertions can justify a limiting result, but no such assertion/premise appears here and it is not a proof of finite arrival. Do not silently replace the target by convergence.",
+      "scoringRequirements": ["REJECTED verdict","Locate infimum-attainment or nonuniform-step error","Halving sequence or another rigorous all-finite-n counterexample","No false claim that checking finitely many terms disproves all possible finite arrivals"],
+      "executableScope": "Exact first65 recurrence values corroborate the explicit halving formula only; the written induction, NOT those samples, proves failure for every finite index."
+    },
+    {
+      "id": "PA-07",
+      "verdict": "INVALID_PROOF",
+      "targetTruth": "FALSE",
+      "criticalStep": "S2",
+      "fault": "A fixed positive exponent loss 16t cannot be absorbed like a fixed multiplicative constant by reducing delta_0. Moreover L and G_B in this assertion do not depend on delta_0 at all.",
+      "referenceArgument": "Choose G=G_B=1, q=zeta=kappa=1/10000 and t=1/10. All declared upper bounds hold, including kappa<=1/4096. H=2001/10000 and L=3q+3zeta+8H+kappa=3203/2000>1/4. No delta_0 changes this numerical inequality. For any fixed positive exponent a>epsilon, delta^-a/delta^-epsilon tends to infinity as delta tends to zero, unlike a constant that can be absorbed. This is a counterexample to the unchanged target, not to the adequately constrained ledger in092.",
+      "counterexample": {"kind":"EXPONENT_LOSS","G":"1","G_B":"1","q":"1/10000","zeta":"1/10000","kappa":"1/10000","t":"1/10","H":"2001/10000","L":"3203/2000","quarterGain":"1/4"},
+      "minimalRepair": "Refute the assertion as stated. Adding 2t<=G/4096 would imply H<=G/2048 and permit the valid arithmetic argument, but that is an explicit extra hypothesis and a CONDITIONAL corrected theorem, not a repair proving the original unrestricted target.",
+      "scoringRequirements": ["REJECTED verdict","Separate constant factors from exponent losses","Point out delta_0 cannot change L","Valid admissible parameter counterexample or equivalent rigorous obstruction","Any added t restriction explicitly labeled extra, not claimed original closure"],
+      "executableScope": "Exact rational parameter checks and direct evaluation of H,L, showing the finite witness meets every declared premise and violates the conclusion."
+    },
+    {
+      "id": "PA-08",
+      "verdict": "VALID",
+      "targetTruth": "TRUE",
+      "criticalStep": null,
+      "fault": null,
+      "referenceArgument": "A largest-shaded-mass class carries at least total mass/M and has nonempty positive shade union. Its union is a subset of the original union, so mu_total<=M mu_j. For every convex V, the contained-set sum of a subfamily is bounded by the original sum. Taking suprema gives D_j<=D_total. Equal v and common K imply CF_j<=N CF_total/N_j. Since p>=0, multiplying this p-power inequality by N_j^p cancels the cardinality exactly. Inserting the hypothesized class estimate proves the scalar inequality for the original family; no geometric selection or global pruning is asserted. All D values are finite (N sets of volume v; any convex V containing one has volume>=v) and positive (K contains all sets), so the real powers are well defined, including p=0.",
+      "minimalRepair": "No repair needed. Requiring N_j>=N/M would be an unnecessary and generally false stronger premise; it is not used.",
+      "scoringRequirements": ["SUPPORTED verdict","Acknowledge mass-based rather than cardinality-based selection","Correct subset upper-D bound and equal-volume CF rescaling","No new claim that coloring/pruning preserves geometry or active-child counts"],
+      "executableScope": "Exact coefficient cancellation and a finite p=1 arithmetic fixture corroborate the identities. Arbitrary real p and the universal measurable-family comparison are supported by the full written argument, NOT that fixture."
+    }
+  ]
+}

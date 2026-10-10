@@ -1,0 +1,49 @@
+{
+  "tip": "TIP-046",
+  "builder": "lrc_core_builder",
+  "scope": "R1-R3 finite-grid certificate construction and independent TypeScript checking only",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "missing": 0,
+    "coverage_percent": 100,
+    "R1": "Strict sealed sorted disjoint residue axes, exactly N-1 dimensions, bounded Cartesian scope; trusted expected scope/root digest compared before tree acceptance.",
+    "R2": "Flat bounded tree, strict schemas and IDs, unique/reachable/acyclic tree usage, root-box equality and ordered disjoint exhaustive axis partitions; exact BigInt leaf arithmetic and independently recomputed coverage counts.",
+    "R3": "GRID exact boundary equality, on-grid rational SHIFT and joint CRT reconstruction; singleton NO_GRID exhausts all M grid points. Resource-limited UNRESOLVED leaves retain their whole domain but never return PASS."
+  },
+  "files": [
+    { "path": "src/modules/research-sandbox/math-lrc-certificates.ts", "sha256": "08c6bb7d94ebfb9d5b64c3ce8840fbe486a40fe3e0dbaece72cb6c11929015e8" },
+    { "path": "tests/unit/math-lrc-certificates.test.ts", "sha256": "7a5c64d9be5ab2f0dab77beee096923a59e680b08a7d78d559e1d03cdaecefe0" }
+  ],
+  "verification": {
+    "focused_unit": { "status": "PASS", "passed": 12, "total": 12, "files": 1, "duration_ms": 886, "command": "node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-certificates.test.ts --maxWorkers=1", "exit_code": 0 },
+    "typescript": { "status": "PASS", "command": "node ./node_modules/typescript/bin/tsc --noEmit", "exit_code": 0 },
+    "owned_eslint": { "status": "PASS", "errors": 0, "warnings": 0, "exit_code": 0 },
+    "observed_control": { "total_tuples": 7776, "witness_tuples": 7407, "grid_excluded_tuples": 369, "unresolved_tuples": 0 },
+    "negative_tests": ["malformed or excessive scope", "equality strictness", "off-grid SHIFT", "wrong SHIFT index", "noncoprime/unsorted/invalid CRT factors", "wrong joint CRT witness", "false NO_GRID", "missing branch", "overlapping branch", "duplicate node", "unreachable node", "cyclic node", "reordered children", "shrunk root box", "nonsingleton NO_GRID", "expected scope shrink", "root rebinding", "digest corruption", "forged count field", "unknown leaf", "work/node/deadline exhaustion", "post-hash observed deadline expiry", "excessive bytes", "circular and undefined input"],
+    "not_run_by_this_builder": ["Python independent replay", "full repository unit suite", "integration/database lifecycle", "worker composition", "production build", "browser E2E"]
+  },
+  "failure_history": [
+    "Initial TypeScript check found the existing pre-ES2020 target disallows 0n and a test union Omit erased variant fields; repaired without mathematical/domain changes. Final check exit zero.",
+    "Contractor review aligned CRT minimum factor count and maximum children with Python consumer, and requested post-hash deadline/final exact byte validation; implemented before final tests."
+  ],
+  "limits": {
+    "total_runners_max": 15,
+    "modulus_max": 128,
+    "tuples_max": 10000,
+    "nodes_max": 20000,
+    "certificate_bytes_max": 2097152,
+    "producer_work_max": 5000000,
+    "producer_observed_ms_max": 5000,
+    "timing": "Cooperative checkpoints include final observed hashing and serialization, not hard synchronous CPU preemption or interpreter attestation. Diagnostic sealing after an expired deadline retains only UNRESOLVED."
+  },
+  "scientific_boundary": [
+    "A PASS certifies exhaustive classifications for the sealed finite Cartesian domain on one fixed M grid, not the unrestricted Lonely Runner Conjecture.",
+    "NO_GRID certifies only the absence of a witness among j/M, never a continuous-time counterexample.",
+    "SHIFT/CRT leaves are exact finite derived-time witness constructions; no unverified induction lemma or lower-case LRC premise is admitted.",
+    "Default generator emits GRID, NO_GRID and SPLIT leaves; SHIFT/CRT are supported and tested, not claimed used by the real default case.",
+    "14/15 singleton controls are not complete Allikvere coverage, novelty certification or mathematical expert approval."
+  ],
+  "unchanged": ["existing product source files", "prior immutable case records", "environment/secrets/dependencies", "workers/server/database", "Git branch/index/commits/remotes", "unrelated dirty files"]
+}

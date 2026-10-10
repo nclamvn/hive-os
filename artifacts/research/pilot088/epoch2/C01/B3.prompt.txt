@@ -1,0 +1,276 @@
+Work only from the problem statement and explicitly replayed responses below. Do not use tools, commands, web search, files, repositories, external sources, or published solutions. Return a final mathematical result promptly, with a rigorous proof or explicit honest unresolved gaps. No introductory commentary and no indefinite search. Label your result by problem ID. Your entire response must be at most 1400 words.
+
+Repair the solver's draft using the separate critic's audit. Give your final solution.
+
+PROBLEM
+C01
+Let \(\Omega\) be either \(\mathbb T^2=(\mathbb R/\mathbb Z)^2\), with volume one, or \(\mathbb R^2\), with Lebesgue measure. For \(0<\nu<e^{-1}\), consider the unforced incompressible Navier–Stokes equations
+\[
+\partial_tu^\nu+u^\nu\cdot\nabla u^\nu+\nabla\pi^\nu=\nu\Delta u^\nu,\qquad \nabla\cdot u^\nu=0,\qquad u^\nu(0)=u_0^\nu.
+\]
+Take distributional solutions belonging to \(L^\infty(0,S;L^2(\Omega;\mathbb R^2))\cap L^2(0,S;H^1(\Omega;\mathbb R^2))\) for every finite \(S>0\), attaining their initial data strongly in \(L^2\), and satisfying
+\[
+\frac12\|u^\nu(t)\|_2^2+\nu\int_0^t\|\nabla u^\nu(s)\|_2^2\,ds\leq\frac12\|u_0^\nu\|_2^2.
+\]
+Here \(H^1\) consists of square-integrable functions with square-integrable weak first derivatives, and all spatial norms are over \(\Omega\).
+
+Write \(\omega^\nu=\partial_1u_2^\nu-\partial_2u_1^\nu\). For parameters \(1<p<\infty\) and \(M>0\), suppose the initial vorticities are finite signed measures admitting decompositions
+\[
+\omega_0^\nu=\mu_0^\nu+f_0^\nu,
+\]
+where \(\mu_0^\nu\) is a finite nonnegative measure and \(f_0^\nu\in L^1(\Omega)\cap L^p(\Omega)\), with
+\[
+\sup_{0<\nu<e^{-1}}\bigl(\|u_0^\nu\|_2+|\omega_0^\nu|(\Omega)+\|f_0^\nu\|_1+\|f_0^\nu\|_p\bigr)\leq M.
+\]
+The notation \(|\omega_0^\nu|(\Omega)\) denotes total variation. Initial data may depend arbitrarily on \(\nu\) subject to these bounds. Define
+\[
+D_\nu=\nu\int_{1/2}^{1}\|\omega^\nu(t)\|_2^2\,dt.
+\]
+Call \(q\geq0\) admissible if, for every \(p,M\), there exist constants \(C>0\) and \(\nu_0\in(0,e^{-1})\), depending only on \(q,p,M\), such that
+\[
+D_\nu\leq C[\log(1/\nu)]^{-q}\qquad(0<\nu<\nu_0)
+\]
+holds for both choices of \(\Omega\) and every family satisfying the assumptions. The logarithm is natural. What is the supremum of the admissible exponents?
+
+
+REPLAYED RESPONSE 1
+**C01. The supremum is \(\boxed{1}\), and \(1\) is admissible.**
+
+We first prove the uniform upper bound. Constants below may depend on \(p,M\), but are uniform in \(\nu\) and in the choice of domain.
+
+It suffices initially to consider smooth approximations of the initial data. Convolution preserves the nonnegative measure decomposition and all the stated bounds. The resulting smooth solutions converge to the given solution for each fixed \(\nu\). Indeed, uniqueness and stability in the two-dimensional energy class follow from the difference energy estimate and
+\[
+\left|\int w\cdot\nabla v\cdot w\right|
+ \le \frac{\nu}{2}\|\nabla w\|_2^2
+ +C_\nu(1+\|\nabla v\|_2^2)\|w\|_2^2.
+\]
+Weak lower semicontinuity then transfers the bounds proved below to the original solution.
+
+For a smooth solution, split its vorticity as
+\[
+\omega=\rho+g,
+\]
+where both components solve
+\[
+\partial_t h+u\cdot\nabla h=\nu\Delta h,
+\]
+with initial data \(\mu_0\) and \(f_0\), respectively. Positivity and the maximum principle give
+\[
+\rho\ge0,\qquad \|\rho(t)\|_1\le2M,\qquad
+\|g(t)\|_1+\|g(t)\|_p\le M.
+\]
+Here and below, harmless changes in constants accommodate the approximation.
+
+Use the inhomogeneous \(H^{-1}\) norm. Since \(\omega=\operatorname{curl}u\), the energy inequality gives
+\[
+\|\omega(t)\|_{H^{-1}}\le \|u(t)\|_2\le M.
+\]
+Also,
+\[
+\|g(t)\|_{H^{-1}}
+ \le C_p\bigl(\|g(t)\|_1+\|g(t)\|_p\bigr).
+\]
+For \(1<p<2\), this follows by duality from \(H^1\hookrightarrow L^{p'}\); for \(p\ge2\), interpolate \(L^1\) and \(L^p\) to obtain \(L^2\). Consequently,
+\[
+\|\rho(t)\|_{H^{-1}}\le C.
+\tag{1}
+\]
+
+The kernel \(K\) of \((1-\Delta)^{-1}\), on either domain, is positive and satisfies
+\[
+K(z)\ge c\log(1/r)\qquad (|z|\le2r)
+\]
+for sufficiently small \(r\). These properties follow directly from its representation as the integral of the positive heat kernel against \(e^{-s}\,ds\). Thus (1) and positivity imply
+\[
+\iint_{|x-y|\le2r}\rho(x)\rho(y)\,dx\,dy
+ \le \frac{C}{\log(1/r)}.
+\tag{2}
+\]
+
+Let \(\eta_r\) be a nonnegative smooth mollifier supported in the radius-\(r\) ball. Equation (2) gives
+\[
+\|\rho*\eta_r\|_2^2
+ \le \frac{C}{r^2\log(1/r)}.
+\]
+The translation estimate gives
+\[
+\|\rho-\rho*\eta_r\|_2^2\le Cr^2\|\nabla\rho\|_2^2.
+\]
+Writing \(y=\|\rho\|_2^2\) and \(z=\|\nabla\rho\|_2^2\), we therefore have
+\[
+y\le \frac{C}{r^2\log(1/r)}+Cr^2z.
+\tag{3}
+\]
+For sufficiently large \(y\), choose
+\[
+r^2=\frac{A}{y\log y},
+\]
+where \(A\) is a sufficiently large fixed constant. The first term in (3) is then at most \(y/2\), so
+\[
+z\ge c y^2\log y.
+\tag{4}
+\]
+
+Incompressibility gives the exact component energy identity
+\[
+y'=-2\nu z.
+\]
+Hence, whenever \(y\) exceeds a fixed threshold \(Y>1\),
+\[
+y'\le-c\nu y^2\log y.
+\]
+If \(y(t)>Y\), monotonicity ensures this inequality holds throughout \([0,t]\). Integration yields
+\[
+c\nu t\le \int_{y(t)}^\infty\frac{ds}{s^2\log s}
+ \le\frac1{y(t)\log y(t)}.
+\]
+Inverting this inequality, and including the alternative \(y(t)\le Y\), gives
+\[
+\|\rho(t)\|_2^2
+ \le C\left(1+\frac1{\nu t\log(1/(\nu t))}\right),
+ \qquad 0<t\le1.
+\tag{5}
+\]
+
+For completeness, the signed component has the drift-independent smoothing estimate
+\[
+\|g(t)\|_2^2\le
+\begin{cases}
+C\bigl(1+(\nu t)^{-(2/p-1)}\bigr),&1<p<2,\\
+C,&p\ge2.
+\end{cases}
+\tag{6}
+\]
+For \(p\ge2\), this is interpolation and contraction. For \(p<2\), multiply the component equation by \(g\) and use
+\[
+\|g\|_2\le
+C\|\nabla g\|_2^{\,1-p/2}\|g\|_p^{\,p/2}+C\|g\|_p;
+\]
+the resulting differential inequality gives (6).
+
+Combining (5), (6), and \(\|\omega\|_2^2\le2\|\rho\|_2^2+2\|g\|_2^2\), we obtain
+\[
+D_\nu\le
+\frac{C}{\log(1/\nu)}+C\nu^\beta
+\le\frac{C'}{\log(1/\nu)},
+\qquad
+\beta=\min\{1,\,2-2/p\}>0.
+\]
+This proves admissibility of \(q=1\).
+
+To show sharpness, it is enough to construct a family on \(\mathbb R^2\). Choose a nonnegative, smooth, radial function \(\phi\), supported in the unit disk, with integral one. Put
+\[
+\varepsilon=\sqrt{\nu},\qquad
+a_\nu=\frac{b}{\sqrt{\log(1/\nu)}},\qquad
+\omega_0^\nu(x)=a_\nu\left[\nu^{-1}\phi(x/\sqrt\nu)-\phi(x)\right].
+\]
+Take
+\[
+\mu_0^\nu=a_\nu\nu^{-1}\phi(x/\sqrt\nu)\,dx,
+\qquad f_0^\nu=-a_\nu\phi.
+\]
+The vorticity has zero total circulation. Its associated radial swirl velocity is
+\[
+u_0^\nu(x)=\frac{x^\perp}{|x|^2}
+ \int_0^{|x|}s\,\omega_0^\nu(s)\,ds.
+\]
+Splitting the radial energy integral at \(\sqrt\nu\) and \(1\) gives
+\[
+\|u_0^\nu\|_2^2\le
+C a_\nu^2\bigl(1+\log(1/\nu)\bigr)\le Cb^2.
+\]
+All other required initial bounds are at most \(C_pb\). Choosing \(b>0\) sufficiently small makes the family satisfy any fixed positive bound \(M\).
+
+Radial vorticity has zero advection by its swirl velocity, so its exact evolution is
+\[
+\omega^\nu(t,x)=a_\nu\left[
+\nu^{-1}(e^{t\Delta}\phi)(x/\sqrt\nu)
+-e^{\nu t\Delta}\phi(x)\right].
+\]
+This produces a smooth Navier–Stokes solution satisfying the energy identity. For \(t\in[1/2,1]\), setting \(m=\|e^\Delta\phi\|_2>0\), the triangle inequality gives
+\[
+\|\omega^\nu(t)\|_2
+ \ge a_\nu\bigl(\nu^{-1/2}m-\|\phi\|_2\bigr)
+ \ge \tfrac12a_\nu m\nu^{-1/2}
+\]
+for small \(\nu\). Consequently,
+\[
+D_\nu\ge \frac{m^2a_\nu^2}{8}
+=\frac{m^2b^2}{8\log(1/\nu)}.
+\]
+Every proposed bound with \(q>1\) therefore fails. Together with the upper bound, this establishes the claimed supremum.
+
+REPLAYED RESPONSE 2
+**C01. The draft is sound. The supremum is \(\boxed{1}\), and \(q=1\) is admissible.** I find no substantive error. The following checks explain why the key estimates and sharpness construction work.
+
+For the upper bound, the decomposition \(\omega=\rho+g\) is legitimate: with the smooth solution’s velocity fixed, evolve the two initial components by the same linear advection–diffusion equation. Positivity, mass control, and \(L^p\) contraction give the stated component bounds. Also,
+\[
+\|\rho\|_{H^{-1}}
+\le \|\operatorname{curl}u\|_{H^{-1}}+\|g\|_{H^{-1}}
+\le C(p,M).
+\]
+On \(\mathbb R^2\), the use of the **inhomogeneous** norm matters. For \(1<p<2\), \(H^1\hookrightarrow L^{p'}\) provides the required dual estimate; for \(p\ge2\), interpolation between \(L^1\) and \(L^p\) controls \(L^2\).
+
+The positive resolvent kernel therefore yields
+\[
+C\ge \|\rho\|_{H^{-1}}^2
+=\iint K(x-y)\rho(x)\rho(y)\,dx\,dy
+\ge c\log(1/r)
+ \iint_{|x-y|\le2r}\rho(x)\rho(y)\,dx\,dy.
+\]
+Positivity of \(\rho\) is exactly what permits restricting this integral without cancellation. The heat-kernel representation supplies the asserted logarithmic lower bound on both domains.
+
+The mollification argument is also correct. Indeed, the convolution kernel \(\eta_r*\widetilde\eta_r\) is supported within distance \(2r\) and bounded by \(Cr^{-2}\), so
+\[
+y\le \frac{C}{r^2\log(1/r)}+Cr^2z,
+\qquad
+y=\|\rho\|_2^2,\quad z=\|\nabla\rho\|_2^2.
+\]
+With \(r^2=A/(y\log y)\),
+\[
+\log(1/r)=\tfrac12(\log y+\log\log y-\log A).
+\]
+Thus a sufficiently large fixed \(A\), followed by a sufficiently large threshold for \(y\), makes the first term at most \(y/2\). Consequently,
+\[
+z\ge c y^2\log y.
+\]
+There is no reversed inequality in the subsequent ODE argument:
+\[
+y'=-2\nu z,\qquad
+c\nu t\le\int_{y(t)}^\infty\frac{ds}{s^2\log s}
+\le\frac1{y(t)\log y(t)}.
+\]
+Hence \(y(t)\log y(t)\le C/(\nu t)\), which gives the claimed bound
+\[
+y(t)\le C\left(1+\frac1{\nu t\log(1/(\nu t))}\right).
+\]
+The alternative in which \(y\) has fallen below the fixed threshold is covered by the constant term.
+
+The signed-component smoothing exponent is correct. For \(1<p<2\), the displayed interpolation inequality implies, above a fixed threshold,
+\[
+\|\nabla g\|_2^2\ge c\|g\|_2^{\,4/(2-p)}.
+\]
+Combining this with the component energy identity yields
+\[
+\|g(t)\|_2^2\lesssim 1+(\nu t)^{-(2/p-1)}.
+\]
+Its contribution to \(D_\nu\) is therefore \(O(\nu^{2-2/p})\), smaller than the logarithmic bound.
+
+The approximation step introduces no unresolved gap. Spatial convolution preserves the decomposition and the required bounds, while the initial velocities converge strongly in \(L^2\). The stated difference estimate, integrated by Gronwall using the energy-class bounds, gives stability for each fixed \(\nu\). Lower semicontinuity transfers the dissipation estimate.
+
+For sharpness, the radial construction correctly cancels total circulation, making its velocity square-integrable. Its energy grows at most like
+\[
+a_\nu^2\bigl(1+\log(1/\nu)\bigr),
+\]
+so \(a_\nu=b/\sqrt{\log(1/\nu)}\) keeps every required initial bound uniform.
+
+Radial swirl is tangent to vorticity level sets, so vorticity evolves exactly by heat diffusion. Heat scaling gives the displayed formula, and \(L^2\) contraction implies, uniformly for \(t\in[1/2,1]\),
+\[
+\|\omega^\nu(t)\|_2
+\ge a_\nu\left(\nu^{-1/2}\|e^\Delta\phi\|_2-\|\phi\|_2\right).
+\]
+Thus \(D_\nu\ge c/\log(1/\nu)\). For any \(q>1\),
+\[
+D_\nu[\log(1/\nu)]^q\ge c[\log(1/\nu)]^{q-1}\longrightarrow\infty,
+\]
+contradicting admissibility. A counterexample on \(\mathbb R^2\) suffices because admissibility requires the bound on both domains.

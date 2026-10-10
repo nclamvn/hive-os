@@ -10,6 +10,8 @@ import {
 
 import {
   assertValidObjectKey,
+  boundedObjectReadLimit,
+  type GetObjectOptions,
   type ObjectStorage,
   type PutObjectOptions,
   type StoredObjectMetadata,
@@ -84,13 +86,29 @@ export class S3ObjectStorage implements ObjectStorage {
     };
   }
 
-  async get(key: string): Promise<Uint8Array | null> {
+  async get(key: string,options?:GetObjectOptions): Promise<Uint8Array | null> {
     assertValidObjectKey(key);
+    const maximum=boundedObjectReadLimit(options);
     try {
       const result = await this.client.send(
         new GetObjectCommand({ Bucket: this.bucket, Key: key }),
       );
       if (!result.Body) return null;
+      if(maximum!==undefined) {
+        const body=result.Body as AsyncIterable<Uint8Array> & {destroy?:()=>void};
+        try {
+          if(result.ContentLength!==undefined && result.ContentLength>maximum) throw new Error("Object exceeds bounded read");
+          if(typeof body[Symbol.asyncIterator]!=="function") throw new Error("Bounded object stream unsupported");
+          const output=new Uint8Array(maximum);
+          let offset=0;
+          for await(const chunk of body) {
+            if(!(chunk instanceof Uint8Array) || chunk.byteLength>maximum-offset) throw new Error("Object exceeds bounded read");
+            output.set(chunk,offset);offset+=chunk.byteLength;
+          }
+          if(result.ContentLength!==undefined && result.ContentLength!==offset) throw new Error("Object stream length mismatch");
+          return output.slice(0,offset);
+        } catch(error) {body.destroy?.();throw error;}
+      }
       return await result.Body.transformToByteArray();
     } catch (error) {
       if (isNotFound(error)) return null;

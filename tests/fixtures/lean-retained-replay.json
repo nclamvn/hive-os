@@ -1,0 +1,11 @@
+{
+  "statement": "Synthetic retained-output developer control: find positive integers with 2x+3y=7.",
+  "exact": {
+    "adapterId": "INTEGER_WITNESS",
+    "input": {"kind": "LINEAR_WITNESS", "coefficients": ["2", "3"], "rhs": "7"}
+  },
+  "outputs": {
+    "SOLVER": "{\"argument\":\"Synthetic known witness x=2, y=1; only exact substitution is assessed.\",\"certificate\":\"{\\\"kind\\\":\\\"INTEGER_WITNESS\\\",\\\"values\\\":[\\\"2\\\",\\\"1\\\"]}\",\"gaps\":[]}"
+  },
+  "optionalCalls": 0
+}

@@ -1,0 +1,115 @@
+{
+  "proposed_shortcut": "Convexity on strictK5 with first/last bottom extrema",
+  "fixed_cases": [
+    {
+      "offsets": [
+        "31/101",
+        "19/103",
+        "13/107",
+        "8/109",
+        "0"
+      ],
+      "positive_semidefinite_hessian": false,
+      "hessian": [
+        [
+          "15/4",
+          "-5/2",
+          "0",
+          "0"
+        ],
+        [
+          "-5/2",
+          "5",
+          "-5/2",
+          "0"
+        ],
+        [
+          "0",
+          "-5/2",
+          "5/2",
+          "5/2"
+        ],
+        [
+          "0",
+          "0",
+          "5/2",
+          "-5"
+        ]
+      ]
+    },
+    {
+      "offsets": [
+        "31/100",
+        "12/101",
+        "26/103",
+        "10/107",
+        "0"
+      ],
+      "positive_semidefinite_hessian": true,
+      "hessian": [
+        [
+          "35/4",
+          "-15/2",
+          "-5/2",
+          "5/4"
+        ],
+        [
+          "-15/2",
+          "55/6",
+          "0",
+          "0"
+        ],
+        [
+          "-5/2",
+          "0",
+          "65/6",
+          "-15/2"
+        ],
+        [
+          "5/4",
+          "0",
+          "-15/2",
+          "25/4"
+        ]
+      ]
+    },
+    {
+      "offsets": [
+        "19/83",
+        "18/89",
+        "7/97",
+        "6/101",
+        "0"
+      ],
+      "positive_semidefinite_hessian": false,
+      "hessian": [
+        [
+          "35/6",
+          "-5",
+          "-5/6",
+          "0"
+        ],
+        [
+          "-5",
+          "25/2",
+          "-15/2",
+          "5/3"
+        ],
+        [
+          "-5/6",
+          "-15/2",
+          "65/6",
+          "0"
+        ],
+        [
+          "0",
+          "5/3",
+          "0",
+          "-25/6"
+        ]
+      ]
+    }
+  ],
+  "elapsed_seconds": 0.14725862501654774,
+  "scope": "No random/grid/search. Negative Hessian is exact local obstruction; allpositive cases would not prove globalconvexity."
+}
