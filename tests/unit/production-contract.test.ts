@@ -34,7 +34,18 @@ describe("production contract", () => {
     expect(dockerfile).toContain("/app/.next/standalone");
     expect(dockerfile).not.toMatch(/COPY\\s+\\.env/);
     expect(dockerignore).toContain(".env.*");
+    expect(dockerignore.split("\n")).toContain(".next-*");
+    expect(dockerignore.split("\n")).toContain(".storage-test");
     expect(packageJson.scripts.build).toContain("scrub-standalone-env.mjs");
+    expect(packageJson.scripts.start).toBe("node scripts/build/start-standalone.mjs");
+  });
+
+  it("publishes staging images only by explicit workflow dispatch", () => {
+    const workflow = readFileSync(path.join(root, ".github/workflows/staging-images.yml"), "utf8");
+    const triggers = workflow.match(/^on:\n([\s\S]*?)\npermissions:/m)?.[1];
+    expect(triggers).toBeDefined();
+    expect(triggers).toMatch(/^  workflow_dispatch:$/m);
+    expect(triggers).not.toMatch(/^  (push|pull_request|schedule|workflow_run):/m);
   });
 
   it("TIP-024D packages the research worker as a separate non-root image", () => {

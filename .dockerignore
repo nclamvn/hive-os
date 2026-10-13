@@ -1,7 +1,12 @@
 .git
 .github
 .next
+.next-*
+.pnpm-store
 .storage
+.storage-test
+coverage
+*.tsbuildinfo
 artifacts
 docs
 node_modules

@@ -1,21 +1,9 @@
 name: staging-images
 
 on:
+  # Product handoff: Git push runs quality checks, not a cloud release.
+  # Invoke explicitly only after the deployment target is approved.
   workflow_dispatch:
-  push:
-    branches:
-      - codex/tip-023a-organization-graph
-    paths:
-      - Dockerfile
-      - package.json
-      - package-lock.json
-      - prisma/**
-      - public/**
-      - scripts/build/**
-      - scripts/db/**
-      - scripts/workers/**
-      - src/**
-      - .github/workflows/staging-images.yml
 
 permissions:
   contents: read

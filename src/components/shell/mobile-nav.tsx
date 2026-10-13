@@ -40,7 +40,15 @@ export function MobileNav({
     if (!open) return;
 
     const previouslyFocused = returnFocusRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     closeRef.current?.focus();
+    const desktop = window.matchMedia("(min-width: 768px)");
+    function onBreakpointChange() {
+      if (desktop.matches) onClose();
+    }
+    desktop.addEventListener("change", onBreakpointChange);
+    onBreakpointChange();
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -51,10 +59,20 @@ export function MobileNav({
       if (event.key !== "Tab") return;
 
       // Simple focus trap within the drawer.
-      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable || focusable.length === 0) return;
+      const focusable = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])',
+      ) ?? []).filter((element) => {
+        if (element.tabIndex < 0 || element.getClientRects().length === 0) return false;
+        // Closed <details> descendants may still have layout rectangles in
+        // Chromium. They must not become the focus trap's hidden last target.
+        if (element.checkVisibility) return element.checkVisibility({ visibilityProperty: true });
+        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+          if (parent instanceof HTMLDetailsElement && !parent.open &&
+              !parent.querySelector(":scope > summary")?.contains(element)) return false;
+        }
+        return getComputedStyle(element).visibility !== "hidden";
+      });
+      if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       const active = document.activeElement;
@@ -70,7 +88,12 @@ export function MobileNav({
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      previouslyFocused?.focus();
+      desktop.removeEventListener("change", onBreakpointChange);
+      document.body.style.overflow = previousOverflow;
+      // The menu trigger is hidden above the mobile breakpoint. Return to the
+      // main landmark instead of leaving focus in a removed/hidden drawer.
+      if (desktop.matches) document.getElementById("main-content")?.focus();
+      else previouslyFocused?.focus();
     };
   }, [open, onClose, returnFocusRef]);
 

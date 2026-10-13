@@ -95,7 +95,13 @@ export function AppShell({
         className="bg-surface sticky top-0 hidden h-screen shrink-0 border-r border-line min-[768px]:block min-[1024px]:hidden"
         style={{ width: "var(--shell-iconrail)" }}
       >
-        <SidebarContent iconOnly account={account} homeHref={homeHref} />
+        <SidebarContent
+          iconOnly
+          account={account}
+          footerSlot={footerSlot}
+          homeHref={homeHref}
+          enterpriseScope={enterpriseScope}
+        />
       </aside>
 
       {/* Mobile drawer (<768px) */}

@@ -24,6 +24,9 @@ function fixture(){
 function run(root:string,script:string,profile=""){
   return spawnSync(process.execPath,[path.join(scriptRoot,script)],{cwd:root,env:{...process.env,HIVE_BUILD_PROFILE:profile},encoding:"utf8",timeout:5000,maxBuffer:32768});
 }
+function runE2E(root:string,profile="",nodeEnv:"test"|"development"|"production"="test"){
+  return spawnSync(process.execPath,[path.resolve("scripts/test/start-e2e-standalone.mjs")],{cwd:root,env:{...process.env,HIVE_BUILD_PROFILE:profile,NODE_ENV:nodeEnv},encoding:"utf8",timeout:5000,maxBuffer:32768});
+}
 afterEach(()=>{
   for(const root of roots.splice(0)){
     if(!path.basename(root).startsWith("codex-tmp-standalone-20261010-"))throw new Error("Refuse unowned fixture cleanup");
@@ -32,6 +35,47 @@ afterEach(()=>{
 });
 
 describe("standalone post-build packaging selects only the built artifact",()=>{
+  it.each(["", "LOCAL_QA"])("E2E starts the exact %s artifact in test mode and cleans its temporary entrypoint",profile=>{
+    const root=fixture(),dist=profile?".next-build":".next";
+    const source=`process.env.NODE_ENV = 'production'; console.log(${JSON.stringify(dist)} + ':' + process.env.NODE_ENV);`;
+    writeFileSync(path.join(root,dist,"standalone/server.js"),source);
+    const result=runE2E(root,profile);
+    expect(result.status,result.stderr).toBe(0);
+    expect(result.stdout.trim()).toBe(`${dist}:test`);
+    expect(readFileSync(path.join(root,dist,"standalone/server.js"),"utf8")).toBe(source);
+    expect(existsSync(path.join(root,dist,"standalone/server.e2e.cjs"))).toBe(false);
+  });
+  it.each(["TIP076_QA", "TIP079_QA", "TIP080_QA", "unknown"])("E2E refuses historical/unknown profile %s",profile=>{
+    const result=runE2E(fixture(),profile);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain("dedicated test launcher");
+  });
+  it.each(["production", "development"] as const)("E2E refuses NODE_ENV=%s",nodeEnv=>{
+    expect(runE2E(fixture(),"LOCAL_QA",nodeEnv).stderr).toContain("requires NODE_ENV=test");
+  });
+  it("E2E refuses missing QA output instead of launching a stale default",()=>{
+    const root=fixture();rmSync(path.join(root,".next-build/standalone"),{recursive:true});
+    expect(runE2E(root,"LOCAL_QA").status).not.toBe(0);
+    expect(existsSync(path.join(root,".next/standalone/server.e2e.cjs"))).toBe(false);
+  });
+  it.each(["", "LOCAL_QA"])("starts only the selected %s artifact without loading project env files",profile=>{
+    const root=fixture();
+    for(const dist of [".next", ".next-build"]){
+      writeFileSync(path.join(root,dist,"standalone/server.js"),`console.log(${JSON.stringify(dist)});`);
+    }
+    const result=run(root,"start-standalone.mjs",profile);
+    expect(result.status,result.stderr).toBe(0);
+    expect(result.stdout.trim()).toBe(profile?".next-build":".next");
+  });
+  it.each(["TIP076_QA", "TIP079_QA", "TIP080_QA", "unknown"])("refuses %s rather than bypassing its dedicated launcher",profile=>{
+    const result=run(fixture(),"start-standalone.mjs",profile);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain("dedicated test launcher");
+  });
+  it("never falls back to a stale default artifact when LOCAL_QA output is missing",()=>{
+    const root=fixture();rmSync(path.join(root,".next-build/standalone"),{recursive:true});
+    expect(run(root,"start-standalone.mjs","LOCAL_QA").status).not.toBe(0);
+  });
   it.each(["","LOCAL_QA","TIP076_QA","TIP079_QA","TIP080_QA"])("scrubs and packages the selected %s output only",profile=>{
     const root=fixture(),dist=profile?".next-build":".next",other=profile?".next":".next-build";
     const scrub=run(root,"scrub-standalone-env.mjs",profile);

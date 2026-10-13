@@ -275,15 +275,22 @@ export function SidebarContent({
       {/* Account footer — administrative actions stay behind one disclosure. */}
       <div className="border-t border-line p-3">
         {iconOnly ? (
-          <div
-            className="text-ink-muted flex h-10 items-center justify-center"
-            title={account ? `${account.name} · ${account.email}` : "Account"}
-          >
-            <UserRound className="size-[18px]" aria-hidden="true" />
-            <span className="sr-only">
-              {account ? account.name : "Not signed in"}
-            </span>
-          </div>
+          <details className="group relative">
+            <summary
+              className="text-ink-muted hover:bg-surface-subtle flex h-10 cursor-pointer list-none items-center justify-center rounded-md [&::-webkit-details-marker]:hidden"
+              title={account ? `${account.name} · ${account.email}` : t("common.accountSecurity")}
+              aria-label={t("common.accountSecurity")}
+            >
+              <UserRound className="size-[18px]" aria-hidden="true" />
+            </summary>
+            <div className="border-line bg-surface shadow-panel absolute bottom-0 left-full z-40 ml-3 w-64 rounded-panel border p-3">
+              {account ? <div className="border-line mb-2 min-w-0 border-b pb-2">
+                <p className="text-body text-ink break-words font-medium">{account.name}</p>
+                <p className="text-meta text-ink-muted break-all">{account.email}</p>
+              </div> : null}
+              {footerSlot}
+            </div>
+          </details>
         ) : (
           <details className="group">
             <summary className="hover:bg-surface-subtle flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-2 transition-colors [&::-webkit-details-marker]:hidden">

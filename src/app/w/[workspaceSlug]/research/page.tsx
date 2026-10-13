@@ -22,6 +22,7 @@ import { ResearchLiveRefresh } from "@/components/research/research-live-refresh
 import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
 import { getResearchCampaignCopy } from "@/i18n/research-campaign-copy";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
+import { ResearchEntryPoints } from "@/components/shell/research-entry-points";
 import { Button } from "@/components/ui/button";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -35,6 +36,7 @@ import {
   listResearchTargets,
 } from "@/modules/research-sandbox/kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { getEnv } from "@/server/env";
 
 export const dynamic = "force-dynamic";
 
@@ -115,6 +117,9 @@ export default async function ResearchPage({
     (mission) => mission.id === selectedMissionId,
   );
   const expertMode = query.advanced === "1";
+  const env = getEnv();
+  const localToolsAvailable = ["development", "test"].includes(env.NODE_ENV) &&
+    (!env.DEPLOYMENT_ENV || ["development", "test"].includes(env.DEPLOYMENT_ENV));
   const hasActiveWork = [...runs, ...computations].some(
     (run) => !terminalStatuses.has(run.status) && run.status !== "AWAITING_REVIEW",
   );
@@ -122,14 +127,13 @@ export default async function ResearchPage({
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
       <section className="mx-auto w-full max-w-5xl">
-        <Link href={`/w/${workspaceSlug}/research/kakeya`} className="text-meta text-ink mb-3 mr-5 inline-flex min-h-11 items-center underline underline-offset-4">{locale==="vi"?"Hồ sơ Kakeya · chặn dưới toàn cục cho năm tam giác":"Kakeya dossier · global lower bound for five triangles"}</Link>
-        {canRequest?<Link href={`/w/${workspaceSlug}/research/lean`} className="text-meta text-ink mb-3 inline-flex min-h-11 items-center underline underline-offset-4">{locale==="vi"?"Bàn nghiên cứu gọn · nhập đầu ra thủ công":"Lean research workbench · manual output import"}</Link>:null}
+        <ResearchEntryPoints locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} canRequest={canRequest}
+          localToolsAvailable={localToolsAvailable} />
         <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
           missionId={selectedMissionId} canRequest={canRequest} canReview={canReview}/>
         <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
           className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
-        <Link href={`/w/${workspaceSlug}/research/poly19${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#poly19-showcase`}
-          className="text-meta text-ink mt-3 ml-4 inline-flex min-h-10 items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{locale==="vi"?"Bản chứng minh Poly19 và bằng chứng":"Poly19 proof and evidence"}</Link>
       </section>
       <section id="new-research" className="mx-auto w-full max-w-5xl scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
@@ -138,9 +142,9 @@ export default async function ResearchPage({
               {selectedMission.referenceCode} · {selectedMission.title}
             </p>
           ) : null}
-          <h1 className="text-page-title text-ink-strong max-w-3xl">
+          <h2 className="text-page-title text-ink-strong max-w-3xl">
             {copy.intentTitle}
-          </h1>
+          </h2>
           <p className="text-body text-ink-muted mt-3 max-w-3xl">
             {copy.intentHint}
           </p>
@@ -176,7 +180,6 @@ export default async function ResearchPage({
                   required
                   rows={6}
                   maxLength={8000}
-                  autoFocus
                   placeholder={copy.intentPlaceholder}
                   aria-describedby="research-intent-hint"
                   className={`${inputClass} text-section-title mt-3 min-h-40 resize-y font-normal leading-relaxed`}

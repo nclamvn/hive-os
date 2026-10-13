@@ -160,3 +160,9 @@ export const NAV_ITEMS: readonly NavItem[] = [
     segment: "settings",
   },
 ];
+
+/** Match a module and its descendants, but never mark the workspace root twice. */
+export function isNavigationActive(pathname: string, href: string): boolean {
+  return pathname === href ||
+    (/^\/w\/[^/]+\/[^/]+$/.test(href) && pathname.startsWith(`${href}/`));
+}

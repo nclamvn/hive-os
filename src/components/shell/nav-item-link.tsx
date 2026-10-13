@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isNavigationActive } from "./navigation";
 
 export function NavItemLink({
   href,
@@ -20,13 +21,7 @@ export function NavItemLink({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const active =
-    href.endsWith("/control-room") ||
-    href.endsWith("/missions") ||
-    href.endsWith("/observatory") ||
-    href.endsWith("/reports")
-      ? pathname === href || pathname.startsWith(`${href}/`)
-      : pathname === href;
+  const active = isNavigationActive(pathname, href);
 
   return (
     <Link

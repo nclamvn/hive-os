@@ -6,8 +6,16 @@
 import { spawn } from "node:child_process";
 import { readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { resolveStandalonePaths } from "../build/standalone-paths.mjs";
 
-const standaloneRoot = path.resolve(".next/standalone");
+if (process.env.NODE_ENV !== "test") {
+  throw new Error("E2E launcher requires NODE_ENV=test");
+}
+const profile = process.env.HIVE_BUILD_PROFILE;
+if (profile && profile !== "LOCAL_QA") {
+  throw new Error("Use the dedicated test launcher for historical QA profiles");
+}
+const { standaloneRoot } = resolveStandalonePaths();
 const sourcePath = path.join(standaloneRoot, "server.js");
 const testPath = path.join(standaloneRoot, "server.e2e.cjs");
 const productionAssignment = "process.env.NODE_ENV = 'production'";

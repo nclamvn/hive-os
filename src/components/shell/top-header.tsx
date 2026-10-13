@@ -81,7 +81,7 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={t("common.findObjects")}
-                className="text-body text-ink placeholder:text-ink-muted w-full min-w-0 bg-transparent outline-none"
+                className="text-body text-ink placeholder:text-ink-muted w-full min-w-0 truncate bg-transparent outline-none"
               />
             </form>
           ) : (

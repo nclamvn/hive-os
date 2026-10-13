@@ -7,7 +7,7 @@
     "dev:demo": "DEMO_FIXTURES_ENABLED=true next dev --hostname 127.0.0.1",
     "demo:provision": "DEMO_FIXTURES_ENABLED=true tsx scripts/dev/provision-local-demo.ts",
     "build": "next build && node scripts/build/scrub-standalone-env.mjs && node scripts/build/prepare-standalone-assets.mjs",
-    "start": "node .next/standalone/server.js",
+    "start": "node scripts/build/start-standalone.mjs",
     "typecheck": "tsc --noEmit",
     "research:check": "node scripts/research/check.mjs",
     "research:replay": "node --import tsx scripts/research/replay.mts",
@@ -15,7 +15,9 @@
     "research:lrc": "python3 -I -S -B scripts/research/lrc-method.py",
     "lint": "eslint",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "vitest run --project unit",
+    "test:unit": "HIVE_TEST_SCOPE=product vitest run --project unit",
+    "test:archive": "HIVE_TEST_SCOPE=archive vitest run --project unit",
+    "test:unit:all": "HIVE_TEST_SCOPE=all vitest run --project unit",
     "test:integration": "vitest run --project integration",
     "test:integration:strict": "node --throw-deprecation ./node_modules/vitest/vitest.mjs run --project integration",
     "test:dependency-policy": "vitest run --project unit tests/unit/dependency-policy.test.ts",
@@ -55,7 +57,7 @@
     "docx": "^9.7.1",
     "katex": "0.18.9",
     "lucide-react": "1.25.0",
-    "next": "16.2.11",
+    "next": "16.3.8",
     "nodemailer": "9.0.3",
     "notosans-fontface": "^1.3.0",
     "pdfkit": "^0.19.1",
@@ -75,16 +77,16 @@
     "@types/react-dom": "^19",
     "dotenv": "17.4.2",
     "eslint": "^9",
-    "eslint-config-next": "16.2.11",
+    "eslint-config-next": "16.3.8",
     "pg": "8.22.0",
     "prisma": "7.9.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "overrides": {
     "find-my-way": "9.7.0",
     "postcss": "8.5.25",
-    "sharp": "0.35.3"
+    "sharp": "0.35.5"
   }
 }

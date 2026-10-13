@@ -5,22 +5,24 @@ decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
 authoritative product specification and governance documents live in
 [`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
 
-Current state: **Local Release Candidate signed through TIP-019, with
-TIP-021A identity recovery, TIP-021B stabilization, TIP-021C-A production
-contract, Enterprise Core TIP-023A through TIP-023H locally verified, and a
-provider-free TIP-024A Query Trust foundation implemented**.
-Identity,
-Mission, Truth, Skill, Execution, Verification, Release, Observatory, Reports,
-Settings, cross-surface discovery, asynchronous bounded dossier exports,
-governed lifecycle disposition, and local recovery are
-implemented and locally verified. Remote quality reproducibility passed on
-GitHub Actions run `30891944749`; merge, RC packaging and production deployment
-remain separate gates. Exact evidence lives in
-[`docs/verification/TIP-019_LOCAL_RC_REPORT.md`](docs/verification/TIP-019_LOCAL_RC_REPORT.md).
+Current direction (2026-10-13): **research paused; product polish and research-team
+handoff in progress**. Finish and push the reviewed local product first; the
+deployment target will be chosen separately. A Git push does not publish
+staging images automatically.
 
-TIP-024A defines strict, read-only QueryPlan and golden-evaluation contracts.
-It does not connect a model provider, implement an enterprise ontology, or
-claim production question-answering accuracy.
+The application includes workspace identity and roles, missions, evidence and
+review, execution/manual bridge, research tools, bilingual mathematical
+presentations, and settings. The compact research workflow is primary solver →
+targeted critique if needed → appropriate tool verification. Using Codex to
+supply model output is an operator-mediated bridge, not an unattended model API.
+An exact computation or accepted workflow does not by itself certify a theorem.
+**K6 remains open**; retained partial results and failed approaches are preserved.
+
+Start with the [research-team handoff guide](docs/operations/RESEARCH_TEAM_HANDOFF.md).
+Historical acceptance and current scope are recorded in
+[`docs/CODEX_CHAT_HANDOFF.md`](docs/CODEX_CHAT_HANDOFF.md), not inferred from this
+overview. Historical local passes are not certification of this release or of
+the old remote staging environment.
 
 ## Stack
 
@@ -33,15 +35,38 @@ claim production question-answering accuracy.
 
 ## Getting started
 
+Use Node.js 24 and PostgreSQL 16. Before an install/build, run `df -h /` and
+keep at least 20 GB free. Work in this checkout, not a temporary project copy.
+
+1. Copy `.env.example` to `.env` **only if `.env` does not already exist**.
+2. Set distinct `BETTER_AUTH_SECRET` and `AUTH_THROTTLE_SECRET` values (generate
+   each with `openssl rand -base64 32`). Keep `.env` untracked.
+3. Keep the template's separate local runtime/migration database connections.
+
 ```bash
-npm ci                 # deterministic install (runs prisma generate)
-docker compose up -d   # dedicated Postgres on port 5433 (dev + test databases)
-npm run db:migrate     # apply committed migrations
-npm run dev            # http://localhost:3000 — full local application
+npm ci                       # deterministic install, including prisma generate
+docker compose up -d db       # local PostgreSQL on port 5433
+npm run db:bootstrap          # migrations AND least-privileged runtime role
+npm run dev                  # http://localhost:3000
 ```
 
-Copy `.env.example` to `.env` if you need non-default configuration.
-Health endpoint: `GET /api/health` (includes database connectivity).
+For a disposable local walkthrough, provision the demo explicitly once:
+
+```bash
+AUTH_ALLOW_SELF_SIGNUP=true npm run demo:provision
+npm run dev:demo
+```
+
+Stop the existing dev server before starting `dev:demo`. Open
+`http://localhost:3000/sign-in`; local demo credentials are prefilled. This is
+for the local `hiveos_dev` database only, not shared/team credentials. The
+provisioner may refuse an existing unverified or changed demo account rather
+than resetting it; do not bypass authentication to recover it.
+
+Use the origin in `BETTER_AUTH_URL` consistently. Local email is an in-memory
+test sink, not a real delivery inbox. Shared-team onboarding needs working
+SMTP and verified accounts; see the handoff guide.
+Health: `/api/health/live` and `/api/health/ready` (readiness checks dependencies).
 
 ## Local backup and recovery
 
@@ -74,17 +99,30 @@ npm run db:rehearse:tip019
 ## Local production contract
 
 ```bash
-npm run build
-npm run test:prod-startup
-npm run test:load-local
-docker build -t hiveos:tip-021c-a .
+HIVE_BUILD_PROFILE=LOCAL_QA npm run build
 ```
 
-The standalone artifact runs non-root and receives configuration only at
+The isolated maintenance build reuses `.next-build`; ordinary `npm run build`
+uses `.next`. For a configured release runtime, `npm start` selects `.next`,
+and `HIVE_BUILD_PROFILE=LOCAL_QA npm start` selects `.next-build`. Supply the
+matching runtime environment explicitly: packaged `.env` files are removed,
+and production rejects local/demo mail and storage settings. Historical
+`test:prod-startup` and `test:load-local` scripts still require a fresh default
+`.next` standalone build and their isolated test prerequisites; do not run them
+as acceptance of `.next-build` or against a live development session.
+
+The container artifact runs non-root and receives configuration only at
 runtime. Local load output is observation evidence, never a production SLO.
 See [`docs/operations/LOCAL_PRODUCTION_REHEARSAL.md`](docs/operations/LOCAL_PRODUCTION_REHEARSAL.md).
 
 ## Quality commands
+
+`npm run test:unit` runs current product regression. Immutable historical
+source-contract checks are separate (`npm run test:archive`) and currently have
+unresolved replay prerequisites; they are **not** counted as passing. The
+unfiltered baseline is `npm run test:unit:all`. Read the
+[exact scope and one-shot capture warning](docs/verification/PRODUCT_TEST_SCOPE.md)
+before running historical checks. No historical hashes are automatically resealed.
 
 For the small, provider-free mathematics development slice, start here (using
 the already installed dependencies; no database or application build):

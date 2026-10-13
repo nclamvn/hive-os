@@ -11606,3 +11606,26 @@ TIP-117 is engineering-only. K6 is OPEN, not completed by this routing.
 Preserve existing untracked TIP103–116 scientific evidence. No new research
 execution, paid API, security bypass, remote migration or deployment. Audit
 existing push-triggered image publishing before push to respect deploy deferral.
+
+### TIP-117 scoped product handoff — 2026-10-13
+
+Research checkpoint 9676d22 preserves TIP103–116; K6 remains OPEN/paused.
+Bilingual research entry, nested navigation, tablet account access and mobile
+keyboard/breakpoint behavior improved. Standalone startup follows its build
+profile; push-triggered staging image publishing is removed. EN/VI team guide
+documents local-only tools, manual bridge limits, roles, SMTP and recovery.
+
+Compatible dependency updates remove reported critical findings, but fresh
+audits still have 5 high omit-dev / 13 high full findings; the August dependency
+baseline is expired and unchanged. No deployment approval or clean-audit claim.
+Historical source pins remain frozen, with 54 archive/one-shot cases separate
+from repeatable product regression, not counted as passing.
+
+Final-lock typecheck and build pass; focused 64 unit cases and 3 browser cases
+pass, lint has 0 errors/41 historical warnings. Earlier product run had 5369
+passes/1 timeout; the isolated replay rerun passed30/30 unchanged limits. That
+earlier broad run is not a full-suite result on the updated dependency graph.
+Removed167 current-turn synthetic fixture roots only; no research deletion.
+No cloud release, paid provider call, schema change or research campaign.
+See docs/verification/TIP-117_PRODUCT_HANDOFF_REPORT.md and
+docs/operations/RESEARCH_TEAM_HANDOFF.md for exact evidence/deferred work.
