@@ -1,0 +1,313 @@
+{
+  "status": "EXACT_ONE_POINT_FUNCTIONAL_DIAGNOSTIC",
+  "coverage": "NONE",
+  "point_source": "hand tangent-corner a=b9/31,q=7/6+(5a+b)/4; no numerical navigation",
+  "scaled_p": [
+    "176/93",
+    "176/93",
+    "149/93",
+    "9/31",
+    "0",
+    "0"
+  ],
+  "physical_x": [
+    "88/279",
+    "88/279",
+    "149/558",
+    "3/62",
+    "0",
+    "0"
+  ],
+  "left_labels": [
+    4,
+    5,
+    6
+  ],
+  "right_labels": [
+    1,
+    2,
+    3
+  ],
+  "span_left": "9/31",
+  "span_right": "9/31",
+  "span_total": "18/31",
+  "positive_bottom_gap": "29/93",
+  "component_count": 2,
+  "positive_overlap_edges": [
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "graph_connected": true,
+  "endpoint_degrees": [
+    5,
+    5
+  ],
+  "hull_integrals": {
+    "left": "4893/3844",
+    "right": "4893/3844"
+  },
+  "adjacent_gap_wedges": [
+    {
+      "labels": [
+        4,
+        5
+      ],
+      "area": "121/961"
+    },
+    {
+      "labels": [
+        5,
+        6
+      ],
+      "area": "1/4"
+    },
+    {
+      "labels": [
+        1,
+        2
+      ],
+      "area": "1/4"
+    },
+    {
+      "labels": [
+        2,
+        3
+      ],
+      "area": "121/961"
+    }
+  ],
+  "wedge_sum": "1445/1922",
+  "low_hull_intersection": "10609/69192",
+  "full_hull_intersection": "115363/207576",
+  "whole_hull_functional": "8291/6696",
+  "high_pair_records": [
+    {
+      "labels": [
+        4,
+        1
+      ],
+      "area": "4343/103788"
+    },
+    {
+      "labels": [
+        4,
+        2
+      ],
+      "area": "1369/51894"
+    },
+    {
+      "labels": [
+        4,
+        3
+      ],
+      "area": "0"
+    },
+    {
+      "labels": [
+        5,
+        1
+      ],
+      "area": "5329/345960"
+    },
+    {
+      "labels": [
+        5,
+        2
+      ],
+      "area": "10009/207576"
+    },
+    {
+      "labels": [
+        5,
+        3
+      ],
+      "area": "1369/51894"
+    },
+    {
+      "labels": [
+        6,
+        1
+      ],
+      "area": "0"
+    },
+    {
+      "labels": [
+        6,
+        2
+      ],
+      "area": "5329/345960"
+    },
+    {
+      "labels": [
+        6,
+        3
+      ],
+      "area": "4343/103788"
+    }
+  ],
+  "high_pair_sum": "223639/1037880",
+  "event_slabs": [
+    [
+      "0",
+      "9/62"
+    ],
+    [
+      "9/62",
+      "83/372"
+    ],
+    [
+      "83/372",
+      "9/31"
+    ],
+    [
+      "9/31",
+      "83/279"
+    ],
+    [
+      "83/279",
+      "28/93"
+    ],
+    [
+      "28/93",
+      "176/465"
+    ],
+    [
+      "176/465",
+      "7/18"
+    ],
+    [
+      "7/18",
+      "40/93"
+    ],
+    [
+      "40/93",
+      "83/186"
+    ],
+    [
+      "83/186",
+      "44/93"
+    ],
+    [
+      "44/93",
+      "269/558"
+    ],
+    [
+      "269/558",
+      "1/2"
+    ],
+    [
+      "1/2",
+      "149/279"
+    ],
+    [
+      "149/279",
+      "269/465"
+    ],
+    [
+      "269/465",
+      "56/93"
+    ],
+    [
+      "56/93",
+      "176/279"
+    ],
+    [
+      "176/279",
+      "20/31"
+    ],
+    [
+      "20/31",
+      "121/186"
+    ],
+    [
+      "121/186",
+      "269/372"
+    ],
+    [
+      "269/372",
+      "149/186"
+    ],
+    [
+      "149/186",
+      "242/279"
+    ],
+    [
+      "242/279",
+      "1"
+    ]
+  ],
+  "half_height_hull_functional": "739573/518940",
+  "fixed_low_calibration": "2833/3348",
+  "fixed_high_calibration": "181/124",
+  "forward_gap_cap": "6889/69192",
+  "fixed_support_functional": "214321/172980",
+  "required_scaled_area": "40/31",
+  "fixed_support_margin": "-8879/172980",
+  "half_height_hull_margin": "69973/518940",
+  "whole_hull_margin": "-349/6696",
+  "whole_hull_target_falsified": true,
+  "fixed_support_target_falsified": true,
+  "half_height_hull_target_falsified": false,
+  "area_trapezoid": "50293/207576",
+  "area_affine": "50293/207576",
+  "actual_scaled_area": "50293/34596",
+  "actual_defect": "5653/17298",
+  "auxiliary_countercertificate": false,
+  "smaller_global_witness": false,
+  "global_root_closed": false,
+  "elapsed_seconds": 0.008392042014747858
+}

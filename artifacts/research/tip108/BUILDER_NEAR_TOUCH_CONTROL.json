@@ -1,0 +1,116 @@
+{
+  "status": "EXACT_POINT_ONLY",
+  "coverage": "NONE",
+  "x": [
+    "491/1860",
+    "491/1860",
+    "401/1860",
+    "3/62",
+    "0",
+    "0"
+  ],
+  "scaled_p": [
+    "491/310",
+    "491/310",
+    "401/310",
+    "9/31",
+    "0",
+    "0"
+  ],
+  "area_trapezoid": "814013/3459600",
+  "area_affine": "814013/3459600",
+  "scaled_area": "814013/576600",
+  "component_count": 2,
+  "components": [
+    {
+      "labels": [
+        4,
+        5,
+        6
+      ],
+      "start": "0",
+      "end": "40/31"
+    },
+    {
+      "labels": [
+        1,
+        2,
+        3
+      ],
+      "start": "401/310",
+      "end": "801/310"
+    }
+  ],
+  "span_sum": "18/31",
+  "positive_overlap_edges": [
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "positive_overlap_graph_connected": true,
+  "endpoint_degrees": [
+    5,
+    5
+  ],
+  "below_global_target": false,
+  "global_root_closed": false,
+  "bottom_gap": "1/310",
+  "defect": "70013/288300",
+  "auxiliary_domain_basic_admissible": true,
+  "auxiliary_countercandidate": false,
+  "tangent_support_margin_3_plus_3": "82157/864900",
+  "elapsed_seconds": 0.002184416021918878
+}

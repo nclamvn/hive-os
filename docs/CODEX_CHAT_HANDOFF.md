@@ -10138,3 +10138,1471 @@ Currentcontractormanifest refreshed afterreports; founding/frozen pins unchanged
 Detailedmaintenanceverification in docs/contractor/TIP102_MAIN_COMPLETION.md.
 Git checkpoint/push on existing codex/tip-023a-organization-graph authorized;
 actual outcome is recorded by Git and owner-facing completion, not a release.
+
+### Owner-routed K5 equality/stability — TIP103, 2026-10-11
+
+Owner approves prior proposal via “Phân tích tốt hãy triển khai ngay”. New scoped
+PUBLIC_DISCOVERY_ANALYSIS successor, same five-triangle model, not K6/general
+Kakeya. TIP103 R1 literature/R2 all retained equality stationary loci/R3 stability
+proof or exact obstacle/R4 bilingual report. Window00:33–01:03UTC,6new math calls
+<=300s total, one Builder plus only gap-triggered review. No fresh cover/search/
+paidAPI/product/UI/DB/auth/Git/build/framework. TIP101 proof+corrigenda are retained
+dependencies pending externalreview; historical grants remain consumed. No
+assumed uniqueness, numerical Hessian proof, novelty or causalmethod advantage.
+
+### TIP103 K5 equality/stability terminal — 2026-10-11 00:39UTC
+
+New bilingualproof docs/research/KAKEYA_K5_EQUALITY_STABILITY_103_REPORT.md.
+All8658retainedcases/667quadratics re-eliminated:68equalityallrank4,
+64infeasible/4feasible dedupe exactly2offsets:publicStation(79,47,50,12,0)/305
+andreflection(79,67,29,32,0)/305. No singular affine equality family. Exact4
+incidentHessians H−I/32 PD⇒localA-metricareaexcess>=distance²/64, radii1/244,
+3/610. Continuity/compactness⇒globalcappedquadraticboundwithpositive EXISTENTIAL
+c; globalnumeric c/eta remainsuncomputed. Equalityclosure inherits corrected
+TIP101 analyticreduction/fullcover/Cartesian inventory; NOTfreshwholeproof,
+externalreview/novelty/Lean/A-B advantage/generalKakeya stillOPEN.
+
+OneBuilder+targeted supplementary AIproofcritic only; threefullscans~15.253s,
+twohelpercontrolruns6/6each(not12distincttests),5/6totalcalls,<17/300scompute,
+~6/30minwindow. Firstincidentinventoryomission130inconsistentcasesretainedin
+preliminaryoutput; finalandMainincludeallcasesandmatchapartfromtime. Oldcover/
+stationary/Main/correctedreviewhashesunchanged. New128KiBevidenceunder tip103,
+nogates/platform/product/UI/DB/auth/APIpaid/Git/build/install/scratch/Docker/
+deletion. STOP deliverable closedatconditionalcomputer-assistedscope. Proposed
+next externalcombinedproofreview or owner-approvedpresentation, noautomaticK6.
+
+### Owner-approved whole K5 challenge — TIP104, 2026-10-11
+
+Owner “duyệt” to proposed40min independent review. Same finiteK5 lowerbound+
+equality/stability, PROOF_CHALLENGE; source/certificates unchanged. R1analytic
+dependencies/R2finitecertificates/R3explicitfindings andclaimdowngradeifneeded/
+R4bilingualverdict.00:47–01:27UTC,6processes/600s/180seach, originalsavedcover
+andfullacceptance replayallowed, no regeneration/search/K6/APIpaid/UI/DB/auth/
+Git/build/install. Twofresh-contextAIcritics, nothumanreferees. Passingreplays
+cannot substitute for missinguniversalpremises. STOP review/cap/hardstop.
+
+### TIP104 whole K5 review terminal — 2026-10-11 00:55UTC
+
+Report docs/research/KAKEYA_K5_WHOLE_REVIEW_104_REPORT.md. Qualified
+NO_BLOCKING_DEFECT_FOUND_WITHIN_REVIEW; twofresh-context supplementaryAIcritics
+readanalytic+actualsourcechain. Newhandderivations4adjacentbounds/allδcap,
+C1/fullgradient/coarsegeometry/tiephase argument; finitehull+faces/nullspaces/
+invariantconstraints/equalitylocalstar audited. Existingcorrigenda retained.
+Mainfreshcoverage7.621s/fullstationaryderivation52.582s/60triplerecompute0.046s
+PASS, exactmatchesoldapartfromtime.3calls60.250s/600s,~8min/40min; no new103
+equalityrepeat, its source/predecessorproof/cover/certSHAunchanged. No actual
+defect requiring diagnostic arose. Tripleis sameproducer, independenthandmaxima
+andsourceaudit separatelyattributed. No humanreferee/Lean/novelty/A-B/global
+numericstabilityc closed. New548KiBevidence, noproduct/UI/DB/auth/Git/APIpaid/
+build/install/compile/projectcopy/Docker/deletion. STOP reviewcomplete; noautomatic
+K6/newcampaign/publicrelease/message. Nextproposed namedreferee or presentation.
+
+### Explicit owner K6 routing — TIP105, 2026-10-11
+
+Owner “lên thẳng k6” authorizes finite translated-six-triangle PUBLIC_DISCOVERY,
+not unrestricted Kakeya. TIP-105_K6_STRUCTURAL_CAMPAIGN.md; K5 proof/corrigenda/
+classification/review and exhausted envelopes preserved. One coherent30min
+campaign01:01–01:31UTC: sources, deterministic exact upper witness, all-real
+K5-transfer lower bound/overlapping equality compatibility, bilingual report.
+8mathprocesses/300s/90s each cumulative across Main+one Builder (4/150s each).
+No random/full4Dcover/paidAPI/UI/app/DB/auth/Git/build/install; global root OPEN
+unless matching all-real proof, no claim from a numerical/local optimum. Connection
+error is not mathematical failure and does not erase saved evidence or reset caps.
+
+### TIP105 K6 terminal — 2026-10-11 01:08UTC
+
+Report docs/research/KAKEYA_K6_STRUCTURAL_105_REPORT.md, bilingual. FiniteK6
+globalroot remainsOPEN. Exactreflection-fixed x=(49,43,23,26,6,0)/186 gives20/93,
+twoindependentretainedrationalareaalgorithmsagree; improves publicreversal2/9
+by2/279, no literature-recordclaim. Exact147coarsewall chamber+fixedpolygon
+quadraticproof andPD Hessian establishuniqueregionalclosedchambermin, strict
+full5Dlocalmin,radius∞1/465. Notallspace, nofullcoverorregenerationofK5.
+
+UniversalK5blockcompatibilitynewderivation:twooverlappingfive-blockminimizer
+images have separation²72/3721;globalK5stabilityimplies allrealarea>=
+35/183+15c/14884>35/183. cpositiveEXISTENTIAL, notexplicitnumericconstant.
+DependscorrectedinternalK5proof/equality/stability, externalhumanreview/novelty/
+formalization/A-B stillOPEN. OneimplementationBuilder+gap-specificcritic only.
+
+7/8mathprocesses/<6sconservative/300s;8distinctcontroltestsPASSBuilder+Main,
+not16;~8/30min. One immediateSciPyrefusalcharged, noinstall;25structuredstarts
+35575floatevaluationsnotexhaustivecoverage. FinalfreshMainlocaloutputrecords
+147walls/signs; priorBuilderoutputpreserved, finalCLIfreshlyexecuted. OldK5
+bytes/pinsintact;~64KiBnewevidence, noUI/product/APIpaid/DB/auth/Git/build/install/
+newgates/scratch/distDir/Docker/deletion. STOPboundedcampaigncomplete/globalOPEN;
+noautoextension. Nextsubstantiveobligationotherchambers ormatchingglobalinequality.
+
+### Owner activation — TIP106 K6 global bound, 2026-10-11
+
+“triển khai” approves prior60min/600s proposal, sameC_T(6)PUBLIC_DISCOVERY.
+Spec TIP-106_K6_GLOBAL_LOWER_BOUND.md; target EVERYrealF6>=20/93 inclboundaries,
+or rational smallerwitness withindependentexactreplay. Previous105partialroot/
+history unchanged.01:11–02:11UTC;12mathprocesses/600s/120each;Builder6/240s,
+Main6/360s,<=2smallnativecompiles/60salsocharged. Costqualify beforecomplete
+generation/checking;64MiBoutput/1GiBworkingmemory. OneimplementationBuilder,
+optionalgap-specificanalyticcritic; no symmetryassumption/random/APIpaid/UI/
+app/DB/auth/Git/build/install/newinfra. Partialregionalcasesnotrootclosure.
+
+### TIP106 K6 global campaign terminal — 2026-10-11 01:28UTC
+
+Report docs/research/KAKEYA_K6_GLOBAL_106_REPORT.md, bilingual. RootNOTclosed:
+noallreal20/93proof orsmallerrationalwitness. Newwrittenuniversalrestrictions:
+disconnectedgraph>=203/936>target ⇒ connectedsublevelinsidecube|xj|<25/6,
+globalminattainment; endpointdegree<=1>=481/2196>target (K5dependent), twofar
+neighbor-gapsetsalsoexcluded. Adjacentapexcollisionfacecannotlocalmin via
+negativeReLUcentraldifference; C1elsewhereforcesFULLgradientatallglobalmins,
+includingunorderedapices. Radial2area=bottomwidth forcesatmost2bottomcomponents.
+No naturalapexorder/fullpairoverlap/symmetry/convexityassumption established.
+
+Fullordered4Dproductionrefused logicalpremise+unqualifiedtotalcost, notproved
+infeasible. Pilot18/92walls/212cellsnotfullcover;145k/2900sheuristicnotactualcount.
+Finitehierarchy420configs336starts returns20/93. Partialwalk162chambers/163staged,
+196candidateareas,401openfrontier,52scap retained. Mainall196savedareareplay
+PASSbothretainedimplementations;minimum20/93,coverageNONE, notcasecompleteness.
+No morepartialbranchescollectedaftercost/coverageobstacle identified.
+
+7/12mathprocesses,<96sconservative/600s,~17/60min;Builder4/92.256899s Main3,
+12distinctcontrolsPASS(not24). Targetedanalyticcriticnoexecutions/humanreview.
+No noveltheorempriority/Lean/A-Bmethodadvantage claimed. Oldevidenceunchanged;
+~1MiBnewpackage;noAPIpaid/UI/app/DB/auth/Git/build/install/newinfra/scratch/
+distDir/Docker/deletion. STOPPARTIAL_NOT_READY_FOR_GLOBAL_OPTIMUM_CLAIM;
+remainingallstationarypolynomialcoverageoruniversalmatchingboundonconnected
+compactone/twobottomcomponentdomain needsnewrouting,costqualifiednotauto.
+
+### Owner activation — TIP107, 2026-10-11 03:20 UTC
+
+“theo đề xuất” approves 60min/120s structural K6 campaign, exact root unchanged:
+allreal F6>=20/93 or independently replayed smaller rational point. TIP107,
+03:20–04:20UTC; <=6 mathematical processes/30s each, Builder3/60s Main3/60s.
+Prior106 STOP/partial history retained. Work on one/two bottom-component domain
+including nonordered apices, seek universal inequality not more sample branches.
+No compile/build/UI/DB/auth/Git/APIpaid/newinfra. Root stays OPEN until actual
+proof/counterexample, no automatic successor or reissued resources.
+
+### TIP107 terminal — 2026-10-11 03:35 UTC
+
+PARTIALglobalK6OPEN: noallreal20/93bound/smallerwitness. Report
+docs/research/KAKEYA_K6_BOTTOM_107_REPORT.md EN/VI; completeBuilderproofnotes
+artifacts/research/tip107/HAND_PROOF_AND_GAP.md. NEWnecessaryminimizerreduction:
+oneclosedbottomcomponent=>range49/31=>13strictdisjoint-adjacent-swapapexwords
+(all720finitepermutationschecked), NOT13fullpolynomialcases. Two positivegap
+components=>scaledspansum18/31=>commonbasecliques/naturalinternalapexorder,
+laminarslicepartitions; crossconnection/endpointfiltersleave42necessaryoriented
+labelsets, not42continuousgeometrycases. Newradialsecondvariationexcludes
+integerslopes<=2 andgiveslocal13/372radialquadraticgap, nofull/globalstability.
+
+RigidgroupmergingrouteEXACTLYrefuted: high3/low3overlapconcave, rigidmin107/432
+hasnonzerofullradialderivative35/216; handperturbationlowersitbutnot20/93.
+Allsavedarea controlsfreshMainPASSbothunchangedindependenttip098methods.
+SixdistinctK6coordinates/sevenrecords, no extraindependencefromreruns. A restricted
+equal-stepfamilybound notglobal. Wholetwo-groupdefectand13one-component
+continuous-domaininequalitiesremainOPEN; no validrearrangement/equalization.
+
+Builder3/Main3mathprocesses,0.023736458sinternal,<1sconservative/120s,~15/60min;
+0mathfailures/build/compile/install,4docpatchmismatchesonly. Onegap-specificAI
+critic handchecks;notexternalhuman/Lean/novelty/measuredmethodadvantage.56KiB
+evidence;oldsourcepinsunchanged;noUI/app/DB/auth/config/Git/APIpaid/newinfra/
+scratch/distDir/Docker/bytecode/deletion. STOPpartial; noautoextension/resource
+reissue. Humanroutingneededbeforeanothercampaign, exactrootretained.
+
+### Owner activation — TIP108, 2026-10-11 03:48 UTC
+
+“duyệt” approves exactwhole two-bottom-component defectinequality D>0 or rational
+admissibleD<=0countercertificate,60min/120s. TIP108,03:48–04:48UTC;Builder75s
+Main45s, perprocess<=30s, no smallinvocationquota. Arbitraryinternals/partitions/
+ties andS<=18/31, existingconnected/endpointfilters disclosed. Notstepfamily/
+rigidmerging/refutedgroupconvexity. Auxiliarycountercertificateisglobalroot
+counterexampleonlyifarea<20/93; separateonecomponent13-domainproofstillOPEN.
+Old107historypreserved; noUI/DB/auth/Git/APIpaid/newinfra/compile/install/build.
+
+### TIP108 terminal — 2026-10-11 approximately04:25 UTC
+
+PARTIALwhole two-componentD>0 andglobalK6OPEN. Report
+docs/research/KAKEYA_K6_TWO_COMPONENT_108_REPORT.md EN/VI; fullproofledger
+artifacts/research/tip108/PROOF_ATTEMPT_LEDGER.md andMainanalyticreview.
+NEWproper-group Gk>=(k+1)/4−s/2, ANYintegerlabels k<=5,s<=18/31,tied/nonmonotone
+offsets; slicehull/wedges+generalendpoint4edgeenergy+controlledgapinsertion.
+Notactualunionconvexity/monotonicity, notk6extension, noK5computerdependency.
+Whole1+5/5+1excluded:D>=6/155,F>=203/930=20/93+1/310. Eightnecessarysignatures
+removed;34continuoussignatures(10size2,14size3,10size4),plusonecomponent13
+domainsstillOPEN. Noauxiliarycounter/smallerrootwitness/fullK6/noveltyclaim.
+
+Fourexactdualpilots(includingsigned-a,newgroupmass) optimum70/61<40/31.
+Matchinguppercerts proveinformationlimits, notrealizablegeometry. Mainfresh
+all4replaysPASSwithoutoptimizer, all186bandatoms/30capcertsrebuilt. Newlinear
+proofsurvivesexactrefutationofstrongerequal-stepquadraticguess. Near-touchpoint
+botholdareamethodsPASSpositiveD, notuniversalproof. Gap-specificAIhandcritic
+checksfullgroup/singletonargument;notexternalhuman/Lean/A-B. Commonq/offset
+functionalvalid/sharpatzero3+3 butwholeinequalityunproved;affinesupportsunproved.
+
+STOPnamedstrategyobstruction~37/60min, NOTtime/computationexhaustion:
+Builder5mathruns6.86s,Main6checksconservative6s,total11/12.86s of120s,
+nomathfailures/compile/install;onecorrecteddocpatchmismatchonly. Oldsources/
+charterintact;noUI/app/DB/auth/config/Git/APIpaid/newinfra/runtimegrant/build/
+scratch/distDir/Docker/deletion. Noautonextcampaign/reissuedallowance;
+directroutingneededbeforefurtherresearch, wholeclosuregoal/historypreserved.
+
+### Owner activation — TIP108B, 2026-10-11 04:28:37 UTC
+
+“duyệt” approves fresh60min/120s remainingwhole2+4/4+2/3+3 D>0 campaign,
+or exactadmissibleD<=0countercertificate; SAMEfiniteC_T(6) root,notnewtarget.
+TIP108B,04:28:37–05:28:37UTC,Builder75s/Main45s,eachinvocation<=30s.
+Prior108STOP/proofs/no-closureconsumptionretained, unusedallowancenotreissued.
+Do notreplay1+5/S<=18/61closedproofs orfailedmomentLPs. Whole34necessary
+signatureswithcontinuousoffsets/ties/boundaries, commonqcouplingrequired;
+not34completegeometrycases. Globalonecomponent13domainseparateOPEN.
+OneBuilder+gap-specificcritic; noUI/app/DB/auth/Git/APIpaid/newinfra/build/
+install/random/nav/unqualifiedfullcover/runtimegrant. Fullproof/counter
+beforeclosure; STOPcaps/wholeclosure/namedobstruction, noautomaticnextscope.
+
+### TIP108B terminal — 2026-10-11 04:46:26 UTC
+
+PARTIAL_PROOF_STRATEGY_OBSTRUCTION; wholeR1D>0/exactadmissibleD<=0 and
+globalK6OPEN. EN/VIreportdocs/research/KAKEYA_K6_COUPLED_108B_REPORT.md.
+Fullproof/attemptsartifacts/research/tip108b/BUILDER_HAND_NOTES.md;
+Mainanalyticreview/criticresultsMAIN_FAR_GAP_PROOF.md.
+NEWG3>=1-s/2+3s²/8 anythreeintegerlabels,s<=18/31,ties/allorders,
+same-functionalgapinsertion/explicitreflectionshear; scopedAIcriticPASS.
+All2+4/4+2/3+3 d>=57/31 excluded:D>=6/961,F>=20/93+1/1922;
+3+3 d>=7/4 excluded:D>=4453/230640. No stationarityassumption.
+d=min_Rp-max_Lp>1; bottomgapd-1. OPENnear-domain2+4/4+2 d<57/31,
+3+3 d<7/4, remainingS(18/61,18/31],34necessarysignaturesnotcover;
+globalonebottom13domainsalsoOPEN. Noauxiliarycounter/smallerrootwitness.
+
+Exacthandpointp=(176,176,149,27,0,0)/93 falsifiesfixedsupportandwholehull-
+wedgessufficient-targetclaims; actualbothareamethodsF50293/207576,
+D5653/17298>0. Mainfreshreplaysmatch. Halfheightcouplingvalidbutwhole
+targetstillNEITHERPROVEDNORREFUTED. Cannotreplacecommonq/internaloffsets/
+bridges/multiplicitybyindependentmaxima orcriticalsignaturebyall34.
+STOPnamedwholecoupling/majorizationgapbeforeunqualifiedcover,NOT
+impossibility/exhaustion;~18/60min,Builder2mathruns2scharged/Main2replays2s,
+4runs/4s of120s total; no mathfailure,onecorrecteddocpatchcontextmismatch.
+Sources/predecessorpinsintact;noUI/app/DB/auth/config/Git/APIpaid/newinfra/
+runtimegrant/build/install/scratch/distDir/Docker/deletion. Nothingtoautoresume
+orunusedresourcestoreissue. Nextcampaignneedsdirectroutingofwholeobligation
+andqualifiedproofmethod/cost; doNOTrepeatfalsifiedshortcutsorclaimclosure.
+
+### Owner routing — TIP108C uniform coupled-core qualification, 2026-10-11
+
+“chốt bước tiếp theo và duyệt nên hãy triển khai” directly approves samefiniteK6
+near-two-groupD>0 method/cost qualification; conditionalONEboundedfullattempt,
+notautomaticlargecover. TIP108C;04:48:31–05:48:31UTC,maximum60min/120s,
+Producer75/independentChecker25/Main20s,eachmathprocess<=30s. Prior108BSTOP/
+no-closurehistoryretained,unusednotreissued. Guaranteedcoreunionlowerarea
+overparameterboxes; ALL286min-anchorcharts/34labels andallrecursivechildren
+mustbechecked independentlybeforeR1closure. Wholeleafcount/marginunknown;
+costcapsnotguaranteedcompletion. Initialcontrols<=10s; Mainmustqualifyand
+recordaggregateeffort/replayreservation beforeany32768node/depth48attempt.
+No automaticresume/nextscope, norpartialcoverasproof. Separateone-bottom13
+domainrootremainsOPEN. Newtinyartifacthelpersonly<=16MiB/128MiBstate;
+no app/UI/DB/auth/Git/APIpaid/runtimegrant/build/compile/install/newplatform/
+random/nav/oldLP/projectcopy/distDir. STOPqualificationfailure/cap/closure.
+
+### TIP108C terminal — 2026-10-11 05:06:50 UTC
+
+STOP_PARTIAL_NODE_CAP_REFUSAL; R1/globalfiniteK6 OPEN, noadmissiblecounter/
+smallerrootwitness. EN/VIreportKAKEYA_K6_UNIFORM_CORE_108C_REPORT.md.
+Mainqualifiedfixedcontrols/separatelyauthoredsources andselected131072nodes
+fromtentative32768beforeONEwholeattempt, unchangedtime/memory/artifactcaps.
+All286min-anchorrootsseeded,34labels. ProducerNODE_CAP6.212457s,65.64MiB;
+claimed40946OPEN/36246P/8960X leaves NOTindependentlyaccepted. Actualchecker
+REFUSED INCOMPLETE is not proof BEFOREgeometry/whole-tree replay, soR2full
+replayNOT_PERFORMED. ElevenfixedcontrolsPASSnotmathematicalclosure.
+WholeattemptSHA4bc8d5ea74e5f68411e08259002c85927cd72f85e559cd254f1202c133c5db12;
+actualrefusal/checkerreview/source/controls savedartifacts/research/tip108c.
+FinalconservativeProducer10/Checker0.7/Main2=12.7s/120s,7math+2syntaxprocesses.
+No mathcontrolfailure;expectedrefusalexit1. Notwall/memoryexhaustion,
+impossibility/provenboundaryobstruction. Unknownmargin/refinementcost retained.
+Noautomaticresume/rerun/newscope/budgetreissue. Nextanalyticcoupleddefect/
+core-loss/boundarystudy isproposalONLYrequiringhumanrouting,notlargerboxveto.
+OldTIP108B/TIP098pinsunchanged;dirtyresearchpreserved,noUI/app/DB/auth/config/
+Git/APIpaid/runtime/build/install/Docker/scratch/distDir/deletion/newplatform.
+
+### Owner routing — TIP108D analytic coupling, 2026-10-11 05:11:20 UTC
+
+“triên khai theo đê nghị của bạn” directly approves samefiniteK6whole
+near-two-groupD>0/exactadmissibleD<=0 analyticcoupling/core-loss study;
+no box-tree resumption or larger-node retry. TIP108D;05:11:20–06:11:20UTC,
+max60min/120s,Builder75/Main45s,each<=30s,unused108Cnotreissued.
+108CSTOP/refusal/historypins retained,34signaturesnotfinitegeometryclosure;
+globalone-bottom13domainsseparateOPEN. Handproofprimary; boundedexact
+hand-selecteddiagnosticallowedonlyfornamedclaim/cost. Savedfrontierread-only
+diagnostic, no generation/refinement/platform/random/optimizer/oldLP. One
+Builder+gap-specificcriticwhenlemmaexists;wholeprooforcounterneededforR1,
+partialfamilylabelledpartial. NoUI/app/DB/auth/Git/APIpaid/runtime/build/
+install/Docker/scratch/distDir/newinfra;STOPobstruction/caps/closure.
+
+### TIP108D terminal — 2026-10-11 05:54:44 UTC
+
+PARTIAL_PROOF_COUPLED_CALIBRATION_OPEN; NEW31/34 wholelabelclassesexcluded
+analytically(alloffsets/ties/Sboundary),notfinitegeometrycoverage/percentage.
+OpenLEFT56/3456(reflections),456 =>TWOcanonicalcontinuouscoupledobligations;
+wholeR1/globalfiniteK6OPENinclonebottom13domains. Newproper4quadraticbound,
+quantitativegapresidue,isolatedtaildependencies,andL356coupledD>=820/181629.
+IndependenthandAIchallenge+Mainfullproof/source review/freshfinitearithmetic
+PASSscope31classes;notexternal/formal/novelty/A-B. ValidQ333/Q244/shadowunion
+stillneedwholecalibration; tangent/endpointreductionnotaccepted. No108Cresume,
+newcover/random/oldLP/platform. EN/VIreportKAKEYA_K6_ANALYTIC_COUPLING_108D_REPORT.md;
+allproofs/table/remaininggap/independentreview/ledgers artifacts/research/tip108d.
+Builder1mathprocess3scharged/Main1fresh1s/critic0=4s/120s,zerofailedruns;
+34rows,counts10/14/10,31excludedonlywithanalyticproofs. Twoexpositionerrors
+correctedwithhistory. STOPnamedcalibrationgap~43min,NOTbudget/impossibility.
+Noautomaticnewscope/reissuedresources; proposedwholeproofTWOcanonicaltypes
+requireshumanrouting. Oldpins/dirtyhistoryretained;noUI/app/DB/auth/config/
+Git/APIpaid/runtime/build/install/Docker/scratch/distDir/newinfra/deletion.
+Streamretrycontinuedfromsavedwork,notrestart.
+
+### Owner routing — TIP108E critical coupling, 2026-10-11 06:01:01 UTC
+
+Direct approval forwholeTWOcanonicalcoupledtypes; preservehole/intersection
+interaction,no boxsearch/newinfra. SamefiniteK6LEFT456/123 d(1,7/4),
+LEFT56/1234 d(1,57/31),reflection3456/12,S(18/61,18/31],alloffsets/ties.
+Prior31classes/proofs/failedstrategiesretained;globalonebottom13domainOPEN.
+TIP108E06:01:01–07:01:01UTC,max60min/120s,Builder75/Main45,each<=30s;
+no recycledunused108Dgrant. HandanalyticprooforactualDcounter needed;named
+exactdiagnosticonly, lowerfunctionalrefutationnotactualDrefutation. OneBuilder+
+gap-specificcritic; no geometrycover/resume/refinement/random/oldLP/newplatform/
+UI/app/DB/auth/Git/APIpaid/runtime/build/install/Docker/scratch/distDir.
+STOPclosure/namedwholemethodobstruction/caps;noautomaticnextscope.
+
+### TIP108E terminal — 2026-10-11 06:47:18 UTC
+
+PARTIAL_PROOF_CRITICAL_2PLUS4_CLOSED_3PLUS3_CALIBRATION_OPEN.
+Whole critical LEFT56/RIGHT1234 and reflected LEFT3456/RIGHT12 now have the
+analytic certificate D>=959/180000>0. It covers all committed internal offsets,
+both left orientations, ties, span boundaries and displacement phases, not
+selected geometries. The proof retains hole/intersection coupling, clipped
+envelope energy, the proper4 dependency and explicitly charged curvature/cap
+errors. Independent AI hand challenge accepted the corrected proof; the earlier
+false concavity and failed auxiliary Q244 floor remain in the evidence history.
+No external expert/formal verification, novelty or method-superiority claim.
+
+Combined with TIP108D, 33/34 near-two-component label classes are excluded.
+LEFT456/RIGHT123 (3+3) remains OPEN, as do whole R1, separate one-bottom13
+domains and global finite K6. The next mathematical obligation, if directly
+routed, is ONE uniform 3+3 coupled target floor preserving the left offsets,
+common gap, switching hinges and charged errors; not detached small branches,
+finite samples, resumed box search or new product infrastructure.
+
+EN/VI report: docs/research/KAKEYA_K6_CRITICAL_COUPLING_108E_REPORT.md.
+Proofs, review and final Builder ledger: artifacts/research/tip108e.
+Exactly TWO fixed-point math processes: Builder3s charged/Main1s fresh replay,
+critic0, aggregate4s/120s; zero failed math starts. Scientific STOP on the named
+whole3+3 calibration gap before hardstop, not exhaustion/impossibility. No new
+attempt, ceiling or unused allowance is automatically granted. git diff --check
+passed; evidence120K; predecessor pins and dirty work preserved. No UI/app/DB/
+auth/config/Git/API/runtime/build/install/Docker/scratch/distDir/deletion changes.
+
+### Owner routing — TIP108F whole three-plus-three, 2026-10-11 07:19:25 UTC
+
+“duyệt Ưu tiên tiếp theo” directly routes the proposed ONE whole3+3 analytic
+coupled inequality, same finite PUBLIC_DISCOVERY K6; preserve common gap,
+inward/outward clipping, switching hinges and charged errors. LEFT456/RIGHT123,
+d(1,7/4),S(18/61,18/31], every internal offset/tie/boundary; actual D>0 proof
+or admissible actual D<=0 replayed by both immutable area methods. Not auxiliary
+floor refutation, detached branch collection or general Kakeya result.
+Retain108E whole2+4/4+2 closure, 33/34 near labels and complete failed history;
+one-bottom13/global K6 stillOPEN. TIP108F07:19:25–08:19:25UTC,max60min/120s,
+Builder75/Main45,each<=30s, unchanged maxima not unused allowance reissue.
+One scoped Builder/gap-specific hand critic; bounded named fixed diagnostic
+only after declared predicate/cost. No boxes/resume/refinement/random/oldLP/
+optimizer/newplatform/UI/app/DB/auth/config/Git/APIpaid/runtime/build/install/
+Docker/scratch/distDir. STOP whole closure/named method obstruction/caps,
+no automatic next scope. Charter: docs/contractor/tips/TIP-108F_K6_THREE_PLUS_THREE.md.
+
+### TIP108F terminal — accepted source checkpoint 2026-10-11 07:44:56 UTC
+
+WHOLE_COMMITTED_3PLUS3_ANALYTIC_PROOF_ACCEPTED; scientific STOP before
+08:19:25UTC hardstop. Report finalized later after owner status/plan question,
+without resumed mathematics. Whole LEFT456/RIGHT123 now has
+G-(1+S/2)>=1897/3651800-169/449363600>499/1000000,
+D>499/500000>0 for1<d<7/4,S(18/61,18/31], EVERY offset/orientation/tie/
+switch/path boundary. Independent AI hand critic and Main complete-source/
+rational-arithmetic review PASS. With retained33 label proofs,34/34 committed
+near-two-component classes close, not geometry coverage or global finiteK6.
+Separate one-bottom13 domains/globalK6 remain OPEN; no general Kakeya result,
+external/formal/novelty/A-B advantage asserted.
+
+The accepted proof keeps common-gap and member-offset coupling, clipped inward
+and outward envelopes, exact high-pair hinges and all charged errors. Full-B
+p3 reduction is direct, not restored after weakened M3. Span imbalance pays
+omitted band; signed low-t includes ORIGINAL containing intervals even after
+lost minimum. A tiny convex middle endpoint error169/449363600 repairs the
+withdrawn uncharged step. Higher-t fullproxy p4 derivative<=-253/3720 reaches
+the calibrated low-t or whole positive chart; its gap extension has exact
+H_2 cancellation. No actual-area endpoint/convexity/stationarity assumed.
+
+EN/VI report docs/research/KAKEYA_K6_THREE_PLUS_THREE_108F_REPORT.md;
+proofs/review/completion artifacts/research/tip108f. Scientific process ledger
+Main0/Builder0/critic0;0s/120s; no failed math starts. Ordinary patch context
+failures Builder2/critic1 changed nothing, then repaired. No old evidence edits,
+box/random/optimizer/infra/UI/app/DB/auth/config/Git/API/build/install/Docker/
+scratch/distDir/deletion. Current owner asks evaluation/plan ONLY. Next proposal:
+one unified structural proof for remaining one-bottom13 domains; do not execute
+until direct routing, reopen closed3+3 or automatically reissue unused caps.
+
+### Owner routing — TIP109 one-bottom structural proof, 2026-10-11 12:33:50 UTC
+
+Owner “triển khai tiếp để tạo kết quả nghiên cứu thực sự” directly approves
+remaining13 one-component orderword continua via ONE structural proof. Same
+finite PUBLIC_DISCOVERY K6 root F6>=20/93 ALLreal or smaller exact witness;
+not general Kakeya. Keep108F accepted34near-class closure and all dependencies,
+chartera78beb9098e64c46e109b790837432391778ce0973a2493b58ed8262c976f11b,
+report9578d61bd24948fdd669d45094b055a1da0ef199bc5da20088318513348453c8.
+At a subtarget minimum the one-bottom domain hasrange(p)<=49/31,radial2G=
+1+range(p),fullgradient,one-sidedslopes>=3 and13 disjoint-adjacent-swap apex
+words. Counts not complete polynomial coverage. No assumed naturalordering,
+fullpair overlap,stationarityonrestrictedface,symmetry or sample substitution.
+Need universalG>=40/31 or complete necessary-stationary argument; root claim
+also depends on priorcompact/boundary/component/two-component exclusions.
+TIP10912:33:50–13:33:50UTC,max60min/120s,Builder75/Main45,each<=30s,
+same maxima not unused108F reissue. OneBuilder/gap-specifichandcritic,analytic
+primary,declaredfixeddiagnosticonly. No boxes/random/optimizer/walk/oldLP/
+newplatform/UI/app/DB/auth/config/Git/APIpaid/runtime/build/install/Docker/
+scratch/distDir. STOProotproof/counter/namedobstruction/caps;noautonextscope.
+
+### TIP109 terminal — 2026-10-11 13:26:40 UTC
+
+PARTIAL: WHOLE closed structural-region theorem accepted; global finiteK6
+and remaining one-component R1 OPEN. Scientific STOP before13:33:50UTC on
+named missing whole-domain calibration/coverage implication, not exhaustion
+or impossibility. Interrupted stream resumed saved work without cap reset.
+
+New accepted theorem: for D>=0 satisfying all12 linear inequalities in
+artifacts/research/tip109/MAIN_STRUCTURAL_SOS.md, EVERY real offset has
+F6>=20/93, unique equality modulo translation x=(49,43,23,26,6,0)/186.
+The actual-area bound retains both feasible hull supports and clipped restored
+gaps, then becomes40/31 plus FIVE positive squares, including antisymmetric
+directions. All faces included; region crosses old p3=p4 clipping wall.
+Main complete-source review and independent gap-specific AI HAND challenge
+PASS. This is wider than the old local certificate, NOT all13-domain coverage,
+external/formal acceptance, literature novelty or measured method advantage.
+
+Exact remaining step: all necessary competing natural minima outside C must
+be excluded/calibrated, and12 inverted-apex continua handled with correct
+signed gaps/multiplicity and full stationarity/radial/boundary conditions.
+Do not replace these by C membership, samples or orderword count. Prior108F
+two-component closure unchanged. Natural cut identity/monotone merging accepted;
+sorted-chain extension withdrawn, proxy21/32 refutation NOT actual-area/root
+counter. New Builder farther-restoration/timing-flow sections provisional only;
+sharp proposedflowboundUNPROVED, no automatic new review or execution.
+
+EN/VI report docs/research/KAKEYA_K6_STRUCTURAL_109_REPORT.md; six proofs/
+reviews/completion notes artifacts/research/tip109 (76K). Main0/Builder0/
+critic0 mathematical processes,0s/120s,zero failed math starts. No fresh area
+run; same construction symbolic hand check only. git diff --check PASS and
+predecessor SHA pins unchanged; ordinary read failures disclosed. No UI/app/
+DB/auth/config/Git/API/build/install/Docker/scratch/distDir/deletion or old
+evidence rewrite. Vibecode process trimmed to charter/proof/focused challenge/
+report. STOP, no successor/grant/reset; next same-root whole stationary/signed
+proof requires direct routing and feasibility/cost remains undetermined.
+Integrity report7f7fe316114ae8682635e7e274763a5781de3be90f71edab4bc5c0b70c6905ea;
+SOSd7f20b1e422d30d641f05d3cd72dbb135522da121f5b0933f046ce61c6ed0123;
+scopedreviewd8e7f9f115a0c0d5aa79e38264fd39637c03dfa36499be045e2f4720b72120cc.
+
+### Owner routing — TIP110 global K6 closure, 2026-10-11 13:32:00 UTC
+
+Direct owner requests next step toward FULL finiteK6. Same PUBLIC_DISCOVERY
+F6>=20/93 ALLreal, not general Kakeya. Keep109 closed regional C,108F whole
+two-component exclusions, all failed history. Missing natural stationary
+competitors outside C plus12 inverted-apex continua and all incident boundaries.
+Complete proof/value exclusion required, not sample/count/regional substitute.
+Charter docs/contractor/tips/TIP-110_K6_GLOBAL_STATIONARY_CLOSURE.md;
+13:32:00–14:32:00UTC,max60min NEW hand campaign, ZERO mathematical subprocess
+grant. ExistingBuilder/gap-specificcritic;Main proof/docs/full-source review.
+No UI/app/DB/auth/config/Git/APIpaid/build/install/Docker/scratch/distDir/
+newinfra/random/optimizer/boxes/enumeration/chamberwalk. STOP whole closure,
+named whole-method gap or hardstop; no auto-successor/budget/time reset.
+
+### TIP110 terminal — 2026-10-11 13:49:15 UTC
+
+NOT_CLOSED_NO_NEW_GLOBAL_LOWER_BOUND. R1 finiteK6 ALLreal stillOPEN;
+no smaller witness, no complete natural-outsideC calibration or inversion
+exclusion. Scientific STOP approximately17min/60maximum, before14:32UTC,
+on named whole joint energy and stationary-multiplicity gaps, not exhaustion
+or impossibility. Existing109 C theorem and108F two-component closure unchanged.
+
+Attempted whole projection-deficit domination failed, with explicit negative
+symmetric matrix direction(0,1,-2); this is NOT an admissible area counter.
+Actual-area reflection averaging also false on the corrected range4/3 hand
+family: G=11/8-e²/6 for0<|e|<1/16, but it fails radial stationarity and
+stays above target. Full-gradient all-order identity L1=integralcomponents=2G
+proved scoped; it supplies no sharp floor. A symbolic inverted swapfamily
+increases a fullslice byu, not integratedarea/stationary/rootcounter. Neither
+symmetry nor pointwise pair compression closes the missing whole implication.
+Two hand slips (slopes4/6; positive-part endpointclosures) corrected withhistory.
+
+EN/VI report docs/research/KAKEYA_K6_GLOBAL_110_REPORT.md; three hand notes/
+review/completion artifacts artifacts/research/tip110 (24K). Main complete
+source/handarithmetic review, R2scopedonly; R3complete; no rootacceptance,
+external/formal/novelty/A-Badvantage. Mathematical grant/executions0, Main0/
+Builder0/critic0,zero failures/no runningmath. Ordinary read truncations/
+missingpaths disclosed; git diff --check PASS and predecessorpinsunchanged.
+No UI/app/DB/auth/config/Git/API/build/install/Docker/scratch/distDir/newcode/
+infra/deletion. No automaticnextTIP or unusedtimegrant.
+
+Next proposed route requires directrouting: ONE complete analytic activecone
+proof or exact COMPLETE stationary/coverage certificate on every remaining
+continuum/face, not another regional theorem/candidate walk/sample. Existing
+proof tools may be reused; costs/feasibility NOT established for all13 and
+the oldorderedprefix is NOT coverage or a guaranteedcost. Current hand-only
+scope isSTOP and cannot mint code/computation authority. Report integrity
+4412f5268d594815952b14df6d0602a6b6020e2405ba2fe1a448eaeab2b44f6a.
+
+### Owner routing — TIP111 complete K6 certificate, 2026-10-11 13:55:00 UTC
+
+Owner “duyết” directly approves full algebraic/stationary certificate method
+with feasibility assessment first. SAME allreal finiteK6 F6>=20/93, all13
+necessary continua/faces/full-gradient/singularfamilies. Prior110handroute
+STOP;109 C and108Ftwo-component closures preserved. No regional substitution.
+Charter docs/contractor/tips/TIP-111_K6_COMPLETE_CERTIFICATE_CAMPAIGN.md;
+13:55–14:55UTC,max60min,600s mathematical aggregate; feasibility120s (80/40),
+qualifiedwholeproduction+checker480s (240/240), eachcall<=60s/failedstartscharge.
+Read/sourcechallenge before mathpilots; fullproducer AND independentchecker
+logic/cost required beforeproduction. Existingn5/3D/natural assumptions must
+not leak intoall13. Minimal NEW proof-only tooladaptation allowed, no platform.
+df49Gi free;evidence64MiB/state512MiB/RSS1GiB;oldbytesimmutable. No UI/app/
+DB/auth/config/Git/APIpaid/runtime/random/boxes/walk/install/Docker/scratch/
+distDir. STOP closure/wholelogicgap/unqualifiedcost/cap, no autoextension.
+
+### TIP111 terminal — 2026-10-11 14:04:47 UTC
+
+NOT_CLOSED_WHOLE_CERTIFICATE_UNQUALIFIED. SameALLrealfiniteK6 F6>=20/93
+stillOPEN, no smalleractualarea witness;109 C and108Ftwo-component accepted
+results unchanged. NaturaloutsideC and12inverted continua/incidentfaces/full
+singularstationaryfamilies unclosed. STOP about10min/60max on unqualified
+wholeproducer+independentchecker, NOT exhaustion or proof of impossibility.
+
+Actualunion event-spline law G=3+sumDelta(1-te)^2/2 on0<te<1 derived,
+independently HANDreviewed, nofutureconnectedhull assumption. LL/RRpositive,
+LRnegative,thirdcoveragezero;everypairrecord evenequalheights; incidentface
+continuity/C1/fullambientgradient. Invertedconnectedbottom handpoint has
+L10=563/10 vs hull564/10, NOTstationary/rootcounter. Newlaw repairsreuse,
+notglobalbound.107homogeneous+40unitclip=147full5Dplanes; all13shapeinventories
+and14FIXEDcontrols agreeeventlaw+BOTHimmutableareas inONEboundedpilot.
+CoverageNONE/costFALSE; noactualcellcount/completecover/production/replay.
+Unitclip+triplecontacts caughtbeforeexecution; declaredfixedperturbcontrol,
+originalhandpointandfailurehistorypreserved. Noorderedprefixrerun/search.
+
+Complete13root splitforest,actualpolylaws,full5stationary+entiresingular
+strictclosedfeasibility andindependentcompleteness/derivation checker outlined,
+notimplemented/costqualified. Existing3Duint64/n5/naturaltail/allpair tools
+cannotportby nflag. No480sproductionrelease. R2scopedonly;R3EN/VIreport
+docs/research/KAKEYA_K6_COMPLETE_CERTIFICATE_111_REPORT.md, sixnewartifacts
+artifacts/research/tip111. MathBuilder1/Main0/critic0,0.086586708shelper,
+conservative1s/600s,RSS22,315,008B,exit0,failedmathstarts0,noongoingmath.
+EarlysyntaxASTPASS/gitdiffcheckPASS;ordinaryread/patch/controlcorrections
+disclosed. OnlyownPythonbytecode+emptycachedeleted; nooldevidence/source
+rewrite,UI/app/DB/auth/config/API/Gitwrite/build/install/Docker/copy/distDir.
+STOP, noautomaticnextTIP/partiallemma/budget/timeextension.
+Integrityonly:111report090d74931359d6cddef0d668778b4fe7beacb78d9fba2f3ec1c41746cceabbd1;
+helper73148a33e6c71739900340b5df99d458e7434d69026c9ff660de150cef8cb0d6;
+pilot e9c0bf6ace633c6435b673132c144ff4113cc73d1738900c9f855a96f60d05f0.
+Predecessor109charter/report/SOS,108Freport,110charter/report andarea pins match.
+
+### Owner routing — TIP112 engineering, 2026-10-11 14:11:00 UTC
+
+Direct “duyệt” approves proposed60min engineering/120saggregate math tests,
+not111budgetreissue. SameultimateALLrealfiniteK6F6>=20/93 remainsOPEN.
+Implementminimal13root/147wall exactsplitforest producer AND independent
+completeness/polylaw/full5stationary/singularstrictclosedfeasibility checker.
+No production untilcostqualified/directrouting. Charter
+docs/contractor/tips/TIP-112_K6_CERTIFICATE_TOOLCHAIN.md;14:11–15:11UTC.
+Source review beforemath,each<=30s/guards/failedstartscharge,initial40/40/40,
+RSS1GiB/evidence64MiB/state512MiB. MainContractornoCode;Builderdistinctfiles
+tip112;standardlibrary(noSymPy/SciPy installed),ordinarysyntaxearly.
+Noapp/UI/DB/auth/config/API/Gitwrite/build/install/copy/distDir/Docker/newplatform.
+Predecessorbytes/109C/108F/106/107 retained;STOPcomplete/gap/cap/hardstop.
+
+### TIP112 terminal — execution STOP 2026-10-11 14:25:48 UTC
+
+Engineering milestone accepted scoped; READY_FOR_BOUNDED_COST_QUALIFICATION.
+SAME all-real finiteK6 F6>=20/93 scientifically OPEN. Minimal exact producer
+and independent checker IMPLEMENTED, not merely outlined: all13 strict roots,
+147 walls, true pairwise range/full word rows, actual quadratic derivation,
+dual-certified empty interiors, full5 stationary systems and entire unsafe
+singular-family LP. Checker imports no producer algorithms; independently
+reconstructs model/poly/duals/RREF/tree. Finite closure-density/C1 face proof
+and retained106/107/108F reductions explicit. No complete production forest,
+positive whole acceptance, known full cost, external/formal/novelty/A-Bclaim.
+
+12 producer+15 checker tests PASS; Main native smoke/resume seedingall13:
+45nodes/18processed/2empty/27pending then47/20/3/27. Independent checking
+validates real partial dual/tree/history before correctly refusing INCOMPLETE
+both times. Fixed real leaf reproduces oldlocal p*=(49,43,23,26,6)/31,
+rank5 G=40/31, not scientific global closure. Source findings repaired before
+tests: gauge/decimalmetadata/falseCOMPLETE/timer/resume guards/transaction/history.
+Handsource critic no blocking defect; not external review.
+
+Six actual math invocations, conservative6s/120s; internalhelpers~0.69660854s
+NOT entire walltime, zero failed mathstarts/no reruns/no ongoingmath. Two
+/usr/bin/time wrappers permission-failedexit1 after expected savedpayloads;
+measurement failures retained, exactRSS unmeasured/cooperativeguards only.
+Checker reportingstream failed after saved evidence; no work restarted.
+Report docs/research/KAKEYA_K6_TOOLCHAIN_112_REPORT.md; native artifacts,
+BuilderCompletion and minimal CLI guide artifacts/research/tip112.
+Frozen source9f71612.../checker14d5388..., fullpinsinreport;111/109C/108F/110/
+immutable098pinsunchanged. AST/gitdiffcheckPASS;152KiB artifacts/50GiBfree,
+no deletions/cache/scratch/copies/install/build/app/UI/DB/auth/config/API/
+Gitwrite/Docker/newplatform. Existing dirty predecessor work untouched.
+STOP completion14:25:48 before15:11hardstop, not resource exhaustion.
+Only proposed successor: DIRECTLY ROUTED bounded cost qualification measuring
+both generation AND independent checking before production; tiny tests are
+not an extrapolated global cost. No automatic successor/reissued budget.
+
+### Owner routing — TIP113 cost qualification, 2026-10-11 14:31:36 UTC
+
+Owner directly approves proposednext costmeasurement, “không hỏi lại”. No
+target/standard change: K6 allreal finiteF6>=20/93 OPEN. Existing reviewed
+exacttoolchain only, no newcode/platform. 30minwall/120saggregate math, max4
+calls (producer28s/outer30,checker28s/outer30; reserve30 each); atmost2pairs,
+second only if firstvalid. Resume saved112forest, no rerunfromscratch or
+branchdiscard. Native elapsed/size/treegrowth and independently checked partial
+evidence; incompletealwaysrefused. Costqualifies only with credible complete
+remaining-work bound, never tiny-prefix extrapolation. STOP decision/refusal/
+defect/cap/15:01:36UTC; no production released orautomaticretry/successor.
+Charter docs/contractor/tips/TIP-113_K6_COST_QUALIFICATION.md.
+
+### TIP113 terminal — mathematical STOP 2026-10-11 14:33:08 UTC
+
+Costassessment DONE (C113-1..4,4/4),wholeproductionCOST_UNQUALIFIED; same
+allrealfiniteK6F6>=20/93OPEN. Resumed exact112checkpoint twice, no restart:
+pilot1 new4864processed/28.08sreal ->5853nodes/1964empty/969pending;
+pilot2 new3823/28.10s ->10385nodes/3521empty/1678pending/8707cumulativeprocessed.
+Zero actualfullstationaryleaves; maxsplitwallindex19then22,notcoverage%.
+Independentchecker validated bothpartial forests/duals/history thenrefused
+INCOMPLETE in1.33/2.45sreal. Filebytes735837/1355326. Sourceunchanged/pins
+retained. Generationobservedbottleneck; fullstationarychecker costunmeasured.
+No credible remainingbranch/byte/timebound; currentthroughput notfullcost.
+
+Fouractualmathcalls only,real59.96s/conservative63s of120s,zero failedstarts/
+reruns/no runningmath. time-pinstrumentationworks,exactRSSpeaknotemitted,
+cooperativeguardsonly. STOPcompletedassessmentbeforehardstop,notexhaustion/
+impossibility. EN/VIreport docs/research/KAKEYA_K6_COST_113_REPORT.md;
+evidence artifacts/research/tip113. Ordinaryread-onlymetadata inspection/
+hash/gitdiffcheckPASS; no code/UI/app/runtime/API/Git/build/install/delete/
+scratch/distDir/Docker/newplatform. Predecessor dirtyhistory preserved.
+Next eligible design should reduce necessary exactpartitionwork while retaining
+independentcoverage/duals; doNOTblindlyrunlonger/addinfra orclaimDFS/caching
+alone provesK6. No successor/production grant automatically released.
+
+### Owner routing — TIP114 incidence pruning, 2026-10-11 15:24:33 UTC
+
+Owner “tiếp đã duyệt” routes recommended exactreduction of unnecessarypartition
+work, not merelylongerrun. SAMEallrealfiniteK6OPEN.60minengineering/120saggregate
+math/≤30spercall/failedstartscharged,hardstop16:24:33UTC,no production. NEW
+proof-only sourcefiles tip114, immutable112helpers/113savedforest preserved.
+Wholepartialregion incidence implications ->earlyQ/full5stationary cert;
+independentchecker reconstructs ALLpair obligations,actualQ,duals andcomplete
+tree/families. Arbitraryunused147splitindices withbothchildren; no sampled
+status/faceKKT/finiteclosure substitution. MainnoCode/VibecodeBuildersdistinct
+files+handcritic; mathreleaseafterfullsourcereview. No UI/app/API/Git/build/
+install/platform. Charter docs/contractor/tips/TIP-114_K6_EVENT_INCIDENCE_PRUNING.md.
+
+### TIP114 terminal — execution STOP 2026-10-11 15:37:04 UTC
+
+Verified experimentalearlycell tool, NATIVEBENEFITNOTDEMONSTRATED; globalK6OPEN.
+E114-1..5 scoped5/5 complete, notwholeproductionreadiness. Newexactincidence
+implications permitpartialleaf; independentchecker rebuilds ALLpairs/whole
+closed-parentduals/slabQ/full5/wholeunsafe families/tree. Arbitraryunusedcuts
+bothchildren,legacy147support. Fixedreal94signs vs147 reproducesoldrank5G40/31,
+notnewmath/globalworkpercentage. Final28namedcontrolsPASS; first15/16checker
+fixtureFAIL preserved. Rangeboundarynot eventwall; onlytestpointchangedtozero
+offsets (LL1/LL2unitclip), reviewedrepeat/sourcesfrozen/noautomaticrerun.
+
+Matched18s fromSAME113checkpoint: oldnewprocessed2016/new343,real18.08/18.12;
+both0stationary,old1942pending/new1735pending. Independentcheckers validate
+partialdual/tree/history thenREFUSE old3.10s/new2.55sreal; smallernewfileisnot
+fullcheckspeedup. Roots/model/oldclosednodes/historypreserved; no branchdeletion.
+Keep114experimental, notdefault, no wholecampaign/costqualification. Source
+predicate/LPoverheadnotpaid off; doNOTblindlyrunlonger/addplatform.
+Sevenmathcalls,real46.26s/conservative51s/120; failedstarts0/noongoingmath,
+RSSpeaknotemitted/cooperativeguardonly; stopcompletionnotbudgetexhaustion.
+Transportcheckercompaction2 andordinaryMainpatch1/Builderreads2 preserved.
+AST/gitdiffcheckPASS,3.1MiB artifacts; no oldsourceedit/UI/app/API/Git/build/
+install/delete/copy/scratch/infra. ENVIreport+pins:
+docs/research/KAKEYA_K6_INCIDENCE_114_REPORT.md.
+Only parkedlead selectivecheap already-proved-sign pruning; noautomatic
+refinement, successor, newtarget, production or resource reissue.
+
+### TIP115 routing — 2026-10-11 15:43:22 UTC
+
+Owner “duyệt” approves profiler-first selective cheap certification, no per-node
+implication LPs, matched saved-input terminal-evidence comparison. Charter
+docs/contractor/tips/TIP-115_K6_SELECTIVE_INCIDENCE.md; 60min implementation,
+hardstop16:43:22UTC, aggregate math120s/each<=30s/failed starts charged.
+One narrow Builder, unchanged independent checker, old evidence immutable.
+Global finiteK6 OPEN. If no terminal improvement, STOP optimization route rather
+than longer runs or more infrastructure; no automatic structural campaign.
+
+### TIP115 terminal — mathematical STOP 2026-10-11 15:52:01 UTC
+
+ScopedS115-1..5 complete5/5; verifiedexperimental90line selectiveclassifier,
+RESEARCHBENEFITNOTDEMONSTRATED, sameglobalfiniteK6OPEN. Existing112/114source,
+checker/inputvalidation/BFS/wholefamily unchanged; root/path exactonesource
+duals/cone, missingrequiredsign ->unusedsplit/BOTHchildren, no implicationLP.
+11/11focusedcontrolsPASS; fixed94-sign40/31 repeatedcontrol, notnewtheorem.
+Profile showsresumevalidationandincidenceconstruction/directscan cost, notjustLP.
+
+Matchedsame113savedbytes18s: old114350/new115586newprocessed;0stationaryboth.
+147/252additionalemptydualexclusions independentlychecked;pending1734/1760.
+BothindependentchecksREFUSEINCOMPLETE correctly,notcompleteacceptance.
+genreal18.09both/checkreal2.55/2.62,total20.64/20.71,bytes1414696/1455881.
+Secondaryworkgaincannotreplaceprimaryterminalproofgain/globalclosure.
+STOP optimizationroute/nondefault; no longercompute/queuechange/helperplatform/
+validationbypass/automaticfollowup. Nextcandidate returntostructuralwholeK6
+coupling/exposure, not executed withoutdirectrouting;109C/108F preserved.
+
+Sevenmathcalls68.96real/74conservativeof120;failedstarts0/testfails0/retries0,
+ongoing0, ordinarypatchfailures2 preserved. BuilderAST2/2PASS/Mainsuite11/11/
+gitdiffcheckPASS; exactRSSunknown/cooperativeguardonly. No oldsource/app/UI/DB/
+auth/API/Git/build/install/delete/copy/bytecode/Dockerchanges, dirtyhistorykept.
+Report docs/research/KAKEYA_K6_SELECTIVE_115_REPORT.md includesENVI/Verify/pins.
+
+### TIP116 routing — 2026-10-11 15:59:50 UTC
+
+Owner explicitlyrequests missingK6structuralinequality. SameglobalK6 target,
+hand-only60min/hardstop16:59:50UTC/mathprocessgrant0. No resumed optimization.
+NaturalcomplementC joint hull/gap/fill or genuine fullstationary value/exclusion,
+and all12invertedcontinua retained. Exactproof/handchallenge, no samples/hashes/
+finiteleafsubstitution. Existing109/108F/110bytes retained; provisionalflow
+requiresnewderivation. CharterTIP-116_K6_STRUCTURAL_CLOSURE.md, minimalVibecode
+oneproofBuilder+onehandcritic; no code/UI/API/Git/infra, noautofollowup.
+
+### TIP116 terminal — hand-proof STOP/PARTIAL 2026-10-11 16:44:05 UTC
+
+GlobalALLrealfiniteK6F6>=20/93OPEN; R116-1notclosed. New handproof calibrates
+ACTUALfullstationary G=Q−all hull/restorationprojectiondeficits bynormality
+atfeasibleanchor: G>=40/31/equalityonlyD*. No proxygradient/Jensen/symmetry.
+Reviewedstructuralclasses: centralmax T3>=T1,T5 andT3>T2,T4 (endpointties
+withexplicitzero-C3starrepair); strictroot2/right-subtree4 andreflection,
+exactnearestEVEN floor22/17>40/31. Onlycandidate-minimum classclosures,
+notpointwise/all-natural/global theorem ornewregionalmilestone.
+Open: root1/5,root2subtrees3/5 andreflections,inner/othermaximumties,
+ALL12invertedcontinua/faces. Aggregateconstraints cannotreplacefivebalances.
+Fullfarther-restorationcone-dualexact; unrestrictedanchornegative/infeasible.
+Corrections preserved:switchh²,11/4->9/4,endpointstrictsignrepair,
+orderedmaxcandidateactually TWO bottomcomponents/gap(-2.31,-2.27).
+
+STOP afterreviewedpartialproof/failedaggregateclosingproposal, nothardstop
+orresourceexhaustion.0mathprocesses/seconds/failedstarts; no code/UI/DB/auth/
+API/Git/build/install/copy/Docker/delete/infra; oldproofs/dirtyhistoryuntouched.
+Report docs/research/KAKEYA_K6_STRUCTURAL_116_REPORT.md, handnotes tip116.
+Noautomaticsuccessor/longerrun/newgrant. Nextmathematicalroutingmustretain
+exactwholeobligation, notresumeoptimizationor substitute conditionalfamilies.
+
+TIP116 reportfingerprint 076aedc59929c5089df659fc5adfb353569184ae52a24c7149cbc2cc29a47c07;
+Builderc0fb8fe27a42f8cdc0353dd2b15472f584e22704f5fe25a8d3feeb7ec696aee3;
+Main704339fbd9ea984fa13871e800d5fe6c16573feb83bd710f00eb267bada5a52b;
+Critic93b5e3f9c18942752570b13eb57435f3fc849918e46d09d3eb930e64b42e219e.
+Metadataonly/notproof.115/109/110oldpinsunchanged; trackedwhitespace/newnotes
+checksPASS. MainwrongoldSOSpathname failedthenresolvedactualfile;
+ordinaryerrorspreserved, no mathematicalrestart.
+
+### Direct owner continuation — 2026-10-12 01:10:02 UTC
+
+Owner “triển khai khép K6 triệt để” reactivates SAMEglobalfiniteK6/R116-1..3,
+not a newtarget/TIPfamily/optimizationlane. Hand-only60min/hardstop02:10:02UTC,
+mathsubprocessgrant0; preservefrozen116bytes. Wholeactualarea/minimumproof
+mustcoverremainingnaturalroots/ties andALL12invertedcontinua/faces.
+OneBuilder+onehandcritic/Mainreview, no additionalinfra/UI/API/Git/build.
+Scope artifacts/research/tip116/CONTINUATION_SCOPE_20261012.md; STOP reviewed
+wholeproof/failedclosingproposal/cap, partialcannotbecomeglobal.
+
+### TIP116 continuation terminal — STOP/PARTIAL 2026-10-12 02:05:11 UTC
+
+GlobalALLrealfiniteK6F6>=20/93OPEN; R116-1NOTCLOSED. Derivation stopped02:03UTC
+withinhand-only60minmaximum; no newTIP orautomaticfollowup. Reviewedwhole
+strictroot2/right-subtree classification/reflection4, alloriginaltwo-way and
+triple ties, zero fits/fullcoarsemeans/sourceclamps retained. AdjacentGLOBAL
+max ties excluded; global{2,5}/{1,4} handled. Frozen centralmax endpointtie
+repair separately reread. In retained NATURALpositive-cut ACTUALcompeting
+minimum domain, remaining globalmaxsets EXACT{1},{5},{1,5}. Notpointwise
+allnaturalbound/percentage/globalclosure. ALL12invertedcontinua/faces OPEN;
+wholeproofboundary/attainment dependencies explicit, notgenericitybypass.
+
+Endpointtheta<=5/11 onlynecessary. Inversion finite-swap integralS-Ru keeps
+earlyheightcorrection. Individualmaxima/commonmaximizerCONDITIONALgain or
+connectedUNIONbottom do notprove alljointglobalmaximaordered. Fullprefix
+anchorinfeasible; blanketnearest-onlylocalminimum assertion refuted byvalid
+farther-flowlocalminimumr37/23>cap, notK6counter. No targetclaimchanged.
+
+Main corrections retainedandchecked: pooledalpha5/zero-faceclamp/13x-4y=2;
+subtargetfreecandidateexcludedbyactualN4=207/2523>0 notwrongnegativee;
+singlebridgeclaimwithdrawn. HandMain+separateAIcritic, notLean/externalreview.
+Report docs/research/KAKEYA_K6_STRUCTURAL_116_CONTINUATION_20261012_REPORT.md;
+newproof/critic notes andcompletions inexistingtip116. Old4pinsmatch,
+dirtypredecessorsuntouched.0mathprocesses/seconds/failedstarts; no code/UI/
+DB/auth/API/Gitwrite/build/install/copy/Docker/delete/infra. No scratch/distDir,
+nothingremoved. Ordinarysource/patcherrors logged; whitespacechecks clean.
+STOPPARTIAL: requestedglobalclosure notachieved, noautomaticresourceextension.
+
+### Direct owner continuation R2 — 2026-10-12 02:16:07 UTC
+
+Owner routes SAMEallrealfiniteK6F6>=20/93/R116-1..3 towardwholeclosure.
+Hand-only60minmaximum/hardstop03:16:07UTC/mathprocessgrant0, no newTIPfamily/
+optimizer/code/UI/API/Gitwrite/infra. First116continuationproofs/reportfrozen.
+Naturalremainingglobalmaxsets{1},{5},{1,5}, ALL12invertedcontinua/faces plus
+wholeboundary/attainmentdependencies remainEXACTdebt. MinimaloneBuilder/
+onecritic/Mainreview; newMarkdownonly. Scopeexistingtip116continuationR2.
+STOPreviewedwholeproof/definitefailedclosingproposal/cap; noautofollowup.
+
+### TIP116 R2 terminal — STOP/PARTIAL 2026-10-12 03:14:45 UTC
+
+GlobalfiniteALLrealK6F6>=20/93stillOPEN/R116-1NOTCLOSED. WHOLEactualretained
+naturalmaxset{1,5} excluded; universalendpoint3/4-edgefarrowsremoved.
+WHOLEuniqueendpointpositive-two-edge regime excludedbyMainfullhullpositivity
+andBuilder10/12.3/13/14/15 ALLrightmaxsets/originalties. CriticFULLliteral
+reviewlastacceptance03:14:34, before03:16:07samehand-onlyhardstop.
+Exactremainingnatural{1},{5}: nearest-onlyendpointrowsincludingzero; NOT
+allinteriorrowsnearest. ALL12invertedcontinua/facesandupstreamboundary/
+attainmentassemblyOPEN. No genericity/subfamily/pointwise/globaltransfer.
+Failedzero-tailD5shortcut/missingqmeanspreservedandrepaired; convexrestoration
+notdropped. Fanlower-envelope/fixed-treeclosingroutesfalse, noK6counter.
+0mathprocesses/seconds/failedstarts; no code/UI/auth/DB/API/Gitwrite/build/
+install/copy/Docker/deletion/infra. Oldproofs/dirtyhistoryuntouched; noscratch/
+distDir,nothingremoved. Samecriticlateexplicitlyreactivatedforliteralreview,
+notnewagent; no automaticnewgrant/followup. HandAIreviewnotLean/externalreview.
+CleanENVIreport docs/research/KAKEYA_K6_STRUCTURAL_116_R2_20261012_REPORT.md.
+
+### Direct owner continuation R3 — 2026-10-12 03:16:47 UTC
+
+SAMEallrealfiniteK6/R116-1..3 remainsactiveOPEN; direct “tiếp tục khép K6”.
+Same60minhand-onlymaximum/hardstop04:16:47UTC/mathprocessgrant0, no newTIP/
+mode/optimizer/code/UI/API/Git/infra. Freezeallpredecessor116/R2notes/report.
+Exactremainingnaturaluniqueendpoint1/5nearest-onlyendpointrow(includingzero,
+notinteriorfartherdiscard), ALL12invertedcontinua/faces, wholeboundaryassembly.
+MinimalexistingBuilder+critic/Mainhandproof. Scope tip116/CONTINUATION_R3_SCOPE_20261012.md.
+Closurewholeactualarea/minimumproof, notregionalclaim; STOPpartialifnotclosed.
+
+### TIP116 R3 terminal — STOP/PARTIAL, recorded 2026-10-12 05:14 UTC
+
+GlobalfiniteALLrealK6F6>=20/93/R116-1OPEN. Builder+independentcritic saved
+records accept WHOLE remainingnaturaluniqueendpointnearest-rowACTUAL
+competing-minimum class includingzero/reflection. Combiningfrozencoverage
+classifiesretainedNATURALpositive-cut/fullstationary/connected-bottom
+competing-minimum maxsets; NOTpointwiseallnatural/globalK6. ALL12inverted
+continua/faces andwholeboundary/collision/attainmentassemblyOPEN. Critic's
+abstractPSDnetworkcounterfailsactualcontactrealization, NOTK6counter.
+
+Timingfailureexplicit: activation03:16:47/hardstop04:16:47UTC;
+BuilderderivationSTOP04:02:20. Criticfinalacceptanceaddendumexacttimeunknown.
+MainlastfullBuilderreadreturned05:09:59, STOP/metadata05:10:54UTC; Main
+wholeauditNOTcompletedwithin-cap, fullcritic/upstreamauditunfinished.
+Afterdetectedoverrunterminalreportingonly. Transportretrydoesnotrenewgrant.
+No more researchinthisstoppedrun/noautomaticfollowup/newTIP/grant.
+
+PlusF32sign/jointprefix/originalv3tcontactrepairsretained; AIhandreviewonly,
+notLean/externalreview/novelty/globalacceptance.0mathprocesses/seconds/
+failedstarts, nonzerohandtime. No code/UI/DB/auth/API/Gitwrite/build/install/
+copy/Docker/delete/infra. Frozenpredecessors/dirtyworkpreserved; noscratch/
+distDir/nothingremoved. Maincheckpoint existingtip116/MAIN_COMPLETION_R3_20261012.md.
+ENVIreport docs/research/KAKEYA_K6_STRUCTURAL_116_R3_20261012_REPORT.md.
+
+### Direct owner R4 approval — 2026-10-12 05:19:10 UTC
+
+Newexplicit“duyệt” releases SAMEK6/TIP116PUBLIC_DISCOVERY hand-only60minutes,
+hardstop06:19:10UTC/mathprocessgrant0; noresetofR3overrunhistory. Exactwork
+ALL12invertedcontinua/faces retainingactualjointcontact/exposure/gap-fill;
+boundaryassemblyonlyifclosed. Oldnaturalclassificationconditional, relaxed
+PSDnetworknotclosure. Frozenallprior116/R3notes/reports. Reuseexistingone
+Builder+critic/Main; newMarkdownonly, noTIPfamily/UI/API/Git/infra. Last10min
+literalreview/reportonly; STOPwholeproof/failedclosinginequality/cap. Scope
+tip116/CONTINUATION_R4_SCOPE_20261012.md; noautomaticgrant/extension.
+
+### TIP116 R4 terminal — STOP/PARTIAL, 2026-10-12 05:50 UTC
+
+GlobalfiniteK6/R116-1stillOPEN; zeroof12invertedwholecontinua/facesclosed.
+AcceptedexactTgainkeepsPLUSearlyactualjointcoverage; positivityUNPROVED.
+AveragedP/actualcorridorD_BUNPROVED, NOTrefuted. STRONGERmovableVfalseby
+Mainactualconnectedbottomcounterendpoint769/600<806/600; strictepsilon1/10000
+perturbunique3-4inversionverifiedmargin173/3000. Builder+criticFULLhandreview
+acceptV-onlycounter, NOTP/D_B/stationary/K6counter; originalgeometrysatisfiesP.
+Wholeboundary/collision/attainmentassemblynotopened,naturalresultconditional.
+
+MainnewderivationSTOP05:46:49UTC,Builder05:47:48; criticFULLMain05:48:09,
+lastBuilder6wordingreview05:49:10, before06:19:10hardstop. Definitefailed
+sufficientmechanismSTOPnotbudgetexhaustion; onlysavedreview/reportafterward.
+No automaticnewroute/TIP/mode/grant. R3timingfailure/historypreserved.
+OffBexternalbottomcoverageNOTimplied; Mainwrongdistancewarningwithdrawn,
+correctdistances>=2-r>0. AuxiliaryBuilderradialremarkUNREVIEWED/UNUSED.
+ScopedAIhandreviewnotLean/external/novelty/rootacceptance.0mathprocesses/
+seconds/failedstarts, nonzerohandtime. NewR4notes/completions+ENVIreport only,
+appendactive/handoff; no code/UI/DB/API/Git/build/install/copy/Docker/delete/
+infra,newagents,scratch/distDir. Frozenpredecessors/dirtyworkpreserved,
+nothingremoved. ENVIreport docs/research/KAKEYA_K6_STRUCTURAL_116_R4_20261012_REPORT.md.
+
+### TIP116 R5 activation — 2026-10-12 06:27:32 UTC
+
+Direct owner approves the next K6 closure step without another question.
+Same all-real F6 >= 20/93 / R116-1..3; one hand-only run, hard stop
+07:27:32 UTC, new-derivation cutoff 07:17:32 UTC, mathematical subprocesses 0.
+Actual competing-minimum conditions on all twelve inverted continua/faces;
+first rederive/review R4's unused radial lemma and touching-face limitations.
+No false V/relaxed PSD shortcut or conditional substitution. Existing Builder
+and independent critic/Main; all predecessor files frozen, new R5 notes only.
+No new TIP/mode/code/UI/API/Git/build/infra. Scope
+artifacts/research/tip116/CONTINUATION_R5_SCOPE_20261012.md. Stop reviewed
+whole proof, definite failed closing mechanism or bound, no automatic extension.
+
+R5 owner then explicitly routes the remaining original window to full
+six-triangle minimum conditions and an actual joint decrease overcoming the
+co-apex barrier, NOT the failed endpoint-only predicate. Builder/critic
+endpoint-route stops 06:52:38 / 06:52:08 UTC preserved. Original activation,
+07:17:32 derivation cutoff / 07:27:32 hard stop and zero subprocesses remain.
+
+### R5 terminal — PARTIAL, recorded after 07:40:35 UTC
+
+Global K6/all twelve positive-u inversion continua remain open. Scoped hand
+review accepts radial/contact formulas, direct coapex descent and actual
+all-placement pair envelope, NOT a six-variable Delta/barrier defeat.
+Endpoint-only counter violates full minimum assumptions, NOT K6. Builder
+06:52:38 and critic 06:52:08 derivation stops retained; cap07:27:32 expired
+at Main's next07:40:35 observation. Only saved review/report after cap;
+no R5 restart.0math subprocesses; no code/UI/API/Git/build/infra/delete.
+Report docs/research/KAKEYA_K6_STRUCTURAL_116_R5_20261012_REPORT.md.
+Direct new owner whole-six/barrier routing may activate a SEPARATE bounded
+run, never retroactively reset R5. Frozen predecessor history remains.
+
+### R6 direct owner routing activation — 2026-10-12 07:42:47 UTC
+
+Explicit owner ALL-six-minimum/actual-barrier implementation activates ONE
+new bounded run, not resetting R5: cutoff08:32:47/hardstop08:42:47UTC,
+math subprocesses0. SAME all-real finite K6/R116-1..3, all twelve inversion
+continua/faces. Full gradients/global replacement/actual union exposure;
+endpoint-only closure expressly forbidden. Existing Builder+critic/Main,
+prior R5 files frozen. New R6 Markdown only, no new TIP/mode/infra/code/UI/API/
+Git/build. Scope tip116/CONTINUATION_R6_SCOPE_20261012.md.
+
+### R6 terminal — PARTIAL, no root closure progress
+
+K6/all twelve positive-inversion continua remain OPEN. Exact all-six finite
+compression(M) preserves early area E_h and whole once-only fill F_h;
+missing E_h<=h^2*G+lambda*F_h is UNPROVED, NOT refuted. No actual decrease
+overcoming Delta/value floor. Early pair/TRIPLE restrictions/non-prefix hole
+caps/UPPER envelopes/virial are not a milestone or substitute closure.
+Full-gradient non-prefix debt remains; no natural stationary import.
+
+Original cutoff08:32:47/hardstop08:42:47UTC; saved separate Main08:30:44,
+Builder last proof08:27:44/observed cutoff08:32:53, critic last new08:27:21
+and Main literal review08:31:20. Clock08:54:06 after cap triggered saved
+file review/report only, no research restart/reset. Post-cap EN/VI report
+docs/research/KAKEYA_K6_STRUCTURAL_116_R6_20261012_REPORT.md.
+Scoped AI hand review, not Lean/external/novelty.0math subprocesses; no
+code/UI/API/Git/build/infra/copies/delete. Frozen history preserved, nothing
+removed. Next scientific obligation FULL-six early-fill dominance or whole
+actual value/exclusion proof; no automatic new grant/campaign.
+
+### R7 direct owner approval — 2026-10-12 08:58:28 UTC
+
+One NEW max60-minute hand-only run for whole-six barrier domination, same
+finite K6/R116-1..3. Cutoff09:48:28/hardstop09:58:28UTC, math subprocesses0.
+No necessary-condition milestone; only E_h<=h^2*G+lambda*F_h on actual full
+minimum domain or whole value/exclusion proof counts. Existing Builder/
+critic/Main, predecessor R6 frozen. New R7 Markdown only, no target/TIP/
+mode/infra/code/UI/API/Git/build/excluded computation. Scope tip116/
+CONTINUATION_R7_SCOPE_20261012.md; no retry extension/automatic next run.
+
+### R7 completion — K6 OPEN, zero committed closure progress
+
+Same all-real finite K6/R116-1..3. The requested full-six inequality (C)
+E_h<=h^2*G+lambda*F_h remains UNPROVED, NOT REFUTED. A checked finite
+radial replacement can pay positive compression cost if
+delta<=h^2*r^2/[4*(3-G)], but that UNIFORM bound (R) is not established.
+This conditional comparison is not a milestone. No complete inverted
+continuum/faces excluded; global floor and boundary/attainment remain open.
+
+Original08:58:28 activation/09:48:28 cutoff/09:58:28 hardstop kept. Main
+new derivation stopped09:45:04; Builder09:46:44; critic independent work
+09:39:26. Later work literal review/record only, not a fresh grant. Full
+report/Main review09:45:26; Main Builder-completion read09:47:28. Do not
+claim cap exhaustion, mathematical refutation or a shared stop timestamp.
+
+0 math subprocesses; no code/UI/API/Git writes/build/install/copies/deletion/
+infra, frozen predecessors preserved. Nothing removed. EN/VI final record:
+docs/research/KAKEYA_K6_STRUCTURAL_116_R7_20261012_REPORT.md.
+Next root obligation is an actual uniform whole-six domination/value proof;
+conditional restatements and necessary conditions do not discharge it.
+No automatic successor run or enlarged grant.
+
+### R8 direct owner approval — 2026-10-12 11:52:09 UTC
+
+NEW max60-minute hand-only run, same finite K6/R116-1..3/PUBLIC_DISCOVERY.
+Derivation cutoff12:42:09/hardstop12:52:09UTC, math subprocesses0. Prove
+uniform radial payment delta<=h^2*r^2/[4*(3-G)] on every actual competing
+minimum, or complete equivalent same-root value/exclusion bound. All-six
+conditions and actual gaps/faces retained. Conditional restatements count0.
+Existing proof Builder+critic/Main; R7 predecessors frozen; no new agents,
+TIP/mode/infra/code/UI/API/Git writes/build/excluded computation. Scope
+artifacts/research/tip116/CONTINUATION_R8_SCOPE_20261012.md. No automatic
+successor or retry extension. Full EN/VI outcome required, even if0closure.
+
+### R8 completion — K6 OPEN; no quantitative closure
+
+Exact uniform payment (R) remains UNPROVED, NOT REFUTED. All twelve
+inversion continua/faces and boundary/attainment assembly remain open.
+The checked finite coapex split gives decrease >=(2-lambda*r)^2/33,
+but at an original global minimum it bounds compression cost delta
+from BELOW. It does not prove the required upper payment. The attempted
+direct joint-union bound lacks complete optimization/endpoint coverage.
+No necessary condition, subfamily or conditional identity counts as a
+scientific milestone. Committed closure0; no novelty/formal-proof claim.
+
+Original11:52:09 activation/12:42:09 cutoff/12:52:09 hardstopUTC preserved.
+Main new derivation stopped12:33:38; critic12:33:11; subsequent work
+literal review/recording only. Early finalization, not cap exhaustion or
+full-hypothesis failure. Builder/final-review times in bilingual report:
+docs/research/KAKEYA_K6_STRUCTURAL_116_R8_20261012_REPORT.md.
+
+0math subprocesses; no code/UI/API/Git writes/build/install/infra/copies/
+delete, nothing removed. Existing Builder/critic only. Predecessors
+preserved. No automatic next run or strategy/resource change is granted.
+
+### R9 exact elimination approved — 2026-10-12 12:53:24 UTC
+
+Owner explicitly replaces compression/payment research by exact sixth-
+triangle minimization, first requiring complete formula and feasibility.
+Same global K6 target; prerequisite formula is not root closure. New
+scope tip116/CONTINUATION_R9_ELIMINATION_SCOPE_20261012.md pins R8 history.
+Hand-only60min ceiling; cutoff13:43:24/hardstop13:53:24UTC; math processes0.
+Reuse existing Builder+critic, no new platform/code/production. Full
+real-core domain and degeneracies; no restriction to K5 minimizers.
+
+### R9 exact-elimination first-stage completion — 2026-10-12
+
+The requested ALL-real-core exact sixth-triangle elimination formula is
+hand-proved and independently AI hand-reviewed, including degeneracies.
+For each fixed core, continuous piecewise-quadratic coverage attains its
+maximum among <=102 knots and<=101 concave-piece interior maxima. This
+is an exact operator, not stationarity alone or a selected subfamily.
+
+After common translation and elimination there are FOUR continuous core
+variables; exact candidate values are quadratic on polyhedral domains.
+203 is a per-core candidate ceiling, NOT global cases. Full-production
+cost is unqualified;5857 is only a conservative pre-eligibility comparison
+inventory, not actual chambers or runtime. No new infrastructure is built.
+Existing restricted K5 cover cannot discard outside cores for K6.
+
+Global H+mu>=40/31 / F6>=20/93 remains OPEN. Formula and scoped feasibility
+assessment complete; no global floor, novelty, external or Lean acceptance
+claimed. New derivation stops Main13:05:07/critic13:05:03/Builder13:05:32UTC,
+original12:53:24 activation and13:43:24/13:53:24 limits unchanged. Later
+work literal review/reporting only, not a fresh campaign or runtime grant.
+
+Math subprocesses/seconds/failed starts0/0/0; no code/UI/API/DB/Git writes,
+build/install/infra/copies/deletion. All predecessors preserved. Nothing
+removed. Final EN/VI result, exact formulas and review records:
+docs/research/KAKEYA_K6_ELIMINATION_116_R9_20261012_REPORT.md.
+
+### R9 all-core continuation — 2026-10-12, K6 remains OPEN
+
+Owner requested the global bound after elimination, not enumeration or
+more necessary conditions. No global lower bound or whole minimum class
+was closed. Exact elimination remains valid; actual exterior-union and
+dynamic-overlap formulations remain unbounded at the target constant.
+
+Do not reuse the old R4 geometry-only (P): a new exact actual-union
+counter refutes it even with connected bottom, range 11/7<49/31 and a
+strictly perturbed apex word (1,2,4,3,5,6). The unperturbed swap increases
+area by 2/441; (P) fails by at least 2/63. Main/Builder/critic hand-checked
+the counter. This is a failed proof route, NOT a K6 counterexample or a
+positive closure milestone. Full-six-minimum hypotheses remain essential
+and unresolved. Frozen predecessor records are not rewritten.
+
+Continuation observed 13:09:49 UTC; original 13:43:24/13:53:24 limits
+retained. Main derivation stop 13:34:09, critic 13:33:54; Builder records
+13:32:49. Early failed-route stop, not cap exhaustion. Only literal review
+and recording afterward. No automatic successor, math subprocesses 0,
+no code/UI/API/DB/Git mutation, enumeration, infrastructure or deletion.
+EN/VI report: docs/research/KAKEYA_K6_GLOBAL_AFTER_ELIMINATION_116_R9_20261012_REPORT.md.
+
+### Full-six follow-up — 2026-10-12
+
+Owner continued at observed 13:37:26 UTC within unchanged R9 limits.
+Neither simultaneous-six replacement nor actual reduced-curvature work
+yielded a sufficient inequality. K6 OPEN; zero new bound or whole minimum
+class closed. No reuse of false (P), no necessary-condition milestone,
+no infrastructure. Main stopped 13:41:19; Builder 13:40:30; subsequent
+work is literal status recording. No automatic successor/grant increase.
+Compact record: artifacts/research/tip116/FULL_MINIMUM_FOLLOWUP_20261012.md.
+
+### Global SOS feasibility — 2026-10-12
+
+Owner explicitly approved exact representation/size and bounded low-degree test.
+Full-domain min/clip graph established:1130 variables,1085 quadratic equations,
+2250 linear+80 quadratic inequalities. Minimal degree2 quadratic-module identity
+excluded by an exact two-atom moment obstruction (-9/31), independently hand-
+reviewed and rationally replayed. This does NOT refute K6 or stronger degree2
+preorderings; adding T(1-T)>=0 defeats that particular obstruction.
+Dense degree4 matrix alone2.98TiB; no allocation. Two existing Python runtimes
+lack SDP packages; no solver installation/numerical search. K6 OPEN, no new lower
+bound. Main stopped13:59:02 before14:18:12 ceiling; no automatic successor.
+Full bounded result: artifacts/research/tip116/SOS_FEASIBILITY_COMPLETION_20261012.md.
+No product/UI/DB/API/Git/build change, new infrastructure or deletion.
+
+### Smaller structured SOS — 2026-10-12, K6 remains OPEN
+
+Owner requested smaller structure and feasibility before execution. Activation
+16:36:53UTC, hardstop17:06:53; Main stopped derivation16:52:28,
+Builder16:53:15, critic16:48:00. Only literal review/recording afterward.
+Exact boundary integration replaces time-slab sorting:578variables instead
+of1130, all contact faces included with shared parallel signs and exact
+paired upper routing. This is a global representation, NOT a global bound.
+
+Exact diagnostic proves specified total-degree2 preordering impossible, and
+unbounded-tail argument excludes independently supported clip degree4 SOS
+multipliers. Cross-wire sign coupling provides one explicit escape from that
+obstruction; other extended grammars are not excluded. Do not repeat rejected
+classes. Concrete coupled template has409PSD blocks,
+maxorder78,155709scalar unknowns; rawGram storage2.26MiB is NOT solver memory.
+No identity/PSD certificate obtained; actual solving and recovery unqualified.
+No SDP/installation, only one small rational diagnostic. No new K6 bound,
+infrastructure, product/UI/API/DB/Git/build mutation or deletion. No automatic
+successor grant. Final scoped EN/VI result:
+artifacts/research/tip116/SPARSE_SOS_COMPLETION_20261012.md.
+
+### Saved coupled SOS template REJECTED — 2026-10-13 local
+
+Owner explicitly asked to find/reject exact identity before any run. Hand-only
+scope activated23:39:19UTC Oct12,hardstop00:09:19UTC Oct13; Main stopped new
+derivation23:41:40 on exact algebraic rejection. Frozen409PSD template admits
+NO real (therefore no rational) coefficient certificate. Flag scaling and
+positive-sum recession force its quadratic-clip multipliers to lose flag
+dependence, reducing to the previously impossible independent-clip class.
+Single diagnostic after reduction has RHS>=0, P=-102/31. It is not actual
+clipped geometry and not a K6 counterexample. No SDP should be run on this
+template. Earlier static counts remain historical, not execution candidates.
+
+Exact578-variable area graph unchanged; whole K6 OPEN with no new floor.
+No blanket rejection of allSOS or degree4; equation-multiplier degree limits
+are essential. No automatic grammar expansion, new infrastructure or run.
+Math processes0; no code/UI/API/DB/Git/build/install/scratch/deletion.
+Full proof/review: artifacts/research/tip116/COUPLED_IDENTITY_COMPLETION_20261013.md.
+
+### Conditional equation-only repair also REJECTED — 2026-10-13 local
+
+Owner approved selected geometry-equation multiples at totaldegree<=4.
+Hand feasibility established stronger impossibility before any allocation:
+with preserved affine clipSOS supports(A,b,own tau), NO choice of existing
+equation multiples can certifyG>=40/31, even without restricting their degree.
+Nonadjacent sign-cone recession forces sigma-=kappa*tau² and sigma+=lambda*(1-tau)².
+One exact false-lift assignment has actualadjacentclips1, binarynonadjclips,
+only L1/R6 fully covered, G=-5/P=-195/31; allh0 and allsurvivingRHS>=0.
+Adjacent actualclip terms are nonnegative, not allzero. Not a K6 counterexample.
+
+Thus no SDP or blind degree increase for equation-only rescue. The exact578
+area graph survives; whole K6 OPEN, no new bound/allSOS rejection. No automatic
+support/product/compute expansion. Activation23:45:48UTC Oct12,cap00:15:48Oct13;
+MainSTOP23:48:53/critic23:48:47/Builder23:49:22. Later literal review only.
+Mathprocesses0; no product/code/UI/API/DB/Git/build/install/infra/deletion.
+EN/VI proof and review: artifacts/research/tip116/CONDITIONAL_D4_COMPLETION_20261013.md.
+
+### Nonadjacent path-coupled SOS also rejected — 2026-10-13 local
+
+Owner approved nonadjacent coefficient expansion with totaldegree<=4;
+hand-only preflight selected existing min/max wires for all10 nonadjacent
+pairs without adding graph variables or gates. Initial source permutations
+complete the old network's unspecified source labeling; predecessors untouched.
+
+Exact theorem: SOS rows using A,allflags,allownpairclips,andoneOWNintermediate-
+source min/max cannot certify G>=40/31. Pair13 negative-tail rows collapse
+to ownclips plus ownminimum. The false lift
+A=(-32,-100,-31,-200,-61/2,0), pair13 clips0 and allothersactual, kills those
+weighted bad generators while keeping everyh0 andallothers nonnegative.
+Omitting13 coverage in the interacting1/3/5cluster changesG by-31/8, so
+Gfake<=-7/8: impossible RHS. Outside-index third-source coverage is the
+missing interaction. Not actualclippedgeometry/not a K6 counterexample.
+
+Do not run this class or confuse an old diagnostic's defeat with feasibility.
+Wider arbitrary578-wire supports are NOT excluded and remain unqualified;
+K6 OPEN/no new global floor. Activation23:53:36UTC Oct12,cap00:23:36Oct13;
+MainSTOP00:02:59,Builder00:03:41,critic00:03:51. Mathprocesses0;
+no code/product/UI/API/DB/Git/build/install/infra/scratch/deletion.
+Detailed EN/VI outcome and exact support boundary:
+artifacts/research/tip116/NONLOCAL_D4_COMPLETION_20261013.md.
+
+### Full source-aware degree-four quadratic module is impossible — 2026-10-13
+
+Owner approved source-aware endpoint coefficients, retaining outside-pair
+sources, totaldegree<=4/feasibility first/no infrastructure. A stronger exact
+result now supersedes the earlier restricted-support unknown: on the fixed
+578-variable graph, the entire degree4 QUADRATIC MODULE has no real-coefficient
+target identity, even with ALL578 variables in each allowed SOS support.
+
+True graph G<=3 forces every affine negative-clip SOS row to lose apex
+dependence (open unbounded negative-crossing cones). All573 remaining graph
+wires are bounded. Falsefamily A=(T,-100,T+1,-200,T+3/2,0),T<-300,
+pair13 clips0/allothersactual, has allh0/othersg>=0/onlybadg=-1/d constants.
+Thus RHS>=-C for any fixed coefficients, but exact Gfalse-Gtrue=(T+1)/8
+makes Pfalse→-infinity. This excludes source-support-only repair completely
+WITHIN this module. It does not refute actualK6, the graph, or all degree4
+preorderings (products of quadratic inequalities can escape boundedness).
+
+No SDP for the rejected class; no further source-only coefficient expansion.
+K6 OPEN/no new lower bound. New grammar or compute is not automatically granted.
+Activation00:44:56UTC/cap01:14:56; criticSTOP00:51:35/MainSTOP00:52:39;
+Builder recovered transport failures and FULL §5 proofreviewACCEPT00:52:51.
+Processes/SDP/code/UI/API/DB/Git/build/install/infra/newgates/deletions0.
+EN/VI theorem and exact limits:
+artifacts/research/tip116/SOURCE_ENDPOINT_D4_COMPLETION_20261013.md.
+
+### Existing-generator degree-four preordering also impossible — 2026-10-13
+
+Owner approved checking inequality PRODUCTS atdegree<=4. NEW full-class
+rejection now covers the degree4 truncated preordering ofALLexisting
+498linear/90quadratic generators, all578-variable supports, repeatedfactors
+and arbitrary equationmultipliers. This supersedes the preceding open
+preordering feasibility, but NOT otherrepresentations/degrees/newconstraints.
+
+Badpair13margin*quadraticpartner has a nonnegativeCONSTANT coefficient.
+Every distinct-pair clip and everyadjacentflag margin can grow jointly with
+bad13margin on a genuineopencone, so boundedtrueG forces thatcoefficient0.
+Samepairnegative partners likewise; samepairpositive partners0onfalsefamily.
+Partners ofone/twolinear generators arebounded, andbarebadSOSrowsboundedby
+previousconeproof. ThusallpossiblynegativeRHStermsboundedbelow while the
+sameTfamily hasPfalse→-infinity. Evena certificateG>=0 is excluded atthis
+fixedtruncation: notjustdifficultywithsharp40/31, not an actualnegativearea.
+
+Do not allocate thispreordering or keepwideningsupport/productsinside it.
+RootK6OPEN/no newgeometricbound. Nextrepresentation/derivedconstraint/degree
+route requires a separate decision, not a blind computational escalation.
+Activation00:58:12UTC/cap01:28:12; MainSTOP01:00:06/criticSTOP00:59:43;
+Builder reportedclassificationacceptbeforetransportfailure; no mathprocess.
+No SDP/productcode/UI/API/DB/Git/build/install/infra/deletion.
+Full EN/VI theorem: artifacts/research/tip116/PRODUCT_D4_COMPLETION_20261013.md.
+
+### Global compactification and slice-velocity objective — 2026-10-13
+
+Owner-approved newgeometry/domainreduction feasibility, stillTIP116 all-real
+finiteK6 G>=40/31 PUBLIC_DISCOVERY. Activation01:11:58UTC/cap01:41:58UTC;
+MainnewderivationSTOP01:22:42UTC; subsequentliteralreview/records only.
+
+Two exact results, NOT a sharparea proof: (1) area-preserving shearx'=x+3t
+and projectioncomponentpacking give everyconfiguration an AREA-EQUAL
+representative in a compact30-linear-constraint polytope ofhullwidth12;
+globalinfimum is preserved and attained, allorders/facesincluded. (2) with
+D_ray=C0-C1, G3=3+sum(j-4)D_Rj-sum(j-3)D_Lj is an exactquadratic
+areaobjective withNOexplicitapexA. It removes theoldfalseT loss: exactbias
+11/128 vs(T+1)/8→-infinity. PreviousD4no-go remainscorrectforitsoldobjective,
+but mustNOTbe transferred toG3. No newvariables/constraints forG3.
+
+Zeroobjective raysR4/L3 allow an equivalent490-variable geometricgraph,
+88fewerthan578, with180linearh445quadh430linearg90quadg. OptionalcompactD
+adds30linearg. ThisdoesNOTproveequalD4certificatepower; omittedwires could
+be usefulSOSmasks. Mathematicalrepresentation only; productcode unchanged.
+
+Feasibility: NEWtwoatomZ=.8(weight.6),-1.2(weight.4),Aj=(j-6)Z,
+clips0exceptpair16den5/den4=.8atpositiveatom, actualflags/gates, liesinD.
+AllD2certificateexpectationsnonnegative butE[G3-40/31]=-71/3875.
+D2rejected evenafterbothchanges. Validdegree4interaction
+q16den6minus*tau16den5² escapesdual(E=-32/125), butNOglobalidentity.
+DensefullD4Gram on490vars wouldaloneoccupy116.7GB; notallocated.
+Sparseidentity/cost/recoveryUNQUALIFIED; no automatic solver/escalation.
+
+K6OPEN/no newlowerfloor/no novelty orformal/externalacceptance. Remaining
+target is EXACTweightedcoverage inequality atcompletionsection6, notmore
+necessaryconditions or randomchambers. Processes/SDP/code/build/UI/API/DB/
+Git/install/newinfra/deletions0. MinimalVibecodehandreview only; Builder
+messages preserved despite transporterrors, no completedBuilderfileclaimed.
+FullEN/VI result: artifacts/research/tip116/GEOMETRIC_REDUCTION_COMPLETION_20261013.md.
+
+### Ten-ray degree-four identity: attempt incomplete — 2026-10-13
+
+Owner approved the weighted-coverage identity search, degree<=4, feasibility
+first/no infrastructure. Activation01:24:46UTC/cap01:54:46UTC; Main new
+derivation STOP01:35:01UTC, Builder01:33:20, critic01:35:16. No full identity
+for Q<=53/31, no new area floor; all-real finite K6 G>=40/31 stays OPEN.
+
+Exact local results: own-pair clip coupling has a degree3 existing-generator
+proof; two three-apex couplings preserve x+y=z through degree4 products of
+existing clip generators/bounds. Boundaries retained, no new generators.
+Their proof degree, not just abbreviated polynomial degree, controls allowed
+multipliers. Triple proofs already cost4; additional routing factors exceed
+that displayed proof budget. These formulas do not close the ten-ray target.
+
+Critic's exact semantic pair-separability rejection uses a three-coordinate
+mixed difference >=3/500 on a box inside compact D; any sum of two-coordinate
+functions has difference0. This excludes ONLY that exact separable class,
+not source-aware small gate blocks, coupled remainders or full degree4 SOS.
+The full new-objective D4 class is neither certified nor disproved.
+
+Global source-aware coverage-wire coefficient assembly remains missing.
+No qualified support/solver cost/exact recovery; no solver run or silent
+degree/representation escalation. Existing old-objective no-go is not reused
+as a rejection of G3. Preserve all predecessor proofs and scope limits.
+Minimal Vibecode used for scoped hand review only. Saved Builder note exists
+despite subsequent transport failure; no Builder final Main-report acceptance
+claimed. No math subprocesses/code/build/UI/API/DB/Git writes/install/new
+agents/infra/deletions. Full EN/VI report:
+artifacts/research/tip116/WEIGHTED_IDENTITY_COMPLETION_20261013.md.
+Critic FULL literal Main-report review01:36:17UTC found no blocking error;
+acceptance is of the scoped partial report, not of a global K6 certificate.
+Repository git diff --check passed.
+
+### Six-source triple assembly tested, sharpness fails — 2026-10-13
+
+Owner-approved hand search, degree<=4/no infrastructure,10:20:47UTC to
+cap10:50:47; Main derivation STOP10:40:02UTC. K6 remains OPEN, no sharp
+40/31 certificate. Existing max/routing equations telescope to exact whole
+source overlaps, but the required mixed-sign remainder is still unpaid.
+
+A cycle-basis selection of triple intersections gives a genuine global
+geometric lower bound, but is not sharp at the retained construction.
+In fact complete pair subtraction plus ANY constant triple correction
+cannot give a sharp pointwise minorant: exact membership sets234,345,235,245
+force their four coefficients1; set2345 would give2>1. This analytically
+rejects that named assembly before solver execution. Incorrect intermediate
+witness x=-11/10 was caught by critic and replaced by exact -27/25; no
+conclusion uses the rejected point. Full source-aware/quartic graph class
+is NOT rejected, and indicator degree is NOT graph certificate degree.
+
+No new lower floor/solver/code/UI/build/API/DB/Git write/installation/new
+agents/infra/deletion. Predecessors preserved; no automatic next execution.
+EN/VI proof: artifacts/research/tip116/TRIPLE_COVERAGE_COMPLETION_20261013.md.
+Critic FULL literal Main review10:40:18UTC: ACCEPT scoped proof/outcome,
+not global K6 closure. Repository git diff --check passed.
+
+### Coverage-context degree-four attempt — 2026-10-13
+
+Owner approved full coverage context, degree<=4, feasibility first. Same
+globalK6 G>=40/31/PUBLIC_DISCOVERY; activation10:44:35UTC/cap11:14:35.
+Main new derivation STOP11:04:34; Builder10:55:25, critic10:59:28. No sharp
+certificate or improved area floor; K6 OPEN, full D4 class not disproved.
+
+Established whole-source cancellation Qsource=sum15pairareas and exact
+rank correction R=integral C(m-1,2) on covered points. Adaptive active-source
+selection avoids the prior fixed-triple contradiction, but direct Boolean
+degree6 is not graphdegree4. Whole target53/31-sumJ+R remains unpaid.
+
+Actual full-union affine SOS rows times originalclipgens fitdegree4;
+C0(R1)^2*g defeats the frozenD2 diagnostic and vanishes atsharp. The Main
+conditional LOWER-routing identity improves a weighted max-moment proof
+to degree3; one linear contextual factor remains available. Lower ties
+cannot be divided away; a full Aall0 flag/tie lift demonstrates why paired
+ray cancellation matters. Independent clearing of two carried branches
+costsdegree5; simultaneous degree4 cancellation is still unproved.
+
+No unqualified solver run, new infrastructure or automatic next research.
+Existing exact EN/VI report with proofs/degree guards/scope limits:
+artifacts/research/tip116/CONTEXTUAL_D4_COMPLETION_20261013.md.
+Critic FULL literal Main review11:06:14UTC: ACCEPT formulas/incomplete outcome,
+not K6 closure. Repository diff check passed11:07:09UTC.
+Only hand work/reads/Markdown; no mathprocess/code/UI/build/API/DB/Git
+write/install/newagents/variables/gates/infra/deletions. History preserved.
+
+### Whole-network cancellation attempt completed, K6 still open — 2026-10-13
+
+Direct owner approval, same all-real G>=40/31, degree<=4 and no infrastructure.
+Activation11:11:51UTC/cap11:41:51. Main derivation STOP11:22:53UTC;
+Builder11:18:18, critic11:18:25, early hand assembly exhaustion.
+
+Mixed lower/upper power sums through degree4 cancel additively across the
+complete paired sorter, without branch-weight products or division on ties.
+Coupled polynomial moment potentials fit the same degree budget. This is
+exact equation transport, not a nonnegative certificate for P=53/31-Q.
+Full-prefix gaps, terminal extrema and opposite-sign coverage contributions
+remain quantitatively unpaid. No new sharp floor or full-D4 no-go obtained.
+NO SOLVER RUN: coefficient feasibility and exact recovery cost unqualified.
+
+EN/VI report: artifacts/research/tip116/SIMULTANEOUS_D4_COMPLETION_20261013.md.
+Critic FULL Main literal review11:24:05UTC accepts formulas/incomplete outcome,
+not K6 closure. Minimal Vibecode reused existing Builder/critic only; no
+product code/UI/build/API/DB/Git writes/install/new agents/gates/infra/deletions.
+No automatic successor; preserve predecessor attempts and root OPEN status.
+
+### Whole gap/overlap payment candidate rejected — 2026-10-13
+
+Same owner-approved K6 target and degree<=4, feasibility first, no infrastructure.
+Activation11:26:54UTC/cap11:56:54; Main derivation STOP11:31:49 after decisive
+candidate failure (critic11:31:22, Builder11:32:01). K6 OPEN; no new floor.
+
+Concrete sharp-calibrated Q upper bound uses source-group hulls and selected
+negative bands. Valid Q<=Qhat, equality at A*, but not Qhat<=53/31: actual
+uniform-apex placement c2/3 has Qhat194/81 while Q5/3 and G4/3. Even keeping
+all negative unions leaves167/81 due to positive group overlap overcount.
+Do not run this sufficient-bound assembly. This is not a K6 counterexample,
+not fullD4 infeasibility, and not a replacement regional/moment milestone.
+
+EN/VI: artifacts/research/tip116/NONNEGATIVE_REMAINDER_COMPLETION_20261013.md.
+Critic FULL Main review11:33:23UTC accepts exact rejection and limitations.
+Only hand work/read/Markdown, existing minimal Vibecode Builder/critic;
+no solver/product code/build/UI/API/DB/Git write/install/new gates/infra/deletions.
+Predecessors preserved; no automatic next research or computation.
+
+### Full intercluster candidate checked, global K6 still open — 2026-10-13
+
+Same approved all-real G>=40/31, degree<=4, feasibility before execution.
+Activation11:36:44UTC/cap12:06:44; Main derivation STOP11:46:58 on hand
+exhaustion, Builder11:41:33, critic11:39:59. No solver qualified or run.
+
+A central-two-triangle mask yields the exact G=B+E, E>=0, with all15 pair
+areas,16 central-touching triple areas and6 central-containing quadruple
+areas in B. Global comparison and sharp contact check; the old uniform
+counterexample is no longer a failure. This is NOT a proof of B>=40/31,
+which remains open, or of the whole target P. No new quantitative floor.
+
+Indicator-only exact error has a nonzero degree6 term; it cannot itself be
+represented at degree<=4 on the Boolean cube. Do not transfer that
+restricted obstruction to the original490-variable graph. Its D4 class
+is neither certified nor rejected, and this new B has not been refuted.
+
+EN/VI: artifacts/research/tip116/FULL_INTERCLUSTER_COMPLETION_20261013.md.
+Only hand work/read/Markdown, existing minimal Vibecode Builder/critic;
+no solver/product code/build/UI/API/DB/Git write/install/new gates/infra/deletions.
+No automatic successor. Preserve all predecessor failures and K6 OPEN.
+Critic FULL saved Main-report review11:50:02UTC: ACCEPT within those limits,
+not root closure. Repository diff check passed11:50:10UTC.
+
+### Joint compensation attempted; auxiliary B floor refuted — 2026-10-13
+
+Owner approved full B+E payment, unchanged G>=40/31 all-real K6, degree<=4,
+feasibility first and no infrastructure. Activation11:51:45UTC/cap12:21:45;
+Main derivation STOP12:02:19, Builder11:57:49, critic11:54:03, early hand
+exhaustion. K6 OPEN; no joint nonnegative certificate or new area floor.
+
+Actual A=(2,4,4,6,10,12)/3 has G79/54 and full E34=89/270, so B34=17/15:
+the formerly unproved separate B floor is FALSE. True G remains above40/31.
+This validates keeping E as necessary compensation, not that it always
+suffices. Even (B34+B25)/2<=691/540<40/31 on this placement because an
+uncovered triple134 contributes at least1/27 to E25. Do not discard the
+averaged error and retry that shortcut. All older records remain preserved.
+
+The exact joint G graph is quadratic; the separate Boolean error's degree6
+does not rule out graph D4. The full graph class remains unresolved. No
+qualified solver/PSD recovery cost, no run, no new variables or infrastructure.
+EN/VI proof and exact piecewise formulas:
+artifacts/research/tip116/JOINT_BE_COMPLETION_20261013.md.
+Critic supplied checks12:00:43/12:03:05UTC accept this limited rejection,
+not root closure. Only hand work/read/Markdown; no app/build/UI/API/DB/Git
+write/install/new agents/gates/infra/deletions. No automatic continuation.
+Critic FULL saved Main review12:03:44UTC accepts exact diagnostics and
+incomplete outcome, not K6 closure. Repository diff check passed12:04:08UTC.
+
+### Direct whole D4 attempt: no new mathematical result — 2026-10-13
+
+Same approved all-real K6 G>=40/31, full B+E retained, total degree<=4.
+Activation12:06:01UTC/cap12:36:01. Main new derivation STOP12:11:18,
+Builder12:09:31, critic12:09:12, early hand exhaustion rather than cap.
+No coefficient certificate, new area bound or full-class obstruction
+obtained. K6 OPEN. Do not count this attempt as a new invariant, necessary
+condition, regional milestone or engineering accomplishment.
+
+Full-source affine-wire/margin products and equation multiples did not
+yield a complete match for P=53/31-Q. No sparse support/cost qualification,
+no solver. Separate B/averaged-error-dropping shortcuts remain excluded.
+Report: artifacts/research/tip116/WHOLE_D4_COMPLETION_20261013.md.
+Limited Station introduction read is not a full literature/novelty review.
+Hand work/read/Markdown only; no mathprocess/app/build/UI/provider/DB/Git
+write/install/new variables/gates/infra/deletions. No automatic continuation.
+Critic FULL saved Main review12:11:58UTC accepts scoped no-result account,
+not a certificate. Repository diff check passed12:12:19UTC.
+
+### Owner routing: research paused, product handoff — 2026-10-13
+
+Owner explicitly pauses method/research and requests UI/UX polish, necessary
+functionality, debt cleanup, commit/push and eventual research-team handoff.
+Follow-up decision: finish and push first; choose deployment destination later.
+TIP-117 is engineering-only. K6 is OPEN, not completed by this routing.
+Preserve existing untracked TIP103–116 scientific evidence. No new research
+execution, paid API, security bypass, remote migration or deployment. Audit
+existing push-triggered image publishing before push to respect deploy deferral.

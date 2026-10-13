@@ -1,0 +1,19 @@
+{
+  "coverage": "NONE",
+  "details": {
+    "fixed_real": {
+      "coverage": "NONE",
+      "incidence_signs": 94,
+      "legacy_signs": 147,
+      "rank": 5,
+      "value": "40/31"
+    }
+  },
+  "elapsed_seconds": 1.2181568749947473,
+  "errors": [],
+  "failures": [],
+  "source_sha256": "6c8711821aa771ced988e0a604563da5a48e31d448de6f4d90597b198b90205e",
+  "status": "PASS",
+  "test_sha256": "f85105d7bf3b3d5ee65951573f191059f7be3ab033f616d9d8712b535e687d04",
+  "tests_run": 11
+}

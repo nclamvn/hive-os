@@ -1,0 +1,1833 @@
+{
+  "status": "ALL_RETAINED_EQUALITY_CASES_ACCOUNTED",
+  "scope": "Conditional on TIP101 complete-cover, C1 and stationary completeness premises; no fresh cover or global lower-bound replay.",
+  "input_sha256": {
+    "cover": "3097a3df15e02f5d299811bc9edbaab453211fdffd1559aedfa50b7e40a78c4a",
+    "stationary": "95d41c6565ccd683bab2376463b402fa3f7170b99bf3daa881c3b15b0878707c"
+  },
+  "counts": {
+    "all_cases": 8658,
+    "equality_cases": 68,
+    "equality_rank_4": 68,
+    "INFEASIBLE_POINT": 64,
+    "inconsistent_cases": 130,
+    "FEASIBLE_POINT": 4
+  },
+  "distinct_polynomials_reeliminated": 667,
+  "incident_cases_inspected_per_minimizer": 8658,
+  "equality_cases": [
+    {
+      "cell": 597,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 598,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 599,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 600,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 601,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        38
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 602,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        29
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 603,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        29
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 604,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        8,
+        29,
+        38
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 847,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 848,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 849,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 850,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 851,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        38
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 852,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 899,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 900,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 901,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        21,
+        25,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 902,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        21,
+        25,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 905,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        5,
+        21,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1243,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1244,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1245,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [],
+      "violated_strict": [],
+      "status": "FEASIBLE_POINT"
+    },
+    {
+      "cell": 1246,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [],
+      "violated_strict": [],
+      "status": "FEASIBLE_POINT"
+    },
+    {
+      "cell": 1247,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        38
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1248,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1293,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1294,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1295,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        21,
+        25,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1296,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        21,
+        25,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1299,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        21,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1343,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        16,
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1344,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        16,
+        21,
+        25
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1345,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        16,
+        21,
+        25,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1346,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        16,
+        21,
+        25,
+        38,
+        45
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1409,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        12,
+        17,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1424,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        12,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1425,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        12,
+        22,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1439,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        12,
+        17,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1455,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        12,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1456,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        12,
+        22,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1476,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1477,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        22,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1511,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1512,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        7,
+        9,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1834,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        17,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1838,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        17,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1852,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1853,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        22,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1858,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        22
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1859,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        22,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1876,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1877,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1878,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1882,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1883,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1884,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        12,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1903,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [],
+      "violated_strict": [],
+      "status": "FEASIBLE_POINT"
+    },
+    {
+      "cell": 1904,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1905,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1906,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        34,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1910,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [],
+      "violated_strict": [],
+      "status": "FEASIBLE_POINT"
+    },
+    {
+      "cell": 1911,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1912,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 1913,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        34,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 2150,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        9
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 2151,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        9,
+        41
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 2152,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        9,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    },
+    {
+      "cell": 2153,
+      "pair": [
+        1,
+        5
+      ],
+      "rank": 4,
+      "particular": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "nullspace": [],
+      "violated_closed": [
+        9,
+        34,
+        41,
+        44
+      ],
+      "violated_strict": [],
+      "status": "INFEASIBLE_POINT"
+    }
+  ],
+  "distinct_feasible_minimizers": 2,
+  "minimizers": [
+    {
+      "apex_coordinates_A2_to_A5": [
+        "29/61",
+        "93/61",
+        "116/61",
+        "165/61"
+      ],
+      "offsets_x5_zero": [
+        "79/305",
+        "47/305",
+        "10/61",
+        "12/305",
+        "0"
+      ],
+      "area_affine": "14/61",
+      "area_trapezoid": "14/61",
+      "equality_records": [
+        {
+          "cell": 1245,
+          "pair": [
+            1,
+            5
+          ]
+        },
+        {
+          "cell": 1246,
+          "pair": [
+            1,
+            5
+          ]
+        }
+      ],
+      "incident_case_count": 2,
+      "distinct_incident_polynomials": 2,
+      "incident_laws": [
+        {
+          "polynomial": [
+            "0",
+            "-1/10",
+            "0",
+            "0",
+            "-3/10",
+            "-1/30",
+            "0",
+            "-1/5",
+            "0",
+            "-1/5",
+            "1/5",
+            "13/60",
+            "11/40",
+            "7/60",
+            "1/2"
+          ],
+          "hessian": [
+            [
+              "2/5",
+              "0",
+              "-1/10",
+              "0"
+            ],
+            [
+              "0",
+              "13/30",
+              "-3/10",
+              "-1/30"
+            ],
+            [
+              "-1/10",
+              "-3/10",
+              "11/20",
+              "-1/5"
+            ],
+            [
+              "0",
+              "-1/30",
+              "-1/5",
+              "7/30"
+            ]
+          ],
+          "leading_principal_minors": [
+            "2/5",
+            "13/75",
+            "11/200",
+            "61/15000"
+          ],
+          "exact_lower_hessian_bound": "1/32",
+          "shifted_leading_principal_minors": [
+            "59/160",
+            "11387/76800",
+            "32527/819200",
+            "819307/1966080000"
+          ],
+          "records": [
+            {
+              "cell": 1245,
+              "pair": [
+                1,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "polynomial": [
+            "0",
+            "-1/30",
+            "0",
+            "0",
+            "-3/10",
+            "-1/30",
+            "0",
+            "-1/5",
+            "0",
+            "-1/5",
+            "1/15",
+            "13/60",
+            "4/15",
+            "7/60",
+            "1/2"
+          ],
+          "hessian": [
+            [
+              "2/15",
+              "0",
+              "-1/30",
+              "0"
+            ],
+            [
+              "0",
+              "13/30",
+              "-3/10",
+              "-1/30"
+            ],
+            [
+              "-1/30",
+              "-3/10",
+              "8/15",
+              "-1/5"
+            ],
+            [
+              "0",
+              "-1/30",
+              "-1/5",
+              "7/30"
+            ]
+          ],
+          "leading_principal_minors": [
+            "2/15",
+            "13/225",
+            "11/600",
+            "61/45000"
+          ],
+          "exact_lower_hessian_bound": "1/32",
+          "shifted_leading_principal_minors": [
+            "49/480",
+            "9457/230400",
+            "80911/7372800",
+            "219859/1966080000"
+          ],
+          "records": [
+            {
+              "cell": 1246,
+              "pair": [
+                1,
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "local_A_linf_radius": "1/244",
+      "local_A_euclidean_gap_coefficient": "1/64"
+    },
+    {
+      "apex_coordinates_A2_to_A5": [
+        "49/61",
+        "72/61",
+        "136/61",
+        "165/61"
+      ],
+      "offsets_x5_zero": [
+        "79/305",
+        "67/305",
+        "29/305",
+        "32/305",
+        "0"
+      ],
+      "area_affine": "14/61",
+      "area_trapezoid": "14/61",
+      "equality_records": [
+        {
+          "cell": 1903,
+          "pair": [
+            1,
+            5
+          ]
+        },
+        {
+          "cell": 1910,
+          "pair": [
+            1,
+            5
+          ]
+        }
+      ],
+      "incident_case_count": 2,
+      "distinct_incident_polynomials": 2,
+      "incident_laws": [
+        {
+          "polynomial": [
+            "-3/10",
+            "-1/10",
+            "1/20",
+            "0",
+            "0",
+            "-1/10",
+            "0",
+            "-3/10",
+            "0",
+            "-1/5",
+            "11/40",
+            "13/60",
+            "1/5",
+            "7/40",
+            "1/2"
+          ],
+          "hessian": [
+            [
+              "11/20",
+              "-3/10",
+              "-1/10",
+              "1/20"
+            ],
+            [
+              "-3/10",
+              "13/30",
+              "0",
+              "-1/10"
+            ],
+            [
+              "-1/10",
+              "0",
+              "2/5",
+              "-3/10"
+            ],
+            [
+              "1/20",
+              "-1/10",
+              "-3/10",
+              "7/20"
+            ]
+          ],
+          "leading_principal_minors": [
+            "11/20",
+            "89/600",
+            "11/200",
+            "61/15000"
+          ],
+          "exact_lower_hessian_bound": "1/32",
+          "shifted_leading_principal_minors": [
+            "83/160",
+            "9107/76800",
+            "32527/819200",
+            "615187/1966080000"
+          ],
+          "records": [
+            {
+              "cell": 1903,
+              "pair": [
+                1,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "polynomial": [
+            "-3/10",
+            "-1/30",
+            "0",
+            "0",
+            "0",
+            "-1/10",
+            "0",
+            "-1/10",
+            "0",
+            "-1/5",
+            "4/15",
+            "13/60",
+            "1/15",
+            "1/10",
+            "1/2"
+          ],
+          "hessian": [
+            [
+              "8/15",
+              "-3/10",
+              "-1/30",
+              "0"
+            ],
+            [
+              "-3/10",
+              "13/30",
+              "0",
+              "-1/10"
+            ],
+            [
+              "-1/30",
+              "0",
+              "2/15",
+              "-1/10"
+            ],
+            [
+              "0",
+              "-1/10",
+              "-1/10",
+              "1/5"
+            ]
+          ],
+          "leading_principal_minors": [
+            "8/15",
+            "127/900",
+            "11/600",
+            "61/45000"
+          ],
+          "exact_lower_hessian_bound": "1/32",
+          "shifted_leading_principal_minors": [
+            "241/480",
+            "25777/230400",
+            "80911/7372800",
+            "186857/5898240000"
+          ],
+          "records": [
+            {
+              "cell": 1910,
+              "pair": [
+                1,
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "local_A_linf_radius": "3/610",
+      "local_A_euclidean_gap_coefficient": "1/64"
+    }
+  ],
+  "reflection_closes_minimizer_set": true,
+  "elapsed_seconds": 5.03423908300465
+}
