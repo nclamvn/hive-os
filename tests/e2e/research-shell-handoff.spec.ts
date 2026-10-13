@@ -2,6 +2,47 @@ import { expect, test } from "@playwright/test";
 
 import { signUpToDashboard } from "./auth-helpers";
 
+test("research sections share the workspace grid without horizontal overflow", async ({ page }, testInfo) => {
+  const { dashboardUrl } = await signUpToDashboard(page, "Research layout");
+  await page.goto(`${dashboardUrl}/missions/new`);
+  await page.getByLabel("Mission title").fill("Research interface layout review");
+  await page.getByLabel("Objective").fill("Check the research request form at desktop and mobile widths.");
+  await page.getByLabel("Scope").fill("Interface only; no research execution or provider calls.");
+  await page.getByLabel("Success definition").fill("Aligned sections and readable request fields without overflow.");
+  await page.getByLabel("Requirement title").fill("Responsive request form");
+  await page.getByLabel("Acceptance criteria").fill("All sections share the workspace grid at 1440, 900 and 390 pixels.");
+  await page.getByLabel("Obligation title").fill("Inspect visual evidence");
+  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
+  await page.goto(`${dashboardUrl}/research`);
+  await expect(page.getByRole("textbox", { name: "Outcome you need" })).toBeVisible();
+  const sections = [
+    page.locator('section[aria-labelledby="research-entry-title"]'),
+    page.locator("#new-research"),
+    page.locator('section[aria-labelledby="research-runs"]'),
+  ];
+  for (const section of sections) await expect(section).toBeVisible();
+
+  for (const width of [1440, 900, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(async () => {
+      const boxes = await Promise.all(sections.map((section) => section.boundingBox()));
+      if (boxes.some((box) => box === null)) return Infinity;
+      const edges = boxes.map((box) => ({ left: box!.x, right: box!.x + box!.width }));
+      return Math.max(
+        Math.max(...edges.map((edge) => edge.left)) - Math.min(...edges.map((edge) => edge.left)),
+        Math.max(...edges.map((edge) => edge.right)) - Math.min(...edges.map((edge) => edge.right)),
+      );
+    }, { message: `Research section edges align at ${width}px` }).toBeLessThanOrEqual(1);
+    await expect.poll(() => page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    ), { message: `No page overflow at ${width}px` }).toBeLessThanOrEqual(1);
+    if (width === 1440 || width === 390) {
+      await page.screenshot({ path: testInfo.outputPath(`research-layout-${width}.png`), fullPage: true });
+    }
+  }
+});
+
 test("research entry and account actions stay usable across desktop, tablet and mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   const { dashboardUrl } = await signUpToDashboard(page, "Research handoff");

@@ -126,7 +126,7 @@ export default async function ResearchPage({
 
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
-      <section className="mx-auto w-full max-w-5xl">
+      <section className="w-full min-w-0">
         <ResearchEntryPoints locale={locale} workspaceSlug={workspaceSlug}
           missionId={selectedMissionId} canRequest={canRequest}
           localToolsAvailable={localToolsAvailable} />
@@ -135,7 +135,7 @@ export default async function ResearchPage({
         <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
           className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
       </section>
-      <section id="new-research" className="mx-auto w-full max-w-5xl scroll-mt-24">
+      <section id="new-research" className="w-full min-w-0 scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
           {selectedMission ? (
             <p className="text-meta text-ink-muted mb-3 tabular">

@@ -127,3 +127,30 @@ The local sign-in endpoint also returned HTTP 200 after restart.
 Next priority before deploy is the remaining dependency remediation with
 mail/Prisma compatibility testing, then full acceptance on the chosen target.
 Do not restart K6 or widen local-only research access as part of that work.
+
+## Follow-up — consistent Research content width (2026-10-13)
+
+The Owner reported that the request panel was narrower than Recent work.
+The first two Research sections had independent `max-w-5xl` caps; both now
+inherit the workspace shell width with `w-full min-w-0`. Paragraph measure,
+shell gutters, typography, colors and research behavior are unchanged.
+
+- Focused research-entry unit tests: **12/12 passed**; typecheck, scoped ESLint
+  and whitespace checks passed.
+- Reused `.next-build` for one LOCAL_QA build: **passed** (compile 9.4 seconds,
+  TypeScript 48 seconds); standalone environment scrub and asset preparation
+  passed. Disk preflight: 24 GiB free. No new build directory or project copy.
+- Selected Playwright regression: **4/4 passed**, 8.4 seconds, one worker and
+  no retries, against isolated `hiveos_test`. New geometry assertions compare
+  both edges of the entry, request and Recent work sections at 1440, 900 and
+  390 pixels and reject horizontal document overflow. Desktop/mobile captures
+  are retained in ignored `test-results`; visual inspection confirms alignment.
+- The layout fixture was then strengthened to create a synthetic mission via
+  the UI and require the actual request textarea before measuring. Its focused
+  replay **1/1 passed**, 6.5 seconds, on the same build; updated desktop/mobile
+  captures were visually inspected. No research request was submitted.
+- Development sign-in endpoint still returns HTTP 200. No research campaign,
+  provider call, live research data change or deployment was performed.
+
+This is a scoped page-layout correction, not a new whole-product acceptance
+or a resolution of the deployment risks recorded above.
