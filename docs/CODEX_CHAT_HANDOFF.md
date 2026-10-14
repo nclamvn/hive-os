@@ -11646,3 +11646,57 @@ now uses MathText on question/finding narratives with a conservative legacy LRC
 adapter, retained source text, and keyboard-scrollable long formulas. Focused39
 render/grouping tests and live390px/natural-width browser QA pass. See
 docs/verification/RESEARCH_MATH_RENDER_COMPLETION.md. No new research or data writes.
+
+### UAV proposal operator-assisted E2E and PDF repair — 2026-10-14
+
+Owner requested a visible mission-to-document test for a preliminary forest UAV
+survey proposal, explicitly preserving unknown inputs. Local mission M-0002 and
+document DOC-7EF4039C revision2 were created through UI; no worker or paid API.
+Word export passed; native PDF initially failed on a virtual `(rsc)` font path.
+Owner approved a narrow repair: traced runtime font paths and initial PDFKit font.
+Authoring/build-profile14 tests, typecheck and scoped lint passed. Final browser
+PDF download passed; all7 pages inspected,64/64 Word paragraphs retained. Document
+revision/data unchanged by repair. No full build, commit/push or deployment in
+this step. Not autonomous research or technical survey acceptance; K6 stays paused.
+Reports: artifacts/qa/uav-forest-20261014/COMPLETION.md and PDF_FIX_COMPLETION.md.
+
+### Mission button rhythm and exploratory UAV A/B — 2026-10-14
+
+Owner approved consistent peer buttons then same-Codex/no-paid-API comparison.
+Mission actions now have equal peer widths with deliberate mobile stacking,
+unchanged40px shared styling/handlers.28 units/typecheck/scoped lint pass; live
+VN/EN390px/1440px geometry and keyboard verified without mission state mutation.
+One paired UAV proposal trial: fresh-context single-pass A vs operator-assisted
+HIVE draft/critique/revision B, same source pack/time cap, NOT equal compute.
+Label-blind model judge scores18/20 each, no clear content advantage. No expert
+field validation or generalized superiority. B saved in DOC-BD12906E revision3;
+editorial26→90 mostly punctuation, with two false-positive warnings retained.
+No paid API/worker/deploy/build/commit/push in this step; previous PDF edits kept.
+K6 remains paused. See artifacts/qa/button-ab-20261014/RESULTS.md and RUN_LOG.md.
+
+### Authoring editorial precision — 2026-10-14
+
+Owner requested false-positive repairs, content/style separation and browser QA,
+not deployment. Local attribution and negation checks now distinguish the UAV
+user-input area, absolute/relative accuracy terminology and negated guarantees
+from independently asserted measurements or promises. Style advice no longer
+blocks export or reduces the content-check score; AI disclosure is not an error.
+Broken citations, required-section failures and raw tool traces remain blockers.
+
+Current editor, library and server export recompute the same rules with the actual
+document type; strict v1 reports and immutable save-time scores remain unchanged.
+EN/VI labels state heuristic limits; 100/100 is not factual or technical acceptance.
+Main verification: 86 focused unit cases, typecheck, scoped lint and diff check
+pass. Live Codex browser tested false-positive and genuine-error cases, EN/VI,
+library consistency, and saved-revision DOCX/PDF download. DOC-BD12906E remains
+revision3 with historical90/26/0; no synthetic edits were saved. Prior A/B result
+remains a tie and is not rewritten by the new editorial scoring.
+
+No new dependency, migration, gate, paid API, research execution, full production
+build, commit/push or deployment. Previous PDF/button changes preserved. Evidence:
+artifacts/qa/editorial-checks-20261014/BROWSER_QA.md. K6 remains OPEN/paused.
+
+Owner subsequently authorized one commit/push containing these editorial,
+mission-button and PDF repairs, their regression tests and retained QA evidence.
+Deployment remains deferred: staging-images is manual workflow_dispatch only;
+no release workflow is invoked by this handoff.

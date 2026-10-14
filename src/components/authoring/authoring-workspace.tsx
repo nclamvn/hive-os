@@ -29,7 +29,7 @@ import {
   type AuthoringQualityReport,
   type ComputationalArtifact,
 } from "@/modules/authoring/contracts";
-import { assessAuthoringQuality } from "@/modules/authoring/quality";
+import { assessAuthoringQuality, authoringIssueCategory } from "@/modules/authoring/quality";
 
 interface RevisionSummary {
   id: string;
@@ -460,26 +460,38 @@ export function AuthoringWorkspace(props: Props) {
             )}
           </div>
           <div className="p-4">
+            <p className="text-meta text-ink-muted mb-3">{copy.qualityHint}</p>
             <p className="text-body text-ink font-medium">{qualityLabel(copy, quality)}</p>
             <p className="text-meta text-ink-muted mt-1">
               {quality.blockerCount} {copy.blockers} · {quality.warningCount} {copy.warnings}
             </p>
-            {quality.issues.length ? (
-              <ul
-                className="mt-3 max-h-80 space-y-2 overflow-y-auto"
-                tabIndex={0}
-                aria-label={copy.quality}
-              >
-                {quality.issues.slice(0, 30).map((issue, index) => (
-                  <li key={`${issue.code}-${issue.sectionKey}-${index}`} className={`rounded-md border p-2.5 ${issueTone(issue.severity)}`}>
-                    <p className="text-meta text-ink font-medium">
-                      {copy.issue[issue.code as keyof typeof copy.issue] ?? issue.code}
-                    </p>
-                    {issue.excerpt ? <p className="text-[11px] text-ink-muted mt-1 line-clamp-3">{issue.excerpt}</p> : null}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+            {(["CONTENT", "STYLE"] as const).map((category) => {
+              const findings = quality.issues.filter((issue) => authoringIssueCategory(issue.code) === category);
+              const label = category === "CONTENT" ? copy.contentFindings : copy.styleAdvice;
+              return (
+                <div key={category} className="mt-4">
+                  <h3 className="text-meta text-ink font-semibold">{label} · {findings.length}</h3>
+                  {category === "STYLE" ? <p className="text-[11px] text-ink-muted mt-1">{copy.styleHint}</p> : null}
+                  {!findings.length && category === "CONTENT" ? <p className="text-[11px] text-ink-muted mt-1">{copy.noContentFindings}</p> : null}
+                  {findings.length ? (
+                    <ul
+                      className="mt-3 max-h-80 space-y-2 overflow-y-auto"
+                      tabIndex={0}
+                      aria-label={label}
+                    >
+                      {findings.slice(0, 30).map((issue, index) => (
+                        <li key={`${issue.code}-${issue.sectionKey}-${index}`} className={`rounded-md border p-2.5 ${issueTone(issue.severity)}`}>
+                          <p className="text-meta text-ink font-medium">
+                            {copy.issue[issue.code as keyof typeof copy.issue] ?? issue.code}
+                          </p>
+                          {issue.excerpt ? <p className="text-[11px] text-ink-muted mt-1 line-clamp-3">{issue.excerpt}</p> : null}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              );
+            })}
             <div className="mt-4 grid grid-cols-2 gap-2">
               {(["docx", "pdf"] as const).map((format) => {
                 const disabled = !props.canExport || quality.blockerCount > 0;
@@ -495,6 +507,7 @@ export function AuthoringWorkspace(props: Props) {
                 );
               })}
             </div>
+            <p className="text-[11px] text-ink-muted mt-2">{copy.exportSavedHint}</p>
           </div>
         </section>
 
@@ -631,6 +644,7 @@ export function AuthoringWorkspace(props: Props) {
 
         <section className="border-line bg-surface rounded-lg border p-4">
           <p className="text-eyebrow text-ink-muted">{copy.revisionHistory}</p>
+          <p className="text-[11px] text-ink-muted mt-1">{copy.recordedScore}</p>
           <p className="text-meta text-ink-muted mt-2">{props.changedSectionCount} {copy.changedSections}</p>
           {props.diffSections.length ? (
             <ul className="border-line mt-3 space-y-1 border-b pb-3">

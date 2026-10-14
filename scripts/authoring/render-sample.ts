@@ -77,11 +77,11 @@ await mkdir(outputDirectory, { recursive: true });
 await Promise.all([
   writeFile(
     resolve(outputDirectory, "governed-authoring-sample.docx"),
-    await renderAuthoringDocx(content, quality),
+    await renderAuthoringDocx(content, "RESEARCH_PROPOSAL"),
   ),
   writeFile(
     resolve(outputDirectory, "governed-authoring-sample.pdf"),
-    await renderAuthoringPdf(content, quality),
+    await renderAuthoringPdf(content, "RESEARCH_PROPOSAL"),
   ),
 ]);
 

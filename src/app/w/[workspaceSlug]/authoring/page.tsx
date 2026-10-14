@@ -156,7 +156,8 @@ export default async function AuthoringPage({
                   {document.mission.referenceCode} · {document.mission.title}
                 </p>
                 <div className="border-line mt-auto flex items-end justify-between gap-3 border-t pt-4">
-                  <span className={`text-meta font-medium ${document.quality ? qualityTone(document.quality.status) : "text-ink-muted"}`}>
+                  <span title={copy.qualityHint} className={`text-meta font-medium ${document.quality ? qualityTone(document.quality.status) : "text-ink-muted"}`}>
+                    <span className="text-[10px] text-ink-muted block">{copy.quality}</span>
                     {document.quality
                       ? `${document.quality.score}/100 · ${document.quality.blockerCount} ${copy.blockers}`
                       : copy.quality}

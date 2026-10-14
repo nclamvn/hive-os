@@ -146,7 +146,7 @@ export async function listAuthoringDocuments(ctx: WorkspaceContext) {
       updatedAt: row.updatedAt,
       mission: row.mission,
       quality: row.revisions[0]
-        ? parseQuality(row.revisions[0].qualityReport)
+        ? assessAuthoringQuality(row.documentType, parseContent(row.revisions[0]))
         : null,
     }));
   });

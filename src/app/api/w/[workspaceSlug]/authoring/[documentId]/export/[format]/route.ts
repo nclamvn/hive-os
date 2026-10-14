@@ -64,8 +64,8 @@ export async function GET(
     const revision = document.current;
     const body =
       format === "docx"
-        ? await renderAuthoringDocx(revision.content, revision.quality)
-        : await renderAuthoringPdf(revision.content, revision.quality);
+        ? await renderAuthoringDocx(revision.content, document.documentType)
+        : await renderAuthoringPdf(revision.content, document.documentType);
 
     await recordAuthoringExport(
       ctx,

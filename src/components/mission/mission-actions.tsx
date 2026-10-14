@@ -44,44 +44,46 @@ export function MissionActions({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {status === "SCOPED" ? (
-        <Button
-          variant="primary"
-          disabled={busy}
-          onClick={() => run(() => submitContractAction(slug, missionId))}
-        >
-          {locale === "vi" ? "Gửi rà soát" : "Submit for review"}
-        </Button>
-      ) : null}
-      {status === "CONTRACT_REVIEW" && canApprove ? (
-        <Button
-          variant="primary"
-          disabled={busy}
-          onClick={() => run(() => approveContractAction(slug, missionId))}
-        >
-          {locale === "vi" ? "Duyệt hợp đồng" : "Approve contract"}
-        </Button>
-      ) : null}
-      {["INTAKE", "SCOPED", "CONTRACT_REVIEW", "APPROVED"].includes(status) ? (
-        <Button
-          variant="secondary"
-          disabled={busy}
-          onClick={() =>
-            run(() =>
-              blockMissionAction(
-                slug,
-                missionId,
-                locale === "vi"
-                  ? "bị người vận hành chặn"
-                  : "blocked by operator",
-              ),
-            )
-          }
-        >
-          {locale === "vi" ? "Chặn" : "Block"}
-        </Button>
-      ) : null}
+    <div className="flex w-full flex-col gap-2 min-[760px]:w-auto min-[760px]:shrink-0">
+      <div className="grid grid-cols-1 gap-2 min-[760px]:auto-cols-fr min-[760px]:grid-flow-col min-[760px]:grid-cols-none">
+        {status === "SCOPED" ? (
+          <Button
+            variant="primary"
+            disabled={busy}
+            onClick={() => run(() => submitContractAction(slug, missionId))}
+          >
+            {locale === "vi" ? "Gửi rà soát" : "Submit for review"}
+          </Button>
+        ) : null}
+        {status === "CONTRACT_REVIEW" && canApprove ? (
+          <Button
+            variant="primary"
+            disabled={busy}
+            onClick={() => run(() => approveContractAction(slug, missionId))}
+          >
+            {locale === "vi" ? "Duyệt hợp đồng" : "Approve contract"}
+          </Button>
+        ) : null}
+        {["INTAKE", "SCOPED", "CONTRACT_REVIEW", "APPROVED"].includes(status) ? (
+          <Button
+            variant="secondary"
+            disabled={busy}
+            onClick={() =>
+              run(() =>
+                blockMissionAction(
+                  slug,
+                  missionId,
+                  locale === "vi"
+                    ? "bị người vận hành chặn"
+                    : "blocked by operator",
+                ),
+              )
+            }
+          >
+            {locale === "vi" ? "Chặn" : "Block"}
+          </Button>
+        ) : null}
+      </div>
       {error ? (
         <span role="alert" className="text-meta text-danger-600 w-full">
           {error}

@@ -1,6 +1,5 @@
 import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import {
   AlignmentType,
@@ -17,13 +16,13 @@ import PDFDocument from "pdfkit";
 import type {
   AuthoringCitation,
   AuthoringContent,
-  AuthoringQualityReport,
+  AuthoringDocumentType,
 } from "./contracts";
 import { AuthoringError } from "./errors";
+import { assessAuthoringQuality } from "./quality";
 
-const require = createRequire(import.meta.url);
-
-function assertPublishable(quality: AuthoringQualityReport) {
+function assertPublishable(content: AuthoringContent, type: AuthoringDocumentType) {
+  const quality = assessAuthoringQuality(type, content);
   if (quality.blockerCount > 0) {
     throw new AuthoringError(
       "AUTHORING_QUALITY_BLOCKED",
@@ -69,9 +68,9 @@ function bodyParagraphs(body: string, latex: boolean) {
 
 export async function renderAuthoringDocx(
   content: AuthoringContent,
-  quality: AuthoringQualityReport,
+  type: AuthoringDocumentType,
 ) {
-  assertPublishable(quality);
+  assertPublishable(content, type);
   const children: Paragraph[] = [
     new Paragraph({
       text: content.title,
@@ -213,28 +212,32 @@ export async function renderAuthoringDocx(
 }
 
 function pdfFonts() {
-  const packageDirectory = dirname(
-    require.resolve("notosans-fontface/package.json"),
-  );
+  // Next can rewrite require.resolve to a virtual (rsc) module path. Read the
+  // traced runtime assets directly instead; standalone server.js sets cwd to
+  // its own project root, where outputFileTracingIncludes copies these fonts.
+  const fontDirectory = resolve(process.cwd(), "node_modules/notosans-fontface/fonts");
   return {
+    regularPath: resolve(fontDirectory, "NotoSans-Regular.ttf"),
     regular: readFileSync(
-      resolve(packageDirectory, "fonts", "NotoSans-Regular.ttf"),
+      resolve(fontDirectory, "NotoSans-Regular.ttf"),
     ),
     bold: readFileSync(
-      resolve(packageDirectory, "fonts", "NotoSans-Bold.ttf"),
+      resolve(fontDirectory, "NotoSans-Bold.ttf"),
     ),
   };
 }
 
 export async function renderAuthoringPdf(
   content: AuthoringContent,
-  quality: AuthoringQualityReport,
+  type: AuthoringDocumentType,
 ): Promise<Buffer> {
-  assertPublishable(quality);
+  assertPublishable(content, type);
   const fonts = pdfFonts();
   return new Promise<Buffer>((resolve, reject) => {
     const chunks: Buffer[] = [];
     const pdf = new PDFDocument({
+      // Avoid PDFKit's default Helvetica AFM filesystem lookup under bundling.
+      font: fonts.regularPath,
       size: "A4",
       margins: { top: 72, right: 72, bottom: 72, left: 72 },
       bufferPages: true,
