@@ -12,12 +12,13 @@ async function createMission(page: Page) {
   await page
     .getByLabel("Success definition")
     .fill("A bounded and reviewable result.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Evidence coverage");
   await page
     .getByLabel("Acceptance criteria")
     .fill("Every accepted statement has retained evidence.");
   await page.getByLabel("Obligation title").fill("Review evidence");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   return page.url();
 }

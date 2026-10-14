@@ -18,6 +18,8 @@ import {
   reviewComputationRunAction,
   reviewResearchRunAction,
 } from "@/app/actions/research-sandbox";
+import { groupResearchRuns } from "@/components/research/group-research-runs";
+import { MathText } from "@/components/research/math-text";
 import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
 import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
 import { getResearchCampaignCopy } from "@/i18n/research-campaign-copy";
@@ -124,17 +126,258 @@ export default async function ResearchPage({
     (run) => !terminalStatuses.has(run.status) && run.status !== "AWAITING_REVIEW",
   );
 
+  const runGroups = groupResearchRuns(runs);
+  const renderRun = (run: (typeof runs)[number]) => (
+    <Panel key={run.id} className="overflow-hidden">
+      <div className="grid min-[980px]:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="min-w-0 p-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-eyebrow text-ink-muted">
+              {run.mission.referenceCode}
+            </p>
+            <StatusBadge
+              tone={statusTone(run.status)}
+              live={workerSignal(run) === "ACTIVE"}
+            >
+              {copy.statusLabels[run.status]}
+            </StatusBadge>
+          </div>
+          <h2 className="text-section-title text-ink-strong mt-3">
+            <MathText text={run.question} />
+          </h2>
+          <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
+            <span>{run.sources.length} {copy.source}</span>
+            <span>{run.findings.length} {copy.finding}</span>
+            <span className="tabular">{copy.updatedAt}: {formatDateTime(locale, run.updatedAt)}</span>
+          </div>
+        </div>
+        <aside className="border-line bg-surface-subtle border-t p-5 min-[980px]:border-t-0 min-[980px]:border-l">
+          <p className="text-meta text-ink-muted mb-4 flex items-center gap-2">
+            <span
+              className={`size-2 rounded-full ${
+                workerSignal(run) === "ACTIVE"
+                  ? "research-live-dot research-live-dot-success bg-success-600"
+                  : workerSignal(run) === "STALLED" || workerSignal(run) === "WAITING"
+                    ? "bg-warning-600"
+                    : "bg-ink-faint"
+              }`}
+              aria-hidden="true"
+            />
+            {copy.workerSignal}: {copy.workerSignals[workerSignal(run)]}
+          </p>
+          <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
+          <p className="text-body text-ink mt-2">{copy.nextActions[run.status]}</p>
+          {run.failureCode ? (
+            <details className="text-meta mt-3">
+              <summary className="text-ink-muted cursor-pointer py-2">{copy.technicalDetails}</summary>
+              <p className="text-danger-700 dark:text-danger-300 break-words font-medium">
+                {copy.failureCode}: {run.failureCode}
+              </p>
+            </details>
+          ) : null}
+          {run.status === "APPROVED" && run.mathPilotCase && !run.mathPilotCase.assessment ? (
+            <Link
+              href={`/w/${workspaceSlug}/research/math-pilot?missionId=${encodeURIComponent(run.missionId)}`}
+              className="text-meta text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
+            >
+              {copy.mathPilotAssessmentPending}
+              <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+            </Link>
+          ) : null}
+          {run.status === "APPROVED" && canAuthor && (!run.mathPilotCase || run.mathPilotCase.assessment) ? (
+            <div className="border-line mt-4 border-t pt-4">
+              <p className="text-meta text-ink-muted">{copy.importResearchHint}</p>
+              {run.documentId ? (
+                <form action={importApprovedResearchBundleAction} className="mt-3">
+                  <input type="hidden" name="slug" value={workspaceSlug} />
+                  <input type="hidden" name="locale" value={locale} />
+                  <input type="hidden" name="runId" value={run.id} />
+                  <input type="hidden" name="documentId" value={run.documentId} />
+                  <Button type="submit" variant="primary" className="w-full">
+                    {copy.importResearch}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                </form>
+              ) : targets.documents.some((document) => document.missionId === run.missionId) ? (
+                <form action={importApprovedResearchBundleAction} className="mt-3">
+                  <input type="hidden" name="slug" value={workspaceSlug} />
+                  <input type="hidden" name="locale" value={locale} />
+                  <input type="hidden" name="runId" value={run.id} />
+                  <label className="text-meta text-ink font-medium">
+                    {copy.chooseTargetDocument}
+                    <select name="documentId" required className={inputClass}>
+                      {targets.documents
+                        .filter((document) => document.missionId === run.missionId)
+                        .map((document) => (
+                          <option key={document.id} value={document.id}>
+                            {document.documentKey} · {document.title}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                  <Button type="submit" variant="primary" className="mt-3 w-full">
+                    {copy.importResearch}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                </form>
+              ) : (
+                <Link
+                  href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
+                  className="text-body text-ink-strong mt-3 inline-flex min-h-10 items-center gap-2 font-semibold"
+                >
+                  {copy.createTargetDocument}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
+          ) : null}
+        </aside>
+      </div>
+
+      {run.sources.length ? (
+        <div className="border-line border-t p-5">
+          <p className="text-eyebrow text-ink-muted mb-3">{copy.provenance}</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {run.sources.map((source) => (
+              <a
+                key={source.id}
+                href={source.canonicalUri}
+                target="_blank"
+                rel="noreferrer"
+                className="border-line hover:border-line-strong rounded-md border p-3 transition-colors"
+              >
+                <p className="text-body text-ink font-medium">{source.title}</p>
+                <p className="text-meta text-ink-muted mt-1">
+                  {source.publisher} · {source.provenance}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {run.findings.length ? (
+        <div className="border-line border-t p-5">
+          <div className="space-y-3">
+            {run.findings.map((finding) => (
+              <article key={finding.id} className="border-line rounded-md border p-4">
+                {finding.kind === "HONEST_NULL" ? (
+                  <>
+                    <p className="text-body text-ink">{copy.noReliableFinding}</p>
+                    <details className="mt-2">
+                      <summary className="text-meta text-ink-muted cursor-pointer py-2">{copy.findingDetails}</summary>
+                <div className="flex justify-between gap-3">
+                  <p className="text-body text-ink-strong min-w-0 font-medium"><MathText text={finding.claim} /></p>
+                  <span className="text-meta text-ink-muted">{finding.kind}</span>
+                </div>
+                {finding.exactExcerpt ? (
+                  <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
+                    <MathText text={finding.exactExcerpt} />
+                  </blockquote>
+                ) : null}
+                {finding.decision ? (
+                  <p className="text-meta text-ink-muted mt-3">
+                    {finding.decision.decision} · <MathText text={finding.decision.rationale} />
+                  </p>
+                ) : null}
+                    </details>
+                  </>
+                ) : (
+                  <>
+                <div className="flex justify-between gap-3">
+                  <p className="text-body text-ink-strong min-w-0 font-medium"><MathText text={finding.claim} /></p>
+                  <span className="text-meta text-ink-muted">{finding.kind}</span>
+                </div>
+                {finding.exactExcerpt ? (
+                  <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
+                    <MathText text={finding.exactExcerpt} />
+                  </blockquote>
+                ) : null}
+                {finding.decision ? (
+                  <p className="text-meta text-ink-muted mt-3">
+                    {finding.decision.decision} · <MathText text={finding.decision.rationale} />
+                  </p>
+                ) : null}
+                  </>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {canReview &&
+      run.status === "AWAITING_REVIEW" &&
+      run.requestedByMembershipId !== data.ctx.membership.id ? (
+        <form action={reviewResearchRunAction} className="border-line bg-surface-subtle border-t p-5">
+          <input type="hidden" name="slug" value={workspaceSlug} />
+          <input type="hidden" name="runId" value={run.id} />
+          <SectionHeader title={copy.review} />
+          <div className="mt-3 space-y-3">
+            {run.findings.map((finding) => (
+              <div key={finding.id} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_160px]">
+                <input type="hidden" name="findingId" value={finding.id} />
+                <input
+                  required
+                  name={`rationale:${finding.id}`}
+                  placeholder={copy.rationale}
+                  className={inputClass}
+                />
+                <select name={`decision:${finding.id}`} className={inputClass}>
+                  <option value="ACCEPTED">{copy.accept}</option>
+                  <option value="REJECTED">{copy.reject}</option>
+                  <option value="FLAGGED">{copy.flag}</option>
+                </select>
+              </div>
+            ))}
+          </div>
+          <textarea
+            name="runRationale"
+            required
+            placeholder={copy.rationale}
+            rows={2}
+            className={`${inputClass} mt-4`}
+          />
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button name="runDecision" value="APPROVED" type="submit" variant="primary">
+              {copy.approveRun}
+            </Button>
+            <Button name="runDecision" value="REJECTED" type="submit">
+              {copy.rejectRun}
+            </Button>
+          </div>
+        </form>
+      ) : null}
+    </Panel>
+  );
+
+  const renderRunGroup = ({ latest, previous }: (typeof runGroups)[number]) => (
+    <article key={latest.id} data-research-question-group className="space-y-2">
+      <p className="text-meta text-ink-muted px-1">
+        {copy.latestAttempt} · {copy.attempts}: {previous.length + 1}
+      </p>
+      {renderRun(latest)}
+      {previous.length ? (
+        <details className="border-line rounded-md border">
+          <summary className="text-meta text-ink hover:bg-surface-subtle cursor-pointer px-5 py-3 font-medium">
+            {copy.previousAttempts} ({previous.length})
+            {previous.some((run) => !terminalStatuses.has(run.status)) ? (
+              <span className="text-warning-700 dark:text-warning-300 mt-1 block">
+                {copy.olderAttention}: {previous.filter((run) => !terminalStatuses.has(run.status)).length}
+              </span>
+            ) : null}
+          </summary>
+          <div className="space-y-3 p-3">{previous.map(renderRun)}</div>
+        </details>
+      ) : null}
+    </article>
+  );
+  const olderGroups = runGroups.slice(5);
+  const olderAttentionCount = olderGroups.flatMap(({ latest, previous }) => [latest, ...previous])
+    .filter((run) => !terminalStatuses.has(run.status)).length;
+
   return (
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
-      <section className="w-full min-w-0">
-        <ResearchEntryPoints locale={locale} workspaceSlug={workspaceSlug}
-          missionId={selectedMissionId} canRequest={canRequest}
-          localToolsAvailable={localToolsAvailable} />
-        <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
-          missionId={selectedMissionId} canRequest={canRequest} canReview={canReview}/>
-        <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
-          className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
-      </section>
       <section id="new-research" className="w-full min-w-0 scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
           {selectedMission ? (
@@ -148,15 +391,6 @@ export default async function ResearchPage({
           <p className="text-body text-ink-muted mt-3 max-w-3xl">
             {copy.intentHint}
           </p>
-          <Link
-            href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}`}
-            className="text-meta text-ink-muted hover:text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
-            title={copy.mathPilotHint}
-          >
-            <FlaskConical className="size-4" aria-hidden="true" />
-            {copy.mathPilot}
-            <ArrowRight className="size-4" aria-hidden="true" />
-          </Link>
         </div>
 
         {canRequest && selectedMission ? (
@@ -263,12 +497,16 @@ export default async function ResearchPage({
               </details>
             ) : null}
 
-            <div className="border-line flex border-t p-5 min-[980px]:px-7">
+            <div className="border-line flex flex-col gap-4 border-t p-5 sm:flex-row sm:items-center min-[980px]:px-7">
+              <div className="min-w-0 flex-1">
+                <p className="text-meta text-ink font-medium">{copy.requestMode}</p>
+                <p className="text-meta text-ink-muted mt-1 max-w-[70ch]">{copy.requestModeHint}</p>
+              </div>
               <Button
                 type="submit"
                 variant="primary"
                 disabled={!targets.missions.length}
-                className="w-full sm:ml-auto sm:w-auto"
+                className="w-full shrink-0 sm:ml-auto sm:w-auto"
               >
                 <FileSearch className="size-4" aria-hidden="true" />
                 {copy.startResearch}
@@ -306,201 +544,22 @@ export default async function ResearchPage({
         />
         <div className="mt-3 space-y-3">
           {runs.length ? (
-            runs.map((run) => (
-              <Panel key={run.id} className="overflow-hidden">
-                <div className="grid min-[980px]:grid-cols-[minmax(0,1fr)_320px]">
-                  <div className="min-w-0 p-5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-eyebrow text-ink-muted">
-                        {run.mission.referenceCode}
-                      </p>
-                      <StatusBadge
-                        tone={statusTone(run.status)}
-                        live={workerSignal(run) === "ACTIVE"}
-                      >
-                        {copy.statusLabels[run.status]}
-                      </StatusBadge>
-                    </div>
-                    <h2 className="text-section-title text-ink-strong mt-3">
-                      {run.question}
-                    </h2>
-                    <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
-                      <span>{run.sources.length} {copy.source}</span>
-                      <span>{run.findings.length} {copy.finding}</span>
-                      <span className="tabular">{copy.updatedAt}: {formatDateTime(locale, run.updatedAt)}</span>
-                    </div>
-                  </div>
-                  <aside className="border-line bg-surface-subtle border-t p-5 min-[980px]:border-t-0 min-[980px]:border-l">
-                    <p className="text-meta text-ink-muted mb-4 flex items-center gap-2">
-                      <span
-                        className={`size-2 rounded-full ${
-                          workerSignal(run) === "ACTIVE"
-                            ? "research-live-dot research-live-dot-success bg-success-600"
-                            : workerSignal(run) === "STALLED" || workerSignal(run) === "WAITING"
-                              ? "bg-warning-600"
-                              : "bg-ink-faint"
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {copy.workerSignal}: {copy.workerSignals[workerSignal(run)]}
-                    </p>
-                    <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
-                    <p className="text-body text-ink mt-2">{copy.nextActions[run.status]}</p>
-                    {run.failureCode ? (
-                      <p className="text-meta text-danger-700 dark:text-danger-300 mt-3 font-medium">
-                        {copy.failureCode}: {run.failureCode}
-                      </p>
+            <>
+              {runGroups.slice(0, 5).map(renderRunGroup)}
+              {olderGroups.length ? (
+                <details className="border-line rounded-panel border bg-surface">
+                  <summary className="text-body text-ink hover:bg-surface-subtle cursor-pointer px-5 py-4 font-medium">
+                    {copy.olderQuestions} ({olderGroups.length})
+                    {olderAttentionCount ? (
+                      <span className="text-meta text-warning-700 dark:text-warning-300 mt-1 block">
+                        {copy.olderAttention}: {olderAttentionCount}
+                      </span>
                     ) : null}
-                    {run.status === "APPROVED" && run.mathPilotCase && !run.mathPilotCase.assessment ? (
-                      <Link
-                        href={`/w/${workspaceSlug}/research/math-pilot?missionId=${encodeURIComponent(run.missionId)}`}
-                        className="text-meta text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
-                      >
-                        {copy.mathPilotAssessmentPending}
-                        <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
-                      </Link>
-                    ) : null}
-                    {run.status === "APPROVED" && canAuthor && (!run.mathPilotCase || run.mathPilotCase.assessment) ? (
-                      <div className="border-line mt-4 border-t pt-4">
-                        <p className="text-meta text-ink-muted">{copy.importResearchHint}</p>
-                        {run.documentId ? (
-                          <form action={importApprovedResearchBundleAction} className="mt-3">
-                            <input type="hidden" name="slug" value={workspaceSlug} />
-                            <input type="hidden" name="locale" value={locale} />
-                            <input type="hidden" name="runId" value={run.id} />
-                            <input type="hidden" name="documentId" value={run.documentId} />
-                            <Button type="submit" variant="primary" className="w-full">
-                              {copy.importResearch}
-                              <ArrowRight className="size-4" aria-hidden="true" />
-                            </Button>
-                          </form>
-                        ) : targets.documents.some((document) => document.missionId === run.missionId) ? (
-                          <form action={importApprovedResearchBundleAction} className="mt-3">
-                            <input type="hidden" name="slug" value={workspaceSlug} />
-                            <input type="hidden" name="locale" value={locale} />
-                            <input type="hidden" name="runId" value={run.id} />
-                            <label className="text-meta text-ink font-medium">
-                              {copy.chooseTargetDocument}
-                              <select name="documentId" required className={inputClass}>
-                                {targets.documents
-                                  .filter((document) => document.missionId === run.missionId)
-                                  .map((document) => (
-                                    <option key={document.id} value={document.id}>
-                                      {document.documentKey} · {document.title}
-                                    </option>
-                                  ))}
-                              </select>
-                            </label>
-                            <Button type="submit" variant="primary" className="mt-3 w-full">
-                              {copy.importResearch}
-                              <ArrowRight className="size-4" aria-hidden="true" />
-                            </Button>
-                          </form>
-                        ) : (
-                          <Link
-                            href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
-                            className="text-body text-ink-strong mt-3 inline-flex min-h-10 items-center gap-2 font-semibold"
-                          >
-                            {copy.createTargetDocument}
-                            <ArrowRight className="size-4" aria-hidden="true" />
-                          </Link>
-                        )}
-                      </div>
-                    ) : null}
-                  </aside>
-                </div>
-
-                {run.sources.length ? (
-                  <div className="border-line border-t p-5">
-                    <p className="text-eyebrow text-ink-muted mb-3">{copy.provenance}</p>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {run.sources.map((source) => (
-                        <a
-                          key={source.id}
-                          href={source.canonicalUri}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="border-line hover:border-line-strong rounded-md border p-3 transition-colors"
-                        >
-                          <p className="text-body text-ink font-medium">{source.title}</p>
-                          <p className="text-meta text-ink-muted mt-1">
-                            {source.publisher} · {source.provenance}
-                          </p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {run.findings.length ? (
-                  <div className="border-line border-t p-5">
-                    <div className="space-y-3">
-                      {run.findings.map((finding) => (
-                        <article key={finding.id} className="border-line rounded-md border p-4">
-                          <div className="flex justify-between gap-3">
-                            <p className="text-body text-ink-strong font-medium">{finding.claim}</p>
-                            <span className="text-meta text-ink-muted">{finding.kind}</span>
-                          </div>
-                          {finding.exactExcerpt ? (
-                            <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
-                              {finding.exactExcerpt}
-                            </blockquote>
-                          ) : null}
-                          {finding.decision ? (
-                            <p className="text-meta text-ink-muted mt-3">
-                              {finding.decision.decision} · {finding.decision.rationale}
-                            </p>
-                          ) : null}
-                        </article>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {canReview &&
-                run.status === "AWAITING_REVIEW" &&
-                run.requestedByMembershipId !== data.ctx.membership.id ? (
-                  <form action={reviewResearchRunAction} className="border-line bg-surface-subtle border-t p-5">
-                    <input type="hidden" name="slug" value={workspaceSlug} />
-                    <input type="hidden" name="runId" value={run.id} />
-                    <SectionHeader title={copy.review} />
-                    <div className="mt-3 space-y-3">
-                      {run.findings.map((finding) => (
-                        <div key={finding.id} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_160px]">
-                          <input type="hidden" name="findingId" value={finding.id} />
-                          <input
-                            required
-                            name={`rationale:${finding.id}`}
-                            placeholder={copy.rationale}
-                            className={inputClass}
-                          />
-                          <select name={`decision:${finding.id}`} className={inputClass}>
-                            <option value="ACCEPTED">{copy.accept}</option>
-                            <option value="REJECTED">{copy.reject}</option>
-                            <option value="FLAGGED">{copy.flag}</option>
-                          </select>
-                        </div>
-                      ))}
-                    </div>
-                    <textarea
-                      name="runRationale"
-                      required
-                      placeholder={copy.rationale}
-                      rows={2}
-                      className={`${inputClass} mt-4`}
-                    />
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <Button name="runDecision" value="APPROVED" type="submit" variant="primary">
-                        {copy.approveRun}
-                      </Button>
-                      <Button name="runDecision" value="REJECTED" type="submit">
-                        {copy.rejectRun}
-                      </Button>
-                    </div>
-                  </form>
-                ) : null}
-              </Panel>
-            ))
+                  </summary>
+                  <div className="border-line space-y-5 border-t p-3 sm:p-5">{olderGroups.map(renderRunGroup)}</div>
+                </details>
+              ) : null}
+            </>
           ) : (
             <Panel className="flex min-h-36 flex-col items-center justify-center p-6 text-center">
               <p className="text-section-title text-ink">{copy.empty}</p>
@@ -509,6 +568,23 @@ export default async function ResearchPage({
           )}
         </div>
       </section>
+
+      <section className="w-full min-w-0" aria-label={copy.examplesAndWorkbenches}>
+        <ResearchEntryPoints locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} canRequest={canRequest}
+          localToolsAvailable={localToolsAvailable} />
+      </section>
+      <details className="border-line rounded-panel border bg-surface">
+        <summary className="text-body text-ink hover:bg-surface-subtle cursor-pointer p-5 font-medium">
+          {copy.campaignTools}
+        </summary>
+        <div className="border-line border-t p-5">
+          <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
+            missionId={selectedMissionId} canRequest={canRequest} canReview={canReview}/>
+          <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
+            className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
+        </div>
+      </details>
 
       {canCompute && !expertMode ? (
         <div className="flex w-full justify-end">

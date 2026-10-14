@@ -9,10 +9,11 @@ async function createMissionViaUI(page: Page, dashboardUrl: string, title: strin
   await page.getByLabel("Objective").fill("Assess the evidence for a claim.");
   await page.getByLabel("Scope").fill("Public sources only.");
   await page.getByLabel("Success definition").fill("A governed result package.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Coverage");
   await page.getByLabel("Acceptance criteria").fill("All sources reviewed.");
   await page.getByLabel("Obligation title").fill("Review sources");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
 }
 

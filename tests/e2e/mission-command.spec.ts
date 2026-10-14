@@ -13,12 +13,13 @@ async function createMission(page: Page, workspaceUrl: string) {
   await page
     .getByLabel("Success definition")
     .fill("A retained accountable trace.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Trace integrity");
   await page
     .getByLabel("Acceptance criteria")
     .fill("Every transition remains attributable.");
   await page.getByLabel("Obligation title").fill("Review the mission record");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
 }
 

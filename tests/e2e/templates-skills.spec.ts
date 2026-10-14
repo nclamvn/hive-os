@@ -25,7 +25,7 @@ test.describe("TIP-014 Templates and Skill Library", () => {
     await expect(page.getByLabel("Mission title")).toHaveValue("");
 
     await page.getByLabel("Mission title").fill("Evidence synthesis QA");
-    await page.getByRole("button", { name: "Create mission" }).click();
+    await page.getByRole("button", { name: "Create draft mission" }).click();
     await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
     await expect(
       page.getByText("Scoped", { exact: true }).first(),
@@ -170,7 +170,7 @@ test.describe("TIP-014 Templates and Skill Library", () => {
       /immutable release manifest/,
     );
     await page.getByLabel("Mission title").fill("Gimbal control revision");
-    await page.getByRole("button", { name: "Create mission" }).click();
+    await page.getByRole("button", { name: "Create draft mission" }).click();
     await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
 
     await page.goto(`${dashboardUrl}/reports`);

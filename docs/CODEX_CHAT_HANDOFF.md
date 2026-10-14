@@ -11629,3 +11629,20 @@ Removed167 current-turn synthetic fixture roots only; no research deletion.
 No cloud release, paid provider call, schema change or research campaign.
 See docs/verification/TIP-117_PRODUCT_HANDOFF_REPORT.md and
 docs/operations/RESEARCH_TEAM_HANDOFF.md for exact evidence/deferred work.
+
+### TIP-117 UX continuation — 2026-10-14
+
+Approved QA priorities implemented: goal-first Research; exact-question attempt
+grouping with retained history/reviews; expert details collapsed; fixed New mission
+navigation; four-field mission intake with editable, disclosed contract drafts;
+manual workbench progressive import and explicit input-only tab-session drafts.
+No new product gate, backend engine, model call or research execution. K6 stays
+OPEN/paused. Final focused121 units, typecheck/scoped lint/build and19 isolated
+browser tests pass; live Codex navigation verified without submitting live data.
+See docs/verification/RESEARCH_UX_COMPLETION.md for exact scope and limitations.
+Owner subsequently approved committing/pushing this UX continuation together with
+the Research LaTeX correction; deployment remains explicitly deferred. Rendering
+now uses MathText on question/finding narratives with a conservative legacy LRC
+adapter, retained source text, and keyboard-scrollable long formulas. Focused39
+render/grouping tests and live390px/natural-width browser QA pass. See
+docs/verification/RESEARCH_MATH_RENDER_COMPLETION.md. No new research or data writes.

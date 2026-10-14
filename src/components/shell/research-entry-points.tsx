@@ -50,7 +50,7 @@ export function ResearchEntryPoints({
   return (
     <section aria-labelledby="research-entry-title" className="mb-6 min-w-0">
       <h2 id="research-entry-title" className="text-section-title text-ink-strong">
-        {vi ? "Chọn nơi bắt đầu" : "Choose where to start"}
+        {vi ? "Hồ sơ, ví dụ và bàn làm việc" : "Cases, examples and workbenches"}
       </h2>
       <p className="text-body text-ink-muted mt-2 max-w-[76ch]">
         {vi

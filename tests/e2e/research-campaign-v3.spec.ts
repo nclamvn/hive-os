@@ -8,10 +8,11 @@ async function ownMission(page:Page,dashboardUrl:string) {
   await page.getByLabel("Objective").fill("Observe exact own controlled campaign evidence; no mathematical root claim.");
   await page.getByLabel("Scope").fill("Public fixed software controls in isolated QA only.");
   await page.getByLabel("Success definition").fill("Retained worker receipt and independent post-run grade visible.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Exact scoped observation");
   await page.getByLabel("Acceptance criteria").fill("No global theorem or live superiority inferred.");
   await page.getByLabel("Obligation title").fill("Preserve retained charges and evidence");
-  await page.getByRole("button",{name:"Create mission"}).click();
+  await page.getByRole("button",{name:"Create draft mission"}).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   const missionId=new URL(page.url()).pathname.split("/").at(-1)!;
   await page.goto(`${dashboardUrl}/research/math-pilot?missionId=${missionId}#research-campaign-v3`);

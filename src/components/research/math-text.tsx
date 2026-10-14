@@ -18,6 +18,7 @@ export function MathText({ text, className = "" }: { text: string; className?: s
           throwOnError: true,
         });
         return <span key={index} className={segment.display ? "math-tex-block" : "math-tex-inline"}
+          tabIndex={segment.display || segment.value.length > 60 ? 0 : undefined}
           title={segment.source} dangerouslySetInnerHTML={{ __html: html }} />;
       } catch {
         return <span key={index} title="Invalid or unsupported TeX">{segment.source}</span>;

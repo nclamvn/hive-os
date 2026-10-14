@@ -348,12 +348,13 @@ test.describe("HIVE OS Control Room", () => {
     await page
       .getByLabel("Success definition")
       .fill("A retained research record with attributable sources.");
+    await page.getByTestId("mission-contract-details").locator("summary").click();
     await page.getByLabel("Requirement title").fill("Source integrity");
     await page
       .getByLabel("Acceptance criteria")
       .fill("Every material claim is linked to retained evidence.");
     await page.getByLabel("Obligation title").fill("Review evidence quality");
-    await page.getByRole("button", { name: "Create mission" }).click();
+    await page.getByRole("button", { name: "Create draft mission" }).click();
     await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
     const missionId = page.url().match(/\/missions\/([0-9a-f-]{36})/)?.[1];
     expect(missionId).toBeTruthy();

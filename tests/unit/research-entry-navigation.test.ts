@@ -29,7 +29,7 @@ describe("research entry points", () => {
 
   it.each(["vi", "en"] as const)("explains scope and keeps navigation read-only in %s", (locale) => {
     const html = render(locale);
-    expect(html).toContain(locale === "vi" ? "Chọn nơi bắt đầu" : "Choose where to start");
+    expect(html).toContain(locale === "vi" ? "Hồ sơ, ví dụ và bàn làm việc" : "Cases, examples and workbenches");
     expect(html).toContain(locale === "vi" ? "Không phải trình chứng minh Lean" : "not the Lean proof assistant");
     expect(html).toContain(locale === "vi" ? "không tự chạy mô hình" : "does not run a model");
     expect(html).toContain("/research/math-pilot?missionId=mission%2Fone");
@@ -55,6 +55,8 @@ describe("research entry points", () => {
 describe("research execution copy", () => {
   it.each(["vi", "en"] as const)("does not imply an enabled autonomous provider in %s", (locale) => {
     const copy = getResearchCopy(locale);
+    expect(copy.startResearch).toBe(locale === "vi" ? "Gửi yêu cầu nghiên cứu" : "Submit research request");
+    expect(copy.requestModeHint).toContain(locale === "vi" ? "không có nghĩa AI đã bắt đầu" : "does not mean AI has started");
     expect(copy.automaticGuardrails).toContain(locale === "vi" ? "cấu hình, bật và cấp quyền" : "configured, enabled, and authorized");
     expect(copy.automaticGuardrails).toContain(locale === "vi" ? "nhập thủ công" : "manually imported");
     expect(copy.workerNotice).toContain(locale === "vi" ? "không có nghĩa tác vụ đã chạy" : "not evidence of execution");

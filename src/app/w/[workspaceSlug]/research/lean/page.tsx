@@ -16,6 +16,6 @@ export default async function LeanResearchPage({params}:{params:Promise<{workspa
   for(const capability of ["research.read","research.request"] as const)if(!(await authorize(data.ctx.user.id,capability,{organizationId,workspaceId:data.ctx.workspace.id})).allowed)notFound();
   const {locale}=await getTranslator(),vi=locale==="vi";
   return <WorkspaceShell data={data} title={vi?"Bàn nghiên cứu gọn":"Lean research workbench"} subtitle={vi?"Solver chính, phản biện có mục tiêu, kiểm chứng đúng phạm vi":"Primary solver, focused criticism, scoped verification"}>
-    <LeanResearchWorkbench workspaceSlug={workspaceSlug} locale={locale} adapters={listDomainAdapters().map(a=>({id:a.id,inputSchema:a.inputSchema,candidateSchema:a.candidateSchema}))}/>
+    <LeanResearchWorkbench key={`${data.ctx.user.id}:${data.ctx.workspace.id}`} workspaceSlug={workspaceSlug} draftScope={{userId:data.ctx.user.id,workspaceId:data.ctx.workspace.id}} locale={locale} adapters={listDomainAdapters().map(a=>({id:a.id,inputSchema:a.inputSchema,candidateSchema:a.candidateSchema}))}/>
   </WorkspaceShell>;
 }

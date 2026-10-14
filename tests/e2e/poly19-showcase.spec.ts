@@ -20,10 +20,11 @@ async function ownMission(page:Page,dashboardUrl:string) {
   await page.getByLabel("Objective").fill("Observe a queued and revoked engineering control, not model capability.");
   await page.getByLabel("Scope").fill("Known public Poly19 software demonstration in isolated QA.");
   await page.getByLabel("Success definition").fill("Owned durable queue/revoke with native execution visibly blocked.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Honest no-live-effect presentation");
   await page.getByLabel("Acceptance criteria").fill("Native disabled; queued originals never fabricated.");
   await page.getByLabel("Obligation title").fill("Preserve retained state and exact run selection");
-  await page.getByRole("button",{name:"Create mission"}).click();
+  await page.getByRole("button",{name:"Create draft mission"}).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   const missionId=new URL(page.url()).pathname.split("/").at(-1)!;
   await page.goto(`${dashboardUrl}/research/poly19?missionId=${missionId}#poly19-showcase`);

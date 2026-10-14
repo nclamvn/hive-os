@@ -12,10 +12,11 @@ async function ownMission(page:Page,dashboardUrl:string) {
   await page.getByLabel("Objective").fill("Observe an unstarted draft and exact export; never start scientific roles.");
   await page.getByLabel("Scope").fill("Own isolated test workspace and public fixed permutation task.");
   await page.getByLabel("Success definition").fill("DRAFT/disabled Start/revoke persist with no model result.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Honest draft preparation");
   await page.getByLabel("Acceptance criteria").fill("No scientific role or live authority installed.");
   await page.getByLabel("Obligation title").fill("Preserve exact ledger cut");
-  await page.getByRole("button",{name:"Create mission"}).click();await page.waitForURL(/\/missions\/[a-f0-9-]{36}/);
+  await page.getByRole("button",{name:"Create draft mission"}).click();await page.waitForURL(/\/missions\/[a-f0-9-]{36}/);
   const missionId=new URL(page.url()).pathname.split("/").at(-1)!;
   await page.goto(`${dashboardUrl}/research/permutations?missionId=${missionId}#permutation-bridge`);return missionId;
 }

@@ -18,6 +18,10 @@ import { NavItemLink } from "./nav-item-link";
 const NOT_IMPLEMENTED = "Not implemented in the current build stage";
 const GROUPS = ["command", "truth", "assurance", "system"] as const;
 
+export function sidebarWorkspaceBase(homeHref: string): string | null {
+  return homeHref.match(/^\/w\/[^/?#]+/)?.[0] ?? null;
+}
+
 export interface SidebarAccount {
   name: string;
   email: string;
@@ -39,7 +43,7 @@ export interface SidebarContentProps {
   account?: SidebarAccount | null;
   /** Rendered inside the account disclosure (sign-out control). */
   footerSlot?: ReactNode;
-  /** Base path for the primary "New mission" affordance. */
+  /** Workspace base path, shared by module links and the new-mission action. */
   homeHref?: string;
   /** Desktop-only control for the persistent full/icon rail state. */
   onToggleCollapsed?: () => void;
@@ -57,6 +61,10 @@ export function SidebarContent({
   enterpriseScope,
 }: SidebarContentProps) {
   const { locale, t } = usePreferences();
+  const workspaceBase = sidebarWorkspaceBase(homeHref);
+  const primaryLabel = workspaceBase
+    ? t("common.newMission")
+    : locale === "vi" ? "Chọn không gian làm việc" : "Choose a workspace";
   return (
     <div className="flex h-full flex-col">
       {/* Brand */}
@@ -107,10 +115,10 @@ export function SidebarContent({
       <div className="flex-1 overflow-y-auto px-3 py-4">
         {/* Primary action */}
         <a
-          href={homeHref}
+          href={workspaceBase ? `${workspaceBase}/missions/new` : "/"}
           onClick={onNavigate}
-          aria-label={t("common.newMission")}
-          title={iconOnly ? t("common.newMission") : undefined}
+          aria-label={primaryLabel}
+          title={iconOnly ? primaryLabel : undefined}
           className={`text-body text-ink-strong hover:text-ink group flex h-10 items-center gap-2 rounded-md font-medium transition-[color,transform] duration-150 hover:translate-x-0.5 ${
             iconOnly ? "justify-center px-0" : "px-3"
           }`}
@@ -119,7 +127,7 @@ export function SidebarContent({
             className="text-ink-muted size-4 shrink-0 transition-[color,transform] duration-150 group-hover:scale-110 group-hover:text-current"
             aria-hidden="true"
           />
-          {!iconOnly && <span>{t("common.newMission")}</span>}
+          {!iconOnly && <span>{primaryLabel}</span>}
         </a>
 
         {enterpriseScope && !iconOnly ? (
@@ -203,9 +211,7 @@ export function SidebarContent({
                       }`;
 
                       if (item.implemented) {
-                        const wsBase = homeHref.startsWith("/w/")
-                          ? homeHref
-                          : "/";
+                        const wsBase = workspaceBase ?? "/";
                         const href =
                           item.segment && wsBase !== "/"
                             ? `${wsBase}/${item.segment}`

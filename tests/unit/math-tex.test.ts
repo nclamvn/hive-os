@@ -27,6 +27,51 @@ describe("explicit TeX parsing", () => {
 });
 
 describe("historical mathematical prose display", () => {
+  it("typesets the complete archived grid inequality, not disconnected fragments", () => {
+    const source = "Audit the finite Lonely Runner grid: N=6, M=42. For every speed tuple in the sealed Cartesian axes, find j in 0..M-1 with N*min(j*u mod M,M-j*u mod M)>=M for every speed, or certify absence on this grid only.";
+    const segments = parseResearchMathText(source);
+    const formulas = segments.filter((segment) => segment.kind === "math");
+    expect(formulas.map((segment) => segment.source)).toEqual([
+      "N=6", "M=42", "j in 0..M-1", "N*min(j*u mod M,M-j*u mod M)>=M",
+    ]);
+    expect(formulas.at(-1)?.value).toBe(String.raw`N\cdot\min\left(j\cdot u\bmod M,M-j\cdot u\bmod M\right)\ge M`);
+    expect(formulas[2].value).toContain(String.raw`\ldots`);
+    expect(segments.map((segment) => segment.kind === "math" ? segment.source : segment.value).join("")).toBe(source);
+  });
+
+  it("supports changed symbols and whitespace without guessing variable identity", () => {
+    const source = "q × min( t × v mod D , D − t × v mod D ) ≥ D";
+    const segments = parseResearchMathText(source);
+    expect(segments).toEqual([{ kind: "math", source, display: false,
+      value: String.raw`q\cdot\min\left(t\cdot v\bmod D,D-t\cdot v\bmod D\right)\ge D` }]);
+  });
+
+  it.each([
+    "N*min(j*u mod M,M-j*v mod M)>=M",
+    "N*min(j*u mod M,M-j*u mod Q)>=M",
+    "N*min(j*u mod M,M-j*u mod M)>=Q",
+    "N*min(j*u mod M,M-j*u mod M)>M",
+    "N*min(j*u mod M,M-j*u mod M",
+    "N*min(j*u mod M,M-j*u mod M)>=M_extra",
+    "N*min(j*u mod M,M-j*u mod M)>=M+1",
+    "N*min(j*u mod M,M-j*u mod M)>=M - 1",
+  ])("keeps unsupported/malformed compound source literal: %s", (source) => {
+    expect(parseResearchMathText(source)).toEqual([{ kind: "text", value: source }]);
+  });
+
+  it.each(["common14/32-to224", "for14/15 runners"])("preserves observed research identifiers as prose: %s", (source) => {
+    expect(parseResearchMathText(source)).toEqual([{ kind: "text", value: source }]);
+  });
+
+  it.each([
+    '<span title="N*min(j*u mod M,M-j*u mod M)>=M">',
+    "https://example.invalid/N*min(j*u_mod_M,M-j*u_mod_M)>=M",
+    "`N*min(j*u mod M,M-j*u mod M)>=M`",
+    "```python\nN*min(j*u mod M,M-j*u mod M)>=M\n```",
+  ])("does not extract mathematics from tags, links or code: %s", (source) => {
+    expect(parseResearchMathText(source)).toEqual([{ kind: "text", value: source }]);
+  });
+
   it("typesets high-confidence spans from the sealed IMO proof without changing source", () => {
     const source = "Set c=ka−b. The equation a²+b²=k(ab+1) gives bc=a²−k. Since P(a)=(2−k)a²−k<0 and a≤b, we have c<a<b.";
     const segments = parseResearchMathText(source);

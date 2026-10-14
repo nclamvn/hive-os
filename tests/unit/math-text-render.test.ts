@@ -6,6 +6,19 @@ import { MathText } from "@/components/research/math-text";
 import { splitExactBenchmarkArgument } from "@/modules/research-sandbox/math-tex";
 
 describe("research math renderer", () => {
+  it("renders the compound grid expression as one accessible, keyboard-scrollable formula", () => {
+    const text = "N*min(j*u mod M,M-j*u mod M)>=M";
+    const html = renderToStaticMarkup(createElement(MathText, { text }));
+    expect((html.match(/<math\b/g) ?? [])).toHaveLength(1);
+    expect(html).toContain('tabindex="0"');
+    expect(html).toContain("min");
+    expect(html).toContain("mod");
+    expect(html).toContain("≥");
+    expect(html).toContain('title="N*min(j*u mod M,M-j*u mod M)&gt;=M"');
+    const short = renderToStaticMarkup(createElement(MathText, { text: "N=6" }));
+    expect(short).not.toContain("tabindex");
+  });
+
   it("renders explicit TeX with accessible MathML and preserves escaped prose", () => {
     const html = renderToStaticMarkup(createElement(MathText,
       { text: String.raw`For \(a^2+b^2\), <script>bad()</script>` }));

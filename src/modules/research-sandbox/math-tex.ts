@@ -85,6 +85,7 @@ function legacySegments(source: string): MathTextSegment[] {
     // A bare hyphen between an abbreviation and a number is not math.
     if (/^[A-Z]{2,3}-\d+$/.test(raw) || /^\d+-(?:gon|gons)$/i.test(raw)) continue;
     if (/^[A-Za-z]{2,3}-[A-Za-z]$/.test(raw)) continue;
+    if (/^(?:for|to|and)\d*(?:[/*−+\-]|$)/i.test(raw) || /[−\-](?:to|for)\d/.test(raw)) continue;
     if (index > last) segments.push({ kind: "text", value: source.slice(last, index) });
     segments.push({ kind: "math", value: legacyToTeX(raw), source: raw, display: false });
     last = index + raw.length;
@@ -94,9 +95,47 @@ function legacySegments(source: string): MathTextSegment[] {
   return segments;
 }
 
+// One bounded legacy notation family, not a general expression parser. Recognize
+// the entire modular-distance inequality before the simple-expression adapter;
+// otherwise that adapter would render disconnected fragments of its arguments.
+const modularDistance = /^([A-Za-z])\s*[*×]\s*min\(\s*([A-Za-z])\s*[*×]\s*([A-Za-z])\s+mod\s+([A-Za-z])\s*,\s*\4\s*[-−]\s*\2\s*[*×]\s*\3\s+mod\s+\4\s*\)\s*(?:>=|≥)\s*\4$/;
+const legacySpecialSpan = /```[\s\S]*?(?:```|$)|`[^`\n]*`|https?:\/\/[^\s<>]+|<\/?[A-Za-z](?:[^<>"']|"[^"]*"|'[^']*')*>|(?<![\p{L}\p{N}_])(?:[A-Za-z]\s*[*×]\s*min\([^()\n]{0,180}\)(?:\s*(?:>=|≥|<=|≤|>|=)\s*[A-Za-z0-9_]+(?:\s*[-+*/×−]\s*[A-Za-z0-9_]+)*)?|[A-Za-z]\s*[*×]\s*min\([^\n.]{0,180}(?=$|\n|\.)|[A-Za-z]\s+in\s+0\s*\.\.\s*[A-Za-z]\s*[-−]\s*1)(?![\p{L}\p{N}_])/gu;
+
+function historicalSegments(source: string): MathTextSegment[] {
+  const segments: MathTextSegment[] = [];
+  let last = 0;
+  for (const match of source.matchAll(legacySpecialSpan)) {
+    segments.push(...legacySegments(source.slice(last, match.index)));
+    const raw = match[0];
+    const distance = raw.length <= MAX_LEGACY_EXPRESSION_LENGTH ? modularDistance.exec(raw) : null;
+    const range = /^([A-Za-z])\s+in\s+0\s*\.\.\s*([A-Za-z])\s*[-−]\s*1$/.exec(raw);
+    if (distance) {
+      const [, scale, time, speed, modulus] = distance;
+      const residue = `${time}\\cdot ${speed}\\bmod ${modulus}`;
+      segments.push({ kind: "math", source: raw, display: false,
+        value: `${scale}\\cdot\\min\\left(${residue},${modulus}-${residue}\\right)\\ge ${modulus}` });
+    } else if (range) {
+      segments.push({ kind: "math", source: raw, display: false,
+        value: `${range[1]}\\in\\{0,\\ldots,${range[2]}-1\\}` });
+    } else {
+      // Unsupported members and non-mathematical URLs/tags/code stay literal.
+      segments.push({ kind: "text", value: raw });
+    }
+    last = match.index + raw.length;
+  }
+  segments.push(...legacySegments(source.slice(last)));
+  return segments;
+}
+
 /** Presentation-only adapter for historical records without TeX delimiters. */
 export function parseResearchMathText(source: string): MathTextSegment[] {
-  return parseMathText(source).flatMap((segment) => segment.kind === "text" ? legacySegments(segment.value) : [segment]);
+  const result: MathTextSegment[] = [];
+  for (const segment of parseMathText(source).flatMap((part) => part.kind === "text" ? historicalSegments(part.value) : [part])) {
+    const previous = result.at(-1);
+    if (previous?.kind === "text" && segment.kind === "text") previous.value += segment.value;
+    else result.push(segment);
+  }
+  return result;
 }
 
 /** Display-only split for legacy exact-benchmark attempts that embedded Python

@@ -9,19 +9,31 @@ test("research sections share the workspace grid without horizontal overflow", a
   await page.getByLabel("Objective").fill("Check the research request form at desktop and mobile widths.");
   await page.getByLabel("Scope").fill("Interface only; no research execution or provider calls.");
   await page.getByLabel("Success definition").fill("Aligned sections and readable request fields without overflow.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Responsive request form");
   await page.getByLabel("Acceptance criteria").fill("All sections share the workspace grid at 1440, 900 and 390 pixels.");
   await page.getByLabel("Obligation title").fill("Inspect visual evidence");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   await page.goto(`${dashboardUrl}/research`);
   await expect(page.getByRole("textbox", { name: "Outcome you need" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Submit research request" })).toBeVisible();
+  await expect(page.getByText("Mode: request a worker run", { exact: true })).toBeVisible();
+  await expect(page.getByText("Execution readiness is not confirmed.", { exact: false })).toBeVisible();
+  const campaignDisclosure = page.locator("details").filter({
+    has: page.locator("summary", { hasText: "Expert: campaigns and test tools" }),
+  });
+  await expect(campaignDisclosure).not.toHaveAttribute("open", "");
   const sections = [
     page.locator('section[aria-labelledby="research-entry-title"]'),
     page.locator("#new-research"),
     page.locator('section[aria-labelledby="research-runs"]'),
   ];
   for (const section of sections) await expect(section).toBeVisible();
+  await expect.poll(async () => {
+    const [entry, goal, recent] = await Promise.all(sections.map((section) => section.boundingBox()));
+    return Boolean(entry && goal && recent && goal.y < recent.y && recent.y < entry.y);
+  }, { message: "Goal comes first, followed by work, then examples" }).toBe(true);
 
   for (const width of [1440, 900, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -47,7 +59,7 @@ test("research entry and account actions stay usable across desktop, tablet and 
   await page.setViewportSize({ width: 1280, height: 900 });
   const { dashboardUrl } = await signUpToDashboard(page, "Research handoff");
   await page.goto(`${dashboardUrl}/research`);
-  await expect(page.getByRole("heading", { name: "Choose where to start" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Cases, examples and workbenches" })).toBeVisible();
   await page.getByRole("link", { name: "Poly19 proof and evidence", exact: false }).first().click();
   await expect(page).toHaveURL(/\/research\/poly19/);
   await expect(page.getByRole("heading", { level: 1, name: "Native Poly19 demonstration" })).toBeVisible();

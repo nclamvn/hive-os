@@ -11,10 +11,11 @@ async function createApprovedMission(page: Page) {
   await page.getByLabel("Objective").fill("Retain and assess exact evidence.");
   await page.getByLabel("Scope").fill("Governed local evidence.");
   await page.getByLabel("Success definition").fill("A sourced claim.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Exact evidence");
   await page.getByLabel("Acceptance criteria").fill("Every claim has an exact span.");
   await page.getByLabel("Obligation title").fill("Retain evidence");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   await page.getByRole("button", { name: "Submit for review" }).click();
   await expect(page.getByRole("button", { name: "Approve contract" })).toBeVisible();
