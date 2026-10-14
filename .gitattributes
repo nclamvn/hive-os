@@ -7,3 +7,9 @@
 *.jpg binary
 *.jpeg binary
 *.webp binary
+
+# Frozen third-party A/B inputs retain their original captured whitespace.
+# Authored documents/code still use the ordinary whitespace checks.
+artifacts/qa/erp-ab-20261014/sources/Attachment2.txt -text -whitespace
+artifacts/qa/erp-ab-20261014/sources/Attachment3.txt -text -whitespace
+artifacts/qa/erp-ab-20261014/sources/portal.html -text -whitespace

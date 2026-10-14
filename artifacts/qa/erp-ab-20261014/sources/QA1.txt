@@ -1,0 +1,190 @@
+                                      Q&A Responses
+
+
+
+Bidders Conference Questions
+
+Q#1: Is there a current existing Enterprise Resource Planning (“ERP”) system for the Los
+Angeles County Affordable Housing Solutions Agency (“LACAHSA”)?
+
+Answer: There is no existing ERP system licensed to LACAHSA. LACAHSA is currently using
+Sage Intacct through EisnerAmper’s existing license.
+
+
+
+Q#2: Have you had any demonstrations of ERP solutions?
+
+Answer: No, vendor demonstrations will occur during the demonstration timeframe specified
+within the request for proposal (“RFP”) (May 19-26, 2026).
+
+
+
+Q#3: For HR/Payroll, how many employees are there at LACAHSA? What is the number that
+should be used for proposals if expecting to add more employees as the organization grows?
+
+Answer: As of April 30, 2026, LACAHSA had 23 full-time employees. If headcount assumptions
+are to be made in connection with a proposal submission, please use a headcount of 35 full-
+time employees.
+
+
+
+Q#4: What has LACAHSA budgeted for this project?
+
+Answer: Included within LACAHSA’s proposed FY 26-27 budget, which remains subject to
+Board approval, is a provision for implementation consulting in the amount of $450,000 and a
+provision for an ERP annual subscription in the amount of $225,000. These amounts represent
+estimates based on information provided by EisnerAmper. LACAHSA understands that the
+ultimate cost of implementing and maintaining the appropriate system may vary. Staff believes
+that LACAHSA has access to resources sufficient to implement and maintain the system that is
+ultimately determined to be best suited to meet LACAHSA’s current and future business
+requirements.
+
+
+
+Q#5: Has LACAHSA hired a consultant for this RFP?
+
+Answer: No, this will be a two-phased RFP approach. The first RFP is for the selection of the
+system. Once a system is selected, LACAHSA will release another RFP for an implementation
+consultant.
+
+
+
+
+                   Request for Proposals for Enterprise Resource Planning
+Q#6: Would you consider a two-week extension for proposal submission?
+
+Answer: The current proposal timeline fits the LACAHSA board approval timeframe. Currently,
+there is no consideration for extension, however, LACAHSA is open to receiving feedback
+regarding concerns about applicants’ ability to put forth competitive proposals on the timeline
+set forth in this RFP. Please reach out via email, ERP-RFP@LACAHSA.GOV, if there are any
+concerns regarding the stated deadlines.
+
+
+
+Q#7: Is Sage Intacct playing a role in your operating model going forward? If so, what
+functionality will be in the new ERP vs Sage? Will Sage be used going forward and will the new
+ERP need to integrate with Sage?
+
+Answer: This RFP is for a fully functional ERP system. If Sage Intacct is not selected through
+this RFP, the ERP chosen will replace Sage and no integration will be needed.
+
+
+
+Q#8: Did you say there will be a separate RFP for implementation vs the software?
+
+Answer: Correct, this RFP is intended just for the ERP software. A separate RFP will be
+released for the implementation consultant.
+
+
+
+Q#9: Is Sage not meeting the requirements today which is why you are going out to bid on a
+new ERP?
+
+Answer: LACAHSA initially partnered with LA County as its fiscal agent, which meant that they
+were responsible for maintaining our financial books and records. As a result, we had limited
+direct visibility of the system chosen to maintain these records. Sage has served as an
+intermediate step in the process to full conversion. The instance of Sage currently in use is
+licensed to EisnerAmper.
+
+As a governmental agency, we are required to follow formal procurement procedures to
+evaluate and select the best long-term solution for LACAHSA. This process is not a reflection of
+Sage underperforming, but rather an effort to ensure we implement a system that can effectively
+support and scale to meet our organization’s future needs.
+
+
+
+Q#10: What is the relationship between EisnerAmper and LACAHSA?
+
+Answer: EisnerAmper serves in a multitude of roles for LACAHSA. They provide back-office
+accounting support, offering additional capacity and specialized expertise to complement our
+internal team. In addition, they assist with treasury compliance and provide support with the
+ERP RFP process.
+
+
+
+
+                    Request for Proposals for Enterprise Resource Planning
+Emailed Questions
+
+Q#11: The Budget 1-1 form has a tab One Time that is mostly all implementation costs. [Applicant]
+can only be implemented by [Applicant] Services. It is SaaS and [Applicant] owns the technology
+stack optimized in the most secure [Applicant] Cloud and only [Applicant] Services implements
+our solution and of course only [Applicant] supports it. That is part of the SaaS Subscription. Why
+have a later phase of implementation? You will have our costs and complete solution in your
+hands after submission.
+
+Answer: LACAHSA is undertaking a two-phased approach to implementing the ERP system
+because it desires to have the system that is best suited to its needs and it desires to achieve
+implementation in the most efficient and effective manner. LACAHSA believes that competitive
+processes are the optimal means to accomplish each of these objectives. To the extent that there
+are no alternatives available to fulfil the implementation consultant role, LACAHSA’s procurement
+policy provides for a sole source exception to the competitive solicitation process. It has been
+staff’s prior experience that favorable results are not always achieved when the system vendor
+fulfils the role of implementation consultant.
+
+
+
+Q#12: Are you pleased with the capabilities of Sage Intacct?
+
+Answer: LACAHSA is a newly formed government agency, and the scope of its operations is
+increasing and evolving. LACAHSA has not had an opportunity to conduct an evaluation of the
+suitability of the Sage Intacct system against its evolving business requirements. Therefore,
+LACAHSA does not have sufficient information to determine the adequacy of the Sage Intacct
+system in meeting LACAHSA’s business requirements as set forth in the RFP.
+
+
+
+Q#13: In regard to the HR (HCM/Payroll/Learning) requirements, what are you seeking in terms
+of both scope and pricing within the proposal?
+
+Answer: LACAHSA currently utilizes BambooHR as its system of record for HR, payroll, and
+talent management. While HR related requirements are included within the Business
+Requirements template, we request that these be presented as optional modules within vendor
+proposals to support future consideration of a transition to the ERP’s native HR capabilities.
+
+The information provided on HR functionality and associated pricing will be used primarily to
+assess long-term alignment and future fit. At this stage, we do not require firm pricing
+commitments for these optional modules; however, to understand the potential cost implications
+of incorporating HR capabilities within the broader ERP solution, you may add additional
+modules/SKUs and associated pricing lines within the “Optional Services” tab of Attachment 2
+Budget Template as well as describe how the proposed solution can support these
+requirements functionally within Attachment 3 - Business Requirements.
+
+
+
+Q#14: Can you provide clarification surrounding Business Requirement #015 and if LACAHSA
+currently utilizes a property/asset management system or would like proposals to contain
+
+
+
+
+                    Request for Proposals for Enterprise Resource Planning
+solutions regarding operation and maintenance functionality as part of the ERP platform or
+through integration for financial and reporting purposes?
+
+Answer: LACAHSA does not currently utilize a dedicated property management system (e.g.,
+RealPage, Yardi). As part of the proposal, we request that vendors include potential
+property/asset management solutions as optional components for future consideration and
+potential integrations as well.
+
+This information will support our evaluation of long-term system capabilities and scalability,
+should we decide to incorporate property/asset management functionality at a later stage.
+
+
+
+Q#15: Can you provide the current number of employees within LACAHSA today and projected
+total number of employees for the following 4-year period?
+
+Answer:
+
+2026: 23 FTE
+2027: 36 FTE
+2028: 40 FTE
+2029: 42 FTE
+2030: 45 FTE
+
+
+
+
+                    Request for Proposals for Enterprise Resource Planning
+

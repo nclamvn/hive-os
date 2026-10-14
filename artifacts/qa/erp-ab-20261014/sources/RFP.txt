@@ -1,0 +1,1222 @@
+   LOS ANGELES COUNTY AFFORDABLE HOUSING
+             SOLUTIONS AGENCY
+
+                       REQUEST FOR PROPOSALS
+
+                                           FOR:
+
+           ENTERPRISE RESOURCE PLANNING SELECTION
+
+                             Contact Person:
+                           Richmond McMurray
+                         ERP-RFP@LACAHSA.GOV
+
+                                      Key Dates:
+
+RFP Release date                                     April 24, 2026
+Bidders Conference                                   April 30, 2026
+Deadline Questions/Clarification Requests            May 5, 2026
+Responses to Questions Posted                        May 8, 2026
+Deadline for Submitting Complete Proposals           May 15, 2026
+Vendor Demonstrations, if applicable                 May 19-26, 2026
+Notification of Intent to Award Sent to Applicants   May 28, 2026
+Committee Meeting for Recommendations to             June 3, 2026
+LACAHSA Board
+LACAHSA Board Meeting for Final Selection and        June 10, 2026
+Approval
+Anticipated Contract Start Date                      August 1, 2026
+
+ These dates may be changed at the discretion of LACAHSA. Changes to the due date for
+     questions or due date for proposal submittal will be made by written addendum.
+
+
+
+                              www.LACAHSA.gov
+                                            TABLE OF CONTENTS
+1.     INTRODUCTION .............................................................................................................. 3
+     1.1     GENERAL .........................................................................................................................................................3
+     1.2     AGENCY RESOURCES ..........................................................................................................................................3
+     1.3     DESCRIPTION....................................................................................................................................................4
+     1.4     MINIMUM QUALIFICATIONS ................................................................................................................................4
+2.     SCOPE OF REQUIRED SERVICES ....................................................................................... 4
+     2.1     SUMMARY OF SERVICES......................................................................................................................................4
+     2.2     INTEGRATION WITH LACAHSA’S TECHNOLOGY ECOSYSTEM......................................................................................4
+     2.3     DATA GOVERNANCE ..........................................................................................................................................5
+     2.4     CHART OF ACCOUNTS ........................................................................................................................................6
+     2.5     FUND ACCOUNTING...........................................................................................................................................6
+     2.6     APPROVALS......................................................................................................................................................6
+     2.7     ACCOUNTING AND FINANCE CAPABILITIES ..............................................................................................................6
+     2.8     GRANTS MANAGEMENT .....................................................................................................................................7
+     2.9     DATA, SECURITY & SYSTEM ADMINISTRATION ........................................................................................................7
+     2.10    CYBER SECURITY REQUIREMENTS .........................................................................................................................8
+     2.11    FEDERAL UNIFORM GUIDANCE (2 CFR 200) COMPLIANCE .....................................................................................10
+     2.12    IMPLEMENTATION, TRAINING & ONGOING SUPPORT .............................................................................................12
+3.     SCHEDULE OF EVENTS ..................................................................................................133
+     3.1     BIDDER’S CONFERENCE ..................................................................................................................................144
+4.     PROPOSAL REQUIREMENTS .........................................................................................144
+     4.1     PROPOSAL FORMAT .......................................................................................................................................144
+5.     SUBMITTAL INSTRUCTIONS ..........................................................................................199
+6.     EVALUATION ...............................................................................................................199
+     6.1     EVALUATION CRITERIA AND SELECTION ..............................................................................................................199
+     6.2     TERM OF CONTRACT ........................................................................................................................................20
+     6.3     AWARD OF CONTRACT .....................................................................................................................................20
+7.     REQUESTS FOR CLARIFICATIONS ................................................................................... 21
+8.     GENERAL PROVISIONS .................................................................................................. 21
+     8.1     AMENDMENTS TO RFP ..................................................................................................................................222
+     8.2     NO COMMITMENT TO AWARD.........................................................................................................................222
+     8.3     AMENDMENTS TO PROPOSALS .........................................................................................................................222
+     8.4     NON-RESPONSIVE PROPOSALS.........................................................................................................................222
+     8.5     LATE PROPOSALS ..........................................................................................................................................222
+     8.6     COSTS FOR PREPARING ...................................................................................................................................222
+     8.7     ALTERNATIVE PROPOSALS ...............................................................................................................................222
+     8.8     ADMINISTRATIVE REVIEW ...............................................................................................................................222
+     8.9     PUBLIC DOCUMENTS......................................................................................................................................233
+     8.10    NO EXCEPTIONS............................................................................................................................................233
+     8.11    COMPLIANCE WITH LOCAL, STATE, AND FEDERAL LAW.........................................................................................233
+
+
+
+
+                                                                                                                                                                            2
+         LOS ANGELES COUNTY AFFORDABLE HOUSING SOLUTIONS AGENCY
+                      BENCH REQUEST FOR PROPOSALS
+
+
+1.     INTRODUCTION
+
+       1.1     General
+
+Los Angeles County Affordable Housing Solutions Agency (“LACAHSA” or the “Agency”) is
+requesting proposals from qualified vendors with demonstrated experience in providing
+Enterprise Resource Planning solutions for:
+
+             LACAHSA Enterprise Resource Planning (“ERP”) Vendor Selection
+
+Agency is a newly formed regional governmental entity that is charged with increasing the
+production of affordable housing, preserving existing affordable housing stock, and protecting
+low-income tenants from eviction and displacement. Agency was created by the California
+Legislature in 2022 through the Los Angeles County Regional Housing Act (Senate Bill 679,
+codified at Cal. Government Code section 64700 et seq.) (the “Act”), which establishes legal
+requirements for the distribution of Agency’s revenues. In November 2024, the voters of Los
+Angeles County (“County”) passed Measure A, a half-cent sales tax to fund homelessness and
+homeless prevention programs. Measure A is anticipated to raise about $1.1 billion in annual
+revenue, and 35.75% of that revenue must flow to Agency.
+
+Measure A’s transactions and use tax became effective on April 1, 2025, and Agency has begun
+to receive monthly tranches of revenue from the tax. The Agency’s portion of Measure A funds
+must be allocated to programmatic uses as follows: 60% for affordable housing production,
+preservation, and ownership (“PPO”) (Gov. Code, § 64830(d)(1); Measure A, § 29(B)); 5% for
+technical assistance, research, and policy development (“Technical Assistance”) (Gov. Code,
+§ 64830(d)(4)); 5% for Agency administration; and 30% for Renter Protection and Homelessness
+Prevention (“RPHP”) (Gov. Code, § 64830(d)(2)). This request for proposals (“RFP”) reflects
+funding available from the portion allocated for Agency administration.
+
+The Agency is governed by a Board of Directors (“Board”) consisting of twenty-one (21) voting
+members, who have each been appointed to represent various geographic or subject-area
+constituencies. The Agency is led by a Chief Executive Officer, and its financial system is
+managed by the Agency’s Chief Financial Officer.
+
+       1.2     Agency Resources
+
+All services funded by Agency are subject to the legal requirements of SB 679 and Measure A.
+Agency cannot grant exceptions under any circumstances. Applicants should familiarize
+themselves with SB 679 and Measure A. Even if not set forth in this RFP or in an eventual contract,
+the requirements will nonetheless apply to the use of Agency funds. The Board has adopted
+Program Guidelines (“Program Guidelines”) that contain additional LACAHSA policies and
+guidance. The Program Guidelines are available on LACAHSA’s website at www.lacahsa.gov.
+
+The Board has also adopted an Annual Expenditure Plan, which sets forth the eligible uses of
+LACAHSA’s revenues. The Annual Expenditure Plan is also available on LACAHSA’s website.
+
+
+
+
+                                                                                                 3
+       1.3     Description
+
+To support the existing operational landscape, LACAHSA seeks a modern system capable of
+managing the full ERP environment including system and data governance, accounting and
+finance, planning, budgeting, forecasting, governmental accounting, project management,
+compliance, and reporting. The envisioned system will streamline internal workflows, reduce
+administrative burdens, enforce LACAHSA’s policies, facilitate high-quality monitoring and
+compliance, and enhance visibility for internal and external stakeholders.
+
+This RFP outlines LACAHSA’s expectations for technology capabilities, service delivery
+standards, data governance, vendor required implementation support, and long-term
+sustainability. The document also provides clear instructions on proposal development,
+evaluation criteria, timelines, and submission procedures. Vendors are strongly encouraged to
+review all sections and attachments carefully, as the selected system will become a foundational
+tool supporting LACAHSA’s operational effectiveness and strategic goals.
+
+LACAHSA intends to select one (1) primary vendor whose proposal best aligns with LACAHSA’s
+technical, functional, budgetary, and organizational needs. LACAHSA values solutions that
+demonstrate adaptability, user-centered design, reliability, security, and the capacity to support
+an independent governmental agency. Primary vendors should provide a list of any services
+proposed to be provided by any subcontractors.
+
+       1.4     Minimum Qualifications
+
+To be considered for selection, proposing organizations must meet at minimum the qualifications
+set out in the scope of required services in Section 2 hereof.
+
+2.     SCOPE OF REQUIRED SERVICES
+
+       2.1     Summary of Services
+
+The Agency is requesting proposals from qualified vendors that have demonstrated their ability
+to provide a comprehensive, modern ERP capable of supporting their full accounting and finance,
+compliance, and operational needs across the organization. As an independent governmental
+agency operating within Los Angeles County, LACAHSA requires a system that strengthens
+operational consistency, promotes transparency, reduces administrative burden, and supports
+monitoring and compliance aligned with federal, state, and local requirements.
+
+The ERP will serve as a central platform for LACAHSA connecting internal teams and users
+across the platform. LACAHSA aims to improve the efficiency, quality, and accountability of
+activities throughout the organization.
+
+The Scope of Work described in this section outlines the expected capabilities and responsibilities
+of the selected vendor. Additional comprehensive functional and technical specifications can be
+found in Attachment 3: Business Requirements.
+
+       2.2 Integration with LACAHSA’s Technology Ecosystem
+
+The ERP must operate effectively within LACAHSA’s broader enterprise ecosystem. LACAHSA
+currently utilizes a variety of platforms to support their financial management, loan lifecycle,
+human resources, compliance, grants management, operational reporting, and expense
+
+
+                                                                                                 4
+processes. As these systems are central to how data flows across the organization, the ERP must
+either support a flexible, secure, and scalable integration strategy or replace the function.
+
+The ERP must have the ability to integrate with LACAHSA’s enterprise systems, including but not
+limited to:
+
+•      Bill.com
+
+•      RAMP
+
+•      Moody’s
+
+•      Neighborly
+
+•      BambooHR
+
+•      Bank Feeds (PNC, Western Alliance, KeyBank)
+
+•      PowerBI
+
+While these systems represent LACAHSA’s current environment, the ERP must be adaptable to
+future changes in enterprise platforms without requiring system replacement or major
+redevelopment.
+
+Vendors must describe in detail how their ERP will support:
+
+•      API-based interoperability with Bill.com, BambooHR, RAMP and other enterprise
+       platforms
+
+•      Bi-directional data exchange where appropriate
+
+•      Automated import/export functions for financial, vendor, purchasing, and compliance data
+
+•      Synchronization of vendor profiles, organizational records, users, and related master data
+
+•      User provisioning and updates that align with BambooHR
+
+•      Expense and reimbursement data alignment with Bill.com, ensuring accurate mapping of
+       spend and reconciled data across all systems
+
+Vendors must also address integration maintenance, version management, error handling, and
+long-term support.
+
+       2.3 Data Governance
+
+The ERP will maintain a single, authoritative source of master data, including vendors, customers,
+accounts, funds, projects, and other core entities. Master data changes will be governed through
+standardized processes and controls to reduce duplication, errors, and inconsistent reporting.
+
+
+
+
+                                                                                                5
+       2.4 Chart of Accounts
+
+The ERP will provide a structured process for managing the Chart of Accounts (CoA) to ensure
+compliance and alignment with GASB reporting requirements. CoA changes should be initiated
+through formal requests that clearly document the business need for the account. All CoA
+changes must be routed through automated approval workflows requiring at least two levels of
+review, centralized within the Finance function. The ERP should maintain visibility into all historical
+CoA changes to support governance, oversight, and auditability.
+
+       2.5 Fund Accounting
+
+The dimensional structure within the ERP must be scalable to accommodate increasing
+complexity as the organization expands its fund and jurisdictional reporting needs. The system
+also supports interfund activity, including interfund transactions, true-ups, adjustments, and cross-
+fund loans.
+
+       2.6 Approvals
+
+The ERP must ensure that no single user can initiate, post, and approve the same transaction,
+and that approval responsibilities are clearly defined and enforced by system controls.
+
+       2.7 Accounting and Finance Capabilities
+
+The ERP must include features that help LACAHSA create and process journal entries more
+efficiently and effectively, process AP invoices, and perform monthly and year-end close
+capabilities. The ERP capabilities must be able to accelerate review and approval processes,
+reduce manual data entry, enhance oversight, and strengthen compliance practices with its tools.
+The system must support core budgeting and forecasting capabilities, either natively or through
+integration with external tools. The ERP must support configurable mapping rules that translate
+external account codes, funds, and attributes into the ERP’s general ledger structure. The system
+will also support travel and expense management capabilities either directly or through
+integration.
+
+The system must also enable the creation and tracking of interfund and intercompany journal
+entries to support accurate allocation of financial activity across organizational entities. The
+system will support invoice processing to facilitate the distribution of funds to the applicable
+jurisdictions on behalf of LACAHSA. The system will support automated bank integrations to
+capture and record cash movements directly from financial institutions, eliminating manual entry
+or file-based imports.
+
+The system will support end-to-end loan lifecycle management, including integration of loan data
+from external systems, maintenance of a loan subledger, tracking of funding and construction
+draws, and approval controls over loan draw changes. The system will support project-based
+program management to track individual applications or cases, including budgets, funding draws,
+expenditures, milestones, and performance metrics against LACAHSA's goals and requirements.
+The system will support secure, standardized financial reporting and disclosures to enable
+transparent, compliant, and audit-ready financial statements and performance reporting.
+
+The system will support automated, rule-based allocation methodologies for distributing costs and
+revenues across funds, programs, jurisdictions, and other dimensions. The system will support
+comprehensive asset lifecycle management for housing assets and related infrastructure. The
+
+
+                                                                                                     6
+system will support an automated requisition process that centralizes purchase requests,
+enforces procurement policies, and routes requests through configurable review and approval
+workflows.
+
+The system will contain both capital asset and depreciation features, lease and Subscription-
+Based Information Technology Arrangements (SBITA).
+
+       2.8 Grants Management
+
+The system will support a centralized grants management capability to enable LACAHSA to
+define, monitor, and enforce regulatory and funding requirements associated with grants and
+public-sector programs either through integration with existing third-party systems (e.g.,
+Neighborly) or through native ERP functionality. This includes:
+
+•      Tracking funding sources, eligibility rules, and statutory/regulatory requirements (e.g.,
+       Measure A, SB679)
+
+•      Management of grant program lifecycles
+
+•      Configurable workflows for grant-related approvals, funding requests, and payments
+
+•      Financial and programmatic reporting
+
+       2.9 Data, Security & System Administration
+
+LACAHSA requires an ERP that supports enterprise-level data governance, privacy protections,
+and administrative controls. The system must meet organizational standards for reliability,
+confidentiality, and data integrity while remaining adaptable to programs and system changes
+over time. The system must support:
+
+Data Governance & Control
+
+•      Role-based access permissions reflecting LACAHSA’s organizational structure and
+       program hierarchy, including administration and security roles assigned outside of the
+       finance function
+
+•      Granular permission settings for read, write, approve, and administrative actions
+
+•      Ability to restrict access to sensitive information based on user roles
+
+•      Clear audit trails documenting user activity, record changes, and system actions
+
+Data Quality & Validation
+
+•      Field-level validation rules to prevent incomplete or invalid submissions
+
+•      Deduplication tools that identify potential duplicate applicants, organizations, or
+       documents
+
+•      Data verification that compares entries across forms or data sources for consistency
+
+Hosting, Reliability & Performance
+
+                                                                                                   7
+•      Cloud-based hosting located in the continental United States with strong uptime
+       guarantees (>99.5%) and robust disaster recovery point objectives (RPO) and recovery
+       time objectives (RTO) for resiliency
+
+•      System performance capable of supporting peak periods such as application deadlines
+
+•      A scalable infrastructure that supports increased user volume or program expansion
+
+Security & Privacy
+
+•      Encryption of data in transit and at rest
+
+•      Compliance with industry standards for confidentiality, privacy, and data retention
+
+•      Intrusion detection systems and periodic penetration testing
+
+•      Incident response protocols and vendor policies for addressing data breaches (with
+       breach notification to LACAHSA within 24 hours)
+
+•      Compatibility with LACAHSA’s identity and authentication systems, including but not
+       limited to BambooHR or other single sign-on solutions
+
+Administrative Configuration
+
+•      Ability for LACAHSA staff to configure forms, workflows, dashboards, and reporting tools
+       without vendor intervention
+
+•      Tools for creating new programs, adjusting requirements, or modifying workflows as the
+       organization grows
+
+•      Logging and visibility into configuration changes
+
+This section supports LACAHSA’s enterprise security posture and long-term system
+sustainability.
+
+       2.10 Cyber Security Requirements
+
+Because LACAHSA is funded by Los Angeles County and is responsible for safeguarding
+sensitive applicant, subrecipient, programmatic, and financial data, the ERP must meet or exceed
+federal cybersecurity requirements. These standards apply to the system’s hosting environment,
+data flows, access controls, encryption, logging, monitoring, and vendor operational practices.
+
+The system must comply with the following mandatory federal security frameworks and controls:
+
+NIST Framework Requirements
+
+The platform must operate in alignment with:
+
+•      NIST SP 800-53 – Security and Privacy Controls for Information Systems
+
+•      NIST SP 800-171 – Protecting Controlled Unclassified Information (CUI) in Nonfederal
+       Systems
+
+                                                                                              8
+These frameworks require extensive controls for access management, auditability, encryption,
+integrity, monitoring, risk assessment, and incident response.
+
+Encryption and Data Protection
+
+The following encryption standards are mandatory:
+
+•      FIPS 140-2 validated encryption for data in transit and at rest
+
+•      Encrypted backups
+
+•      Secure key management
+
+•      TLS 1.2 or higher for all data transfers
+
+Identity & Access Management
+
+The ERP must support:
+
+•      Multi-factor authentication (MFA) for all users
+
+•      Role-based access that follows least-privilege principles
+
+•      Secure onboarding/offboarding workflows compatible with LACAHSA’s identity systems,
+       including but not limited to BambooHR
+
+•      Session management controls that prevent unauthorized access
+
+Audit Logging & Monitoring
+
+The system must provide a comprehensive audit trail of:
+
+•      Logins and authentication events
+
+•      Record creation, modification, and deletion
+
+•      Workflow actions
+
+•      Administrative configuration changes
+
+•      Data exports or integrations
+
+Logs must be retained in alignment with federal record retention requirements under 2 CFR
+200.334. Additionally, the logs must support public-sector audit and reporting requirements,
+including Single Audit expectations.
+
+Incident Response, Continuity & Risk Management
+
+The vendor must supply:
+
+•      A documented Incident Response Plan aligned with NIST IR-family controls
+
+
+                                                                                          9
+•      A Disaster Recovery (DR) and Business Continuity (BC) plan
+
+•      Description of escalation steps in case of breach
+
+•      Timelines and communication expectations for LACAHSA notifications
+
+Vendor Documentation Requirements
+
+The following documents must be submitted with the proposal:
+
+•      Penetration testing summary from past 12 months
+
+•      Vulnerability scan summary
+
+•      System security architecture diagram
+
+•      Data flow diagram
+
+•      Incident Response Plan
+
+•      Business Continuity/Disaster Recovery Plan
+
+•      Written attestation of compliance with:
+
+o      NIST SP 800-53
+
+o      NIST SP 800-171
+
+o      FIPS 140-2
+
+o      FedRAMP Moderate–equivalent controls
+
+This subsection establishes the minimum cybersecurity standard for vendor eligibility.
+
+       2.11 Federal Uniform Guidance (2 CFR 200) Compliance
+
+LACAHSA may in the future be required to comply with 2 CFR 200 (Uniform Administrative
+Requirements, Cost Principles, and Audit Requirements for Federal Awards). The ERP must
+support LACAHSA’s ability to meet these obligations across financial management, internal
+controls, performance reporting, documentation, and audit readiness.
+
+The system must provide tools, workflows, audit trails, and documentation features that support
+compliance with the following areas of the Uniform Guidance:
+
+Financial Management — 2 CFR 200.302
+
+The system must support:
+
+•      Accurate tracking of expenditures by cost category, funding source, and period of
+       performance
+
+•      Budget-to-actual comparisons
+
+                                                                                            10
+•      Documentation of allowable/allocable costs
+
+•      Segregation of duties and appropriate approval workflows
+
+Internal Controls — 2 CFR 200.303
+
+The system must facilitate:
+
+•      Defined approval rules and workflow routing
+
+•      Role-based permissions that prevent unauthorized access
+
+•      Activity logging for all important transactions
+
+•      AI-supported detection of anomalies or potential fraud indicators
+
+Internal control documentation must be exportable for audit purposes.
+
+Performance & Financial Reporting — 2 CFR 200.328–329
+
+The system must:
+
+•      Track required programmatic and fiscal reporting deadlines
+
+•      Store and categorize reports and supporting documentation
+
+•      Provide dashboards for reporting and analysis
+
+•      Allow LACAHSA to export required data for federal reporting portals
+
+Record Retention & Access — 2 CFR 200.334–337
+
+The system must provide:
+
+•      Configurable record retention settings aligned to federal requirements (minimum 3 years
+       after final expenditure report, unless otherwise required)
+
+•      Ability to restrict and grant access for audits, monitoring, and investigations
+
+•      Metadata tagging and search functions to retrieve records efficiently
+
+Cost Principles — 2 CFR 200 Subpart E
+
+The system must support:
+
+•      Tracking of allowable vs. unallowable costs
+
+•      Documentation of cost allocation methodologies
+
+•      Attachments for cost justification materials
+
+•      Audit defensibility for expense and reimbursement reviews
+
+                                                                                           11
+Audit Readiness Support
+
+The system must:
+
+•      Provide complete audit trails
+
+•      Retain all relevant documentation
+
+•      Support sampling for auditors
+
+•      Export data in machine-readable formats
+
+       2.12 Vendor Consulting Services during Implementation and Post Go-Live Support
+
+The selected vendor will provide consulting and support services to LACAHSA during
+implementation and post go-live operations. Implementation services may be led by a separately
+procured implementation partner; however, the vendor is expected to collaborate closely with
+LACAHSA and the implementation partner to support a successful deployment. The vendor’s role
+includes providing product expertise, guidance, and best practices to support system
+configuration, integration, and adoption. The vendor shall also support LACAHSA in building the
+knowledge, tools, and capabilities required for long-term system sustainability.
+
+Implementation Planning
+
+•      Support implementation discovery and design sessions to provide product specific
+       guidance on workflows, integrations, and data structures
+
+•      Provide guidance and validation on system configuration based on product best practices
+
+Data Migration
+
+•      Provide guidance and best practices to support mapping, cleansing, and migrating data
+       into ERP system
+
+•      Support validation of data migration approaches and participate in testing to ensure data
+       integrity and completeness
+
+Integration Development
+
+•      Provide technical documentation, APIs, and product specific guidance to support
+       integration design and development
+
+•      Support testing and validation of integrations to ensure compatibility with ERP platform
+
+User Acceptance Testing
+
+•      Develop a plan for acceptance testing of ERP platform by LACAHSA staff with acceptance
+       requirements for all major and minor deliverables and milestones
+
+•      Verify that all functional requirements for the ERP platform are working properly and
+       accurately prior to transition to live production
+
+
+                                                                                              12
+•      Provide timely error-correction for non-conforming deliverables at no additional cost
+
+Training & Change Management
+
+•      Provide standard and role-based training resources for administrators, end users, and
+       stakeholders
+
+•      Provide optional tools (e.g., guided help, onboarding prompts) to support user adoption
+
+•      Provide a Service Level Agreement (SLA) with defined Service Level Targets (SLTs)
+
+Ongoing Support & System Sustainability
+
+•      Provide ongoing product support through a helpdesk or support team with defined service
+       levels
+
+•      Provide enhanced post-live production support from the implementation team for at least
+       ninety (90) days
+
+•      Deliver regular product updates, enhancements, and maintenance
+
+•      Offer opportunities for LACAHSA to provide feedback on future product development
+
+•      Provide support for system optimization as programs evolve
+
+This section sets expectations for a long-term, collaborative vendor relationship. The vendor is
+not expected to serve as the primary implementation provider; implementation services will be
+procured separately. Vendors should clearly distinguish between services required as part of the
+software offering and any optional consulting services for support during implementation and post-
+go live.
+
+
+3.     SCHEDULE OF EVENTS
+
+Timetable for Reviewing and Evaluating Proposals:
+
+     RFP Release date                                     April 24, 2026
+     Bidders Conference                                   April 30, 2026
+     Deadline Questions/Clarification Requests            May 5, 2026
+     Responses to Questions Posted                        May 8, 2026
+     Deadline for Submitting Complete Proposals           May 15, 2026
+     Vendor Demonstrations, if applicable                 May 19-26, 2026
+     Notification of Intent to Award Sent to Applicants   May 28, 2026
+     Committee Meeting for Recommendations to             June 3, 2026
+     LACAHSA Board
+     LACAHSA Board Meeting for Final Selection and        June 10, 2026
+     Approval
+     Anticipated Contract Start Date                      August 1, 2026
+
+These dates may be changed at the discretion of LACAHSA. Changes to the due date for
+questions or due date for proposal submittal will be made by written addendum.
+
+                                                                                               13
+        3.1       Bidder’s Conference
+
+An optional bidder’s conference will be held remotely on April 30, 2026 at 11:00 a.m. PT.
+
+To register to attend, go to www.lacahsa.gov.
+
+During the bidders’ conference, vendors will have the opportunity to share interest in partnering
+and to describe the roles they are seeking within a collaborative application.
+
+
+4.      PROPOSAL REQUIREMENTS
+
+        4.1       Proposal Format
+
+Applicant’s proposal shall be clear, accurate, and comprehensive. Excessive or irrelevant
+materials will not be favorably received. The proposal shall be signed by an individual or
+individuals authorized to execute legal documents on behalf of the applicant.
+
+Proposals shall be organized in the order presented below:
+
+
+     4.1.1. Cover letter identifying applicant’s legal name, background, and contact information,
+            along with a brief summary of the key elements of the proposal.
+
+     4.1.2. Narrative proposal that concisely demonstrates applicant’s understanding and
+            approach to delivering an ERP solution.
+
+              a. Professional Qualifications and Specialized Experience (maximum 4 pages)
+
+              Applicants must provide the following:
+              • Summary of the lead organization and any subcontractors, including mission,
+                 services, years in operation, and geographic coverage.
+              • Experience delivering similar ERP solutions, including scope, outcomes, and
+                 demonstrated ability to meet comparable requirements.
+              • Experience implementing ERP systems for local, state, or other governmental
+                 entities, including contract management and regulatory/compliance environments.
+              • Key staff assigned to the project, including roles, qualifications, and relevant
+                 experience.
+              • Prior collaboration between proposed subcontractors and the lead organization,
+                 including examples of successful delivery.
+
+              b. Scope of Work (maximum 6 pages)
+
+              Provide a detailed description of what system capabilities will be provided. This should
+              address the following:
+
+              •   How the proposed ERP will meet each functional requirement outlined in
+                  Attachment 3 and Section 2: Scope of Required Services
+
+              •   Proposed integration approach, including interoperability with existing systems,
+
+                                                                                                   14
+    data exchange methods, and long-term integration maintenance
+
+•   Support for data governance, Chart of Accounts, fund accounting, and approval
+    workflows
+
+•   Capabilities for core financial operations, reporting, allocations, project/loan
+    tracking, and GASB compliance
+
+•   System architecture, access controls, audit trails, and compliance with required
+    cybersecurity standards
+
+•   Support for 2 CFR 200 requirements, including financial management, controls,
+    reporting, and audit readiness
+
+•   Implementation approach, data migration, integrations, training, and ongoing
+    support
+
+•   Additional capabilities such as AI features, reporting and analytics, user
+    roles/permissions, and system configurability
+
+c. Timeline - Provide a clear implementation timeline with key activities and
+   deadlines. Do not include dates or intended calendar milestones. Instead, propose
+   key milestones in the development of the core package requirements, with a rough
+   amount of time, measure in weeks, necessary to achieve the deliverables. This is
+   intended to give reviewers a better understanding of the pace at which respondent
+   believes work must proceed to achieve full system functionality.
+
+d. Pending Litigation – Provide a description of all pending or threatened civil or
+   criminal litigation, administrative proceeding, examination, or investigation
+   undertaken within the past ten years to which the applicant is the subject of, is a
+   party to, or has been notified that it may become a party to. Provide a description
+   of all administrative, civil, or criminal settlements, decisions, or judgments against
+   the applicant within the past ten years.
+
+e. Security Documentation - Because LACAHSA is funded by Los Angeles County
+   and must comply with strong internal controls, all vendors are required to submit
+   security documentation at the time of proposal. Proposals that do not include the
+   required documents will not advance to evaluation. The following documentation
+   is mandatory:
+       o Summary of most recent penetration test (within the last 12 months)
+       o Summary of most recent vulnerability scan
+       o System security architecture diagram
+       o Data flow diagram(s) showing handling of restricted and sensitive data
+       o Incident Response Plan
+       o Disaster Recovery & Business Continuity Plans
+       o Written attestation of compliance with:
+               NIST SP 800-53
+               NIST SP 800-171
+               FedRAMP Moderate–equivalent controls
+
+                                                                                      15
+                           FIPS 140-2 validated encryption
+                   o   Encryption standards overview
+                   o   Access control and MFA configuration documentation
+
+           f.   Proposed Contracts – Provide copies of proposes contracting documents,
+                including all proposed legal terms related to cloud hosting services, software
+                licensing and use, implementation services and support and maintenance
+                services.
+
+           These materials will be reviewed as part of LACAHSA’s security and risk assessment
+           process.
+
+   4.1.3. Cost Proposal
+
+Applicants must submit a detailed and transparent cost proposal outlining all costs necessary to
+support the vendor’s ERP solution, including licensing, vendor provided services, and ongoing
+operation and maintenance of the system throughout its anticipated lifecycle.
+
+The cost proposal must include a distinct, detailed budget for the lead agency and for each
+subcontractor. All costs must be inclusive of vendor provided services, including but not limited to
+licensing, subscriptions, hosting, infrastructure, security, training, maintenance, support,
+upgrades, and any subcontracted services.
+
+At a minimum, the cost proposal shall:
+
+   1. Clearly distinguish between:
+
+   •   One-time vendor costs (e.g., implementation support, configuration guidance, onboarding)
+       vs. ongoing/recurring costs
+
+   •   Capital expenditures (CAPEX) vs. operating expenditures (OPEX)
+
+   •   Subscription-based costs vs. perpetual licensing (if applicable)
+
+   •   Baseline/core functionality vs. optional or upgraded modules
+
+   2. Provide Total Cost of Ownership (TCO) over a five (5) year period, including:
+
+   •   Vendor related implementation support costs (if applicable)
+
+   •   Annual subscription or licensing fees, with escalations not to exceed 3% per annum during
+       the initial term and any optional renewal period
+
+   •   Ongoing maintenance and support
+
+   •   Hosting or cloud service fees
+
+   •   Upgrade and enhancement costs
+
+   •   Estimated escalation rates
+
+                                                                                                 16
+   3. Identify subscription-based arrangements in sufficient detail to support the Agency’s
+      evaluation under applicable governmental accounting standards (including GASB 96, as
+      applicable), including:
+
+   •   Term length
+
+   •   Renewal structure
+
+   •   Payment schedules
+
+   •   Components that may         constitute    Subscription-Based   Information   Technology
+       Arrangements (SBITAs)
+
+   4. Break out costs by module and functional area, clearly identifying:
+
+   •   Required/base system components
+
+   •   Optional modules
+
+   •   Add-on functionality
+
+   •   Third-party integrations
+
+   5. Describe pricing assumptions and cost drivers
+
+Vendors must clearly describe all assumptions used in developing their pricing. In addition,
+vendors are required to base their pricing on the standardized assumptions outlined below:
+
+Number of users: 10 full users + 15 limited users
+
+Transaction volumes (e.g., invoices, journal entries): ~5,000 – 7,500 transactions annually
+
+Data storage: 50 - 100 GB with ~5-10% annual growth
+
+Number of integrations: 5
+
+Support level: Standard
+
+Vendors may provide alternative pricing scenarios but must clearly distinguish them from the
+required baseline assumptions.
+
+   6. Identify future cost impacts, including:
+
+   •   Scalability pricing
+
+   •   Cost implications of adding users or modules
+
+   •   Data storage growth
+
+   •   Major version upgrades
+
+
+
+                                                                                              17
+All budgets shall be prepared in a format substantially consistent with the template provided in
+Attachment 2.
+
+
+   4.1.4. References
+
+Provide three (3) references that are of similar size and scope of service utilization as the Agency.
+Please note that evaluation preference will be given to California references. Include the following
+information for each reference:
+
+   •   Contact Name & Title
+
+   •   Name and Address of Government
+
+   •   Telephone Number
+
+   •   E-mail address
+
+   •   Number of Years as Customer
+
+   •   Total Contract Amount
+
+   •   Description of services provided
+
+The Agency reserves the right to contact each of the references listed for additional information
+regarding your organization’s qualifications.
+
+If applicable, describe fully the last three contracts performed by your organization that have been
+terminated with or without cause. Please include the following information:
+
+   •   Contact Name & Title
+
+   •   Name and Address of Government
+
+   •   Telephone Number
+
+   •   E-mail address
+
+   •   Description of services provided
+
+   •   Time period of contract
+
+   •   Explanation for contract termination
+
+   If applicable, describe fully the last three contracts performed by any proposed subcontractor
+   that have been terminated with or without cause. Please include the following information:
+
+   •   Contact Name & Title
+
+   •   Name and Address of Government
+
+
+                                                                                                  18
+     •     Telephone Number
+
+     •     E-mail address
+
+     •     Description of services provided
+
+     •     Time period of contract
+
+     •     Explanation for contract termination
+
+
+     4.1.5. Conflict of Interest Statements
+
+Applicants must submit completed and signed conflict of interest forms with their application,
+including a Levine Act Compliance Form and a Statement of Conflict of Interest/Confidentiality
+provided in Attachment 1. An applicant’s failure to submit these forms with their application may
+disqualify the application from further consideration.
+
+     4.1.6. Business Requirements
+
+Vendors are required to complete Attachment 3 – Business Requirements. For each requirement,
+vendors must indicate whether the proposed solution supports the requirement (Yes/No) and
+provide additional detail where applicable (e.g., configuration, customization, or third-party
+dependency). The completed matrix must be submitted as part of the proposal.
+
+5.         SUBMITTAL INSTRUCTIONS
+
+To be considered, an applicant must submit its proposal to the Agency via email to the address
+set forth below, no later than May 15, 2026 at 5:00 p.m. PT.
+
+ERP-RFP@LACAHSA.GOV
+
+6.         EVALUATION
+
+           6.1     Evaluation Criteria and Selection
+
+A selection committee will review for responsiveness, evaluate responsive proposals and rank
+the proposals. Proposals will be evaluated according to the following criteria:
+
+         Proposal Evaluation Criteria:                                                     %
+         Functional Fit - Finance, accounting, compliance, data & system capabilities;
+                                                                                           25
+         ability to support business requirements outlined in Attachment 3
+         Implementation Feasibility - Timeline, complexity, resource requirements,
+                                                                                           20
+         vendor methodology
+         Cost & TCO - Subscription, implementation, add-ons, 5-year total cost of
+                                                                                           20
+         ownership (TCO)
+         Risk & Compliance - Stability, cybersecurity, audit trail, public sector
+                                                                                           15
+         readiness
+         Scalability & Flexibility - Ability to grow with agency, configuration options,
+                                                                                           10
+         integration breadth
+
+
+                                                                                                19
+     Vendor Experience & Qualifications – Prior public sector/government
+                                                                                              10
+     experience, track record, references, and team qualifications
+
+
+Applicants should note that lowest cost proposals are not the sole determining factor in the final
+selection of vendors. The Agency reserves the right to consider other relevant factors in reaching
+a determination. An application’s score and ranking will not compel a specific outcome or in any
+way obligate the Agency to select a specific vendor.
+
+The Agency intends to invite a shortlist of two to four applicants to participate in demonstrations
+of each of the selected ERP’s capabilities. The Agency shall decide in its sole discretion whether
+to hold such demonstrations, the number of demonstrations to hold, the applicants invited to
+participate, and the number of demonstrations the applicants are invited to. No applicant shall be
+entitled to or otherwise guaranteed a demonstration with the Agency, and participating in a
+demonstration does not guarantee the applicant will be awarded a contract. The Agency
+additionally reserves its right to award a contract to applicants who were not invited to or did not
+participate in a demonstration. In the event that demonstrations are held, the selection committee
+will re-evaluate the shortlisted vendors on the basis of the demonstrations and prior proposal
+submissions based on the evaluation criteria below. Agency may, at its discretion, require a pilot
+of proposed services.
+
+Being invited, failure to be invited, and failure to be re-invited for a demonstration does not give
+rise to an applicant’s right for Administrative Review, as further defined in Section 8.8 of this RFP.
+
+     Post-Demonstration Evaluation Criteria:                                                   %
+     Functional Fit - Ability to support required business processes as
+                                                                                              25
+     demonstrated through scenarios and alignment to business requirements
+     User Experience & Flexibility – Ease of use, intuitive navigation, and ability to
+                                                                                              20
+     configure and adapt to evolving needs.
+     Cost & Total Cost of Ownership (TCO) – Overall cost including software,
+                                                                                              20
+     implementation, add-ons, and long-term total cost of ownership
+     Reporting, Data & Integrations – Ability to provide real-time reporting, data
+                                                                                              15
+     visibility, and integration with external systems
+     Risk, Compliance & Controls – System stability, security, auditability, internal
+                                                                                              10
+     controls, and alignment with public sector requirements
+     Vendor Experience & Qualifications – Prior public sector/government
+                                                                                              10
+     experience, track record, references, and team qualifications
+
+
+       6.2     Term of Contract
+
+The contract term is expected to commence August 1, 2026 and have an initial term of no fewer
+than 5 years, with one or more optional renewal periods.
+
+       6.3     Award of Contract
+
+If awarded, the Agency intends to enter into one or more agreements for the
+licensing/subscription, implementation, and ongoing support of the proposed ERP solution.
+
+
+
+
+                                                                                                   20
+Award(s) will be made on the basis of demonstrated competence, qualifications, technical
+solution, implementation approach, total cost of ownership, and overall best value to the Agency.
+
+The final scope of work, pricing structure, contract terms, and implementation schedule will be
+negotiated between the Agency and the selected proposer(s) and may differ from those proposed
+in the submitted response.
+
+The Agency reserves the right to reject any or all proposals, award a contract in whole or in part,
+award separate contracts for software licensing/subscription, implementation services, hosting,
+or support, if determined to be in the best interest of the Agency, negotiate modifications to the
+proposed scope, pricing, service levels, or contract terms, and conduct demonstrations,
+interviews, reference checks, and best and final offers (BAFO), if applicable.
+
+The Agency shall not be obligated to accept the lowest priced proposal. Award, if made, will be
+made to the responsible proposer(s) whose solution is determined to provide the best overall
+value to the Agency after consideration of all evaluation criteria.
+
+The selection committee will formulate its recommendations for award of contract(s) to the Budget
+and Administrative Executive Committee for its consideration. The Budget and Administrative
+Executive Committee will make recommendations for approval by the Board. The final decision
+to award contract(s) is within the sole and absolute discretion of the Board.
+
+7.     REQUESTS FOR CLARIFICATIONS
+
+All questions, interpretations or clarifications, either administrative or technical must be requested
+in writing and directed to: ERP-RFP@LACAHSA.GOV
+
+All written questions will be answered in writing and conveyed to all applicants on the proposer’s
+list. Oral statements regarding this RFP by any persons should be considered unverified
+information unless confirmed in writing. To ensure a response, questions must be received in
+writing by May 5, 2026 at 5:00 p.m. PT. Responses to clarification requests will be provided by
+May 8, 2026 at noon PT or the timetable will be adjusted, if necessary.
+
+To ensure fairness and avoid misunderstandings, all communications must be in written format
+and addressed only to the individual set forth above. Any verbal communications will not be
+considered or responded to. Written communications should be submitted via e-mail to the
+address provided above. All questions received by the due date will be logged and reviewed and
+if required, a response will be provided via an addendum to the RFP. Agency is not responsible
+for and shall not be bound by any representations, statements, or explanations otherwise made
+by any individual acting or purporting to act on its behalf, other than the Agency representative(s)
+identified in this RFP. Any communications, whether written or verbal, with any Board Member or
+Agency staff other than the individual indicated above, prior to award of a contract by the Agency,
+is strictly prohibited and the applicant may be disqualified from consideration.
+
+8.     GENERAL PROVISIONS
+
+Applicant is encouraged to review this RFP carefully in its entirety prior to preparation of its
+proposal. The Agency reserves the right to verify all information submitted in the proposal.
+
+
+
+
+                                                                                                   21
+       8.1     Amendments to RFP
+
+The Agency reserves the right to amend or modify any provisions of the RFP by written addendum
+or issue to all proposers a Notice of Amendment to answer questions for clarification.
+
+       8.2     No Commitment to Award
+
+Issuance of this RFP and receipt of proposals does not commit the Agency to award a contract.
+The Agency expressly reserves the right to postpone the RFP process for its own convenience,
+to accept or reject any or all proposals received in response to this RFP, to negotiate with more
+than one applicant concurrently or to decline to enter into negotiations or terminate negotiations
+with any applicant at any time, to select the proposal(s) most advantageous to the Agency,
+including awarding more than one contract if desired, or to cancel or withdraw all or part of this
+RFP at any time.
+
+       8.3     Amendments to Proposals
+
+No amendment, addendum or modification will be accepted after the deadline stated herein for
+receiving proposals. Applicant may modify or amend its proposal only if the Agency receives the
+amendment prior to the deadline stated herein for receiving proposals. Agency reserves the right
+to request clarification of information submitted from any one or more of the applicants.
+
+       8.4     Non-Responsive Proposals
+
+A proposal may be considered non-responsive if conditional, incomplete, or if it contains
+alterations of form, additions not called for, or other irregularities that may constitute a material
+change to the proposal. Agency reserves the right to waive inconsequential disparities and minor
+irregularities in a submitted proposal.
+
+       8.5     Late Proposals
+
+The Agency will not be responsible for proposals that are delinquent, lost, incorrectly marked,
+sent to an address other than that given herein, or sent by mail or courier service and not signed
+for by the Agency.
+
+       8.6     Costs for Preparing
+
+The Agency is not liable and will not compensate any applicant for the cost of preparing or
+submitting any proposal or otherwise incurred in responding to this RFP. All materials submitted
+with a proposal shall become the property of the Agency. The Agency will retain all proposals
+submitted and may use any idea in a proposal regardless of whether that proposal is selected.
+
+       8.7     Alternative Proposals
+
+Only one final proposal is to be submitted by each applicant. Multiple proposals will result in
+rejection of all proposals submitted by the applicant.
+
+       8.8     Administrative Review
+
+Applicants may submit a written request for an administrative review under Agency’s procurement
+policies, if applicable, as follows: for a solicitation requirements review within five (5) business
+
+
+                                                                                                  22
+days of the RFP release date; and for a disqualification review or proposed applicant selection
+review within the timeframe specified in the notice of non-responsiveness or notice of non-
+selection, respectively. Applicants must include the grounds for review and provide sufficient
+information for the Agency’s CEO or designee to make a determination and issue a decision.
+Agency will respond with a decision in writing within a reasonable time after a request for review
+is submitted and prior to any applicable due dates. The decision shall be final.
+
+       8.9     Public Documents
+
+Once submitted, each proposal becomes the property of Agency and becomes a public record at
+the conclusion of the selection process. The Agency is not liable for the disclosure of any
+information contained in an application. Any information that applicants do not wish to disclose to
+the public must be clearly marked “confidential.” A blanket statement of confidentiality or the
+marking of every page of the proposal as confidential shall not be deemed sufficient notice of
+exception. Applicants must specifically label only those portions of the application that are
+confidential in nature and notify the Agency that confidential information is included.
+
+       8.10    No Exceptions
+
+Submission of a proposal constitutes acceptance by applicants of the conditions contained in this
+RFP should applicant be selected.
+
+       8.11    Compliance With Local, State, and Federal Law
+
+Applicants must be in compliance with all LACAHSA fiscal and programmatic requirements and
+any and all applicable laws, rules, and regulations.
+
+
+
+
+                                                                                                23
+Attachment 1 – Levine Act Compliance and Conflict of Interest Forms
+
+All proposers must disclose any actual, potential, or perceived conflicts of interest.
+
+
+
+
+                                                                                         24
+Attachment 2 – Budget Template
+
+Vendors must submit pricing using the structure attached.
+
+
+
+
+                                                            25
+Attachment 3 – Business Requirements
+
+The Business Requirements define all responsibilities, deliverables, and required system
+capabilities that the selected Vendor must provide under the resulting contract. The
+comprehensive functional and technical requirements are categorized as must-have, should-
+have, and could-have to further clarify solution expectations and scope. The requirements listed
+as must-have are mandatory.
+
+The Vendor’s system, implementation approach, integrations, security posture, and ongoing
+support model must meet all specifications outlined in this Attachment.
+
+
+
+
+                                                                                             26
+

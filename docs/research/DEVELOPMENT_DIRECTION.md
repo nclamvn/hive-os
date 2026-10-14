@@ -2,6 +2,13 @@
 
 Owner-confirmed correction, 2026-10-09. Implementation: TIP-082.
 
+**Phase 2 routing, owner-approved 2026-10-14:**
+[PRD Phase 2](../product/PRD_PHASE_2.md) is the current product investment
+direction. Reuse these research principles as domain skills and scoped tools on
+existing agents; the web operating system is no longer the default expansion.
+Research remains paused and K6 remains OPEN. This document preserves prior
+method guidance and grants no new campaign, model execution or release.
+
 ## What the product is for
 
 Turn a well-posed mathematical question into useful, inspectable evidence:

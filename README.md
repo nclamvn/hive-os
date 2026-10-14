@@ -1,14 +1,16 @@
 # HIVE OS
 
-Provenance-preserving operating system for Human-AI research, engineering, and
-decision-making. Built under Vibecode Kit v6.1 trust boundaries — the
-authoritative product specification and governance documents live in
-[`docs/contractor/`](docs/contractor/README.md) and are not modified by builds.
+HIVE OS retains research, verification and authoring tools from its first phase.
+Current direction (2026-10-14): **Phase 2 prioritizes domain skills and small
+tools on existing agent platforms such as Codex or Claude Cowork.** Standalone
+application work needs an identified customer problem and evidence of additional
+operational value; generic reasoning/orchestration is not the default investment.
 
-Current direction (2026-10-13): **research paused; product polish and research-team
-handoff in progress**. Finish and push the reviewed local product first; the
-deployment target will be chosen separately. A Git push does not publish
-staging images automatically.
+Start new product work with the owner-approved
+[Phase 2 PRD](docs/product/PRD_PHASE_2.md). The
+[Contractor package](docs/contractor/README.md) retains Phase 1 specifications
+and trust boundaries. Research remains paused; deployment is deferred. A Git
+push does not publish staging images automatically.
 
 The application includes workspace identity and roles, missions, evidence and
 review, execution/manual bridge, research tools, bilingual mathematical
@@ -18,7 +20,10 @@ supply model output is an operator-mediated bridge, not an unattended model API.
 An exact computation or accepted workflow does not by itself certify a theorem.
 **K6 remains open**; retained partial results and failed approaches are preserved.
 
-Start with the [research-team handoff guide](docs/operations/RESEARCH_TEAM_HANDOFF.md).
+For existing local features, use the
+[research-team handoff guide](docs/operations/RESEARCH_TEAM_HANDOFF.md).
+The [evaluation index](artifacts/qa/EVALUATION_INDEX.md) records observed ties,
+shortfalls and unrun pilots; no general advantage over existing agents is proven.
 Historical acceptance and current scope are recorded in
 [`docs/CODEX_CHAT_HANDOFF.md`](docs/CODEX_CHAT_HANDOFF.md), not inferred from this
 overview. Historical local passes are not certification of this release or of

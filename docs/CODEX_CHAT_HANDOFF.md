@@ -11754,3 +11754,37 @@ Evidence: artifacts/qa/authoring-source-review-20261014/VERIFY_REPORT.md.
 Commit/push authorized for the pending lean update UI/helper, PDF glyph fallback,
 retained A/B evidence and this source-review repair. Staging release remains
 manual-only and is not invoked. K6 remains OPEN/paused.
+
+### Owner-approved Phase 2 direction and evaluation handoff — 2026-10-14
+
+Owner accepted the strategic assessment and explicitly requested PRD Phase 2,
+cleanup, commit and push. New product investment follows
+`docs/product/PRD_PHASE_2.md`: reuse Codex/Claude Cowork and domain skills/small
+tools; standalone software needs a named customer problem beyond existing tools
+and evidence of operational value. Historical web-first decisions are retained;
+their default investment direction is superseded prospectively, not runtime
+authorization or source/security boundaries. No generic chat/memory/planner,
+default swarms or extra gates just to replicate host capabilities.
+
+Dayton acquisition closed incomplete without an A/B run; owner authorized the
+equivalent LACAHSA ERP case. Actual exploratory pair: A37/40, B34/40, unblinded,
+no demonstrated content advantage and no human-time/token ROI telemetry. Native
+browser saves, preview and stale-packet refusal retained; export HTTP200 is not
+full visual acceptance. Frozen protocol, outputs, scorecard and nine written
+sources preserved under `artifacts/qa/erp-ab-20261014` with26-entry SHA receipt.
+
+Santa Fe pilot is PARKED/NOT_RUN, not the next mandatory task. Its public cases
+do not establish model-unseen holdout; draft rubric is not independently
+expert-validated; two operators/four cases would be exploratory only. Original
+protocol/rubric kept and errata appended. Eight original PDF hashes unchanged
+locally; PDF cache stays outside Git (incidental attendee details). Removed only
+eight generated text extractions and three cover-preview PNGs, regenerable from
+retained originals. No research/accepted A/B deletion or application-code change.
+
+README/AGENTS/team handoff/research direction now point to the new PRD. Evaluation
+index preserves ties/losses/blocked preparations.36local-links/6JSON and26ERP+
+8local-PDF hash checks passed; diff check passed. No install/build/model/API/DB/
+deploy activity. See `docs/verification/PHASE_2_DIRECTION_COMPLETION.md`.
+Next implementation starts from a real user job and the smallest sufficient
+host/skill/tool, not another benchmark to find a win. K6 remains OPEN/paused.
+Deployment deferred; push outcome must be confirmed from Git.

@@ -15,6 +15,15 @@ Before planning or changing this repository, read
 gate status, scope boundaries, and interface requirements from the ChatGPT
 Project.
 
+## Phase 2 product direction
+
+Before selecting or expanding product features, read `docs/product/PRD_PHASE_2.md`.
+Prefer existing agent platforms (Codex/Claude Cowork), domain skills and small
+verification tools. Standalone application work must address a named customer
+need beyond what their existing tools provide. Keep proposals short and avoid
+adding generic chat, memory, planner, agent swarms or gates by default. The PRD
+does not activate a research campaign or change runtime/security permissions.
+
 ## Research commitment discipline
 
 Before research or method-development work, read

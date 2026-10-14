@@ -1,0 +1,108 @@
+                                Q&A Responses – Tranche #2
+
+Q#1: How many total users are anticipated to use the ERP system, and how are they broken
+down by role or access level?
+
+Answer: LACAHSA anticipates approximately 10 full-access users and 15 limited-access users
+
+Q#2: How does LACAHSA currently manage its budgets?
+
+Answer: Budgeting is currently managed entirely through Excel on a manual basis. LACAHSA is
+seeking an automated solution.
+
+Q#3: How does LACAHSA currently track grants and funding, and does LACAHSA act as a
+grantee, grantor, or both?
+
+Answer: LACAHSA operates exclusively as a grantor. LACAHSA receives revenue through
+Measure A (a Los Angeles County sales tax measure approved in 2024) and passes through
+approximately 70% of funds to 13 eligible jurisdictions. The remaining 30% (exclusive of a 5%
+administrative allocation) is programmatic funding managed directly by LACAHSA, with a portion
+awarded to sub-recipients who administer funds on LACAHSA’s behalf. Grant tracking is currently
+handled through the Neighborly platform.
+
+Q#4: Does LACAHSA use or intend to use a formal procurement or bid management system?
+
+Answer: LACAHSA does not currently utilize a formal procurement or bid management system
+but is in the process of hiring a Procurement Director who will evaluate and develop procurement
+processes going forward. While not a current requirement of this RFP, LACAHSA is open to
+solutions that support procurement automation and centralization.
+
+Q#5: Is LACAHSA agnostic with respect to ERP vendor selection, or hiring based on certain
+system skillsets?
+
+Answer: Yes, LACAHSA is fully vendor agnostic. This is a true discovery process and no vendor
+is currently considered a front-runner. Job postings for open roles have not been written to favor
+any specific ERP platform. The ultimate ERP selection will be based on the outcome of this RFP
+evaluation process.
+
+Q#6: How many bank accounts does LACAHSA manage, and does LACAHSA currently have
+direct bank connectivity with its financial system?
+
+Answer: LACAHSA manages around 20 bank accounts across three banks: roughly 13 accounts
+corresponding to each eligible jurisdiction and approximately 6 accounts for LACAHSA’s internal
+operations. Of the three banks, two currently support bank feed connectivity, which has been set
+up within the existing financial system (Sage Intacct).
+
+Q#7: How does LACAHSA currently manage employee expense reports, and what is the
+approximate monthly volume?
+
+
+
+
+                    Request for Proposals for Enterprise Resource Planning
+Answer: Employee expense reports are currently managed through Ramp. Monthly volume is
+roughly 15–20 reports.
+
+Q#8: What is LACAHSA’s current HR system, and are there plans to replace or integrate it?
+
+Answer: LACAHSA currently uses BambooHR for human resources functions and requires
+integration capability with the selected ERP. However, LACAHSA may be open to exploring
+alternative solutions.
+
+Q#9: What are LACAHSA’s current system integrations?
+
+Answer: LACAHSA’s current integrations and connected systems include Bill.com (accounts
+payable), Ramp (expense management), Power BI (reporting), and Neighborly (grant
+management). LACAHSA is also exploring a future integration with Moody’s, which is used for
+loan underwriting in connection with its Production, Preservation & Ownership (PPO) program.
+LACAHSA is open to replacing Bill.com, Ramp, and other solutions if the selected ERP provides
+comparable or improved functionality at a reasonable total cost.
+
+Q#10: How many vendors/suppliers does LACAHSA currently have, and are you using any
+automated scanning of supplier invoices today?
+
+Answer: LACAHSA currently has approximately 50–75 active vendors. Vendor invoices are
+submitted manually through Bill.com. Invoice approvals are also routed through Bill.com, with
+approximately 10 individuals participating in approval chains.
+
+Q#11: How many grants or funding recipients is LACAHSA currently managing?
+
+Answer: LACAHSA is in the early stages of administering funding. Current funding recipients
+include the 13 eligible jurisdictions, 9 awardees under LACAHSA’s most recent RFP,
+approximately 20 TA recipients, and approximately 10 PPO-related developer distributions.
+
+Q#12: How does LACAHSA currently handle financial and programmatic reporting, and is there
+a business intelligence or reporting integration in place?
+
+Answer: Financial reporting is performed within Sage Intacct, while programmatic reporting is
+managed separately within the Neighborly platform. Reconciliation between the two systems is
+currently a manual process. LACAHSA is in the early stages of exploring a Power BI integration
+that would consolidate data from both systems.
+
+Q#13: Does LACAHSA have fixed assets or leases that need to be tracked within the ERP?
+
+Answer: LACAHSA does not currently have a significant number of fixed assets or leases,
+however, LACAHSA is looking for a solution to track the various subscription-based IT
+arrangements.
+
+Q#14: The RFP includes property management and asset management as an optional ("should
+have") requirement. Can LACAHSA elaborate on this need?
+
+Answer: LACAHSA may own properties in the future, so is open to having the optionality and
+capabilities within the system. Vendors may speak to the “should have” requirements at their
+discretion, but should focus on the “must have” requirements.
+
+
+
+                   Request for Proposals for Enterprise Resource Planning
+

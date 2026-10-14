@@ -1,9 +1,14 @@
 # Research-team handoff / Bàn giao cho nhóm nghiên cứu
 
-Updated 2026-10-13. Research is paused; K6 is **OPEN**, not a completed theorem.
-The current instruction is to finish/push the local product before choosing a
-deployment target. No new cloud deployment, paid-model call or mathematical
-campaign is implied by this guide.
+Updated 2026-10-14. Research is paused; K6 is **OPEN**, not a completed theorem.
+The owner-approved [Phase 2 PRD](../product/PRD_PHASE_2.md) directs future
+investment toward domain skills and small tools on existing agents. This guide
+covers the existing local application, not a commitment to expand or deploy it.
+No new cloud deployment, paid-model call or mathematical campaign is implied.
+
+**Tiếng Việt:** Phase 2 ưu tiên năng lực chuyên ngành dùng trong Codex/Cowork.
+Ứng dụng riêng chỉ được đầu tư theo nhu cầu khách hàng cụ thể. Đọc PRD trước khi
+chọn tính năng mới; hướng dẫn dưới đây giữ cách vận hành bản local hiện hữu.
 
 ## 1. Start locally / Khởi động local
 

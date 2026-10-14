@@ -1,0 +1,22 @@
+[
+  {
+    "key": "decision",
+    "bodyPreserved": true,
+    "revision3": true
+  },
+  {
+    "key": "requirements",
+    "bodyPreserved": true,
+    "revision3": true
+  },
+  {
+    "key": "budget",
+    "bodyPreserved": true,
+    "revision3": true
+  },
+  {
+    "key": "handover",
+    "bodyPreserved": true,
+    "revision3": true
+  }
+]
