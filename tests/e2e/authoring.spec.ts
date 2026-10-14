@@ -34,9 +34,23 @@ test("AUTH-E2E-01 creates, revises and quality-gates a governed proposal", async
   await expect(page.getByTitle("Resolve every blocking finding before export.").first()).toBeVisible();
   await page.getByLabel("Executive abstract").fill("A bounded proposal with retained evidence and explicit responsibility.");
   await page.getByLabel("Content").fill("The section records its claim, boundary and accountable owner.");
+  const updatePanel = page.getByTestId("authoring-update-panel");
+  await updatePanel.locator("summary").first().click();
+  await page.getByLabel("Change request", { exact: true }).fill("Pending manual update context");
+  await page.getByRole("button", { name: "Prepare context for Codex" }).click();
+  await page.getByLabel("JSON update pack from Codex or author").fill("{}");
+  await expect(page.getByLabel("Copy this context into Codex")).toHaveValue(/Pending manual update context/);
+  await expect(page.getByLabel("JSON update pack from Codex or author")).toHaveValue("{}");
   await page.getByLabel("Change summary").fill("Add accountable section content");
   await page.getByRole("button", { name: "Save new revision" }).click();
   await expect(page.getByText("Revision 2 · DRAFT")).toBeVisible();
+  // Only a successful persisted-revision transition remounts the manual panel.
+  // Old request/packet/context and the stale "unsaved" message must not survive.
+  await expect(updatePanel).not.toHaveAttribute("open");
+  await updatePanel.locator("summary").first().click();
+  await expect(page.getByLabel("Change request", { exact: true })).toHaveValue("");
+  await expect(page.getByLabel("JSON update pack from Codex or author")).toHaveValue("");
+  await expect(page.getByLabel("Copy this context into Codex")).toHaveCount(0);
 
   const scan = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa"])

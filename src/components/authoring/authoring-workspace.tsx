@@ -19,6 +19,7 @@ import {
 
 import { saveAuthoringRevisionAction } from "@/app/actions/authoring";
 import { Button } from "@/components/ui/button";
+import { AuthoringUpdatePanel } from "./authoring-update-panel";
 import type { AuthoringCopy } from "@/i18n/authoring-copy";
 import {
   COMPUTATIONAL_ARTIFACT_TYPES,
@@ -422,6 +423,16 @@ export function AuthoringWorkspace(props: Props) {
               />
             </div>
           ) : null}
+
+          <AuthoringUpdatePanel
+            key={`${props.documentId}:${props.revisionNumber}`}
+            content={content}
+            documentId={props.documentId}
+            revision={props.revisionNumber}
+            locale={props.locale}
+            canWrite={props.canWrite && !isPending}
+            onApply={(next, summary) => { setContent(next); setChangeSummary(summary); }}
+          />
 
           {props.canWrite ? (
             <div className="border-line mt-6 border-t pt-5">

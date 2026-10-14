@@ -1,0 +1,64 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Cập nhật độc lập từ bản gốc cho S6: ngưỡng RMSE đứng tối đa được chấp thuận chỉ cho phép thử giả lập là 0,20 m, số đo pilot giả lập 32 cm. So sánh đúng đơn vị, ghi không đạt, làm lại/thử lại và giữ cổng mở rộng/ nghiệm thu đóng; không suy diễn thất bại dự án thật hoặc bịa số đo đạt.",
+  "sourceContext": "Đây là dữ liệu giả lập phục vụ kiểm thử kỹ thuật cập nhật hồ sơ, không phải khảo sát thực địa, báo giá thật, giấy phép bay hay phương án được khách hàng phê duyệt. Đầu vào thật trước đây chỉ nêu 1.000 ha; tình huống này không bổ sung dữ kiện dự án thật. Giữ nguyên các nguồn và ký hiệu [@S1], [@S2], [@S3] của bản gốc, chỉ dựa trên tóm tắt đã cung cấp, không xác minh độc lập hay bổ sung nguồn. S6 cung cấp ngưỡng và số đo giả lập, không có mẫu thật, dữ liệu thực địa, tính độc lập thống kê, độ phủ, giấy phép hoặc quy trình thu nhận đã được kiểm định. Việc chấp thuận ngưỡng chỉ tồn tại trong fixture.",
+  "unknowns": [
+    "Mẫu thật, dữ liệu thực địa và cách tạo số đo có thể kiểm chứng",
+    "Tính độc lập thống kê và độ phủ khu vực",
+    "Quy trình thu nhận được kiểm định, thiết bị và nguyên nhân sai số",
+    "Địa điểm/AOI, địa hình/tán, CRS và khống chế",
+    "Mục tiêu sản phẩm, tiêu chí nghiệm thu thực tế và thiết kế thử lại",
+    "Quyền tiếp cận/quyền bay, nhân lực, lịch, báo giá và chi phí làm lại",
+    "Kết quả thử lại; không có số đo đạt mới"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Trong S6 KIỂM THỬ GIẢ LẬP, ngưỡng RMSE đứng tối đa 0,20 m được chấp thuận CHỈ CHO PHÉP THỬ; pilot 32 cm = 0,32 m vượt ngưỡng, nên không đạt. Không kết luận dự án thật thất bại. Diện tích ban đầu vẫn 1.000 ha; chưa có bằng chứng thực địa, tính độc lập thống kê, độ phủ, quyền triển khai hoặc quy trình thu nhận hợp lệ. Không nghiệm thu hoặc mở rộng; đề xuất rà soát, làm lại/thử lại. Mục tiêu sản phẩm, thiết bị và yêu cầu thực tế vẫn cần làm rõ."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "S6 chỉ xử lý pilot GIẢ LẬP không đạt, không phải kiểm chứng hiện trường. Phạm vi vẫn gồm tiền trạm, thử nghiệm, thu nhận, xử lý, kiểm chứng độc lập và bàn giao theo cổng; chưa cho phép mở rộng toàn AOI. Cần bổ sung AOI/địa điểm, địa hình/tán, mục tiêu, độ chính xác thực tế, CRS ngang/dọc, khống chế, thiết bị/nhân lực, quyền tiếp cận/quyền bay, báo giá và lịch. Chưa có mẫu thật, độ phủ hay tính độc lập thống kê để suy diễn toàn diện tích. Ngưỡng 0,20 m chỉ được duyệt trong fixture; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng."
+    },
+    {
+      "sectionKey": "architecture",
+      "oldBody": "Với ảnh trực giao và bề mặt tán nhìn thấy, xem xét UAV chụp ảnh RGB, xử lý bằng SfM. Với địa hình dưới tán hoặc cấu trúc đứng, ưu tiên thử UAV LiDAR, có thể bổ sung RGB. Đây là đề xuất có điều kiện: RGB không mặc nhiên thấy đất dưới tán; LiDAR cũng phải chứng minh đủ quan sát đất. cloud2trees nhận point cloud từ airborne LiDAR hoặc UAS SfM/laser, có luồng tạo địa hình, chiều cao tán, mây chuẩn hóa, đỉnh/crown cây; không bảo đảm hiệu năng tại hiện trường này.[@S2]",
+      "newBody": "Các phương án vẫn có điều kiện: RGB/SfM cho ảnh trực giao và bề mặt nhìn thấy, không mặc nhiên thấy đất dưới tán; thử LiDAR cho địa hình dưới tán/cấu trúc đứng nhưng phải chứng minh đủ quan sát đất. cloud2trees xử lý point cloud airborne LiDAR hoặc UAS SfM/laser, có luồng địa hình, chiều cao tán, mây chuẩn hóa, đỉnh/crown cây; không bảo đảm hiệu năng hiện trường.[@S2] S6 giả lập không đạt không xác định nguyên nhân, cảm biến đã dùng hay cấu hình thay thế phù hợp; cần rà soát chuỗi thu nhận/xử lý và kiểm chứng, không tự đổi thiết bị hoặc công bố phương án đã đạt."
+    },
+    {
+      "sectionKey": "methodology",
+      "oldBody": "Quy trình đề xuất: chốt mục tiêu và tiêu chí chấp nhận → tiền trạm, rà soát quyền tiếp cận/quyền bay → chọn vùng thử đại diện các điều kiện rừng và địa hình → thu nhận thử, xử lý và đối chiếu thực địa → quyết định mở rộng → thu nhận toàn AOI, xử lý và bàn giao. Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] Thiết kế bay và khống chế do nhóm đủ năng lực lập sau khi biết thiết bị, hiện trường và yêu cầu; chưa ấn định độ cao, mật độ hoặc năng suất. Kiểm tra dữ liệu tại hiện trường để phát hiện thiếu phủ và lỗi thu nhận. Giữ dữ liệu gốc, nhật ký, cấu hình xử lý và phiên bản sản phẩm để truy vết.",
+      "newBody": "S6 giả lập: giữ cổng mở rộng đóng vì RMSE đứng 32 cm = 0,32 m lớn hơn ngưỡng tối đa 0,20 m của phép thử. Quy trình tiếp theo đề xuất là rà soát dữ liệu và cách tính RMSE, đơn vị, CRS/khống chế, quy trình thu nhận/xử lý và thiết kế kiểm chứng; tìm nguyên nhân bằng bằng chứng trước khi xác định hạng mục sửa hoặc thu lại. Không kết luận nguyên nhân chỉ từ một con số. Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] Sau khi làm lại, tổ chức thử lại với mẫu kiểm chứng độc lập theo thiết kế được chấp thuận; chỉ xem xét mở rộng khi có bằng chứng đạt tiêu chí và đủ điều kiện tiếp cận/quyền bay, không tự động mở rộng theo kết quả giả lập. Chưa có mẫu thật, tính độc lập thống kê, độ phủ hoặc quy trình thu nhận đã được kiểm định. Giữ dữ liệu gốc, nhật ký, cấu hình xử lý và phiên bản sản phẩm để truy vết; không tự tạo số đo đạt mới."
+    },
+    {
+      "sectionKey": "verification",
+      "oldBody": "Trước thử nghiệm, thống nhất đối tượng đo, sai số cho phép, cách lấy mẫu và điều kiện loại/thu lại dữ liệu. Tách điểm kiểm chứng khỏi điểm dùng hiệu chỉnh; phân bố theo địa hình và trạng thái tán, ghi sai số tham chiếu và phần không thể tiếp cận. Kiểm tra độ phủ, ghép dải và độ chính xác tọa độ; riêng LiDAR đánh giá độ chính xác đứng tuyệt đối và tương đối và báo cáo trước phân loại hoặc tạo sản phẩm dẫn xuất, theo phương pháp tham khảo USGS.[@S3] Sau đó kiểm chứng riêng địa hình, chiều cao tán hoặc cây theo sản phẩm đã chọn. Không dùng độ khớp nội bộ thay cho kiểm chứng độc lập. Nếu quan sát đất không đủ, không nghiệm thu địa hình dưới tán như thể đã đo được; báo vùng thiếu và đề nghị bổ sung hoặc đổi phạm vi.",
+      "newBody": "Ngưỡng trong S6 được chấp thuận CHỈ CHO KIỂM THỬ: RMSE đứng tối đa 0,20 m, điều kiện đạt là RMSE ≤ 0,20 m. Số đo pilot GIẢ LẬP 32 cm = 0,32 m; 0,32 m > 0,20 m (tương đương 32 cm > 20 cm), vượt 0,12 m, nên KHÔNG ĐẠT phép thử. Không gọi đây là lỗi dự án thật vì không có mẫu hoặc dữ liệu hiện trường thật, tính độc lập thống kê, độ phủ khu vực, quyền triển khai hay quy trình thu nhận đã được kiểm định. Không nghiệm thu, không ngoại suy ra toàn AOI và không tạo kết quả đo đạt thay thế.\nĐề xuất kiểm tra lại đầu vào và cách tính; khi có cơ sở thực hiện thử lại, tách điểm kiểm chứng khỏi điểm hiệu chỉnh, phân bố theo địa hình/tán, ghi sai số tham chiếu và vùng không tiếp cận. Kiểm tra độ phủ, ghép dải, độ chính xác tọa độ; riêng LiDAR đánh giá độ chính xác đứng tuyệt đối/tương đối, báo cáo trước phân loại hoặc tạo sản phẩm dẫn xuất theo phương pháp tham khảo USGS.[@S3] Không dùng độ khớp nội bộ thay kiểm chứng độc lập. Việc thử lại cần tiêu chí và thiết kế hợp lệ; chưa có số đo thử lại hoặc kết luận đạt. Nếu không đủ quan sát đất, không nghiệm thu địa hình dưới tán như thể đã đo được."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "S6 giả lập không đạt cổng pilot: 0,32 m > 0,20 m. Quyết định là làm lại và thử lại, không mở rộng 1.000 ha, không nghiệm thu/bàn giao như sản phẩm đạt. Trách nhiệm đề xuất: trưởng kỹ thuật rà soát nguyên nhân, lập phương án sửa/thu lại; nhóm kiểm chứng thiết kế độc lập, kiểm tra phép tính, báo cáo thử lại; đơn vị vận hành xác nhận quyền tiếp cận/quyền bay; chủ nhiệm chỉ xem xét lại cổng khi đủ bằng chứng và điều kiện. Chưa có phân công, giấy phép hoặc phê duyệt thực tế. Không bịa ngày hoàn thành hay kết quả đạt; lịch phụ thuộc nguyên nhân, AOI, nguồn lực, thời tiết, quyền bay và kiểm chứng mới.\nDự toán vẫn gồm chuẩn bị, huy động/đi lại, thu nhận, khống chế/kiểm chứng, xử lý/lưu trữ, QA/bàn giao, thuế áp dụng và dự phòng được duyệt. Chưa có đơn giá, năng suất hoặc phạm vi làm lại để tính tiền. Khi đủ căn cứ, làm rõ rework/retest thuộc gói hay phát sinh, tránh tính trùng; không tự tăng ngân sách hoặc coi sửa lỗi miễn phí."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "S6 là pilot GIẢ LẬP không đạt: 32 cm = 0,32 m > ngưỡng 0,20 m chỉ được duyệt cho phép thử. Không có mẫu/dữ liệu thật, tính độc lập thống kê, độ phủ, quyền triển khai hoặc quy trình thu nhận đã kiểm định; không tuyên bố dự án thật thất bại, nghiệm thu đạt hay đủ điều kiện mở rộng. Giữ cổng đóng, rà soát, làm lại/thử lại; chưa có kết quả đạt mới. Nguyên nhân sai số chưa rõ; vẫn có rủi ro tán che đất, địa hình, định vị, thời tiết, hạn chế bay/tiếp cận. Không bay khi thiếu điều kiện, không ngoại suy pilot cho toàn AOI. Tham khảo USGS không chứng nhận tuân thủ toàn bộ chuẩn hoặc cấp quyền bay.[@S3] Chưa có thiết kế bay, chào giá hay nghiệm thu thực tế được duyệt."
+    }
+  ],
+  "cost": null,
+  "comparisons": [
+    {
+      "label": "S6 giả lập: RMSE đứng pilot phải không vượt ngưỡng tối đa chỉ được duyệt cho phép thử",
+      "measured": 32,
+      "unit": "cm",
+      "threshold": 0.2,
+      "thresholdUnit": "m",
+      "operator": "AT_MOST"
+    }
+  ]
+}

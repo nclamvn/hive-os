@@ -1,0 +1,37 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Cập nhật giả lập: diện tích quy hoạch hiện tại là 1.200 ha thay cho 1.000 ha; không có AOI, năng suất, lịch hoặc đơn giá để ngoại suy.",
+  "sourceContext": "Dữ liệu tổng hợp SYNTHETIC TEST DATA từ artifacts/qa/uav-update-ab-20261014/COMMON_INPUT.md; không phải khảo sát, báo giá, quyền bay hoặc phương án được khách hàng duyệt. Yêu cầu thật ban đầu chỉ nêu 1.000 ha; chưa nhận thêm dữ kiện dự án thật. Mỗi ca bắt đầu độc lập từ B_FINAL.json của gói button-ab-20261014. Các nguồn [@S1], [@S2], [@S3] chỉ giữ theo bản tóm tắt nguồn có sẵn, không xác minh độc lập và không dùng để chứng thực dữ liệu tổng hợp. Ca S2: Cập nhật giả lập: diện tích quy hoạch hiện tại là 1.200 ha thay cho 1.000 ha; không có AOI, năng suất, lịch hoặc đơn giá để ngoại suy.",
+  "unknowns": [
+    "Địa điểm và ranh giới AOI; địa hình, trạng thái tán và tiếp cận hiện trường thực tế",
+    "Sản phẩm và độ chính xác được chấp thuận cho dự án thật; CRS ngang/dọc và khống chế",
+    "Quyền bay, thiết bị, nhân lực, năng suất, lịch và tính khả thi thực địa",
+    "Dữ liệu kiểm chứng độc lập và quyết định phê duyệt triển khai thực tế"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Trong ca thử tổng hợp S2, diện tích quy hoạch hiện tại là 1.200 ha. Con số 1.000 ha thuộc yêu cầu ban đầu, chỉ ghi để lưu lịch sử, không còn là diện tích tính kế hoạch của ca S2. Đây không phải dữ kiện diện tích mới đã xác minh của dự án thật. Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "Phạm vi quy hoạch của ca thử S2 là 1.200 ha, chưa có hình học AOI hay xác nhận hiện trường. Cần bổ sung ranh giới và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác; CRS ngang/dọc, mốc khống chế; tiếp cận, quyền bay; thiết bị, nhân lực, báo giá và lịch. Phạm vi đề xuất gồm tiền trạm, thử nghiệm đại diện, thu nhận, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử; kiểm kê loài, sinh khối hoặc trữ lượng cần dữ liệu thực địa riêng, không suy ra chỉ từ diện tích."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "Kế hoạch ca S2 dùng diện tích quy hoạch hiện tại 1.200 ha; đây chỉ là đầu vào tổng hợp kiểm thử. Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật tiền trạm và đề xuất thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo thử; chủ nhiệm xét mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử. Chưa có năng suất hay lịch để tính thời gian theo diện tích.\nDự toán vẫn là khung chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Cần khối lượng × đơn giá, nguồn/hiệu lực báo giá và điều kiện bao gồm/loại trừ; tách cố định/biến phí và tránh cộng trùng. Không nhân tỷ lệ diện tích với ngân sách hoặc thời gian chưa biết. Thiếu AOI, năng suất và đơn giá nên tổng tiền và thời lượng chưa xác định."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt. Trong S2, 1.200 ha chỉ là diện tích giả lập thay đổi, không phải đo đạc hay phạm vi được duyệt; không dùng diện tích đơn lẻ để xác nhận độ phủ, lịch hoặc dự toán. Chưa có dữ kiện dự án thật mới."
+    }
+  ],
+  "cost": null,
+  "comparisons": []
+}

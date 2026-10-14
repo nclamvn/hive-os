@@ -1,0 +1,55 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Cập nhật độc lập từ bản gốc cho S1: mục tiêu giả lập bắt buộc là địa hình dưới tán rừng khép kín, không chỉ bề mặt tán/ảnh trực giao; chưa có quan sát đất, hiện trường, độ chính xác yêu cầu hay đặc tính cảm biến.",
+  "sourceContext": "Đây là dữ liệu giả lập phục vụ kiểm thử kỹ thuật cập nhật hồ sơ, không phải khảo sát thực địa, báo giá thật, giấy phép bay hay phương án được khách hàng phê duyệt. Đầu vào thật trước đây chỉ nêu 1.000 ha; tình huống này không bổ sung dữ kiện dự án thật. Giữ nguyên các nguồn và ký hiệu [@S1], [@S2], [@S3] của bản gốc, chỉ dựa trên tóm tắt đã cung cấp, không xác minh độc lập hay bổ sung nguồn. S1 chỉ cung cấp thay đổi mục tiêu thử nghiệm, không cung cấp con số hay giá.",
+  "unknowns": [
+    "Địa điểm và ranh giới AOI; địa hình và trạng thái tán thực tế",
+    "Ground returns và mức độ quan sát mặt đất",
+    "Yêu cầu độ chính xác và thiết kế kiểm chứng độc lập",
+    "Đặc tính cảm biến, thiết bị và nhân lực",
+    "CRS ngang/dọc, mốc khống chế",
+    "Quyền tiếp cận, quyền bay và điều kiện an toàn",
+    "Năng suất, lịch, báo giá, thuế và phê duyệt thực tế"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Trong KIỂM THỬ GIẢ LẬP S1, sản phẩm bắt buộc là địa hình mặt đất dưới tán rừng khép kín, không chỉ bề mặt tán hoặc ảnh trực giao. Diện tích ban đầu vẫn là 1.000 ha; chưa có địa điểm, quan sát đất, yêu cầu độ chính xác hay đặc tính cảm biến. Đây không phải yêu cầu mới được xác nhận cho dự án thật. Đề nghị làm rõ tiêu chí nghiệm thu địa hình dưới tán và khảo sát khả thi trước khi duyệt triển khai; chưa đủ căn cứ chốt thiết bị, chất lượng, lịch hay kinh phí."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "Phạm vi sản phẩm trong S1 giả lập tập trung vào địa hình mặt đất dưới tán khép kín; ảnh trực giao và bề mặt tán, nếu có, chỉ là sản phẩm bổ sung, không thay thế địa hình cần đo. Cần bổ sung ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; độ chính xác địa hình yêu cầu, tỷ lệ sử dụng; CRS ngang/dọc, mốc khống chế; dữ liệu chứng minh quan sát đất, quyền tiếp cận/quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm tiền trạm, thử nghiệm đại diện, thu nhận, xử lý, kiểm chứng độc lập và bàn giao theo cổng. Không cam kết hoàn thành địa hình toàn AOI trước khi chứng minh tính khả thi; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng."
+    },
+    {
+      "sectionKey": "architecture",
+      "oldBody": "Với ảnh trực giao và bề mặt tán nhìn thấy, xem xét UAV chụp ảnh RGB, xử lý bằng SfM. Với địa hình dưới tán hoặc cấu trúc đứng, ưu tiên thử UAV LiDAR, có thể bổ sung RGB. Đây là đề xuất có điều kiện: RGB không mặc nhiên thấy đất dưới tán; LiDAR cũng phải chứng minh đủ quan sát đất. cloud2trees nhận point cloud từ airborne LiDAR hoặc UAS SfM/laser, có luồng tạo địa hình, chiều cao tán, mây chuẩn hóa, đỉnh/crown cây; không bảo đảm hiệu năng tại hiện trường này.[@S2]",
+      "newBody": "Với mục tiêu địa hình dưới tán khép kín của S1 giả lập, ưu tiên thử UAV LiDAR, có thể bổ sung RGB cho bối cảnh và bề mặt nhìn thấy. RGB/SfM không mặc nhiên quan sát được đất dưới tán và ảnh trực giao không thay thế mô hình địa hình mặt đất. LiDAR chỉ là phương án có điều kiện: chưa có ground returns hay thông số cảm biến để chứng minh đủ quan sát đất hoặc đạt độ chính xác. cloud2trees nhận point cloud từ airborne LiDAR hoặc UAS SfM/laser, có luồng tạo địa hình, chiều cao tán, mây chuẩn hóa, đỉnh/crown cây; khả năng xử lý này không bảo đảm dữ liệu đất hay hiệu năng tại hiện trường chưa biết.[@S2] Chỉ chọn cấu hình sau thử nghiệm; không tự ấn định thông số thiết bị."
+    },
+    {
+      "sectionKey": "methodology",
+      "oldBody": "Quy trình đề xuất: chốt mục tiêu và tiêu chí chấp nhận → tiền trạm, rà soát quyền tiếp cận/quyền bay → chọn vùng thử đại diện các điều kiện rừng và địa hình → thu nhận thử, xử lý và đối chiếu thực địa → quyết định mở rộng → thu nhận toàn AOI, xử lý và bàn giao. Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] Thiết kế bay và khống chế do nhóm đủ năng lực lập sau khi biết thiết bị, hiện trường và yêu cầu; chưa ấn định độ cao, mật độ hoặc năng suất. Kiểm tra dữ liệu tại hiện trường để phát hiện thiếu phủ và lỗi thu nhận. Giữ dữ liệu gốc, nhật ký, cấu hình xử lý và phiên bản sản phẩm để truy vết.",
+      "newBody": "Quy trình đề xuất cho S1 giả lập: chốt tiêu chí địa hình mặt đất dưới tán → tiền trạm và rà soát quyền tiếp cận/quyền bay → chọn vùng thử đại diện mức độ khép tán và địa hình → thu nhận thử, đánh giá quan sát đất và xử lý địa hình → kiểm chứng độc lập → quyết định có đủ căn cứ mở rộng hay phải bổ sung/đổi phương án. Chỉ thu nhận toàn AOI và bàn giao sau khi qua cổng thử và có điều kiện triển khai. Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] Nhóm đủ năng lực đề xuất thiết kế bay và khống chế sau khi biết thiết bị, hiện trường, yêu cầu; chưa ấn định độ cao, mật độ hoặc năng suất. Kiểm tra thiếu phủ và thiếu quan sát đất; giữ dữ liệu gốc, nhật ký, cấu hình xử lý, phiên bản sản phẩm và mặt nạ vùng chưa được kiểm chứng."
+    },
+    {
+      "sectionKey": "verification",
+      "oldBody": "Trước thử nghiệm, thống nhất đối tượng đo, sai số cho phép, cách lấy mẫu và điều kiện loại/thu lại dữ liệu. Tách điểm kiểm chứng khỏi điểm dùng hiệu chỉnh; phân bố theo địa hình và trạng thái tán, ghi sai số tham chiếu và phần không thể tiếp cận. Kiểm tra độ phủ, ghép dải và độ chính xác tọa độ; riêng LiDAR đánh giá độ chính xác đứng tuyệt đối và tương đối và báo cáo trước phân loại hoặc tạo sản phẩm dẫn xuất, theo phương pháp tham khảo USGS.[@S3] Sau đó kiểm chứng riêng địa hình, chiều cao tán hoặc cây theo sản phẩm đã chọn. Không dùng độ khớp nội bộ thay cho kiểm chứng độc lập. Nếu quan sát đất không đủ, không nghiệm thu địa hình dưới tán như thể đã đo được; báo vùng thiếu và đề nghị bổ sung hoặc đổi phạm vi.",
+      "newBody": "Trước thử S1 giả lập, thống nhất đối tượng đo là mặt đất dưới tán, sai số cho phép, phương án lấy mẫu và điều kiện loại/thu lại dữ liệu; chưa có ngưỡng số được cung cấp. Tách điểm kiểm chứng khỏi điểm hiệu chỉnh, phân bố theo địa hình và trạng thái tán, ghi sai số tham chiếu và vùng không thể tiếp cận. Kiểm tra quan sát đất, độ phủ, ghép dải và độ chính xác tọa độ; với LiDAR đánh giá độ chính xác đứng tuyệt đối và tương đối, báo cáo trước phân loại hoặc tạo sản phẩm dẫn xuất theo phương pháp tham khảo USGS.[@S3] Kiểm chứng riêng địa hình mặt đất; không lấy chất lượng bề mặt tán hay độ khớp nội bộ làm bằng chứng đạt địa hình dưới tán. Nếu quan sát đất không đủ, không nghiệm thu như thể đã đo được; báo vùng thiếu và đề xuất bổ sung hoặc điều chỉnh phạm vi để được xem xét."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "Tiến độ S1 giả lập theo cổng, chưa gán số ngày: đề xuất chủ nhiệm chốt tiêu chí địa hình dưới tán; trưởng kỹ thuật tiền trạm và lập phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo quan sát đất và sai số địa hình độc lập; chủ nhiệm chỉ xem xét mở rộng khi đủ bằng chứng. Nếu thiếu quan sát đất hoặc thử không đạt, giữ cổng đóng, bổ sung/điều chỉnh phương án và thử lại trước thu nhận toàn AOI. Đây là trách nhiệm đề xuất, chưa là phân công được phê duyệt. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán vẫn là khung: chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Chưa có số liệu hay giá mới; không tự tính chi phí LiDAR, khảo sát bổ sung, thời gian hoặc tổng tiền. Tránh tính trùng thu lại dữ liệu; chỉ cập nhật dự toán khi có phương án thử và báo giá."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "S1 là thay đổi mục tiêu GIẢ LẬP, không phải bằng chứng mới của dự án thật. Tán khép kín có thể khiến quan sát đất không đủ; chưa có ground returns, hiện trường, độ chính xác yêu cầu hoặc đặc tính cảm biến. LiDAR không được coi là đã chứng minh phù hợp; ảnh trực giao/bề mặt tán không thay thế địa hình dưới tán. Rủi ro khác gồm địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt hoặc chưa đủ bằng chứng. Kết quả vùng thử chưa đủ khẳng định hiệu năng toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay, cam kết chất lượng hay chào giá được duyệt."
+    }
+  ],
+  "cost": null,
+  "comparisons": []
+}

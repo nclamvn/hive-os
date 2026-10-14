@@ -1,0 +1,68 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Áp dụng giả lập Q-TEST-01: 1.000 ha × 100.000 VND/ha thu nhận và xử lý đã gồm tổ bay; QA độc lập một hạng mục 5.000.000 VND; loại dòng tổ bay cũ 10.000.000 VND để tránh cộng trùng; tất cả trước thuế.",
+  "sourceContext": "Dữ liệu tổng hợp SYNTHETIC TEST DATA từ artifacts/qa/uav-update-ab-20261014/COMMON_INPUT.md; không phải khảo sát, báo giá, quyền bay hoặc phương án được khách hàng duyệt. Yêu cầu thật ban đầu chỉ nêu 1.000 ha; chưa nhận thêm dữ kiện dự án thật. Mỗi ca bắt đầu độc lập từ B_FINAL.json của gói button-ab-20261014. Các nguồn [@S1], [@S2], [@S3] chỉ giữ theo bản tóm tắt nguồn có sẵn, không xác minh độc lập và không dùng để chứng thực dữ liệu tổng hợp. Ca S3: Áp dụng giả lập Q-TEST-01: 1.000 ha × 100.000 VND/ha thu nhận và xử lý đã gồm tổ bay; QA độc lập một hạng mục 5.000.000 VND; loại dòng tổ bay cũ 10.000.000 VND để tránh cộng trùng; tất cả trước thuế.",
+  "unknowns": [
+    "Địa điểm và ranh giới AOI; địa hình, trạng thái tán và tiếp cận hiện trường thực tế",
+    "Sản phẩm và độ chính xác được chấp thuận cho dự án thật; CRS ngang/dọc và khống chế",
+    "Quyền bay, thiết bị, nhân lực, năng suất, lịch và tính khả thi thực địa",
+    "Dữ liệu kiểm chứng độc lập và quyết định phê duyệt triển khai thực tế",
+    "Thuế áp dụng, hiệu lực/hạn báo giá và phê duyệt thương mại cuối cùng",
+    "Phạm vi bao gồm/loại trừ các công việc ngoài dòng báo giá tổng hợp; không tự thêm chi phí"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Diện tích đầu vào vẫn là 1.000 ha. Đề nghị làm rõ mục tiêu và khảo sát khả thi trước khi duyệt triển khai; chủ nhiệm cần chọn sản phẩm và tiêu chí nghiệm thu tương ứng. Q-TEST-01 là báo giá tổng hợp cho kiểm thử, không phải giá dự án thật. Chỉ xác định được tổng các dòng báo giá thử trước thuế là 105.000.000 VND. Chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hoặc tổng thanh toán."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "Cần bổ sung ranh giới AOI và địa điểm; địa hình, độ che phủ/trạng thái tán; sản phẩm, độ chính xác; CRS ngang/dọc, mốc khống chế; tiếp cận/quyền bay; thiết bị, nhân lực và lịch. Phạm vi đề xuất gồm tiền trạm, thử nghiệm đại diện, thu nhận, xử lý, kiểm chứng độc lập và bàn giao; sản phẩm chỉ chốt sau thử. Q-TEST-01 chỉ là báo giá tổng hợp trong bộ kiểm thử, không phải báo giá thương mại thực. Chưa thể suy ra thiết bị, năng suất, chất lượng hoặc phạm vi công việc ngoài các dòng đã nêu. Kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "Kế hoạch vẫn theo cổng yêu cầu → tiền trạm/quyền bay → thử nghiệm → kiểm chứng → xét mở rộng → thu nhận, xử lý, bàn giao; chưa có số ngày, năng suất hay xác nhận khả thi. Các vai trò chủ nhiệm, kỹ thuật, vận hành và QA là phân công đề xuất, không phải người đã nhận việc hoặc phê duyệt.\nDự toán giả lập Q-TEST-01 (VND, trước thuế): thu nhận + xử lý ĐÃ BAO GỒM tổ bay = 1.000 ha × 100.000 VND/ha = 100.000.000 VND; QA độc lập = 1 hạng mục × 5.000.000 VND/hạng mục = 5.000.000 VND. Dòng tổ bay cũ 1 × 10.000.000 VND = 10.000.000 VND bị LOẠI khỏi cộng tiền vì đã nằm trong gói thu nhận/xử lý, không phải chi phí cộng thêm. Tổng các dòng bao gồm trước thuế = 100.000.000 + 5.000.000 = 105.000.000 VND; làm tròn từng dòng đến hai chữ số thập phân rồi cộng. Không suy diễn rằng mọi công việc ngoài các dòng này đã có giá hoặc đã bao gồm. Thuế, hạn báo giá và phê duyệt cuối cùng chưa biết, vì vậy tổng sau thuế/tổng phải thanh toán chưa xác định. Đề xuất bên cung cấp báo giá làm rõ phạm vi và hiệu lực, bộ phận tài chính xác định thuế, chủ nhiệm/người có thẩm quyền xem xét sau khi có đủ đầu vào; chưa có xác nhận thực tế."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận; kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện, không mở rộng khi thử không đạt; vùng thử không tự chứng minh toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ đầy đủ hay được cấp quyền bay.[@S3] Q-TEST-01 là dữ liệu giá tổng hợp chỉ cho kiểm thử, không là chào giá được duyệt, bằng chứng thiết bị/hiệu năng hoặc ủy quyền triển khai. Thuế, hạn báo giá, khả thi thực địa và phê duyệt thương mại cuối cùng chưa biết; không đưa số trước thuế thành tổng thanh toán."
+    }
+  ],
+  "cost": {
+    "currency": "VND",
+    "lines": [
+      {
+        "label": "Q-TEST-01: thu nhận + xử lý đã gồm tổ bay",
+        "quantity": 1000,
+        "quantityUnit": "ha",
+        "unitPrice": 100000,
+        "priceUnit": "ha",
+        "excludedReason": null
+      },
+      {
+        "label": "Q-TEST-01: QA độc lập",
+        "quantity": 1,
+        "quantityUnit": "item",
+        "unitPrice": 5000000,
+        "priceUnit": "item",
+        "excludedReason": null
+      },
+      {
+        "label": "Dòng tổ bay cũ — không cộng trùng",
+        "quantity": 1,
+        "quantityUnit": "item",
+        "unitPrice": 10000000,
+        "priceUnit": "item",
+        "excludedReason": "Tổ bay đã bao gồm trong gói thu nhận + xử lý Q-TEST-01; loại dòng cũ khỏi tổng để tránh tính hai lần."
+      }
+    ],
+    "claimedTotal": 105000000
+  },
+  "comparisons": []
+}

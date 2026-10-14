@@ -4,6 +4,7 @@ import type {
   AuthoringDocumentType,
   AuthoringQualityReport,
 } from "./contracts";
+import { declaredEvidenceReview, isDeclaredQuantity, reviewDeclaredCalculations } from "./source-classification";
 
 type Issue = AuthoringQualityReport["issues"][number];
 
@@ -38,7 +39,7 @@ const UNSUPPORTED_CERTAINTY =
   /(?<![\p{L}\p{N}])(?:chắc chắn|hoàn toàn|tuyệt đối|không có rủi ro|(?:đảm bảo|bảo đảm) 100%|guarantee(?:d|s)?|without risk|certainly|undeniably)(?![\p{L}\p{N}])/giu;
 const TOOL_TRACE = /(?:turn\d+(?:search|fetch)\d+|:codex-file-citation|\[tool\]|<tool_call>)/i;
 const QUANTITATIVE_CLAIM =
-  /(?<![\p{L}\p{N}])\d+(?:[.,]\d+)*\s*(?:%|ha|km[2²]?|m[2²]|usd|vnd|tỷ|triệu|nghìn|giờ|ngày|tháng|năm|hours?|days?|years?)(?![\p{L}\p{N}])/giu;
+  /(?<![\p{L}\p{N}])\d+(?:[.,]\d+)*\s*(?:%|ha|km[2²]?|m[2²]?|cm|usd|vnd|tỷ|triệu|nghìn|giờ|ngày|tháng|năm|hours?|days?|years?)(?![\p{L}\p{N}])/giu;
 const CITATION_MARKER = /\[@([A-Za-z0-9][A-Za-z0-9_.:-]{0,63})\]/g;
 
 function isLocallyNegated(before: string) {
@@ -146,6 +147,7 @@ function addCitationIssues(
   sectionKey: string,
   body: string,
   citations: readonly AuthoringCitation[],
+  sourceReviewBody = body,
 ) {
   const defined = new Set(citations.map((citation) => citation.key.toLowerCase()));
   for (const key of citationKeys(body)) {
@@ -159,10 +161,16 @@ function addCitationIssues(
     }
   }
 
-  const sentences = body.split(/(?<=[.!?])\s+|\n+/).filter(Boolean);
+  const sentences = sourceReviewBody.split(/(?<=[.!?])\s+|\n+/).filter(Boolean);
   for (const sentence of sentences) {
+    const calculations = reviewDeclaredCalculations(sentence);
+    for (const calculation of calculations) {
+      if (calculation.error) issues.push({ code: "DECLARED_CALCULATION_REVIEW", severity: "WARNING", sectionKey, excerpt: excerpt(calculation.error) });
+    }
     const unsupported = [...sentence.matchAll(QUANTITATIVE_CLAIM)].find(
-      (match) => !isAttributedInput(sentence, match) && !isNegatedFullGuarantee(sentence, match),
+      (match) => !isAttributedInput(sentence, match) && !isNegatedFullGuarantee(sentence, match)
+        && !isDeclaredQuantity(sentence, match)
+        && !calculations.some((span) => span.sourceExempt && match.index! >= span.start && match.index! + match[0].length <= span.end),
     );
     if (unsupported && citationKeys(sentence).length === 0) {
       issues.push({
@@ -235,10 +243,14 @@ export function assessAuthoringQuality(
   content: AuthoringContent,
 ): AuthoringQualityReport {
   const issues: Issue[] = [];
+  const sectionKeys = new Set(content.sections.map((section) => section.key));
   addPatternIssues(issues, null, `${content.title}\n${content.abstract}`);
   for (const section of content.sections) {
     addPatternIssues(issues, section.key, `${section.heading}\n${section.body}`);
-    addCitationIssues(issues, section.key, section.body, content.citations);
+    const review = declaredEvidenceReview(section, sectionKeys);
+    if (review.invalid) issues.push({ code: "DECLARED_EVIDENCE_REVIEW", severity: "WARNING", sectionKey: section.key, excerpt: section.heading });
+    for (const error of review.calculationErrors) issues.push({ code: "DECLARED_CALCULATION_REVIEW", severity: "WARNING", sectionKey: section.key, excerpt: excerpt(error) });
+    addCitationIssues(issues, section.key, section.body, content.citations, review.text);
   }
   addStructureIssues(issues, type, content);
 

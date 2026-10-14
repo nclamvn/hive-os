@@ -11700,3 +11700,57 @@ Owner subsequently authorized one commit/push containing these editorial,
 mission-button and PDF repairs, their regression tests and retained QA evidence.
 Deployment remains deferred: staging-images is manual workflow_dispatch only;
 no release workflow is invoked by this handoff.
+
+### Lean UAV update workflow and paired test — 2026-10-14
+
+Owner approved optional update UI + same-Codex A/B, visible local browser, no
+invented facts/deploy. Added a collapsed manual Codex packet bridge with before/
+after preview, exact document/revision/body binding, atomic draft apply and
+explicit existing Save. Tiny deterministic helper checks cost/units/exclusions,
+unknowns and thresholds; NOT_MET remains retainable negative evidence. No new
+dependency, migration, worker, provider or mandatory gate.
+
+One frozen paired batch of6 synthetic updates: A direct generic-tool LLM and
+B actual-helper-assisted LLM both6/6 fixed obligations. No demonstrated content
+advantage; approx420s vs278s only exploratory wall-clock, not human-time savings.
+Unblinded Main assessment, no expert field validation, no exact model/token
+telemetry. Do not claim generalized superiority. See
+artifacts/qa/uav-update-ab-20261014/RESULTS.md and PROTOCOL.md.
+
+Live Codex UI: separate TEST DOC-9CD9B5E9, idde904436-34b1-4d1f-a7e6-a9b671a04c20,
+revision3 holds preselected S3 plus evidence appendix. All6 cases previewed;
+wrong total and stale inputs rejected; original DOC-BD12906E remainsrevision3.
+76 focusedunits/typecheck/scopedlint pass; nativePDF5pages and Word-render4pages
+inspected,26/26 paragraphs retained. Fixed PDF-only ->/<-/<=/>= fallback for four
+missing font glyphs; no stored content or Word change. No fullbuild/isolatedE2E.
+
+Known limits:10 nonblocking source warnings on synthetic calculations/appendix
+remain (50/100 heuristic, not A/Bquality); checker does not reconcile every prose
+claim. JSON/manual transport and dense evidence appendix remain. Panel now keys
+by persisted revision; positive new-revision reset has compiled regression but
+was not rerun live after fix (unchanged save correctly rejected, inputs retained).
+Dev early-hydration observation documented. No commit/push or deploy this task.
+K6 stays OPEN/paused. Do not expand agents/gates or open another benchmark by default.
+
+### Authoring declared-input and calculation source review — 2026-10-14
+
+Owner approved repairing the ten remaining numeric-source false positives,
+visible local browser QA and commit/push, explicitly no deploy. A bounded helper
+now distinguishes local declared/synthetic input and two cost-expression forms
+from empirical assertions. Exact arithmetic reuses the frozen update helper;
+wrong/ambiguous calculations receive their own VI/EN warning. Strict appendix
+parse/replay inspects all free text and preserves original citation/trace checks.
+No TEST/APPENDIX/MATCH blanket exemption or fixture ID rules; no new gate/engine.
+
+Independent126 units, typecheck, scopedlint and diffcheck pass. Live Codex UI:
+unchanged TEST DOC-9CD9B5E9 rev3 now0warnings/0blockers, four style notes; stored
+score50 unchanged. Mixed real claims, wrong sums, false citations and altered
+MATCH evidence still flag appropriately. EN/VI, library and PDF download pass.
+All adverse QA edits unsaved/restored. No production build or isolated E2E suite;
+not a truth/source attestation or deployment certification. Previous A/B tie
+and frozen inputs unchanged. No model calls, DB/auth changes or research work.
+Evidence: artifacts/qa/authoring-source-review-20261014/VERIFY_REPORT.md.
+
+Commit/push authorized for the pending lean update UI/helper, PDF glyph fallback,
+retained A/B evidence and this source-review repair. Staging release remains
+manual-only and is not invoked. K6 remains OPEN/paused.

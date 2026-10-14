@@ -1,0 +1,39 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Cập nhật độc lập từ bản gốc cho S2: diện tích lập kế hoạch giả lập hiện tại là 1.200 ha thay cho 1.000 ha; không suy diễn ngân sách hoặc thời gian theo tỷ lệ.",
+  "sourceContext": "Đây là dữ liệu giả lập phục vụ kiểm thử kỹ thuật cập nhật hồ sơ, không phải khảo sát thực địa, báo giá thật, giấy phép bay hay phương án được khách hàng phê duyệt. Đầu vào thật trước đây chỉ nêu 1.000 ha; tình huống này không bổ sung dữ kiện dự án thật. Giữ nguyên các nguồn và ký hiệu [@S1], [@S2], [@S3] của bản gốc, chỉ dựa trên tóm tắt đã cung cấp, không xác minh độc lập hay bổ sung nguồn. Diện tích 1.200 ha chỉ thuộc fixture S2.",
+  "unknowns": [
+    "Hình học và ranh giới AOI 1.200 ha trong kịch bản; địa điểm và địa hình/tán",
+    "Mục tiêu sản phẩm và độ chính xác yêu cầu",
+    "Năng suất, lịch và đơn giá",
+    "CRS, mốc khống chế và thiết kế kiểm chứng",
+    "Thiết bị, nhân lực, quyền tiếp cận/quyền bay",
+    "Báo giá, thuế, phạm vi thương mại và phê duyệt thực tế"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Trong tình huống KIỂM THỬ GIẢ LẬP S2, diện tích lập kế hoạch hiện tại là 1.200 ha, thay thế diện tích 1.000 ha của đầu vào lịch sử. Đây không phải thay đổi diện tích dự án thật đã được xác nhận. Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "Diện tích lập kế hoạch S2 giả lập là 1.200 ha; con số diện tích không cung cấp hình học AOI hay điều kiện hiện trường. Cần bổ sung ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "Tiến độ theo cổng cho diện tích lập kế hoạch S2 giả lập 1.200 ha, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc hình học AOI, quyền bay, thời tiết, nguồn lực và kết quả thử. Không nội suy thời gian theo tỷ lệ tăng diện tích vì chưa có năng suất hoặc lịch cơ sở.\nDự toán sơ bộ vẫn là khung tính: chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI cập nhật, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; tránh cộng trùng thu lại dữ liệu. Chưa có đơn giá hay năng suất; không tăng ngân sách theo tỷ lệ diện tích, không đưa tổng tiền có căn cứ giả."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "S2 chỉ là thay đổi diện tích giả lập sang 1.200 ha phục vụ kiểm thử; không bổ sung hình học AOI, năng suất, lịch hay đơn giá, không xác nhận quy mô dự án thật. Diện tích riêng lẻ không đủ suy ra tính khả thi, kinh phí hay thời gian. Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ khẳng định hiệu năng toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt."
+    }
+  ],
+  "cost": null,
+  "comparisons": []
+}

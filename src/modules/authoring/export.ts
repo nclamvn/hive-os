@@ -227,6 +227,13 @@ function pdfFonts() {
   };
 }
 
+// The bundled NotoSans fonts lack these four glyphs. Keep their meaning in
+// PDF output without changing saved content, DOCX, or supported Unicode text.
+function pdfText(value: string) {
+  const fallback: Record<string, string> = { "→": "->", "←": "<-", "≤": "<=", "≥": ">=" };
+  return value.replace(/[→←≤≥]/g, (character) => fallback[character]);
+}
+
 export async function renderAuthoringPdf(
   content: AuthoringContent,
   type: AuthoringDocumentType,
@@ -249,19 +256,19 @@ export async function renderAuthoringPdf(
     pdf.registerFont("Body", fonts.regular);
     pdf.registerFont("Bold", fonts.bold);
 
-    pdf.font("Bold").fontSize(21).fillColor("#111827").text(content.title, {
+    pdf.font("Bold").fontSize(21).fillColor("#111827").text(pdfText(content.title), {
       lineGap: 4,
     });
     pdf.moveDown(0.8);
     if (content.abstract.trim()) {
-      pdf.font("Body").fontSize(10.5).fillColor("#4B5563").text(content.abstract, {
+      pdf.font("Body").fontSize(10.5).fillColor("#4B5563").text(pdfText(content.abstract), {
         align: "justify",
         lineGap: 3,
       });
       pdf.moveDown(1.2);
     }
     for (const section of content.sections) {
-      pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text(section.heading, {
+      pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text(pdfText(section.heading), {
         lineGap: 3,
       });
       pdf.moveDown(0.45);
@@ -269,7 +276,7 @@ export async function renderAuthoringPdf(
         .font("Body")
         .fontSize(section.kind === "LATEX" ? 9.5 : 10.5)
         .fillColor("#111827")
-        .text(section.body.trim() || " ", {
+        .text(pdfText(section.body.trim()) || " ", {
           align: section.kind === "LATEX" ? "left" : "justify",
           lineGap: 3.5,
         });
@@ -279,7 +286,7 @@ export async function renderAuthoringPdf(
       pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text("Tài liệu tham khảo / References");
       pdf.moveDown(0.5);
       for (const citation of content.citations) {
-        pdf.font("Body").fontSize(9.5).fillColor("#111827").text(citationText(citation), {
+        pdf.font("Body").fontSize(9.5).fillColor("#111827").text(pdfText(citationText(citation)), {
           lineGap: 2.5,
         });
         pdf.moveDown(0.45);
@@ -290,7 +297,7 @@ export async function renderAuthoringPdf(
       pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text("Nguồn gốc nghiên cứu / Research provenance");
       pdf.moveDown(0.5);
       for (const researchImport of content.researchImports) {
-        pdf.font("Bold").fontSize(9.5).fillColor("#111827").text(`Research run: ${researchImport.runId}`);
+        pdf.font("Bold").fontSize(9.5).fillColor("#111827").text(pdfText(`Research run: ${researchImport.runId}`));
         pdf.font("Body").fontSize(8).fillColor("#4B5563").text(`Approved SHA-256: ${researchImport.approvedDigest}`);
         pdf.font("Body").fontSize(9).fillColor("#111827").text(`${researchImport.sourceIds.length} sources · ${researchImport.findingIds.length} findings`);
         pdf.moveDown(0.45);
@@ -301,10 +308,10 @@ export async function renderAuthoringPdf(
       pdf.font("Bold").fontSize(15).fillColor("#1F4D78").text("Phụ lục tính toán / Computational appendix");
       pdf.moveDown(0.5);
       for (const artifact of content.computationalArtifacts) {
-        pdf.font("Bold").fontSize(10).fillColor("#111827").text(`${artifact.label} (${artifact.type})`);
-        pdf.font("Body").fontSize(9).text(artifact.storageReference);
+        pdf.font("Bold").fontSize(10).fillColor("#111827").text(pdfText(`${artifact.label} (${artifact.type})`));
+        pdf.font("Body").fontSize(9).text(pdfText(artifact.storageReference));
         pdf.font("Body").fontSize(8).fillColor("#4B5563").text(`SHA-256: ${artifact.contentHash}`);
-        if (artifact.verifierNote) pdf.text(artifact.verifierNote);
+        if (artifact.verifierNote) pdf.text(pdfText(artifact.verifierNote));
         pdf.moveDown(0.6);
       }
     }

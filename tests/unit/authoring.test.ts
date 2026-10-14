@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { execFileSync, spawnSync } from "node:child_process";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -183,6 +184,21 @@ describe("governed authoring quality", () => {
     expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
     expect(docx.length).toBeGreaterThan(5_000);
     expect(pdf.length).toBeGreaterThan(5_000);
+  });
+
+  it.skipIf(spawnSync("pdftotext", ["-v"]).status !== 0)("preserves unsupported PDF arrows/comparators through narrow ASCII fallback", async () => {
+    const content = publishableContent();
+    content.title += " → hồ sơ";
+    content.abstract = "Ngưỡng ≤ giới hạn, kết quả ≥ đầu vào.";
+    content.sections[0].heading += " ← phạm vi";
+    content.sections[0].body = "Kiểm tra → thử lại ← rà soát. Đo ≤ ngưỡng; chất lượng ≥ yêu cầu. Phép nhân × và tiếng Việt Đ giữ nguyên.";
+    const original = JSON.stringify(content);
+    const pdf = await renderAuthoringPdf(content, "RESEARCH_PROPOSAL");
+    const extracted = execFileSync("pdftotext", ["-", "-"], { input: pdf }).toString("utf8");
+    for (const symbol of ["->", "<-", "<=", ">=", "×", "Đ"]) expect(extracted).toContain(symbol);
+    for (const unsupported of ["→", "←", "≤", "≥", "\uFFFD"]) expect(extracted).not.toContain(unsupported);
+    expect(extracted).toContain("Kiểm tra");
+    expect(JSON.stringify(content)).toBe(original);
   });
 
   it("loads traced TTF assets from a relocated runtime root without module resolution", async () => {
