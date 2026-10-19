@@ -24,7 +24,9 @@ import {
   researchProviderUsageSchema,
   reviewComputationRunSchema,
   reviewResearchRunSchema,
+  sourcePolicySchema,
 } from "./contracts";
+import { isResearchSteeringConfigured, prepareResearchSteering } from "./research-steering";
 import { ResearchSandboxError } from "./errors";
 import { dossierIdSchema, encodeDossierCursor, olderThanCursor, calibrationCandidateFilter, MATH_CASE_SUMMARY_LIMIT,
   MATH_CALIBRATION_SCAN_LIMIT,
@@ -44,6 +46,12 @@ import {
 
 function invalid(message: string): never {
   throw new ResearchSandboxError("INVALID_INPUT", message);
+}
+
+export async function isResearchSteeringAvailable(ctx: WorkspaceContext) {
+  await requireWorkspaceAuthorization(ctx, "research.read");
+  const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
+  return isResearchSteeringConfigured(getEnv(), organizationId);
 }
 
 export async function listResearchRuns(ctx: WorkspaceContext) {
@@ -128,6 +136,19 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
   const parsed = requestResearchRunSchema.safeParse(raw);
   if (!parsed.success) invalid("Research request violates its bounded contract");
   const input = parsed.data;
+  // Only the authenticated kernel may create inherited context. A caller may
+  // submit intent, never an apparently trusted snapshot in the persisted plan.
+  if (input.queryPlan.steering) invalid("Caller-supplied prepared steering is not accepted");
+  if (input.steering && (input.mathPilot || input.providerName !== "openai")) {
+    invalid("Strategic steering is a generic one-step research request only");
+  }
+  if (input.steering) {
+    await requireWorkspaceAuthorization(ctx, "research.request");
+    const organizationId = await organizationIdForWorkspace(ctx.workspace.id);
+    if (!isResearchSteeringConfigured(getEnv(), organizationId)) {
+      throw new ResearchSandboxError("INVALID_TRANSITION", "Research transport is not configured for this organization");
+    }
+  }
   const mathContract = input.mathPilot ? resolveMathPilotContract(input.mathPilot) : null;
   if(mathContract?.lrcMethodUnitScope) {
     // G1 authorizes offline implementation only. Existing queue flags, a POST,
@@ -166,7 +187,10 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
       requiredCapability: "research.request",
       missionId: input.missionId,
       payload: {
-        runId,
+        ...(input.steering ? {
+          question: input.question, scope: input.scope, steering: input.steering,
+          sourcePolicy: input.sourcePolicy, queryPlan: input.queryPlan,
+        } : { runId }),
         missionId: input.missionId,
         documentId: input.documentId,
         providerName: input.providerName,
@@ -174,6 +198,9 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
       },
     },
     async (tx, command) => {
+      if (input.steering && !isResearchSteeringConfigured(getEnv(), command.organizationId)) {
+        throw new ResearchSandboxError("INVALID_TRANSITION", "Research transport is not configured for this organization");
+      }
       if (mathContract && !getEnv().MATH_PILOT_QUEUE_ENABLED) {
         throw new ResearchSandboxError("INVALID_TRANSITION", "Math pilot dispatch requires explicit local operator activation");
       }
@@ -182,6 +209,31 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
         select: { id: true },
       });
       if (!mission) throw new ResearchSandboxError("NOT_FOUND", "Mission not found");
+      let queryPlan = input.queryPlan;
+      let scope = input.scope;
+      let sourcePolicy = input.sourcePolicy;
+      if (input.steering) {
+        const parent = input.steering.parentRunId ? await tx.researchRun.findFirst({
+          where: { id: input.steering.parentRunId, organizationId: command.organizationId,
+            workspaceId: ctx.workspace.id, missionId: mission.id },
+          include: { mathPilotCase: { select: { id: true } },
+            findings: { include: { decision: true }, orderBy: { id: "asc" } },
+            sources: { select: { id: true, title: true, canonicalUri: true, contentDigest: true }, orderBy: { id: "asc" } } },
+        }) : null;
+        if (input.steering.parentRunId && !parent) throw new ResearchSandboxError("NOT_FOUND", "Research parent is unavailable");
+        if (parent && (parent.mathPilotCase || ["QUEUED", "RUNNING"].includes(parent.status))) {
+          throw new ResearchSandboxError("INVALID_TRANSITION", "Parent is not a completed generic research step");
+        }
+        if (parent && (parent.question !== input.question || parent.documentId !== input.documentId ||
+          parent.providerName !== input.providerName || parent.modelName !== input.modelName)) {
+          invalid("The goal, document and provider identity must match the parent exactly");
+        }
+        if (parent) {
+          scope = parent.scope;
+          sourcePolicy = sourcePolicySchema.parse(parent.sourcePolicy);
+        }
+        queryPlan = { ...input.queryPlan, steering: prepareResearchSteering(input.steering, runId, parent ?? undefined) };
+      }
       if (input.documentId) {
         const document = await tx.authoringDocument.findFirst({
           where: { id: input.documentId, workspaceId: ctx.workspace.id, missionId: mission.id },
@@ -285,9 +337,9 @@ export async function requestResearchRun(ctx: WorkspaceContext, raw: unknown) {
           missionId: input.missionId,
           documentId: input.documentId,
           question: input.question,
-          scope: input.scope,
-          sourcePolicy: input.sourcePolicy as Prisma.InputJsonValue,
-          queryPlan: input.queryPlan as Prisma.InputJsonValue,
+          scope,
+          sourcePolicy: sourcePolicy as Prisma.InputJsonValue,
+          queryPlan: queryPlan as Prisma.InputJsonValue,
           providerName: input.providerName,
           modelName: input.modelName,
           commandId: command.commandId,

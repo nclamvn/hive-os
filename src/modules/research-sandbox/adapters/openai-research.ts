@@ -12,6 +12,7 @@ import type {
 import { ResearchSandboxError } from "../errors";
 import { sha256 } from "../integrity";
 import { researchProviderUsageSchema } from "../contracts";
+import { RESEARCH_STEERING_MANDATE } from "../research-steering";
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const SOURCE_BYTES_MAX = 1_048_576;
@@ -270,7 +271,8 @@ export class OpenAIResearchProvider implements ResearchProvider {
             {
               role: "system",
               content:
-                "You are a bounded research collector, never an approver. Use web search. Return only claims supported by verbatim excerpts from consulted sources. Preserve disagreement and use HONEST_NULL when evidence is absent. Do not invent URLs, quotations, publishers, or certainty.",
+                "You are a bounded research collector, never an approver. Use web search. Return only claims supported by verbatim excerpts from consulted sources. Preserve disagreement and use HONEST_NULL when evidence is absent. Do not invent URLs, quotations, publishers, or certainty." +
+                (input.queryPlan.steering ? `\n${RESEARCH_STEERING_MANDATE}` : ""),
             },
             {
               role: "user",
@@ -280,6 +282,7 @@ export class OpenAIResearchProvider implements ResearchProvider {
                 queries: input.queryPlan.queries,
                 languages: input.queryPlan.languages,
                 sourcePolicy: input.sourcePolicy,
+                ...(input.queryPlan.steering ? { steeringContextData: input.queryPlan.steering } : {}),
               }),
             },
           ],

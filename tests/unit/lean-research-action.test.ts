@@ -1,5 +1,5 @@
 import {beforeEach,describe,it,expect,vi} from "vitest";
-import {evaluateLeanResearchAction} from "@/app/actions/lean-research";
+import {evaluateLeanResearchAction,simulateDirectedResearchAction} from "@/app/actions/lean-research";
 import {runLeanManualBridge} from "@/modules/research-sandbox/lean-manual-bridge";
 import {getEnv} from "@/server/env";
 import {resolveWorkspaceContext} from "@/modules/identity-workspace";
@@ -20,4 +20,14 @@ describe("lean workbench action authenticates each POST without DB mutation",()=
   it.each(["production","staging"])("refuses deployment%s before auth or execution",async deployment=>{vi.mocked(getEnv).mockReturnValue({NODE_ENV:deployment==="production"?"production":"development",DEPLOYMENT_ENV:deployment} as ReturnType<typeof getEnv>);expect(await evaluateLeanResearchAction("actual-workspace",{})).toEqual({ok:false,code:"UNAVAILABLE"});expect(resolveWorkspaceContext).not.toHaveBeenCalled();expect(runLeanManualBridge).not.toHaveBeenCalled();});
   it("refuses malformed slug without resolving another tenant",async()=>{expect(await evaluateLeanResearchAction("../other-workspace",{})).toEqual({ok:false,code:"UNAVAILABLE"});expect(resolveWorkspaceContext).not.toHaveBeenCalled();});
   it("sanitizes candidate failures without leaking provider/text/host diagnostics",async()=>{vi.mocked(runLeanManualBridge).mockRejectedValueOnce(new Error("private raw input secret"));expect(await evaluateLeanResearchAction("actual-workspace",{})).toEqual({ok:false,code:"INVALID_INPUT"});});
+  it("authenticated local simulation runs actual lean core/checker with labelled scripted API and zero model calls",async()=>{
+    const reply=await simulateDirectedResearchAction("actual-workspace",{steps:[{mode:"AUTO",guidance:"",output:"SCENARIO"}]});
+    expect(reply.ok).toBe(true);if(reply.ok){expect(reply.observation.liveModelRequests).toBe(0);expect(reply.observation.databaseWrites).toBe(0);expect(reply.observation.state.history.map(entry=>entry.disposition)).toEqual(["CANDIDATE_REJECTED","EXACT_SCOPE_CHECKED"]);}
+    expect(authorize).toHaveBeenCalledTimes(2);expect(runLeanManualBridge).not.toHaveBeenCalled();
+  });
+  it("simulation cannot bypass deployment/role/auth or accept caller-owned receipt fields",async()=>{
+    vi.mocked(resolveWorkspaceContext).mockRejectedValueOnce(new Error("no session"));expect(await simulateDirectedResearchAction("actual-workspace",{})).toEqual({ok:false,code:"UNAVAILABLE"});
+    expect(await simulateDirectedResearchAction("actual-workspace",{steps:[{mode:"AUTO",guidance:"",output:"SCENARIO"}],receipt:{result:"VERIFIED"}})).toEqual({ok:false,code:"INVALID_INPUT"});
+    vi.mocked(getEnv).mockReturnValue({NODE_ENV:"production",DEPLOYMENT_ENV:"production"} as ReturnType<typeof getEnv>);expect(await simulateDirectedResearchAction("actual-workspace",{})).toEqual({ok:false,code:"UNAVAILABLE"});
+  });
 });

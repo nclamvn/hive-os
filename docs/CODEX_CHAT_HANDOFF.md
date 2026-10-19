@@ -11788,3 +11788,83 @@ deploy activity. See `docs/verification/PHASE_2_DIRECTION_COMPLETION.md`.
 Next implementation starts from a real user job and the smallest sufficient
 host/skill/tool, not another benchmark to find a win. K6 remains OPEN/paused.
 Deployment deferred; push outcome must be confirmed from Git.
+
+### Human / AI research direction slice — 2026-10-19
+
+Owner approved refining and implementing strategic HUMAN/AUTO direction without
+rebuilding an agent host or adding swarms/gates. PRD Phase2 v1.1 section13 and
+`docs/product/RESEARCH_DIRECTION_IMPLEMENTATION.md` record the scope and evidence.
+Existing `/research` now accepts natural-language intuition or delegates selection
+of one next approach; switching mode never dispatches or erases input. It is NOT
+a new unrestricted deep-research runtime or subscription-powered Auto mode.
+
+Generic queued research reuses existing OpenAI collector/source binding. Server
+derives parent/root context within the same tenant/workspace/mission, preserves
+goal/document/provider/source policy and excludes sealed math or active parents.
+Context is bounded and explicitly historical/unverified, with source references,
+review status and omission counts. Original runs are retained, not overwritten.
+Disabled transport is refused before durable creation. UNKNOWN is distinct from
+rejection, and steering-only idempotency binds stable intent rather than random
+run IDs. Legacy requests and historical records retain their existing semantics.
+
+Portable plain-text briefs include goal/intuition/source boundaries and available
+bounded parent evidence for use in the existing host. They are NOT authenticated
+model execution. Actual adapter is openai/gpt-5.6-sol; no automatic Codex/Cowork
+bridge was added. No paid API, worker activation, live job, mathematical campaign,
+DB migration, dependency, commit/push or deployment occurred in this task.
+
+Contractor independently reran57 focused units across6 files, typecheck and scoped
+lint; diff check passed. Real browser: local demo, EN/VI, mode changes/keyboard,
+390px no overflow, disabled execution and source-preserving brief export/download.
+No eligible completed generic parent in observed local mission: actual live-parent
+continuation and connection-loss DB replay NOT_RUN, mocked boundary coverage only.
+No full production build or measured advantage over direct Codex/Cowork. K6 stays
+OPEN/paused. The first slice is local-ready with explicit live-execution deferrals;
+do not call it complete autonomous research or launch a successor campaign.
+
+Local UI is now port3001 because port3000 is another user's translation app;
+that server was not stopped. Screenshot and precise evidence are linked in the
+implementation report. Next authorized product engineering starts here, not in
+the paused proof campaign; runtime use/expense/data permissions remain separate.
+
+### Directed lean core with simulated API — 2026-10-19
+
+Owner explicitly requested repairing the core while keeping API simulated.
+`directed-research.ts` now wraps the existing lean executor/verifier with stable
+goal/constraints, retained attempts, actual checker feedback in the next prompt,
+bounded cumulative work and HUMAN/AUTO fork decisions. Natural-language guidance
+is data to investigate, not truth or authority. Model premise assessments are
+self-reports. Exact candidate rejection, actual refutation and scoped success
+remain separate. No default critic, agent swarm or second runtime was added.
+
+The local authenticated replay in `/research` is explicitly fixed/scripted; it
+does not solve arbitrary entered goals. Server reconstructs state/receipts rather
+than accepting them from clients. AUTO stops on no progress, resource/boundary
+failure or scoped completion. HUMAN waits; mode changes alone do not dispatch.
+Canonical candidate checks catch renamed repeats, not every semantic paraphrase.
+Replay is not durable live execution, and its active time excludes human pauses.
+The old paid generic collector is not silently connected to the new directed loop.
+
+Contractor independently reran128 distinct units across9 files, typecheck, scoped
+lint and diff check. Browser observed AUTO feedback/alternative/stop, HUMAN pause
+then explicit AUTO takeover with retained history, unsupported/no-progress stops,
+EN/VI and keyboard regions,390px no overflow. Real exact checker; scripted model
+outputs, zero live model requests/research DB writes. Details and screenshot in
+`docs/product/RESEARCH_DIRECTION_IMPLEMENTATION.md`. No full production build or
+real-model semantic/customer-value acceptance. No new permissions, migration,
+dependency, API expense, research campaign, commit/push or deploy; K6 stays paused.
+Use port3001; port3000 remains the separate translation app. No scratch copies or
+extra Next distDirs were created, and nothing material was deleted.
+
+### Cleanup and authorized Git delivery — 2026-10-20
+
+Owner requested cleaning then committing/pushing the complete HUMAN/AUTO and
+simulated-core slice. Bounded review found no safely removable dead/debug code;
+only nested scripted-provider indentation was clarified. Original research
+records, positive/negative controls and both QA screenshots are retained.
+Contractor reran128 distinct tests across9 files, typecheck and scoped lint;
+diff check passed. Earlier browser evidence remains applicable to the unchanged
+behavior; no fresh browser E2E or production build was claimed. See implementation
+report for limits. Nothing material deleted; no API activation, deployment,
+dependency/migration or resumed K6. Git commit/push result must be confirmed from
+Git, not inferred from this authorization checkpoint.

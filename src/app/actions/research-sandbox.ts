@@ -27,12 +27,53 @@ import { resolveWorkspaceContext } from "@/modules/identity-workspace";
 import { ResearchSandboxError } from "@/modules/research-sandbox/errors";
 import { CommandRuntimeError } from "@/modules/command-runtime/errors";
 import { getEnv } from "@/server/env";
+import type { ResearchStepActionState } from "@/modules/research-sandbox/research-steering";
 
 function lines(value: FormDataEntryValue | null) {
   return String(value ?? "")
     .split(/\r?\n|,/)
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+/** One explicit submit, never a mode-change side effect or a campaign loop. */
+export async function requestResearchStepAction(
+  _previous: ResearchStepActionState,
+  formData: FormData,
+): Promise<ResearchStepActionState> {
+  const slug = String(formData.get("slug") ?? "");
+  let dispatchAttempted = false;
+  try {
+    const ctx = await resolveWorkspaceContext(await headers(), slug);
+    const question = String(formData.get("intent") ?? "").trim();
+    const language = formData.get("language") === "en" ? "en" : "vi";
+    const queries = lines(formData.get("queries"));
+    dispatchAttempted = true;
+    const outcome = await requestResearchRun(ctx, {
+      missionId: String(formData.get("missionId") ?? ""),
+      documentId: String(formData.get("documentId") ?? "") || null,
+      question,
+      scope: "One evidence-backed research step. Preserve the original goal, explicit unknowns, source restrictions and previous results. No autonomous campaign or claim of mathematical acceptance.",
+      providerName: "openai", modelName: "gpt-5.6-sol",
+      sourcePolicy: { allowedDomains: lines(formData.get("allowedDomains")),
+        primaryDomains: lines(formData.get("primaryDomains")), requirePrimary: formData.get("requirePrimary") === "on", maxSources: Number(formData.get("maxSources") ?? 20) },
+      queryPlan: { queries: queries.length ? queries : [question.slice(0, 500)], languages: language === "en" ? ["en"] : ["vi", "en"] },
+      steering: { mode: String(formData.get("steeringMode") ?? ""),
+        guidance: String(formData.get("guidance") ?? ""), parentRunId: String(formData.get("parentRunId") ?? "") || null },
+      idempotencyKey: String(formData.get("idempotencyKey") ?? ""),
+    });
+    if (outcome.status !== "SUCCEEDED") {
+      return { status: outcome.errorCode === "INVALID_TRANSITION" ? "UNAVAILABLE" : "REJECTED" };
+    }
+    revalidatePath(`/w/${slug}/research`);
+    return { status: "QUEUED" };
+  } catch (error) {
+    // Do not disclose whether an unavailable parent belongs to another tenant.
+    if (error instanceof ResearchSandboxError) {
+      return { status: error.code === "INVALID_TRANSITION" ? "UNAVAILABLE" : "REJECTED" };
+    }
+    return { status: dispatchAttempted ? "UNKNOWN" : "REJECTED" };
+  }
 }
 
 export async function requestResearchRunAction(formData: FormData) {

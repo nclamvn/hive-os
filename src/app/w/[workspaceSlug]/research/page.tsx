@@ -4,7 +4,6 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  FileSearch,
   FlaskConical,
   Settings2,
 } from "lucide-react";
@@ -14,7 +13,6 @@ import { notFound } from "next/navigation";
 import {
   requestComputationRunAction,
   importApprovedResearchBundleAction,
-  requestResearchRunAction,
   reviewComputationRunAction,
   reviewResearchRunAction,
 } from "@/app/actions/research-sandbox";
@@ -22,6 +20,8 @@ import { groupResearchRuns } from "@/components/research/group-research-runs";
 import { MathText } from "@/components/research/math-text";
 import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
 import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
+import { ResearchDirectionForm } from "@/components/research/research-direction-form";
+import { prepareResearchSteering, preparedResearchSteeringSchema } from "@/modules/research-sandbox/research-steering";
 import { getResearchCampaignCopy } from "@/i18n/research-campaign-copy";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { ResearchEntryPoints } from "@/components/shell/research-entry-points";
@@ -36,6 +36,7 @@ import {
   listComputationRuns,
   listResearchRuns,
   listResearchTargets,
+  isResearchSteeringAvailable,
 } from "@/modules/research-sandbox/kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
 import { getEnv } from "@/server/env";
@@ -101,10 +102,11 @@ export default async function ResearchPage({
   const campaignCopy = getResearchCampaignCopy(locale);
   if (!hasCapability(data.ctx.membership.role, "research.read")) notFound();
 
-  const [runs, computations, targets] = await Promise.all([
+  const [runs, computations, targets, steeringAvailable] = await Promise.all([
     listResearchRuns(data.ctx),
     listComputationRuns(data.ctx),
     listResearchTargets(data.ctx),
+    isResearchSteeringAvailable(data.ctx),
   ]);
   const canRequest = hasCapability(data.ctx.membership.role, "research.request");
   const canReview = hasCapability(data.ctx.membership.role, "research.review");
@@ -128,7 +130,7 @@ export default async function ResearchPage({
 
   const runGroups = groupResearchRuns(runs);
   const renderRun = (run: (typeof runs)[number]) => (
-    <Panel key={run.id} className="overflow-hidden">
+    <Panel key={run.id} className="overflow-hidden" id={`research-run-${run.id}`}>
       <div className="grid min-[980px]:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 p-5">
           <div className="flex flex-wrap items-center gap-2">
@@ -145,6 +147,19 @@ export default async function ResearchPage({
           <h2 className="text-section-title text-ink-strong mt-3">
             <MathText text={run.question} />
           </h2>
+          {(() => {
+            const plan = run.queryPlan;
+            const steering = preparedResearchSteeringSchema.safeParse(
+              plan && typeof plan === "object" && !Array.isArray(plan) ? plan.steering : null,
+            );
+            if (!steering.success) return null;
+            return <div className="border-line bg-surface-subtle mt-4 rounded-md border p-3 text-meta text-ink-muted">
+              <p className="font-medium text-ink">{steering.data.mode === "HUMAN" ? (locale === "en" ? "Human-directed step" : "Bước do người định hướng") : (locale === "en" ? "AI-directed step" : "Bước do AI tự định hướng")}</p>
+              {steering.data.guidance ? <MathText text={steering.data.guidance} className="mt-2" /> : null}
+              {steering.data.parentRunId ? <a href={`#research-run-${steering.data.parentRunId}`} className="mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Previous step, evidence and review status" : "Bước trước, bằng chứng và trạng thái rà soát"}</a> : null}
+              <p className="mt-1">{locale === "en" ? "One collection step. Prior context is not newly verified evidence." : "Một bước thu thập nguồn. Ngữ cảnh trước không là bằng chứng vừa được kiểm chứng."}</p>
+            </div>;
+          })()}
           <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
             <span>{run.sources.length} {copy.source}</span>
             <span>{run.findings.length} {copy.finding}</span>
@@ -380,7 +395,7 @@ export default async function ResearchPage({
     <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
       <section id="new-research" className="w-full min-w-0 scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
-          {selectedMission ? (
+          {selectedMission && !canRequest ? (
             <p className="text-meta text-ink-muted mb-3 tabular">
               {selectedMission.referenceCode} · {selectedMission.title}
             </p>
@@ -395,124 +410,22 @@ export default async function ResearchPage({
 
         {canRequest && selectedMission ? (
           <Panel className="overflow-hidden border-line-strong">
-            <form action={requestResearchRunAction}>
-            <input type="hidden" name="slug" value={workspaceSlug} />
-            <input
-              type="hidden"
-              name="idempotencyKey"
-              value={`research:${randomUUID()}`}
-            />
-            <input type="hidden" name="language" value={locale} />
-            <input type="hidden" name="providerName" value="openai" />
-            <input type="hidden" name="modelName" value="gpt-5.6-sol" />
-
-            <div className="p-5 min-[980px]:p-7">
-              <label className="text-body text-ink font-semibold">
-                {copy.intentLabel}
-                <textarea
-                  name="intent"
-                  required
-                  rows={6}
-                  maxLength={8000}
-                  placeholder={copy.intentPlaceholder}
-                  aria-describedby="research-intent-hint"
-                  className={`${inputClass} text-section-title mt-3 min-h-40 resize-y font-normal leading-relaxed`}
-                />
-                <span id="research-intent-hint" className="text-meta text-ink-muted mt-3 block max-w-3xl font-normal">
-                  {copy.automaticGuardrails}
-                </span>
-              </label>
-            </div>
-
-            <details className="group border-line border-t">
-              <summary className="text-body text-ink hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
-                <span>
-                  {copy.context}
-                  <span className="text-meta text-ink-muted mt-1 block font-normal">
-                    {copy.contextHint}
-                  </span>
-                </span>
-                <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <div className="border-line bg-surface-subtle grid gap-4 border-t p-5 min-[900px]:grid-cols-2 min-[980px]:px-7">
-                <label className="text-meta text-ink font-medium">
-                  {copy.mission}
-                  <select name="missionId" required defaultValue={selectedMissionId} className={inputClass}>
-                    {targets.missions.map((mission) => (
-                      <option key={mission.id} value={mission.id}>
-                        {mission.referenceCode} · {mission.title}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="text-meta text-ink font-medium">
-                  {copy.document}
-                  <select name="documentId" className={inputClass}>
-                    <option value="">{copy.noDocument}</option>
-                    {targets.documents.map((document) => (
-                      <option key={document.id} value={document.id}>
-                        {document.documentKey} · {document.title}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            </details>
-
-            {expertMode ? (
-              <details open className="group border-line border-t">
-                <summary className="text-body text-ink hover:bg-surface-subtle flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
-                  <span>{copy.advancedSources}</span>
-                  <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-                </summary>
-                <div className="border-line bg-surface-subtle grid gap-4 border-t p-5 min-[900px]:grid-cols-2 min-[980px]:px-7">
-                  <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
-                    {copy.queries}
-                    <textarea name="queries" rows={3} className={inputClass} />
-                  </label>
-                  <label className="text-meta text-ink font-medium">
-                    {copy.allowedDomains}
-                    <textarea name="allowedDomains" rows={3} className={inputClass} />
-                  </label>
-                  <label className="text-meta text-ink font-medium">
-                    {copy.primaryDomains}
-                    <textarea name="primaryDomains" rows={3} className={inputClass} />
-                  </label>
-                  <label className="text-meta text-ink font-medium">
-                    {copy.maxSources}
-                    <input
-                      name="maxSources"
-                      type="number"
-                      min={1}
-                      max={50}
-                      defaultValue={20}
-                      className={inputClass}
-                    />
-                  </label>
-                  <label className="text-body text-ink flex min-h-11 items-center gap-2 self-end">
-                    <input name="requirePrimary" type="checkbox" />
-                    {copy.requirePrimary}
-                  </label>
-                </div>
-              </details>
-            ) : null}
-
-            <div className="border-line flex flex-col gap-4 border-t p-5 sm:flex-row sm:items-center min-[980px]:px-7">
-              <div className="min-w-0 flex-1">
-                <p className="text-meta text-ink font-medium">{copy.requestMode}</p>
-                <p className="text-meta text-ink-muted mt-1 max-w-[70ch]">{copy.requestModeHint}</p>
-              </div>
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={!targets.missions.length}
-                className="w-full shrink-0 sm:ml-auto sm:w-auto"
-              >
-                <FileSearch className="size-4" aria-hidden="true" />
-                {copy.startResearch}
-              </Button>
-            </div>
-            </form>
+            <ResearchDirectionForm slug={workspaceSlug} locale={locale} missionId={selectedMission.id}
+              missions={targets.missions} documents={targets.documents} configured={steeringAvailable} simulationAvailable={localToolsAvailable}
+              idempotencyKey={`research-step:${randomUUID()}`}
+              parents={runs.filter((run) => !run.mathPilotCase && !["QUEUED", "RUNNING"].includes(run.status) &&
+                run.providerName === "openai" && run.modelName === "gpt-5.6-sol").flatMap((run) => {
+                try {
+                  return [{ id: run.id, missionId: run.missionId, documentId: run.documentId, question: run.question,
+                    scope: run.scope, sourcePolicy: run.sourcePolicy, status: run.status,
+                    findings: run.findings.length, sources: run.sources.length, createdAt: run.createdAt.toISOString(),
+                    snapshot: prepareResearchSteering({ mode: "AUTO", guidance: "", parentRunId: run.id }, run.id, run).prior }];
+                } catch {
+                  // Keep malformed historical rows visible below, but do not
+                  // invent inherited context or make them continuation targets.
+                  return [];
+                }
+              })} />
           </Panel>
         ) : canRequest ? (
           <Panel className="p-6 sm:p-8">

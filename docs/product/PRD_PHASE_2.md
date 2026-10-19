@@ -1,7 +1,7 @@
 # HIVE OS — PRD Phase 2
 
-Ngày: 2026-10-14 · Phiên bản: 1.0
-Trạng thái: **Định hướng được Owner duyệt; chưa triển khai tính năng Phase 2.**
+Ngày gốc: 2026-10-14 · Cập nhật: 2026-10-19 · Phiên bản: 1.2
+Trạng thái: **Định hướng được Owner duyệt; lát cắt định hướng người/AI được triển khai và kiểm riêng theo mục 13. Không xác nhận lợi thế sản phẩm hoặc kích hoạt runtime.**
 
 ## 1. Quyết định sản phẩm
 
@@ -183,3 +183,80 @@ nhưng không là bằng chứng so sánh mọi kiến trúc host hoặc Claude 
 
 Phiên sau bắt đầu từ PRD này và nhu cầu thực của người dùng. Không khởi động lại
 bầy agent, benchmark, chiến dịch K6 hoặc dựng nền tảng chỉ vì lịch sử có sẵn.
+
+## 13. Bổ sung được Owner duyệt: người định hướng, AI triển khai
+
+Ngày 2026-10-19, Owner yêu cầu HIVE có hai lựa chọn tại ngã rẽ nghiên cứu: con
+người đưa ý tưởng bằng lời, hoặc để AI chọn hướng; sau đó yêu cầu gọt giũa và
+triển khai từng bước. Đây là nhu cầu trực tiếp của người vận hành hiện tại,
+chưa là bằng chứng nhu cầu thị trường hoặc lợi thế trước Codex/Cowork.
+
+**Công việc:** nhà nghiên cứu muốn nói “tôi nghĩ nên thử hướng này” mà không
+phải tự viết công thức, prompt kỹ thuật hoặc vận chuyển JSON; khi chưa có hướng,
+họ muốn ủy quyền lựa chọn cách tiếp cận mà vẫn giữ mục tiêu, bằng chứng và giới hạn.
+
+- **Tôi định hướng / I guide:** lời gợi ý là ý định chiến lược, không phải sự
+  thật hay phương pháp mặc định đúng. Model phải xét tiền đề, đối chiếu nguồn,
+  thử hướng phù hợp và công khai nếu nó không khả thi. Không âm thầm đổi mục tiêu.
+- **AI tự định hướng / AI guides:** model chọn một bước tiếp có lý do từ kết quả
+  và khoảng trống hiện có. Không tự cấp quyền tăng ngân sách, đổi chính sách
+  dữ liệu, mở campaign hoặc công bố bài toán đã được giải.
+- **Một hồ sơ dùng chung:** đổi người định hướng không tạo hai lịch sử tách rời,
+  không ghi đè kết quả trước; lượt kế tiếp trỏ về lượt nguồn. Người có thể tiếp
+  quản ở ngã rẽ tiếp theo. Không hứa ngắt/hủy một model call đang chạy nếu runtime
+  chưa hỗ trợ điều đó.
+- **Lõi nhỏ:** một solver/agent chính dùng nguồn và công cụ được phép. Phản biện
+  chỉ cho khoảng trống cụ thể, kiểm máy chỉ cho nghĩa vụ có thể kiểm; không mở
+  một lượt solver–critic–repair cố định hay thêm hệ thống chat/bộ nhớ song song.
+
+### Các bước triển khai và giới hạn
+
+1. **Lát cắt hiện tại:** dùng lại trang nghiên cứu, hàng đợi, bộ thu nguồn và lịch
+   sử sẵn có. Nhập mục tiêu, chọn cách định hướng, gửi tối đa một bước nghiên cứu;
+   kế thừa mục tiêu và chính sách nguồn từ lượt trước bằng dữ liệu server. Khi
+   bộ thực thi không được cấu hình/cấp quyền, UI phải nói rõ chưa chạy; hồ sơ
+   chuyển cho host là văn bản đọc được, không phải bằng chứng model đã thực thi.
+2. **Nghiệm thu runtime riêng:** chỉ khi đã cấu hình provider/worker và có quyền
+   thực thi/chi phí phù hợp, chạy một việc mới xuyên suốt bằng nguồn thực; kiểm
+   tiếp quản, tiền đề sai, thiếu nguồn, hết tài nguyên và kết quả chưa xác nhận.
+   Bản thân yêu cầu tính năng không cho phép API trả phí hoặc nghiên cứu K6 mới.
+3. **Đo giá trị trước mở rộng:** so cùng host agent, model, nguồn, lịch sử và công
+   cụ. Đo công người, thời gian đến kết quả dùng được, lỗi bỏ sót, tìm lại nguồn,
+   chi phí và can thiệp. Nếu UI/connector không giảm công hoặc đáp ứng nhu cầu
+   cộng tác thực, giữ phần skill/công cụ nhỏ và bỏ lớp dư thừa.
+
+Tiêu chí P0 của lát cắt: không cần JSON để định hướng; đổi mode không gọi model;
+không mất lời đã nhập; không sửa kết quả cũ; không lấy parent ngoài workspace/
+mission; không biến nội dung chưa rà soát thành dữ kiện đã duyệt; runtime tắt
+không tạo job giả “đang chạy”; EN/VI, bàn phím và màn hình hẹp dùng được.
+
+**Chưa cam kết trong lát cắt:** deep research đa công cụ tùy ý trong web runtime,
+Codex/Cowork transport mới, vòng tự trị liên tục, shell tự do, đo lợi thế hoặc
+chứng minh toán mới. Không gọi thu nguồn có dẫn chứng là một nhà nghiên cứu tự
+trị hoàn chỉnh. Xem [kế hoạch và kiểm chứng](RESEARCH_DIRECTION_IMPLEMENTATION.md).
+
+### Sửa lõi theo yêu cầu kế tiếp: API tiếp tục giả lập
+
+Owner làm rõ: “vẫn giả lập api hãy chỉnh sửa lõi HIVE để đạt mindset trên”.
+Không coi giao diện chọn hướng, prompt mới hoặc một bộ thu nguồn là đã sửa lõi.
+Lõi gọn phải đưa phản hồi thực sự vào quyết định của lượt kế tiếp:
+
+- Giữ mục tiêu và ràng buộc do host sở hữu; chuyển người/AI định hướng không
+  thay chúng hoặc xóa kết quả trước.
+- Model diễn giải trực giác thành hướng có thể thử, xét tiền đề và nêu phương
+  án gần nhất nếu tiền đề không đứng vững. Đây là lập luận của model, chưa phải
+  kết luận đúng chỉ vì đã khớp schema.
+- Lưu hướng đã thử, kết quả công cụ và nghĩa vụ còn mở. Prompt sau phải chứa
+  phản hồi đó; quyết định tiếp tục/đổi hướng/dừng phải phụ thuộc vào quan sát,
+  không chạy tuyến phản biện/sửa cố định hoặc lặp hướng thất bại bằng metadata mới.
+- Model không tự chứng nhận tiến triển. Host phân biệt đề xuất, tự nhận xét và
+  receipt kiểm máy thực; ứng viên sai không đồng nghĩa phương pháp tổng quát sai.
+- Mặc định một solver, không reviewer. Tổng số call/thời gian/byte tính xuyên
+  các bước, kể cả bước lỗi. Human mode dừng ở ngã rẽ; Auto chỉ đi trong giới hạn
+  và phải trả lại quyền khi cần quyết định chưa được cấp.
+
+Triển khai trên executor hiện có, tương thích luồng cũ. Kiểm trên một kịch bản
+kỹ thuật cố định với provider giả lập ghi nhãn rõ và checker thực, không giả
+thông minh cho đề bài tùy ý. Bằng chứng này chỉ nghiệm thu điều khiển/kiểm chứng,
+không chứng minh năng lực LLM, deep research, lợi thế đối chứng hoặc khép K6.
+Không bật API, worker, quyền shell, campaign hoặc deploy theo yêu cầu này.

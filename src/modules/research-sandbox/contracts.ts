@@ -3,6 +3,7 @@ import { erdosStrausPolynomialFamilySchema } from "./math-parametric";
 import { structuralCounterexampleCandidateSchema } from "./math-structural-counterexample";
 
 import { mathPilotRequestSchema } from "./math-pilot";
+import { preparedResearchSteeringSchema, researchSteeringRequestSchema, researchSourcePolicySchema } from "./research-steering";
 import { lrcCertificateEvidenceSchema, type LrcCertificateEvidence } from "./math-lrc-replay";
 import { lrcCampaignEvidenceSchema, type LrcCampaignEvidence } from "./math-lrc-campaign";
 import { lrcProofUnitFeedbackSchema, lrcProofUnitLiveEvidenceSchema, type PreparedLrcProofUnitLiveInput } from "./math-lrc-proof-unit-live";
@@ -12,19 +13,13 @@ import { lrcMethodUnitFiniteSeedSchema } from "./math-lrc-method-unit";
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const identifier = z.string().trim().min(1).max(160);
 
-export const sourcePolicySchema = z
-  .object({
-    allowedDomains: z.array(z.string().trim().min(1).max(253)).max(50).default([]),
-    primaryDomains: z.array(z.string().trim().min(1).max(253)).max(50).default([]),
-    requirePrimary: z.boolean().default(false),
-    maxSources: z.number().int().min(1).max(50).default(20),
-  })
-  .strict();
+export const sourcePolicySchema = researchSourcePolicySchema;
 
 export const queryPlanSchema = z
   .object({
     queries: z.array(z.string().trim().min(1).max(500)).min(1).max(20),
     languages: z.array(z.enum(["vi", "en"])).min(1).max(2).default(["vi", "en"]),
+    steering: preparedResearchSteeringSchema.optional(),
   })
   .strict();
 
@@ -39,6 +34,7 @@ export const requestResearchRunSchema = z
     sourcePolicy: sourcePolicySchema,
     queryPlan: queryPlanSchema,
     mathPilot: mathPilotRequestSchema.optional(),
+    steering: researchSteeringRequestSchema.optional(),
     idempotencyKey: z.string().trim().min(1).max(200),
   })
   .strict();
