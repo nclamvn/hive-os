@@ -392,7 +392,9 @@ export default async function ResearchPage({
     .filter((run) => !terminalStatuses.has(run.status)).length;
 
   return (
-    <WorkspaceShell data={data} title={copy.title} subtitle={copy.subtitle}>
+    <WorkspaceShell data={data} researcherMode={!expertMode}
+      title={expertMode ? (locale === "en" ? "Research operation" : "Vận hành nghiên cứu") : (locale === "en" ? "Research desk" : "Bàn nghiên cứu")}
+      subtitle={expertMode ? copy.subtitle : (locale === "en" ? "State a problem, explore an intuition, prepare a research note." : "Nêu bài toán, ghi lại trực giác và chuẩn bị ghi chú nghiên cứu.")}>
       <section id="new-research" className="w-full min-w-0 scroll-mt-24">
         <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
           {selectedMission && !canRequest ? (
@@ -401,16 +403,16 @@ export default async function ResearchPage({
             </p>
           ) : null}
           <h2 className="text-page-title text-ink-strong max-w-3xl">
-            {copy.intentTitle}
+            {expertMode ? copy.intentTitle : (locale === "en" ? "What would you like to understand?" : "Bạn muốn làm rõ điều gì?")}
           </h2>
           <p className="text-body text-ink-muted mt-3 max-w-3xl">
-            {copy.intentHint}
+            {expertMode ? copy.intentHint : (locale === "en" ? "Start with your problem and what you have tried. A rough idea is enough to prepare the next discussion." : "Bắt đầu bằng đề bài và những gì bạn đã thử. Một ý tưởng chưa thành phương pháp cũng đủ để chuẩn bị cuộc trao đổi tiếp theo.")}
           </p>
         </div>
 
-        {canRequest && selectedMission ? (
+        {canRequest ? (
           <Panel className="overflow-hidden border-line-strong">
-            <ResearchDirectionForm slug={workspaceSlug} locale={locale} missionId={selectedMission.id}
+            <ResearchDirectionForm key={`${data.ctx.user.id}:${data.ctx.workspace.id}`} slug={workspaceSlug} draftScope={{userId:data.ctx.user.id,workspaceId:data.ctx.workspace.id}} locale={locale} missionId={selectedMission?.id ?? ""} operational={expertMode}
               missions={targets.missions} documents={targets.documents} configured={steeringAvailable} simulationAvailable={localToolsAvailable}
               idempotencyKey={`research-step:${randomUUID()}`}
               parents={runs.filter((run) => !run.mathPilotCase && !["QUEUED", "RUNNING"].includes(run.status) &&
@@ -427,20 +429,28 @@ export default async function ResearchPage({
                 }
               })} />
           </Panel>
-        ) : canRequest ? (
-          <Panel className="p-6 sm:p-8">
-            <p className="text-section-title text-ink-strong">{copy.noMission}</p>
-            <Link
-              href={`/w/${workspaceSlug}/missions/new`}
-              className="text-body text-ink-strong mt-4 inline-flex min-h-10 items-center gap-2 font-semibold"
-            >
-              {copy.createMission}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-          </Panel>
         ) : null}
       </section>
 
+      {!expertMode ? <details className="border-line rounded-panel border bg-surface p-5">
+        <summary className="text-body text-ink cursor-pointer py-1 font-semibold">{locale === "en" ? "Earlier work" : "Công việc trước đây"} ({runs.length})</summary>
+        <p className="text-meta text-ink-muted mt-3 max-w-[76ch]">{locale === "en" ? "Original records remain unchanged. Earlier observations are not rechecked by opening this page." : "Hồ sơ gốc được giữ nguyên. Mở trang này không kiểm chứng lại các ghi nhận trước."}</p>
+        {runs.length ? <p className="text-meta text-ink-muted mt-2 max-w-[76ch]">{locale === "en" ? `This excerpt shows ${Math.min(runGroups.length, 10)} recent problems, with up to three observations and three references per record. The complete list and original details remain in system operation.` : `Trích đoạn này hiển thị ${Math.min(runGroups.length, 10)} đề bài gần đây, tối đa ba ghi nhận và ba tài liệu mỗi hồ sơ. Danh sách và bản gốc đầy đủ vẫn nằm trong vận hành.`}</p> : null}
+        {runs.length ? <Link href={`/w/${workspaceSlug}/research?advanced=1#research-runs`} className="text-meta text-ink-muted mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Complete list in system operation" : "Danh sách đầy đủ trong vận hành"}</Link> : null}
+        <div className="mt-4 space-y-6">
+          {runGroups.slice(0, 10).map(({ latest: run }) => <article key={run.id} id={`research-run-${run.id}`} className="border-line border-t pt-4">
+            <h2 className="text-body text-ink font-semibold"><MathText text={run.question} /></h2>
+            <p className="text-meta text-ink-muted mt-2">{copy.statusLabels[run.status]} · {run.findings.length} {copy.finding} · {run.sources.length} {copy.source}</p>
+            {run.status === "FAILED" ? <p className="text-meta text-ink-muted mt-2">{locale === "en" ? "This earlier exchange did not reach a completed result. Its original record is retained." : "Lần trao đổi trước này chưa có kết quả hoàn tất. Hồ sơ gốc vẫn được giữ lại."}</p> : null}
+            {run.findings.slice(0, 3).map((finding) => <p key={finding.id} className="text-body text-ink mt-3 max-w-[78ch] leading-relaxed"><MathText text={finding.claim} /></p>)}
+            {run.sources.slice(0, 3).map((source) => /^https?:\/\//.test(source.canonicalUri) ? <a key={source.id} href={source.canonicalUri} target="_blank" rel="noopener noreferrer" className="text-meta text-ink mt-2 block min-h-10 break-words py-2 underline">{source.title}</a> : null)}
+            <Link href={`/w/${workspaceSlug}/research?advanced=1#research-run-${run.id}`} className="text-meta text-ink-muted mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Open original in system operation" : "Mở bản gốc trong vận hành"}</Link>
+          </article>)}
+          {!runs.length ? <p className="text-body text-ink-muted">{locale === "en" ? "No earlier records here yet. You can start by preparing a note above." : "Chưa có hồ sơ trước ở đây. Bạn có thể bắt đầu bằng ghi chú bên trên."}</p> : null}
+        </div>
+      </details> : null}
+
+      {expertMode ? <>
       <section aria-labelledby="research-runs">
         <SectionHeader
           id="research-runs"
@@ -498,8 +508,9 @@ export default async function ResearchPage({
             className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
         </div>
       </details>
+      </> : null}
 
-      {canCompute && !expertMode ? (
+      {!expertMode ? (
         <div className="flex w-full justify-end">
           <Link
             href={`/w/${workspaceSlug}/research?${new URLSearchParams({
@@ -509,13 +520,12 @@ export default async function ResearchPage({
             className="text-meta text-ink-muted hover:text-ink inline-flex min-h-10 items-center gap-2 transition-colors"
           >
             <Settings2 className="size-4" aria-hidden="true" />
-            <span>
-              {copy.advancedTools}
-              <span className="sr-only"> · {copy.advancedToolsHint}</span>
-            </span>
+            <span>{locale === "en" ? "System operation" : "Vận hành hệ thống"}</span>
           </Link>
         </div>
       ) : null}
+
+      {expertMode ? <Link href={`/w/${workspaceSlug}/research`} className="text-body text-ink inline-flex min-h-10 items-center underline">{locale === "en" ? "Return to the research desk" : "Quay lại bàn nghiên cứu"}</Link> : null}
 
       {canCompute && expertMode ? (
         <details className="group border-line bg-surface shadow-panel rounded-panel overflow-hidden border">

@@ -18,6 +18,7 @@ export function WorkspaceShell({
   footer,
   children,
   enterpriseScope,
+  researcherMode,
 }: {
   data: WorkspacePageData;
   title: string;
@@ -26,6 +27,7 @@ export function WorkspaceShell({
   footer?: ReactNode;
   children: ReactNode;
   enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }) {
   const { ctx } = data;
 
@@ -40,6 +42,7 @@ export function WorkspaceShell({
       rail={rail}
       footer={footer}
       enterpriseScope={enterpriseScope}
+      researcherMode={researcherMode}
     >
       {children}
     </AppShell>

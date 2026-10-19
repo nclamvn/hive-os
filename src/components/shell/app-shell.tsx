@@ -33,6 +33,8 @@ export interface AppShellProps {
   homeHref?: string;
   controlRoomHref?: string;
   enterpriseScope?: SidebarEnterpriseScope;
+  /** Quiet mathematical desk; all other routes keep the full module navigator. */
+  researcherMode?: boolean;
 }
 
 export function AppShell({
@@ -46,6 +48,7 @@ export function AppShell({
   homeHref,
   controlRoomHref,
   enterpriseScope,
+  researcherMode,
 }: AppShellProps) {
   const { t } = usePreferences();
   const [navOpen, setNavOpen] = useState(false);
@@ -85,6 +88,7 @@ export function AppShell({
           homeHref={homeHref}
           onToggleCollapsed={toggleSidebar}
           enterpriseScope={enterpriseScope}
+          researcherMode={researcherMode}
         />
       </aside>
 
@@ -101,6 +105,7 @@ export function AppShell({
           footerSlot={footerSlot}
           homeHref={homeHref}
           enterpriseScope={enterpriseScope}
+          researcherMode={researcherMode}
         />
       </aside>
 
@@ -113,6 +118,7 @@ export function AppShell({
         footerSlot={footerSlot}
         homeHref={homeHref}
         enterpriseScope={enterpriseScope}
+        researcherMode={researcherMode}
       />
 
       {/* Main column */}
@@ -123,6 +129,7 @@ export function AppShell({
           title={title}
           subtitle={subtitle}
           controlRoomHref={controlRoomHref}
+          researcherMode={researcherMode}
         />
 
         <main

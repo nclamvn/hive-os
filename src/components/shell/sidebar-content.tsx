@@ -8,6 +8,7 @@ import {
   PanelLeftOpen,
   Plus,
   UserRound,
+  Settings2,
 } from "lucide-react";
 
 import { usePreferences } from "@/components/preferences/preferences-provider";
@@ -49,6 +50,7 @@ export interface SidebarContentProps {
   onToggleCollapsed?: () => void;
   /** Current authorized enterprise scope for the organizational navigator. */
   enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }
 
 export function SidebarContent({
@@ -59,11 +61,12 @@ export function SidebarContent({
   homeHref = "#mission-composer",
   onToggleCollapsed,
   enterpriseScope,
+  researcherMode = false,
 }: SidebarContentProps) {
   const { locale, t } = usePreferences();
   const workspaceBase = sidebarWorkspaceBase(homeHref);
   const primaryLabel = workspaceBase
-    ? t("common.newMission")
+    ? researcherMode ? (locale === "vi" ? "Soạn ghi chú" : "Write a note") : t("common.newMission")
     : locale === "vi" ? "Chọn không gian làm việc" : "Choose a workspace";
   return (
     <div className="flex h-full flex-col">
@@ -115,7 +118,7 @@ export function SidebarContent({
       <div className="flex-1 overflow-y-auto px-3 py-4">
         {/* Primary action */}
         <a
-          href={workspaceBase ? `${workspaceBase}/missions/new` : "/"}
+          href={workspaceBase ? researcherMode ? `${workspaceBase}/research#new-research` : `${workspaceBase}/missions/new` : "/"}
           onClick={onNavigate}
           aria-label={primaryLabel}
           title={iconOnly ? primaryLabel : undefined}
@@ -175,18 +178,18 @@ export function SidebarContent({
           <div
             className={`flex flex-col ${enterpriseScope ? "gap-1" : "gap-4"}`}
           >
-            {(enterpriseScope ? (["command"] as const) : GROUPS).map((group) => (
+            {(researcherMode || enterpriseScope ? (["command"] as const) : GROUPS).map((group) => (
               <div key={group}>
                 {!iconOnly ? (
                   <p className="text-eyebrow text-ink-muted mb-1.5 px-3">
-                    {enterpriseScope
+                    {researcherMode ? (locale === "vi" ? "Nghiên cứu" : "Research") : enterpriseScope
                       ? t("common.navigation")
                       : t(`nav.${group}`)}
                   </p>
                 ) : null}
                 <ul className="flex flex-col gap-0.5">
                   {NAV_ITEMS.filter((item) =>
-                    enterpriseScope
+                    researcherMode ? ["research", "authoring"].includes(item.segment) : enterpriseScope
                       ? [
                           "",
                           "missions",
@@ -202,7 +205,7 @@ export function SidebarContent({
                   ).map(
                     (item) => {
                       const Icon = item.icon;
-                      const label = t(item.labelKey);
+                      const label = researcherMode ? item.segment === "research" ? (locale === "vi" ? "Bàn nghiên cứu" : "Research desk") : (locale === "vi" ? "Tài liệu tham khảo" : "References") : t(item.labelKey);
                       const title = item.implemented
                         ? label
                         : `${label} · ${NOT_IMPLEMENTED}`;
@@ -213,7 +216,9 @@ export function SidebarContent({
                       if (item.implemented) {
                         const wsBase = workspaceBase ?? "/";
                         const href =
-                          item.segment && wsBase !== "/"
+                          researcherMode && item.segment === "authoring" && wsBase !== "/"
+                            ? `${wsBase}/research#research-references`
+                            : item.segment && wsBase !== "/"
                             ? `${wsBase}/${item.segment}`
                             : wsBase;
                         return (
@@ -276,6 +281,13 @@ export function SidebarContent({
             ))}
           </div>
         </nav>
+        {researcherMode && workspaceBase ? <a href={`${workspaceBase}/research?advanced=1`} onClick={onNavigate}
+          aria-label={locale === "vi" ? "Vận hành hệ thống" : "System operation"}
+          title={iconOnly ? (locale === "vi" ? "Vận hành hệ thống" : "System operation") : undefined}
+          className={`text-meta text-ink-muted mt-8 flex min-h-10 items-center gap-3 rounded-md ${iconOnly ? "justify-center" : "px-3"}`}>
+          <Settings2 className="size-4 shrink-0" aria-hidden="true" />
+          {iconOnly ? <span className="sr-only">{locale === "vi" ? "Vận hành hệ thống" : "System operation"}</span> : <span>{locale === "vi" ? "Vận hành hệ thống" : "System operation"}</span>}
+        </a> : null}
       </div>
 
       {/* Account footer — administrative actions stay behind one disclosure. */}

@@ -11868,3 +11868,55 @@ behavior; no fresh browser E2E or production build was claimed. See implementati
 report for limits. Nothing material deleted; no API activation, deployment,
 dependency/migration or resumed K6. Git commit/push result must be confirmed from
 Git, not inferred from this authorization checkpoint.
+
+### Mathematician-first entry UI — 2026-10-20
+
+Owner requested a Phương-facing surface: mathematical work rather than JSON/IT
+operation. Default `/research` is now a problem/intuitions notebook with safe
+formula preview, HUMAN/AI-proposal choices and readable note preparation/download.
+The opt-in shell is quiet; account/sign-out remain. Optional reference selection
+uses titles, source bounds survive notes, and selected document content is not
+claimed read/verified. No mission prerequisite for a local note. AI-off status is
+plain and visible; configured collector is labelled literature search, not solving.
+
+Operational form/replay/full history/checkers remain explicitly `advanced=1`.
+The raw legacy workbench route without that flag returns to the desk, preserving
+authentication and capabilities. Default history is a labelled mathematical
+excerpt, not a relabelled proof or full database dump. Existing records unchanged.
+See `docs/product/MATHEMATICIAN_UX.md` for scope, test command coverage and screenshots.
+
+Contractor independently reran158 distinct unit cases across13 files, typecheck,
+scoped lint and diff check. Actual browser: EN/VI input retention, math preview,
+keyboard modes, selected-document/source limits, real downloaded text inspected,
+390px no document overflow with keyboard-scrollable long equation, mobile drawer,
+light/dark and operator round-trip. No live model, research DB mutation, new runtime,
+dependency, migration, campaign, commit/push or deploy in this slice. No full build
+or real Phương usability test. Inputs/notes remain page memory unless downloaded;
+no durable notebook promise. This UI is local-ready, not independent AI research
+handoff-ready. K6 stays paused; use port3001. Nothing material was deleted.
+
+### Final mathematician UI acceptance and authorized Git delivery — 2026-10-20
+
+Owner requested final designer/mathematician-perspective QA, necessary fixes,
+Lean assessment and commit/push. Closed bounded input-only tab draft save/restore
+(24h, actualuser/workspace key, strictfields, confirm edited overwrite, reject
+stale refs), same-page References, verification help, display-name clarity and
+download spacing. One browser-discovered stale-language system status was repaired
+with locale-rendered message codes. No new runtime/AI/DB/model/auth permission.
+
+Verified206 distinct tests/17files, typecheck, scopedlint/diffcheck, actual browser
+save/reload/restore/confirmation/ENVI/mobilekeyboard/export. Production LOCAL_QA
+build PASSED on finalsource after sandbox PostCSS/internalport failure and a
+bounded local-permission retry; copied env scrub and assets passed. Existing
+Kakeya dynamic-filesystem tracing warning is a before-deploy packaging debt, not
+fixed/hidden in this UI change. Existing Vite future-loader warning retained.
+Only existing .next-build reused; no copy/install/Docker build or research deletion.
+
+Lean already has legacy fixed-target4.10/Std check/replay code; general desk is
+NOT arbitrary-problem Lean-enabled. No live Lean/Docker/proof execution this pass.
+Do not confuse lean core/manual-output workbench with Lean proof assistant.
+Official validation docs reviewed, but old runtime not newly certified. Formal
+checking can be optional backend support for selected claims; Phương should not
+need to write it to begin research. See MATHEMATICIAN_UX.md finalacceptance and
+deferred actual-AI/customer/durable-notebook scope. K6 paused, no deploy. Git
+delivery is authorized; commit/remote result must be confirmed from Git.

@@ -20,6 +20,7 @@ export interface MobileNavProps {
   footerSlot?: ReactNode;
   homeHref?: string;
   enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }
 
 export function MobileNav({
@@ -30,6 +31,7 @@ export function MobileNav({
   footerSlot,
   homeHref,
   enterpriseScope,
+  researcherMode,
 }: MobileNavProps) {
   const { t } = usePreferences();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -129,6 +131,7 @@ export function MobileNav({
             footerSlot={footerSlot}
             homeHref={homeHref}
             enterpriseScope={enterpriseScope}
+            researcherMode={researcherMode}
           />
         </div>
       </div>

@@ -11,6 +11,7 @@ export interface TopHeaderProps {
   title: string;
   subtitle: string;
   controlRoomHref?: string;
+  researcherMode?: boolean;
 }
 
 /**
@@ -18,7 +19,7 @@ export interface TopHeaderProps {
  * trigger. Workspace routes deep-link to the real governed-object finder.
  */
 export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
-  function TopHeader({ onOpenNav, title, subtitle, controlRoomHref }, menuRef) {
+  function TopHeader({ onOpenNav, title, subtitle, controlRoomHref, researcherMode }, menuRef) {
     const { t } = usePreferences();
     const router = useRouter();
     const [query, setQuery] = useState("");
@@ -54,6 +55,7 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
         </div>
 
         <div className="flex items-center gap-2">
+          {!researcherMode ? <>
           {controlRoomHref ? (
             <form
               role="search"
@@ -132,6 +134,7 @@ export const TopHeader = forwardRef<HTMLButtonElement, TopHeaderProps>(
             className="bg-line mx-1 hidden h-5 w-px min-[480px]:block"
             aria-hidden="true"
           />
+          </> : null}
           <PreferencesControls compact />
         </div>
       </header>

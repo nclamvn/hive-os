@@ -18,8 +18,8 @@ export function ResearchEntryPoints({
   const query = missionId ? `?missionId=${encodeURIComponent(missionId)}` : "";
   const entries = [
     ...(localToolsAvailable && canRequest ? [{
-      href: `${base}/lean`,
-      title: vi ? "Bàn nghiên cứu gọn" : "Lean research workbench",
+      href: `${base}/lean?advanced=1`,
+      title: vi ? "Bàn tiếp nhận đầu ra AI thủ công" : "Manual AI-output workbench",
       description: vi
         ? "Nhập bài toán và đầu ra LLM thủ công; phản biện có mục tiêu, kiểm chứng đúng phạm vi. Không phải trình chứng minh Lean."
         : "Import a problem and LLM output manually; use focused criticism and scoped checks. This is not the Lean proof assistant.",
