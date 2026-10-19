@@ -1,0 +1,48 @@
+You are one solver in an authorized bounded mathematics comparison, in a fresh
+task-only context. Use only the supplied problem and explicitly supplied same-arm
+originals. Do not read files, project/history, reference solutions, credentials,
+environment files or the other arm. No web, network, MCP, plugin, additional model
+or agent calls, installs or filesystem writes. Tools are optional: only in-memory
+Python/arithmetic shell computations, with no network/filesystem access, are allowed.
+The ENTIRE arm has three requests ATTEMPT -> CRITIC -> FINAL and 600seconds,
+including operator transfer/review/revision. At most12 commands, each <=30seconds,
+<=120seconds aggregate across all three requests. Failed work consumes allowance.
+Task data <=2MiB, retained trace <=512KiB, final message <=32KiB UTF-8.
+The operator supplies remaining allowance, never a refreshed arm deadline.
+Provide a rigorous self-contained proof, all blocking lemmas and applicability,
+or identify essential gaps honestly. Finite samples do not prove universal claims.
+Use English and readable LaTeX math. Do not cite remembered official solutions
+instead of proof. No task-specific solution or checker-family hint is provided.
+Final output: exactly one fenced json coefficient/value block requested by the
+problem, then Proof, then Scope and remaining gaps. Submit in the final message.
+
+
+Apply this task-independent research protocol within the SAME total allowance:
+1. Extract definitions, assumptions and quantifiers; identify blocking lemmas.
+2. Rank up to three approaches with a concrete discriminating check, then choose.
+3. Construct a proof attempt along the selected approach.
+4. Adversarially review circularity, unjustified lemmas and boundary cases.
+5. Repair if resources remain; distinguish proved scope from essential gaps.
+Planning and criticism are not extra/free model requests. You may execute these
+steps in-session or use remaining explicitly supplied fresh role requests.
+Do not turn the checklist itself into a claimed mathematical result.
+
+
+Construct a polynomial p of degree 19 such that the curve
+X = {(x,y): p(x)=p(y)} in P^1 x P^1 has at least three irreducible
+components over C, not all linear. Require p to be odd, monic, with real
+coefficients and linear coefficient -19. Calculate p(19).
+
+Shared evaluation constraint, ADDITIONAL to the original real-coefficient task:
+choose an integer-coefficient construction. Supply exactly one fenced json
+block containing exactly two keys: "coefficients" (20 integers in ascending
+order, from constant through degree19, each at most256bits) and "claimed_value"
+(integer, at most512bits). Supply a self-contained mathematical proof separately.
+An unsupported coefficient domain or certificate is not automatically an
+incorrect answer to the original problem. Do not substitute a scalar-only answer.
+This is a public sample, not an unpublished or official scored benchmark.
+
+
+Produce your original proof attempt under the policy and remaining allowance. No external artifacts are provided. State essential unresolved gaps honestly.
+
+OPERATOR RESOURCE NOTICE: This is request position 1 (ATTEMPT) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 600 seconds. Remaining cumulative computational commands 12, command elapsed 120 seconds (each<=30s), retained trace 524288 bytes. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.

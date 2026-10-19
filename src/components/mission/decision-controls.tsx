@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { resolveDecisionAction } from "@/app/actions/missions";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 export function DecisionControls({
   slug,
@@ -13,6 +14,7 @@ export function DecisionControls({
   decisionId: string;
 }) {
   const router = useRouter();
+  const { locale } = usePreferences();
   const [busy, setBusy] = useState(false);
 
   async function resolve(approve: boolean) {
@@ -24,11 +26,21 @@ export function DecisionControls({
 
   return (
     <div className="flex gap-1">
-      <button type="button" disabled={busy} onClick={() => resolve(true)} className="text-meta text-success-600 border-line hover:bg-success-50 h-7 rounded-md border px-2 font-medium">
-        Approve
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => resolve(true)}
+        className="text-meta text-success-600 border-line hover:bg-success-50 h-7 rounded-md border px-2 font-medium"
+      >
+        {locale === "vi" ? "Duyệt" : "Approve"}
       </button>
-      <button type="button" disabled={busy} onClick={() => resolve(false)} className="text-meta text-danger-600 border-line hover:bg-danger-50 h-7 rounded-md border px-2">
-        Reject
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => resolve(false)}
+        className="text-meta text-danger-600 border-line hover:bg-danger-50 h-7 rounded-md border px-2"
+      >
+        {locale === "vi" ? "Từ chối" : "Reject"}
       </button>
     </div>
   );

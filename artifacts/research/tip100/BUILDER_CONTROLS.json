@@ -1,0 +1,26 @@
+{
+  "tests": 17,
+  "names": [
+    "__main__.Controls.test_all_60_certificates_candidates_feasible",
+    "__main__.Controls.test_constant_polygon",
+    "__main__.Controls.test_edge_stationary_max",
+    "__main__.Controls.test_empty_clip",
+    "__main__.Controls.test_exact_piece_continuity",
+    "__main__.Controls.test_formula_against_independent_integral",
+    "__main__.Controls.test_full_stationary_max",
+    "__main__.Controls.test_hull_line_and_point",
+    "__main__.Controls.test_invalid_inputs_refused",
+    "__main__.Controls.test_line_cut",
+    "__main__.Controls.test_n3_middle_disjoint_endpoints",
+    "__main__.Controls.test_nonconcave_vertex_max",
+    "__main__.Controls.test_point_cut",
+    "__main__.Controls.test_rectangle_halfspace_triangle",
+    "__main__.Controls.test_singular_inconsistent_stationary",
+    "__main__.Controls.test_singular_stationary_line",
+    "__main__.Controls.test_universal_scalar_maximum"
+  ],
+  "failures": 0,
+  "errors": 0,
+  "runtime_seconds": 0.08803562502725981,
+  "scope": "engineering controls, not full mathematical root closure"
+}

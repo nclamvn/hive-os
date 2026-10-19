@@ -1,0 +1,92 @@
+{
+  "tip": "TIP-046",
+  "date": "2026-10-03",
+  "verifier": "Contractor Main",
+  "status": "APPROVED_LOCAL_WITH_SCOPE_LIMITS",
+  "scope": "Prospective sealed finite-grid LRC certificates inside the existing solver and two-role review path; not full Allikvere proof verification",
+  "contract_sha256": "e21948cbd6941771ac9727ead644265f240c05625bfc528d756bd977a3a94d1f",
+  "requirements": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "missing": 0,
+    "coverage_percent": 100,
+    "R1": "Strict bounded N, fixed M and N-1 sorted disjoint positive residue axes; independent expected scope/root binding. Historical contracts absent this field remain unchanged.",
+    "R2": "Root domain equality, unique reachable acyclic single-parent nodes and disjoint exhaustive axis partitions. Exact integer witness inequality accepts equality. Main separately flat-enumerated all 7776 tuples.",
+    "R3": "Exact finite GRID/SHIFT/CRT derivation; singleton NO_GRID exhausts only the fixed grid. PARTIAL never permits model dispatch. Actual default tree uses GRID/NO_GRID only, not SHIFT/CRT.",
+    "R4": "Separate pinned stdlib Python consumes untrusted certificate plus expected scope/root, verifies full tree and leaves independently. Source bytes verified then executed without rereading a path; bounded child process and strict matching report fail closed.",
+    "R5": "Trusted replay before solver dispatch; host-only immutable attempt envelope and v4 review bindings. Both actual fresh review contexts receive matching compact evidence. Injection/omission/tamper/downgrade rejected; no automatic theorem or human acceptance.",
+    "R6": "Authorized calibrated local presets and retained-only bilingual evidence panel. GET performs pure checks only. Browser displays exact finite counts, five digests, replay PASS, requested CLI model identity and honest INCONCLUSIVE AI conclusions. No ES campaign on typed LRC.",
+    "R7": "Adversarial focused tests plus actual Python, worker/adapter composition and guarded isolated database lifecycle. Historical v1-v3 semantics preserved. No immutability or RLS guard weakened.",
+    "R8": "Main independent arithmetic/mutant checks, final full unit/type/lint/build, scoped isolated DB and actual visible subscription-backed browser loop completed. Preserved dirty work; no paid API, Git publication or deployment."
+  },
+  "main_checks": {
+    "final_unit": {"command": "npm run test:unit -- --maxWorkers=1", "files": 112, "passed": 896, "failed": 0, "exit_code": 0, "start_local": "14:45:18", "duration_seconds": 232.72},
+    "final_typecheck": {"command": "npm run typecheck", "exit_code": 0},
+    "final_lint": {"command": "npm run lint", "exit_code": 0},
+    "final_production_build": {"command": "npm run build", "exit_code": 0, "typescript_passed": true, "standalone_environment": "scrubbed", "assets": "prepared"},
+    "isolated_db_new_lrc": {"passed": 1, "total": 1, "duration_seconds": 3.16, "test_seconds": 1.4, "exit_code": 0, "source_sha256": "db0b0dcdc8911c97f98f0218d4b3445b798cfdc332e43c06c7a45c1fda0f3442"},
+    "isolated_db_legacy_math_pilot": {"passed": 8, "total": 8, "run_duration_seconds": 61.60, "note": "Passed in the earlier scoped run, not a final all-integration suite."},
+    "database_guard": "Both DATABASE_URL and MIGRATION_URL verified loopback hiveos_test before isolated runs. Existing service principal and tenant-scoped transactions; no owner/RLS bypass or schema migration.",
+    "main_mutants": {"actual_python": true, "valid": "Both PASS", "missing_child": "Both INVALID", "overlap": "Both INVALID", "wrong_witness": "Both INVALID", "unreachable_node": "Both INVALID", "shrunk_root": "Both INVALID", "zero_work": "Both PARTIAL", "rehashing": "Mutants rehashed, so rejection is semantic, not merely stale digest."},
+    "separate_flat_enumeration": {"tuples": 7776, "witnesses": 7407, "fixed_grid_exclusions": 369, "unresolved": 0},
+    "retained_db_integrity": "Main tenant-scoped read independently recomputed contract/attempt/dossier digests, pure certificate evidence and recorded v4 ledger validity; all valid.",
+    "manifest": {"current_entries_passed": 88, "current_sha256": "fe24d09e471cc73af8fdf91da763874b03a0d7b82b17825477dcbac2f96638fb", "founding_bytes_equal_head": true},
+    "source_pins": "17 core/product source/test pins match Builder reports; three replay source/test pins checked separately; 20 total. Final diff --check exit0 before documentation append."
+  },
+  "actual_browser_loop": {
+    "url": "http://127.0.0.1:3001/w/mathematics-pilot-lab-156de0/research/math-pilot?missionId=31943653-4a30-462a-af11-ecd99f9ebfa2&caseId=8de9fcf3-1553-4aca-a202-0a818dd80458",
+    "case_id": "8de9fcf3-1553-4aca-a202-0a818dd80458",
+    "root_digest": "8320cfeb58d56e31d74521cb431beed9370996b9a1369b53f45d23d51aecb5fb",
+    "scope_digest": "7773c8ba9ed0d16504571926e34ccb1429913a32be60c5b232907b8d26019858",
+    "certificate_digest": "1a2dd121f74b54a8b939901e8ed4e4e9adc7b8f75ca41e2d8c2995828236fcb6",
+    "evidence_digest": "6962c3d53af41e93e642dbe4b49c87aed42e5374594076975bab255d8980e990",
+    "attempt_digest": "5d2948abea5ec5450ade620ef27d0f880b53076564a4827daf57c4606b401d8a",
+    "review_ledger_digest": "eb0a780ef620fe74e291b08370143973ed5c8136b52f624f45dfb0ea3bfa2956",
+    "python_source_digest": "280ec187a51e5873e6890b9c764d183513d1822d0f2d568fae3c16447bd6b099",
+    "certificate_status": "PASS",
+    "summary": {"total": 7776, "covered": 7776, "witness": 7407, "fixed_grid_excluded": 369, "unresolved": 0, "nodes": 4957, "leaves": 2479, "grid_leaves": 2110, "no_grid_leaves": 369, "shift_leaves": 0, "crt_leaves": 0},
+    "run_status": "AWAITING_REVIEW",
+    "solver_attempt": "PARTIAL",
+    "critic": "INCONCLUSIVE",
+    "adversary": "INCONCLUSIVE",
+    "ledger_version": 4,
+    "human_assessment": null,
+    "requested_cli_model": "gpt-6-sol",
+    "model_identity_limit": "Requested CLI configuration only, not provider attestation or different-model independence.",
+    "contexts": {"solver": "01a100b4-959e-73a3-8f94-eb224afa85ac", "critic": "01a100b4-ff01-7480-b57b-78346d1abedb", "adversary": "01a100b5-4e8d-7c60-a2b1-6e2f35ad033a"},
+    "observed_tokens": {"input": 48497, "output": 1613, "api_billed_usd": null, "note": "Actual subscription-backed Codex contexts; no API-key calls. Null is not a measured zero-dollar API bill."},
+    "jobs": "Execute and review both SUCCEEDED on attempt1; no further jobs created during final read-only UI verification.",
+    "scientific_interpretation": "Trusted Python verified full finite tree before solver. Model contexts saw compact summaries, not full branch data, and declined to claim they independently audited all branches. Tool PASS and AI INCONCLUSIVE are separate honest outcomes.",
+    "screenshot": "/private/tmp/hive-tip046.7aqa2R/lrc-agent-gate.png",
+    "screenshot_sha256": "c9bf4a11c62098b0348a285f80df96fe103b0386bd67bb524fed8195edf4d498",
+    "final_runtime": "Local UI port3001 up; queue disabled; worker stopped cleanly; unrelated port3000 left untouched."
+  },
+  "repaired_during_qa": [
+    "Type-only test fixture errors and old ES-target BigInt literal corrected before final gates.",
+    "Aligned primary/Python schema cardinalities and added final serialization/hash deadline checks and shared remaining replay deadline.",
+    "Three new integration runs initially failed fixture expectations: intended guard throw, unscoped fixture RLS read, then expected unavailable-tool/injection throw. Fourth scoped run passes. No product authorization or database protection was relaxed.",
+    "Skeptical review found fixture trying to edit a frozen attempt; repaired to assert rejection and unchanged retained bytes.",
+    "Actual browser caught ledger-v4 requested-model display omission; changed presentation v3-only to >=3 and added source-projection regression. Final whole suite includes the eighth product unit test.",
+    "Main's first mutation harness did not catch intentional invalid Python exit; corrected harness handled both statuses and all semantic mutants agreed."
+  ],
+  "role_reports": {
+    "core": {"path": "docs/verification/TIP-046_CORE_COMPLETION_REPORT.json", "sha256": "5a5c9d6a4e3303c309945a00b6fc8ebb4afd5703f2274393e0215c4e3434fbf5"},
+    "replay": {"path": "docs/verification/TIP-046_REPLAY_COMPLETION_REPORT.json", "sha256": "2ce8caaf4f225baebff3ede7ecf32e5aa17a5a2168d33cc08f87da1edcdf2da7"},
+    "product": {"path": "docs/verification/TIP-046_PRODUCT_COMPLETION_REPORT.json", "sha256": "e888df25a22194116911fc7dbd5bae2fcf6f14833f357d8812555ff0a3e0e5e5"},
+    "skeptical_review": "docs/verification/TIP-046_INDEPENDENT_SKEPTIC_REPORT.md; core author reviewed only separately owned replay/product, not own core. Main independently checked core."
+  },
+  "deferred_or_excluded": [
+    "Complete Allikvere 14-runner all-prime/tree reconstruction, 15-runner theorem or accepted lower-case induction lemma; singleton presets do not cover these claims.",
+    "Universal structural proof, novelty, formal assistant or external expert acceptance.",
+    "Generic autonomous LRC campaign/portfolio scheduler or on-demand full-certificate reviewer exploration beyond the compact three-context path.",
+    "All integration files, responsive cross-browser matrix, deployment and production performance/security certification were not claimed as run this turn.",
+    "Hashes attest local byte consistency, not external signatures, interpreter identity or compromised administrator resistance. Synchronous host deadlines are cooperative observed checkpoints, not arbitrary JavaScript CPU preemption."
+  ],
+  "preservation": {
+    "head": "4d108227498d3578c9ac3fe60305c10da5aa905b",
+    "branch": "codex/tip-023a-organization-graph",
+    "prior_handoff_sha256": "568dc52ca4d51b881a76bdea4fc6aa75d646416382711b9351a74614e07537ed",
+    "untouched": "Existing 70 dirty screenshots, prior TIP044/045 files, workspace YAML and Python cache; existing case records and hashes. No Git index/commit/push, paid API, migration, dependency install or remote deployment."
+  }
+}

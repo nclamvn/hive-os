@@ -1,0 +1,109 @@
+{
+  "tip": "TIP-049",
+  "date": "2026-10-03",
+  "verifier": "Main Contractor; separate code paths and exact arithmetic, not an external mathematical certifier",
+  "implementationStatus": "READY_WITH_DEFERRED",
+  "researchStatus": "PARTIAL",
+  "globalVerdict": "NOT_ESTABLISHED",
+  "contractSha256": "04e2cb6a61cb254341e9bea42567f560018d51d39c9147c332f5795033e34def",
+  "requirements": {
+    "R1": "PASS: deterministic externally base-bound eight-job plan; original coordinate singleton restriction and exact target/root/source binding; rehashed cross-parent/narrowing/duplicate faults refused.",
+    "R2": "PASS: separately checked additive counts, preservation of established and unselected leaves, complete exact remaining frontier and antichain; no global gap promotion.",
+    "R3": "PASS: actual pinned Python replay on eight base and eight child certificates, independent composition and exact output/summary match; malformed semantic evidence fails closed.",
+    "R4": "PASS: Main ran one default bounded collector, retained separate actual admitted checkpoint; instrumented Product test observed nine execution calls in positive control and zero for retained GET projection.",
+    "R5": "PASS: live bilingual desktop/mobile scopes, counts, provenance and LaTeX; no horizontal document overflow, old panels retained. Post-build server restored and fresh page loaded.",
+    "R6": "PASS: quantified Builder reports, independent Main controls, full unit/type/lint/build, immutable prior pins and manifests, append-only handoff. External/formal/global acceptance expressly deferred."
+  },
+  "actualCollector": {
+    "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-frontier-audit.ts --write",
+    "elapsedMs": 36279,
+    "jobs": 8,
+    "closureControlsComplete": 4,
+    "strategicMassPartial": 4,
+    "checkpointPath": "docs/research/lrc-allikvere-p199/retained-frontier-report.json",
+    "bytes": 5847016,
+    "rawSha256": "a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268",
+    "contentDigest": "e1f1825b817e21b1672e64e025a1c4790d4e1518b94a9e1ab866cb757604f420",
+    "planDigest": "3c32a869d5dbc4f01c561229e3f73b0312c16e473a83ee9fd1288c2450783d40",
+    "loopKind": "LOCAL_COMPUTATIONAL_TOOL_AGENT_LOOP",
+    "isHiveModelCampaign": false,
+    "rows": [
+      {"parent":"tight0", "previousClassified":"137649330", "currentClassified":"260155553", "delta":"122506223", "unresolved":"96628854854", "remainingFrontier":62},
+      {"parent":"tight1", "previousClassified":"160170710", "currentClassified":"316139670", "delta":"155968960", "unresolved":"96572870737", "remainingFrontier":55},
+      {"parent":"tight2", "previousClassified":"71093610", "currentClassified":"160043457", "delta":"88949847", "unresolved":"96728966950", "remainingFrontier":64},
+      {"parent":"gw0", "previousClassified":"95497374", "currentClassified":"219045631", "delta":"123548257", "unresolved":"96669964776", "remainingFrontier":54}
+    ],
+    "deltaSum":"490973287",
+    "countMeaning":"Row-domain assignments, not globally unique velocity configurations, orbit classes, novel mathematics or global completion. Each parent has 96889010407 ordered assignments and remains PARTIAL; anchored subsets are not added."
+  },
+  "mainIndependentControls": {
+    "actualPythonCertificatesReplayed":16,
+    "exactSummaryAndOutputDigestMatch":true,
+    "remainingFrontierReconstructedFromBaseAndChildren":true,
+    "pairwiseAntichainComparisons":6823,
+    "closureBoundLeavesCheckedBySeparateExplicitSetOracle":10,
+    "coherentlyNestedRehashedFaultsRefusedByBothTsAndActualPython": [
+      "Duplicate replacement", "Undeclared child narrowing", "Cross-parent child root", "Impossible zero COVER_BOUND root"
+    ],
+    "faultResultCaveat":"Diagnostic recorded nonacceptance/failclosed, not exact process exit codes or external certification.",
+    "structuralDiagnostic": {
+      "implementedCoverageAuthority":false,
+      "H":398,
+      "M":2786,
+      "unitMultipliers":[1,797,1195,1593,1991,2389],
+      "foldedTimePermutationsChecked":6,
+      "axisIdentitiesChecked":2184,
+      "badPredicateIdentitiesChecked":6084624,
+      "proposal":"Separately seal and verify unit-action certificate transport and exact union accounting before reusing coverage. Do not multiply counts by six or call this a new theorem.",
+      "reference":"https://arxiv.org/html/2609.02604v2",
+      "note":"Unit-orbit background is already in Allikvere Remark2.3. Special lift action is a derived diagnostic, not formal/external novelty acceptance."
+    }
+  },
+  "qa": {
+    "unitCommand":"node node_modules/vitest/vitest.mjs run --project unit --maxWorkers=2",
+    "unitFiles":121,
+    "unitPassed":1029,
+    "unitFailed":0,
+    "unitSeconds":235.42,
+    "newFocusedTests":{"core":19,"replay":8,"product":19},
+    "typecheck":"PASS",
+    "lint":"PASS",
+    "productionBuild":"PASS",
+    "diffCheck":"PASS",
+    "dbIntegration":"NOT_RUN_THIS_TURN",
+    "browser": {
+      "desktop":{"width":1280,"height":960,"documentWidth":1280,"language":"VN","newPanelKatex":1,"mathErrors":0,"screenshot":"/private/tmp/hive-tip049.fCpuTu/frontier-desktop-vi.png","sha256":"08fd1c1646d16f58f746d105c369753f7ec332c9405a6f682fac195ebb2cf644"},
+      "mobile":{"width":390,"height":844,"documentWidth":390,"language":"EN","newPanelKatex":1,"mathErrors":0,"screenshot":"/private/tmp/hive-tip049.fCpuTu/frontier-mobile-en.png","sha256":"ffd004329c5c47465660bc208dfff583001ff5b222f3727f7c75cc711e60e490"},
+      "viewportReset":true,
+      "userFacingTab":"16",
+      "url":"http://127.0.0.1:3001/w/mathematics-pilot-lab-156de0/research/math-tools?view=allikvere#allikvere-frontier",
+      "postBuildHttpStatus":200,
+      "readLatencySecondsObserved":[15.1,10.8],
+      "performanceDeferred":"Content-hash-bound admission cache or equivalent verified read optimization; do not bypass pure validation or misrepresent normal auth/loading as instantaneous."
+    }
+  },
+  "preservation": {
+    "priorPinnedFiles":16,
+    "currentManifestEntries":91,
+    "foundingManifestUnchanged":true,
+    "handoffPriorBytes":209200,
+    "handoffPriorPrefixSha256":"f23eab9f36effe81d845d60aefa38c7bf97137bb62b44d7addbfd39b6bf4786f",
+    "head":"4d108227498d3578c9ac3fe60305c10da5aa905b",
+    "gitPublication":false,
+    "paidApiCalls":0,
+    "databaseMutations":0,
+    "dependencyInstall":false,
+    "deployment":false,
+    "queueEnabled":false,
+    "worker":"STOPPED"
+  },
+  "disclosedFailuresAndLimits": [
+    "Replay mutation batch initially exceeded the default test timeout; split into two actual semantic batches rather than increase product caps. All final eight Replay tests passed.",
+    "Product early draft PIN_PENDING failed closed before acceptance; no forged checkpoint or skipped validation. Core uses mock independent child receipts in unit fixtures; Main and Replay actual Python provide separate execution coverage.",
+    "Temporary old IAB tab became a connection-error data URL after stopping dev for build. Fresh tab16 loaded actual page after restart; no browser safety warning was bypassed.",
+    "Observed JavaScript deadlines are cooperative checks, not hard synchronous CPU preemption. Unsigned local hashes/receipts trust collector/storage/interpreter, not external attestation.",
+    "Pre-BUILD feasibility scanning is disclosed; these tests are not a blind benchmark, a model capability score or mathematical novelty.",
+    "Five global obligations remain: all level1 orbits, other primes, full terminal branches, lower LRC12, analytic/prime-product bound. Whole ZIP is unverified; gcd reductions remain conditional.",
+    "Typed compact-evidence admission into a fresh HIVE campaign, full14/15 theorem acceptance, formal proof, external expert review and structural certificate transport remain separate future work."
+  ]
+}

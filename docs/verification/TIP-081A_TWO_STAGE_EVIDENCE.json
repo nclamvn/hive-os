@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "purpose": "TIP081_OFFLINE_TWO_STAGE_ENGINEERING",
+  "preflight": [
+    {
+      "scope": "READ_ONLY_ACTUAL_GENERATED_CAP_CONTROL",
+      "sourceBefore": "12f5b0bc8cbdedae7ee63ccf43e433564dbe1f6f800811e82ba1d6dcfcea3464",
+      "sourceAfter": "12f5b0bc8cbdedae7ee63ccf43e433564dbe1f6f800811e82ba1d6dcfcea3464",
+      "milliseconds": 54.02145899999999,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "{\"purpose\":\"TIP081_OFFLINE_TWO_STAGE_RUNTIME\",\"status\":\"OFFLINE_RUNTIME_REFUSED\",\"code\":\"TIP081_RUNTIME_FILE_CAP\",\"message\":\"TIP081_RUNTIME_FILE_CAP\",\"details\":{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js\",\"bytes\":13448165,\"limit\":8388608},\"phase\":\"GENERATED_PREFLIGHT\",\"nftInvoked\":false,\"outputsCreated\":0,\"applicationBuilds\":0,\"fullRuntimeClosure\":\"NOT_ACCEPTED\"}\n"
+    },
+    {
+      "sourceBefore": "6f1bd4d98dab1ee5fa5b7a0d8fb7f67e23fb824f1b509ec4f354eddc41687ac7",
+      "sourceAfter": "6f1bd4d98dab1ee5fa5b7a0d8fb7f67e23fb824f1b509ec4f354eddc41687ac7",
+      "milliseconds": 47.82545800000001,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "{\"purpose\":\"TIP081_OFFLINE_TWO_STAGE_RUNTIME\",\"status\":\"OFFLINE_RUNTIME_REFUSED\",\"code\":\"TIP081_RUNTIME_FILE_CAP\",\"message\":\"TIP081_RUNTIME_FILE_CAP\",\"details\":{\"path\":\".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js\",\"bytes\":13448165,\"limit\":8388608},\"phase\":\"GENERATED_PREFLIGHT\",\"filePolicy\":\"PROVISIONAL_MAIN_RUNTIME_FILE_GUARD_NOT_INHERITED_OWNER_CAP\",\"nftInvoked\":false,\"outputsCreated\":0,\"applicationBuilds\":0,\"fullRuntimeClosure\":\"NOT_ACCEPTED\"}\n",
+      "scope": "FROZEN_FINAL_METADATA_REFUSAL_CONTROL"
+    }
+  ],
+  "actualRuntimeNftInvocations": 0,
+  "newApplicationBuilds": 0,
+  "serverStarts": 0,
+  "browserE2E": 0,
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "policy": {
+    "network": "DENY",
+    "writes": "DENY_EXCEPT_DEV_NULL",
+    "installedDependencyReads": "DENY",
+    "oversizedGeneratedFileDataReads": "DENY",
+    "protectedAttempt5Reads": "DENY"
+  },
+  "note": "Final184distinct unit controls/6files, focusedlint and wholeTypeScript PASS. Two earlier TSC failurecuts and sandbox-wrapperrefusal preserved. Tiny proofacceptedONLY; T1actualnormalizedconfigurationload/fullT2-T3runtimeclosure/realT4bootstrapremainOPEN. OverallPARTIAL_NOT_READY; freshapplicationbuildgrant0.",
+  "preliminaryChecks": {
+    "unit": {
+      "milliseconds": 2663.502833,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m68 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 164\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m30 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 283\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 377\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 48\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 25\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 25\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m184 passed\u001b[39m\u001b[22m\u001b[90m (184)\u001b[39m\n\u001b[2m   Start at \u001b[22m 20:13:46\n\u001b[2m   Duration \u001b[22m 2.00s\u001b[2m (transform 202ms, setup 0ms, import 435ms, tests 922ms, environment 0ms)\u001b[22m\n\n",
+      "stderr": ""
+    },
+    "lintType": [
+      {
+        "name": "lint",
+        "milliseconds": 2101.230083,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "milliseconds": 32967.217708000004,
+        "exitCode": 2,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "tests/unit/evidence-studio-runtime-package.test.ts(67,12): error TS2531: Object is possibly 'null'.\ntests/unit/evidence-studio-runtime-package.test.ts(67,126): error TS2531: Object is possibly 'null'.\ntests/unit/evidence-studio-runtime-package.test.ts(135,167): error TS2322: Type 'string' is not assignable to type 'null | undefined'.\ntests/unit/evidence-studio-runtime-package.test.ts(136,173): error TS2322: Type 'string' is not assignable to type 'null | undefined'.\n",
+        "stderr": ""
+      }
+    ],
+    "postFirstTestCorrection": [
+      {
+        "name": "unit",
+        "milliseconds": 2368.18,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m68 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 143\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m30 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 240\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 483\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 54\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 23\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 26\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m184 passed\u001b[39m\u001b[22m\u001b[90m (184)\u001b[39m\n\u001b[2m   Start at \u001b[22m 20:16:22\n\u001b[2m   Duration \u001b[22m 1.97s\u001b[2m (transform 178ms, setup 0ms, import 376ms, tests 968ms, environment 0ms)\u001b[22m\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "milliseconds": 2147.5905409999996,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "milliseconds": 30922.011583000003,
+        "exitCode": 2,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "tests/unit/evidence-studio-runtime-package.test.ts(137,32): error TS2345: Argument of type 'readonly any[]' is not assignable to parameter of type 'unknown[]'.\n  The type 'readonly any[]' is 'readonly' and cannot be assigned to the mutable type 'unknown[]'.\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "wrapperRefusal": {
+    "milliseconds": 8.211666,
+    "exitCode": 65,
+    "reason": "sandbox-exec: too many arguments to require-not",
+    "effects": "No test process started; policy syntax repaired before execution"
+  },
+  "tiny": {
+    "prepare": {
+      "milliseconds": 64.378834,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "{\"root\":\"/private/tmp/hiveos-tip081-runtime-eMizUt\",\"outputRoot\":\"/private/tmp/hiveos-tip081-runtime-8bvmoS\",\"purpose\":\"TIP081_OFFLINE_TWO_STAGE_RUNTIME\",\"inputBytes\":1568,\"inputEntries\":18,\"applicationBuilds\":0}\n",
+      "stderr": ""
+    },
+    "run": {
+      "milliseconds": 124.83545800000002,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "{\"root\":\"/private/tmp/hiveos-tip081-runtime-8bvmoS\",\"version\":1,\"purpose\":\"TIP081_OFFLINE_TWO_STAGE_RUNTIME\",\"status\":\"OFFLINE_MATERIALIZED_APP_NOT_EXECUTED\",\"planDigest\":\"29ce8e92d4e22bfb047c93a97469fd1801256d206f792a1119fd1633da93cc4d\",\"sourceDigest\":\"6f1bd4d98dab1ee5fa5b7a0d8fb7f67e23fb824f1b509ec4f354eddc41687ac7\",\"files\":9,\"applicationBuilds\":0,\"buildAuthority\":\"NONE\",\"appExecuted\":false,\"totalBytes\":9431,\"totalEntries\":35,\"rawNftFiles\":[\"entry.cjs\",\"node_modules/@tip081/root/data.json\",\"node_modules/@tip081/root/index.cjs\",\"node_modules/@tip081/root/node_modules/nested-child/index.cjs\",\"node_modules/@tip081/root/node_modules/nested-child/package.json\",\"node_modules/@tip081/root/node_modules/nested-child/value.cjs\",\"node_modules/@tip081/root/package.json\"],\"declaredInclusions\":[\"node_modules/@tip081/root/asset.txt\"],\"unionEntries\":8,\"readBytes\":634,\"operations\":563,\"isolationRequired\":\"MAIN_OS_DENY_ORIGINAL_AND_INSTALLED_READS\",\"fullProductClosure\":\"NOT_ACCEPTED_PROVISIONAL_GUARD_AND_OPEN_COVERAGE\"}\n",
+      "stderr": ""
+    },
+    "isolatedLoad": {
+      "milliseconds": 64.026042,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "{\"controls\":[{\"file\":\"/private/tmp/hiveos-tip081-runtime-eMizUt/tiny-installed/@tip081/root/index.cjs\",\"code\":\"EPERM\"},{\"file\":\"/Users/os/hiveos/node_modules/next/package.json\",\"code\":\"EPERM\"}],\"result\":{\"purpose\":\"TIP081_OFFLINE_TWO_STAGE_RUNTIME\",\"status\":\"ISOLATED_TINY_LOAD_PASS\",\"value\":81,\"asset\":\"engineering-only\",\"isolationRequired\":\"MAIN_OS_DENY_ORIGINAL_AND_INSTALLED_READS\",\"applicationBuilds\":0,\"fullProductClosure\":\"NOT_ACCEPTED_PROVISIONAL_GUARD_AND_OPEN_COVERAGE\"}}",
+      "stderr": ""
+    },
+    "policies": {
+      "prepare": "Network denied; writes only /private/tmp",
+      "run": "Network denied; writes only exact /private/tmp/hiveos-tip081-runtime-8bvmoS plus /dev/null; inputs and installation read-only",
+      "load": "Network/all file writes denied except /dev/null; entire original input root and installed node_modules reads denied; two actual EPERM controls before load"
+    }
+  },
+  "preservation": {
+    "milliseconds": 96.53075,
+    "exitCode": 0,
+    "signal": null,
+    "errorCode": null,
+    "stdout": "{\"predecessorChanges\":[\"scripts/test/build-tip081.mjs\",\"tests/unit/evidence-studio-harness.test.ts\"],\"oldPins\":79,\"assets\":16,\"support\":2,\"status\":\"MATCH\",\"immutable\":{\"next.config.ts\":{\"bytes\":1831,\"sha256\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\"},\"scripts/test/compiler-tip081-overlay.mjs\":{\"bytes\":5841,\"sha256\":\"72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4\"},\"scripts/test/start-tip081-standalone.mjs\":{\"bytes\":1885,\"sha256\":\"cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad\"},\"node_modules/next/dist/build/utils.js\":{\"bytes\":52281,\"sha256\":\"df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e\"},\"node_modules/next/dist/build/collect-build-traces.js\":{\"bytes\":24686,\"sha256\":\"1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734\"},\"node_modules/next/dist/compiled/@vercel/nft/index.js\":{\"bytes\":265370,\"sha256\":\"19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs\":{\"bytes\":2661,\"sha256\":\"dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json\":{\"bytes\":601,\"sha256\":\"c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json\":{\"bytes\":813,\"sha256\":\"6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4\"},\"/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json\":{\"bytes\":699,\"sha256\":\"53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b\"},\"artifacts/tip080/run-8ec3fa5b/completed-export.json\":{\"bytes\":120417,\"sha256\":\"976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2\"}}}\n",
+    "stderr": ""
+  },
+  "actualTinyNftInvocations": 1,
+  "policyProvenance": "All-runtime8MiB and combined64MiB guards are provisional Main implementation policy, not inherited universal Owner ceilings",
+  "finalChecks": [
+    {
+      "name": "unit",
+      "milliseconds": 1825.596084,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m68 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 116\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m30 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 200\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 275\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 37\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 20\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 20\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m184 passed\u001b[39m\u001b[22m\u001b[90m (184)\u001b[39m\n\u001b[2m   Start at \u001b[22m 20:17:44\n\u001b[2m   Duration \u001b[22m 1.46s\u001b[2m (transform 145ms, setup 0ms, import 306ms, tests 668ms, environment 0ms)\u001b[22m\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "lint",
+      "milliseconds": 1973.6159999999998,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "type",
+      "milliseconds": 27529.99525,
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sourceAdmission": {
+    "milliseconds": 149.02420899999998,
+    "exitCode": 0,
+    "signal": null,
+    "errorCode": null,
+    "stdout": "{\"status\":\"SOURCE_ADMISSION_PASS\",\"entries\":119,\"oldPins\":79,\"newPins\":23,\"assetPins\":16,\"assetBytes\":13117879,\"oldManifestDigest\":\"bc4f5ca90ac5d9a2b85698f05cc8717a889ce4a8ad93c3d7b7211a43b4de28cd\",\"newManifestDigest\":\"0e1a580cde3af50fa32270ba8b5badd28ee2ba7a159ba28d67383778e03d7c65\"}\n",
+    "stderr": ""
+  },
+  "cliRefusals": [
+    {
+      "mode": "--prepare",
+      "milliseconds": 52.32970900000001,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:179:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:180:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    },
+    {
+      "mode": "--build-only",
+      "milliseconds": 51.843958,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:179:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:180:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    },
+    {
+      "mode": "--package-only",
+      "milliseconds": 48.648707999999985,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "",
+      "stderr": "file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144\nexport function assertRepairMode(mode){if(mode===\"--build-only\"||mode===\"--prepare\"||mode===\"--package-only\")throw new Error(\"TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\");return true;}\n                                                                                                                   ^\n\nError: TIP081_PACKAGING_REPAIR_NO_APPLICATION_EFFECTS\n    at assertRepairMode (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:144:116)\n    at main (file:///Users/os/hiveos/scripts/test/build-tip081.mjs:179:198)\n    at file:///Users/os/hiveos/scripts/test/build-tip081.mjs:180:90\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.14.1\n"
+    }
+  ],
+  "finalSourcePins": {
+    "scripts/test/runtime-tip081-package.mjs": "6f1bd4d98dab1ee5fa5b7a0d8fb7f67e23fb824f1b509ec4f354eddc41687ac7",
+    "scripts/test/build-tip081.mjs": "2c77b1468f580efca85c7f9dc4f53aad84ce7299b456d9328ed8ac9a6e09133c",
+    "tests/unit/evidence-studio-harness.test.ts": "ca7bc9507438f7264e65ba0cc3d86fb3ae71bb4c6688401f8dd68d0c3ac51928",
+    "tests/unit/evidence-studio-runtime-package.test.ts": "2a4358b65bcc79ae786b28bb98f72dc79f57ede46c6e54fc67e6c377dd272739"
+  },
+  "reviewDigest": "2c9e42bc2818f0da10e36f1e81160f7d557410a24b82b3b9d7d9844406a358d3",
+  "sourceBundleDigest": "0e1a580cde3af50fa32270ba8b5badd28ee2ba7a159ba28d67383778e03d7c65",
+  "totalRecordedChildMilliseconds": 105260.616333
+}

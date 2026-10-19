@@ -65,6 +65,32 @@ describe("permission matrix (ID-09)", () => {
       expect(hasCapability("VIEWER", capability)).toBe(false);
     }
   });
+
+  it("governed authoring is readable by all roles and writable by active contributors", () => {
+    for (const role of ALL_ROLES) {
+      expect(hasCapability(role, "authoring.read")).toBe(true);
+    }
+    for (const role of ["OWNER", "ADMIN", "MEMBER"] as const) {
+      expect(hasCapability(role, "authoring.write")).toBe(true);
+      expect(hasCapability(role, "authoring.export")).toBe(true);
+    }
+    expect(hasCapability("VIEWER", "authoring.write")).toBe(false);
+    expect(hasCapability("VIEWER", "authoring.export")).toBe(false);
+  });
+
+  it("TIP-024B research is readable by all, requested by contributors, and reviewed only by Owner/Admin", () => {
+    for (const role of ALL_ROLES) expect(hasCapability(role, "research.read")).toBe(true);
+    for (const role of ["OWNER", "ADMIN", "MEMBER"] as const) {
+      expect(hasCapability(role, "research.request")).toBe(true);
+      expect(hasCapability(role, "sandbox.request")).toBe(true);
+    }
+    for (const role of ["OWNER", "ADMIN"] as const) {
+      expect(hasCapability(role, "research.review")).toBe(true);
+      expect(hasCapability(role, "sandbox.review")).toBe(true);
+    }
+    expect(hasCapability("MEMBER", "research.review")).toBe(false);
+    expect(hasCapability("VIEWER", "sandbox.request")).toBe(false);
+  });
 });
 
 describe("role transition authority (ID-10)", () => {

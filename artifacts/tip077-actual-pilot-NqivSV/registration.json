@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "study": "ACTUAL_CAPABILITY_PILOT_077",
+  "provenance": "EXTERNAL_CODEX_ASSISTED_OBSERVATIONAL",
+  "approval": "Human: đo năng lực thực tế ngay",
+  "charterSha256": "3d5f5899c836a11b51ec856326b8db7b7e9e53b3844ad7d4815b098acf486429",
+  "cohortStartedAt": "2026-10-05T15:50:53Z",
+  "cohortDeadlineAt": "2026-10-05T17:20:53Z",
+  "officialSource": "https://www.imo-official.org/assets/documents/problems/2024/2024_eng.pdf",
+  "officialPdfSha256": "0af020a3fd0bf03ff38b2218daa516ab78a5bf2d2796591923e03b444b6243a5",
+  "statementVerification": "Original page1 visually inspected; projections rephrased with equivalent quantifiers/formulas, not reconstructed from memory",
+  "publicExposure": true,
+  "historicalAndTrainingContamination": "UNKNOWN",
+  "requestedModel": "gpt-6.1-sol",
+  "configuredReasoningEffort": "high",
+  "configuredServiceTier": "priority",
+  "servedModelVersion": "UNKNOWN",
+  "authentication": "Existing ChatGPT login; no API-key fallback",
+  "perArm": {"visibleRequests": 4, "freshSessions": 4, "outerSeconds": 600, "computationCommands": 12, "perCommandSeconds": 60, "aggregateCommandSeconds": 120, "dataBytes": 2097152, "traceBytes": 524288, "proofBytes": 32768},
+  "perPairPostgrade": {"visibleRequests": 2, "outerSeconds": 480, "computationCommands": 4, "perCommandSeconds": 60, "aggregateCommandSeconds": 120, "dataBytes": 2097152},
+  "roster": [
+    {"order": 1, "id": "P1-DIRECT", "task": "p1.txt", "arm": "DIRECT_WITH_TOOLS"},
+    {"order": 2, "id": "P1-METHOD", "task": "p1.txt", "arm": "METHOD_ASSISTED"},
+    {"order": 3, "id": "P2-METHOD", "task": "p2.txt", "arm": "METHOD_ASSISTED"},
+    {"order": 4, "id": "P2-DIRECT", "task": "p2.txt", "arm": "DIRECT_WITH_TOOLS"},
+    {"order": 5, "id": "P3-DIRECT", "task": "p3.txt", "arm": "DIRECT_WITH_TOOLS"},
+    {"order": 6, "id": "P3-METHOD", "task": "p3.txt", "arm": "METHOD_ASSISTED"}
+  ],
+  "requestAllocation": "For BOTH arms: fresh attempt, fresh same-arm criticism, fresh final revision, each charged. Fixed three-request pipeline unless arm deadline/resource exhaustion; fourth remains unused. Critic and revision see only same-arm original artifacts. The last completed revision is the submission, not a Main-chosen answer; on earlier exhaustion retain attempt but grade incomplete arm status explicitly.",
+  "toolPolicy": "Identical local in-memory arithmetic/Python computation only; no reads/writes/network/web/MCP/plugins/extra agents. Task-root empty; prompt stdin only. Sandbox read-only; user-config ignored except explicit same configured model/effort/tier restored. Enforce observed command counts/elapsed; filesystem isolation is instructional not asserted hardened.",
+  "grading": "After ALL six submissions sealed, two fresh arm-blinded pair-review sessions. First independent audit; second independent review plus bounded grader-only reference notes if safely acquired. No solution repair, no majority vote. Unresolved disagreement REVIEW_INCONCLUSIVE. No official score/formal verification/host universal certificate.",
+  "budgetEquality": "MATCHED_OBSERVABLE_OPPORTUNITY_NOT_VERIFIED_EQUAL_MODEL_COMPUTE",
+  "stopping": "Arm-local exhaustion retains failure and moves to remaining original roster. Cohort integrity/unknown effect/outer deadline stops entire cohort. No swaps, cap increase, paid API, fallback or post-verdict repair.",
+  "pins": {
+    "p1.txt": "67cc73d58d64e3ddc0633148b50ed55e79cae95baff23dd28c026a3b3088438d",
+    "p2.txt": "5388cd1b442bd6492266f9a1cc92e3eea80ea3eeab550501e0f0b8504e06b07d",
+    "p3.txt": "a23d36985266b723a5be63dbbd55e2a0e5704e7d6365806c99e6def41e54b2a6",
+    "common-policy.txt": "f146ce27428abe86ea6621b34e6caef87603735b68583b08a3ab23e85cc6a23a",
+    "direct-policy.txt": "a50f0a975883be5a1c9175384c647dec17aac073e73ae269f48d89f8b88d1c25",
+    "method-policy.txt": "a92cb408de6a12c374ccf509c1dbf59048a799ee430749c2617ee8bd771b3a30",
+    "review-policy.txt": "d002cf6109be679eb02cb8dc5708cd31a084d5681b6f132e561e7bff11e3b8d3"
+  }
+}

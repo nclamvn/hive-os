@@ -1,0 +1,9 @@
+{
+  "purpose": "P2_REVIEWED_FIFTH_INERT_DERIVATION",
+  "status": 0,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "{\"purpose\":\"TIP081_P2_INERT_DIAGNOSTIC_CAPTURE\",\"importedCandidate\":false,\"parserAdmission\":\"ALLOCATION_COVERAGE_OPEN\",\"sourceRows\":7274,\"openRows\":0,\"unmatchedRows\":0,\"candidateBytes\":929492,\"candidateSha256\":\"e4a80ada0cf4ac8ae86943f4ab02b9b281da7334d9df7014dee853d69cf06b40\",\"inventoryBytes\":5707632,\"inventorySha256\":\"6f94aa4bc3e011d7865ac288dc01f54dd0d2d18c1ffba9ea9889c9f5d6ef713d\",\"staticBytes\":376244,\"workspaceBytes\":2732736}\n",
+  "stderr": "",
+  "milliseconds": 1508.4932919999999
+}

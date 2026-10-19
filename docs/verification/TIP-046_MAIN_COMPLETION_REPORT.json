@@ -1,0 +1,13 @@
+{
+  "tip": "TIP-046",
+  "role": "Contractor Main",
+  "status": "READY_WITH_DEFERRED",
+  "requirements": {"total": 8, "implemented": 8, "verified": 8, "missing": 0, "coverage_percent": 100},
+  "verify_report": "docs/verification/TIP-046_LRC_AGENT_GATE_VERIFY_REPORT.json",
+  "completed": "Independent exact leaf plus full finite branch-tree verification is now a mandatory trusted gate before solver and bound into immutable attempt and v4 peer-review evidence, with retained bilingual UI.",
+  "qa": {"unit_passed": 896, "unit_files": 112, "isolated_lrc_integration_passed": 1, "earlier_legacy_math_pilot_integration_passed": 8, "typecheck": "PASS", "lint": "PASS", "build": "PASS", "actual_browser_three_context_loop": "PASS_FLOW_NOT_THEOREM"},
+  "observed": {"finite_tuples": 7776, "witness_tuples": 7407, "fixed_grid_exclusions": 369, "unresolved": 0, "independent_replay": "PASS", "solver": "PARTIAL", "ai_reviews": "INCONCLUSIVE"},
+  "open_scope": "Full Allikvere coverage, universal LRC/15-runner result, generic campaign scheduler, novelty/formal/external acceptance are not established by this package.",
+  "method": "Vibecode Kit Builder/Contractor separation: three independently owned implementation packages, read-only replay/product skeptical review, Main arithmetic/mutant, DB, final suite/build and visible browser acceptance. Same-host/model contexts do not replace external mathematical review.",
+  "final_runtime": "UI 127.0.0.1:3001 remains available, execution queue disabled and worker stopped. No Git delivery requested or performed."
+}

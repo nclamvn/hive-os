@@ -1,0 +1,8 @@
+9dfc55627924ab6e3a1c939cd26085bb5dad83d1e4f8e4c5fddfe7495174b7db  artifacts/qa/holdout-operator-20261014/sources/sfc-erp/Addendum1.pdf
+94e203d2387dae679ae440ba683106be962216908f1aa5ef3ad6bb301050114f  artifacts/qa/holdout-operator-20261014/sources/sfc-erp/Addendum2.pdf
+27a743552d629f7f18e90fb67affb5a20f2d5c21f0253d5fda89458ff896516f  artifacts/qa/holdout-operator-20261014/sources/sfc-erp/Addendum3.pdf
+057a2a9c117ce9c5de621aa3528f330f6147b8ae2717643856f8e5a13cb81011  artifacts/qa/holdout-operator-20261014/sources/sfc-erp/Addendum4.pdf
+a4ee97213b5d9a7ae862606f59d96626d326237f62fc5e9e67891f09be47f6ec  artifacts/qa/holdout-operator-20261014/sources/sfc-erp/RFP.pdf
+05b6d60bd1493edaad5a1d95cf41ae52e097198eacc03733d4b86886d1aeb58c  artifacts/qa/holdout-operator-20261014/sources/sfc-jms/Addendum1.pdf
+fc84b7870e54ae533dd21ef70688cc72761ce1cdb9b5cf9054f4d2fa79fce3c5  artifacts/qa/holdout-operator-20261014/sources/sfc-jms/Award.pdf
+4ea81e4e783fc68244049d98f2aa1de435b342697c030537962a430b1186fc7f  artifacts/qa/holdout-operator-20261014/sources/sfc-jms/RFP.pdf

@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 
 import type { WorkspacePageData } from "@/server/auth/workspace-page";
 
+import { AccountMenuActions } from "./account-menu-actions";
 import { AppShell } from "./app-shell";
-import { SignOutButton } from "./sign-out-button";
-import { WorkspaceSwitcher } from "./workspace-switcher";
+import type { SidebarEnterpriseScope } from "./sidebar-content";
 
 /**
  * Authenticated application shell for workspace routes. Renders real identity
@@ -17,6 +17,8 @@ export function WorkspaceShell({
   rail,
   footer,
   children,
+  enterpriseScope,
+  researcherMode,
 }: {
   data: WorkspacePageData;
   title: string;
@@ -24,12 +26,10 @@ export function WorkspaceShell({
   rail?: ReactNode;
   footer?: ReactNode;
   children: ReactNode;
+  enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }) {
-  const { ctx, workspaces } = data;
-  const options = workspaces.map((w) => ({
-    slug: w.workspace.slug,
-    name: w.workspace.name,
-  }));
+  const { ctx } = data;
 
   return (
     <AppShell
@@ -38,15 +38,11 @@ export function WorkspaceShell({
       account={{ name: ctx.user.name, email: ctx.user.email }}
       homeHref={`/w/${ctx.workspace.slug}`}
       controlRoomHref={`/w/${ctx.workspace.slug}/control-room?find=1`}
-      brandSlot={
-        <WorkspaceSwitcher
-          current={{ slug: ctx.workspace.slug, name: ctx.workspace.name }}
-          workspaces={options}
-        />
-      }
-      footerSlot={<SignOutButton />}
+      footerSlot={<AccountMenuActions />}
       rail={rail}
       footer={footer}
+      enterpriseScope={enterpriseScope}
+      researcherMode={researcherMode}
     >
       {children}
     </AppShell>

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "purpose": "READ_ONLY_EVIDENCE_STUDIO",
+  "sourcePins": {
+    "src/modules/research-evidence-studio/annotations.ts": "4b0520a8190e9e91b131d12cb7a169788a0dfdc1d15e7caa4da553b570febb87",
+    "src/modules/research-evidence-studio/presentation.ts": "f36265393b01e8d8bf1271ede5fc094c38cc49d18e959679088a47881c26fe29",
+    "src/modules/research-evidence-studio/reader.ts": "751b2609c2abd39ac2967a5b2ca0eaeea4bf2fce2ce7b6ed9db5dfa1e7c8cfe5",
+    "src/components/research/evidence-studio-panel.tsx": "fe27b66c7102e128b0ad7dd1e2cd0904c2ec0457cdfc99fc55b7f4e6256251fa",
+    "src/components/research/evidence-studio-math.tsx": "da07ea45f9ab1359dea7a827be68cdd1d4ab245d004f1c69ffeb1357d590c12e",
+    "src/app/w/[workspaceSlug]/research/evidence-studio/page.tsx": "183c7fe1ce75af884ffd9d0d876e884b22a7b44554b0bfa0a7baa32bc0c94d0e",
+    "src/i18n/evidence-studio-copy.ts": "f56ba4ad5d4a62ae312742b23dff6817e01e2b4a9aba8cec6376f76094bc1b79",
+    "tests/unit/evidence-studio.test.ts": "2e46846e95c7e803a3bf152c35be4544e07be4b27d57850f9d5e30a9febe8048",
+    "vitest-tip081.config.ts": "f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13",
+    "scripts/test/build-tip081.mjs": "e0c469cf6383ccdebcc37978840c065209b24732927c261aeb0a05c669e7097b",
+    "scripts/test/start-tip081-standalone.mjs": "1cbf825adccd08941f3f3986d58c6479f28c3f81601048ec820ff97435086dce",
+    "scripts/test/playwright-tip081.config.ts": "d27dc33b715b29355e4d13cc7a17b378b03ff5d12acbb50a1ffd1261994bed9d",
+    "tests/unit/evidence-studio-harness.test.ts": "25576b8fa33ef8d219005c6494941399c4a46fa10948e6a3ffee204494e5ccb1",
+    "tests/unit/evidence-studio-source-boundary.test.ts": "808a443d119e429e7d0ff2bdd176597cccfba9410b9f1136b13fe9c91c047c75",
+    "tests/integration/evidence-studio.test.ts": "fd3fb15acc60dbbcc518b727a8cb3f3646e20eed663493316713d61153caa52e",
+    "tests/e2e/evidence-studio.spec.ts": "a8818cc632a389347ef418b16bc60881436b93769be6a912aca9644d313831f8"
+  },
+  "supportPins": {
+    "scripts/operations/higherpower-core-check.ts": "fb2f8cc44564f86c4bb8982ee28efbdcb914505ec8ccb77e8a22354b122945cd",
+    "scripts/operations/higherpower-core-replay.ts": "6c9b2c41bcdf3016f6271385d1a3689a9ff759ed14beb2d6c2f63ea1e14ac7e7"
+  },
+  "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW.md",
+  "reviewDigest": "25896a74eb72402d04c40d4c40481d7669f6e83080b1559b28f33280d1b508f8"
+}

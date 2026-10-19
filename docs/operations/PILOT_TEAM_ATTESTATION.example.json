@@ -1,0 +1,12 @@
+{
+  "workspaceSlug": "replace-with-real-workspace",
+  "missionReference": "replace-with-real-mission",
+  "roles": {
+    "owner": "real-membership-id",
+    "engineers": ["real-membership-id"],
+    "verifier": "real-membership-id",
+    "operations": "real-membership-id"
+  },
+  "attestedAt": "replace-with-ISO-8601-time",
+  "note": "One person may cover more than one function, but the verifier must not verify their own execution for Research or Regulated assurance."
+}

@@ -1,0 +1,26 @@
+X: **INFORMALLY_REVIEWED_SUPPORTED**
+
+The original proof establishes all required polynomial properties. In-memory recurrence arithmetic confirms the submitted coefficients, the stated intermediate values, and
+\[
+p(19)=1876572071974094803391179.
+\]
+
+Its component proof is complete. The nineteen distinct Laurent-polynomial roots, paired as described, establish the exact factorization; the explicit injectivity argument correctly transfers it to \(\mathbb C[x,y]\). Each quadratic has nonsquare discriminant \(b_k(x^2-4)\), since \(b_k\ne0\) and the zeros at \(\pm2\) are simple. Monicity excludes factors depending only on \(x\). The distinctness argument establishes nine different irreducible quadratics alongside the diagonal.
+
+The projective argument also holds: the polynomial map is everywhere defined, its equality equation is correctly bihomogenized, and the only boundary point is \((\infty,\infty)\). The submitted parametrizations establish that this point belongs to each quadratic’s closure. Thus the projective curve has exactly ten irreducible components, nine nonlinear. No essential gap or circularity was found.
+
+Y: **INFORMALLY_REVIEWED_SUPPORTED**
+
+The recurrence and coefficient formula establish degree \(19\), monicity, oddness, integer coefficients, and linear coefficient \(-19\). In-memory arithmetic confirms the coefficient list and independently confirms the submitted Horner calculation:
+\[
+R(361)=98766951156531305441641,
+\qquad p(19)=1876572071974094803391179.
+\]
+
+Its factorization argument is valid independently: the nineteen roots are distinct, exhaust the monic polynomial’s roots after substitution, and pair to give the stated quadratics. The transcendence argument justifies injectivity of substitution. Each discriminant \(4(1-c_k^2)(4-x^2)\) has simple zeros and is therefore not a rational square. Monicity handles possible factors depending only on \(x\); strict decrease of cosine establishes distinctness.
+
+The explicit projective factorization and boundary analysis establish the full equality curve. Each quadratic’s sole boundary point lies in its affine closure by the supplied parametrization, so the closures remain irreducible and distinct. Exactly ten components result, with nine nonlinear. No essential gap or circularity was found.
+
+Both submissions separately satisfy the shared format and domain constraints: exactly one fenced JSON block, exactly the required two keys, 20 integer coefficients, maximum coefficient magnitude requiring 12 bits, and an 81-bit claimed value.
+
+These are informal mathematical review conclusions, not formal proof acceptance or an official score. Neither review depends on agreement between the submissions.

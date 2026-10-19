@@ -13,6 +13,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
         status: { in: ["APPROVED", "EXPLORING", "BUILDING"] },
       },
       orderBy: { updatedAt: "desc" },
+      take: 100,
       select: {
         id: true,
         referenceCode: true,
@@ -24,6 +25,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
     getDb().skill.findMany({
       where: { workspaceId, status: "ACTIVE" },
       orderBy: { skillKey: "asc" },
+      take: 100,
       select: {
         id: true,
         skillKey: true,
@@ -40,6 +42,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
     getDb().executionTip.findMany({
       where: { workspaceId },
       orderBy: [{ createdAt: "desc" }, { code: "asc" }],
+      take: 100,
       include: {
         mission: {
           select: {
@@ -59,6 +62,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
           },
         },
         predecessorEdges: {
+          take: 100,
           select: {
             predecessor: {
               select: { id: true, code: true, status: true },
@@ -66,9 +70,11 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
           },
         },
         skillRuns: {
+          take: 100,
           include: {
             agentRuns: {
               orderBy: { attemptNumber: "desc" },
+              take: 100,
               include: {
                 inputArtifact: true,
                 outputArtifact: true,
@@ -76,6 +82,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
                   include: {
                     resourceUsageRecords: {
                       orderBy: [{ metric: "asc" }, { unit: "asc" }],
+                      take: 100,
                     },
                   },
                 },
@@ -88,6 +95,7 @@ export async function getExecutionOperationsProjection(ctx: WorkspaceContext) {
     getDb().executionDeviation.findMany({
       where: { workspaceId, status: "OPEN" },
       orderBy: { createdAt: "asc" },
+      take: 100,
       include: {
         tip: { select: { code: true, title: true } },
         report: { select: { result: true, overallStatus: true } },

@@ -1,0 +1,20 @@
+{
+  "case_id": "C06",
+  "review_type": "ordinary_mathematical_review_by_Main_not_formal_or_external_human",
+  "status": "BOTH_INITIAL_AND_FINAL_SUPPORTED",
+  "A_initial": {"proof_score": 6, "fully_supported": true},
+  "A_final": {"proof_score": 6, "fully_supported": true},
+  "B_initial": {"proof_score": 6, "fully_supported": true},
+  "B_final": {"proof_score": 6, "fully_supported": true},
+  "checks": [
+    "Iteration of f corresponds exactly to endpoints of fixed-length directed walks. For i=1, all selected Aj are in the forward orbit of A1; no symmetric relationship assumption is required.",
+    "For each cyclic SCC of size s, closed walks based at one vertex with lengths formed from shortest out/in paths and single edges are at most2s. Their gcd equals the cycle-period gcd by telescoping around every directed cycle.",
+    "The nonnegative-sum lemma follows from reachability of all residues modulo the smallest normalized generator and a shortest residue path of at most a-1 steps. The rescaled threshold B^2 is sufficient, including d>1.",
+    "Attaching two shortest paths realizes every sufficiently large walk length in the unique residue class for the endpoints. T=57840 dominates both candidates' component thresholds for s<=120.",
+    "An arbitrary walk visits each SCC in one contiguous segment and has at most119 crossing edges. The pigeonhole bounds force a cyclic internal segment of length at least T+period. Increasing/decreasing by the global lcm preserves endpoints and leaves the shortened length above T.",
+    "A bounds the lcm using distinct maximal prime powers whose sum is at most120. B uses a divisible retained product, removing repeated entries3. Both correctly account for the exceptional inequality at integer3 and prove global lcm<2^61.",
+    "After the explicit transient threshold, all subset orbits are periodic. The bound 6940920+121*2^61 (A) or 6940800+121*2^61 (B) is below2^68, hence below2^70."
+  ],
+  "critic_effect": "Both reviews elaborate short proof details (finite additive monoid, zero-length closed walks, scaling constants). Neither identifies an essential error; both solver drafts already establish the result.",
+  "novelty": "No novelty claim: the frozen public reference also obtains a stronger bound than2^70 by a different cycle argument."
+}

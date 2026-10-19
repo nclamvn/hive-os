@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "policy": {
+    "minimumInterpretationConfidence": 0.6,
+    "autoRetrieveMinimum": 0.85,
+    "clarificationMinimum": 0.6,
+    "minimumCandidateSeparation": 0.15
+  },
+  "cases": [
+    {
+      "caseId": "QT-GOLD-001",
+      "domain": "product",
+      "question": "con omni bay dc bao lau",
+      "scope": {
+        "organizationId": "10000000-0000-4000-8000-000000000001",
+        "workspaceId": "20000000-0000-4000-8000-000000000001",
+        "missionIds": [],
+        "asOf": null
+      },
+      "entityRequirement": "REQUIRED",
+      "analyzerOutput": {
+        "normalizedQuestion": "OmniSight hoạt động được bao lâu?",
+        "language": "vi",
+        "intent": "LOOKUP",
+        "requestedAttributes": ["endurance"],
+        "entityMentions": ["omni"],
+        "ambiguitySignals": [],
+        "interpretationConfidence": 0.91
+      },
+      "registryCandidates": [
+        {
+          "entityId": "PRODUCT.OMNISIGHT",
+          "entityKind": "PRODUCT",
+          "canonicalName": "OmniSight",
+          "confidence": 0.91,
+          "matchBasis": "NORMALIZED_ALIAS",
+          "lifecycle": "ACTIVE",
+          "registryRevision": 3
+        }
+      ],
+      "expected": {
+        "disposition": "RETRIEVE",
+        "topEntityId": "PRODUCT.OMNISIGHT",
+        "answerState": "ANSWERABLE",
+        "requiredEvidenceIds": ["EVIDENCE.OMNISIGHT.ENDURANCE.CURRENT"],
+        "forbiddenEvidenceIds": ["EVIDENCE.OMNISIGHT.RESTRICTED.CUSTOMER"]
+      }
+    },
+    {
+      "caseId": "QT-GOLD-002",
+      "domain": "product",
+      "question": "Omni là gì?",
+      "scope": {
+        "organizationId": "10000000-0000-4000-8000-000000000001",
+        "workspaceId": "20000000-0000-4000-8000-000000000001",
+        "missionIds": [],
+        "asOf": null
+      },
+      "entityRequirement": "REQUIRED",
+      "analyzerOutput": {
+        "normalizedQuestion": "Omni là gì?",
+        "language": "vi",
+        "intent": "LOOKUP",
+        "requestedAttributes": [],
+        "entityMentions": ["Omni"],
+        "ambiguitySignals": ["Tên gọi khớp nhiều thực thể"],
+        "interpretationConfidence": 0.68
+      },
+      "registryCandidates": [
+        {
+          "entityId": "PRODUCT.OMNISIGHT",
+          "entityKind": "PRODUCT",
+          "canonicalName": "OmniSight",
+          "confidence": 0.74,
+          "matchBasis": "FUZZY",
+          "lifecycle": "ACTIVE",
+          "registryRevision": 3
+        },
+        {
+          "entityId": "MODULE.OMNICORE",
+          "entityKind": "MODULE",
+          "canonicalName": "OmniCore",
+          "confidence": 0.72,
+          "matchBasis": "FUZZY",
+          "lifecycle": "ACTIVE",
+          "registryRevision": 1
+        }
+      ],
+      "expected": {
+        "disposition": "CLARIFY",
+        "topEntityId": "PRODUCT.OMNISIGHT",
+        "answerState": "CLARIFICATION_REQUIRED",
+        "requiredEvidenceIds": [],
+        "forbiddenEvidenceIds": ["EVIDENCE.OMNISIGHT.ENDURANCE.CURRENT"]
+      }
+    },
+    {
+      "caseId": "QT-GOLD-003",
+      "domain": "technical-term",
+      "question": "thông số của phoenix mk9",
+      "scope": {
+        "organizationId": "10000000-0000-4000-8000-000000000001",
+        "workspaceId": "20000000-0000-4000-8000-000000000001",
+        "missionIds": [],
+        "asOf": null
+      },
+      "entityRequirement": "REQUIRED",
+      "analyzerOutput": {
+        "normalizedQuestion": "Thông số của Phoenix Mk9",
+        "language": "vi",
+        "intent": "LOOKUP",
+        "requestedAttributes": ["specification"],
+        "entityMentions": ["Phoenix Mk9"],
+        "ambiguitySignals": [],
+        "interpretationConfidence": 0.72
+      },
+      "registryCandidates": [],
+      "expected": {
+        "disposition": "KNOWLEDGE_GAP",
+        "topEntityId": null,
+        "answerState": "INSUFFICIENT_EVIDENCE",
+        "requiredEvidenceIds": [],
+        "forbiddenEvidenceIds": ["EVIDENCE.UNRELATED.PHOENIX"]
+      }
+    },
+    {
+      "caseId": "QT-GOLD-004",
+      "domain": "mission",
+      "question": "Tìm các nhiệm vụ đang bị chặn",
+      "scope": {
+        "organizationId": "10000000-0000-4000-8000-000000000001",
+        "workspaceId": "20000000-0000-4000-8000-000000000001",
+        "missionIds": [],
+        "asOf": null
+      },
+      "entityRequirement": "NONE",
+      "analyzerOutput": {
+        "normalizedQuestion": "Tìm các nhiệm vụ đang bị chặn",
+        "language": "vi",
+        "intent": "NAVIGATE",
+        "requestedAttributes": ["status:BLOCKED"],
+        "entityMentions": [],
+        "ambiguitySignals": [],
+        "interpretationConfidence": 0.98
+      },
+      "registryCandidates": [],
+      "expected": {
+        "disposition": "RETRIEVE",
+        "topEntityId": null,
+        "answerState": "ANSWERABLE",
+        "requiredEvidenceIds": [],
+        "forbiddenEvidenceIds": ["MISSION.FORBIDDEN.BLOCKED"]
+      }
+    }
+  ]
+}

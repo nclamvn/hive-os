@@ -1,0 +1,96 @@
+{
+  "tip": "TIP-050",
+  "date": "2026-10-03",
+  "role": "Independent replay Builder /root/lrc_replay_builder",
+  "status": "DONE",
+  "scope": "Independent standard-library Python source replay, kernel-unit transport and signed endpoint union; local bounded wrapper; pure retained validator; focused tests only. Overall acceptance, retained report, UI and full QA are Contractor-owned.",
+  "contract": {
+    "path": "docs/contractor/tips/TIP-050_LRC_UNIT_ACTION_UNION.json",
+    "sha256": "93acc34e6cd0ca009fc9e6a7ab65df0ec801b0cf956874c355ee861967a255e9"
+  },
+  "created": [
+    "scripts/operations/replay-lrc-unit-action.py",
+    "src/modules/research-sandbox/math-lrc-unit-replay.ts",
+    "tests/unit/math-lrc-unit-replay.test.ts",
+    "docs/verification/TIP-050_REPLAY_COMPLETION_REPORT.json"
+  ],
+  "modified_existing_files": [],
+  "source_fingerprints": {
+    "scripts/operations/replay-lrc-unit-action.py": "e0c1cce7428adca12b6927529e4a84f551703ab32e1887ae5dd6dff17a24443f",
+    "src/modules/research-sandbox/math-lrc-unit-replay.ts": "93db2b47297fb9ebb3a6112863ef435d244b352fe1174cc0363209b97f700e64",
+    "tests/unit/math-lrc-unit-replay.test.ts": "5911daf34cf403901e417a8ae4a9bcbf3dc0ecc074b83b146a272aedd8c6bdf0"
+  },
+  "execution_pins": {
+    "immutable_tip048_python": "8d7ebb7e05d0c2476700118c9119224bf8841df53d9513102820d292428146b4",
+    "immutable_tip049_python": "3dd6f02b2207e6a1e1d724a6403a55af932cae211b645f1243c1e2acdecdb3e2",
+    "new_tip050_python": "e0c1cce7428adca12b6927529e4a84f551703ab32e1887ae5dd6dff17a24443f",
+    "exact_composed_program": "d8996f49ecf31cd803f49a276de962dec0a5ca19e5ed2c8867e9d1a79673fbe9"
+  },
+  "implemented": {
+    "R3_source_replay": "Three verified local literal sources execute in isolated Python. Pinned048 checker independently checks every source certificate; pinned049 driver independently checks base/child composition. New driver additionally validates the immutable049 OUTER report, receipt digest, both older source pins, original composed-program pin, replay status and exact prior output hash. It does not admit an unchanged packet under a changed outer report or receipt.",
+    "R1_R3_extraction": "Independently reconstructs all COVER_BOUND source references from four FULL048 certificates and their two049 children in original node-array order. Node hashes, parent roots/scopes/certificates/evidence and child jobs enter the sealed plan. Child prefixes use the longer compatible original-label target prefix, never concatenation. Excludes ANCHORED,047,conditional GCD,SURVIVOR and UNRESOLVED labels; caller cannot choose a favorable subset.",
+    "R2_R3_action": "Checks exactly six kernel units fixing modulo398, coprimality, all labelled digit-axis identities and bijections, and the common folded-time permutation. Independently checks6084624 labelled speed/grid-time good-predicate identities with exact integer boundary comparison. One common time action is shared by all coordinates; no coordinate-specific-time shortcut is admitted.",
+    "R2_R3_union": "Transforms every proven prefix cylinder and encodes its ordered13 digits as a base7 half-open integer interval. Python derives a signed endpoint multiplicity sweep, independently of Core sorted interval merge. Overlapping and adjacent positive coverage is merged canonically; exact complement in[0,7^13), symbolic counts, raw multiplicity/overlap and complete union/complement digests are recomputed. Identity coverage and count conservation are checked. Examples are bounded projections, not the remaining-set proof.",
+    "R3_resources": "Old048/049 sources and caps remain unchanged. New driver counts extraction traversal, actions, interval generation, endpoints and sorting under50M new-method work. It enforces120k source leaves,1.5M total candidate intervals, union bound,80MiB input,90s observed outer clock including stdin/parse/serialize and1MiB stdout. Pinned049 keeps its own40s checking budget. Wrapper90s includes initial data/schema/primary work, checked source reads, Python, hashes and final pure admission; executes exact pinned bytes with python3 -I -S -B -c, shell false and environment allowlist.",
+    "R4_R6_seam": "Pure retained admission has tighter-only60s observed budget, starts before schema/byte/hash work, passes remaining time to Core, reconstructs complete arithmetic/union/complement and checks final serialization. It performs no subprocess, file read or fetch. Rehashed false counts, ranges, digests, status or source/program/output provenance reject. Honest PARTIAL is displayable integrity evidence, never a theorem/agent success gate.",
+    "R6_slice": "Focused controls cover actual isolated Python source replay,60 tiny interval cases compared with both TS and flat49-point membership, a six-image fixed-point cylinder counted once,4 both-interpreter rehashed plan faults, changed whole049 receipt,4 fully coherent new-summary/output promotions,5 fresh-admission provenance faults, clock/environment/source/process faults. Full repository regression/build/browser acceptance belongs to Contractor."
+  },
+  "actual_nonwriting_positive": {
+    "execution": "Fresh deterministic plan, Core reconstruction, actual pinned Python source/composition/action/sweep and final pure admission; no artifact written by this Builder",
+    "duration_seconds": 30.513,
+    "plan_digest": "4265dd104bdbe2ec8b5e348503b80f82f8abc037412e914357642d6c8bddf221",
+    "source_leaves_total": 88041,
+    "candidate_intervals_total": 528246,
+    "rows": [
+      {"id":"p199-tight-terminal-0-full","status":"PARTIAL","union":"1560933318","remaining":"95328077089","union_intervals":72,"complement_intervals":72,"union_digest":"3597ff39984cf366f233c6173c78454e69a053e3552f3dd11b9fb065c73c922b"},
+      {"id":"p199-tight-terminal-1-full","status":"PARTIAL","union":"1896838020","remaining":"94992172387","union_intervals":79,"complement_intervals":79,"union_digest":"35b1279f9439513cc235c76f658fda274164167a836e21a15a652a2ba939282e"},
+      {"id":"p199-tight-terminal-2-full","status":"PARTIAL","union":"960260742","remaining":"95928749665","union_intervals":83,"complement_intervals":83,"union_digest":"dd28259f8be2fb0317fae23b7dd823f24c437f5e88e237c5417e2ad2bf228a73"},
+      {"id":"p199-gw-terminal-0-full","status":"PARTIAL","union":"1314273786","remaining":"95574736621","union_intervals":58,"complement_intervals":58,"union_digest":"6176c2994e0760f43031fede1ebec3169afc2e7975f3f4fc823889fe518da88c"}
+    ],
+    "interpretation": "These particular exact unions coincide with six times prior row witness coverage. This is computed, not inferred. Fixed-point controls show that a general factor-six rule is false. Counts concern ordered assignments within distinct row domains, not globally unique configurations, orbit classes or novelty."
+  },
+  "tests": {
+    "preliminary_suite": {
+      "command":"node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-unit-replay.test.ts --maxWorkers=1",
+      "passed":17,"failed":0,"duration_seconds":182.25,"test_seconds":181.90,"start_local":"17:22:26","status":"PASS",
+      "boundary":"While this run was active, the initial zero-budget provenance loop was replaced by five separate fresh nonzero-admission provenance tests. That preliminary loop is only clock coverage, not claimed as provenance coverage. All other final scenarios were unchanged."
+    },
+    "final_targeted_suite": {
+      "command":"node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-unit-replay.test.ts --maxWorkers=1 -t 'rehashed wrong execution pin|zero/excess clocks'",
+      "passed":6,"failed":0,"not_selected":16,"final_file_cases":22,"duration_seconds":82.70,"test_seconds":82.36,"start_local":"17:25:48","status":"PASS",
+      "coverage":"Five wrong old/new/composed/output hashes were fully evidence-resealed and tested with fresh arithmetic reconstruction at nonzero budget. Sixth case checks zero/excess deadlines and production before IO. Actual independent positive fixture reran."
+    },
+    "combined_final_case_coverage":"All22 final scenarios exercised across the unchanged preliminary cases and final targeted provenance/clock cases; Contractor full regression must execute the complete frozen22-case file together.",
+    "scenarios": [
+      "Actual three-source independent replay and complete exact union/complement match Core output",
+      "60 deterministic overlapping/adjacent/duplicate/missing-range cases agree with Python endpoint sweep, TS merge/complement and flat49-point membership",
+      "Six images of a fixed digit yield one cylinder, not sixfold coverage, in both implementations",
+      "Nonunit action, omitted source count, fabricated source-selection digest and cross-parent root are coherently plan-rehashed and rejected by both interpreters",
+      "049 outer report and receipt rehashed after changing old program pin are rejected despite unchanged packet",
+      "Four primary/independent/status/output/evidence-coherent count/digest/example/completion promotions are rejected by fresh pure reconstruction",
+      "Five rehashed cover/frontier/new/composed/output provenance defects are rejected with fresh nonzero admission",
+      "Pure controls invoke zero subprocess, zero file read and zero fetch",
+      "Zero/excess clocks and production fail before IO",
+      "Drift in each of three local source files cannot execute unchecked bytes",
+      "Injected timeout and arithmetic disagreement fail closed; isolated flags, shell false, output bound and exact environment allowlist inspected"
+    ],
+    "typecheck":{"command":"node ./node_modules/typescript/bin/tsc --noEmit --pretty false","exit_code":0},
+    "targeted_lint":{"command":"node ./node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-unit-replay.ts tests/unit/math-lrc-unit-replay.test.ts","exit_code":0},
+    "diff_check":{"exit_code":0},
+    "full_unit_build_browser":"Contractor-owned, not claimed here"
+  },
+  "issues": [
+    {"severity":"BOUNDARY","description":"Unsigned local execution receipts and hashes assume trusted collector/storage, not external attestation. Python is independent of TS arithmetic/union, not formal theorem verification."},
+    {"severity":"BOUNDARY","description":"Observed synchronous checkpoints are not hard CPU preemption; child process additionally has a hard timeout. Old and new budgets fail closed without cap or source-domain expansion."},
+    {"severity":"BOUNDARY","description":"Read-only source transport results were exposed during SCAN before BUILD. This is not a blind benchmark, a mathematical novelty claim or a model capability score."}
+  ],
+  "deviations": [],
+  "deferred": [
+    "Full four terminal domains, all level1 orbits, other primes, lowerLRC12 and analytic product-bound proof",
+    "Anchor/GCD/survivor/047 transport and new searches",
+    "Typed compact evidence admission into a fresh HIVE LLM campaign",
+    "Global14/15 theorem, novelty, external/formal acceptance and verified admission caching",
+    "Model/provider API execution, DB mutation, Git publication and deployment"
+  ],
+  "global_verdict": "NOT_ESTABLISHED"
+}

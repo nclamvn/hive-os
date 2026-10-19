@@ -1,0 +1,48 @@
+{
+  "status": "PASS_SCOPED_NOT_ROOT",
+  "main_math_invocation": "8/8 cumulative TIP100; STOP no ninth",
+  "distinct_tests": 49,
+  "failures": 0,
+  "errors": 0,
+  "source_AST": 7,
+  "source_fixed_ray_piece_minima": [
+    {
+      "piece": 0,
+      "minimum": "14/61",
+      "margin": "0"
+    },
+    {
+      "piece": 1,
+      "minimum": "590/2401",
+      "margin": "2376/146461"
+    },
+    {
+      "piece": 2,
+      "minimum": "2210/8649",
+      "margin": "13724/527589"
+    },
+    {
+      "piece": 3,
+      "minimum": "10246/37845",
+      "margin": "95176/2308545"
+    },
+    {
+      "piece": 4,
+      "minimum": "4163/12960",
+      "margin": "72503/790560"
+    }
+  ],
+  "known_scale": "165/61",
+  "known_area": "14/61",
+  "witness_translation_exact": true,
+  "source_stationary_shape_inequality_tight": true,
+  "hull_tail_required_control": {
+    "scale": "4",
+    "actual": "7736/27225",
+    "uncorrected_energy_expression": "481/1650",
+    "overestimate": "401/54450",
+    "tail_integral_at_1_4": "401/174240"
+  },
+  "runtime_seconds": 0.19539829099085182,
+  "scope": "49controls are engineering/arithmetic, not all-shape closure. Whole real source-ray proof additionally uses the universal17/74disjoint-pair theorem. No random/grid or global shape enumeration."
+}

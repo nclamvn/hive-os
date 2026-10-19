@@ -1,0 +1,13 @@
+{
+  "verdict": "REJECTED",
+  "targetDisposition": "TRUE",
+  "reasoning": "S1 is valid, but maximizing class cardinality does not maximize or control its shaded mass. Thus S2 is false, and S3 need not hold for the selected class. S4 is valid conditionally on the shaded-mass bound asserted in S2. The target itself is true by selecting a class of maximum shaded mass instead.",
+  "issue": {
+    "step": "S2",
+    "explanation": "Congruence fixes the volumes of the sets T_i, not the volumes of their arbitrary measurable shadings Y_i. A class containing at least 1/M of the members can contain less than 1/M of the shaded mass."
+  },
+  "witness": "Take three congruent unit intervals T_1=[0,1], T_2=[2,3], T_3=[4,5], with Y_1=[0,1/10], Y_2=[2,21/10], Y_3=T_3. Partition into H_1={T_1,T_2} and H_2={T_3}, so M=2. The unique largest class is H_1, whose shaded mass is 1/5, whereas S=6/5 and S/M=3/5. Moreover, lambda(H_1)=1/10 < lambda(G)/M=1/5. Every class has positive shaded mass, so all relevant quantities are defined.",
+  "revision": "Choose a class H maximizing shaded mass, and write s=sum_H |Y_i|. Since the M class masses sum to S, s>=S/M>0. Writing N=#G and n=#H<=N gives lambda(H)=s/(nv)>=S/(MNv)=lambda(G)/M. Let U_H=|union_H Y_i| and U_G=|union_G Y_i|. Both are positive and U_H<=U_G. Consequently mu(G)=S/U_G<=Ms/U_G<=Ms/U_H=M mu(H), proving the unchanged target.",
+  "unresolvedObligation": null,
+  "toolEvidence": null
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "hive-os.authoring-update.v1",
+  "documentId": "UAV-UPDATE-TEST",
+  "baseRevision": 1,
+  "request": "Cập nhật độc lập từ bản gốc cho S5 theo Q-TEST-03 giả lập: 1.000 ha, chưa cung cấp đơn giá và thuế; QA 1 × 5.000.000 VND. Tách khoản QA đã biết, giữ tổng phụ dự án và tổng sau thuế là chưa biết; đề xuất vai trò bổ sung đầu vào, không bịa người hay phê duyệt.",
+  "sourceContext": "Đây là dữ liệu giả lập phục vụ kiểm thử kỹ thuật cập nhật hồ sơ, không phải khảo sát thực địa, báo giá thật, giấy phép bay hay phương án được khách hàng phê duyệt. Đầu vào thật trước đây chỉ nêu 1.000 ha; tình huống này không bổ sung dữ kiện dự án thật. Giữ nguyên các nguồn và ký hiệu [@S1], [@S2], [@S3] của bản gốc, chỉ dựa trên tóm tắt đã cung cấp, không xác minh độc lập hay bổ sung nguồn. Q-TEST-03 là dữ liệu giả lập chỉ cho phép thử S5; đơn giá thu nhận/xử lý và thuế được ghi rõ là CHƯA CUNG CẤP.",
+  "unknowns": [
+    "Đơn giá thu nhận + xử lý, đơn vị tính giá và điều kiện bao gồm/loại trừ cần nhà cung cấp xác nhận",
+    "Thuế áp dụng, thuế suất và số tiền thuế",
+    "Tổng phụ dự án và tổng thanh toán",
+    "Hiệu lực báo giá, báo giá thật và phê duyệt thương mại",
+    "Địa điểm/AOI, địa hình/tán, mục tiêu sản phẩm, độ chính xác, CRS/khống chế",
+    "Thiết bị, nhân lực, năng suất, lịch, quyền tiếp cận/quyền bay và tính khả thi"
+  ],
+  "patches": [
+    {
+      "sectionKey": "need",
+      "oldBody": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng.",
+      "newBody": "Diện tích đầu vào ban đầu là 1.000 ha. S5 KIỂM THỬ GIẢ LẬP cung cấp Q-TEST-03 chỉ xác định giá QA, chưa có đơn giá thu nhận + xử lý hoặc thuế; tổng phụ dự án và tổng thanh toán chưa biết. Không coi QA là toàn bộ kinh phí. Đây không phải báo giá thật hoặc dữ liệu hiện trường mới. Cần làm rõ sản phẩm, tiêu chí nghiệm thu và khảo sát khả thi; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay ngân sách."
+    },
+    {
+      "sectionKey": "scope",
+      "oldBody": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích.",
+      "newBody": "Cần bổ sung AOI/địa điểm, địa hình/tán, sản phẩm và độ chính xác, CRS ngang/dọc, mốc khống chế, quyền tiếp cận/quyền bay, thiết bị, nhân lực và lịch. Q-TEST-03 giả lập chỉ có QA 1 hạng mục × 5.000.000 VND; đơn giá thu nhận + xử lý, thuế, hiệu lực, phạm vi bao gồm/loại trừ và phê duyệt thương mại chưa có. Phạm vi đề xuất gồm tiền trạm, thử nghiệm, thu nhận, xử lý, kiểm chứng độc lập và bàn giao; các phần chưa định giá không mặc nhiên miễn phí. Chỉ chốt sản phẩm sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng."
+    },
+    {
+      "sectionKey": "plan",
+      "oldBody": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ.",
+      "newBody": "Tiến độ vẫn theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm chỉ xem xét mở rộng khi đủ bằng chứng. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán S5 theo Q-TEST-03 GIẢ LẬP: diện tích đầu vào 1.000 ha; đơn giá thu nhận + xử lý CHƯA CUNG CẤP nên thành tiền dòng này chưa biết. Trường đơn vị ha ở dòng chi phí chỉ là đơn vị diện tích đầu vào để chờ báo giá, không xác nhận nhà cung cấp đã chào giá theo ha; phải xác nhận đơn vị giá và quy đổi nếu khác. Khoản QA riêng đã biết = 1 hạng mục × 5.000.000 VND/hạng mục = 5.000.000 VND. Tổng phụ dự án = khoản thu nhận/xử lý chưa biết + QA đã biết và các khoản được xác nhận khác, vì vậy CHƯA BIẾT; không phải 0 và không phải 5.000.000 VND. Thuế chưa cung cấp, không mặc định VAT 10% hoặc thuế bằng 0; tổng thanh toán sau thuế cũng chưa biết. Khi đủ giá, làm tròn từng dòng được tính đến hai chữ số thập phân rồi cộng; chưa thực hiện phép cộng tổng dự án khi còn dòng chưa biết.\nTrách nhiệm ĐỀ XUẤT: đầu mối mua sắm liên hệ nhà cung cấp để lấy đơn giá, đơn vị tính, phạm vi bao gồm/loại trừ và hiệu lực báo giá; bộ phận tài chính yêu cầu căn cứ thuế và xác nhận cách tính; trưởng kỹ thuật xác nhận khối lượng và tính khả thi theo AOI/thử nghiệm; chủ nhiệm hoặc người có thẩm quyền xem xét dự toán sau khi đủ đầu vào. Chưa có tên người thực hiện, phân công hay phê duyệt nào được xác nhận; chưa có căn cứ chốt ngân sách hoặc thanh toán."
+    },
+    {
+      "sectionKey": "risk-limitations",
+      "oldBody": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt.",
+      "newBody": "S5 và Q-TEST-03 là dữ liệu GIẢ LẬP chỉ cho kiểm thử, không phải chào giá thật. 5.000.000 VND chỉ là khoản QA đã biết, không phải tổng phụ dự án hay số tiền phải trả. Đơn giá thu nhận + xử lý và thuế còn thiếu; tổng phụ và tổng sau thuế đều chưa biết, không thay bằng 0, không giả định VAT 10%. Các vai trò bổ sung báo giá/thuế chỉ là đề xuất, không phải phân công hoặc phê duyệt đã tồn tại. Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt; kết quả vùng thử chưa chứng minh toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt."
+    }
+  ],
+  "cost": {
+    "currency": "VND",
+    "lines": [
+      {
+        "label": "Q-TEST-03 giả lập: thu nhận + xử lý; giá chưa cung cấp, đơn vị giá cần xác nhận",
+        "quantity": 1000,
+        "quantityUnit": "ha",
+        "unitPrice": null,
+        "priceUnit": "ha",
+        "excludedReason": null
+      },
+      {
+        "label": "Q-TEST-03 giả lập: QA đã biết riêng, không phải tổng dự án",
+        "quantity": 1,
+        "quantityUnit": "item",
+        "unitPrice": 5000000,
+        "priceUnit": "item",
+        "excludedReason": null
+      }
+    ],
+    "claimedTotal": null
+  },
+  "comparisons": []
+}

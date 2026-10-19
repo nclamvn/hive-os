@@ -1,0 +1,129 @@
+```json
+{
+  "coefficients": [0, -19, 0, 285, 0, -1254, 0, 2508, 0, -2717, 0, 1729, 0, -665, 0, 152, 0, -19, 0, 1],
+  "claimed_value": 1876572071974094803391179
+}
+```
+
+## Proof
+
+Define polynomials by
+\[
+D_0(x)=2,\qquad D_1(x)=x,\qquad
+D_n(x)=xD_{n-1}(x)-D_{n-2}(x)\quad(n\ge2).
+\]
+Take \(p=D_{19}\). The recurrence gives integer coefficients, and induction shows that \(D_n\) is monic of degree \(n\) for \(n\ge1\), with
+\[
+D_n(-x)=(-1)^nD_n(x).
+\]
+In particular, \(p\) is odd and monic.
+
+To calculate its coefficients, the recurrence gives the formal generating function
+\[
+\sum_{n\ge0}D_n(x)t^n=\frac{2-xt}{1-xt+t^2}.
+\]
+Expanding the denominator geometrically and collecting coefficients gives, for \(n\ge1\),
+\[
+D_n(x)=
+\sum_{j=0}^{\lfloor n/2\rfloor}
+(-1)^j
+\left[
+\binom{n-j}{j}+\binom{n-j-1}{j-1}
+\right]x^{n-2j},
+\]
+where a binomial coefficient with lower index \(-1\) is zero. Thus
+\[
+\begin{aligned}
+p(x)={}&x^{19}-19x^{17}+152x^{15}-665x^{13}
+ +1729x^{11}\\
+&-2717x^9+2508x^7-1254x^5+285x^3-19x.
+\end{aligned}
+\]
+This verifies the supplied coefficients and the required linear coefficient.
+
+We next prove an exact factorization of the equality curve. The recurrence implies the Laurent-polynomial identity
+\[
+D_n(u+u^{-1})=u^n+u^{-n}.
+\]
+Indeed, it holds for \(n=0,1\), and multiplication by \(u+u^{-1}\), followed by subtraction of the preceding term, proves the induction step.
+
+Let
+\[
+\zeta=e^{2\pi i/19},\qquad
+c_k=\frac{\zeta^k+\zeta^{-k}}2
+=\cos\frac{2\pi k}{19}\quad(1\le k\le9).
+\]
+We claim
+\[
+p(y)-p(x)=(y-x)\prod_{k=1}^{9}Q_k(x,y),
+\]
+where
+\[
+Q_k(x,y)=x^2+y^2-2c_kxy-4(1-c_k^2).
+\]
+
+To prove this universally, take \(u\) transcendental over \(\mathbb C\), set \(x=u+u^{-1}\), and work over \(\mathbb C(u)\). The nineteen elements
+\[
+y_j=\zeta^j u+\zeta^{-j}u^{-1},
+\qquad 0\le j\le18,
+\]
+are distinct: their coefficients of \(u\) are distinct. Moreover,
+\[
+p(y_j)=(\zeta^j u)^{19}+(\zeta^j u)^{-19}
+=u^{19}+u^{-19}=p(x).
+\]
+Consequently the monic degree-19 polynomial \(p(y)-p(x)\) is
+\[
+\prod_{j=0}^{18}(y-y_j).
+\]
+Here \(y_0=x\). Pairing indices \(k\) and \(19-k\) gives
+\[
+y_k+y_{19-k}=2c_kx,\qquad
+y_ky_{19-k}=x^2-4(1-c_k^2),
+\]
+so each paired product is \(Q_k(x,y)\). Finally, \(u+u^{-1}\) is transcendental over \(\mathbb C\): otherwise \(u\), which satisfies
+\[
+u^2-xu+1=0,
+\]
+would be algebraic over \(\mathbb C\). Thus substitution \(x=u+u^{-1}\) is injective on \(\mathbb C[x,y]\), proving the claimed polynomial identity.
+
+Each \(Q_k\) is irreducible over \(\mathbb C\). Viewed as a monic quadratic in \(y\), its discriminant is
+\[
+\Delta_k(x)=4(1-c_k^2)(4-x^2).
+\]
+Since \(0<2\pi k/19<\pi\), we have \(c_k\ne\pm1\). Therefore \(\Delta_k\) has simple zeros at \(x=2\) and \(x=-2\). A square of a rational function has even order at every zero and pole, so \(\Delta_k\) is not a square in \(\mathbb C(x)\). The quadratic is therefore irreducible over \(\mathbb C(x)\). It is also irreducible in \(\mathbb C[x,y]\): any factor depending only on \(x\) would divide its leading coefficient \(1\), while any other factorization would persist over \(\mathbb C(x)\).
+
+The numbers \(c_1,\ldots,c_9\) are distinct, because cosine is strictly decreasing on \((0,\pi)\). Hence these are nine distinct irreducible quadratic factors, alongside the diagonal factor \(y-x\).
+
+For completeness, this factorization gives components in the specified projective surface. In coordinates
+\[
+x=[X:Z],\qquad y=[Y:W],
+\]
+the bihomogenized quadratic factors are
+\[
+X^2W^2+Y^2Z^2-2c_kXYZW
+-4(1-c_k^2)Z^2W^2.
+\]
+Their only boundary point is \((\infty,\infty)\). This point belongs to the closure of each affine curve, as seen by letting \(u\to\infty\) in
+\[
+x=u+u^{-1},\qquad y=\zeta^ku+\zeta^{-k}u^{-1}.
+\]
+Thus their projective zero sets are precisely their irreducible closures. Bihomogenizing the factorization proves that the projective equality curve has exactly ten irreducible components: the diagonal and these nine closures. The latter have affine degree two and projective bidegree \((2,2)\), so they are not linear.
+
+Finally, write \(p(x)=xR(x^2)\), where
+\[
+R(t)=t^9-19t^8+152t^7-665t^6+1729t^5
+-2717t^4+2508t^3-1254t^2+285t-19.
+\]
+Horner evaluation gives
+\[
+R(361)=98766951156531305441641.
+\]
+Therefore
+\[
+\boxed{p(19)=19R(361)=1876572071974094803391179}.
+\]
+
+## Scope and remaining gaps
+
+All requirements are satisfied, with integer coefficients and ten irreducible components over \(\mathbb C\). The coefficient magnitudes use at most 12 bits, and the claimed value uses 81 bits. There are no unresolved gaps.

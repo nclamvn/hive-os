@@ -1,0 +1,9 @@
+{
+  "status": "REPLAY_PASS_WITHOUT_SIMPLEX",
+  "coverage": "ALL_ALLOWED_ATOMS_ONE_SIGNATURE_ONLY",
+  "coefficient_class": "SIGNED_A_SPLIT_NONNEGATIVE",
+  "atom_count": 47,
+  "scaled_area_lower_bound": "70/61",
+  "root_closed": false,
+  "elapsed_seconds": 0.0034177920024376363
+}

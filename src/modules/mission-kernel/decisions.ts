@@ -20,6 +20,8 @@ export interface RequestDecisionInput {
   proposedProfile?: AssuranceProfile;
 }
 
+const MAX_AMENDMENT_DEFINITION_ROWS = 10_000;
+
 export async function requestDecision(
   ctx: WorkspaceContext,
   missionId: string,
@@ -73,8 +75,29 @@ async function createAmendmentVersion(
   }
   const approved = await tx.missionContract.findUniqueOrThrow({
     where: { id: mission.approvedContractId },
-    include: { requirements: true, obligationDefs: true, gateDefs: true, assumptions: true, constraints: true, inputs: true },
   });
+  const requirements = await tx.requirement.findMany({
+    where: { contractId: approved.id },
+    take: MAX_AMENDMENT_DEFINITION_ROWS + 1,
+  });
+  const obligationDefs = await tx.contractObligation.findMany({
+    where: { contractId: approved.id },
+    take: MAX_AMENDMENT_DEFINITION_ROWS + 1,
+  });
+  const gateDefs = await tx.contractGate.findMany({
+    where: { contractId: approved.id },
+    take: MAX_AMENDMENT_DEFINITION_ROWS + 1,
+  });
+  if (
+    requirements.length > MAX_AMENDMENT_DEFINITION_ROWS ||
+    obligationDefs.length > MAX_AMENDMENT_DEFINITION_ROWS ||
+    gateDefs.length > MAX_AMENDMENT_DEFINITION_ROWS
+  ) {
+    throw new MissionError(
+      MissionErrorCode.Invariant,
+      "Contract amendment definition row limit exceeded",
+    );
+  }
   const max = await tx.missionContract.aggregate({
     where: { missionId },
     _max: { versionNumber: true },
@@ -108,7 +131,7 @@ async function createAmendmentVersion(
     }
     throw error;
   }
-  for (const r of approved.requirements) {
+  for (const r of requirements) {
     await tx.requirement.create({
       data: {
         workspaceId: ctx.workspace.id, contractId: draft.id, code: r.code, title: r.title,
@@ -116,7 +139,7 @@ async function createAmendmentVersion(
       },
     });
   }
-  for (const o of approved.obligationDefs) {
+  for (const o of obligationDefs) {
     await tx.contractObligation.create({
       data: {
         workspaceId: ctx.workspace.id, contractId: draft.id, code: o.code, title: o.title,
@@ -124,7 +147,7 @@ async function createAmendmentVersion(
       },
     });
   }
-  for (const g of approved.gateDefs) {
+  for (const g of gateDefs) {
     await tx.contractGate.create({
       data: {
         workspaceId: ctx.workspace.id, contractId: draft.id, code: g.code, title: g.title,
@@ -279,6 +302,7 @@ export async function listDecisionsRequired(ctx: WorkspaceContext) {
   requireMissionCapability(ctx, "decisions.read");
   return getDb().decision.findMany({
     where: { workspaceId: ctx.workspace.id, status: "REQUIRED" },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 100,
   });
 }

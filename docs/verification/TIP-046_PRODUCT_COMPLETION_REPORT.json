@@ -1,0 +1,58 @@
+{
+  "tip": "TIP-046",
+  "builder": "target_skeptic (product Builder for this package, not its independent reviewer)",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "scope": "R5-R6 and product composition portion of R7; core R1-R3 and pinned Python R4 owned by separate Builders; final R8 owned by Contractor",
+  "requirements": {
+    "R5": {"implemented": true, "evidence": "Local development/test request and worker guards; trusted fixed certificate replay before single-dispatch model fence; public request and LLM output cannot author evidence; host-only immutable attempt retention and digest; actual solver and both review-role compact prompt transports; ledger v4 scope/certificate/evidence references and pure root-bound validation. Supporting AI reviews classify the OPEN case PARTIAL, never a universal theorem."},
+    "R6": {"implemented": true, "evidence": "Four calibrated, authorized, queue-enabled local-only preset forms; retained-only bilingual finite-domain card with domain/coverage/witness/grid-exclusion/unresolved counts, root/scope/certificate/evidence/Python digests and finite-only limitations. Legacy OPEN absence explicit, no synthetic certificate. No runner or subprocess on GET. LRC scopes cannot enter the ES controlled-cycle/portfolio backend and UI."},
+    "R7_product": {"implemented": true, "verification_status": "FOCUSED_UNIT_PASS_ISOLATED_INTEGRATION_PASS_ATTRIBUTED_CONTRACTOR", "evidence": "Real pinned Python execution in focused units; Codex spawn transport mocked, actual adapter prompt composition exercised. Contractor isolated integration drives durable request/worker/review composition with actual Python and mocked model callbacks, two legacy calibrations, envelope injection, immutable-attempt removal rejection, tool-unavailable pre-fence and ES-cycle rejection. Missing evidence before dispatch is exercised by actual adapter unit guards and rehashed recorded-review negatives, not by disabling the stronger database freeze trigger. Builder did not run a live database."}
+  },
+  "files": [
+    {"path":"src/modules/research-sandbox/math-pilot.ts","sha256":"6507770f4676cf1bc2b1b4919ff44a1a88ae6b8316e009f165e977f3caf94535"},
+    {"path":"src/modules/research-sandbox/contracts.ts","sha256":"56ae4b6e14c0b5105c190c490a340b3af5a6581382798597185c129b0da5be76"},
+    {"path":"src/modules/research-sandbox/kernel.ts","sha256":"f5901b2ee5dd891dc11b584c24b446db092c1eb89addc1a752aedcaf5bbac5f7"},
+    {"path":"src/modules/research-sandbox/worker.ts","sha256":"939e900fbbbb97dafb17e0eb106ae048dedaa5fe159f8cb404bbc2f593b166e2"},
+    {"path":"src/modules/research-sandbox/adapters/codex-local-math.ts","sha256":"33560825925dffaaa1a36a20320d6288069777d7db26d2e6c797bd2124a9e72a"},
+    {"path":"src/modules/research-sandbox/adapters/codex-local-review.ts","sha256":"6c87a2b07b2e02472d0ff02d481a922536e524d93e7459085782b37c14e3bdbd"},
+    {"path":"src/modules/research-sandbox/agent-review.ts","sha256":"be18e7ec63346a700f8db9d742c08eee30b99d5aa015cd26d0d03d147ad724c0"},
+    {"path":"src/modules/research-sandbox/agent-review-kernel.ts","sha256":"5d57b73d7390ca79a33a00b9ac5c4cd3f05ed430c94b119513ee45cb31c02a6d"},
+    {"path":"src/modules/research-sandbox/math-cycle-kernel.ts","sha256":"c7c77efb3532b0d27676364b7b67cfb221cd5b0a6cb27b425ad4808fdd96503d"},
+    {"path":"src/app/actions/research-sandbox.ts","sha256":"3e46c5b6657d1b291be3c4b88e35a7b665142628f6e84ae4c796bd9ad8c03eb0"},
+    {"path":"src/app/w/[workspaceSlug]/research/math-pilot/page.tsx","sha256":"0d57b40fc7cdad0da174d246360036ef5e33813476b424743c8f3a1b3f3fad8a"},
+    {"path":"src/components/research/math-lrc-evidence-panel.tsx","sha256":"bbc125bbf6229617c1100e0990e9377695b735f1bebf345270a18bc1b4205e85"},
+    {"path":"src/i18n/math-pilot-copy.ts","sha256":"51fdcc53d21f8d8e7f0763347b65fb0523f9ba0ce865e48b6ef52be0195abe76"},
+    {"path":"tests/unit/math-lrc-agent-gate.test.ts","sha256":"77ca4b57d67cbb6a1066843ca604d4b17cfa8e7b0172ff8e6513b41aa2027cdb"},
+    {"path":"tests/integration/math-lrc-agent-gate.test.ts","sha256":"db0b0dcdc8911c97f98f0218d4b3445b798cfdc332e43c06c7a45c1fda0f3442"}
+  ],
+  "verification": {
+    "focused_unit": {"status":"PASS","passed":17,"total":17,"files":3,"duration_ms":854,"command":"npx vitest run --project unit tests/unit/math-lrc-agent-gate.test.ts tests/unit/math-agent-review.test.ts tests/unit/codex-local-math.test.ts --maxWorkers=1","exit_code":0},
+    "new_product_unit_scenarios":8,
+    "owned_eslint":{"status":"PASS","errors":0,"warnings":0,"exit_code":0},
+    "whitespace":{"status":"PASS","exit_code":0},
+    "initial_typecheck":{"status":"PASS","exit_code":0,"scope":"product sources before new tests"},
+    "final_typecheck":{"status":"PASS_ATTRIBUTED_CONTRACTOR","exit_code":0,"note":"Intermediate test-only errors repaired; Contractor reported latest whole-tree check exit0."},
+    "whole_unit":{"status":"PASS_ATTRIBUTED_CONTRACTOR_BEFORE_LAST_UI_PROJECTION_TEST","passed":895,"total":895,"files":112,"duration_seconds":224.91,"note":"Contractor ran repository unit suite; subsequent minimal UI v4 provenance repair and one added source-projection test pass in final focused17/17. Builder did not run whole suite."},
+    "visible_local_loop":{"status":"PASS_LOOP_OBSERVED_ATTRIBUTED_CONTRACTOR","tuples":7776,"certificate_status":"PASS","root_attempt":"PARTIAL","peer_reviews":"INCONCLUSIVE","note":"Contractor reported actual browser/worker solver and both review roles completed and worker stopped cleanly. This is product flow evidence, not a universal LRC theorem or paid API benchmark."},
+    "isolated_integration":{"status":"PASS_ATTRIBUTED_CONTRACTOR","passed":1,"total":1,"duration_seconds":3.16,"test_seconds":1.40,"exit_code":0,"note":"Fourth guarded run of new LRC lifecycle file passes. Existing math-pilot8/8 passed an earlier separate guarded run. These are scoped files, not an all-database regression suite; historical fixture failures are disclosed below."},
+    "not_run_by_builder":["live database", "live worker", "real LLM/provider calls", "whole repository unit suite", "production build", "browser E2E"]
+  },
+  "failure_history": [
+    "Initial added unit tests used two constructor arguments, a duplicate object caseType and a nullable scope without assertion; TypeScript detected these and the fixtures were repaired. Production behavior did not change.",
+    "Integration helper initially inferred PromiseLike union for contextual this; fixture uses explicit provider/model identity instead.",
+    "Contractor isolated integration initially hit the intended paid-LRC pre-write exception. Corrected the test assertion from outcome status to rejected promise; no implementation relaxation.",
+    "Subsequent isolated integration reached actual Python but failed the test callback's unscoped organization-table read under RLS. All organization-table fixture reads now use withOrganizationTenant; no RLS policy or runtime permission changes.",
+    "Independent review caught a planned attempt-removal fixture that would conflict with the existing database freeze trigger. Revised it before successful lifecycle acceptance to assert tampering is rejected and original attempt/digest remain unchanged, rather than bypass immutability.",
+    "Third isolated run passed positive worker, ledger v4 and ES routing assertions, then reached the intended unavailable-tool exception. Fixture now explicitly expects the worker's rethrow after failed-job retention and restores its replay spy in finally. Copied-envelope injection likewise explicitly expects the intended integrity exception. Product behavior unchanged.",
+    "Contractor UI review requested bilingual axes/node/leaf/replay text, root digest, legacy OPEN-only absence text and matching runtime disabled hint. These minimal presentation refinements are included.",
+    "Actual browser E2E caught requested-model display restricted to ledger version3. Changed only the presentation branch to version>=3, preserving v1/v2; added a source-projection regression and final focused17/17 passes. No new model calls or admission gate changes."
+  ],
+  "scientific_and_authority_limits": [
+    "Finite fixed-grid certificates, including exhaustive NO_GRID, never establish or refute unrestricted continuous-time LRC.",
+    "A PASS authenticates bounded arithmetic and tree coverage under the pinned local collector; hashes alone do not attest interpreter identity or compromised host/database administration.",
+    "Solver plus two fresh role prompts are separate contexts, not expert peer review, formal proof or different-model foundations. Role model names are requested CLI provenance only.",
+    "Ledger v4 prospective root binding preserves historical v1-v3 absent-field JSON/digest semantics; it does not retrofit prior evidence or regrade old cases.",
+    "No paid API authority, dependency/migration, Git publication, theorem promotion, automatic human acceptance or unbounded LRC campaign is added."
+  ],
+  "preservation": "Unrelated screenshot edits, pnpm/cache artifacts, TIP044/045 research files and historical records untouched. Product Builder modified only parent-approved product seams and new focused tests/report."
+}

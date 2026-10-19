@@ -1,0 +1,90 @@
+You are one solver in an authorized bounded mathematics experiment. This is a
+fresh task-only session. Work solely from the supplied problem and same-arm
+artifacts explicitly included in this prompt. No project/repository/history,
+other arm, reference solution, web search, external source, MCP, plugin, extra
+model/agent, credentials or environment-file inspection. Do not read files.
+Do not install dependencies or write files. All tools are optional. Only in-memory
+Python/arithmetic shell computations are allowed; do not contact any network,
+launch agents, browse, access filesystem, or ask approval to weaken the sandbox.
+At most 12 computation commands per arm; each <=60 seconds and <=120 seconds
+aggregate. Output must be <=32KiB UTF-8. These bounds include failed work.
+Your arm's entire allowance is four visible model requests and 600 seconds,
+including any planning/review/revision. Current request usage and time remaining
+are supplied by the operator. Actual token budgets/model-version are unverified.
+Provide a self-contained rigorous proof or a clearly labelled partial attempt.
+Do not claim a finite computation establishes an unbounded theorem. Explicitly
+state any essential gap. No task-specific hint or solution is being supplied.
+Final format: Answer; Proof (with all blocking lemmas justified); Scope and gaps.
+Use English and readable LaTeX math delimiters. Do not cite remembered official
+solutions as proof. You may use established elementary results only if you state
+them and justify applicability. Submit the final proof in your final message.
+
+
+Apply this task-independent research protocol within the SAME total allowance:
+1. Extract definitions, assumptions and quantifiers; identify blocking lemmas.
+2. Rank up to three approaches with a concrete discriminating check, then choose.
+3. Construct a proof attempt along the selected approach.
+4. Adversarially review circularity, unjustified lemmas and boundary cases.
+5. Repair if resources remain; distinguish proved scope from essential gaps.
+Planning and criticism are not extra/free model requests. You may execute the
+steps in this session or use remaining explicitly provided fresh role requests.
+Do not turn the checklist itself into a claimed mathematical result.
+
+
+Classify all positive integer pairs (a,b) such that some positive integers g,N
+make gcd(a^n+b, b^n+a)=g for EVERY integer n>=N.
+Give a complete necessity-and-sufficiency proof. The exponent n is on a and b,
+not multiplication by n.
+
+
+Independently criticize the same-arm original attempt below. Check every essential implication and boundary case. Do not assume it is correct. Return specific justified objections or support; this criticism is not the final submission.
+
+OPERATOR RESOURCE NOTICE: This is request position 2 (CRITIC) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 490 seconds. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.
+
+SAME-ARM ORIGINAL ATTEMPT:
+
+**Answer.** The only pair is \(\boxed{(a,b)=(1,1)}\), with \(g=2\).
+
+**Proof.** Suppose positive integers \(g,N\) satisfy
+\[
+\gcd(a^n+b,b^n+a)=g \qquad\text{for every }n\ge N.
+\]
+Set \(m=ab+1\). Then \(m\ge2\) and
+\[
+\gcd(a,m)=\gcd(b,m)=1,
+\]
+because a common divisor of either \(a\) or \(b\) with \(m\) must divide \(m-ab=1\).
+
+There exists a positive integer \(T\) such that
+\[
+a^T\equiv b^T\equiv1\pmod m.
+\]
+Indeed, among the \(m^2+1\) pairs
+\[
+(a^j\bmod m,\ b^j\bmod m),\qquad 0\le j\le m^2,
+\]
+two coincide, at indices \(r>s\). Since \(a\) and \(b\) are coprime to \(m\), their powers can be cancelled modulo \(m\), yielding the claim with \(T=r-s\). Such cancellation follows from Bézout’s identity: an integer coprime to \(m\) has an inverse modulo \(m\).
+
+Choose a positive integer \(k\) large enough that \(kT-1\ge N\). Since \(ab\equiv-1\pmod m\),
+\[
+a\bigl(a^{kT-1}+b\bigr)=a^{kT}+ab\equiv1-1=0\pmod m.
+\]
+Cancelling \(a\) gives \(m\mid a^{kT-1}+b\). Similarly,
+\[
+b\bigl(b^{kT-1}+a\bigr)\equiv0\pmod m,
+\]
+so \(m\mid b^{kT-1}+a\). Consequently, \(m\mid g\).
+
+At the next exponent \(n=kT\), the gcd is again \(g\). Therefore \(m\) divides both expressions. Reducing them modulo \(m\) gives
+\[
+m\mid b+1,\qquad m\mid a+1.
+\]
+Thus \(ab\equiv1\pmod m\). But the definition of \(m\) also gives \(ab\equiv-1\pmod m\), so \(m\mid2\). Since \(m\ge2\), we obtain \(m=2\), hence \(ab=1\). Positivity forces \(a=b=1\).
+
+Conversely, for \(a=b=1\),
+\[
+\gcd(1^n+1,1^n+1)=2
+\]
+for every positive integer \(n\), establishing sufficiency.
+
+**Scope and gaps.** This proves the complete classification for all positive integer pairs. There are no unresolved gaps.

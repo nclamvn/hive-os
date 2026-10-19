@@ -1,0 +1,41 @@
+{
+  "purpose": "P2_INERT_DERIVATION_FROZEN_CUT_TEXT_ONLY",
+  "files": [
+    {
+      "path": "scripts/test/derive-private-grammar-tip081-p2.mjs",
+      "bytes": 47194,
+      "sha256": "cbee1012d5772e76b9e595cc719d4f0bdebd5bf72051a64f668d8187c90b2f93"
+    },
+    {
+      "path": "scripts/test/private-grammar-runtime-tip081-p2.mjs",
+      "bytes": 54114,
+      "sha256": "83453a5a95a96d87e481817067f78bc14766964adfdc144461898934ecccc738"
+    },
+    {
+      "path": "scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+      "bytes": 14174,
+      "sha256": "f3b22a9e9e44c084fd74bea0918baba0c6d2453dc87166b8c888a7d6eef3ad41"
+    },
+    {
+      "path": "node_modules/typescript/lib/typescript.js",
+      "bytes": 9112572,
+      "sha256": "3ae902c92cc44dace175c0e69e13a4b0899f6983c6121d76b9ab8dd5795e7675"
+    },
+    {
+      "path": "node_modules/typescript/package.json",
+      "bytes": 3620,
+      "sha256": "822ef7ca6452205657b6288b066481ecf508bfbf43455d715cf7d3ec457561e6"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "bytes": 121634,
+      "sha256": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "bytes": 51,
+      "sha256": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+    }
+  ],
+  "milliseconds": 18.205
+}

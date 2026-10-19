@@ -1,0 +1,72 @@
+{
+  "status": "PASS_SCOPED_RADIAL_NOT_GLOBAL",
+  "main_math_invocation": "7/8 cumulative TIP100",
+  "new_distinct_controls": 10,
+  "failures": 0,
+  "errors": 0,
+  "new_source_AST": 2,
+  "fixed_shapes": 4,
+  "fixed_scale_comparisons": 32,
+  "independent_hull_gap_energy_and_tail_coefficient_checks": 12,
+  "stationary_area_equals_half_bottom_width_checks": 4,
+  "cases": [
+    {
+      "name": "fixed_nonendpoint_shape_one",
+      "normalized_energy": "2071/10800",
+      "pieces": 3,
+      "hull_gap_formula_slabs": 23,
+      "minimum": "991/4142",
+      "minimizing_scales": [
+        "5400/2071"
+      ]
+    },
+    {
+      "name": "fixed_nonendpoint_shape_two",
+      "normalized_energy": "199/800",
+      "pieces": 2,
+      "hull_gap_formula_slabs": 19,
+      "minimum": "119/398",
+      "minimizing_scales": [
+        "400/199"
+      ]
+    },
+    {
+      "name": "known_witness_shape",
+      "normalized_energy": "61/330",
+      "pieces": 5,
+      "hull_gap_formula_slabs": 26,
+      "minimum": "14/61",
+      "minimizing_scales": [
+        "165/61"
+      ]
+    },
+    {
+      "name": "symmetric_shape",
+      "normalized_energy": "3/16",
+      "pieces": 2,
+      "hull_gap_formula_slabs": 6,
+      "minimum": "7/30",
+      "minimizing_scales": [
+        "8/3"
+      ]
+    }
+  ],
+  "rejected_alternating_slope_premise": {
+    "slopes": [
+      1,
+      3,
+      5
+    ],
+    "shape": [
+      "0",
+      "1/5",
+      "1"
+    ],
+    "height_parameter_r": "2/5",
+    "actual_union_length": "4/5",
+    "hull_length": "1",
+    "natural_cut_gaps_not_complete": true
+  },
+  "runtime_seconds": 0.08309745800215751,
+  "scope": "Universal reductions require Main written proof. Four fixed-shape minima/control agreement do NOT bound all shapes, no root closure."
+}

@@ -1,9 +1,12 @@
 import { createHash } from "node:crypto";
-import { mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, open, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { constants } from "node:fs";
 import path from "node:path";
 
 import {
   assertValidObjectKey,
+  boundedObjectReadLimit,
+  type GetObjectOptions,
   type ObjectStorage,
   type PutObjectOptions,
   type StoredObjectMetadata,
@@ -53,8 +56,25 @@ export class LocalObjectStorage implements ObjectStorage {
     };
   }
 
-  async get(key: string): Promise<Uint8Array | null> {
+  async get(key: string,options?:GetObjectOptions): Promise<Uint8Array | null> {
+    const maximum=boundedObjectReadLimit(options);
     try {
+      if(maximum!==undefined) {
+        const handle=await open(this.objectPath(key),constants.O_RDONLY|constants.O_NOFOLLOW);
+        try {
+          const info=await handle.stat();
+          if(!info.isFile() || info.size>maximum) throw new Error("Object exceeds bounded read");
+          const body=new Uint8Array(info.size);
+          let offset=0;
+          while(offset<body.byteLength) {
+            const read=await handle.read(body,offset,body.byteLength-offset,offset);
+            if(!read.bytesRead) throw new Error("Object changed during bounded read");
+            offset+=read.bytesRead;
+          }
+          if((await handle.read(new Uint8Array(1),0,1,offset)).bytesRead || (await handle.stat()).size!==info.size) throw new Error("Object changed during bounded read");
+          return body;
+        } finally {await handle.close();}
+      }
       return new Uint8Array(await readFile(this.objectPath(key)));
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;

@@ -1,0 +1,2 @@
+{"type": "item.completed", "item": {"type": "agent_message", "text": "FAKE ORIGINAL"}}
+{"type": "turn.completed", "usage": {"input_tokens": 1, "output_tokens": 1}}

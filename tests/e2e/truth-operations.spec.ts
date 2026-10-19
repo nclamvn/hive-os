@@ -1,4 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
+import { createHash } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
 
 import { signUpToDashboard } from "./auth-helpers";
@@ -10,10 +11,11 @@ async function createApprovedMission(page: Page) {
   await page.getByLabel("Objective").fill("Retain and assess exact evidence.");
   await page.getByLabel("Scope").fill("Governed local evidence.");
   await page.getByLabel("Success definition").fill("A sourced claim.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Exact evidence");
   await page.getByLabel("Acceptance criteria").fill("Every claim has an exact span.");
   await page.getByLabel("Obligation title").fill("Retain evidence");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   await page.getByRole("button", { name: "Submit for review" }).click();
   await expect(page.getByRole("button", { name: "Approve contract" })).toBeVisible();
@@ -38,16 +40,42 @@ test.describe("TIP-013 Truth Operations", () => {
     await source.getByRole("button", { name: "Save governed record" }).click();
     await expect(page.getByText("Calibration report").last()).toBeVisible();
 
+    const fileIntake = page.getByRole("form", {
+      name: "Attach evidence file",
+    });
+    await fileIntake.getByLabel("Evidence source").selectOption({ index: 1 });
+    await fileIntake.getByLabel("Evidence file").setInputFiles({
+      name: "bench.csv",
+      mimeType: "text/csv",
+      buffer: Buffer.from("axis,error_mm\npan,0.14\n", "utf8"),
+    });
+    await fileIntake
+      .getByRole("button", { name: "Save governed record" })
+      .click();
+    await expect(page.getByText("Evidence file retained")).toBeVisible();
+
     const snapshot = page.getByRole("form", { name: "Capture immutable snapshot" });
     await snapshot.getByLabel("Evidence source").selectOption({ index: 1 });
     await snapshot
       .getByLabel("Captured content")
       .fill("The independently measured governed value is 42.");
     await snapshot.getByRole("button", { name: "Save governed record" }).click();
-    await expect(page.getByText(/SHA-256 [a-f0-9]{64}/)).toBeVisible();
+    const manualSnapshotHash = createHash("sha256")
+      .update("The independently measured governed value is 42.")
+      .digest("hex");
+    await expect(
+      page.getByText(`SHA-256 ${manualSnapshotHash}`, { exact: true }),
+    ).toBeVisible();
 
     const span = page.getByRole("form", { name: "Retain exact evidence span" });
-    await span.getByLabel("Snapshot").selectOption({ index: 1 });
+    const manualDigest = manualSnapshotHash.slice(0, 10);
+    const snapshotSelect = span.getByLabel("Snapshot");
+    await expect(snapshotSelect.locator("option")).toHaveCount(3);
+    const manualSnapshotId = await snapshotSelect
+      .locator("option")
+      .filter({ hasText: manualDigest })
+      .getAttribute("value");
+    await snapshotSelect.selectOption(manualSnapshotId!);
     await span.getByLabel("Exact quote").fill("governed value is 42");
     await span.getByRole("button", { name: "Save governed record" }).click();
     await expect(page.getByText("“governed value is 42”")).toBeVisible();

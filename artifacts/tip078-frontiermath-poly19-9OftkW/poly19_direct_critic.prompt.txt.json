@@ -1,0 +1,20 @@
+{
+  "task": "POLY19",
+  "arm": "DIRECT",
+  "stage": "CRITIC",
+  "registrationSha256": "8df6e773c3c3ff4a934c8f0219cb73776336d54d23142ca90b7cf23a2c19af49",
+  "inputPins": {
+    "common-policy.txt": "456c9108c3131a1b629c287b5bda854f037d11335a0848c2fe92d5d17131e897",
+    "direct-policy.txt": "378bea06fd39d58df164749ed6623b1773ac49f3acff5357e4b95e666301f9dd",
+    "poly19.txt": "017dad58a80e611fc8c863088235a5f2ff07b62685e79293d512892fa07f1f16",
+    "/private/tmp/hiveos-tip078-poly19-9OftkW/poly19-direct-attempt/original-final.txt": "1ef41d5b00eb78bad590cc41dda6caabbaedcb22bba88a4194dc71ec33e5273d"
+  },
+  "literalStage": "Independently criticize the same-arm original attempt below. Check every essential implication and boundary case. Do not assume it is correct. Return specific justified objections or support; this criticism is not the final submission.",
+  "promptBytes": 7744,
+  "requestPosition": 2,
+  "remainingSeconds": 499.5469755840022,
+  "remainingTools": 9,
+  "remainingToolSeconds": 119.99973437498556,
+  "remainingTraceBytes": 515094,
+  "promptSha256": "f165c599c169aaaad166fbf9871e812d868ea5aa08fa4be26288885781a35542"
+}

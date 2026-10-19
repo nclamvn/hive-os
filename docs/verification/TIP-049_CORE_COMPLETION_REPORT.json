@@ -1,0 +1,51 @@
+{
+  "tipId": "TIP-049",
+  "role": "Core Builder",
+  "status": "DONE_WITH_DEFERRED_ACCEPTANCE",
+  "contractDigest": "04e2cb6a61cb254341e9bea42567f560018d51d39c9147c332f5795033e34def",
+  "filesCreated": [
+    {"path": "src/modules/research-sandbox/math-lrc-frontier.ts", "lines": 198, "sha256": "d13e482fa1381fd14703c3cf078794346f9b39e2c2eaae1759c90a8942427e9f", "purpose": "Strict sealed selection, child-domain/root binding and pure bounded disjoint composition"},
+    {"path": "tests/unit/math-lrc-frontier.test.ts", "lines": 169, "sha256": "96b796ad02171197a1526e88df6df61fb3db430f285ce506955dcffe5cfbfc75", "purpose": "Nineteen focused policy, arithmetic-admission, prefix, mutation, bound and purity cases"},
+    {"path": "docs/verification/TIP-049_CORE_COMPLETION_REPORT.json", "purpose": "This scoped completion and trust-limit report"}
+  ],
+  "filesModified": [],
+  "requirementCoverage": [
+    {"id": "R1", "status": "PASS_OWN_FOCUSED", "details": "Externally pinned canonical base admitted; deterministic exact eight roles/targets; full parent/source/canonical-node/role/child-domain/contract root binding; rejects rehashed off-policy/resolved targets, reordered residues, narrowing, source and count drift, duplicate or stale input"},
+    {"id": "R2", "status": "PASS_OWN_FOCUSED", "details": "Exactly one immutable-base admission per composition; actual bounded primary reruns all eight mock-receipt child UNRESOLVED certificates; exact BigInt additive totals; every remaining frontier lifted in original thirteen-axis order, numeric lexical antichain and count checked; all five global gaps and lower dependency unchanged"},
+    {"id": "R3", "status": "DELEGATED_REPLAY_BUILDER", "details": "Exact exported wire and canonical output/digest formulas sent; no independent Python execution claimed by this report"},
+    {"id": "R4", "status": "DELEGATED_PRODUCT_BUILDER", "details": "Exports fixed resource bounds/base raw pin for collector; no generation or retention performed by Core Builder"},
+    {"id": "R5", "status": "DELEGATED_PRODUCT_BUILDER", "details": "Strict four-row previous/current/delta/frontier summary exported for bilingual retained UI"},
+    {"id": "R6", "status": "PARTIAL_OWN_QA_MAIN_ACCEPTANCE_DEFERRED", "details": "Own focused tests and lint pass; full unit/type/build, actual independent replay/collector, visible UI and manifest acceptance belong to Main"}
+  ],
+  "testResults": {
+    "command": "node node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-frontier.test.ts",
+    "filesPassed": 1,
+    "testsPassed": 19,
+    "testsFailed": 0,
+    "durationSeconds": 64.00,
+    "testSeconds": 63.77,
+    "lintCommand": "node node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-frontier.ts tests/unit/math-lrc-frontier.test.ts",
+    "lintExitCode": 0,
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "wholeTypeCheck": "Two early checkpoints reported missing in-progress Replay module and downstream inference errors only; no Core errors. Final whole check deferred to Main after collaborator sources land.",
+    "fixtureTrust": "Real immutable base is actually revalidated. Eight child certificates are intentionally root-UNRESOLVED bounded controls with mock independent receipts duplicating real primary checker results. These are NOT proof that Python ran, NOT actual eight-job campaign outcomes and NOT external attestation.",
+    "baseValidationCount": "Purity case counted exactly one actual immutable-base admission; mocked function wrapper delegates to original implementation without bypassing arithmetic.",
+    "initialRun": "18/19 passed in60.07s; failed test attempted a non-configurable ESM child_process namespace spy. Corrected test to spy default object; no arithmetic/product implementation change for this fixture repair."
+  },
+  "immutablePins": {
+    "baseRawSha256": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "baseReportDigest": "97fa7dfa80beab4e03c2cc9264d5ab02eb3c8ac05b44d6fa8c6b9f73131d5cac",
+    "selectedPlanDigest": "3c32a869d5dbc4f01c561229e3f73b0312c16e473a83ee9fd1288c2450783d40",
+    "oldBaseBytesUnchangedInOwnTests": true
+  },
+  "issuesDiscovered": [
+    {"severity": "INFORMATIONAL", "issue": "ESM namespace spy fixture was non-configurable", "resolution": "Default child_process object spy; final focused suite passes"},
+    {"severity": "TRUST_BOUNDARY", "issue": "Unsigned independent receipts cannot attest historical external execution", "resolution": "Pure admission recomputes bounded primary arithmetic and sealed composition; actual isolated pinned Python execution and trusted atomic retention remain separate Main gates"},
+    {"severity": "RESOURCE_BOUNDARY", "issue": "Existing immutable base validator has its own ten-second observed cap and cannot take a tighter caller budget", "resolution": "New shared thirty-second observed deadline checked before and after base, each child, hashes and final serialization. No hard CPU-preemption claim; all expirations fail closed."}
+  ],
+  "deviationsFromSpec": [],
+  "deferred": ["Actual eight default child jobs and independent Python composition", "Atomic retained report and browser UI acceptance", "Whole repository final unit/type/lint/build and manifest", "Full terminal closure, lower-LRC12 proof, full14/15 theorem, novelty or external mathematical acceptance"],
+  "suggestionsForMain": ["Accept implementation independently from research classification; require original immutable base raw pin before collector execution", "Preserve separate packets rather than flattening certificates or raising old limits", "Do not concatenate child and parent prefixes; child axes already carry original coordinate labels"],
+  "sideEffects": "No package manager, installation, Git, DB, model/provider/API, worker, author-code execution, collector, retention or deployment performed. Only the three owned new files were written."
+}

@@ -1,0 +1,31 @@
+{
+  "gaps": [],
+  "editorial": [
+    {
+      "signal": "Ba publication blockers: dấu em dash trong references",
+      "assessment": "Lỗi tương thích quy tắc xuất bản của UI, không phải lỗi nguồn hay nội dung. Gói đầu vào không cấm dấu này.",
+      "repair": "Trong references, thay đúng ba chuỗi ' — ' bằng '; '. Giữ nguyên URL, phạm vi đã đọc và giới hạn nguồn."
+    },
+    {
+      "signal": "Diện tích 1.000 ha chưa có trích dẫn",
+      "assessment": "False positive về nguồn: đây là đầu vào duy nhất được người dùng cung cấp; S1–S3 không chứng minh diện tích nhiệm vụ.",
+      "repair": "Có thể làm rõ câu need thành 'Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; các điều kiện triển khai còn chưa xác định.' Không gắn trích dẫn nguồn ngoài cho diện tích."
+    },
+    {
+      "signal": "RGB–SfM có en dash",
+      "assessment": "Chỉ là quy ước dấu câu, không phải thiếu căn cứ kỹ thuật.",
+      "repair": "Nếu cần sạch cảnh báo, đổi 'UAV RGB–SfM' thành 'UAV chụp ảnh RGB, xử lý bằng SfM'."
+    },
+    {
+      "signal": "Cụm 'tuyệt đối/tương đối'",
+      "assessment": "False positive nếu hiểu là khẳng định quá mức: đây là hai loại kiểm chứng độ chính xác đứng được S3 nêu trực tiếp.",
+      "repair": "Có thể đổi thành 'tuyệt đối và tương đối' để rõ nghĩa; không loại bỏ hai phép kiểm chứng."
+    },
+    {
+      "signal": "Phủ định bất định có từ 'chắc chắn'",
+      "assessment": "Không phải cam kết chắc chắn: câu đang cảnh báo giới hạn ngoại suy. Cách diễn đạt hiện tại hơi gượng.",
+      "repair": "Đổi 'Vùng thử không đại diện chắc chắn cho mọi vùng AOI.' thành 'Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI.'"
+    }
+  ],
+  "noChanges": "Không thấy khoảng trống nội dung trọng yếu cần sửa trong phạm vi gói nguồn và nhiệm vụ. Bản dự thảo đủ tám phần, tách đầu vào đã biết khỏi dữ liệu thiếu, nêu phương án cảm biến có điều kiện, cổng thử trước mở rộng, kiểm chứng độc lập, tiến độ không bịa số ngày và khung dự toán không bịa đơn giá. Không thêm số liệu, tài liệu ngoài gói, chứng nhận tuân thủ USGS hoặc bảo đảm địa hình dưới tán. Các chỉnh sửa trên là tối thiểu về xuất bản/diễn đạt, không phải bổ sung bằng chứng mới."
+}

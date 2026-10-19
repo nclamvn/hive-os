@@ -1,0 +1,1165 @@
+{
+  "tests": 10,
+  "names": [
+    "__main__.Controls.test_abstract_atom_positivity_and_marginals",
+    "__main__.Controls.test_abstract_union_not_triangle_claim",
+    "__main__.Controls.test_completed_square_and_exact_margin",
+    "__main__.Controls.test_consecutive_apex_top_overlap_certificate",
+    "__main__.Controls.test_j2_piece_derivatives_nonpositive",
+    "__main__.Controls.test_j3_initial_interval_maximum",
+    "__main__.Controls.test_j3_q_ge_three_single_ceiling",
+    "__main__.Controls.test_supplied_sum_polynomial_remaining",
+    "__main__.Controls.test_supplied_sum_polynomial_two_to_three",
+    "__main__.Controls.test_top_cap_width_and_additional_area"
+  ],
+  "failures": 0,
+  "errors": 0,
+  "algebra": {
+    "j3_q_minus3_left": [
+      "0",
+      "0",
+      "1/24"
+    ],
+    "j3_q_minus3_middle": [
+      "-1",
+      "1",
+      "-5/24"
+    ],
+    "j2_q_minus2_middle": [
+      "-1/2",
+      "1",
+      "-1/3"
+    ],
+    "j2_q_minus2_right": [
+      "3/2",
+      "-1",
+      "1/6"
+    ],
+    "sum_on_three_halves_to_two": [
+      "-1/2",
+      "1",
+      "-7/24"
+    ],
+    "sum_on_two_to_three": [
+      "1/2",
+      "0",
+      "-1/24"
+    ],
+    "top_extra_actual_area": [
+      "0",
+      "0",
+      "1/2520"
+    ],
+    "four_triangle_lower_polynomial": [
+      "2/5",
+      "-1/5",
+      "37/630"
+    ],
+    "completed_square_polynomial": [
+      "2/5",
+      "-1/5",
+      "37/630"
+    ],
+    "completed_square_center": "63/37",
+    "completed_square_coefficient": "37/630",
+    "lower_bound": "17/74",
+    "margin_over14_61": "1/4514",
+    "other_branch_bounds_and_margins": [
+      {
+        "q_condition": "q<=0",
+        "bound": "1/4",
+        "margin": "5/244"
+      },
+      {
+        "q_condition": "0<=q<=3/2",
+        "bound": "37/160",
+        "margin": "17/9760"
+      },
+      {
+        "q_condition": "q>=2",
+        "bound": "7/30",
+        "margin": "7/1830"
+      }
+    ],
+    "j2_monotonicity_D_ge_minus_half": [
+      {
+        "interval": [
+          "-1/2",
+          "0"
+        ],
+        "derivative": [
+          "-1/3",
+          "-2/3"
+        ],
+        "derivative_endpoint_values": [
+          "0",
+          "-1/3"
+        ]
+      },
+      {
+        "interval": [
+          "0",
+          "1"
+        ],
+        "derivative": [
+          "-1/3",
+          "1/3"
+        ],
+        "derivative_endpoint_values": [
+          "-1/3",
+          "0"
+        ]
+      },
+      {
+        "interval": "D>=1",
+        "derivative": [
+          "0"
+        ]
+      }
+    ],
+    "top_projection_gap_minus_T4_width": [
+      "0"
+    ],
+    "top_scaled_triangle_area_minus_overlap": "1/14",
+    "scope": "arithmetic identities only; top geometry, reflection and union implication supplied by Main"
+  },
+  "consecutive_apex_certificate": {
+    "pair": [
+      1,
+      2
+    ],
+    "third": 3,
+    "branch": "apex_inverted",
+    "canonical_gaps": [
+      2,
+      1
+    ],
+    "halfspace_ge": [
+      "-1",
+      "1",
+      "1"
+    ],
+    "inside_support_exact_maximum": "3/7",
+    "outside_support_single_overlap_upper_bound": "1/3",
+    "overlap_sum_upper_bound": "3/7",
+    "triple_area_lower_bound": "3/14",
+    "cells": [
+      {
+        "pieces": [
+          "left",
+          "middle"
+        ],
+        "ranges": [
+          [
+            "-2",
+            "-1"
+          ],
+          [
+            "-1",
+            "0"
+          ]
+        ],
+        "quadratic": [
+          "1/6",
+          "2/3",
+          "-3/4",
+          "-1/2",
+          "11/12"
+        ],
+        "vertices": [
+          [
+            "-2",
+            "-1"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-2",
+            "0"
+          ]
+        ],
+        "status": "EXACT_MAXIMUM",
+        "candidates": [
+          {
+            "kind": "vertex",
+            "point": [
+              "-2",
+              "-1"
+            ],
+            "value": "0"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "0"
+            ],
+            "value": "5/12"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-2",
+              "0"
+            ],
+            "value": "1/4"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-8/7",
+              "-1/7"
+            ],
+            "value": "3/7"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-2",
+              "0"
+            ],
+            "value": "1/4"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-2",
+              "-1/3"
+            ],
+            "value": "1/3"
+          },
+          {
+            "kind": "full_stationary",
+            "point": [
+              "-2",
+              "-1/3"
+            ],
+            "value": "1/3"
+          }
+        ],
+        "maximum": "3/7",
+        "maximizers": [
+          [
+            "-8/7",
+            "-1/7"
+          ]
+        ]
+      },
+      {
+        "pieces": [
+          "left",
+          "right"
+        ],
+        "ranges": [
+          [
+            "-2",
+            "-1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "quadratic": [
+          "1/6",
+          "2/3",
+          "1/4",
+          "-1/2",
+          "11/12"
+        ],
+        "vertices": [
+          [
+            "-2",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "1"
+          ],
+          [
+            "-2",
+            "1"
+          ]
+        ],
+        "status": "EXACT_MAXIMUM",
+        "candidates": [
+          {
+            "kind": "vertex",
+            "point": [
+              "-2",
+              "0"
+            ],
+            "value": "1/4"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "0"
+            ],
+            "value": "5/12"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "1"
+            ],
+            "value": "1/6"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-2",
+              "1"
+            ],
+            "value": "0"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-2",
+              "0"
+            ],
+            "value": "1/4"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-1",
+              "1"
+            ],
+            "value": "1/6"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-2",
+              "1"
+            ],
+            "value": "0"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-2",
+              "1"
+            ],
+            "value": "0"
+          },
+          {
+            "kind": "full_stationary",
+            "point": [
+              "-2",
+              "1"
+            ],
+            "value": "0"
+          }
+        ],
+        "maximum": "5/12",
+        "maximizers": [
+          [
+            "-1",
+            "0"
+          ]
+        ]
+      },
+      {
+        "pieces": [
+          "middle",
+          "middle"
+        ],
+        "ranges": [
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ]
+        ],
+        "quadratic": [
+          "-1/3",
+          "-1/3",
+          "-3/4",
+          "-1/2",
+          "5/12"
+        ],
+        "vertices": [
+          [
+            "-1",
+            "0"
+          ]
+        ],
+        "status": "EXACT_MAXIMUM",
+        "candidates": [
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "0"
+            ],
+            "value": "5/12"
+          }
+        ],
+        "maximum": "5/12",
+        "maximizers": [
+          [
+            "-1",
+            "0"
+          ]
+        ]
+      },
+      {
+        "pieces": [
+          "middle",
+          "right"
+        ],
+        "ranges": [
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "quadratic": [
+          "-1/3",
+          "-1/3",
+          "1/4",
+          "-1/2",
+          "5/12"
+        ],
+        "vertices": [
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "0",
+            "1"
+          ],
+          [
+            "-1",
+            "1"
+          ]
+        ],
+        "status": "EXACT_MAXIMUM",
+        "candidates": [
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "0"
+            ],
+            "value": "5/12"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "0",
+              "1"
+            ],
+            "value": "1/6"
+          },
+          {
+            "kind": "vertex",
+            "point": [
+              "-1",
+              "1"
+            ],
+            "value": "1/6"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-1/2",
+              "1"
+            ],
+            "value": "1/4"
+          },
+          {
+            "kind": "edge_stationary",
+            "point": [
+              "-1",
+              "1"
+            ],
+            "value": "1/6"
+          },
+          {
+            "kind": "full_stationary",
+            "point": [
+              "-1/2",
+              "1"
+            ],
+            "value": "1/4"
+          }
+        ],
+        "maximum": "5/12",
+        "maximizers": [
+          [
+            "-1",
+            "0"
+          ]
+        ]
+      },
+      {
+        "pieces": [
+          "right",
+          "middle"
+        ],
+        "ranges": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "-1",
+            "0"
+          ]
+        ],
+        "quadratic": [
+          "1/6",
+          "-1/3",
+          "-3/4",
+          "-1/2",
+          "5/12"
+        ],
+        "vertices": [],
+        "status": "EMPTY",
+        "candidates": [],
+        "maximum": null
+      },
+      {
+        "pieces": [
+          "right",
+          "right"
+        ],
+        "ranges": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "quadratic": [
+          "1/6",
+          "-1/3",
+          "1/4",
+          "-1/2",
+          "5/12"
+        ],
+        "vertices": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "status": "EXACT_MAXIMUM",
+        "candidates": [
+          {
+            "kind": "vertex",
+            "point": [
+              "0",
+              "1"
+            ],
+            "value": "1/6"
+          }
+        ],
+        "maximum": "1/6",
+        "maximizers": [
+          [
+            "0",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "abstract_sets": {
+    "atoms": [
+      {
+        "signs": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "set_membership": [],
+        "weight": "1/960"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          -1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          5
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          -1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          4
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          -1,
+          1,
+          1
+        ],
+        "set_membership": [
+          4,
+          5
+        ],
+        "weight": "11/960"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          3
+        ],
+        "weight": "1/960"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          3,
+          5
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          3,
+          4
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          -1,
+          -1,
+          1,
+          1,
+          1
+        ],
+        "set_membership": [
+          3,
+          4,
+          5
+        ],
+        "weight": "11/960"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          2
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          -1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          2,
+          5
+        ],
+        "weight": "1/192"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          -1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          2,
+          4
+        ],
+        "weight": "7/960"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          -1,
+          1,
+          1
+        ],
+        "set_membership": [
+          2,
+          4,
+          5
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          2,
+          3
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          2,
+          3,
+          5
+        ],
+        "weight": "1/192"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          2,
+          3,
+          4
+        ],
+        "weight": "7/960"
+      },
+      {
+        "signs": [
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "set_membership": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          1
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          -1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          1,
+          5
+        ],
+        "weight": "7/960"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          -1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          4
+        ],
+        "weight": "1/192"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          -1,
+          1,
+          1
+        ],
+        "set_membership": [
+          1,
+          4,
+          5
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          3
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          1,
+          3,
+          5
+        ],
+        "weight": "7/960"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          3,
+          4
+        ],
+        "weight": "1/192"
+      },
+      {
+        "signs": [
+          1,
+          -1,
+          1,
+          1,
+          1
+        ],
+        "set_membership": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          2
+        ],
+        "weight": "11/960"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          -1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          1,
+          2,
+          5
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          -1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          2,
+          4
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          -1,
+          1,
+          1
+        ],
+        "set_membership": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "weight": "1/960"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          1,
+          -1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          2,
+          3
+        ],
+        "weight": "11/960"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          1,
+          -1,
+          1
+        ],
+        "set_membership": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "weight": "1/240"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          1,
+          1,
+          -1
+        ],
+        "set_membership": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "weight": "1/120"
+      },
+      {
+        "signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "set_membership": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "weight": "1/960"
+      }
+    ],
+    "atom_count": 32,
+    "total_universe_weight": "1/5",
+    "minimum_atom_weight": "1/960",
+    "single_areas": [
+      "1/10",
+      "1/10",
+      "1/10",
+      "1/10",
+      "1/10"
+    ],
+    "pairs": [
+      {
+        "pair_1based": [
+          1,
+          2
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/15",
+        "slack": "1/60"
+      },
+      {
+        "pair_1based": [
+          1,
+          3
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/20",
+        "slack": "0"
+      },
+      {
+        "pair_1based": [
+          1,
+          4
+        ],
+        "intersection": "3/80",
+        "triangle_pair_ceiling": "1/25",
+        "slack": "1/400"
+      },
+      {
+        "pair_1based": [
+          1,
+          5
+        ],
+        "intersection": "1/30",
+        "triangle_pair_ceiling": "1/30",
+        "slack": "0"
+      },
+      {
+        "pair_1based": [
+          2,
+          3
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/15",
+        "slack": "1/60"
+      },
+      {
+        "pair_1based": [
+          2,
+          4
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/20",
+        "slack": "0"
+      },
+      {
+        "pair_1based": [
+          2,
+          5
+        ],
+        "intersection": "3/80",
+        "triangle_pair_ceiling": "1/25",
+        "slack": "1/400"
+      },
+      {
+        "pair_1based": [
+          3,
+          4
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/15",
+        "slack": "1/60"
+      },
+      {
+        "pair_1based": [
+          3,
+          5
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/20",
+        "slack": "0"
+      },
+      {
+        "pair_1based": [
+          4,
+          5
+        ],
+        "intersection": "1/20",
+        "triangle_pair_ceiling": "1/15",
+        "slack": "1/60"
+      }
+    ],
+    "union": "191/960",
+    "gap_below14_61": "1789/58560",
+    "scope": "ABSTRACT weighted sets, NOT triangles or a Kakeya/root counterexample"
+  },
+  "runtime_seconds": 0.004395875002956018,
+  "scope": "supplied identities/exact arithmetic; conditional on Main geometry, not a whole-root verdict"
+}

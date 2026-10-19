@@ -12,12 +12,13 @@ async function createMission(page: Page) {
   await page
     .getByLabel("Success definition")
     .fill("A bounded and reviewable result.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Evidence coverage");
   await page
     .getByLabel("Acceptance criteria")
     .fill("Every accepted statement has retained evidence.");
   await page.getByLabel("Obligation title").fill("Review evidence");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
   return page.url();
 }
@@ -68,5 +69,26 @@ test.describe("TIP-009 Mission Workspace", () => {
           violation.impact === "serious" || violation.impact === "critical",
       ),
     ).toEqual([]);
+  });
+
+  test("MW-09 distinguishes manual progress from a live background worker", async ({
+    page,
+  }) => {
+    await createMission(page);
+    await page.getByRole("button", { name: "Submit for review" }).click();
+    await expect(
+      page.getByRole("button", { name: "Approve contract" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Approve contract" }).click();
+    await expect(page.getByRole("button", { name: "Start" })).toBeVisible();
+    await page.getByRole("button", { name: "Start" }).click();
+
+    await expect(page.getByText("Manual work in progress")).toBeVisible();
+    await expect(page.getByText("NO BACKGROUND JOB")).toBeVisible();
+    await expect(page.getByText("In progress", { exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open Research/ })).toHaveAttribute(
+      "href",
+      /\/research\?missionId=/,
+    );
   });
 });

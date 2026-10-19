@@ -1,0 +1,23 @@
+{
+  "case_id": "C01",
+  "review_type": "ordinary_mathematical_review_by_Main_not_formal_or_external_human",
+  "status": "B_FINAL_SUPPORTED_A_FINAL_MISSING",
+  "answer": "1",
+  "A_initial": {"answer_score": 2, "support_score": 4, "supported": true},
+  "A_final": {"score": null, "supported": null, "reason": "A2 timed out; A3 not dispatched. Do not substitute A1 for a submitted final."},
+  "B_initial": {"answer_score": 2, "support_score": 4, "supported": true},
+  "B_final": {"answer_score": 2, "support_score": 4, "supported": true},
+  "checks": [
+    "The linear transport-diffusion decomposition preserves positivity and L1/Lp component bounds, with the smooth solution velocity fixed.",
+    "Energy controls curl(u) in inhomogeneous H^-1. L1 intersect Lp embeds in H^-1 for each p>1; the positive part (or A's positive envelope) consequently has uniform H^-1 norm.",
+    "The positive Bessel kernel has a logarithmic lower bound near zero on both domains. Positivity removes cancellation and bounds local pair mass by C/log(1/r).",
+    "Mollification gives y <= C/(r^2 log(1/r)) + C r^2 z. Choosing r^2=K/(y log y), first K large then y large, yields z >= c y^2 log y. The ODE integration direction is correct.",
+    "B controls the signed component by Lp smoothing with exponent 2/p-1 for p<2, giving a dissipation contribution O(nu^(2-2/p)); A instead bounds a positive envelope controlling all vorticity.",
+    "Initial convolution preserves the measure decomposition and strongly converges in velocity L2. Standard 2D energy-class difference estimates and weak lower semicontinuity transfer the bound for fixed nu.",
+    "Both sharpness families have zero total circulation, finite velocity L2 energy uniformly bounded by an amplitude of order 1/sqrt(log(1/nu)), and radial vorticity with zero swirl advection.",
+    "The exact heat evolution gives D_nu >= c/log(1/nu) on R2, refuting q>1 since admissibility requires both domains. No finite numerical sample is used as this proof."
+  ],
+  "critic_effect": "B2 confirms an already sound B1 proof and elaborates estimates; no essential mathematical repair identified.",
+  "method_interpretation": "B delivered a supported final where A's review timed out. This is an observed bounded-workflow delivery advantage, not proof of critic-induced mathematical correction or model-independent verification.",
+  "caveat": "Ordinary review accepts standard smooth approximation and 2D energy-class stability arguments; there is no Lean kernel or independent expert certification."
+}

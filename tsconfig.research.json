@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "noEmit": true,
+    "incremental": false,
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "paths": {"@/*": ["./src/*"]}
+  },
+  "files": [
+    "scripts/research/check.mjs",
+    "scripts/research/replay.mts",
+    "scripts/research/lean.mts",
+    "vitest.research.config.ts",
+    "tests/unit/permutation-checker.test.ts",
+    "tests/unit/research-development.test.ts",
+    "tests/unit/lean-execution.test.ts"
+  ],
+  "include": []
+}

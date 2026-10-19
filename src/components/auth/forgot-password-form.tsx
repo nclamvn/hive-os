@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field } from "./auth-card";
 import { FormStatus } from "./auth-fields";
 
@@ -12,6 +13,7 @@ import { FormStatus } from "./auth-fields";
  * regardless of whether the account exists — no enumeration.
  */
 export function ForgotPasswordForm() {
+  const copy = useAuthCopy();
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
 
@@ -28,19 +30,24 @@ export function ForgotPasswordForm() {
   }
 
   if (submitted) {
-    return (
-      <FormStatus>
-        If an account exists for that email, a password-reset link is on its way.
-        The link expires in 30 minutes.
-      </FormStatus>
-    );
+    return <FormStatus>{copy.forgotPassword.outcome}</FormStatus>;
   }
 
   return (
     <form onSubmit={onSubmit} noValidate>
-      <Field id="email" label="Email" type="email" autoComplete="email" />
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Sending…" : "Send reset link"}
+      <Field
+        id="email"
+        label={copy.common.email}
+        type="email"
+        autoComplete="email"
+      />
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="mt-2 w-full"
+      >
+        {busy ? copy.forgotPassword.busy : copy.forgotPassword.submit}
       </Button>
     </form>
   );

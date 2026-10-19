@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-import { type ReactNode } from "react";
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
-import { type SidebarAccount, SidebarContent } from "./sidebar-content";
+import {
+  type SidebarAccount,
+  SidebarContent,
+  type SidebarEnterpriseScope,
+} from "./sidebar-content";
 
 export interface MobileNavProps {
   open: boolean;
@@ -13,9 +17,10 @@ export interface MobileNavProps {
   /** Focus returns here when the drawer closes. */
   returnFocusRef: React.RefObject<HTMLButtonElement | null>;
   account?: SidebarAccount | null;
-  brandSlot?: ReactNode;
   footerSlot?: ReactNode;
   homeHref?: string;
+  enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }
 
 export function MobileNav({
@@ -23,10 +28,12 @@ export function MobileNav({
   onClose,
   returnFocusRef,
   account,
-  brandSlot,
   footerSlot,
   homeHref,
+  enterpriseScope,
+  researcherMode,
 }: MobileNavProps) {
+  const { t } = usePreferences();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -35,7 +42,15 @@ export function MobileNav({
     if (!open) return;
 
     const previouslyFocused = returnFocusRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     closeRef.current?.focus();
+    const desktop = window.matchMedia("(min-width: 768px)");
+    function onBreakpointChange() {
+      if (desktop.matches) onClose();
+    }
+    desktop.addEventListener("change", onBreakpointChange);
+    onBreakpointChange();
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -46,10 +61,20 @@ export function MobileNav({
       if (event.key !== "Tab") return;
 
       // Simple focus trap within the drawer.
-      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable || focusable.length === 0) return;
+      const focusable = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])',
+      ) ?? []).filter((element) => {
+        if (element.tabIndex < 0 || element.getClientRects().length === 0) return false;
+        // Closed <details> descendants may still have layout rectangles in
+        // Chromium. They must not become the focus trap's hidden last target.
+        if (element.checkVisibility) return element.checkVisibility({ visibilityProperty: true });
+        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+          if (parent instanceof HTMLDetailsElement && !parent.open &&
+              !parent.querySelector(":scope > summary")?.contains(element)) return false;
+        }
+        return getComputedStyle(element).visibility !== "hidden";
+      });
+      if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       const active = document.activeElement;
@@ -65,7 +90,12 @@ export function MobileNav({
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      previouslyFocused?.focus();
+      desktop.removeEventListener("change", onBreakpointChange);
+      document.body.style.overflow = previousOverflow;
+      // The menu trigger is hidden above the mobile breakpoint. Return to the
+      // main landmark instead of leaving focus in a removed/hidden drawer.
+      if (desktop.matches) document.getElementById("main-content")?.focus();
+      else previouslyFocused?.focus();
     };
   }, [open, onClose, returnFocusRef]);
 
@@ -74,7 +104,7 @@ export function MobileNav({
   return (
     <div className="fixed inset-0 z-50 min-[768px]:hidden">
       <div
-        className="absolute inset-0 bg-navy-900/25"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -82,7 +112,7 @@ export function MobileNav({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation"
+        aria-label={t("common.navigation")}
         className="bg-surface absolute inset-y-0 left-0 flex w-[min(84vw,300px)] flex-col border-r border-line shadow-panel"
       >
         <div className="relative h-full">
@@ -90,7 +120,7 @@ export function MobileNav({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            aria-label="Close navigation"
+            aria-label={t("common.closeNavigation")}
             className="border-line text-ink-muted hover:bg-surface-subtle absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-md border"
           >
             <X className="size-[18px]" aria-hidden="true" />
@@ -98,9 +128,10 @@ export function MobileNav({
           <SidebarContent
             onNavigate={onClose}
             account={account}
-            brandSlot={brandSlot}
             footerSlot={footerSlot}
             homeHref={homeHref}
+            enterpriseScope={enterpriseScope}
+            researcherMode={researcherMode}
           />
         </div>
       </div>

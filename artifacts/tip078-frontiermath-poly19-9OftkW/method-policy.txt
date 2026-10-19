@@ -1,0 +1,9 @@
+Apply this task-independent research protocol within the SAME total allowance:
+1. Extract definitions, assumptions and quantifiers; identify blocking lemmas.
+2. Rank up to three approaches with a concrete discriminating check, then choose.
+3. Construct a proof attempt along the selected approach.
+4. Adversarially review circularity, unjustified lemmas and boundary cases.
+5. Repair if resources remain; distinguish proved scope from essential gaps.
+Planning and criticism are not extra/free model requests. You may execute these
+steps in-session or use remaining explicitly supplied fresh role requests.
+Do not turn the checklist itself into a claimed mathematical result.

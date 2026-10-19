@@ -1,0 +1,29 @@
+**C06. The proof is sound.** It establishes the stronger bound \(M(f)<2^{68}\). There are no substantive errors or unresolved gaps.
+
+The main steps withstand scrutiny:
+
+- **Integer-sum lemma.** Nonnegative sums modulo \(a\) form a subgroup because any additive submonoid of a finite group is a subgroup. The gcd assumption makes this subgroup all of \(\mathbb Z/a\mathbb Z\). In a shortest sequence reaching a residue, the successive partial residues cannot repeat; otherwise the intervening terms could be removed. Thus at most \(a-1\) terms suffice. The representative bound and subsequent rescaling by \(d\) are correct.
+
+- **Period of a strongly connected component.** The displayed closed-walk lengths have gcd exactly \(g\). Ignoring zero lengths causes no difficulty: every integer divides zero, so the subtraction argument remains valid when \(a_v+b_v=0\). Summing
+  \[
+  a_u+1-a_v
+  \]
+  around a cycle telescopes to its length. Concatenating closed walks at \(r\) realizes every nonnegative combination of the generators. Consequently the claimed eventual residue-class description of walk lengths follows. The threshold is sufficient, since
+  \[
+  (2s-1)^2+(2s-2)\le239^2+238=57\,359<57\,840=T.
+  \]
+
+- **Bound on \(P\).** Removing repeated entries equal to \(3\) preserves the lcm. The retained product is therefore divisible by \(P\). The inequality \(d\le2^{d/2}\) holds for every positive integer except \(3\): check \(1,2,4\), then induct for \(d\ge4\) using \((d+1)/d\le5/4<\sqrt2\). If a \(3\) remains, the other retained entries sum to at most \(117\), giving
+  \[
+  P\le3\,2^{117/2}<2^{61}.
+  \]
+
+- **Uniform periodicity for arbitrary walks.** A walk cannot return to a strongly connected component after leaving it, since that would merge the components. Hence it has at most \(120\) internal segments and \(119\) connecting edges. The pigeonhole bound correctly forces a segment of length at least \(T+P\). Increasing or decreasing that segment by \(P\) preserves its endpoints, and the decreased length remains at least \(T\). This proves both directions of the stated equivalence.
+
+Finally, periodicity from index \(N\) means every forward orbit has at most \(N+P\) distinct sets, represented by indices \(0,\dots,N+P-1\). The selection condition places every \(A_j\) in the orbit of \(A_1\), so
+\[
+M(f)\le6\,940\,800+121P
+\le6\,940\,800+121\cdot2^{61}
+<2^{68}<2^{70}.
+\]
+The argument also works whether “natural number” includes zero.

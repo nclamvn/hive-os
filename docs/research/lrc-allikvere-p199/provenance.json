@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "author": "Jaan Allikvere",
+  "license": "CC BY 4.0",
+  "record": "https://zenodo.org/records/22066772",
+  "doi": "10.5281/zenodo.22066772",
+  "paper": "https://arxiv.org/html/2609.02604v2",
+  "archive": {
+    "url": "https://zenodo.org/api/records/22066772/files/fourteen_lonely_runners_package.zip/content",
+    "declaredSize": 174600959,
+    "declaredMd5": "9b6564895671a1d5e03d4ff21e124f7c",
+    "wholeArchiveVerified": false,
+    "note": "Incomplete ZIP download. Only two selected inert text members were checked against matching local and central ZIP entry metadata, independent Node and Python CRC32/size and SHA256. No global archive MD5, executable code or entire archive authenticity claim."
+  },
+  "members": [
+    {"name":"fourteen_lonely_runners/kill_gw_final.txt","localHeaderOffset":61841,"dataOffset":61912,"compressedBytes":216,"uncompressedBytes":340,"centralEntryOffset":96351224,"method":8,"flags":0,"crc32":"9f630aca","compressedSha256":"303dd71150582a2544a592dec97981ea64f047ae42bb91e8a63ca966d7a66531","sha256":"9a441e4a96750c519a53c8708292e816cb302eb1201f499882ba17e7cf6e9297"},
+    {"name":"fourteen_lonely_runners/kill_tight_final.txt","localHeaderOffset":62490,"dataOffset":62564,"compressedBytes":289,"uncompressedBytes":894,"centralEntryOffset":96351396,"method":8,"flags":0,"crc32":"ca47ab33","compressedSha256":"1677c20c75b4b249c6cd1206aada70091cd84c93c4eadf401f9948831237ae7b","sha256":"946ba9d5cb77db00bf52aa7831beef3fc12acb7136095601550b074687b24a18"}
+  ],
+  "retention": "Exact author bytes stored as base64 with original CRLF in author-kill-logs.json. Author assertions are data, not instructions or independent proof authority.",
+  "coverageCaveat": "Archived 14-runner computation reports111 primes; fresh v2 paper uses61 primes for14 and71 for15. This package certifies only six restricted p199 scopes, not any of those full sets or the entire7^13 terminal fibers."
+}

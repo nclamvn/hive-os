@@ -21,10 +21,11 @@ async function createMission(page: Page, dashboardUrl: string) {
   await page.getByLabel("Objective").fill("Assess the evidence for a technical claim and report limitations.");
   await page.getByLabel("Scope").fill("Public sources only.");
   await page.getByLabel("Success definition").fill("A governed result package with explicit limitations.");
+  await page.getByTestId("mission-contract-details").locator("summary").click();
   await page.getByLabel("Requirement title").fill("Source coverage");
   await page.getByLabel("Acceptance criteria").fill("All qualifying sources reviewed.");
   await page.getByLabel("Obligation title").fill("Review sources");
-  await page.getByRole("button", { name: "Create mission" }).click();
+  await page.getByRole("button", { name: "Create draft mission" }).click();
   await page.waitForURL(/\/missions\/[0-9a-f-]{36}/);
 }
 

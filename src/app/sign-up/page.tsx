@@ -6,26 +6,29 @@ import { SignUpForm } from "@/components/auth/sign-up-form";
 import { EmptyState } from "@/components/ui/empty-state";
 import { getEnv } from "@/server/env";
 import { currentUser } from "@/server/auth/session";
+import { authCopy } from "@/i18n/auth-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function SignUpPage() {
   if (await currentUser()) redirect("/");
+  const copy = authCopy[await getLocale()];
 
   // Truthful unavailable state when self-sign-up is disabled.
   if (!getEnv().AUTH_ALLOW_SELF_SIGNUP) {
     return (
       <AuthCard
-        title="Sign-up unavailable"
+        title={copy.signUp.unavailableTitle}
         footer={
           <Link href="/sign-in" className="text-blue-600 font-medium underline">
-            Back to sign in
+            {copy.common.backToSignIn}
           </Link>
         }
       >
         <EmptyState
-          title="Self-sign-up is disabled"
-          hint="An existing workspace owner must invite you to join."
+          title={copy.signUp.unavailableState}
+          hint={copy.signUp.unavailableHint}
         />
       </AuthCard>
     );
@@ -33,13 +36,13 @@ export default async function SignUpPage() {
 
   return (
     <AuthCard
-      title="Create account"
-      description="Start a new HIVE OS workspace."
+      title={copy.signUp.title}
+      description={copy.signUp.description}
       footer={
         <>
-          Already have an account?{" "}
+          {copy.signUp.already}{" "}
           <Link href="/sign-in" className="text-blue-600 font-medium underline">
-            Sign in
+            {copy.signUp.signIn}
           </Link>
         </>
       }

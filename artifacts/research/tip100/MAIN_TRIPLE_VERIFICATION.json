@@ -1,0 +1,14 @@
+{
+  "status": "PASS_SCOPED_NOT_ROOT",
+  "certificates": 60,
+  "formula_polygons_independently_checked": 402,
+  "polygon_vertices_checked": 468,
+  "residual_graphs_closed": 65,
+  "residual_graphs_open": [
+    1023
+  ],
+  "minimum_disjoint_pair_bound": "17/74",
+  "strict_gap": "1/4514",
+  "elapsed_seconds": 0.0597413340001367,
+  "scope": "Active-constraint geometry and quadratic extrema independently reproduced; top-cap/reflection are Main written analytic premises, not inferred from tests."
+}

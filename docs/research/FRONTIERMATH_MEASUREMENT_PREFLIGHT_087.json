@@ -1,0 +1,40 @@
+{
+  "milestone": "FRONTIERMATH_MEASUREMENT_PREFLIGHT_087",
+  "kind": "NON_MATHEMATICAL_TRANSPORT_PREFLIGHT",
+  "date": "2026-10-09",
+  "cliVersion": "0.160.0",
+  "authStatusObserved": "Logged in using ChatGPT",
+  "requestedModelFromExistingUserConfig": "gpt-6.1-sol",
+  "requestedReasoningEffortFromExistingUserConfig": "high",
+  "effectiveBackendModelId": null,
+  "childSandbox": "read-only",
+  "ephemeral": true,
+  "ignoreUserConfig": true,
+  "webSearch": "disabled",
+  "firstInvocation": {
+    "exitCode": 1,
+    "elapsedSeconds": 0.040615,
+    "reason": "IN_PROCESS_APP_SERVER_INITIALIZATION_EPERM",
+    "jsonEventsObserved": 0,
+    "usage": null
+  },
+  "platformReviewedRetry": {
+    "exitCode": 0,
+    "elapsedSeconds": 13.927107,
+    "eventsObserved": ["thread.started", "turn.started", "item.completed:agent_message", "turn.completed"],
+    "reply": "FM087_TELEMETRY_OK",
+    "usage": {
+      "input_tokens": 13151,
+      "cached_input_tokens": 9856,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 11,
+      "reasoning_output_tokens": 0
+    }
+  },
+  "benchmarkRunStarted": false,
+  "sourceCategorySelectedByHuman": false,
+  "lessExposedDatasetEstablished": false,
+  "paidProviderApiUsed": false,
+  "applicationAgentLoopAcceptance": false,
+  "scratchRemoved": "/private/tmp/codex-tmp-fm087-20261009.50tmEn"
+}

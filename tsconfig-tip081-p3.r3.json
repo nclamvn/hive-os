@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "skipLibCheck": false,
+    "skipDefaultLibCheck": false,
+    "noCheck": false,
+    "types": [],
+    "typeRoots": [],
+    "lib": ["ES2022"],
+    "libReplacement": false,
+    "resolvePackageJsonExports": false,
+    "resolvePackageJsonImports": false,
+    "paths": {
+      "typescript": ["./node_modules/typescript/lib/typescript.d.ts"]
+    }
+  },
+  "files": [
+    "scripts/test/private-summary-verifier-tip081-p3.r3.mjs",
+    "scripts/test/derive-private-summary-tip081-p3.r3.mjs",
+    "scripts/test/admit-private-summary-tip081-p3.r3.mjs",
+    "scripts/test/metadata-baseline-tip081-p3.r3.mjs",
+    "scripts/test/boundary-expectations-tip081-p3.r3.mjs",
+    "scripts/test/private-summary-tool-manifest-tip081-p3.r3.mjs",
+    "scripts/test/capture-private-summary-tip081-p3.r3.mjs",
+    "scripts/test/preserve-private-summary-tip081-p3.r3.mjs",
+    "scripts/test/check-private-summary-tip081-p3.r3.mjs",
+    "scripts/test/supervise-private-summary-tip081-p3.r3.mjs",
+    "tests/unit/private-summary-tip081-p3.r3.mjs",
+    "eslint-tip081-p3.r3.config.mjs",
+    "tests/unit/private-summary-tip081-p3.r3.d.ts",
+    "node_modules/@types/node/index.d.ts"
+  ],
+  "include": [],
+  "exclude": []
+}

@@ -1,0 +1,164 @@
+**C01. The supremum of the admissible exponents is \(\boxed{1}\).**
+
+We prove the uniform upper bound and give a family attaining its order.
+
+Let \(H^{-1}\) denote the inhomogeneous Sobolev space. Constants below may depend on \(p,M\), but are uniform for the two domains.
+
+First consider smooth initial data. Split the vorticity evolution as
+\[
+\omega=\mu+f,
+\qquad
+\partial_t h+u\cdot\nabla h=\nu\Delta h
+\quad(h=\mu,f),
+\]
+with the prescribed initial decomposition. The maximum principle and incompressibility give
+\[
+\mu\ge0,\qquad
+\|f(t)\|_1\le M,\qquad \|f(t)\|_p\le M.
+\]
+Since \(L^1\cap L^p\subset H^{-1}\) for every \(p>1\) in two dimensions,
+\[
+\|f(t)\|_{H^{-1}}+\||f(t)|\|_{H^{-1}}\le C.
+\]
+Indeed, for \(1<p\le2\) this follows by duality from the embedding \(H^1\subset L^{p'}\); for \(p>2\), interpolate between \(L^1\) and \(L^p\) to obtain \(L^2\).
+
+The energy bound also gives
+\[
+\|\omega(t)\|_{H^{-1}}
+=\|\operatorname{curl}u(t)\|_{H^{-1}}\le C M.
+\]
+Consequently the nonnegative function
+\[
+g=\mu+|f|
+\]
+satisfies
+\[
+|\omega|\le g,\qquad \|g(t)\|_{H^{-1}}\le C.                 \tag{1}
+\]
+
+The kernel \(K\) of \((1-\Delta)^{-1}\), on either domain, is positive and satisfies
+\[
+K(x)\ge c\log(1/|x|)
+\]
+for sufficiently small \(|x|\). These properties follow directly from its heat-kernel representation
+\[
+K(x)=\int_0^\infty e^{-s}H_s(x)\,ds.
+\]
+Using positivity in the identity
+\[
+\|g\|_{H^{-1}}^2=\iint K(x-y)g(x)g(y)\,dx\,dy,
+\]
+equation (1) implies, for all sufficiently small \(r\),
+\[
+\iint_{|x-y|\le2r}g(x)g(y)\,dx\,dy
+\le \frac{C}{\log(1/r)}.                                  \tag{2}
+\]
+
+Fix a nonnegative smooth mollifier \(\rho\), supported in the unit ball, with integral one. Its rescaling satisfies
+\[
+(\rho_r*\widetilde\rho_r)(x)
+\le Cr^{-2}\mathbf1_{\{|x|\le2r\}}.
+\]
+Thus (2) yields
+\[
+\|\rho_r*\omega\|_2^2
+\le\|\rho_r*g\|_2^2
+\le\frac{C}{r^2\log(1/r)}.
+\]
+The translation estimate
+\[
+\|\omega-\rho_r*\omega\|_2\le Cr\|\nabla\omega\|_2
+\]
+therefore gives, writing \(y=\|\omega\|_2^2\) and \(z=\|\nabla\omega\|_2^2\),
+\[
+y\le\frac{A}{r^2\log(1/r)}+Br^2z.                         \tag{3}
+\]
+
+For sufficiently large \(y\), choose
+\[
+r^2=\frac{K_0}{y\log y},
+\]
+where the fixed constant \(K_0\) is sufficiently large. Since
+\(\log(1/r)\sim\frac12\log y\), the first term in (3) is at most \(y/2\). Hence there are uniform constants \(c,Y>0\) such that
+\[
+z\ge c y^2\log y\qquad(y\ge Y).
+\]
+The enstrophy identity now implies
+\[
+y'=-2\nu z\le-c\nu y^2\log y\qquad(y\ge Y).
+\]
+As \(y\) is nonincreasing, whenever \(y(t)\ge Y\), integration gives
+\[
+c\nu t
+\le\int_{y(t)}^{y(0)}\frac{ds}{s^2\log s}
+\le\frac{1}{y(t)\log y(t)}.
+\]
+Inverting this bound, and including the case \(y(t)<Y\), gives
+\[
+y(t)\le Y+\frac{C}{\nu t\log(1/(\nu t))}
+\]
+when \(\nu t\) is sufficiently small. In particular,
+\[
+D_\nu
+=\nu\int_{1/2}^{1}y(t)\,dt
+\le\frac{C}{\log(1/\nu)}.                                 \tag{4}
+\]
+
+For completeness, these estimates extend to the solutions specified in the question. Spatially mollify the initial velocity and both parts of its vorticity decomposition. This preserves positivity and all the assumed bounds. The corresponding smooth two-dimensional solutions satisfy the estimates above uniformly. Energy compactness passes their equations to a limit, and weak lower semicontinuity passes (4). The limit is the specified solution by energy-class uniqueness: testing the difference equation and using the two-dimensional \(L^4\) interpolation inequality gives a Gronwall estimate with integrable coefficient proportional to \(1+\nu^{-1}\|\nabla u\|_2^2\). The same interpolation justifies the difference-energy testing. Strong convergence of the mollified initial velocities supplies the initial condition. Thus (4) holds under exactly the stated assumptions, so \(q=1\) is admissible.
+
+To show sharpness, work on \(\mathbb R^2\). Define
+\[
+G_s(x)=\frac{1}{4\pi s}e^{-|x|^2/(4s)},\qquad
+L=\log(1/\nu),\qquad a_\nu=\frac{\kappa}{\sqrt L},
+\]
+and take
+\[
+\omega_0^\nu=a_\nu(G_\nu-G_1),\qquad
+\mu_0^\nu=a_\nu G_\nu,\qquad f_0^\nu=-a_\nu G_1.
+\]
+The associated velocity is radial swirl:
+\[
+u_0^\nu(x)=
+\frac{a_\nu}{2\pi |x|}
+\left(e^{-|x|^2/4}-e^{-|x|^2/(4\nu)}\right)e_\theta.
+\]
+A direct integration gives
+\[
+\|u_0^\nu\|_2^2
+=\frac{a_\nu^2}{4\pi}
+ \log\frac{(1+\nu)^2}{4\nu}
+\le\frac{\kappa^2}{4\pi}.
+\]
+Also,
+\[
+|\omega_0^\nu|(\mathbb R^2)\le2a_\nu,\qquad
+\|f_0^\nu\|_1=a_\nu,\qquad
+\|f_0^\nu\|_p=a_\nu\|G_1\|_p.
+\]
+Fix, for example, \(p=2\), and choose \(\kappa>0\) small enough that the required sum is bounded by \(M=1\) for every allowed \(\nu\).
+
+Radial vorticity has zero transport by its swirl velocity. The exact Navier–Stokes solution therefore has
+\[
+\omega^\nu(t)=a_\nu
+\left(G_{\nu(1+t)}-G_{1+\nu t}\right).
+\]
+Its velocity satisfies the energy equality and all the required regularity.
+
+Using
+\[
+\|G_s\|_2^2=\frac1{8\pi s},
+\qquad
+\langle G_s,G_b\rangle=\frac1{4\pi(s+b)},
+\]
+for \(1/2\le t\le1\) we obtain
+\[
+\|\omega^\nu(t)\|_2^2
+\ge a_\nu^2\left(\frac1{16\pi\nu}-\frac1{2\pi}\right)
+\ge\frac{a_\nu^2}{32\pi\nu}
+\]
+when \(\nu\le1/16\). Consequently,
+\[
+D_\nu\ge\frac{a_\nu^2}{64\pi}
+=\frac{\kappa^2}{64\pi\log(1/\nu)}.
+\]
+For any \(q>1\), this contradicts a uniform bound by \(C[\log(1/\nu)]^{-q}\). Together with (4), this proves the stated supremum.

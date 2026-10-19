@@ -1,0 +1,84 @@
+{
+  "tip": "TIP-048",
+  "builder": "target_skeptic (Product Builder, not independent mathematical reviewer)",
+  "status": "READY_FOR_CONTRACTOR_REVIEW",
+  "contractDigest": "4712dc80fed2331ad8bc87627840205d0a31eaa97fa42f95f7d0bbde2f39ad2b",
+  "scope": "Owned R6/R7 product implementation and R5 collector/read budgets; peer Core/Replay own certificate arithmetic and independent execution. Main owns R1/R8 and final acceptance. Research classification remains PARTIAL and global NOT_ESTABLISHED.",
+  "requirements": {
+    "R5": { "implemented": true, "evidence": "Exactly eight domains, aggregate collector120000 observed ms/128MiB, each peer original capped run, pure aggregate report10000 observed ms with remaining-budget handoff. No cap increase after outcomes. No hard CPU-preemption or signed execution attestation claim." },
+    "R6": { "implemented": true, "evidence": "Explicit local development/test CLI reconstructs and independently replays all eight exact source/root-bound scopes, validates the full report before atomic fixed-path replacement. Strict schema, frozen descriptor order, new TIP digest, old source manifest, chosen counts, lower dependency, all five gaps and report digest are bound. Valid PARTIAL is displayable; no theorem/agent admission. Pure retained read invokes no producer, process, research fetch or model." },
+    "R7": { "implemented": true, "evidence": "Separate bilingual compact-cover panel on the existing retained Allikvere route; old panel/report remain untouched. First-five-fixed7^8 vs full7^13, classified/unresolved/conditional counts and wrapping provenance are explicit. Anchored subsets are not added to full domains as unique coverage. KaTeX uses existing MathText; visible global scope warning, scroll offset, no dispatch controls or redesign." }
+  },
+  "design_plan": {
+    "direction": "Restrained mathematical evidence, not a new dashboard. Preserve HIVE theme tokens, Panel radius, project typography and left-aligned narrow prose; scope status precedes numerical coverage.",
+    "palette": "Existing light/dark project tokens only: bg-surface, border-line, text-ink-strong, text-ink-muted. No independent palette override.",
+    "typography": "Existing text-section-title/body/meta hierarchy; MathText/KaTeX for quantified statements; monospace only for exact coordinates and digests.",
+    "layout": "Single scoped warning, quantified method explanation, eight ordered horizontal domain sections with responsive one/two-column counts, optional exact provenance, then all five open global gates. No aggregate unique-point total.",
+    "skills": "Vibecode Kit Builder ownership and frontend-design restraint used; installed Next server/client guide read before route changes. No new interactions or gratuitous decoration."
+  },
+  "files": [
+    { "path": "src/modules/research-sandbox/math-lrc-cover-report.ts", "sha256": "d8b65f3a26a1802486222b0640ad7e1627483aa06ab5a1d73d5768db4c4f36fa" },
+    { "path": "scripts/operations/allikvere-cover-audit.ts", "sha256": "f00c1d3c22706a9903a83a554f0c9a19463308d964e57a899c0e164871347df1" },
+    { "path": "src/components/research/math-lrc-cover-panel.tsx", "sha256": "b16fd3bc4a91477700529370e3db3345bc7b6a3bb8042c7c8ef0a4921473b3d0" },
+    { "path": "tests/unit/math-lrc-cover-report.test.ts", "sha256": "b3ebf954c3dd5a3a6e7022db40e97b58cf76d613243cc8d8df37b7e600de4970" },
+    { "path": "src/app/w/[workspaceSlug]/research/math-tools/page.tsx", "sha256": "b8ac4c687df8e3688ae64e900a62aafdabce8d233a7392c09b43acc804164187" },
+    { "path": "docs/research/lrc-allikvere-p199/retained-cover-report.json", "sha256": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1" }
+  ],
+  "peer_snapshot_reviewed": {
+    "coreSource": "c2b1d813e18c597930a768e59d0e020c2a8d67e172f5dc64e4a3966486819143",
+    "replayAdapter": "1d5be090d468b74d2b88295d3dc81ec40755a409e6ecc23c1eef3d8db6372ef0",
+    "pythonSource": "8d7ebb7e05d0c2476700118c9119224bf8841df53d9513102820d292428146b4",
+    "review": "Read peer schema, producer, independent consumer, wrapper and Python arithmetic/footer. Exact prefix partitions and strict recomputed bounds prevent existential-per-axis/common-time shortcuts. Old subtree roots are provenance only, not widened coverage authority. Primary consumer carries independently rebuilt masks after the disclosed work-limit repair. Python final serialization guard now spans initial stdin/JSON parse to bounded output checkpoints. No remaining product-seam blocker observed; Main owns independent deeper arithmetic/tamper acceptance."
+  },
+  "retained_artifact": {
+    "reportDigest": "97fa7dfa80beab4e03c2cc9264d5ab02eb3c8ac05b44d6fa8c6b9f73131d5cac",
+    "bytes": 6869891,
+    "status": "PARTIAL",
+    "globalVerdict": "NOT_ESTABLISHED",
+    "rows": [
+      { "id": "p199-tight-terminal-0-anchored", "status": "COMPLETE", "total": "5764801", "classified": "5764801", "witness": "5764800", "conditionalGcd": "1", "unresolved": "0", "nodes": 2330, "leaves": 1993 },
+      { "id": "p199-tight-terminal-1-anchored", "status": "COMPLETE", "total": "5764801", "classified": "5764801", "witness": "5764800", "conditionalGcd": "1", "unresolved": "0", "nodes": 2162, "leaves": 1849 },
+      { "id": "p199-tight-terminal-2-anchored", "status": "COMPLETE", "total": "5764801", "classified": "5764801", "witness": "5764800", "conditionalGcd": "1", "unresolved": "0", "nodes": 2498, "leaves": 2137 },
+      { "id": "p199-gw-terminal-0-anchored", "status": "COMPLETE", "total": "5764801", "classified": "5764801", "witness": "5764800", "conditionalGcd": "1", "unresolved": "0", "nodes": 2330, "leaves": 1993 },
+      { "id": "p199-tight-terminal-0-full", "status": "PARTIAL", "total": "96889010407", "classified": "137649330", "witness": "137649330", "conditionalGcd": "0", "unresolved": "96751361077", "nodes": 12468, "leaves": 10687 },
+      { "id": "p199-tight-terminal-1-full", "status": "PARTIAL", "total": "96889010407", "classified": "160170710", "witness": "160170710", "conditionalGcd": "0", "unresolved": "96728839697", "nodes": 12041, "leaves": 10321 },
+      { "id": "p199-tight-terminal-2-full", "status": "PARTIAL", "total": "96889010407", "classified": "71093610", "witness": "71093610", "conditionalGcd": "0", "unresolved": "96817916797", "nodes": 13966, "leaves": 11971 },
+      { "id": "p199-gw-terminal-0-full", "status": "PARTIAL", "total": "96889010407", "classified": "95497374", "witness": "95497374", "conditionalGcd": "0", "unresolved": "96793513033", "nodes": 13497, "leaves": 11569 }
+    ],
+    "countSemantics": "Chosen certificate leaf labels, not intrinsically exclusive arithmetic conditions. No total over the eight overlapping domains. No grid survivor in these retained classifications is not evidence that the unresolved regions have none."
+  },
+  "verification": {
+    "focused_unit": { "status": "PASS", "passed": 21, "total": 21, "files": 1, "duration_ms": 6210, "command": "node node_modules/vitest/vitest.mjs run tests/unit/math-lrc-cover-report.test.ts", "exit_code": 0 },
+    "fixture": "Eight actual maxNodes1 primary/Python-replayed PARTIAL trees; no invented envelope and no second default generation campaign. Actual retained8scope artifact also undergoes pure admission in the focused test.",
+    "report_mutations": { "fully_report_rehashed": 14, "all_rejected": true, "scope": "Outer report rehashes, not arbitrary recursive execution attestation. Provenance, domain narrowing/permutation/duplication, omitted eighth domain, future theorem promotion, missing global gap, count and Python pin corruption." },
+    "pure_read": "Actual valid fixture admitted with child_process.execFile and fetch spies showing zero calls; aggregate expired-clock fixture rejected. Scope admission is deterministic arithmetic/hash replay, not fresh Python on GET.",
+    "render": "Actual server rendering VI/EN valid PARTIAL and invalid fallback; no forms/buttons, wrapping digests, correct locale decimal formatting, scoped global/lower warnings and scroll-mt24. Visible viewport/browser acceptance is Main responsibility.",
+    "actual_cli_write": { "status": "PASS_ATTRIBUTED_MAIN", "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-cover-audit.ts --write", "elapsed_ms": 14961, "note": "Main ran all eight final pinned replays, pure full admission and atomic retention. Builder independently read hashes/counts and validated the actual report via focused test." },
+    "cli_negative_guards": "Actual child CLI rejects unknown switches and production --write before imports/generation/replacement.",
+    "typecheck": { "status": "PASS", "command": "node node_modules/typescript/bin/tsc --noEmit", "exit_code": 0 },
+    "owned_eslint": { "status": "PASS", "files": 5, "exit_code": 0, "errors": 0, "warnings": 0 },
+    "whitespace": { "status": "PASS", "exit_code": 0 },
+    "not_run_by_builder": ["full repository suite", "production build", "visible browser", "database", "worker", "model/API calls", "Git publication"]
+  },
+  "failure_history": [
+    "Main's first default eight-domain collector failed closed with Cover primary certificate invalid and wrote no artifact. The independent consumer reconstructed prefixes separately and exhausted work before accepting producer output. Core Builder changed traversal to carry independently computed masks along exact child partitions, within unchanged20M/10s limits; no scope/predicate/cap expansion. Actual final collector then retained exactly8 reviewed envelopes.",
+    "Product read-only peer review found Python's footer serialization was after its last internal clock observation. Replay Builder added bounded whole-operation post-output serialization checks and changed source pin from d4d63c... to8d7ebb..., preserving certificate science. Final retained evidence uses the new pin.",
+    "Initial product20tests had18PASS/2fixtureFAIL: ESM namespace cannot spy execFile, and a bare968 assertion did not match locale separators. Changed only to mutable default-module spy and exact formatted96,889,010,407/96.889.010.407;20/20thenPASS.",
+    "TypeScript rejected a test-only1n literal under the repository target. Replaced with BigInt(1), without runtime/scope changes. Added actual retained artifact and old-path preservation test; final21/21PASS and type0.",
+    "Route static artifact import was intentionally held until Main's actual successful report existed. No placeholder, anchored-only fallback or unvalidated summary was used to complete UI wiring."
+  ],
+  "preservation": {
+    "oldReportSha256": "82092f2b32be89999bc834d426be71aea5fa408f9865a53a795b765b3e2deb20",
+    "oldReportModuleSha256": "cef7c201f1712fb03660f8a55465d0c738bcafe64c556b16626d72daa6d8772a",
+    "oldPanelSha256": "d40db8aaf4b34711271a73142f31effbf8706fcce290d6eb20a356dcc4ef6d1f",
+    "note": "These TIP047 bytes rechecked unchanged. Existing Allikvere panel and ES paths retained. No TIP046 agent/case/review API changes, historical regrade, old source mutation, unrelated screenshot/doc edits or dependencies owned here."
+  },
+  "limits_and_deferred": [
+    "Known Allikvere Lemma4.3 method, not mathematical novelty, independent expert/formal certification or a global Lonely Runner theorem.",
+    "All five TIP047 obligations remain open, even where anchored scope is COMPLETE. LOWER_LRC_12_DECLARED_NOT_REPLAYED remains a conditional reduction premise.",
+    "All four FULL7^13 roots remain PARTIAL. Sound full partitions do not imply full mathematical classification, absence of survivors or automatic agent authority.",
+    "Pure report validator10s and collector120s are observed checkpoint bounds on synchronous arithmetic/serialization, not hard CPU preemption. Commit occurs only after all8 admission; a later post-commit I/O/deadline failure can report failure despite an already valid replacement.",
+    "Trusted local collector source hashes/receipts are not interpreter/host signatures or externally signed execution attestation. GET never reruns Python.",
+    "Main still owns final full tests/build, visible bilingual/mobile browser scope warnings, current manifest/handoff and bounded implementation acceptance. No new agent admission in this TIP."
+  ]
+}

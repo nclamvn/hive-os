@@ -1,0 +1,73 @@
+.dossier {color:var(--color-ink);width:100%;max-width:1180px;margin:0 auto;min-width:0;--k5-accent:var(--color-success-600);}
+.toolbar {display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding-bottom:24px;}
+.toolbar>a {margin-right:auto;}
+.toolbar>div {display:flex;gap:4px;}
+.dossier button,.dossier select {font:inherit;color:var(--color-ink);background:var(--color-surface);border:1px solid var(--color-line);border-radius:6px;min-height:44px;padding:9px 13px;cursor:pointer;}
+.dossier button[aria-pressed="true"] {border-color:var(--k5-accent);background:var(--color-success-50);color:var(--k5-accent);}
+.dossier a {text-decoration:underline;text-underline-offset:4px;}
+.dossier :is(button,select,a,summary,input,[tabindex]):focus-visible {outline:2px solid var(--k5-accent);outline-offset:3px;}
+.hero {display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;padding:18px 0 30px;}
+.hero h1 {font-size:clamp(1.8rem,3.4vw,3rem);font-weight:600;letter-spacing:-.035em;line-height:1.15;color:var(--color-ink-strong);margin:14px 0 20px;max-width:18ch;}
+.byline {font-size:.85rem;color:var(--color-ink-muted);}
+.lead {font-size:1rem;line-height:1.8;max-width:65ch;}
+.claim {border-left:3px solid var(--k5-accent);padding:6px 0 6px 20px;margin:24px 0;}
+.claim>span {font-size:1.6rem;}
+.claim p {font-size:.85rem;color:var(--color-ink-muted);line-height:1.65;margin-top:8px;}
+.scope {font-size:.85rem;line-height:1.65;color:var(--color-ink-muted);}
+.geometry {background:var(--color-surface-subtle);border:1px solid var(--color-line);border-radius:12px;padding:12px;min-width:0;}
+.geometry svg {display:block;width:100%;height:auto;}
+.grid {stroke:var(--color-line);stroke-width:1;}
+.axis {fill:var(--color-ink-muted);font:13px var(--font-sans);}
+.slice {stroke:var(--color-ink-muted);stroke-dasharray:4 5;}
+.legend {display:flex;justify-content:center;flex-wrap:wrap;gap:5px;}
+.legend button {display:flex;align-items:center;gap:7px;padding:6px 10px;}
+.legend span {height:9px;width:9px;border-radius:50%;}
+.slider {display:block;margin:15px 10px;font-size:.85rem;}
+.slider input {display:block;width:100%;min-height:32px;accent-color:var(--k5-accent);}
+.geometry figcaption {font-size:.78rem;line-height:1.7;color:var(--color-ink-muted);padding:0 10px 8px;}
+.notice {border-left:3px solid var(--k5-accent);background:var(--color-surface-subtle);padding:20px 24px;}
+.notice h2 {font-size:1rem;font-weight:600;margin-bottom:10px;}
+.notice p {font-size:.9rem;line-height:1.8;max-width:90ch;}
+.contents {display:flex;flex-wrap:wrap;gap:8px 24px;border-bottom:1px solid var(--color-line);padding:20px 0;}
+.contents a,.sources a {display:inline-flex;align-items:center;min-height:44px;font-size:.9rem;}
+.section {border-bottom:1px solid var(--color-line);padding:32px 0;scroll-margin-top:90px;min-width:0;}
+.section h2 {font-size:1.5rem;line-height:1.35;font-weight:600;color:var(--color-ink-strong);margin-bottom:18px;}
+.section h3 {font-size:1.05rem;font-weight:600;margin:20px 0 10px;line-height:1.5;}
+.section p,.section li {line-height:1.85;font-size:.94rem;max-width:80ch;margin:12px 0;}
+.comparison {display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px;}
+.comparison>div {padding:0 20px;border-left:2px solid var(--color-line);min-width:0;}
+.comparison h3 {margin-top:0;}
+.formula {overflow-x:auto;overflow-y:hidden;max-width:100%;min-width:0;padding:12px 6px;scrollbar-width:thin;}
+.formula :global(.math-tex-block) {overflow:visible;max-width:none;width:max-content;min-width:100%;}
+.proof {list-style:decimal;padding-left:28px;}
+.proof>li {padding:5px 0 22px 10px;max-width:none;}
+.proof>li::marker {color:var(--k5-accent);font-weight:600;}
+.proof h3 {margin-top:0;}
+.section details {border-top:1px solid var(--color-line);margin-top:18px;padding-top:10px;min-width:0;}
+.section summary {cursor:pointer;min-height:44px;line-height:1.7;padding:10px 0;font-size:.9rem;font-weight:500;}
+.tableScroll {max-width:100%;overflow:auto;}
+.dossier table {width:100%;border-collapse:collapse;font-size:.88rem;min-width:570px;}
+.dossier caption {text-align:left;line-height:1.7;color:var(--color-ink-muted);padding:0 0 16px;}
+.dossier td,.dossier th {padding:14px 12px;border-bottom:1px solid var(--color-line);vertical-align:top;text-align:left;line-height:1.7;}
+.dossier th {font-weight:500;}
+.dossier tfoot {font-weight:600;}
+.inspect {padding:16px 0;margin-top:18px;}
+.inspect label {display:block;margin:14px 0 8px;}
+.inspect select {max-width:100%;}
+.record {display:grid;grid-template-columns:repeat(4,1fr);gap:18px;background:var(--color-surface-subtle);padding:18px;margin:20px 0;}
+.record dt {font-size:.8rem;color:var(--color-ink-muted);}
+.record dd {font-size:1.2rem;margin-top:8px;}
+.section ul {list-style:disc;padding-left:24px;}
+.files {display:grid;grid-template-columns:1fr 1fr;gap:0 28px;}
+.file {padding:20px 0;border-bottom:1px solid var(--color-line);min-width:0;}
+.file>a {display:inline-flex;min-height:44px;align-items:center;font-size:.9rem;font-weight:500;}
+.file p {overflow-wrap:anywhere;font-size:.78rem;line-height:1.7;color:var(--color-ink-muted);margin:4px 0;}
+.file details {border:0;margin:0;padding:0;}
+.file summary {color:var(--color-ink-muted);font-size:.75rem;min-height:32px;padding:6px 0;}
+.file code {display:block;overflow-wrap:anywhere;font-size:.75rem;}
+.inspect pre {max-width:100%;overflow:auto;font-size:.8rem;line-height:1.8;padding:18px;background:var(--color-surface-subtle);}
+.sources {display:flex;flex-wrap:wrap;gap:12px 30px;}
+.footer {font-size:.8rem;line-height:1.8;color:var(--color-ink-muted);padding:25px 0 40px;max-width:90ch;}
+@media(max-width:850px){.hero {grid-template-columns:1fr;gap:20px;}.hero h1 {max-width:26ch;}.geometry {max-width:650px;}.comparison {grid-template-columns:1fr;}.record {grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.toolbar {gap:8px;}.toolbar>a {width:100%;}.toolbar button {font-size:.82rem;}.hero {padding-top:0;}.files {grid-template-columns:1fr;}.notice {padding:15px;}.contents {gap:4px 16px;}.section {padding:26px 0;}.proof {padding-left:20px;}.proof>li {padding-left:2px;}.geometry {padding:8px;}.comparison>div {padding-left:12px;}}
+@media print{.toolbar,.legend,.slider,.contents {display:none;}.hero {grid-template-columns:1fr 1fr;}.dossier {color:#111;}.notice {background:none;}.section {break-inside:auto;}.geometry {break-inside:avoid;}.file {break-inside:avoid;}.formula {overflow:visible;}.files {grid-template-columns:1fr;}}

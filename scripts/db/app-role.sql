@@ -1,16 +1,27 @@
 -- Least-privilege runtime role for the HIVE OS application.
 -- Applied by the OWNER connection AFTER migrations (tables must exist).
--- The password here is a local-only development fixture (same class as the
--- container's POSTGRES_PASSWORD); production supplies its own credentials.
+-- Authentication material is deliberately absent from this committed file.
+-- apply-app-role.mjs sets the password from the runtime DATABASE_URL after the
+-- role and grants have been established through the owner connection.
 
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'hiveos_app') THEN
-    CREATE ROLE hiveos_app LOGIN PASSWORD 'hiveos_app'
+    CREATE ROLE hiveos_app LOGIN
       NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   ELSE
-    ALTER ROLE hiveos_app LOGIN PASSWORD 'hiveos_app'
-      NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
+    -- Managed PostgreSQL owner roles are deliberately not SUPERUSER. PostgreSQL
+    -- therefore rejects `ALTER ROLE ... NOSUPERUSER` even when the target is
+    -- already non-superuser. Assert the invariant first, then alter only the
+    -- attributes a managed owner is allowed to govern.
+    IF EXISTS (
+      SELECT FROM pg_roles
+      WHERE rolname = 'hiveos_app' AND rolsuper
+    ) THEN
+      RAISE EXCEPTION 'hiveos_app must not be a superuser';
+    END IF;
+    ALTER ROLE hiveos_app LOGIN
+      NOCREATEDB NOCREATEROLE NOBYPASSRLS;
   END IF;
 END
 $$;
@@ -55,6 +66,60 @@ BEGIN
       evidence_ceiling_assessment, governed_release, release_manifest
     FROM hiveos_app;
     REVOKE DELETE, TRUNCATE ON TABLE verification_run FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'workflow_approval_action') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      workflow_approval_action, sla_policy, approval_chain_definition,
+      approval_chain_step
+    FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE
+      workflow_assignment, workflow_approval_request
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'durable_job_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE durable_job_event FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE
+      command_record, outbox_event, durable_job,
+      workspace_operational_projection, portfolio_operational_projection
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'dossier_export_part') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE dossier_export_part FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE
+      legal_hold, lifecycle_disposition, dossier_export
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'mission_source_revision') THEN
+    REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON TABLE mission_source_revision FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'authoring_revision') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE authoring_revision FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE authoring_document FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'research_source_snapshot') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      research_source_snapshot, research_finding, research_finding_decision
+    FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE research_run, computation_run FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'math_pilot_case') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE
+      math_pilot_case, math_pilot_assessment
+    FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'math_pilot_agent_review') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE math_pilot_agent_review FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'math_research_cycle_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE math_research_cycle_event FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'research_campaign_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE research_campaign_event FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE research_campaign FROM hiveos_app;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'research_showcase_event') THEN
+    REVOKE UPDATE, DELETE, TRUNCATE ON TABLE research_showcase_event FROM hiveos_app;
+    REVOKE DELETE, TRUNCATE ON TABLE research_showcase_run FROM hiveos_app;
   END IF;
   -- TIP-021A: the identity security ledger is append-only for the runtime role
   -- (SELECT + INSERT only); it never receives UPDATE/DELETE/TRUNCATE, so its

@@ -1,0 +1,633 @@
+import { randomUUID } from "node:crypto";
+
+import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronDown,
+  FlaskConical,
+  Settings2,
+} from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import {
+  requestComputationRunAction,
+  importApprovedResearchBundleAction,
+  reviewComputationRunAction,
+  reviewResearchRunAction,
+} from "@/app/actions/research-sandbox";
+import { groupResearchRuns } from "@/components/research/group-research-runs";
+import { MathText } from "@/components/research/math-text";
+import { ResearchLiveRefresh } from "@/components/research/research-live-refresh";
+import { ResearchCampaignRegion } from "@/components/research/research-campaign-region";
+import { ResearchDirectionForm } from "@/components/research/research-direction-form";
+import { prepareResearchSteering, preparedResearchSteeringSchema } from "@/modules/research-sandbox/research-steering";
+import { getResearchCampaignCopy } from "@/i18n/research-campaign-copy";
+import { WorkspaceShell } from "@/components/shell/workspace-shell";
+import { ResearchEntryPoints } from "@/components/shell/research-entry-points";
+import { Button } from "@/components/ui/button";
+import { Panel, SectionHeader } from "@/components/ui/panel";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/i18n/format";
+import { getResearchCopy } from "@/i18n/research-copy";
+import { getTranslator } from "@/i18n/server";
+import { hasCapability } from "@/modules/identity-workspace";
+import {
+  listComputationRuns,
+  listResearchRuns,
+  listResearchTargets,
+  isResearchSteeringAvailable,
+} from "@/modules/research-sandbox/kernel";
+import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { getEnv } from "@/server/env";
+
+export const dynamic = "force-dynamic";
+
+const inputClass =
+  "text-body text-ink border-line mt-1 min-h-11 w-full rounded-md border bg-surface px-3 py-2 outline-none transition-colors focus:border-line-strong";
+
+const terminalStatuses = new Set([
+  "APPROVED",
+  "REJECTED",
+  "FAILED",
+  "CANCELLED",
+]);
+
+function statusTone(status: string): "neutral" | "success" | "warning" | "danger" | "info" {
+  if (status === "APPROVED") return "success";
+  if (["FAILED", "REJECTED", "CANCELLED"].includes(status)) return "danger";
+  if (status === "AWAITING_REVIEW") return "warning";
+  if (status === "RUNNING") return "info";
+  return "neutral";
+}
+
+function workerSignal(run: {
+  status: string;
+  createdAt: Date;
+  job: null | {
+    status: string;
+    leaseExpiresAt: Date | null;
+  };
+}) {
+  if (["APPROVED", "REJECTED", "FAILED", "CANCELLED"].includes(run.status)) {
+    return "COMPLETE" as const;
+  }
+  if (run.status === "AWAITING_REVIEW") return "HUMAN" as const;
+  if (
+    run.status === "RUNNING" &&
+    run.job?.status === "RUNNING" &&
+    run.job.leaseExpiresAt &&
+    run.job.leaseExpiresAt.getTime() > Date.now()
+  ) {
+    return "ACTIVE" as const;
+  }
+  if (run.status === "RUNNING") return "STALLED" as const;
+  if (!run.job && Date.now() - run.createdAt.getTime() < 15_000) {
+    return "DISPATCHING" as const;
+  }
+  return "WAITING" as const;
+}
+
+export default async function ResearchPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ workspaceSlug: string }>;
+  searchParams: Promise<{ missionId?: string; advanced?: string }>;
+}) {
+  const [{ workspaceSlug }, query] = await Promise.all([params, searchParams]);
+  const data = await loadWorkspacePage(workspaceSlug);
+  const { locale } = await getTranslator();
+  const copy = getResearchCopy(locale);
+  const campaignCopy = getResearchCampaignCopy(locale);
+  if (!hasCapability(data.ctx.membership.role, "research.read")) notFound();
+
+  const [runs, computations, targets, steeringAvailable] = await Promise.all([
+    listResearchRuns(data.ctx),
+    listComputationRuns(data.ctx),
+    listResearchTargets(data.ctx),
+    isResearchSteeringAvailable(data.ctx),
+  ]);
+  const canRequest = hasCapability(data.ctx.membership.role, "research.request");
+  const canReview = hasCapability(data.ctx.membership.role, "research.review");
+  const canCompute = hasCapability(data.ctx.membership.role, "sandbox.request");
+  const canAuthor = hasCapability(data.ctx.membership.role, "authoring.write");
+  const selectedMissionId = targets.missions.some(
+    (mission) => mission.id === query.missionId,
+  )
+    ? query.missionId
+    : targets.missions[0]?.id;
+  const selectedMission = targets.missions.find(
+    (mission) => mission.id === selectedMissionId,
+  );
+  const expertMode = query.advanced === "1";
+  const env = getEnv();
+  const localToolsAvailable = ["development", "test"].includes(env.NODE_ENV) &&
+    (!env.DEPLOYMENT_ENV || ["development", "test"].includes(env.DEPLOYMENT_ENV));
+  const hasActiveWork = [...runs, ...computations].some(
+    (run) => !terminalStatuses.has(run.status) && run.status !== "AWAITING_REVIEW",
+  );
+
+  const runGroups = groupResearchRuns(runs);
+  const renderRun = (run: (typeof runs)[number]) => (
+    <Panel key={run.id} className="overflow-hidden" id={`research-run-${run.id}`}>
+      <div className="grid min-[980px]:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="min-w-0 p-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-eyebrow text-ink-muted">
+              {run.mission.referenceCode}
+            </p>
+            <StatusBadge
+              tone={statusTone(run.status)}
+              live={workerSignal(run) === "ACTIVE"}
+            >
+              {copy.statusLabels[run.status]}
+            </StatusBadge>
+          </div>
+          <h2 className="text-section-title text-ink-strong mt-3">
+            <MathText text={run.question} />
+          </h2>
+          {(() => {
+            const plan = run.queryPlan;
+            const steering = preparedResearchSteeringSchema.safeParse(
+              plan && typeof plan === "object" && !Array.isArray(plan) ? plan.steering : null,
+            );
+            if (!steering.success) return null;
+            return <div className="border-line bg-surface-subtle mt-4 rounded-md border p-3 text-meta text-ink-muted">
+              <p className="font-medium text-ink">{steering.data.mode === "HUMAN" ? (locale === "en" ? "Human-directed step" : "Bước do người định hướng") : (locale === "en" ? "AI-directed step" : "Bước do AI tự định hướng")}</p>
+              {steering.data.guidance ? <MathText text={steering.data.guidance} className="mt-2" /> : null}
+              {steering.data.parentRunId ? <a href={`#research-run-${steering.data.parentRunId}`} className="mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Previous step, evidence and review status" : "Bước trước, bằng chứng và trạng thái rà soát"}</a> : null}
+              <p className="mt-1">{locale === "en" ? "One collection step. Prior context is not newly verified evidence." : "Một bước thu thập nguồn. Ngữ cảnh trước không là bằng chứng vừa được kiểm chứng."}</p>
+            </div>;
+          })()}
+          <div className="text-meta text-ink-muted mt-4 flex flex-wrap gap-x-5 gap-y-2">
+            <span>{run.sources.length} {copy.source}</span>
+            <span>{run.findings.length} {copy.finding}</span>
+            <span className="tabular">{copy.updatedAt}: {formatDateTime(locale, run.updatedAt)}</span>
+          </div>
+        </div>
+        <aside className="border-line bg-surface-subtle border-t p-5 min-[980px]:border-t-0 min-[980px]:border-l">
+          <p className="text-meta text-ink-muted mb-4 flex items-center gap-2">
+            <span
+              className={`size-2 rounded-full ${
+                workerSignal(run) === "ACTIVE"
+                  ? "research-live-dot research-live-dot-success bg-success-600"
+                  : workerSignal(run) === "STALLED" || workerSignal(run) === "WAITING"
+                    ? "bg-warning-600"
+                    : "bg-ink-faint"
+              }`}
+              aria-hidden="true"
+            />
+            {copy.workerSignal}: {copy.workerSignals[workerSignal(run)]}
+          </p>
+          <p className="text-eyebrow text-ink-muted">{copy.nextAction}</p>
+          <p className="text-body text-ink mt-2">{copy.nextActions[run.status]}</p>
+          {run.failureCode ? (
+            <details className="text-meta mt-3">
+              <summary className="text-ink-muted cursor-pointer py-2">{copy.technicalDetails}</summary>
+              <p className="text-danger-700 dark:text-danger-300 break-words font-medium">
+                {copy.failureCode}: {run.failureCode}
+              </p>
+            </details>
+          ) : null}
+          {run.status === "APPROVED" && run.mathPilotCase && !run.mathPilotCase.assessment ? (
+            <Link
+              href={`/w/${workspaceSlug}/research/math-pilot?missionId=${encodeURIComponent(run.missionId)}`}
+              className="text-meta text-ink mt-4 inline-flex min-h-10 items-center gap-2 font-medium"
+            >
+              {copy.mathPilotAssessmentPending}
+              <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+            </Link>
+          ) : null}
+          {run.status === "APPROVED" && canAuthor && (!run.mathPilotCase || run.mathPilotCase.assessment) ? (
+            <div className="border-line mt-4 border-t pt-4">
+              <p className="text-meta text-ink-muted">{copy.importResearchHint}</p>
+              {run.documentId ? (
+                <form action={importApprovedResearchBundleAction} className="mt-3">
+                  <input type="hidden" name="slug" value={workspaceSlug} />
+                  <input type="hidden" name="locale" value={locale} />
+                  <input type="hidden" name="runId" value={run.id} />
+                  <input type="hidden" name="documentId" value={run.documentId} />
+                  <Button type="submit" variant="primary" className="w-full">
+                    {copy.importResearch}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                </form>
+              ) : targets.documents.some((document) => document.missionId === run.missionId) ? (
+                <form action={importApprovedResearchBundleAction} className="mt-3">
+                  <input type="hidden" name="slug" value={workspaceSlug} />
+                  <input type="hidden" name="locale" value={locale} />
+                  <input type="hidden" name="runId" value={run.id} />
+                  <label className="text-meta text-ink font-medium">
+                    {copy.chooseTargetDocument}
+                    <select name="documentId" required className={inputClass}>
+                      {targets.documents
+                        .filter((document) => document.missionId === run.missionId)
+                        .map((document) => (
+                          <option key={document.id} value={document.id}>
+                            {document.documentKey} · {document.title}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                  <Button type="submit" variant="primary" className="mt-3 w-full">
+                    {copy.importResearch}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                </form>
+              ) : (
+                <Link
+                  href={`/w/${workspaceSlug}/authoring?missionId=${run.missionId}`}
+                  className="text-body text-ink-strong mt-3 inline-flex min-h-10 items-center gap-2 font-semibold"
+                >
+                  {copy.createTargetDocument}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
+          ) : null}
+        </aside>
+      </div>
+
+      {run.sources.length ? (
+        <div className="border-line border-t p-5">
+          <p className="text-eyebrow text-ink-muted mb-3">{copy.provenance}</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {run.sources.map((source) => (
+              <a
+                key={source.id}
+                href={source.canonicalUri}
+                target="_blank"
+                rel="noreferrer"
+                className="border-line hover:border-line-strong rounded-md border p-3 transition-colors"
+              >
+                <p className="text-body text-ink font-medium">{source.title}</p>
+                <p className="text-meta text-ink-muted mt-1">
+                  {source.publisher} · {source.provenance}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {run.findings.length ? (
+        <div className="border-line border-t p-5">
+          <div className="space-y-3">
+            {run.findings.map((finding) => (
+              <article key={finding.id} className="border-line rounded-md border p-4">
+                {finding.kind === "HONEST_NULL" ? (
+                  <>
+                    <p className="text-body text-ink">{copy.noReliableFinding}</p>
+                    <details className="mt-2">
+                      <summary className="text-meta text-ink-muted cursor-pointer py-2">{copy.findingDetails}</summary>
+                <div className="flex justify-between gap-3">
+                  <p className="text-body text-ink-strong min-w-0 font-medium"><MathText text={finding.claim} /></p>
+                  <span className="text-meta text-ink-muted">{finding.kind}</span>
+                </div>
+                {finding.exactExcerpt ? (
+                  <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
+                    <MathText text={finding.exactExcerpt} />
+                  </blockquote>
+                ) : null}
+                {finding.decision ? (
+                  <p className="text-meta text-ink-muted mt-3">
+                    {finding.decision.decision} · <MathText text={finding.decision.rationale} />
+                  </p>
+                ) : null}
+                    </details>
+                  </>
+                ) : (
+                  <>
+                <div className="flex justify-between gap-3">
+                  <p className="text-body text-ink-strong min-w-0 font-medium"><MathText text={finding.claim} /></p>
+                  <span className="text-meta text-ink-muted">{finding.kind}</span>
+                </div>
+                {finding.exactExcerpt ? (
+                  <blockquote className="text-meta text-ink-muted border-line mt-3 border-l-2 pl-3">
+                    <MathText text={finding.exactExcerpt} />
+                  </blockquote>
+                ) : null}
+                {finding.decision ? (
+                  <p className="text-meta text-ink-muted mt-3">
+                    {finding.decision.decision} · <MathText text={finding.decision.rationale} />
+                  </p>
+                ) : null}
+                  </>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {canReview &&
+      run.status === "AWAITING_REVIEW" &&
+      run.requestedByMembershipId !== data.ctx.membership.id ? (
+        <form action={reviewResearchRunAction} className="border-line bg-surface-subtle border-t p-5">
+          <input type="hidden" name="slug" value={workspaceSlug} />
+          <input type="hidden" name="runId" value={run.id} />
+          <SectionHeader title={copy.review} />
+          <div className="mt-3 space-y-3">
+            {run.findings.map((finding) => (
+              <div key={finding.id} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_160px]">
+                <input type="hidden" name="findingId" value={finding.id} />
+                <input
+                  required
+                  name={`rationale:${finding.id}`}
+                  placeholder={copy.rationale}
+                  className={inputClass}
+                />
+                <select name={`decision:${finding.id}`} className={inputClass}>
+                  <option value="ACCEPTED">{copy.accept}</option>
+                  <option value="REJECTED">{copy.reject}</option>
+                  <option value="FLAGGED">{copy.flag}</option>
+                </select>
+              </div>
+            ))}
+          </div>
+          <textarea
+            name="runRationale"
+            required
+            placeholder={copy.rationale}
+            rows={2}
+            className={`${inputClass} mt-4`}
+          />
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button name="runDecision" value="APPROVED" type="submit" variant="primary">
+              {copy.approveRun}
+            </Button>
+            <Button name="runDecision" value="REJECTED" type="submit">
+              {copy.rejectRun}
+            </Button>
+          </div>
+        </form>
+      ) : null}
+    </Panel>
+  );
+
+  const renderRunGroup = ({ latest, previous }: (typeof runGroups)[number]) => (
+    <article key={latest.id} data-research-question-group className="space-y-2">
+      <p className="text-meta text-ink-muted px-1">
+        {copy.latestAttempt} · {copy.attempts}: {previous.length + 1}
+      </p>
+      {renderRun(latest)}
+      {previous.length ? (
+        <details className="border-line rounded-md border">
+          <summary className="text-meta text-ink hover:bg-surface-subtle cursor-pointer px-5 py-3 font-medium">
+            {copy.previousAttempts} ({previous.length})
+            {previous.some((run) => !terminalStatuses.has(run.status)) ? (
+              <span className="text-warning-700 dark:text-warning-300 mt-1 block">
+                {copy.olderAttention}: {previous.filter((run) => !terminalStatuses.has(run.status)).length}
+              </span>
+            ) : null}
+          </summary>
+          <div className="space-y-3 p-3">{previous.map(renderRun)}</div>
+        </details>
+      ) : null}
+    </article>
+  );
+  const olderGroups = runGroups.slice(5);
+  const olderAttentionCount = olderGroups.flatMap(({ latest, previous }) => [latest, ...previous])
+    .filter((run) => !terminalStatuses.has(run.status)).length;
+
+  return (
+    <WorkspaceShell data={data} researcherMode={!expertMode}
+      title={expertMode ? (locale === "en" ? "Research operation" : "Vận hành nghiên cứu") : (locale === "en" ? "Research desk" : "Bàn nghiên cứu")}
+      subtitle={expertMode ? copy.subtitle : (locale === "en" ? "State a problem, explore an intuition, prepare a research note." : "Nêu bài toán, ghi lại trực giác và chuẩn bị ghi chú nghiên cứu.")}>
+      <section id="new-research" className="w-full min-w-0 scroll-mt-24">
+        <div className="px-1 pb-5 pt-2 sm:pb-7 sm:pt-5">
+          {selectedMission && !canRequest ? (
+            <p className="text-meta text-ink-muted mb-3 tabular">
+              {selectedMission.referenceCode} · {selectedMission.title}
+            </p>
+          ) : null}
+          <h2 className="text-page-title text-ink-strong max-w-3xl">
+            {expertMode ? copy.intentTitle : (locale === "en" ? "What would you like to understand?" : "Bạn muốn làm rõ điều gì?")}
+          </h2>
+          <p className="text-body text-ink-muted mt-3 max-w-3xl">
+            {expertMode ? copy.intentHint : (locale === "en" ? "Start with your problem and what you have tried. A rough idea is enough to prepare the next discussion." : "Bắt đầu bằng đề bài và những gì bạn đã thử. Một ý tưởng chưa thành phương pháp cũng đủ để chuẩn bị cuộc trao đổi tiếp theo.")}
+          </p>
+        </div>
+
+        {canRequest ? (
+          <Panel className="overflow-hidden border-line-strong">
+            <ResearchDirectionForm key={`${data.ctx.user.id}:${data.ctx.workspace.id}`} slug={workspaceSlug} draftScope={{userId:data.ctx.user.id,workspaceId:data.ctx.workspace.id}} locale={locale} missionId={selectedMission?.id ?? ""} operational={expertMode}
+              missions={targets.missions} documents={targets.documents} configured={steeringAvailable} simulationAvailable={localToolsAvailable}
+              idempotencyKey={`research-step:${randomUUID()}`}
+              parents={runs.filter((run) => !run.mathPilotCase && !["QUEUED", "RUNNING"].includes(run.status) &&
+                run.providerName === "openai" && run.modelName === "gpt-5.6-sol").flatMap((run) => {
+                try {
+                  return [{ id: run.id, missionId: run.missionId, documentId: run.documentId, question: run.question,
+                    scope: run.scope, sourcePolicy: run.sourcePolicy, status: run.status,
+                    findings: run.findings.length, sources: run.sources.length, createdAt: run.createdAt.toISOString(),
+                    snapshot: prepareResearchSteering({ mode: "AUTO", guidance: "", parentRunId: run.id }, run.id, run).prior }];
+                } catch {
+                  // Keep malformed historical rows visible below, but do not
+                  // invent inherited context or make them continuation targets.
+                  return [];
+                }
+              })} />
+          </Panel>
+        ) : null}
+      </section>
+
+      {!expertMode ? <details className="border-line rounded-panel border bg-surface p-5">
+        <summary className="text-body text-ink cursor-pointer py-1 font-semibold">{locale === "en" ? "Earlier work" : "Công việc trước đây"} ({runs.length})</summary>
+        <p className="text-meta text-ink-muted mt-3 max-w-[76ch]">{locale === "en" ? "Original records remain unchanged. Earlier observations are not rechecked by opening this page." : "Hồ sơ gốc được giữ nguyên. Mở trang này không kiểm chứng lại các ghi nhận trước."}</p>
+        {runs.length ? <p className="text-meta text-ink-muted mt-2 max-w-[76ch]">{locale === "en" ? `This excerpt shows ${Math.min(runGroups.length, 10)} recent problems, with up to three observations and three references per record. The complete list and original details remain in system operation.` : `Trích đoạn này hiển thị ${Math.min(runGroups.length, 10)} đề bài gần đây, tối đa ba ghi nhận và ba tài liệu mỗi hồ sơ. Danh sách và bản gốc đầy đủ vẫn nằm trong vận hành.`}</p> : null}
+        {runs.length ? <Link href={`/w/${workspaceSlug}/research?advanced=1#research-runs`} className="text-meta text-ink-muted mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Complete list in system operation" : "Danh sách đầy đủ trong vận hành"}</Link> : null}
+        <div className="mt-4 space-y-6">
+          {runGroups.slice(0, 10).map(({ latest: run }) => <article key={run.id} id={`research-run-${run.id}`} className="border-line border-t pt-4">
+            <h2 className="text-body text-ink font-semibold"><MathText text={run.question} /></h2>
+            <p className="text-meta text-ink-muted mt-2">{copy.statusLabels[run.status]} · {run.findings.length} {copy.finding} · {run.sources.length} {copy.source}</p>
+            {run.status === "FAILED" ? <p className="text-meta text-ink-muted mt-2">{locale === "en" ? "This earlier exchange did not reach a completed result. Its original record is retained." : "Lần trao đổi trước này chưa có kết quả hoàn tất. Hồ sơ gốc vẫn được giữ lại."}</p> : null}
+            {run.findings.slice(0, 3).map((finding) => <p key={finding.id} className="text-body text-ink mt-3 max-w-[78ch] leading-relaxed"><MathText text={finding.claim} /></p>)}
+            {run.sources.slice(0, 3).map((source) => /^https?:\/\//.test(source.canonicalUri) ? <a key={source.id} href={source.canonicalUri} target="_blank" rel="noopener noreferrer" className="text-meta text-ink mt-2 block min-h-10 break-words py-2 underline">{source.title}</a> : null)}
+            <Link href={`/w/${workspaceSlug}/research?advanced=1#research-run-${run.id}`} className="text-meta text-ink-muted mt-2 inline-flex min-h-10 items-center underline">{locale === "en" ? "Open original in system operation" : "Mở bản gốc trong vận hành"}</Link>
+          </article>)}
+          {!runs.length ? <p className="text-body text-ink-muted">{locale === "en" ? "No earlier records here yet. You can start by preparing a note above." : "Chưa có hồ sơ trước ở đây. Bạn có thể bắt đầu bằng ghi chú bên trên."}</p> : null}
+        </div>
+      </details> : null}
+
+      {expertMode ? <>
+      <section aria-labelledby="research-runs">
+        <SectionHeader
+          id="research-runs"
+          title={copy.recentWork}
+          action={
+            <ResearchLiveRefresh
+              active={hasActiveWork}
+              activeLabel={copy.liveActive}
+              idleLabel={copy.liveIdle}
+              refreshLabel={copy.refresh}
+              updatedLabel={copy.refreshedAt}
+            />
+          }
+        />
+        <div className="mt-3 space-y-3">
+          {runs.length ? (
+            <>
+              {runGroups.slice(0, 5).map(renderRunGroup)}
+              {olderGroups.length ? (
+                <details className="border-line rounded-panel border bg-surface">
+                  <summary className="text-body text-ink hover:bg-surface-subtle cursor-pointer px-5 py-4 font-medium">
+                    {copy.olderQuestions} ({olderGroups.length})
+                    {olderAttentionCount ? (
+                      <span className="text-meta text-warning-700 dark:text-warning-300 mt-1 block">
+                        {copy.olderAttention}: {olderAttentionCount}
+                      </span>
+                    ) : null}
+                  </summary>
+                  <div className="border-line space-y-5 border-t p-3 sm:p-5">{olderGroups.map(renderRunGroup)}</div>
+                </details>
+              ) : null}
+            </>
+          ) : (
+            <Panel className="flex min-h-36 flex-col items-center justify-center p-6 text-center">
+              <p className="text-section-title text-ink">{copy.empty}</p>
+              <p className="text-body text-ink-muted mt-2 max-w-xl">{copy.emptyHint}</p>
+            </Panel>
+          )}
+        </div>
+      </section>
+
+      <section className="w-full min-w-0" aria-label={copy.examplesAndWorkbenches}>
+        <ResearchEntryPoints locale={locale} workspaceSlug={workspaceSlug}
+          missionId={selectedMissionId} canRequest={canRequest}
+          localToolsAvailable={localToolsAvailable} />
+      </section>
+      <details className="border-line rounded-panel border bg-surface">
+        <summary className="text-body text-ink hover:bg-surface-subtle cursor-pointer p-5 font-medium">
+          {copy.campaignTools}
+        </summary>
+        <div className="border-line border-t p-5">
+          <ResearchCampaignRegion ctx={data.ctx} locale={locale} workspaceSlug={workspaceSlug}
+            missionId={selectedMissionId} canRequest={canRequest} canReview={canReview}/>
+          <Link href={`/w/${workspaceSlug}/research/math-pilot${selectedMissionId ? `?missionId=${encodeURIComponent(selectedMissionId)}` : ""}#research-campaign-v3`}
+            className="text-meta text-ink mt-3 inline-flex min-h-10 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">{campaignCopy.overview}</Link>
+        </div>
+      </details>
+      </> : null}
+
+      {!expertMode ? (
+        <div className="flex w-full justify-end">
+          <Link
+            href={`/w/${workspaceSlug}/research?${new URLSearchParams({
+              ...(selectedMissionId ? { missionId: selectedMissionId } : {}),
+              advanced: "1",
+            }).toString()}#expert-tools`}
+            className="text-meta text-ink-muted hover:text-ink inline-flex min-h-10 items-center gap-2 transition-colors"
+          >
+            <Settings2 className="size-4" aria-hidden="true" />
+            <span>{locale === "en" ? "System operation" : "Vận hành hệ thống"}</span>
+          </Link>
+        </div>
+      ) : null}
+
+      {expertMode ? <Link href={`/w/${workspaceSlug}/research`} className="text-body text-ink inline-flex min-h-10 items-center underline">{locale === "en" ? "Return to the research desk" : "Quay lại bàn nghiên cứu"}</Link> : null}
+
+      {canCompute && expertMode ? (
+        <details className="group border-line bg-surface shadow-panel rounded-panel overflow-hidden border">
+          <summary id="expert-tools" className="hover:bg-surface-subtle flex scroll-mt-24 cursor-pointer list-none items-center justify-between gap-4 p-5 transition-colors min-[980px]:px-7 [&::-webkit-details-marker]:hidden">
+            <span className="flex min-w-0 items-center gap-3">
+              <span className="border-line grid size-9 shrink-0 place-items-center rounded-md border">
+                <FlaskConical className="text-ink-muted size-4" aria-hidden="true" />
+              </span>
+              <span>
+                <span className="text-section-title text-ink block">{copy.sandbox}</span>
+                <span className="text-meta text-ink-muted mt-1 block">{copy.sandboxSummary}</span>
+              </span>
+            </span>
+            <ChevronDown className="text-ink-muted size-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <div className="border-line border-t p-5 min-[980px]:p-7">
+            <p className="text-body text-ink-muted max-w-4xl">{copy.sandboxHint}</p>
+            <form action={requestComputationRunAction} className="mt-5 grid gap-4 min-[900px]:grid-cols-2">
+              <input type="hidden" name="slug" value={workspaceSlug} />
+              <input type="hidden" name="idempotencyKey" value={`sandbox:${randomUUID()}`} />
+              <label className="text-meta text-ink font-medium">
+                {copy.mission}
+                <select name="missionId" defaultValue={selectedMissionId} className={inputClass}>
+                  {targets.missions.map((mission) => (
+                    <option key={mission.id} value={mission.id}>{mission.referenceCode} · {mission.title}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.document}
+                <select name="documentId" className={inputClass}>
+                  <option value="">{copy.noDocument}</option>
+                  {targets.documents.map((document) => (
+                    <option key={document.id} value={document.id}>{document.documentKey} · {document.title}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.runtime}
+                <span className="grid grid-cols-2 gap-2">
+                  <input name="runtimeId" required defaultValue="jupyter-python" className={inputClass} />
+                  <input name="runtimeVersion" required defaultValue="3.12" className={inputClass} />
+                </span>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.computeKind}
+                <select name="kind" className={inputClass}>
+                  <option value="JUPYTER">Jupyter</option>
+                  <option value="CAS">CAS</option>
+                  <option value="LATEX_BUILD">LaTeX</option>
+                </select>
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.inputRef}
+                <input name="inputReference" required placeholder="artifact://…" className={inputClass} />
+              </label>
+              <label className="text-meta text-ink font-medium">
+                {copy.inputDigest}
+                <input name="inputDigest" required pattern="[a-f0-9]{64}" className={inputClass} />
+              </label>
+              <label className="text-meta text-ink font-medium min-[900px]:col-span-2">
+                {copy.entrypoint}
+                <input name="entrypoint" required defaultValue="main.ipynb" className={inputClass} />
+              </label>
+              <input type="hidden" name="maxCpuMillis" value="120000" />
+              <input type="hidden" name="maxWallSeconds" value="300" />
+              <input type="hidden" name="maxMemoryMb" value="1024" />
+              <input type="hidden" name="maxOutputBytes" value="10000000" />
+              <div className="min-[900px]:col-span-2">
+                <Button type="submit" variant="primary">{copy.requestCompute}</Button>
+              </div>
+            </form>
+
+            {computations.length ? (
+              <div className="border-line mt-6 divide-y divide-line border-y">
+                {computations.map((run) => (
+                  <div key={run.id} className="py-4">
+                    <div className="flex flex-wrap justify-between gap-3">
+                      <div>
+                        <p className="text-body text-ink-strong font-medium">{run.kind} · {run.runtimeId}/{run.runtimeVersion}</p>
+                        <p className="text-meta text-ink-muted mt-1">{run.mission.referenceCode} · {copy.networkDenied} · {run.outputBytes ?? 0} bytes</p>
+                      </div>
+                      <StatusBadge tone={statusTone(run.status)}>{copy.statusLabels[run.status]}</StatusBadge>
+                    </div>
+                    {canReview && run.status === "AWAITING_REVIEW" && run.requestedByMembershipId !== data.ctx.membership.id ? (
+                      <form action={reviewComputationRunAction} className="mt-3 flex flex-wrap gap-2">
+                        <input type="hidden" name="slug" value={workspaceSlug} />
+                        <input type="hidden" name="runId" value={run.id} />
+                        <input name="rationale" required placeholder={copy.rationale} className={`${inputClass} !mt-0 flex-1`} />
+                        <Button name="decision" value="APPROVED" type="submit" variant="primary">
+                          <CheckCircle2 className="size-4" />{copy.accept}
+                        </Button>
+                        <Button name="decision" value="REJECTED" type="submit">{copy.reject}</Button>
+                      </form>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </details>
+      ) : null}
+    </WorkspaceShell>
+  );
+}

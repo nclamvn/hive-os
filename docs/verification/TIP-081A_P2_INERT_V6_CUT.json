@@ -1,0 +1,23 @@
+{
+  "phase": "sixth-inert-source-cut",
+  "rows": [
+    {
+      "path": "scripts/test/derive-private-grammar-tip081-p2.mjs",
+      "bytes": 85462,
+      "sha256": "fd5c46b72a919d35f9d55282164989dae5cd4169f165740d885dd94dde5f272b"
+    },
+    {
+      "path": "scripts/test/private-grammar-runtime-tip081-p2.mjs",
+      "bytes": 58100,
+      "sha256": "84802f210e63cbb2ea9d1f069056abb9e785490bed03280b836514cf3f0e2531"
+    },
+    {
+      "path": "scripts/test/scalar-grammar-bodies-tip081-p2.mjs",
+      "bytes": 14174,
+      "sha256": "f3b22a9e9e44c084fd74bea0918baba0c6d2453dc87166b8c888a7d6eef3ad41"
+    }
+  ],
+  "milliseconds": 1.4137079999999997,
+  "parserImported": false,
+  "actualRootRead": false
+}

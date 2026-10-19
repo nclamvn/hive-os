@@ -26,8 +26,9 @@ SHA-256 at rest to any stored recovery identifier.
 1. Sign-up creates an unverified user and sends a verification message; no
    session is created.
 2. An unverified credential user cannot sign in (`requireEmailVerification`).
-3. Successful verification does **not** create a session; the user returns to
-   sign-in (`autoSignInAfterVerification: false`).
+3. Successful verification does **not** create a session. Better Auth returns
+   to the explicit `/verify-email?status=complete` callback and the user
+   continues to sign-in (`autoSignInAfterVerification: false`).
 4. Invalid, expired, or already-consumed links fail truthfully at
    `/verify-email` without exposing token internals.
 5. Verification is single-use.
@@ -35,6 +36,8 @@ SHA-256 at rest to any stored recovery identifier.
    verification-required state or `/verify-email`; resends are throttled (see
    `IDENTITY_SECURITY_EVENTS.md` and the destination throttle).
 7. Callbacks stay same-origin (`trustedOrigins`, `MAIL_BASE_URL`).
+8. A direct `/verify-email` visit has no completion marker and never claims
+   that verification succeeded.
 
 ## Existing users
 

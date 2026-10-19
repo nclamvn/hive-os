@@ -1,0 +1,6 @@
+{
+  "argument": "Auxiliary arithmetic check ONLY, not Main Lemma 1 or geometric transfer verification. Given $q\\le G/100$, $\\zeta_2\\le G_B/100$, $H\\le G/2048$, $\\kappa\\le G/4096$ and $0<G\\le G_B$, the proposed ledger implies $4L_B/G_B\\le4(3/100+3/100+8/2048+1/4096)$. The exact sealed expression is $6569/25600$, positive with floor zero, hence strictly below one. Thus the ARITHMETIC implication is $L_B<G_B/4$ under these hypotheses. This tool does not establish that the actual shading construction satisfies H or that the stated loss formula is sound. Operator-prepared current LLM certificate; no fresh solver call.",
+  "certificate": "{\"kind\":\"INTERVAL_FLOOR_CERTIFICATE\",\"inputDigest\":\"01e1edb2f640002e460d297496e52f5f95188da6abfa63805e51391f7f582ddb\",\"lower\":{\"numerator\":\"6569\",\"denominator\":\"25600\"},\"upper\":{\"numerator\":\"6569\",\"denominator\":\"25600\"},\"floor\":\"0\"}",
+  "gaps": [],
+  "addressedGapIds": []
+}

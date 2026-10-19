@@ -1,0 +1,9 @@
+{
+  "purpose": "P2_REVIEWED_FOURTH_INERT_DERIVATION",
+  "status": 1,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "",
+  "stderr": "file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:260\n      throw new Error(\"SHARED_EMPTY_OWNER_METHOD_DRIFT\");\n            ^\n\nError: SHARED_EMPTY_OWNER_METHOD_DRIFT\n    at derivePrivateGrammarP2 (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:260:13)\n    at capturePrivateGrammarP2 (file:///Users/os/hiveos/scripts/test/capture-private-grammar-tip081-p2.mjs:139:18)\n    at async file:///Users/os/hiveos/scripts/test/capture-private-grammar-tip081-p2.mjs:186:19\n\nNode.js v24.14.1\n",
+  "milliseconds": 247.93570799999998
+}

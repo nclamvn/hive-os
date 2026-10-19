@@ -1,0 +1,5706 @@
+const __HIVE_P2_RUNTIME_STATIC_BYTES=376244;
+const __HIVE_P2_RUNTIME_WORKSPACE_BYTES=2732736;
+// Lexical runtime template. Offline generator embeds it; NEVER import standalone.
+// Its generated trusted loader must admit exact adapter/inventory/profile pins first.
+import {performance as __HIVE_P2_performance} from "node:perf_hooks";
+const __HIVE_P2_clock = __HIVE_P2_performance.now.bind(__HIVE_P2_performance);
+const __HIVE_P2_charCode = Function.prototype.call.bind(String.prototype.charCodeAt);
+const __HIVE_P2_sliceNative = Function.prototype.call.bind(String.prototype.slice);
+const __HIVE_P2_fromCharCode = String.fromCharCode;
+const __HIVE_P2_parseInt = parseInt;
+const __HIVE_P2_parseFloat = parseFloat;
+const __HIVE_P2_numberNative = Number;
+const __HIVE_P2_safe = Number.isSafeInteger;
+const __HIVE_P2_maxInteger = Number.MAX_SAFE_INTEGER;
+const __HIVE_P2_finite = Number.isFinite;
+const __HIVE_P2_is = Object.is;
+const __HIVE_P2_freeze = Object.freeze;
+const __HIVE_P2_setPrototype = Object.setPrototypeOf;
+const __HIVE_P2_descriptor = Object.getOwnPropertyDescriptor;
+const __HIVE_P2_define = Object.defineProperty;
+const __HIVE_P2_setNative = Reflect.set;
+const __HIVE_P2_create = Object.create;
+const __HIVE_P2_proto = Object.getPrototypeOf;
+const __HIVE_P2_keysNative = Object.keys;
+const __HIVE_P2_hasOwnNative = Object.prototype.hasOwnProperty;
+const __HIVE_P2_toStringNative = Object.prototype.toString;
+const __HIVE_P2_defineProperties = Object.defineProperties;
+const __HIVE_P2_hasOwn = Object.hasOwn;
+const __HIVE_P2_isArray = Array.isArray;
+const __HIVE_P2_removeNative = Reflect.deleteProperty;
+const __HIVE_P2_apply = Reflect.apply;
+const __HIVE_P2_constructNative = Reflect.construct;
+const __HIVE_P2_Array = Array;
+const __HIVE_P2_Object = Object;
+const __HIVE_P2_String = String;
+const __HIVE_P2_RegExp = RegExp;
+const __HIVE_P2_Math = Math;
+const __HIVE_P2_Number = Number;
+const __HIVE_P2_mathFloor = Math.floor;
+const __HIVE_P2_mathMin = Math.min;
+const __HIVE_P2_mathMax = Math.max;
+const __HIVE_P2_getWeak = Function.prototype.call.bind(WeakMap.prototype.get);
+const __HIVE_P2_setWeak = Function.prototype.call.bind(WeakMap.prototype.set);
+const __HIVE_P2_deleteWeak = Function.prototype.call.bind(WeakMap.prototype.delete);
+const __HIVE_P2_objectPrototype = Object.prototype;
+const __HIVE_P2_functionPrototype = Function.prototype;
+const __HIVE_P2_arrayPrototype = Array.prototype;
+// The generator must inject an exact reviewed startup-site inventory and this sum.
+// It is NOT a guessed fixed65536 whole-function allowance.
+let __HIVE_P2_toolBytes = __HIVE_P2_RUNTIME_STATIC_BYTES + __HIVE_P2_RUNTIME_WORKSPACE_BYTES;
+const __HIVE_P2_values = new WeakMap();
+const __HIVE_P2_functions = new WeakMap();
+const __HIVE_P2_owners = new WeakMap();
+let __HIVE_P2_active = null;
+let __HIVE_P2_owner = null;
+let __HIVE_P2_Parser = null;
+let __HIVE_P2_NodeConstructor = null;
+let __HIVE_P2_templateSentinel = null;
+let __HIVE_P2_constructing = 0;
+// Only a newly reviewed/pinned synthetic artifact may change this compile-time
+// constant. No caller metadata, flag, hash or old synthetic receipt can change it.
+const __HIVE_P2_COVERAGE_RELEASED = false;
+const __HIVE_P2_errors = __HIVE_P2_freeze({
+  __proto__: null,
+  SCHEMA_REFUSED: __HIVE_P2_freeze({code: "SCHEMA_REFUSED", realParserDisabled: true}),
+  MODE_OPEN: __HIVE_P2_freeze({code: "MODE_OPEN", realParserDisabled: true}),
+  AUTHORITY_REFUSED: __HIVE_P2_freeze({code: "AUTHORITY_REFUSED", realParserDisabled: true}),
+  BUSY_REFUSED: __HIVE_P2_freeze({code: "BUSY_REFUSED", realParserDisabled: true}),
+  CAP_REFUSED: __HIVE_P2_freeze({code: "CAP_REFUSED", realParserDisabled: true}),
+  NODE_REFUSED: __HIVE_P2_freeze({code: "NODE_REFUSED", realParserDisabled: true}),
+  ENTRY_REFUSED: __HIVE_P2_freeze({code: "ENTRY_REFUSED", realParserDisabled: true}),
+  DEPTH_REFUSED: __HIVE_P2_freeze({code: "DEPTH_REFUSED", realParserDisabled: true}),
+  TIME_REFUSED: __HIVE_P2_freeze({code: "TIME_REFUSED", realParserDisabled: true}),
+  SYNTAX_REFUSED: __HIVE_P2_freeze({code: "SYNTAX_REFUSED", realParserDisabled: true}),
+  UNSUPPORTED_BOUNDED_SYNTAX: __HIVE_P2_freeze({code: "UNSUPPORTED_BOUNDED_SYNTAX", realParserDisabled: true}),
+  ALLOCATION_COVERAGE_OPEN: __HIVE_P2_freeze({code: "ALLOCATION_COVERAGE_OPEN", realParserDisabled: true}),
+});
+function __HIVE_P2_integer(value) {
+  return typeof value === "number" && __HIVE_P2_safe(value) && value >= 0 && !__HIVE_P2_is(value, -0);
+}
+function __HIVE_P2_dispose() {
+  if (__HIVE_P2_owner) { __HIVE_P2_owner.text = null; __HIVE_P2_owner.ast = null; __HIVE_P2_owner.parser = null; __HIVE_P2_owner.phase = "RETIRED"; }
+  if (__HIVE_P2_active !== null) __HIVE_P2_deleteWeak(__HIVE_P2_owners, __HIVE_P2_active);
+  __HIVE_P2_owner = null;
+  __HIVE_P2_active = null;
+}
+/** @returns {never} */
+function __HIVE_P2_fail(code) { throw __HIVE_P2_errors[code] || __HIVE_P2_errors.ALLOCATION_COVERAGE_OPEN; }
+/** @returns {never} */
+function __HIVE_P2_refuse(code) {
+  __HIVE_P2_dispose();
+  throw __HIVE_P2_errors[code] || __HIVE_P2_errors.ALLOCATION_COVERAGE_OPEN;
+}
+function __HIVE_P2_tick() {
+  if (!__HIVE_P2_owner) return;
+  if (++__HIVE_P2_owner.ticks < 64) return;
+  __HIVE_P2_owner.ticks = 0;
+  __HIVE_P2_timed();
+}
+function __HIVE_P2_timed() {
+  if (!__HIVE_P2_owner) return;
+  const t = __HIVE_P2_clock();
+  if (!__HIVE_P2_finite(t) || t < __HIVE_P2_owner.lastNow || t - __HIVE_P2_owner.started >= __HIVE_P2_owner.ttl) __HIVE_P2_refuse("TIME_REFUSED");
+  __HIVE_P2_owner.lastNow = t;
+}
+function __HIVE_P2_plus(a, b) {
+  if (!__HIVE_P2_integer(a) || !__HIVE_P2_integer(b) || b > __HIVE_P2_maxInteger - a) __HIVE_P2_refuse("CAP_REFUSED");
+  return a + b;
+}
+function __HIVE_P2_product(a, b) {
+  if (!__HIVE_P2_integer(a) || !__HIVE_P2_integer(b) || a !== 0 && b > __HIVE_P2_maxInteger / a) __HIVE_P2_refuse("CAP_REFUSED");
+  const result = a * b;
+  if (!__HIVE_P2_integer(result)) __HIVE_P2_refuse("CAP_REFUSED");
+  return result;
+}
+function __HIVE_P2_reserve(bytes, nodes = 0, entries = 0) {
+  __HIVE_P2_timed();
+  if (!__HIVE_P2_integer(bytes) || !__HIVE_P2_integer(nodes) || !__HIVE_P2_integer(entries)) __HIVE_P2_refuse("CAP_REFUSED");
+  if (!__HIVE_P2_owner) {
+    if (bytes > 67108864 - __HIVE_P2_toolBytes) __HIVE_P2_refuse("CAP_REFUSED");
+    __HIVE_P2_toolBytes += bytes;
+    return;
+  }
+  const s = __HIVE_P2_owner;
+  if (bytes > s.limit - s.total) __HIVE_P2_refuse("CAP_REFUSED");
+  if (nodes > 200000 - s.nodes) __HIVE_P2_refuse("NODE_REFUSED");
+  if (entries > 20000 - s.entries) __HIVE_P2_refuse("ENTRY_REFUSED");
+  s.total += bytes; s.producerBytes += bytes; s.nodes += nodes; s.entries += entries;
+}
+function __HIVE_P2_meta(value, kind, fields, capacity = 0) {
+  let meta = __HIVE_P2_getWeak(__HIVE_P2_values, value);
+  if (meta) return meta;
+  // Exact eight-field metadata record+WeakMap row; no all-node mirror/catalogue.
+  __HIVE_P2_reserve(224, 0, 1);
+  meta = {__proto__: null, kind, fields, keyUnits: 0, capacity, depth: kind === "NODE" ? 1 : 0,
+    parents: null, initialized: true, site: -1};
+  __HIVE_P2_setWeak(__HIVE_P2_values, value, meta);
+  return meta;
+}
+function __HIVE_P2_reserveObject(fields) {
+  __HIVE_P2_reserve(__HIVE_P2_plus(64, __HIVE_P2_product(fields, 16)));
+}
+function __HIVE_P2_ownObject(value, site, fields, keyUnits) {
+  __HIVE_P2_reserve(16);
+  __HIVE_P2_setPrototype(value, null);
+  const meta = __HIVE_P2_meta(value, "OBJECT", fields);
+  meta.keyUnits = keyUnits;
+  meta.site = site;
+  // Keys are enumerated only after their exact reservation in keys().
+  return value;
+}
+function __HIVE_P2_reserveArray(capacity, site, occupied = capacity) {
+  __HIVE_P2_reserve(__HIVE_P2_plus(88, __HIVE_P2_product(capacity, 8)), 0, occupied);
+}
+function __HIVE_P2_ownArray(value, site, role = "ARRAY", depth = 0) {
+  __HIVE_P2_reserve(16);
+  __HIVE_P2_setPrototype(value, null);
+  const meta = __HIVE_P2_meta(value, role, value.length, value.length);
+  meta.keyUnits = __HIVE_P2_product(value.length, 10); //retained upperbound percanonicaluint32 index.
+  meta.depth = depth;
+  meta.site = site;
+  if (role === "ARRAY") {
+    for (let i = 0; i < value.length; i++) {
+      __HIVE_P2_tick();
+      const child = value[i];
+      if (child && typeof child === "object") __HIVE_P2_linkDepth(value, child);
+    }
+  }
+  return value;
+}
+function __HIVE_P2_maximumChildDepth(maximum, value) {
+  if (!__HIVE_P2_integer(maximum)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  if (value === null || typeof value !== "object") return maximum;
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, value);
+  if (!meta || meta.kind !== "NODE" && meta.kind !== "ARRAY") return maximum;
+  return meta.depth > maximum ? meta.depth : maximum;
+}
+function __HIVE_P2_checkArrayDepth(maximum) {
+  if (!__HIVE_P2_integer(maximum) || maximum > 128) __HIVE_P2_refuse("DEPTH_REFUSED");
+}
+// Ordinary function96 + own prototype slot16 + implicit prototype object80.
+// Captured bound intrinsics are separately nonconstructible96 startup rows.
+function __HIVE_P2_reserveFunction() { __HIVE_P2_reserve(192); }
+function __HIVE_P2_registerFunction(fn, locals, parameters, nested, site) {
+  if (__HIVE_P2_getWeak(__HIVE_P2_functions, fn)) return fn;
+  __HIVE_P2_reserve(176, 0, 1); //five-field function/frame metadata+WeakMap row.
+  __HIVE_P2_setWeak(__HIVE_P2_functions, fn, {__proto__: null, locals, parameters, nested, site, native: null});
+  const meta = __HIVE_P2_meta(fn, "FUNCTION", 3);
+  meta.keyUnits = 19; //length6 +name4 +prototype9; retained upper bound.
+  return fn;
+}
+function __HIVE_P2_frame(fn, arity) {
+  const descriptor = __HIVE_P2_getWeak(__HIVE_P2_functions, fn);
+  if (!descriptor || !__HIVE_P2_integer(arity)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  if (__HIVE_P2_owner && __HIVE_P2_owner.callDepth >= 128) __HIVE_P2_refuse("DEPTH_REFUSED");
+  const scalarFields = __HIVE_P2_plus(arity, __HIVE_P2_plus(descriptor.locals, descriptor.parameters));
+  __HIVE_P2_reserve(__HIVE_P2_plus(64, __HIVE_P2_product(scalarFields, 16)));
+  // Nested hoisted function objects exist at callee entry; reserve BEFORE re-entry.
+  __HIVE_P2_reserve(__HIVE_P2_product(descriptor.nested, 192));
+  if (__HIVE_P2_owner) __HIVE_P2_owner.callDepth++;
+  return descriptor;
+}
+function __HIVE_P2_invoke(fn, receiver, args) {
+  const descriptor = __HIVE_P2_frame(fn, args.length);
+  try {
+    if (descriptor.native !== null) return __HIVE_P2_native(descriptor.native, receiver, args);
+    return __HIVE_P2_apply(fn, receiver, args);
+  } finally { if (__HIVE_P2_owner) __HIVE_P2_owner.callDepth--; }
+}
+function __HIVE_P2_construct(fn, args, site) {
+  if (fn === __HIVE_P2_RegExp) {
+    // Fixed keyword/table descriptors only. Target readRegexp body must refuse first.
+    return __HIVE_P2_regexNew(args, site);
+  }
+  if (fn === __HIVE_P2_Array) {
+    if (args.length !== 1 || !__HIVE_P2_integer(args[0])) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    __HIVE_P2_reserveArray(args[0], site, 0);
+    return __HIVE_P2_ownArray(new __HIVE_P2_Array(args[0]), site);
+  }
+  const isNode = fn === __HIVE_P2_NodeConstructor;
+  __HIVE_P2_frame(fn, args.length);
+  __HIVE_P2_reserve(80, isNode ? 1 : 0); //node cap BEFORE actual constructor entry.
+  __HIVE_P2_constructing++;
+  try {
+    const value = __HIVE_P2_constructNative(fn, args);
+    const meta = __HIVE_P2_meta(value, isNode ? "NODE" : "OBJECT", 0);
+    if (isNode) { meta.kind = "NODE"; meta.depth = 1; }
+    meta.site = site;
+    return value;
+  } finally { __HIVE_P2_constructing--; if (__HIVE_P2_owner) __HIVE_P2_owner.callDepth--; }
+}
+function __HIVE_P2_get(value, key) {
+  __HIVE_P2_tick();
+  if (typeof key !== "string" && typeof key !== "number") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  key = __HIVE_P2_primitiveString(key);
+  if (typeof value === "string") return __HIVE_P2_stringProperty(value, key);
+  if (value === null || value === undefined) __HIVE_P2_refuse("SYNTAX_REFUSED");
+  const intrinsic = __HIVE_P2_intrinsicProperty(value, key);
+  if (intrinsic !== __HIVE_P2_NO_INTRINSIC) return intrinsic;
+  const known = __HIVE_P2_getWeak(__HIVE_P2_values, value);
+  if (!known && typeof value !== "function") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  let current = value;
+  for (let steps = 0; current !== null && steps < 128; steps++) {
+    __HIVE_P2_tick();
+    __HIVE_P2_reserve(128); //native own-property descriptor logical envelope before reflection.
+    const descriptor = __HIVE_P2_descriptor(current, key);
+    if (descriptor) {
+      __HIVE_P2_reserve(16); __HIVE_P2_setPrototype(descriptor, null);
+      if (descriptor.get) return __HIVE_P2_invoke(descriptor.get, value, __HIVE_P2_emptyArguments());
+      const result = descriptor.value;
+      if (key === "prototype" && typeof value === "function" && result && typeof result === "object") {
+        const meta = __HIVE_P2_meta(result, "OBJECT", 1);
+        if (meta.keyUnits < 11) meta.keyUnits = 11; //implicit constructor; never reduce retained schema/key bounds.
+      }
+      return result;
+    }
+    const parent = __HIVE_P2_proto(current);
+    // Unknown host prototypes/setters are never called as grammar callbacks.
+    if (parent === __HIVE_P2_objectPrototype || parent === __HIVE_P2_functionPrototype || parent === __HIVE_P2_arrayPrototype) return undefined;
+    if (parent && !__HIVE_P2_getWeak(__HIVE_P2_values, parent)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    current = parent;
+  }
+  return undefined;
+}
+function __HIVE_P2_defineData(value, key, content) {
+  __HIVE_P2_reserve(128);
+  const previous = __HIVE_P2_descriptor(value, key);
+  let writable = true, enumerable = true, configurable = true;
+  if (previous) {
+    __HIVE_P2_reserve(16); __HIVE_P2_setPrototype(previous, null);
+    if (previous.set) {
+      __HIVE_P2_reserveArray(1, -1);
+      const args = __HIVE_P2_ownArray(new __HIVE_P2_Array(1), -1, "CONTROL_ARRAY");
+      __HIVE_P2_set(args, 0, content);
+      __HIVE_P2_invoke(previous.set, value, args);
+      return;
+    }
+    if (previous.get || previous.writable === false) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    writable = previous.writable; enumerable = previous.enumerable; configurable = previous.configurable;
+  }
+  __HIVE_P2_reserve(128);
+  const descriptor = {__proto__: null, value: content, writable, enumerable, configurable};
+  __HIVE_P2_define(value, key, descriptor);
+}
+function __HIVE_P2_set(value, key, content) {
+  if (typeof key !== "string" && typeof key !== "number") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  if ((typeof value !== "object" || value === null) && typeof value !== "function") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  // The only lazily adopted objects are the fresh `this` of a guarded private
+  // constructor, or its private ordinary prototype read through get(). No public
+  // object/options/AST is accepted by this lexical helper or owner API.
+  if (!__HIVE_P2_getWeak(__HIVE_P2_values, value) && !__HIVE_P2_constructing) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const meta = __HIVE_P2_meta(value, "OBJECT", 0);
+  __HIVE_P2_reserve(16); //all replacement/schema attempts remain debited.
+  // Retained upper bounds are never decremented on overwrite/delete. They bound
+  // later own-key materialization before Object.keys, without keeping key mirrors.
+  const keyString = __HIVE_P2_primitiveString(key);
+  const index = __HIVE_P2_arrayIndex(keyString);
+  key = keyString;
+  __HIVE_P2_reserve(128);
+  const previous = __HIVE_P2_descriptor(value, key);
+  if (!previous) {
+    if ((meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY") && (index >= 0 || key === "length")) {
+      if (key !== "length") __HIVE_P2_reserve(0, 0, 1);
+    } else __HIVE_P2_reserve(__HIVE_P2_plus(72, __HIVE_P2_product(keyString.length, 2)), 0, 2);
+    meta.fields = __HIVE_P2_plus(meta.fields, 1);
+    meta.keyUnits = __HIVE_P2_plus(meta.keyUnits, keyString.length);
+  }
+  if ((meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY") && index >= meta.capacity) {
+    const next = __HIVE_P2_plus(index, 1);
+    __HIVE_P2_reserve(__HIVE_P2_plus(88, __HIVE_P2_product(__HIVE_P2_plus(meta.capacity, next), 8)));
+    meta.capacity = next;
+  }
+  __HIVE_P2_linkDepth(value, content);
+  if ((meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY") && key === "length") {
+    if (!__HIVE_P2_integer(content) || content > 4294967295) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    if (content > meta.capacity) {
+      __HIVE_P2_reserve(__HIVE_P2_plus(88, __HIVE_P2_product(__HIVE_P2_plus(meta.capacity, content), 8)));
+      meta.capacity = content;
+    }
+    __HIVE_P2_setNative(value, key, content);
+    return content;
+  }
+  __HIVE_P2_defineData(value, key, content);
+  return content;
+}
+function __HIVE_P2_remove(value, key) {
+  if (typeof key !== "string" && typeof key !== "number") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  key = __HIVE_P2_primitiveString(key);
+  if (!__HIVE_P2_getWeak(__HIVE_P2_values, value)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  __HIVE_P2_reserve(16);
+  return __HIVE_P2_removeNative(value, key);
+}
+function __HIVE_P2_increment(value, key, delta, postfix) {
+  const old = __HIVE_P2_numeric(__HIVE_P2_get(value, key));
+  const next = old + delta;
+  __HIVE_P2_set(value, key, next);
+  return postfix ? old : next;
+}
+function __HIVE_P2_primitiveString(value) {
+  if (typeof value === "string") return value;
+  if (value === null || typeof value === "number" || typeof value === "boolean" || value === undefined) {
+    __HIVE_P2_reserve(96); //<=32UTF16 scalar spellings, before captured conversion.
+    return __HIVE_P2_String(value);
+  }
+  __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+}
+function __HIVE_P2_concat(a, b) {
+  const left = __HIVE_P2_primitiveString(a), right = __HIVE_P2_primitiveString(b);
+  const newUnits = __HIVE_P2_plus(left.length, right.length);
+  __HIVE_P2_reserve(__HIVE_P2_plus(64, __HIVE_P2_product(__HIVE_P2_plus(left.length, newUnits), 2)));
+  return left + right;
+}
+function __HIVE_P2_binary(operator, a, b) {
+  if (operator === "in") return __HIVE_P2_hasProperty(b, a);
+  if (operator === "instanceof") return __HIVE_P2_instance(a, b);
+  if (operator === "==" || operator === "!=") {
+    const result = __HIVE_P2_equal(a, b);
+    return operator === "==" ? result : !result;
+  }
+  if (operator === "<" || operator === "<=" || operator === ">" || operator === ">=") {
+    __HIVE_P2_primitive(a); __HIVE_P2_primitive(b);
+    if (operator === "<") return a < b;
+    if (operator === "<=") return a <= b;
+    if (operator === ">") return a > b;
+    return a >= b;
+  }
+  if (operator === "+") {
+    if (typeof a === "string" || typeof b === "string") return __HIVE_P2_concat(a, b);
+    return __HIVE_P2_numeric(a) + __HIVE_P2_numeric(b);
+  }
+  a = __HIVE_P2_numeric(a); b = __HIVE_P2_numeric(b);
+  if (operator === "-") return a - b;
+  if (operator === "*") return a * b;
+  if (operator === "/") return a / b;
+  if (operator === "%") return a % b;
+  if (operator === "**") return a ** b;
+  if (operator === "|") return a | b;
+  if (operator === "&") return a & b;
+  if (operator === "^") return a ^ b;
+  if (operator === "<<") return a << b;
+  if (operator === ">>") return a >> b;
+  if (operator === ">>>") return a >>> b;
+  __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+}
+function __HIVE_P2_primitive(value) {
+  if (value !== null && typeof value !== "string" && typeof value !== "number" &&
+      typeof value !== "boolean" && value !== undefined) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  if (typeof value === "string") __HIVE_P2_reserve(__HIVE_P2_plus(32, __HIVE_P2_product(value.length, 2)));
+  return value;
+}
+function __HIVE_P2_numeric(value) {
+  __HIVE_P2_primitive(value);
+  return __HIVE_P2_numberNative(value);
+}
+function __HIVE_P2_unary(operator, value) {
+  const numeric = __HIVE_P2_numeric(value);
+  if (operator === "+") return numeric;
+  if (operator === "-") return -numeric;
+  if (operator === "~") return ~numeric;
+  __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+}
+function __HIVE_P2_equal(a, b) {
+  if (typeof a === typeof b) return a === b;
+  if (a === null || a === undefined) return b === null || b === undefined;
+  if (b === null || b === undefined) return false;
+  if (typeof a === "object" || typeof a === "function" || typeof b === "object" || typeof b === "function")
+    __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  __HIVE_P2_primitive(a); __HIVE_P2_primitive(b);
+  // Both values are closed primitives. No object ToPrimitive callback is possible.
+  return a == b;
+}
+function __HIVE_P2_hasProperty(value, key) {
+  key = __HIVE_P2_primitiveString(key);
+  if (!value || !__HIVE_P2_getWeak(__HIVE_P2_values, value)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  let current = value;
+  for (let depth = 0; current !== null && depth < 128; depth++) {
+    __HIVE_P2_tick(); __HIVE_P2_reserve(128);
+    if (__HIVE_P2_descriptor(current, key)) return true;
+    const parent = __HIVE_P2_proto(current);
+    if (parent === __HIVE_P2_objectPrototype || parent === __HIVE_P2_functionPrototype || parent === __HIVE_P2_arrayPrototype) return false;
+    if (parent && !__HIVE_P2_getWeak(__HIVE_P2_values, parent)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    current = parent;
+  }
+  return false;
+}
+function __HIVE_P2_instance(value, constructor) {
+  if (!__HIVE_P2_getWeak(__HIVE_P2_functions, constructor)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  if (value === null || typeof value !== "object" && typeof value !== "function") return false;
+  if (!__HIVE_P2_getWeak(__HIVE_P2_values, value)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const prototype = __HIVE_P2_get(constructor, "prototype");
+  let current = value;
+  for (let depth = 0; depth < 128; depth++) {
+    __HIVE_P2_tick(); current = __HIVE_P2_proto(current);
+    if (current === prototype) return true;
+    if (current === null || current === __HIVE_P2_objectPrototype || current === __HIVE_P2_functionPrototype || current === __HIVE_P2_arrayPrototype) return false;
+    if (!__HIVE_P2_getWeak(__HIVE_P2_values, current)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  }
+  __HIVE_P2_refuse("DEPTH_REFUSED");
+}
+function __HIVE_P2_char(value, position) {
+  __HIVE_P2_tick();
+  if (typeof value !== "string" || typeof position !== "number") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  return __HIVE_P2_charCode(value, position);
+}
+function __HIVE_P2_slice(value, start = 0, end) {
+  if (typeof value !== "string") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  if (end === undefined) end = value.length;
+  if (typeof value !== "string" || !__HIVE_P2_safe(start) || !__HIVE_P2_safe(end)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  let a = start < 0 ? value.length + start : start;
+  let b = end < 0 ? value.length + end : end;
+  if (a < 0) a = 0; else if (a > value.length) a = value.length;
+  if (b < 0) b = 0; else if (b > value.length) b = value.length;
+  const units = b > a ? b - a : 0;
+  __HIVE_P2_reserve(__HIVE_P2_plus(64, __HIVE_P2_product(units, 2)));
+  return __HIVE_P2_sliceNative(value, a, b);
+}
+function __HIVE_P2_codePoint(value) {
+  if (!__HIVE_P2_integer(value) || value > 1114111) __HIVE_P2_refuse("SYNTAX_REFUSED");
+  __HIVE_P2_reserve(value <= 65535 ? 34 : 36);
+  if (value <= 65535) return __HIVE_P2_fromCharCode(value);
+  const n = value - 65536;
+  return __HIVE_P2_fromCharCode(55296 + (n >> 10), 56320 + (n & 1023));
+}
+function __HIVE_P2_number(value, radix) {
+  if (typeof value !== "string" || value.length > 1024 ||
+      (radix !== 2 && radix !== 8 && radix !== 10 && radix !== 16)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  __HIVE_P2_reserve(__HIVE_P2_plus(32, __HIVE_P2_product(value.length, 2)));
+  return radix === 10 ? __HIVE_P2_numberNative(value) : __HIVE_P2_parseInt(value, radix);
+}
+function __HIVE_P2_syntaxRefusal() { __HIVE_P2_refuse("SYNTAX_REFUSED"); }
+function __HIVE_P2_invalidTemplate(parser) {
+  if (__HIVE_P2_get(parser, "inTemplateElement")) throw __HIVE_P2_templateSentinel;
+  __HIVE_P2_syntaxRefusal();
+}
+
+function __HIVE_P2_authenticate(handle, timed = true) {
+  if (handle === null || typeof handle !== "object" || handle !== __HIVE_P2_active) __HIVE_P2_fail("AUTHORITY_REFUSED");
+  const state = __HIVE_P2_getWeak(__HIVE_P2_owners, handle);
+  if (!state || state !== __HIVE_P2_owner) __HIVE_P2_fail("AUTHORITY_REFUSED");
+  if (timed) __HIVE_P2_timed();
+  return state;
+}
+function __HIVE_P2_fixedOptions(profile) {
+  // Exact closed profile. No arbitrary caller object/plugin/program/token/comment API.
+  __HIVE_P2_reserveObject(19);
+  return __HIVE_P2_ownObject({__proto__: null, ecmaVersion: 15,
+    sourceType: profile === "SCRIPT" ? "script" : "module", allowReserved: false,
+    allowReturnOutsideFunction: false, allowImportExportEverywhere: false,
+    allowAwaitOutsideFunction: false, allowSuperOutsideMethod: false,
+    allowHashBang: true, locations: false, ranges: false, program: null,
+    sourceFile: null, directSourceFile: null, preserveParens: false,
+    onToken: null, onComment: null, onInsertedSemicolon: null, onTrailingComma: null,
+    checkPrivateFields: true}, -1, 19, 278);
+}
+export function createSyntheticGrammarFixtureP2(text, profile, cap, ttl) {
+  if (arguments.length !== 4 || typeof text !== "string" || typeof profile !== "string" ||
+      !__HIVE_P2_integer(cap) || cap > 67108864 || !__HIVE_P2_integer(ttl) || ttl < 1 || ttl > 120000) __HIVE_P2_fail("SCHEMA_REFUSED");
+  if (profile !== "SCRIPT" && profile !== "MODULE") __HIVE_P2_fail("MODE_OPEN");
+  if (!__HIVE_P2_COVERAGE_RELEASED) __HIVE_P2_fail("ALLOCATION_COVERAGE_OPEN");
+  if (__HIVE_P2_active !== null) {
+    const prior = __HIVE_P2_owner, now = __HIVE_P2_clock();
+    if (!__HIVE_P2_finite(now) || now < prior.lastNow) __HIVE_P2_refuse("TIME_REFUSED");
+    prior.lastNow = now; //observation advances monotone clock, never started/ttl.
+    if (now - prior.started < prior.ttl) __HIVE_P2_fail("BUSY_REFUSED");
+    __HIVE_P2_dispose();
+  }
+  // State16 fields(320), handle2 fields(96), one opaque-owner WeakMap row32.
+  // The separately generated workspace is an itemized runtime-helper frame sum
+  // for the fixed re-entry/control-bookkeeping bounds, not an anonymous cushion.
+  const base = __HIVE_P2_plus(__HIVE_P2_toolBytes, 480); //448 control +32 retained source header.
+  if (cap < base || text.length > (cap - base) / 4) __HIVE_P2_fail("CAP_REFUSED");
+  const started = __HIVE_P2_clock();
+  if (!__HIVE_P2_finite(started)) __HIVE_P2_fail("TIME_REFUSED");
+  const state = {__proto__: null, text, profile, limit: cap, ttl, started, lastNow: started,
+    total: base + text.length * 4, producerBytes: 0, outputBytes: 0, nodes: 0,
+    entries: 1, callDepth: 0, ticks: 0, ast: null, parser: null, phase: "SOURCE_READY"};
+  const handle = __HIVE_P2_freeze({purpose: "TIP081_P2_SYNTHETIC_GRAMMAR_ONLY", realParserDisabled: true});
+  __HIVE_P2_setWeak(__HIVE_P2_owners, handle, state);
+  __HIVE_P2_owner = state; __HIVE_P2_active = handle;
+  __HIVE_P2_timed();
+  return handle;
+}
+function __HIVE_P2_observe(state) {
+  __HIVE_P2_timed();
+  if (288 > state.limit - state.total) __HIVE_P2_refuse("CAP_REFUSED");
+  state.total += 288; state.outputBytes += 288; //header64 +14 fixed slots16.
+  let firstType = "NONE", firstNumber = null, bodyLength = 0;
+  if (state.ast !== null) {
+    const body = __HIVE_P2_get(state.ast, "body");
+    bodyLength = body.length;
+    if (body.length) {
+      const first = __HIVE_P2_get(body, 0);
+      firstType = __HIVE_P2_get(first, "type");
+      const expression = __HIVE_P2_get(first, "expression");
+      if (expression && __HIVE_P2_get(expression, "type") === "Literal") {
+        const value = __HIVE_P2_get(expression, "value");
+        if (typeof value === "number") firstNumber = value;
+      }
+    }
+  }
+  return __HIVE_P2_freeze({purpose: "TIP081_P2_SYNTHETIC_GRAMMAR_ONLY", realParserDisabled: true,
+    syntheticAdapterEnabled: __HIVE_P2_COVERAGE_RELEASED, profile: state.profile,
+    phase: state.phase, totalBytes: state.total, producerBytes: state.producerBytes,
+    outputBytes: state.outputBytes, attemptedNodes: state.nodes,
+    conservativeInternalEntries: state.entries, catalogueSitesMeasured: false,
+    bodyLength, firstStatementType: firstType, firstNumericLiteral: firstNumber});
+}
+export function analyzeSyntheticGrammarFixtureP2(handle) {
+  if (arguments.length !== 1) __HIVE_P2_fail("AUTHORITY_REFUSED");
+  const state = __HIVE_P2_authenticate(handle);
+  if (!__HIVE_P2_COVERAGE_RELEASED || state.phase !== "SOURCE_READY") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  state.phase = "ANALYZING";
+  try {
+    const options = __HIVE_P2_fixedOptions(state.profile);
+    __HIVE_P2_reserveArray(2, -1);
+    const constructorArguments = __HIVE_P2_ownArray(new __HIVE_P2_Array(2), -1, "CONTROL_ARRAY");
+    __HIVE_P2_set(constructorArguments, 0, options); __HIVE_P2_set(constructorArguments, 1, state.text);
+    const parser = __HIVE_P2_construct(__HIVE_P2_Parser, constructorArguments, -1);
+    state.parser = parser;
+    const ast = __HIVE_P2_invoke(__HIVE_P2_get(parser, "parse"), parser, __HIVE_P2_emptyArguments());
+    // Allocation/call/depth guards ran BEFORE grammar growth, not post-counting.
+    state.ast = ast; state.phase = "SYNTHETIC_ANALYZED";
+    return __HIVE_P2_observe(state);
+  } catch (error) {
+    __HIVE_P2_dispose();
+    // Identity only, never read a thrown object's getter/message/stack.
+    if (error === __HIVE_P2_errors.SCHEMA_REFUSED || error === __HIVE_P2_errors.MODE_OPEN ||
+        error === __HIVE_P2_errors.AUTHORITY_REFUSED || error === __HIVE_P2_errors.BUSY_REFUSED ||
+        error === __HIVE_P2_errors.CAP_REFUSED || error === __HIVE_P2_errors.NODE_REFUSED ||
+        error === __HIVE_P2_errors.ENTRY_REFUSED || error === __HIVE_P2_errors.DEPTH_REFUSED ||
+        error === __HIVE_P2_errors.TIME_REFUSED || error === __HIVE_P2_errors.SYNTAX_REFUSED ||
+        error === __HIVE_P2_errors.UNSUPPORTED_BOUNDED_SYNTAX || error === __HIVE_P2_errors.ALLOCATION_COVERAGE_OPEN) throw error;
+    __HIVE_P2_fail("ALLOCATION_COVERAGE_OPEN");
+  }
+}
+export function observeSyntheticGrammarFixtureP2(handle) {
+  if (arguments.length !== 1) __HIVE_P2_fail("AUTHORITY_REFUSED");
+  return __HIVE_P2_observe(__HIVE_P2_authenticate(handle));
+}
+export function retireSyntheticGrammarFixtureP2(handle) {
+  if (arguments.length !== 1) __HIVE_P2_fail("AUTHORITY_REFUSED");
+  __HIVE_P2_authenticate(handle, false); __HIVE_P2_dispose();
+  return "SYNTHETIC_GRAMMAR_OWNER_RETIRED";
+}
+
+function __HIVE_P2_emptyArguments() {
+  __HIVE_P2_reserveArray(0, -1);
+  return __HIVE_P2_ownArray(new __HIVE_P2_Array(0), -1, "CONTROL_ARRAY");
+}
+function __HIVE_P2_keys(value) {
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, value);
+  if (!meta) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  // Guard upper key count and UTF16 payload BEFORE native enumeration. Retained
+  // metadata deliberately does not claim a freshly exact live-key count.
+  __HIVE_P2_reserveArray(meta.fields, -1);
+  __HIVE_P2_reserve(__HIVE_P2_plus(__HIVE_P2_product(meta.fields, 32), __HIVE_P2_product(meta.keyUnits, 2)));
+  return __HIVE_P2_ownArray(__HIVE_P2_keysNative(value), -1, "CONTROL_ARRAY");
+}
+function __HIVE_P2_copyKeys(value) {
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, value);
+  if (!meta || meta.kind !== "NODE" || __HIVE_P2_proto(value) !== __HIVE_P2_get(__HIVE_P2_NodeConstructor, "prototype"))
+    __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  return __HIVE_P2_keys(value);
+}
+function __HIVE_P2_linkDepth(parent, child) {
+  if (child === null || typeof child !== "object") return;
+  const childMeta = __HIVE_P2_getWeak(__HIVE_P2_values, child);
+  const parentMeta = __HIVE_P2_getWeak(__HIVE_P2_values, parent);
+  if (!childMeta || !parentMeta || (parentMeta.kind !== "NODE" && parentMeta.kind !== "ARRAY") ||
+      (childMeta.kind !== "NODE" && childMeta.kind !== "ARRAY")) return;
+  __HIVE_P2_reserveArray(0, -1);
+  const queue = __HIVE_P2_ownArray(new __HIVE_P2_Array(0), -1, "CONTROL_ARRAY");
+  __HIVE_P2_depthItem(queue, parent, childMeta.depth + (parentMeta.kind === "NODE" ? 1 : 0));
+  for (let position = 0; position < queue.length; position++) {
+    __HIVE_P2_tick();
+    const item = queue[position], current = item.value, proposed = item.proposed;
+    if (current === child) __HIVE_P2_refuse("DEPTH_REFUSED"); //cycle before AST edge commit.
+    const currentMeta = __HIVE_P2_getWeak(__HIVE_P2_values, current);
+    if (proposed > 128) __HIVE_P2_refuse("DEPTH_REFUSED");
+    if (proposed > currentMeta.depth) currentMeta.depth = proposed;
+    if (currentMeta.parents !== null) {
+      for (let i = 0; i < currentMeta.parents.length; i++) {
+        __HIVE_P2_tick();
+        const ancestor = currentMeta.parents[i], ancestorMeta = __HIVE_P2_getWeak(__HIVE_P2_values, ancestor);
+        // Even equal-depth zero-contribution arrays must traverse ancestry:
+        // otherwise an A->B->A array cycle could evade the pre-link guard.
+        __HIVE_P2_depthItem(queue, ancestor, currentMeta.depth + (ancestorMeta.kind === "NODE" ? 1 : 0));
+      }
+    }
+  }
+  if (childMeta.parents === null) {
+    __HIVE_P2_reserveArray(0, -1);
+    childMeta.parents = __HIVE_P2_ownArray(new __HIVE_P2_Array(0), -1, "CONTROL_ARRAY");
+  }
+  // After ancestor admission, commit charged reverse bookkeeping; CONTROL_ARRAY
+  // deliberately does not create structural AST links or recursive bookkeeping.
+  __HIVE_P2_push(childMeta.parents, parent);
+}
+function __HIVE_P2_depthItem(queue, value, proposed) {
+  if (!__HIVE_P2_integer(proposed) || proposed > 128) __HIVE_P2_refuse("DEPTH_REFUSED");
+  __HIVE_P2_reserveObject(2);
+  const item = __HIVE_P2_ownObject({__proto__: null, value, proposed}, -1, 2, 13);
+  __HIVE_P2_push(queue, item);
+}
+function __HIVE_P2_push(array, value) {
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, array);
+  if (!meta || meta.kind !== "ARRAY" && meta.kind !== "CONTROL_ARRAY") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const index = array.length;
+  __HIVE_P2_set(array, index, value);
+  return array.length;
+}
+
+// Closed intrinsic marker functions; their bodies are never used as callbacks.
+function __HIVE_P2_markerSlice() {}
+function __HIVE_P2_markerCharCode() {}
+function __HIVE_P2_markerCharAt() {}
+function __HIVE_P2_markerIndexOf() {}
+function __HIVE_P2_markerPush() {}
+function __HIVE_P2_markerPop() {}
+function __HIVE_P2_markerCall() {}
+function __HIVE_P2_markerSubstring() {}
+function __HIVE_P2_markerSubstr() {}
+function __HIVE_P2_markerTest() {}
+function __HIVE_P2_markerExec() {}
+function __HIVE_P2_markerReplace() {}
+function __HIVE_P2_markerSplit() {}
+const __HIVE_P2_NO_INTRINSIC = __HIVE_P2_freeze({__proto__: null});
+function __HIVE_P2_registerNative(fn, tag) {
+  __HIVE_P2_registerFunction(fn, 0, 0, 0, -1);
+  __HIVE_P2_getWeak(__HIVE_P2_functions, fn).native = tag;
+  return fn;
+}
+function __HIVE_P2_stringProperty(value, key) {
+  if (key === "length") return value.length;
+  const index = __HIVE_P2_arrayIndex(key);
+  if (index >= 0) {
+    const code = __HIVE_P2_char(value, index);
+    return __HIVE_P2_finite(code) ? __HIVE_P2_codePoint(code) : undefined;
+  }
+  if (key === "slice") return __HIVE_P2_markerSlice;
+  if (key === "charCodeAt") return __HIVE_P2_markerCharCode;
+  if (key === "charAt") return __HIVE_P2_markerCharAt;
+  if (key === "indexOf") return __HIVE_P2_markerIndexOf;
+  if (key === "substring") return __HIVE_P2_markerSubstring;
+  if (key === "substr") return __HIVE_P2_markerSubstr;
+  if (key === "replace") return __HIVE_P2_markerReplace;
+  if (key === "split") return __HIVE_P2_markerSplit;
+  __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+}
+function __HIVE_P2_arrayIndex(key) {
+  if (typeof key !== "string" || key.length === 0 || key.length > 10 || key.length > 1 && __HIVE_P2_char(key, 0) === 48) return -1;
+  let value = 0;
+  for (let i = 0; i < key.length; i++) {
+    const digit = __HIVE_P2_char(key, i) - 48;
+    if (digit < 0 || digit > 9) return -1;
+    value = value * 10 + digit;
+  }
+  return value < 4294967295 ? value : -1;
+}
+function __HIVE_P2_intrinsicProperty(value, key) {
+  const meta = value && (typeof value === "object" || typeof value === "function") ? __HIVE_P2_getWeak(__HIVE_P2_values, value) : null;
+  if (meta && (meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY")) {
+    if (key === "push") return __HIVE_P2_markerPush;
+    if (key === "pop") return __HIVE_P2_markerPop;
+    if (key === "slice") return __HIVE_P2_markerSlice;
+    if (key === "indexOf") return __HIVE_P2_markerIndexOf;
+  }
+  if (meta && meta.kind === "REGEX") {
+    if (key === "test") return __HIVE_P2_markerTest;
+    if (key === "exec") return __HIVE_P2_markerExec;
+    if (key === "source") return value.pattern;
+  }
+  if (typeof value === "function" && key === "call") return __HIVE_P2_markerCall;
+  if (value === __HIVE_P2_Object) {
+    if (key === "create") return __HIVE_P2_create;
+    if (key === "keys") return __HIVE_P2_keysNative;
+    if (key === "defineProperties") return __HIVE_P2_defineProperties;
+    if (key === "prototype") return __HIVE_P2_objectPrototype;
+    if (key === "hasOwn") return __HIVE_P2_hasOwn;
+  }
+  if (value === __HIVE_P2_Array && key === "isArray") return __HIVE_P2_isArray;
+  if (value === __HIVE_P2_Math) {
+    if (key === "floor") return __HIVE_P2_mathFloor;
+    if (key === "min") return __HIVE_P2_mathMin;
+    if (key === "max") return __HIVE_P2_mathMax;
+  }
+  if (value === __HIVE_P2_objectPrototype && key === "hasOwnProperty") return __HIVE_P2_hasOwnNative;
+  if (value === __HIVE_P2_objectPrototype && key === "toString") return __HIVE_P2_toStringNative;
+  if (value === __HIVE_P2_String && key === "fromCharCode") return __HIVE_P2_fromCharCode;
+  return __HIVE_P2_NO_INTRINSIC;
+}
+function __HIVE_P2_indexOf(value, needle, start = 0) {
+  const meta = value && typeof value === "object" ? __HIVE_P2_getWeak(__HIVE_P2_values, value) : null;
+  if (meta && (meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY")) {
+    if (!__HIVE_P2_safe(start)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    for (let i = start < 0 ? value.length + start < 0 ? 0 : value.length + start : start; i < value.length; i++) {
+      __HIVE_P2_tick(); __HIVE_P2_reserve(128);
+      if (__HIVE_P2_descriptor(value, __HIVE_P2_primitiveString(i)) && __HIVE_P2_get(value, i) === needle) return i;
+    }
+    return -1;
+  }
+  if (typeof value !== "string" || typeof needle !== "string" || !__HIVE_P2_safe(start)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  for (let i = start < 0 ? 0 : start; i <= value.length - needle.length; i++) {
+    __HIVE_P2_tick();
+    let matches = true;
+    for (let j = 0; j < needle.length; j++) if (__HIVE_P2_char(value, i + j) !== __HIVE_P2_char(needle, j)) { matches = false; break; }
+    if (matches) return i;
+  }
+  return -1;
+}
+function __HIVE_P2_native(tag, receiver, args) {
+  if (tag === "scalarString") return __HIVE_P2_primitiveString(args[0]);
+  if (tag === "objectTag") {
+    if (receiver === null) return "[object Null]";
+    if (receiver === undefined) return "[object Undefined]";
+    if (typeof receiver === "string") return "[object String]";
+    if (typeof receiver === "number") return "[object Number]";
+    if (typeof receiver === "boolean") return "[object Boolean]";
+    const meta = __HIVE_P2_getWeak(__HIVE_P2_values, receiver);
+    if (!meta) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    if (meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY") return "[object Array]";
+    if (meta.kind === "REGEX") return "[object RegExp]";
+    if (meta.kind === "FUNCTION") return "[object Function]";
+    return "[object Object]"; //No generic native toString/Symbol.toStringTag invocation.
+  }
+  if (tag === "isArray") {
+    const meta = args[0] && typeof args[0] === "object" ? __HIVE_P2_getWeak(__HIVE_P2_values, args[0]) : null;
+    return !!meta && (meta.kind === "ARRAY" || meta.kind === "CONTROL_ARRAY");
+  }
+  if (tag === "staticHasOwn") {
+    if (!args[0] || !__HIVE_P2_getWeak(__HIVE_P2_values, args[0])) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    const key = __HIVE_P2_primitiveString(args[1]);
+    __HIVE_P2_reserve(128);
+    return __HIVE_P2_descriptor(args[0], key) !== undefined;
+  }
+  if (tag === "floor") return __HIVE_P2_mathFloor(__HIVE_P2_numeric(args[0]));
+  if (tag === "min" || tag === "max") {
+    if (!args.length) return tag === "min" ? Infinity : -Infinity;
+    let result = __HIVE_P2_numeric(args[0]);
+    for (let i = 1; i < args.length; i++) {
+      __HIVE_P2_tick(); const next = __HIVE_P2_numeric(args[i]);
+      result = tag === "min" ? __HIVE_P2_mathMin(result, next) : __HIVE_P2_mathMax(result, next);
+    }
+    return result;
+  }
+  if (tag === "charCode") return __HIVE_P2_char(receiver, args.length ? args[0] : 0);
+  if (tag === "charAt") {
+    const code = __HIVE_P2_char(receiver, args.length ? args[0] : 0);
+    return __HIVE_P2_finite(code) ? __HIVE_P2_codePoint(code) : "";
+  }
+  if (tag === "slice") {
+    if (typeof receiver === "string") return __HIVE_P2_slice(receiver, args.length ? args[0] : 0, args.length > 1 ? args[1] : undefined);
+    const meta = __HIVE_P2_getWeak(__HIVE_P2_values, receiver);
+    if (!meta || meta.kind !== "ARRAY" && meta.kind !== "CONTROL_ARRAY") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    const length = receiver.length;
+    let start = args.length ? args[0] : 0, end = args.length > 1 ? args[1] : length;
+    if (!__HIVE_P2_safe(start) || !__HIVE_P2_safe(end)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    if (start < 0) start = length + start;
+    if (end < 0) end = length + end;
+    if (start < 0) start = 0; else if (start > length) start = length;
+    if (end < start) end = start; else if (end > length) end = length;
+    __HIVE_P2_reserveArray(end - start, -1, 0);
+    const copy = __HIVE_P2_ownArray(new __HIVE_P2_Array(end - start), -1, meta.kind);
+    for (let i = start; i < end; i++) {
+      __HIVE_P2_tick();
+      const key = __HIVE_P2_primitiveString(i);
+      __HIVE_P2_reserve(128);
+      if (__HIVE_P2_descriptor(receiver, key)) __HIVE_P2_set(copy, i - start, __HIVE_P2_get(receiver, key));
+    }
+    return copy;
+  }
+  if (tag === "indexOf") return __HIVE_P2_indexOf(receiver, args[0], args.length > 1 ? args[1] : 0);
+  if (tag === "push") { for (let i = 0; i < args.length; i++) { __HIVE_P2_tick(); __HIVE_P2_push(receiver, args[i]); } return receiver.length; }
+  if (tag === "pop") {
+    if (receiver.length === 0) return undefined;
+    const result = __HIVE_P2_get(receiver, receiver.length - 1);
+    __HIVE_P2_remove(receiver, receiver.length - 1);
+    __HIVE_P2_set(receiver, "length", receiver.length - 1);
+    return result;
+  }
+  if (tag === "call") {
+    __HIVE_P2_reserveArray(args.length ? args.length - 1 : 0, -1);
+    const rest = __HIVE_P2_ownArray(new __HIVE_P2_Array(args.length ? args.length - 1 : 0), -1, "CONTROL_ARRAY");
+    for (let i = 1; i < args.length; i++) { __HIVE_P2_tick(); __HIVE_P2_set(rest, i - 1, args[i]); }
+    return __HIVE_P2_invoke(receiver, args[0], rest);
+  }
+  if (tag === "keys") return __HIVE_P2_keys(args[0]);
+  if (tag === "create") {
+    if (args.length !== 1 || args[0] !== null) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    __HIVE_P2_reserveObject(0);
+    return __HIVE_P2_ownObject(__HIVE_P2_create(null), -1, 0, 0);
+  }
+  if (tag === "fromCharCode") {
+    if (args.length !== 1 || !__HIVE_P2_integer(args[0]) || args[0] > 65535) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    return __HIVE_P2_codePoint(args[0]);
+  }
+  if (tag === "hasOwn") {
+    if (!receiver || !__HIVE_P2_getWeak(__HIVE_P2_values, receiver)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+    const key = __HIVE_P2_primitiveString(args[0]);
+    __HIVE_P2_reserve(128);
+    return __HIVE_P2_descriptor(receiver, key) !== undefined;
+  }
+  if (tag === "defineProperties") {
+    if (__HIVE_P2_owner !== null) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN"); //fixed initialization only.
+    const target = args[0], declarations = args[1];
+    const names = __HIVE_P2_keys(declarations);
+    for (let i = 0; i < names.length; i++) {
+      __HIVE_P2_tick();
+      const source = __HIVE_P2_get(declarations, names[i]);
+      const getter = __HIVE_P2_get(source, "get"), setter = __HIVE_P2_get(source, "set");
+      if (getter !== undefined && !__HIVE_P2_getWeak(__HIVE_P2_functions, getter) ||
+          setter !== undefined && !__HIVE_P2_getWeak(__HIVE_P2_functions, setter)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+      __HIVE_P2_reserve(128);
+      const descriptor = {__proto__: null, get: getter, set: setter,
+        enumerable: !!__HIVE_P2_get(source, "enumerable"), configurable: !!__HIVE_P2_get(source, "configurable")};
+      const targetMeta = __HIVE_P2_meta(target, "OBJECT", 0);
+      __HIVE_P2_reserve(__HIVE_P2_plus(88, __HIVE_P2_product(names[i].length, 2)), 0, 2);
+      targetMeta.fields = __HIVE_P2_plus(targetMeta.fields, 1);
+      targetMeta.keyUnits = __HIVE_P2_plus(targetMeta.keyUnits, names[i].length);
+      __HIVE_P2_define(target, names[i], descriptor);
+    }
+    return target;
+  }
+  if (tag === "substring") {
+    let start = args.length ? args[0] : 0, end = args.length > 1 ? args[1] : receiver.length;
+    if (!__HIVE_P2_safe(start) || !__HIVE_P2_safe(end)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    if (start < 0) start = 0; if (end < 0) end = 0;
+    if (start > end) { const swap = start; start = end; end = swap; }
+    return __HIVE_P2_slice(receiver, start, end);
+  }
+  if (tag === "substr") {
+    let start = args.length ? args[0] : 0;
+    if (!__HIVE_P2_safe(start)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    if (start < 0) start = receiver.length + start;
+    if (start < 0) start = 0;
+    const count = args.length > 1 ? args[1] : receiver.length - start;
+    if (!__HIVE_P2_safe(count)) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+    return __HIVE_P2_slice(receiver, start, count < 0 ? start : start + count);
+  }
+  if (tag === "test") return __HIVE_P2_testRegex(receiver, args[0]);
+  if (tag === "exec") return __HIVE_P2_execRegex(receiver, args[0]);
+  if (tag === "replace") return __HIVE_P2_replace(receiver, args[0], args[1]);
+  if (tag === "split") return __HIVE_P2_split(receiver, args[0]);
+  __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+}
+
+function __HIVE_P2_toolRegex(raw, site) {
+  if (typeof raw !== "string" || __HIVE_P2_char(raw, 0) !== 47) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  let closing = raw.length - 1;
+  while (closing > 0 && __HIVE_P2_char(raw, closing) !== 47) { __HIVE_P2_tick(); closing--; }
+  if (closing < 1) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const pattern = __HIVE_P2_slice(raw, 1, closing), flags = __HIVE_P2_slice(raw, closing + 1, raw.length);
+  return __HIVE_P2_regexDescriptor(raw, pattern, flags, site);
+}
+function __HIVE_P2_regexDescriptor(raw, pattern, flags, site) {
+  __HIVE_P2_reserveObject(4);
+  const value = __HIVE_P2_ownObject({__proto__: null, raw, pattern, flags, lastIndex: 0}, site, 4, 24);
+  __HIVE_P2_getWeak(__HIVE_P2_values, value).kind = "REGEX";
+  return value;
+}
+function __HIVE_P2_regexNew(args, site) {
+  if (args.length < 1 || args.length > 2 || typeof args[0] !== "string" || args.length > 1 && typeof args[1] !== "string") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  // No native RegExp is ever constructed. Keywords/Unicode-tool descriptors only;
+  // target literal readRegexp is replaced with refusal BEFORE this point.
+  return __HIVE_P2_regexDescriptor("", args[0], args.length > 1 ? args[1] : "", site);
+}
+function __HIVE_P2_testRegex(regex, value) {
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, regex);
+  if (!meta || meta.kind !== "REGEX" || typeof value !== "string") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const pattern = regex.pattern;
+  if (pattern === "^in(stanceof)?$") return value === "in" || value === "instanceof";
+  if (pattern === "(?:[\\uD800-\\uDBFF](?![\\uDC00-\\uDFFF])|(?:[^\\uD800-\\uDBFF]|^)[\\uDC00-\\uDFFF])") {
+    for (let i = 0; i < value.length; i++) {
+      const c = __HIVE_P2_char(value, i);
+      if (c >= 55296 && c <= 56319) {
+        const next = __HIVE_P2_char(value, i + 1);
+        if (!(next >= 56320 && next <= 57343)) return true;
+        i++;
+      } else if (c >= 56320 && c <= 57343) return true;
+    }
+    return false;
+  }
+  if (pattern === "[89]") {
+    for (let i = 0; i < value.length; i++) { const c = __HIVE_P2_char(value, i); if (c === 56 || c === 57) return true; }
+    return false;
+  }
+  if (pattern === "\\r\\n?|[\\n\\u2028\\u2029]" || pattern === "[\\n\\r\\u2028\\u2029]" ||
+      pattern === "\\r\\n?|\\n|\\u2028|\\u2029") {
+    for (let i = 0; i < value.length; i++) { const c = __HIVE_P2_char(value, i); if (c === 10 || c === 13 || c === 8232 || c === 8233) return true; }
+    return false;
+  }
+  if (__HIVE_P2_indexOf(pattern, "^(?:", 0) === 0 && __HIVE_P2_slice(pattern, pattern.length - 2, pattern.length) === ")$") {
+    let start = 4;
+    for (let i = start; i <= pattern.length - 2; i++) {
+      __HIVE_P2_tick();
+      if (i !== pattern.length - 2 && __HIVE_P2_char(pattern, i) !== 124) continue;
+      if (i - start === value.length) {
+        let equal = true;
+        for (let j = 0; j < value.length; j++) if (__HIVE_P2_char(pattern, start + j) !== __HIVE_P2_char(value, j)) { equal = false; break; }
+        if (equal) return true;
+      }
+      start = i + 1;
+    }
+    return false;
+  }
+  // Known input-independent ASCII/simple lookahead cases still need exact source
+  // class rows before admission. This explicit OPEN refusal is not regex equivalence.
+  __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+}
+function __HIVE_P2_regexSpace(code) {
+  return code === 9 || code === 10 || code === 11 || code === 12 || code === 13 ||
+    code === 32 || code === 160 || code === 5760 || code >= 8192 && code <= 8202 ||
+    code === 8232 || code === 8233 || code === 8239 || code === 8287 || code === 12288 || code === 65279;
+}
+function __HIVE_P2_execRegex(regex, value) {
+  const meta = __HIVE_P2_getWeak(__HIVE_P2_values, regex);
+  if (!meta || meta.kind !== "REGEX" || typeof value !== "string" ||
+      regex.pattern !== "(?:\\s|\\/\\/.*|\\/\\*[^]*?\\*\\/)*" || regex.flags !== "g")
+    __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  // Only the pinned global trivia expression. Unlike the Script scanner, this
+  // expression never consumes HTML comments. Dot stops on all four line endings.
+  let start = __HIVE_P2_numeric(regex.lastIndex);
+  if (!__HIVE_P2_integer(start)) __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  if (start > value.length) { __HIVE_P2_set(regex, "lastIndex", 0); return null; }
+  let position = start;
+  for (;;) {
+    __HIVE_P2_tick();
+    const code = __HIVE_P2_char(value, position);
+    if (__HIVE_P2_regexSpace(code)) { position++; continue; }
+    if (code !== 47) break;
+    const next = __HIVE_P2_char(value, position + 1);
+    if (next === 47) {
+      position += 2;
+      while (position < value.length) {
+        const c = __HIVE_P2_char(value, position);
+        if (c === 10 || c === 13 || c === 8232 || c === 8233) break;
+        position++;
+      }
+      continue;
+    }
+    if (next === 42) {
+      let end = position + 2;
+      while (end < value.length && !(__HIVE_P2_char(value, end) === 42 && __HIVE_P2_char(value, end + 1) === 47)) {
+        __HIVE_P2_tick(); end++;
+      }
+      if (end >= value.length) break; //unterminated group does not match.
+      position = end + 2; continue;
+    }
+    break;
+  }
+  const matched = __HIVE_P2_slice(value, start, position);
+  __HIVE_P2_reserveArray(1, -1);
+  const result = __HIVE_P2_ownArray(new __HIVE_P2_Array(1), -1, "CONTROL_ARRAY");
+  __HIVE_P2_set(result, 0, matched); //schema16 +canonical key+occupied guard before actual fill.
+  __HIVE_P2_set(result, "index", start);
+  __HIVE_P2_set(result, "input", value);
+  __HIVE_P2_set(regex, "lastIndex", position);
+  return result;
+}
+function __HIVE_P2_replace(value, needle, replacement) {
+  if (typeof value !== "string" || typeof replacement !== "string") __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  const meta = needle && typeof needle === "object" ? __HIVE_P2_getWeak(__HIVE_P2_values, needle) : null;
+  if (!meta || meta.kind !== "REGEX") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  const pattern = needle.pattern;
+  if (pattern !== " " && pattern !== "_" && pattern !== "\\r\\n?") __HIVE_P2_refuse("ALLOCATION_COVERAGE_OPEN");
+  let result = "", chunk = 0;
+  for (let i = 0; i < value.length; i++) {
+    __HIVE_P2_tick();
+    const c = __HIVE_P2_char(value, i);
+    if (pattern === " " ? c !== 32 : pattern === "_" ? c !== 95 : c !== 13) continue;
+    result = __HIVE_P2_concat(result, __HIVE_P2_slice(value, chunk, i));
+    result = __HIVE_P2_concat(result, replacement);
+    if (pattern === "\\r\\n?" && __HIVE_P2_char(value, i + 1) === 10) i++;
+    chunk = i + 1;
+    if (needle.flags !== "g") break;
+  }
+  return __HIVE_P2_concat(result, __HIVE_P2_slice(value, chunk, value.length));
+}
+function __HIVE_P2_split(value, separator) {
+  if (typeof value !== "string" || typeof separator !== "string" || separator.length !== 1) __HIVE_P2_refuse("UNSUPPORTED_BOUNDED_SYNTAX");
+  __HIVE_P2_reserveArray(0, -1);
+  const result = __HIVE_P2_ownArray(new __HIVE_P2_Array(0), -1, "CONTROL_ARRAY");
+  let start = 0;
+  for (let i = 0; i <= value.length; i++) {
+    __HIVE_P2_tick();
+    if (i === value.length || __HIVE_P2_char(value, i) === __HIVE_P2_char(separator, 0)) {
+      __HIVE_P2_push(result, __HIVE_P2_slice(value, start, i)); start = i + 1;
+    }
+  }
+  return result;
+}
+
+__HIVE_P2_registerNative(__HIVE_P2_markerCharCode, "charCode");
+__HIVE_P2_registerNative(__HIVE_P2_markerCharAt, "charAt");
+__HIVE_P2_registerNative(__HIVE_P2_markerSlice, "slice");
+__HIVE_P2_registerNative(__HIVE_P2_markerIndexOf, "indexOf");
+__HIVE_P2_registerNative(__HIVE_P2_markerPush, "push");
+__HIVE_P2_registerNative(__HIVE_P2_markerPop, "pop");
+__HIVE_P2_registerNative(__HIVE_P2_markerCall, "call");
+__HIVE_P2_registerNative(__HIVE_P2_create, "create");
+__HIVE_P2_registerNative(__HIVE_P2_keysNative, "keys");
+__HIVE_P2_registerNative(__HIVE_P2_fromCharCode, "fromCharCode");
+__HIVE_P2_registerNative(__HIVE_P2_markerSubstring, "substring");
+__HIVE_P2_registerNative(__HIVE_P2_markerSubstr, "substr");
+__HIVE_P2_registerNative(__HIVE_P2_markerTest, "test");
+__HIVE_P2_registerNative(__HIVE_P2_markerExec, "exec");
+__HIVE_P2_registerNative(__HIVE_P2_markerReplace, "replace");
+__HIVE_P2_registerNative(__HIVE_P2_markerSplit, "split");
+__HIVE_P2_registerNative(__HIVE_P2_hasOwnNative, "hasOwn");
+__HIVE_P2_registerNative(__HIVE_P2_toStringNative, "objectTag");
+__HIVE_P2_registerNative(__HIVE_P2_defineProperties, "defineProperties");
+__HIVE_P2_registerNative(__HIVE_P2_String, "scalarString");
+__HIVE_P2_registerNative(__HIVE_P2_hasOwn, "staticHasOwn");
+__HIVE_P2_registerNative(__HIVE_P2_isArray, "isArray");
+__HIVE_P2_registerNative(__HIVE_P2_mathFloor, "floor");
+__HIVE_P2_registerNative(__HIVE_P2_mathMin, "min");
+__HIVE_P2_registerNative(__HIVE_P2_mathMax, "max");
+
+// Closed scalar scanner hooks are private declarations. The generator counts
+// their final locals/parameters and registers them before private initialization.
+function __char(value, position) { return __HIVE_P2_char(value, position); }
+function __slice(value, start, end) { return __HIVE_P2_slice(value, start, end); }
+function __concat(left, right) { return __HIVE_P2_concat(left, right); }
+function __codePoint(value) { return __HIVE_P2_codePoint(value); }
+function __tick() { return __HIVE_P2_tick(); }
+function __refuse(code) { return __HIVE_P2_refuse(code); }
+function __number(value, radix) { return __HIVE_P2_number(value, radix); }
+
+// Release remains false in this Builder source. The derivative, inventory and
+// actual removed-guard mutation must receive independent review and trusted tuple
+// admission; no public metadata flag can enable a synthetic or real parser lane.
+
+function __HIVE_P2_initialize() {
+    var __HIVE_P2_temp0_0, __HIVE_P2_temp0_1, __HIVE_P2_temp0_2, __HIVE_P2_temp0_3, __HIVE_P2_temp0_4, __HIVE_P2_temp0_5, __HIVE_P2_temp0_6, __HIVE_P2_temp0_7, __HIVE_P2_temp0_8, __HIVE_P2_temp0_9, __HIVE_P2_temp0_10, __HIVE_P2_temp0_11, __HIVE_P2_temp0_12, __HIVE_P2_temp0_13, __HIVE_P2_temp0_14, __HIVE_P2_temp0_15, __HIVE_P2_temp0_16, __HIVE_P2_temp0_17, __HIVE_P2_temp0_18, __HIVE_P2_temp0_19, __HIVE_P2_temp0_20, __HIVE_P2_temp0_21, __HIVE_P2_temp0_22, __HIVE_P2_temp0_23, __HIVE_P2_temp0_24, __HIVE_P2_temp0_25, __HIVE_P2_temp0_26, __HIVE_P2_temp0_27, __HIVE_P2_temp0_28, __HIVE_P2_temp0_29, __HIVE_P2_temp0_30, __HIVE_P2_temp0_31, __HIVE_P2_temp0_32, __HIVE_P2_temp0_33, __HIVE_P2_temp0_34, __HIVE_P2_temp0_35, __HIVE_P2_temp0_36, __HIVE_P2_temp0_37, __HIVE_P2_temp0_38, __HIVE_P2_temp0_39, __HIVE_P2_temp0_40, __HIVE_P2_temp0_41, __HIVE_P2_temp0_42, __HIVE_P2_temp0_43, __HIVE_P2_temp0_44, __HIVE_P2_temp0_45, __HIVE_P2_temp0_46, __HIVE_P2_temp0_47, __HIVE_P2_temp0_48, __HIVE_P2_temp0_49, __HIVE_P2_temp0_50, __HIVE_P2_temp0_51, __HIVE_P2_temp0_52, __HIVE_P2_temp0_53, __HIVE_P2_temp0_54, __HIVE_P2_temp0_55, __HIVE_P2_temp0_56, __HIVE_P2_temp0_57, __HIVE_P2_temp0_58, __HIVE_P2_temp0_59, __HIVE_P2_temp0_60, __HIVE_P2_temp0_61, __HIVE_P2_temp0_62, __HIVE_P2_temp0_63, __HIVE_P2_temp0_64, __HIVE_P2_temp0_65, __HIVE_P2_temp0_66, __HIVE_P2_temp0_67, __HIVE_P2_temp0_68, __HIVE_P2_temp0_69, __HIVE_P2_temp0_70, __HIVE_P2_temp0_71, __HIVE_P2_temp0_72, __HIVE_P2_temp0_73, __HIVE_P2_temp0_74, __HIVE_P2_temp0_75, __HIVE_P2_temp0_76, __HIVE_P2_temp0_77, __HIVE_P2_temp0_78, __HIVE_P2_temp0_79, __HIVE_P2_temp0_80, __HIVE_P2_temp0_81, __HIVE_P2_temp0_82, __HIVE_P2_temp0_83, __HIVE_P2_temp0_84, __HIVE_P2_temp0_85, __HIVE_P2_temp0_86, __HIVE_P2_temp0_87, __HIVE_P2_temp0_88, __HIVE_P2_temp0_89, __HIVE_P2_temp0_90, __HIVE_P2_temp0_91, __HIVE_P2_temp0_92, __HIVE_P2_temp0_93, __HIVE_P2_temp0_94, __HIVE_P2_temp0_95, __HIVE_P2_temp0_96, __HIVE_P2_temp0_97, __HIVE_P2_temp0_98, __HIVE_P2_temp0_99, __HIVE_P2_temp0_100, __HIVE_P2_temp0_101, __HIVE_P2_temp0_102, __HIVE_P2_temp0_103, __HIVE_P2_temp0_104, __HIVE_P2_temp0_105, __HIVE_P2_temp0_106, __HIVE_P2_temp0_107, __HIVE_P2_temp0_108, __HIVE_P2_temp0_109, __HIVE_P2_temp0_110, __HIVE_P2_temp0_111, __HIVE_P2_temp0_112, __HIVE_P2_temp0_113, __HIVE_P2_temp0_114, __HIVE_P2_temp0_115, __HIVE_P2_temp0_116, __HIVE_P2_temp0_117, __HIVE_P2_temp0_118, __HIVE_P2_temp0_119, __HIVE_P2_temp0_120, __HIVE_P2_temp0_121, __HIVE_P2_temp0_122, __HIVE_P2_temp0_123, __HIVE_P2_temp0_124, __HIVE_P2_temp0_125, __HIVE_P2_temp0_126, __HIVE_P2_temp0_127, __HIVE_P2_temp0_128, __HIVE_P2_temp0_129, __HIVE_P2_temp0_130, __HIVE_P2_temp0_131, __HIVE_P2_temp0_132, __HIVE_P2_temp0_133, __HIVE_P2_temp0_134, __HIVE_P2_temp0_135, __HIVE_P2_temp0_136, __HIVE_P2_temp0_137, __HIVE_P2_temp0_138, __HIVE_P2_temp0_139, __HIVE_P2_temp0_140, __HIVE_P2_temp0_141, __HIVE_P2_temp0_142, __HIVE_P2_temp0_143, __HIVE_P2_temp0_144, __HIVE_P2_temp0_145, __HIVE_P2_temp0_146, __HIVE_P2_temp0_147, __HIVE_P2_temp0_148, __HIVE_P2_temp0_149, __HIVE_P2_temp0_150, __HIVE_P2_temp0_151, __HIVE_P2_temp0_152, __HIVE_P2_temp0_153, __HIVE_P2_temp0_154, __HIVE_P2_temp0_155, __HIVE_P2_temp0_156, __HIVE_P2_temp0_157, __HIVE_P2_temp0_158, __HIVE_P2_temp0_159, __HIVE_P2_temp0_160, __HIVE_P2_temp0_161, __HIVE_P2_temp0_162, __HIVE_P2_temp0_163, __HIVE_P2_temp0_164, __HIVE_P2_temp0_165, __HIVE_P2_temp0_166, __HIVE_P2_temp0_167, __HIVE_P2_temp0_168, __HIVE_P2_temp0_169, __HIVE_P2_temp0_170, __HIVE_P2_temp0_171, __HIVE_P2_temp0_172, __HIVE_P2_temp0_173, __HIVE_P2_temp0_174, __HIVE_P2_temp0_175, __HIVE_P2_temp0_176, __HIVE_P2_temp0_177, __HIVE_P2_temp0_178, __HIVE_P2_temp0_179, __HIVE_P2_temp0_180, __HIVE_P2_temp0_181, __HIVE_P2_temp0_182, __HIVE_P2_temp0_183, __HIVE_P2_temp0_184, __HIVE_P2_temp0_185, __HIVE_P2_temp0_186, __HIVE_P2_temp0_187, __HIVE_P2_temp0_188, __HIVE_P2_temp0_189, __HIVE_P2_temp0_190, __HIVE_P2_temp0_191, __HIVE_P2_temp0_192, __HIVE_P2_temp0_193, __HIVE_P2_temp0_194, __HIVE_P2_temp0_195, __HIVE_P2_temp0_196, __HIVE_P2_temp0_197, __HIVE_P2_temp0_198, __HIVE_P2_temp0_199, __HIVE_P2_temp0_200, __HIVE_P2_temp0_201, __HIVE_P2_temp0_202, __HIVE_P2_temp0_203, __HIVE_P2_temp0_204, __HIVE_P2_temp0_205, __HIVE_P2_temp0_206, __HIVE_P2_temp0_207, __HIVE_P2_temp0_208, __HIVE_P2_temp0_209, __HIVE_P2_temp0_210, __HIVE_P2_temp0_211, __HIVE_P2_temp0_212, __HIVE_P2_temp0_213, __HIVE_P2_temp0_214, __HIVE_P2_temp0_215, __HIVE_P2_temp0_216, __HIVE_P2_temp0_217, __HIVE_P2_temp0_218, __HIVE_P2_temp0_219, __HIVE_P2_temp0_220, __HIVE_P2_temp0_221, __HIVE_P2_temp0_222, __HIVE_P2_temp0_223, __HIVE_P2_temp0_224, __HIVE_P2_temp0_225, __HIVE_P2_temp0_226, __HIVE_P2_temp0_227, __HIVE_P2_temp0_228, __HIVE_P2_temp0_229, __HIVE_P2_temp0_230, __HIVE_P2_temp0_231, __HIVE_P2_temp0_232, __HIVE_P2_temp0_233, __HIVE_P2_temp0_234, __HIVE_P2_temp0_235, __HIVE_P2_temp0_236, __HIVE_P2_temp0_237, __HIVE_P2_temp0_238, __HIVE_P2_temp0_239, __HIVE_P2_temp0_240, __HIVE_P2_temp0_241, __HIVE_P2_temp0_242, __HIVE_P2_temp0_243, __HIVE_P2_temp0_244, __HIVE_P2_temp0_245, __HIVE_P2_temp0_246, __HIVE_P2_temp0_247, __HIVE_P2_temp0_248, __HIVE_P2_temp0_249, __HIVE_P2_temp0_250, __HIVE_P2_temp0_251, __HIVE_P2_temp0_252, __HIVE_P2_temp0_253, __HIVE_P2_temp0_254, __HIVE_P2_temp0_255, __HIVE_P2_temp0_256, __HIVE_P2_temp0_257, __HIVE_P2_temp0_258, __HIVE_P2_temp0_259, __HIVE_P2_temp0_260, __HIVE_P2_temp0_261, __HIVE_P2_temp0_262, __HIVE_P2_temp0_263, __HIVE_P2_temp0_264, __HIVE_P2_temp0_265, __HIVE_P2_temp0_266, __HIVE_P2_temp0_267, __HIVE_P2_temp0_268, __HIVE_P2_temp0_269, __HIVE_P2_temp0_270, __HIVE_P2_temp0_271, __HIVE_P2_temp0_272, __HIVE_P2_temp0_273, __HIVE_P2_temp0_274, __HIVE_P2_temp0_275, __HIVE_P2_temp0_276, __HIVE_P2_temp0_277, __HIVE_P2_temp0_278, __HIVE_P2_temp0_279, __HIVE_P2_temp0_280, __HIVE_P2_temp0_281, __HIVE_P2_temp0_282, __HIVE_P2_temp0_283, __HIVE_P2_temp0_284, __HIVE_P2_temp0_285, __HIVE_P2_temp0_286, __HIVE_P2_temp0_287, __HIVE_P2_temp0_288, __HIVE_P2_temp0_289, __HIVE_P2_temp0_290, __HIVE_P2_temp0_291, __HIVE_P2_temp0_292, __HIVE_P2_temp0_293, __HIVE_P2_temp0_294, __HIVE_P2_temp0_295, __HIVE_P2_temp0_296, __HIVE_P2_temp0_297, __HIVE_P2_temp0_298, __HIVE_P2_temp0_299, __HIVE_P2_temp0_300, __HIVE_P2_temp0_301, __HIVE_P2_temp0_302, __HIVE_P2_temp0_303, __HIVE_P2_temp0_304, __HIVE_P2_temp0_305, __HIVE_P2_temp0_306, __HIVE_P2_temp0_307, __HIVE_P2_temp0_308, __HIVE_P2_temp0_309, __HIVE_P2_temp0_310, __HIVE_P2_temp0_311, __HIVE_P2_temp0_312, __HIVE_P2_temp0_313, __HIVE_P2_temp0_314, __HIVE_P2_temp0_315, __HIVE_P2_temp0_316, __HIVE_P2_temp0_317, __HIVE_P2_temp0_318, __HIVE_P2_temp0_319, __HIVE_P2_temp0_320, __HIVE_P2_temp0_321, __HIVE_P2_temp0_322, __HIVE_P2_temp0_323, __HIVE_P2_temp0_324, __HIVE_P2_temp0_325, __HIVE_P2_temp0_326, __HIVE_P2_temp0_327, __HIVE_P2_temp0_328, __HIVE_P2_temp0_329, __HIVE_P2_temp0_330, __HIVE_P2_temp0_331, __HIVE_P2_temp0_332, __HIVE_P2_temp0_333, __HIVE_P2_temp0_334, __HIVE_P2_temp0_335, __HIVE_P2_temp0_336, __HIVE_P2_temp0_337, __HIVE_P2_temp0_338, __HIVE_P2_temp0_339, __HIVE_P2_temp0_340, __HIVE_P2_temp0_341, __HIVE_P2_temp0_342, __HIVE_P2_temp0_343, __HIVE_P2_temp0_344, __HIVE_P2_temp0_345, __HIVE_P2_temp0_346, __HIVE_P2_temp0_347, __HIVE_P2_temp0_348, __HIVE_P2_temp0_349, __HIVE_P2_temp0_350, __HIVE_P2_temp0_351, __HIVE_P2_temp0_352, __HIVE_P2_temp0_353, __HIVE_P2_temp0_354, __HIVE_P2_temp0_355, __HIVE_P2_temp0_356, __HIVE_P2_temp0_357, __HIVE_P2_temp0_358, __HIVE_P2_temp0_359, __HIVE_P2_temp0_360, __HIVE_P2_temp0_361, __HIVE_P2_temp0_362, __HIVE_P2_temp0_363, __HIVE_P2_temp0_364, __HIVE_P2_temp0_365, __HIVE_P2_temp0_366, __HIVE_P2_temp0_367, __HIVE_P2_temp0_368, __HIVE_P2_temp0_369, __HIVE_P2_temp0_370, __HIVE_P2_temp0_371, __HIVE_P2_temp0_372, __HIVE_P2_temp0_373, __HIVE_P2_temp0_374, __HIVE_P2_temp0_375, __HIVE_P2_temp0_376, __HIVE_P2_temp0_377, __HIVE_P2_temp0_378, __HIVE_P2_temp0_379, __HIVE_P2_temp0_380, __HIVE_P2_temp0_381, __HIVE_P2_temp0_382, __HIVE_P2_temp0_383, __HIVE_P2_temp0_384, __HIVE_P2_temp0_385, __HIVE_P2_temp0_386, __HIVE_P2_temp0_387, __HIVE_P2_temp0_388, __HIVE_P2_temp0_389, __HIVE_P2_temp0_390, __HIVE_P2_temp0_391, __HIVE_P2_temp0_392, __HIVE_P2_temp0_393, __HIVE_P2_temp0_394, __HIVE_P2_temp0_395, __HIVE_P2_temp0_396, __HIVE_P2_temp0_397, __HIVE_P2_temp0_398, __HIVE_P2_temp0_399, __HIVE_P2_temp0_400, __HIVE_P2_temp0_401, __HIVE_P2_temp0_402, __HIVE_P2_temp0_403, __HIVE_P2_temp0_404, __HIVE_P2_temp0_405, __HIVE_P2_temp0_406, __HIVE_P2_temp0_407, __HIVE_P2_temp0_408, __HIVE_P2_temp0_409, __HIVE_P2_temp0_410, __HIVE_P2_temp0_411, __HIVE_P2_temp0_412, __HIVE_P2_temp0_413, __HIVE_P2_temp0_414, __HIVE_P2_temp0_415, __HIVE_P2_temp0_416, __HIVE_P2_temp0_417, __HIVE_P2_temp0_418, __HIVE_P2_temp0_419, __HIVE_P2_temp0_420, __HIVE_P2_temp0_421, __HIVE_P2_temp0_422, __HIVE_P2_temp0_423, __HIVE_P2_temp0_424, __HIVE_P2_temp0_425, __HIVE_P2_temp0_426, __HIVE_P2_temp0_427, __HIVE_P2_temp0_428, __HIVE_P2_temp0_429, __HIVE_P2_temp0_430, __HIVE_P2_temp0_431, __HIVE_P2_temp0_432, __HIVE_P2_temp0_433, __HIVE_P2_temp0_434, __HIVE_P2_temp0_435, __HIVE_P2_temp0_436, __HIVE_P2_temp0_437, __HIVE_P2_temp0_438, __HIVE_P2_temp0_439, __HIVE_P2_temp0_440, __HIVE_P2_temp0_441, __HIVE_P2_temp0_442, __HIVE_P2_temp0_443, __HIVE_P2_temp0_444, __HIVE_P2_temp0_445, __HIVE_P2_temp0_446, __HIVE_P2_temp0_447, __HIVE_P2_temp0_448, __HIVE_P2_temp0_449, __HIVE_P2_temp0_450, __HIVE_P2_temp0_451, __HIVE_P2_temp0_452, __HIVE_P2_temp0_453, __HIVE_P2_temp0_454, __HIVE_P2_temp0_455, __HIVE_P2_temp0_456, __HIVE_P2_temp0_457, __HIVE_P2_temp0_458, __HIVE_P2_temp0_459, __HIVE_P2_temp0_460, __HIVE_P2_temp0_461, __HIVE_P2_temp0_462, __HIVE_P2_temp0_463, __HIVE_P2_temp0_464, __HIVE_P2_temp0_465, __HIVE_P2_temp0_466, __HIVE_P2_temp0_467, __HIVE_P2_temp0_468, __HIVE_P2_temp0_469, __HIVE_P2_temp0_470, __HIVE_P2_temp0_471, __HIVE_P2_temp0_472, __HIVE_P2_temp0_473, __HIVE_P2_temp0_474, __HIVE_P2_temp0_475, __HIVE_P2_temp0_476, __HIVE_P2_temp0_477, __HIVE_P2_temp0_478, __HIVE_P2_temp0_479, __HIVE_P2_temp0_480, __HIVE_P2_temp0_481, __HIVE_P2_temp0_482, __HIVE_P2_temp0_483, __HIVE_P2_temp0_484, __HIVE_P2_temp0_485, __HIVE_P2_temp0_486, __HIVE_P2_temp0_487, __HIVE_P2_temp0_488, __HIVE_P2_temp0_489, __HIVE_P2_temp0_490, __HIVE_P2_temp0_491, __HIVE_P2_temp0_492, __HIVE_P2_temp0_493, __HIVE_P2_temp0_494, __HIVE_P2_temp0_495, __HIVE_P2_temp0_496, __HIVE_P2_temp0_497, __HIVE_P2_temp0_498, __HIVE_P2_temp0_499, __HIVE_P2_temp0_500, __HIVE_P2_temp0_501, __HIVE_P2_temp0_502, __HIVE_P2_temp0_503, __HIVE_P2_temp0_504, __HIVE_P2_temp0_505, __HIVE_P2_temp0_506, __HIVE_P2_temp0_507, __HIVE_P2_temp0_508, __HIVE_P2_temp0_509, __HIVE_P2_temp0_510, __HIVE_P2_temp0_511, __HIVE_P2_temp0_512, __HIVE_P2_temp0_513, __HIVE_P2_temp0_514, __HIVE_P2_temp0_515, __HIVE_P2_temp0_516, __HIVE_P2_temp0_517, __HIVE_P2_temp0_518, __HIVE_P2_temp0_519, __HIVE_P2_temp0_520, __HIVE_P2_temp0_521, __HIVE_P2_temp0_522, __HIVE_P2_temp0_523, __HIVE_P2_temp0_524, __HIVE_P2_temp0_525, __HIVE_P2_temp0_526, __HIVE_P2_temp0_527, __HIVE_P2_temp0_528, __HIVE_P2_temp0_529, __HIVE_P2_temp0_530, __HIVE_P2_temp0_531, __HIVE_P2_temp0_532, __HIVE_P2_temp0_533, __HIVE_P2_temp0_534, __HIVE_P2_temp0_535, __HIVE_P2_temp0_536, __HIVE_P2_temp0_537, __HIVE_P2_temp0_538, __HIVE_P2_temp0_539, __HIVE_P2_temp0_540, __HIVE_P2_temp0_541, __HIVE_P2_temp0_542, __HIVE_P2_temp0_543, __HIVE_P2_temp0_544, __HIVE_P2_temp0_545, __HIVE_P2_temp0_546, __HIVE_P2_temp0_547, __HIVE_P2_temp0_548, __HIVE_P2_temp0_549, __HIVE_P2_temp0_550, __HIVE_P2_temp0_551, __HIVE_P2_temp0_552, __HIVE_P2_temp0_553, __HIVE_P2_temp0_554, __HIVE_P2_temp0_555, __HIVE_P2_temp0_556, __HIVE_P2_temp0_557, __HIVE_P2_temp0_558, __HIVE_P2_temp0_559, __HIVE_P2_temp0_560, __HIVE_P2_temp0_561, __HIVE_P2_temp0_562, __HIVE_P2_temp0_563, __HIVE_P2_temp0_564, __HIVE_P2_temp0_565, __HIVE_P2_temp0_566, __HIVE_P2_temp0_567, __HIVE_P2_temp0_568, __HIVE_P2_temp0_569, __HIVE_P2_temp0_570, __HIVE_P2_temp0_571, __HIVE_P2_temp0_572, __HIVE_P2_temp0_573, __HIVE_P2_temp0_574, __HIVE_P2_temp0_575, __HIVE_P2_temp0_576, __HIVE_P2_temp0_577, __HIVE_P2_temp0_578, __HIVE_P2_temp0_579, __HIVE_P2_temp0_580, __HIVE_P2_temp0_581, __HIVE_P2_temp0_582, __HIVE_P2_temp0_583, __HIVE_P2_temp0_584, __HIVE_P2_temp0_585, __HIVE_P2_temp0_586, __HIVE_P2_temp0_587, __HIVE_P2_temp0_588, __HIVE_P2_temp0_589, __HIVE_P2_temp0_590, __HIVE_P2_temp0_591, __HIVE_P2_temp0_592, __HIVE_P2_temp0_593, __HIVE_P2_temp0_594, __HIVE_P2_temp0_595, __HIVE_P2_temp0_596, __HIVE_P2_temp0_597, __HIVE_P2_temp0_598, __HIVE_P2_temp0_599, __HIVE_P2_temp0_600, __HIVE_P2_temp0_601, __HIVE_P2_temp0_602, __HIVE_P2_temp0_603, __HIVE_P2_temp0_604, __HIVE_P2_temp0_605, __HIVE_P2_temp0_606, __HIVE_P2_temp0_607, __HIVE_P2_temp0_608, __HIVE_P2_temp0_609, __HIVE_P2_temp0_610, __HIVE_P2_temp0_611, __HIVE_P2_temp0_612, __HIVE_P2_temp0_613, __HIVE_P2_temp0_614, __HIVE_P2_temp0_615, __HIVE_P2_temp0_616, __HIVE_P2_temp0_617, __HIVE_P2_temp0_618, __HIVE_P2_temp0_619, __HIVE_P2_temp0_620, __HIVE_P2_temp0_621, __HIVE_P2_temp0_622, __HIVE_P2_temp0_623, __HIVE_P2_temp0_624, __HIVE_P2_temp0_625, __HIVE_P2_temp0_626, __HIVE_P2_temp0_627, __HIVE_P2_temp0_628, __HIVE_P2_temp0_629, __HIVE_P2_temp0_630, __HIVE_P2_temp0_631, __HIVE_P2_temp0_632, __HIVE_P2_temp0_633, __HIVE_P2_temp0_634, __HIVE_P2_temp0_635, __HIVE_P2_temp0_636, __HIVE_P2_temp0_637, __HIVE_P2_temp0_638, __HIVE_P2_temp0_639, __HIVE_P2_temp0_640, __HIVE_P2_temp0_641, __HIVE_P2_temp0_642, __HIVE_P2_temp0_643, __HIVE_P2_temp0_644, __HIVE_P2_temp0_645, __HIVE_P2_temp0_646, __HIVE_P2_temp0_647, __HIVE_P2_temp0_648, __HIVE_P2_temp0_649, __HIVE_P2_temp0_650, __HIVE_P2_temp0_651, __HIVE_P2_temp0_652, __HIVE_P2_temp0_653, __HIVE_P2_temp0_654, __HIVE_P2_temp0_655, __HIVE_P2_temp0_656, __HIVE_P2_temp0_657, __HIVE_P2_temp0_658, __HIVE_P2_temp0_659, __HIVE_P2_temp0_660, __HIVE_P2_temp0_661, __HIVE_P2_temp0_662, __HIVE_P2_temp0_663, __HIVE_P2_temp0_664, __HIVE_P2_temp0_665, __HIVE_P2_temp0_666, __HIVE_P2_temp0_667, __HIVE_P2_temp0_668, __HIVE_P2_temp0_669, __HIVE_P2_temp0_670, __HIVE_P2_temp0_671, __HIVE_P2_temp0_672, __HIVE_P2_temp0_673, __HIVE_P2_temp0_674, __HIVE_P2_temp0_675, __HIVE_P2_temp0_676, __HIVE_P2_temp0_677, __HIVE_P2_temp0_678, __HIVE_P2_temp0_679, __HIVE_P2_temp0_680, __HIVE_P2_temp0_681, __HIVE_P2_temp0_682, __HIVE_P2_temp0_683, __HIVE_P2_temp0_684, __HIVE_P2_temp0_685, __HIVE_P2_temp0_686, __HIVE_P2_temp0_687, __HIVE_P2_temp0_688, __HIVE_P2_temp0_689, __HIVE_P2_temp0_690, __HIVE_P2_temp0_691, __HIVE_P2_temp0_692, __HIVE_P2_temp0_693, __HIVE_P2_temp0_694, __HIVE_P2_temp0_695, __HIVE_P2_temp0_696, __HIVE_P2_temp0_697, __HIVE_P2_temp0_698, __HIVE_P2_temp0_699, __HIVE_P2_temp0_700, __HIVE_P2_temp0_701, __HIVE_P2_temp0_702, __HIVE_P2_temp0_703, __HIVE_P2_temp0_704, __HIVE_P2_temp0_705, __HIVE_P2_temp0_706, __HIVE_P2_temp0_707, __HIVE_P2_temp0_708, __HIVE_P2_temp0_709, __HIVE_P2_temp0_710, __HIVE_P2_temp0_711, __HIVE_P2_temp0_712, __HIVE_P2_temp0_713, __HIVE_P2_temp0_714, __HIVE_P2_temp0_715, __HIVE_P2_temp0_716, __HIVE_P2_temp0_717, __HIVE_P2_temp0_718, __HIVE_P2_temp0_719, __HIVE_P2_temp0_720, __HIVE_P2_temp0_721, __HIVE_P2_temp0_722, __HIVE_P2_temp0_723, __HIVE_P2_temp0_724, __HIVE_P2_temp0_725, __HIVE_P2_temp0_726, __HIVE_P2_temp0_727, __HIVE_P2_temp0_728, __HIVE_P2_temp0_729, __HIVE_P2_temp0_730, __HIVE_P2_temp0_731, __HIVE_P2_temp0_732, __HIVE_P2_temp0_733, __HIVE_P2_temp0_734, __HIVE_P2_temp0_735, __HIVE_P2_temp0_736, __HIVE_P2_temp0_737, __HIVE_P2_temp0_738, __HIVE_P2_temp0_739, __HIVE_P2_temp0_740, __HIVE_P2_temp0_741, __HIVE_P2_temp0_742, __HIVE_P2_temp0_743, __HIVE_P2_temp0_744, __HIVE_P2_temp0_745, __HIVE_P2_temp0_746, __HIVE_P2_temp0_747, __HIVE_P2_temp0_748, __HIVE_P2_temp0_749, __HIVE_P2_temp0_750, __HIVE_P2_temp0_751, __HIVE_P2_temp0_752, __HIVE_P2_temp0_753, __HIVE_P2_temp0_754, __HIVE_P2_temp0_755, __HIVE_P2_temp0_756, __HIVE_P2_temp0_757, __HIVE_P2_temp0_758, __HIVE_P2_temp0_759, __HIVE_P2_temp0_760, __HIVE_P2_temp0_761, __HIVE_P2_temp0_762, __HIVE_P2_temp0_763, __HIVE_P2_temp0_764, __HIVE_P2_temp0_765, __HIVE_P2_temp0_766, __HIVE_P2_temp0_767, __HIVE_P2_temp0_768, __HIVE_P2_temp0_769, __HIVE_P2_temp0_770, __HIVE_P2_temp0_771, __HIVE_P2_temp0_772, __HIVE_P2_temp0_773, __HIVE_P2_temp0_774, __HIVE_P2_temp0_775, __HIVE_P2_temp0_776, __HIVE_P2_temp0_777, __HIVE_P2_temp0_778, __HIVE_P2_temp0_779, __HIVE_P2_temp0_780, __HIVE_P2_temp0_781, __HIVE_P2_temp0_782, __HIVE_P2_temp0_783, __HIVE_P2_temp0_784, __HIVE_P2_temp0_785, __HIVE_P2_temp0_786, __HIVE_P2_temp0_787, __HIVE_P2_temp0_788, __HIVE_P2_temp0_789, __HIVE_P2_temp0_790, __HIVE_P2_temp0_791, __HIVE_P2_temp0_792, __HIVE_P2_temp0_793, __HIVE_P2_temp0_794, __HIVE_P2_temp0_795, __HIVE_P2_temp0_796, __HIVE_P2_temp0_797, __HIVE_P2_temp0_798, __HIVE_P2_temp0_799, __HIVE_P2_temp0_800, __HIVE_P2_temp0_801, __HIVE_P2_temp0_802, __HIVE_P2_temp0_803, __HIVE_P2_temp0_804, __HIVE_P2_temp0_805, __HIVE_P2_temp0_806, __HIVE_P2_temp0_807, __HIVE_P2_temp0_808, __HIVE_P2_temp0_809, __HIVE_P2_temp0_810, __HIVE_P2_temp0_811, __HIVE_P2_temp0_812, __HIVE_P2_temp0_813, __HIVE_P2_temp0_814, __HIVE_P2_temp0_815, __HIVE_P2_temp0_816, __HIVE_P2_temp0_817, __HIVE_P2_temp0_818, __HIVE_P2_temp0_819, __HIVE_P2_temp0_820, __HIVE_P2_temp0_821, __HIVE_P2_temp0_822, __HIVE_P2_temp0_823, __HIVE_P2_temp0_824, __HIVE_P2_temp0_825, __HIVE_P2_temp0_826, __HIVE_P2_temp0_827, __HIVE_P2_temp0_828, __HIVE_P2_temp0_829, __HIVE_P2_temp0_830, __HIVE_P2_temp0_831, __HIVE_P2_temp0_832, __HIVE_P2_temp0_833, __HIVE_P2_temp0_834, __HIVE_P2_temp0_835, __HIVE_P2_temp0_836, __HIVE_P2_temp0_837, __HIVE_P2_temp0_838, __HIVE_P2_temp0_839, __HIVE_P2_temp0_840, __HIVE_P2_temp0_841, __HIVE_P2_temp0_842, __HIVE_P2_temp0_843, __HIVE_P2_temp0_844, __HIVE_P2_temp0_845, __HIVE_P2_temp0_846, __HIVE_P2_temp0_847, __HIVE_P2_temp0_848, __HIVE_P2_temp0_849, __HIVE_P2_temp0_850, __HIVE_P2_temp0_851, __HIVE_P2_temp0_852, __HIVE_P2_temp0_853, __HIVE_P2_temp0_854, __HIVE_P2_temp0_855, __HIVE_P2_temp0_856, __HIVE_P2_temp0_857, __HIVE_P2_temp0_858, __HIVE_P2_temp0_859, __HIVE_P2_temp0_860, __HIVE_P2_temp0_861, __HIVE_P2_temp0_862, __HIVE_P2_temp0_863, __HIVE_P2_temp0_864, __HIVE_P2_temp0_865, __HIVE_P2_temp0_866, __HIVE_P2_temp0_867, __HIVE_P2_temp0_868, __HIVE_P2_temp0_869, __HIVE_P2_temp0_870, __HIVE_P2_temp0_871, __HIVE_P2_temp0_872, __HIVE_P2_temp0_873, __HIVE_P2_temp0_874, __HIVE_P2_temp0_875, __HIVE_P2_temp0_876, __HIVE_P2_temp0_877, __HIVE_P2_temp0_878, __HIVE_P2_temp0_879, __HIVE_P2_temp0_880, __HIVE_P2_temp0_881, __HIVE_P2_temp0_882, __HIVE_P2_temp0_883, __HIVE_P2_temp0_884, __HIVE_P2_temp0_885, __HIVE_P2_temp0_886, __HIVE_P2_temp0_887, __HIVE_P2_temp0_888, __HIVE_P2_temp0_889, __HIVE_P2_temp0_890, __HIVE_P2_temp0_891, __HIVE_P2_temp0_892, __HIVE_P2_temp0_893, __HIVE_P2_temp0_894, __HIVE_P2_temp0_895, __HIVE_P2_temp0_896, __HIVE_P2_temp0_897, __HIVE_P2_temp0_898, __HIVE_P2_temp0_899, __HIVE_P2_temp0_900, __HIVE_P2_temp0_901, __HIVE_P2_temp0_902, __HIVE_P2_temp0_903, __HIVE_P2_temp0_904, __HIVE_P2_temp0_905, __HIVE_P2_temp0_906, __HIVE_P2_temp0_907, __HIVE_P2_temp0_908, __HIVE_P2_temp0_909, __HIVE_P2_temp0_910, __HIVE_P2_temp0_911, __HIVE_P2_temp0_912, __HIVE_P2_temp0_913, __HIVE_P2_temp0_914, __HIVE_P2_temp0_915, __HIVE_P2_temp0_916, __HIVE_P2_temp0_917, __HIVE_P2_temp0_918, __HIVE_P2_temp0_919, __HIVE_P2_temp0_920, __HIVE_P2_temp0_921, __HIVE_P2_temp0_922, __HIVE_P2_temp0_923, __HIVE_P2_temp0_924, __HIVE_P2_temp0_925, __HIVE_P2_temp0_926, __HIVE_P2_temp0_927, __HIVE_P2_temp0_928, __HIVE_P2_temp0_929, __HIVE_P2_temp0_930, __HIVE_P2_temp0_931, __HIVE_P2_temp0_932, __HIVE_P2_temp0_933, __HIVE_P2_temp0_934, __HIVE_P2_temp0_935, __HIVE_P2_temp0_936, __HIVE_P2_temp0_937, __HIVE_P2_temp0_938, __HIVE_P2_temp0_939, __HIVE_P2_temp0_940, __HIVE_P2_temp0_941, __HIVE_P2_temp0_942, __HIVE_P2_temp0_943, __HIVE_P2_temp0_944, __HIVE_P2_temp0_945, __HIVE_P2_temp0_946, __HIVE_P2_temp0_947, __HIVE_P2_temp0_948, __HIVE_P2_temp0_949, __HIVE_P2_temp0_950, __HIVE_P2_temp0_951, __HIVE_P2_temp0_952, __HIVE_P2_temp0_953, __HIVE_P2_temp0_954, __HIVE_P2_temp0_955, __HIVE_P2_temp0_956, __HIVE_P2_temp0_957, __HIVE_P2_temp0_958, __HIVE_P2_temp0_959, __HIVE_P2_temp0_960, __HIVE_P2_temp0_961, __HIVE_P2_temp0_962, __HIVE_P2_temp0_963, __HIVE_P2_temp0_964, __HIVE_P2_temp0_965, __HIVE_P2_temp0_966, __HIVE_P2_temp0_967, __HIVE_P2_temp0_968, __HIVE_P2_temp0_969, __HIVE_P2_temp0_970, __HIVE_P2_temp0_971, __HIVE_P2_temp0_972, __HIVE_P2_temp0_973, __HIVE_P2_temp0_974, __HIVE_P2_temp0_975, __HIVE_P2_temp0_976, __HIVE_P2_temp0_977, __HIVE_P2_temp0_978, __HIVE_P2_temp0_979, __HIVE_P2_temp0_980, __HIVE_P2_temp0_981, __HIVE_P2_temp0_982, __HIVE_P2_temp0_983, __HIVE_P2_temp0_984, __HIVE_P2_temp0_985, __HIVE_P2_temp0_986, __HIVE_P2_temp0_987, __HIVE_P2_temp0_988, __HIVE_P2_temp0_989, __HIVE_P2_temp0_990, __HIVE_P2_temp0_991, __HIVE_P2_temp0_992, __HIVE_P2_temp0_993, __HIVE_P2_temp0_994, __HIVE_P2_temp0_995, __HIVE_P2_temp0_996, __HIVE_P2_temp0_997, __HIVE_P2_temp0_998, __HIVE_P2_temp0_999, __HIVE_P2_temp0_1000, __HIVE_P2_temp0_1001, __HIVE_P2_temp0_1002, __HIVE_P2_temp0_1003, __HIVE_P2_temp0_1004, __HIVE_P2_temp0_1005, __HIVE_P2_temp0_1006, __HIVE_P2_temp0_1007, __HIVE_P2_temp0_1008, __HIVE_P2_temp0_1009, __HIVE_P2_temp0_1010, __HIVE_P2_temp0_1011, __HIVE_P2_temp0_1012, __HIVE_P2_temp0_1013, __HIVE_P2_temp0_1014, __HIVE_P2_temp0_1015, __HIVE_P2_temp0_1016, __HIVE_P2_temp0_1017, __HIVE_P2_temp0_1018, __HIVE_P2_temp0_1019, __HIVE_P2_temp0_1020, __HIVE_P2_temp0_1021, __HIVE_P2_temp0_1022, __HIVE_P2_temp0_1023, __HIVE_P2_temp0_1024, __HIVE_P2_temp0_1025, __HIVE_P2_temp0_1026, __HIVE_P2_temp0_1027, __HIVE_P2_temp0_1028, __HIVE_P2_temp0_1029, __HIVE_P2_temp0_1030, __HIVE_P2_temp0_1031, __HIVE_P2_temp0_1032, __HIVE_P2_temp0_1033, __HIVE_P2_temp0_1034, __HIVE_P2_temp0_1035, __HIVE_P2_temp0_1036, __HIVE_P2_temp0_1037, __HIVE_P2_temp0_1038, __HIVE_P2_temp0_1039, __HIVE_P2_temp0_1040, __HIVE_P2_temp0_1041, __HIVE_P2_temp0_1042, __HIVE_P2_temp0_1043, __HIVE_P2_temp0_1044, __HIVE_P2_temp0_1045, __HIVE_P2_temp0_1046, __HIVE_P2_temp0_1047, __HIVE_P2_temp0_1048, __HIVE_P2_temp0_1049, __HIVE_P2_temp0_1050, __HIVE_P2_temp0_1051, __HIVE_P2_temp0_1052, __HIVE_P2_temp0_1053, __HIVE_P2_temp0_1054, __HIVE_P2_temp0_1055, __HIVE_P2_temp0_1056, __HIVE_P2_temp0_1057, __HIVE_P2_temp0_1058, __HIVE_P2_temp0_1059, __HIVE_P2_temp0_1060, __HIVE_P2_temp0_1061, __HIVE_P2_temp0_1062, __HIVE_P2_temp0_1063, __HIVE_P2_temp0_1064, __HIVE_P2_temp0_1065, __HIVE_P2_temp0_1066, __HIVE_P2_temp0_1067, __HIVE_P2_temp0_1068, __HIVE_P2_temp0_1069, __HIVE_P2_temp0_1070, __HIVE_P2_temp0_1071, __HIVE_P2_temp0_1072, __HIVE_P2_temp0_1073, __HIVE_P2_temp0_1074, __HIVE_P2_temp0_1075, __HIVE_P2_temp0_1076, __HIVE_P2_temp0_1077, __HIVE_P2_temp0_1078, __HIVE_P2_temp0_1079, __HIVE_P2_temp0_1080, __HIVE_P2_temp0_1081, __HIVE_P2_temp0_1082, __HIVE_P2_temp0_1083, __HIVE_P2_temp0_1084, __HIVE_P2_temp0_1085, __HIVE_P2_temp0_1086, __HIVE_P2_temp0_1087, __HIVE_P2_temp0_1088, __HIVE_P2_temp0_1089, __HIVE_P2_temp0_1090, __HIVE_P2_temp0_1091, __HIVE_P2_temp0_1092, __HIVE_P2_temp0_1093, __HIVE_P2_temp0_1094, __HIVE_P2_temp0_1095, __HIVE_P2_temp0_1096, __HIVE_P2_temp0_1097, __HIVE_P2_temp0_1098, __HIVE_P2_temp0_1099, __HIVE_P2_temp0_1100, __HIVE_P2_temp0_1101, __HIVE_P2_temp0_1102, __HIVE_P2_temp0_1103, __HIVE_P2_temp0_1104, __HIVE_P2_temp0_1105, __HIVE_P2_temp0_1106, __HIVE_P2_temp0_1107, __HIVE_P2_temp0_1108, __HIVE_P2_temp0_1109, __HIVE_P2_temp0_1110, __HIVE_P2_temp0_1111, __HIVE_P2_temp0_1112, __HIVE_P2_temp0_1113, __HIVE_P2_temp0_1114, __HIVE_P2_temp0_1115, __HIVE_P2_temp0_1116, __HIVE_P2_temp0_1117, __HIVE_P2_temp0_1118, __HIVE_P2_temp0_1119, __HIVE_P2_temp0_1120, __HIVE_P2_temp0_1121, __HIVE_P2_temp0_1122, __HIVE_P2_temp0_1123, __HIVE_P2_temp0_1124, __HIVE_P2_temp0_1125, __HIVE_P2_temp0_1126, __HIVE_P2_temp0_1127, __HIVE_P2_temp0_1128, __HIVE_P2_temp0_1129, __HIVE_P2_temp0_1130, __HIVE_P2_temp0_1131, __HIVE_P2_temp0_1132, __HIVE_P2_temp0_1133, __HIVE_P2_temp0_1134, __HIVE_P2_temp0_1135, __HIVE_P2_temp0_1136, __HIVE_P2_temp0_1137, __HIVE_P2_temp0_1138, __HIVE_P2_temp0_1139, __HIVE_P2_temp0_1140, __HIVE_P2_temp0_1141, __HIVE_P2_temp0_1142, __HIVE_P2_temp0_1143, __HIVE_P2_temp0_1144, __HIVE_P2_temp0_1145, __HIVE_P2_temp0_1146, __HIVE_P2_temp0_1147, __HIVE_P2_temp0_1148, __HIVE_P2_temp0_1149, __HIVE_P2_temp0_1150, __HIVE_P2_temp0_1151, __HIVE_P2_temp0_1152, __HIVE_P2_temp0_1153, __HIVE_P2_temp0_1154, __HIVE_P2_temp0_1155, __HIVE_P2_temp0_1156, __HIVE_P2_temp0_1157, __HIVE_P2_temp0_1158, __HIVE_P2_temp0_1159, __HIVE_P2_temp0_1160, __HIVE_P2_temp0_1161, __HIVE_P2_temp0_1162, __HIVE_P2_temp0_1163, __HIVE_P2_temp0_1164, __HIVE_P2_temp0_1165, __HIVE_P2_temp0_1166, __HIVE_P2_temp0_1167, __HIVE_P2_temp0_1168, __HIVE_P2_temp0_1169, __HIVE_P2_temp0_1170, __HIVE_P2_temp0_1171, __HIVE_P2_temp0_1172, __HIVE_P2_temp0_1173, __HIVE_P2_temp0_1174, __HIVE_P2_temp0_1175, __HIVE_P2_temp0_1176, __HIVE_P2_temp0_1177, __HIVE_P2_temp0_1178, __HIVE_P2_temp0_1179, __HIVE_P2_temp0_1180, __HIVE_P2_temp0_1181, __HIVE_P2_temp0_1182, __HIVE_P2_temp0_1183, __HIVE_P2_temp0_1184, __HIVE_P2_temp0_1185, __HIVE_P2_temp0_1186, __HIVE_P2_temp0_1187, __HIVE_P2_temp0_1188, __HIVE_P2_temp0_1189, __HIVE_P2_temp0_1190, __HIVE_P2_temp0_1191, __HIVE_P2_temp0_1192, __HIVE_P2_temp0_1193, __HIVE_P2_temp0_1194, __HIVE_P2_temp0_1195, __HIVE_P2_temp0_1196, __HIVE_P2_temp0_1197, __HIVE_P2_temp0_1198, __HIVE_P2_temp0_1199, __HIVE_P2_temp0_1200, __HIVE_P2_temp0_1201, __HIVE_P2_temp0_1202, __HIVE_P2_temp0_1203, __HIVE_P2_temp0_1204, __HIVE_P2_temp0_1205, __HIVE_P2_temp0_1206, __HIVE_P2_temp0_1207, __HIVE_P2_temp0_1208, __HIVE_P2_temp0_1209, __HIVE_P2_temp0_1210, __HIVE_P2_temp0_1211, __HIVE_P2_temp0_1212, __HIVE_P2_temp0_1213, __HIVE_P2_temp0_1214, __HIVE_P2_temp0_1215, __HIVE_P2_temp0_1216, __HIVE_P2_temp0_1217, __HIVE_P2_temp0_1218, __HIVE_P2_temp0_1219, __HIVE_P2_temp0_1220, __HIVE_P2_temp0_1221, __HIVE_P2_temp0_1222, __HIVE_P2_temp0_1223, __HIVE_P2_temp0_1224, __HIVE_P2_temp0_1225, __HIVE_P2_temp0_1226, __HIVE_P2_temp0_1227, __HIVE_P2_temp0_1228, __HIVE_P2_temp0_1229, __HIVE_P2_temp0_1230, __HIVE_P2_temp0_1231, __HIVE_P2_temp0_1232, __HIVE_P2_temp0_1233, __HIVE_P2_temp0_1234, __HIVE_P2_temp0_1235, __HIVE_P2_temp0_1236, __HIVE_P2_temp0_1237, __HIVE_P2_temp0_1238, __HIVE_P2_temp0_1239, __HIVE_P2_temp0_1240, __HIVE_P2_temp0_1241, __HIVE_P2_temp0_1242, __HIVE_P2_temp0_1243, __HIVE_P2_temp0_1244, __HIVE_P2_temp0_1245, __HIVE_P2_temp0_1246, __HIVE_P2_temp0_1247, __HIVE_P2_temp0_1248, __HIVE_P2_temp0_1249, __HIVE_P2_temp0_1250, __HIVE_P2_temp0_1251, __HIVE_P2_temp0_1252, __HIVE_P2_temp0_1253, __HIVE_P2_temp0_1254, __HIVE_P2_temp0_1255, __HIVE_P2_temp0_1256, __HIVE_P2_temp0_1257, __HIVE_P2_temp0_1258, __HIVE_P2_temp0_1259, __HIVE_P2_temp0_1260, __HIVE_P2_temp0_1261, __HIVE_P2_temp0_1262, __HIVE_P2_temp0_1263, __HIVE_P2_temp0_1264, __HIVE_P2_temp0_1265, __HIVE_P2_temp0_1266, __HIVE_P2_temp0_1267, __HIVE_P2_temp0_1268, __HIVE_P2_temp0_1269, __HIVE_P2_temp0_1270, __HIVE_P2_temp0_1271, __HIVE_P2_temp0_1272, __HIVE_P2_temp0_1273, __HIVE_P2_temp0_1274, __HIVE_P2_temp0_1275, __HIVE_P2_temp0_1276, __HIVE_P2_temp0_1277, __HIVE_P2_temp0_1278, __HIVE_P2_temp0_1279, __HIVE_P2_temp0_1280, __HIVE_P2_temp0_1281, __HIVE_P2_temp0_1282, __HIVE_P2_temp0_1283, __HIVE_P2_temp0_1284, __HIVE_P2_temp0_1285, __HIVE_P2_temp0_1286, __HIVE_P2_temp0_1287, __HIVE_P2_temp0_1288, __HIVE_P2_temp0_1289, __HIVE_P2_temp0_1290, __HIVE_P2_temp0_1291, __HIVE_P2_temp0_1292, __HIVE_P2_temp0_1293, __HIVE_P2_temp0_1294, __HIVE_P2_temp0_1295, __HIVE_P2_temp0_1296, __HIVE_P2_temp0_1297, __HIVE_P2_temp0_1298, __HIVE_P2_temp0_1299, __HIVE_P2_temp0_1300, __HIVE_P2_temp0_1301, __HIVE_P2_temp0_1302, __HIVE_P2_temp0_1303, __HIVE_P2_temp0_1304, __HIVE_P2_temp0_1305, __HIVE_P2_temp0_1306, __HIVE_P2_temp0_1307, __HIVE_P2_temp0_1308, __HIVE_P2_temp0_1309, __HIVE_P2_temp0_1310, __HIVE_P2_temp0_1311, __HIVE_P2_temp0_1312, __HIVE_P2_temp0_1313, __HIVE_P2_temp0_1314, __HIVE_P2_temp0_1315, __HIVE_P2_temp0_1316, __HIVE_P2_temp0_1317, __HIVE_P2_temp0_1318, __HIVE_P2_temp0_1319, __HIVE_P2_temp0_1320, __HIVE_P2_temp0_1321, __HIVE_P2_temp0_1322, __HIVE_P2_temp0_1323, __HIVE_P2_temp0_1324, __HIVE_P2_temp0_1325, __HIVE_P2_temp0_1326, __HIVE_P2_temp0_1327, __HIVE_P2_temp0_1328, __HIVE_P2_temp0_1329, __HIVE_P2_temp0_1330, __HIVE_P2_temp0_1331, __HIVE_P2_temp0_1332, __HIVE_P2_temp0_1333, __HIVE_P2_temp0_1334, __HIVE_P2_temp0_1335, __HIVE_P2_temp0_1336, __HIVE_P2_temp0_1337, __HIVE_P2_temp0_1338, __HIVE_P2_temp0_1339, __HIVE_P2_temp0_1340, __HIVE_P2_temp0_1341, __HIVE_P2_temp0_1342, __HIVE_P2_temp0_1343, __HIVE_P2_temp0_1344, __HIVE_P2_temp0_1345, __HIVE_P2_temp0_1346, __HIVE_P2_temp0_1347, __HIVE_P2_temp0_1348, __HIVE_P2_temp0_1349, __HIVE_P2_temp0_1350, __HIVE_P2_temp0_1351, __HIVE_P2_temp0_1352, __HIVE_P2_temp0_1353, __HIVE_P2_temp0_1354, __HIVE_P2_temp0_1355, __HIVE_P2_temp0_1356, __HIVE_P2_temp0_1357, __HIVE_P2_temp0_1358, __HIVE_P2_temp0_1359, __HIVE_P2_temp0_1360, __HIVE_P2_temp0_1361, __HIVE_P2_temp0_1362, __HIVE_P2_temp0_1363, __HIVE_P2_temp0_1364, __HIVE_P2_temp0_1365, __HIVE_P2_temp0_1366, __HIVE_P2_temp0_1367, __HIVE_P2_temp0_1368, __HIVE_P2_temp0_1369, __HIVE_P2_temp0_1370, __HIVE_P2_temp0_1371, __HIVE_P2_temp0_1372, __HIVE_P2_temp0_1373, __HIVE_P2_temp0_1374, __HIVE_P2_temp0_1375, __HIVE_P2_temp0_1376, __HIVE_P2_temp0_1377, __HIVE_P2_temp0_1378, __HIVE_P2_temp0_1379, __HIVE_P2_temp0_1380, __HIVE_P2_temp0_1381, __HIVE_P2_temp0_1382, __HIVE_P2_temp0_1383, __HIVE_P2_temp0_1384, __HIVE_P2_temp0_1385, __HIVE_P2_temp0_1386, __HIVE_P2_temp0_1387, __HIVE_P2_temp0_1388, __HIVE_P2_temp0_1389, __HIVE_P2_temp0_1390, __HIVE_P2_temp0_1391, __HIVE_P2_temp0_1392, __HIVE_P2_temp0_1393, __HIVE_P2_temp0_1394, __HIVE_P2_temp0_1395, __HIVE_P2_temp0_1396, __HIVE_P2_temp0_1397, __HIVE_P2_temp0_1398, __HIVE_P2_temp0_1399, __HIVE_P2_temp0_1400, __HIVE_P2_temp0_1401, __HIVE_P2_temp0_1402, __HIVE_P2_temp0_1403, __HIVE_P2_temp0_1404, __HIVE_P2_temp0_1405, __HIVE_P2_temp0_1406, __HIVE_P2_temp0_1407, __HIVE_P2_temp0_1408, __HIVE_P2_temp0_1409, __HIVE_P2_temp0_1410, __HIVE_P2_temp0_1411, __HIVE_P2_temp0_1412, __HIVE_P2_temp0_1413, __HIVE_P2_temp0_1414, __HIVE_P2_temp0_1415, __HIVE_P2_temp0_1416, __HIVE_P2_temp0_1417, __HIVE_P2_temp0_1418, __HIVE_P2_temp0_1419, __HIVE_P2_temp0_1420, __HIVE_P2_temp0_1421, __HIVE_P2_temp0_1422, __HIVE_P2_temp0_1423, __HIVE_P2_temp0_1424, __HIVE_P2_temp0_1425, __HIVE_P2_temp0_1426, __HIVE_P2_temp0_1427, __HIVE_P2_temp0_1428, __HIVE_P2_temp0_1429, __HIVE_P2_temp0_1430, __HIVE_P2_temp0_1431, __HIVE_P2_temp0_1432, __HIVE_P2_temp0_1433, __HIVE_P2_temp0_1434, __HIVE_P2_temp0_1435, __HIVE_P2_temp0_1436, __HIVE_P2_temp0_1437, __HIVE_P2_temp0_1438, __HIVE_P2_temp0_1439, __HIVE_P2_temp0_1440, __HIVE_P2_temp0_1441, __HIVE_P2_temp0_1442, __HIVE_P2_temp0_1443, __HIVE_P2_temp0_1444, __HIVE_P2_temp0_1445, __HIVE_P2_temp0_1446, __HIVE_P2_temp0_1447, __HIVE_P2_temp0_1448, __HIVE_P2_temp0_1449, __HIVE_P2_temp0_1450, __HIVE_P2_temp0_1451, __HIVE_P2_temp0_1452, __HIVE_P2_temp0_1453, __HIVE_P2_temp0_1454, __HIVE_P2_temp0_1455, __HIVE_P2_temp0_1456, __HIVE_P2_temp0_1457, __HIVE_P2_temp0_1458, __HIVE_P2_temp0_1459, __HIVE_P2_temp0_1460, __HIVE_P2_temp0_1461, __HIVE_P2_temp0_1462, __HIVE_P2_temp0_1463, __HIVE_P2_temp0_1464, __HIVE_P2_temp0_1465, __HIVE_P2_temp0_1466, __HIVE_P2_temp0_1467, __HIVE_P2_temp0_1468, __HIVE_P2_temp0_1469, __HIVE_P2_temp0_1470, __HIVE_P2_temp0_1471, __HIVE_P2_temp0_1472, __HIVE_P2_temp0_1473, __HIVE_P2_temp0_1474, __HIVE_P2_temp0_1475, __HIVE_P2_temp0_1476, __HIVE_P2_temp0_1477, __HIVE_P2_temp0_1478, __HIVE_P2_temp0_1479, __HIVE_P2_temp0_1480, __HIVE_P2_temp0_1481, __HIVE_P2_temp0_1482, __HIVE_P2_temp0_1483, __HIVE_P2_temp0_1484, __HIVE_P2_temp0_1485, __HIVE_P2_temp0_1486, __HIVE_P2_temp0_1487, __HIVE_P2_temp0_1488, __HIVE_P2_temp0_1489, __HIVE_P2_temp0_1490, __HIVE_P2_temp0_1491, __HIVE_P2_temp0_1492, __HIVE_P2_temp0_1493, __HIVE_P2_temp0_1494, __HIVE_P2_temp0_1495, __HIVE_P2_temp0_1496, __HIVE_P2_temp0_1497, __HIVE_P2_temp0_1498, __HIVE_P2_temp0_1499, __HIVE_P2_temp0_1500, __HIVE_P2_temp0_1501, __HIVE_P2_temp0_1502, __HIVE_P2_temp0_1503, __HIVE_P2_temp0_1504, __HIVE_P2_temp0_1505, __HIVE_P2_temp0_1506, __HIVE_P2_temp0_1507, __HIVE_P2_temp0_1508, __HIVE_P2_temp0_1509, __HIVE_P2_temp0_1510, __HIVE_P2_temp0_1511, __HIVE_P2_temp0_1512, __HIVE_P2_temp0_1513, __HIVE_P2_temp0_1514, __HIVE_P2_temp0_1515, __HIVE_P2_temp0_1516, __HIVE_P2_temp0_1517, __HIVE_P2_temp0_1518, __HIVE_P2_temp0_1519, __HIVE_P2_temp0_1520, __HIVE_P2_temp0_1521, __HIVE_P2_temp0_1522, __HIVE_P2_temp0_1523, __HIVE_P2_temp0_1524, __HIVE_P2_temp0_1525, __HIVE_P2_temp0_1526, __HIVE_P2_temp0_1527, __HIVE_P2_temp0_1528, __HIVE_P2_temp0_1529, __HIVE_P2_temp0_1530;
+    __HIVE_P2_registerFunction(__scalarLine, 0, 1, 0, 1);
+    __HIVE_P2_registerFunction(__scalarSpace, 0, 1, 0, 2);
+    __HIVE_P2_registerFunction(__scalarStart, 0, 1, 0, 5);
+    __HIVE_P2_registerFunction(__scalarContinue, 0, 1, 0, 10);
+    __HIVE_P2_registerFunction(__scalarHex, 0, 1, 0, 14);
+    __HIVE_P2_registerFunction(__scalarGapLine, 3, 3, 0, 25);
+    __HIVE_P2_registerFunction(__scalarTrivia, 19, 5, 0, 32);
+    __HIVE_P2_registerFunction(__scalarPeekWord, 24, 2, 0, 90);
+    __HIVE_P2_registerFunction(__scalarNumericSpelling, 9, 3, 0, 146);
+    __HIVE_P2_registerFunction(isInAstralSet, 2, 2, 0, 183);
+    __HIVE_P2_registerFunction(isIdentifierStart, 0, 2, 0, 196);
+    __HIVE_P2_registerFunction(isIdentifierChar, 0, 2, 0, 204);
+    __HIVE_P2_registerFunction(binop, 0, 2, 0, 244);
+    __HIVE_P2_registerFunction(kw, 6, 2, 0, 250);
+    __HIVE_P2_registerFunction(isNewLine, 0, 1, 0, 358);
+    __HIVE_P2_registerFunction(nextLineBreak, 8, 3, 0, 359);
+    __HIVE_P2_registerFunction(wordsRegexp, 2, 1, 0, 392);
+    __HIVE_P2_registerFunction(codePointToString, 0, 1, 0, 400);
+    __HIVE_P2_registerFunction(getLineInfo, 0, 2, 0, 426);
+    __HIVE_P2_registerFunction(getOptions, 0, 1, 0, 430);
+    __HIVE_P2_registerFunction(pushComment, 0, 2, 0, 431);
+    __HIVE_P2_registerFunction(functionFlags, 0, 2, 0, 446);
+    __HIVE_P2_registerFunction(isPrivateNameConflicted, 9, 2, 0, 2252);
+    __HIVE_P2_registerFunction(checkKeyName, 2, 2, 0, 2267);
+    __HIVE_P2_registerFunction(isLocalVariableAccess, 0, 1, 0, 3714);
+    __HIVE_P2_registerFunction(isPrivateFieldAccess, 0, 1, 0, 3719);
+    __HIVE_P2_registerFunction(finishNodeAt, 12, 4, 0, 5461);
+    __HIVE_P2_registerFunction(buildUnicodeData, 16, 1, 0, 5510);
+    __HIVE_P2_registerFunction(hasProp, 0, 1, 0, 5698);
+    __HIVE_P2_registerFunction(isRegularExpressionModifier, 0, 1, 0, 5770);
+    __HIVE_P2_registerFunction(isSyntaxCharacter, 0, 1, 0, 5786);
+    __HIVE_P2_registerFunction(isRegExpIdentifierStart, 0, 1, 0, 5823);
+    __HIVE_P2_registerFunction(isRegExpIdentifierPart, 0, 1, 0, 5830);
+    __HIVE_P2_registerFunction(isControlLetter, 0, 1, 0, 5872);
+    __HIVE_P2_registerFunction(isValidUnicode, 0, 1, 0, 5882);
+    __HIVE_P2_registerFunction(isCharacterClassEscape, 0, 1, 0, 5900);
+    __HIVE_P2_registerFunction(isUnicodePropertyNameCharacter, 0, 1, 0, 5921);
+    __HIVE_P2_registerFunction(isUnicodePropertyValueCharacter, 0, 1, 0, 5928);
+    __HIVE_P2_registerFunction(isClassSetReservedDoublePunctuatorCharacter, 0, 1, 0, 6001);
+    __HIVE_P2_registerFunction(isClassSetSyntaxCharacter, 0, 1, 0, 6008);
+    __HIVE_P2_registerFunction(isClassSetReservedPunctuator, 0, 1, 0, 6018);
+    __HIVE_P2_registerFunction(isDecimalDigit, 0, 1, 0, 6036);
+    __HIVE_P2_registerFunction(isHexDigit, 0, 1, 0, 6044);
+    __HIVE_P2_registerFunction(hexToInt, 0, 1, 0, 6051);
+    __HIVE_P2_registerFunction(isOctalDigit, 0, 1, 0, 6071);
+    __HIVE_P2_registerFunction(stringToNumber, 0, 2, 0, 6771);
+    __HIVE_P2_registerFunction(stringToBigInt, 0, 1, 0, 6774);
+    __HIVE_P2_registerFunction(parse, 2, 2, 0, 7243);
+    __HIVE_P2_registerFunction(parseExpressionAt, 2, 3, 0, 7246);
+    __HIVE_P2_registerFunction(tokenizer, 2, 2, 0, 7249);
+    function __scalarLine(c) {
+        return c === 10 || c === 13 || c === 8232 || c === 8233;
+    }
+    function __scalarSpace(c) {
+        return c === 9 || c === 11 || c === 12 || c === 32 || c === 160 || c === 5760 || __HIVE_P2_binary(">=", c, 8192, 3) && __HIVE_P2_binary("<=", c, 8202, 4) || c === 8239 || c === 8287 || c === 12288 || c === 65279;
+    }
+    function __scalarStart(c) {
+        return c === 36 || c === 95 || __HIVE_P2_binary(">=", c, 65, 6) && __HIVE_P2_binary("<=", c, 90, 7) || __HIVE_P2_binary(">=", c, 97, 8) && __HIVE_P2_binary("<=", c, 122, 9);
+    }
+    function __scalarContinue(c) {
+        return __HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 11), __HIVE_P2_ownArray([c], 11, "CONTROL_ARRAY")), 11) || __HIVE_P2_binary(">=", c, 48, 12) && __HIVE_P2_binary("<=", c, 57, 13);
+    }
+    function __scalarHex(c) {
+        return __HIVE_P2_binary(">=", c, 48, 15) && __HIVE_P2_binary("<=", c, 57, 16) ? __HIVE_P2_binary("-", c, 48, 17) : __HIVE_P2_binary(">=", c, 65, 18) && __HIVE_P2_binary("<=", c, 70, 19) ? __HIVE_P2_binary("-", c, 55, 20) : __HIVE_P2_binary(">=", c, 97, 21) && __HIVE_P2_binary("<=", c, 102, 22) ? __HIVE_P2_binary("-", c, 87, 23) : __HIVE_P2_unary("-", 1, 24);
+    }
+    function __scalarGapLine(text, start, end) {
+        var __HIVE_P2_temp25_0, __HIVE_P2_temp25_1;
+        for (var i = start; __HIVE_P2_binary("<", i, end, 27); (__HIVE_P2_temp25_0 = __HIVE_P2_numeric(i, 28), __HIVE_P2_temp25_1 = __HIVE_P2_temp25_0 + 1, i = __HIVE_P2_temp25_1, __HIVE_P2_temp25_0)) {
+            __HIVE_P2_tick(26);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 29), __HIVE_P2_ownArray([], 29, "CONTROL_ARRAY")), 29);
+            if (__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 30), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 31), __HIVE_P2_ownArray([text, i], 31, "CONTROL_ARRAY")), 31)], 30, "CONTROL_ARRAY")), 30))
+                return true;
+        }
+        return false;
+    }
+    function __scalarTrivia(text, start, inModule, lastTokenEnd, hashBang) {
+        var __HIVE_P2_temp32_0, __HIVE_P2_temp32_1, __HIVE_P2_temp32_2, __HIVE_P2_temp32_3, __HIVE_P2_temp32_4, __HIVE_P2_temp32_5, __HIVE_P2_temp32_6, __HIVE_P2_temp32_7, __HIVE_P2_temp32_8, __HIVE_P2_temp32_9, __HIVE_P2_temp32_10, __HIVE_P2_temp32_11;
+        var i = start, sawLine = false;
+        while (__HIVE_P2_binary("<", i, __HIVE_P2_get(text, "length", 35), 34)) {
+            __HIVE_P2_tick(33);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 36), __HIVE_P2_ownArray([], 36, "CONTROL_ARRAY")), 36);
+            var c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 37), __HIVE_P2_ownArray([text, i], 37, "CONTROL_ARRAY")), 37), width = 0, block = false;
+            if (__HIVE_P2_invoke(__scalarSpace, void 0, (__HIVE_P2_reserveArray(1, 38), __HIVE_P2_ownArray([c], 38, "CONTROL_ARRAY")), 38)) {
+                (__HIVE_P2_temp32_0 = __HIVE_P2_numeric(i, 39), __HIVE_P2_temp32_1 = __HIVE_P2_temp32_0 + 1, i = __HIVE_P2_temp32_1, __HIVE_P2_temp32_0);
+                continue;
+            }
+            if (__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 40), __HIVE_P2_ownArray([c], 40, "CONTROL_ARRAY")), 40)) {
+                sawLine = true;
+                (__HIVE_P2_temp32_2 = __HIVE_P2_numeric(i, 42), __HIVE_P2_temp32_3 = __HIVE_P2_temp32_2 + 1, i = __HIVE_P2_temp32_3, __HIVE_P2_temp32_2);
+                if (c === 13 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 43), __HIVE_P2_ownArray([text, i], 43, "CONTROL_ARRAY")), 43) === 10)
+                    (__HIVE_P2_temp32_4 = __HIVE_P2_numeric(i, 44), __HIVE_P2_temp32_5 = __HIVE_P2_temp32_4 + 1, i = __HIVE_P2_temp32_5, __HIVE_P2_temp32_4);
+                continue;
+            }
+            if (i === 0 && hashBang && c === 35 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 45), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 1, 46)], 45, "CONTROL_ARRAY")), 45) === 33)
+                width = 2;
+            else if (c === 47 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 48), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 1, 49)], 48, "CONTROL_ARRAY")), 48) === 47)
+                width = 2;
+            else if (c === 47 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 51), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 1, 52)], 51, "CONTROL_ARRAY")), 51) === 42) {
+                width = 2;
+                block = true;
+            }
+            else if (!inModule && c === 60 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 55), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 1, 56)], 55, "CONTROL_ARRAY")), 55) === 33 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 57), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 2, 58)], 57, "CONTROL_ARRAY")), 57) === 45 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 59), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 3, 60)], 59, "CONTROL_ARRAY")), 59) === 45)
+                width = 4;
+            else if (!inModule && c === 45 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 62), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 1, 63)], 62, "CONTROL_ARRAY")), 62) === 45 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 64), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", i, 2, 65)], 64, "CONTROL_ARRAY")), 64) === 62 && (lastTokenEnd === 0 || __HIVE_P2_invoke(__scalarGapLine, void 0, (__HIVE_P2_reserveArray(3, 66), __HIVE_P2_ownArray([text, lastTokenEnd, i], 66, "CONTROL_ARRAY")), 66)))
+                width = 3;
+            if (width === 0)
+                break;
+            i = __HIVE_P2_binary("+", i, width, 68);
+            if (!block) {
+                while (__HIVE_P2_binary("<", i, __HIVE_P2_get(text, "length", 71), 70) && !__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 72), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 73), __HIVE_P2_ownArray([text, i], 73, "CONTROL_ARRAY")), 73)], 72, "CONTROL_ARRAY")), 72)) {
+                    __HIVE_P2_tick(69);
+                    __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 74), __HIVE_P2_ownArray([], 74, "CONTROL_ARRAY")), 74);
+                    (__HIVE_P2_temp32_6 = __HIVE_P2_numeric(i, 75), __HIVE_P2_temp32_7 = __HIVE_P2_temp32_6 + 1, i = __HIVE_P2_temp32_7, __HIVE_P2_temp32_6);
+                }
+                continue;
+            }
+            var closed = false;
+            while (__HIVE_P2_binary("<", i, __HIVE_P2_get(text, "length", 78), 77)) {
+                __HIVE_P2_tick(76);
+                __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 79), __HIVE_P2_ownArray([], 79, "CONTROL_ARRAY")), 79);
+                var b = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 80), __HIVE_P2_ownArray([text, (__HIVE_P2_temp32_8 = __HIVE_P2_numeric(i, 81), __HIVE_P2_temp32_9 = __HIVE_P2_temp32_8 + 1, i = __HIVE_P2_temp32_9, __HIVE_P2_temp32_8)], 80, "CONTROL_ARRAY")), 80);
+                if (__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 82), __HIVE_P2_ownArray([b], 82, "CONTROL_ARRAY")), 82))
+                    sawLine = true;
+                if (b === 42 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 84), __HIVE_P2_ownArray([text, i], 84, "CONTROL_ARRAY")), 84) === 47) {
+                    (__HIVE_P2_temp32_10 = __HIVE_P2_numeric(i, 85), __HIVE_P2_temp32_11 = __HIVE_P2_temp32_10 + 1, i = __HIVE_P2_temp32_11, __HIVE_P2_temp32_10);
+                    closed = true;
+                    break;
+                }
+            }
+            if (!closed)
+                __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 87), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 87, "CONTROL_ARRAY")), 87);
+        }
+        return __HIVE_P2_binary("+", __HIVE_P2_binary("*", i, 2, 89), (sawLine ? 1 : 0), 88);
+    }
+    function __scalarPeekWord(text, start) {
+        var __HIVE_P2_temp90_0, __HIVE_P2_temp90_1, __HIVE_P2_temp90_2, __HIVE_P2_temp90_3, __HIVE_P2_temp90_4, __HIVE_P2_temp90_5, __HIVE_P2_temp90_6, __HIVE_P2_temp90_7, __HIVE_P2_temp90_8, __HIVE_P2_temp90_9, __HIVE_P2_temp90_10, __HIVE_P2_temp90_11, __HIVE_P2_temp90_12, __HIVE_P2_temp90_13;
+        var i = start, first = true, value = "", chunk = start, escaped = false;
+        while (__HIVE_P2_binary("<", i, __HIVE_P2_get(text, "length", 93), 92)) {
+            __HIVE_P2_tick(91);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 94), __HIVE_P2_ownArray([], 94, "CONTROL_ARRAY")), 94);
+            var c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 95), __HIVE_P2_ownArray([text, i], 95, "CONTROL_ARRAY")), 95);
+            if (__HIVE_P2_invoke(__scalarSpace, void 0, (__HIVE_P2_reserveArray(1, 96), __HIVE_P2_ownArray([c], 96, "CONTROL_ARRAY")), 96) || __HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 97), __HIVE_P2_ownArray([c], 97, "CONTROL_ARRAY")), 97))
+                break;
+            if (__HIVE_P2_binary(">=", c, 128, 98))
+                __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 99), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 99, "CONTROL_ARRAY")), 99);
+            if (c === 92) {
+                value = __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 101), __HIVE_P2_ownArray([value, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 102), __HIVE_P2_ownArray([text, chunk, i], 102, "CONTROL_ARRAY")), 102)], 101, "CONTROL_ARRAY")), 101);
+                escaped = true;
+                if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 104), __HIVE_P2_ownArray([text, (__HIVE_P2_temp90_0 = __HIVE_P2_numeric(i, 105), __HIVE_P2_temp90_1 = __HIVE_P2_temp90_0 + 1, i = __HIVE_P2_temp90_1, __HIVE_P2_temp90_1)], 104, "CONTROL_ARRAY")), 104) !== 117)
+                    __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 106), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 106, "CONTROL_ARRAY")), 106);
+                (__HIVE_P2_temp90_2 = __HIVE_P2_numeric(i, 107), __HIVE_P2_temp90_3 = __HIVE_P2_temp90_2 + 1, i = __HIVE_P2_temp90_3, __HIVE_P2_temp90_2);
+                var point = 0, digits = 0, braced = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 108), __HIVE_P2_ownArray([text, i], 108, "CONTROL_ARRAY")), 108) === 123;
+                if (braced)
+                    (__HIVE_P2_temp90_4 = __HIVE_P2_numeric(i, 109), __HIVE_P2_temp90_5 = __HIVE_P2_temp90_4 + 1, i = __HIVE_P2_temp90_5, __HIVE_P2_temp90_4);
+                while (braced ? __HIVE_P2_binary("<", i, __HIVE_P2_get(text, "length", 112), 111) && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 113), __HIVE_P2_ownArray([text, i], 113, "CONTROL_ARRAY")), 113) !== 125 : __HIVE_P2_binary("<", digits, 4, 114)) {
+                    __HIVE_P2_tick(110);
+                    __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 115), __HIVE_P2_ownArray([], 115, "CONTROL_ARRAY")), 115);
+                    var d = __HIVE_P2_invoke(__scalarHex, void 0, (__HIVE_P2_reserveArray(1, 116), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 117), __HIVE_P2_ownArray([text, i], 117, "CONTROL_ARRAY")), 117)], 116, "CONTROL_ARRAY")), 116);
+                    if (__HIVE_P2_binary("<", d, 0, 118))
+                        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 119), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 119, "CONTROL_ARRAY")), 119);
+                    point = __HIVE_P2_binary("+", __HIVE_P2_binary("*", point, 16, 122), d, 121);
+                    (__HIVE_P2_temp90_6 = __HIVE_P2_numeric(digits, 123), __HIVE_P2_temp90_7 = __HIVE_P2_temp90_6 + 1, digits = __HIVE_P2_temp90_7, __HIVE_P2_temp90_6);
+                    (__HIVE_P2_temp90_8 = __HIVE_P2_numeric(i, 124), __HIVE_P2_temp90_9 = __HIVE_P2_temp90_8 + 1, i = __HIVE_P2_temp90_9, __HIVE_P2_temp90_8);
+                    if (__HIVE_P2_binary(">", point, 1114111, 125))
+                        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 126), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 126, "CONTROL_ARRAY")), 126);
+                }
+                if (braced) {
+                    if (digits === 0 || __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 127), __HIVE_P2_ownArray([text, i], 127, "CONTROL_ARRAY")), 127) !== 125)
+                        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 128), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 128, "CONTROL_ARRAY")), 128);
+                    (__HIVE_P2_temp90_10 = __HIVE_P2_numeric(i, 129), __HIVE_P2_temp90_11 = __HIVE_P2_temp90_10 + 1, i = __HIVE_P2_temp90_11, __HIVE_P2_temp90_10);
+                }
+                if (__HIVE_P2_binary(">", point, 127, 130))
+                    __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 131), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 131, "CONTROL_ARRAY")), 131);
+                if (!(first ? __HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 132), __HIVE_P2_ownArray([point], 132, "CONTROL_ARRAY")), 132) : __HIVE_P2_invoke(__scalarContinue, void 0, (__HIVE_P2_reserveArray(1, 133), __HIVE_P2_ownArray([point], 133, "CONTROL_ARRAY")), 133)))
+                    __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 134), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 134, "CONTROL_ARRAY")), 134);
+                value = __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 136), __HIVE_P2_ownArray([value, __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 137), __HIVE_P2_ownArray([point], 137, "CONTROL_ARRAY")), 137)], 136, "CONTROL_ARRAY")), 136);
+                chunk = i;
+            }
+            else {
+                if (!(first ? __HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 139), __HIVE_P2_ownArray([c], 139, "CONTROL_ARRAY")), 139) : __HIVE_P2_invoke(__scalarContinue, void 0, (__HIVE_P2_reserveArray(1, 140), __HIVE_P2_ownArray([c], 140, "CONTROL_ARRAY")), 140)))
+                    break;
+                (__HIVE_P2_temp90_12 = __HIVE_P2_numeric(i, 141), __HIVE_P2_temp90_13 = __HIVE_P2_temp90_12 + 1, i = __HIVE_P2_temp90_13, __HIVE_P2_temp90_12);
+            }
+            first = false;
+        }
+        return (__HIVE_P2_reserveObject(3, 143), __HIVE_P2_ownObject({ value: __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 144), __HIVE_P2_ownArray([value, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 145), __HIVE_P2_ownArray([text, chunk, i], 145, "CONTROL_ARRAY")), 145)], 144, "CONTROL_ARRAY")), 144), end: i, escaped: escaped }, 143, 3, 15));
+    }
+    function __scalarNumericSpelling(text, start, end) {
+        var __HIVE_P2_temp146_0, __HIVE_P2_temp146_1, __HIVE_P2_temp146_2, __HIVE_P2_temp146_3;
+        if (__HIVE_P2_binary(">", __HIVE_P2_binary("-", end, start, 148), 1024, 147))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 149), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 149, "CONTROL_ARRAY")), 149);
+        var separator = false;
+        for (var i = start; __HIVE_P2_binary("<", i, end, 151); (__HIVE_P2_temp146_0 = __HIVE_P2_numeric(i, 152), __HIVE_P2_temp146_1 = __HIVE_P2_temp146_0 + 1, i = __HIVE_P2_temp146_1, __HIVE_P2_temp146_0)) {
+            __HIVE_P2_tick(150);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 153), __HIVE_P2_ownArray([], 153, "CONTROL_ARRAY")), 153);
+            if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 154), __HIVE_P2_ownArray([text, i], 154, "CONTROL_ARRAY")), 154) === 95)
+                separator = true;
+        }
+        if (!separator)
+            return __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 156), __HIVE_P2_ownArray([text, start, end], 156, "CONTROL_ARRAY")), 156);
+        var spelling = "", chunk = start;
+        for (var p = start; __HIVE_P2_binary("<", p, end, 158); (__HIVE_P2_temp146_2 = __HIVE_P2_numeric(p, 159), __HIVE_P2_temp146_3 = __HIVE_P2_temp146_2 + 1, p = __HIVE_P2_temp146_3, __HIVE_P2_temp146_2)) {
+            __HIVE_P2_tick(157);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 160), __HIVE_P2_ownArray([], 160, "CONTROL_ARRAY")), 160);
+            if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 161), __HIVE_P2_ownArray([text, p], 161, "CONTROL_ARRAY")), 161) === 95) {
+                spelling = __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 163), __HIVE_P2_ownArray([spelling, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 164), __HIVE_P2_ownArray([text, chunk, p], 164, "CONTROL_ARRAY")), 164)], 163, "CONTROL_ARRAY")), 163);
+                chunk = __HIVE_P2_binary("+", p, 1, 166);
+            }
+        }
+        return __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 167), __HIVE_P2_ownArray([spelling, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 168), __HIVE_P2_ownArray([text, chunk, end], 168, "CONTROL_ARRAY")), 168)], 167, "CONTROL_ARRAY")), 167);
+    }
+    "use strict";
+    var t = (__HIVE_P2_temp0_0 = 0, __HIVE_P2_temp0_1 = 509, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_1, 169), __HIVE_P2_temp0_2 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_2, 169), __HIVE_P2_temp0_3 = 227, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_3, 169), __HIVE_P2_temp0_4 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_4, 169), __HIVE_P2_temp0_5 = 150, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_5, 169), __HIVE_P2_temp0_6 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_6, 169), __HIVE_P2_temp0_7 = 294, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_7, 169), __HIVE_P2_temp0_8 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_8, 169), __HIVE_P2_temp0_9 = 1368, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_9, 169), __HIVE_P2_temp0_10 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_10, 169), __HIVE_P2_temp0_11 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_11, 169), __HIVE_P2_temp0_12 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_12, 169), __HIVE_P2_temp0_13 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_13, 169), __HIVE_P2_temp0_14 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_14, 169), __HIVE_P2_temp0_15 = 41, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_15, 169), __HIVE_P2_temp0_16 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_16, 169), __HIVE_P2_temp0_17 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_17, 169), __HIVE_P2_temp0_18 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_18, 169), __HIVE_P2_temp0_19 = 166, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_19, 169), __HIVE_P2_temp0_20 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_20, 169), __HIVE_P2_temp0_21 = 574, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_21, 169), __HIVE_P2_temp0_22 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_22, 169), __HIVE_P2_temp0_23 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_23, 169), __HIVE_P2_temp0_24 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_24, 169), __HIVE_P2_temp0_25 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_25, 169), __HIVE_P2_temp0_26 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_26, 169), __HIVE_P2_temp0_27 = 32, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_27, 169), __HIVE_P2_temp0_28 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_28, 169), __HIVE_P2_temp0_29 = 318, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_29, 169), __HIVE_P2_temp0_30 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_30, 169), __HIVE_P2_temp0_31 = 80, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_31, 169), __HIVE_P2_temp0_32 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_32, 169), __HIVE_P2_temp0_33 = 71, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_33, 169), __HIVE_P2_temp0_34 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_34, 169), __HIVE_P2_temp0_35 = 50, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_35, 169), __HIVE_P2_temp0_36 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_36, 169), __HIVE_P2_temp0_37 = 123, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_37, 169), __HIVE_P2_temp0_38 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_38, 169), __HIVE_P2_temp0_39 = 54, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_39, 169), __HIVE_P2_temp0_40 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_40, 169), __HIVE_P2_temp0_41 = 32, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_41, 169), __HIVE_P2_temp0_42 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_42, 169), __HIVE_P2_temp0_43 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_43, 169), __HIVE_P2_temp0_44 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_44, 169), __HIVE_P2_temp0_45 = 11, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_45, 169), __HIVE_P2_temp0_46 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_46, 169), __HIVE_P2_temp0_47 = 46, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_47, 169), __HIVE_P2_temp0_48 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_48, 169), __HIVE_P2_temp0_49 = 8, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_49, 169), __HIVE_P2_temp0_50 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_50, 169), __HIVE_P2_temp0_51 = 46, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_51, 169), __HIVE_P2_temp0_52 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_52, 169), __HIVE_P2_temp0_53 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_53, 169), __HIVE_P2_temp0_54 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_54, 169), __HIVE_P2_temp0_55 = 37, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_55, 169), __HIVE_P2_temp0_56 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_56, 169), __HIVE_P2_temp0_57 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_57, 169), __HIVE_P2_temp0_58 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_58, 169), __HIVE_P2_temp0_59 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_59, 169), __HIVE_P2_temp0_60 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_60, 169), __HIVE_P2_temp0_61 = 45, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_61, 169), __HIVE_P2_temp0_62 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_62, 169), __HIVE_P2_temp0_63 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_63, 169), __HIVE_P2_temp0_64 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_64, 169), __HIVE_P2_temp0_65 = 49, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_65, 169), __HIVE_P2_temp0_66 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_66, 169), __HIVE_P2_temp0_67 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_67, 169), __HIVE_P2_temp0_68 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_68, 169), __HIVE_P2_temp0_69 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_69, 169), __HIVE_P2_temp0_70 = 11, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_70, 169), __HIVE_P2_temp0_71 = 83, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_71, 169), __HIVE_P2_temp0_72 = 11, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_72, 169), __HIVE_P2_temp0_73 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_73, 169), __HIVE_P2_temp0_74 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_74, 169), __HIVE_P2_temp0_75 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_75, 169), __HIVE_P2_temp0_76 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_76, 169), __HIVE_P2_temp0_77 = 158, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_77, 169), __HIVE_P2_temp0_78 = 11, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_78, 169), __HIVE_P2_temp0_79 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_79, 169), __HIVE_P2_temp0_80 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_80, 169), __HIVE_P2_temp0_81 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_81, 169), __HIVE_P2_temp0_82 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_82, 169), __HIVE_P2_temp0_83 = 56, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_83, 169), __HIVE_P2_temp0_84 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_84, 169), __HIVE_P2_temp0_85 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_85, 169), __HIVE_P2_temp0_86 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_86, 169), __HIVE_P2_temp0_87 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_87, 169), __HIVE_P2_temp0_88 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_88, 169), __HIVE_P2_temp0_89 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_89, 169), __HIVE_P2_temp0_90 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_90, 169), __HIVE_P2_temp0_91 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_91, 169), __HIVE_P2_temp0_92 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_92, 169), __HIVE_P2_temp0_93 = 11, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_93, 169), __HIVE_P2_temp0_94 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_94, 169), __HIVE_P2_temp0_95 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_95, 169), __HIVE_P2_temp0_96 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_96, 169), __HIVE_P2_temp0_97 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_97, 169), __HIVE_P2_temp0_98 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_98, 169), __HIVE_P2_temp0_99 = 68, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_99, 169), __HIVE_P2_temp0_100 = 8, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_100, 169), __HIVE_P2_temp0_101 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_101, 169), __HIVE_P2_temp0_102 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_102, 169), __HIVE_P2_temp0_103 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_103, 169), __HIVE_P2_temp0_104 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_104, 169), __HIVE_P2_temp0_105 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_105, 169), __HIVE_P2_temp0_106 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_106, 169), __HIVE_P2_temp0_107 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_107, 169), __HIVE_P2_temp0_108 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_108, 169), __HIVE_P2_temp0_109 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_109, 169), __HIVE_P2_temp0_110 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_110, 169), __HIVE_P2_temp0_111 = 15, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_111, 169), __HIVE_P2_temp0_112 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_112, 169), __HIVE_P2_temp0_113 = 83, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_113, 169), __HIVE_P2_temp0_114 = 17, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_114, 169), __HIVE_P2_temp0_115 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_115, 169), __HIVE_P2_temp0_116 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_116, 169), __HIVE_P2_temp0_117 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_117, 169), __HIVE_P2_temp0_118 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_118, 169), __HIVE_P2_temp0_119 = 82, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_119, 169), __HIVE_P2_temp0_120 = 19, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_120, 169), __HIVE_P2_temp0_121 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_121, 169), __HIVE_P2_temp0_122 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_122, 169), __HIVE_P2_temp0_123 = 214, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_123, 169), __HIVE_P2_temp0_124 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_124, 169), __HIVE_P2_temp0_125 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_125, 169), __HIVE_P2_temp0_126 = 8, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_126, 169), __HIVE_P2_temp0_127 = 28, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_127, 169), __HIVE_P2_temp0_128 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_128, 169), __HIVE_P2_temp0_129 = 83, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_129, 169), __HIVE_P2_temp0_130 = 16, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_130, 169), __HIVE_P2_temp0_131 = 16, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_131, 169), __HIVE_P2_temp0_132 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_132, 169), __HIVE_P2_temp0_133 = 82, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_133, 169), __HIVE_P2_temp0_134 = 12, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_134, 169), __HIVE_P2_temp0_135 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_135, 169), __HIVE_P2_temp0_136 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_136, 169), __HIVE_P2_temp0_137 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_137, 169), __HIVE_P2_temp0_138 = 19, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_138, 169), __HIVE_P2_temp0_139 = 58, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_139, 169), __HIVE_P2_temp0_140 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_140, 169), __HIVE_P2_temp0_141 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_141, 169), __HIVE_P2_temp0_142 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_142, 169), __HIVE_P2_temp0_143 = 243, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_143, 169), __HIVE_P2_temp0_144 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_144, 169), __HIVE_P2_temp0_145 = 166, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_145, 169), __HIVE_P2_temp0_146 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_146, 169), __HIVE_P2_temp0_147 = 71, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_147, 169), __HIVE_P2_temp0_148 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_148, 169), __HIVE_P2_temp0_149 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_149, 169), __HIVE_P2_temp0_150 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_150, 169), __HIVE_P2_temp0_151 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_151, 169), __HIVE_P2_temp0_152 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_152, 169), __HIVE_P2_temp0_153 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_153, 169), __HIVE_P2_temp0_154 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_154, 169), __HIVE_P2_temp0_155 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_155, 169), __HIVE_P2_temp0_156 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_156, 169), __HIVE_P2_temp0_157 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_157, 169), __HIVE_P2_temp0_158 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_158, 169), __HIVE_P2_temp0_159 = 120, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_159, 169), __HIVE_P2_temp0_160 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_160, 169), __HIVE_P2_temp0_161 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_161, 169), __HIVE_P2_temp0_162 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_162, 169), __HIVE_P2_temp0_163 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_163, 169), __HIVE_P2_temp0_164 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_164, 169), __HIVE_P2_temp0_165 = 29, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_165, 169), __HIVE_P2_temp0_166 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_166, 169), __HIVE_P2_temp0_167 = 41, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_167, 169), __HIVE_P2_temp0_168 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_168, 169), __HIVE_P2_temp0_169 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_169, 169), __HIVE_P2_temp0_170 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_170, 169), __HIVE_P2_temp0_171 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_171, 169), __HIVE_P2_temp0_172 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_172, 169), __HIVE_P2_temp0_173 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_173, 169), __HIVE_P2_temp0_174 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_174, 169), __HIVE_P2_temp0_175 = 47, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_175, 169), __HIVE_P2_temp0_176 = 15, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_176, 169), __HIVE_P2_temp0_177 = 343, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_177, 169), __HIVE_P2_temp0_178 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_178, 169), __HIVE_P2_temp0_179 = 54, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_179, 169), __HIVE_P2_temp0_180 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_180, 169), __HIVE_P2_temp0_181 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_181, 169), __HIVE_P2_temp0_182 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_182, 169), __HIVE_P2_temp0_183 = 17, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_183, 169), __HIVE_P2_temp0_184 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_184, 169), __HIVE_P2_temp0_185 = 57, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_185, 169), __HIVE_P2_temp0_186 = 21, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_186, 169), __HIVE_P2_temp0_187 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_187, 169), __HIVE_P2_temp0_188 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_188, 169), __HIVE_P2_temp0_189 = 123, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_189, 169), __HIVE_P2_temp0_190 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_190, 169), __HIVE_P2_temp0_191 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_191, 169), __HIVE_P2_temp0_192 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_192, 169), __HIVE_P2_temp0_193 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_193, 169), __HIVE_P2_temp0_194 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_194, 169), __HIVE_P2_temp0_195 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_195, 169), __HIVE_P2_temp0_196 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_196, 169), __HIVE_P2_temp0_197 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_197, 169), __HIVE_P2_temp0_198 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_198, 169), __HIVE_P2_temp0_199 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_199, 169), __HIVE_P2_temp0_200 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_200, 169), __HIVE_P2_temp0_201 = 49, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_201, 169), __HIVE_P2_temp0_202 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_202, 169), __HIVE_P2_temp0_203 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_203, 169), __HIVE_P2_temp0_204 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_204, 169), __HIVE_P2_temp0_205 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_205, 169), __HIVE_P2_temp0_206 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_206, 169), __HIVE_P2_temp0_207 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_207, 169), __HIVE_P2_temp0_208 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_208, 169), __HIVE_P2_temp0_209 = 330, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_209, 169), __HIVE_P2_temp0_210 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_210, 169), __HIVE_P2_temp0_211 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_211, 169), __HIVE_P2_temp0_212 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_212, 169), __HIVE_P2_temp0_213 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_213, 169), __HIVE_P2_temp0_214 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_214, 169), __HIVE_P2_temp0_215 = 49, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_215, 169), __HIVE_P2_temp0_216 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_216, 169), __HIVE_P2_temp0_217 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_217, 169), __HIVE_P2_temp0_218 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_218, 169), __HIVE_P2_temp0_219 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_219, 169), __HIVE_P2_temp0_220 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_220, 169), __HIVE_P2_temp0_221 = 5350, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_221, 169), __HIVE_P2_temp0_222 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_222, 169), __HIVE_P2_temp0_223 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_223, 169), __HIVE_P2_temp0_224 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_224, 169), __HIVE_P2_temp0_225 = 11465, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_225, 169), __HIVE_P2_temp0_226 = 27, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_226, 169), __HIVE_P2_temp0_227 = 2343, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_227, 169), __HIVE_P2_temp0_228 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_228, 169), __HIVE_P2_temp0_229 = 87, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_229, 169), __HIVE_P2_temp0_230 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_230, 169), __HIVE_P2_temp0_231 = 39, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_231, 169), __HIVE_P2_temp0_232 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_232, 169), __HIVE_P2_temp0_233 = 60, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_233, 169), __HIVE_P2_temp0_234 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_234, 169), __HIVE_P2_temp0_235 = 26, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_235, 169), __HIVE_P2_temp0_236 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_236, 169), __HIVE_P2_temp0_237 = 535, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_237, 169), __HIVE_P2_temp0_238 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_238, 169), __HIVE_P2_temp0_239 = 470, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_239, 169), __HIVE_P2_temp0_240 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_240, 169), __HIVE_P2_temp0_241 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_241, 169), __HIVE_P2_temp0_242 = 54, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_242, 169), __HIVE_P2_temp0_243 = 8, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_243, 169), __HIVE_P2_temp0_244 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_244, 169), __HIVE_P2_temp0_245 = 82, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_245, 169), __HIVE_P2_temp0_246 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_246, 169), __HIVE_P2_temp0_247 = 12, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_247, 169), __HIVE_P2_temp0_248 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_248, 169), __HIVE_P2_temp0_249 = 19628, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_249, 169), __HIVE_P2_temp0_250 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_250, 169), __HIVE_P2_temp0_251 = 4178, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_251, 169), __HIVE_P2_temp0_252 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_252, 169), __HIVE_P2_temp0_253 = 519, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_253, 169), __HIVE_P2_temp0_254 = 45, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_254, 169), __HIVE_P2_temp0_255 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_255, 169), __HIVE_P2_temp0_256 = 22, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_256, 169), __HIVE_P2_temp0_257 = 543, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_257, 169), __HIVE_P2_temp0_258 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_258, 169), __HIVE_P2_temp0_259 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_259, 169), __HIVE_P2_temp0_260 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_260, 169), __HIVE_P2_temp0_261 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_261, 169), __HIVE_P2_temp0_262 = 7, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_262, 169), __HIVE_P2_temp0_263 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_263, 169), __HIVE_P2_temp0_264 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_264, 169), __HIVE_P2_temp0_265 = 31, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_265, 169), __HIVE_P2_temp0_266 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_266, 169), __HIVE_P2_temp0_267 = 149, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_267, 169), __HIVE_P2_temp0_268 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_268, 169), __HIVE_P2_temp0_269 = 1418, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_269, 169), __HIVE_P2_temp0_270 = 49, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_270, 169), __HIVE_P2_temp0_271 = 513, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_271, 169), __HIVE_P2_temp0_272 = 54, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_272, 169), __HIVE_P2_temp0_273 = 5, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_273, 169), __HIVE_P2_temp0_274 = 49, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_274, 169), __HIVE_P2_temp0_275 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_275, 169), __HIVE_P2_temp0_276 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_276, 169), __HIVE_P2_temp0_277 = 15, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_277, 169), __HIVE_P2_temp0_278 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_278, 169), __HIVE_P2_temp0_279 = 23, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_279, 169), __HIVE_P2_temp0_280 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_280, 169), __HIVE_P2_temp0_281 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_281, 169), __HIVE_P2_temp0_282 = 14, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_282, 169), __HIVE_P2_temp0_283 = 1361, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_283, 169), __HIVE_P2_temp0_284 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_284, 169), __HIVE_P2_temp0_285 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_285, 169), __HIVE_P2_temp0_286 = 16, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_286, 169), __HIVE_P2_temp0_287 = 3, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_287, 169), __HIVE_P2_temp0_288 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_288, 169), __HIVE_P2_temp0_289 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_289, 169), __HIVE_P2_temp0_290 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_290, 169), __HIVE_P2_temp0_291 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_291, 169), __HIVE_P2_temp0_292 = 4, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_292, 169), __HIVE_P2_temp0_293 = 101, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_293, 169), __HIVE_P2_temp0_294 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_294, 169), __HIVE_P2_temp0_295 = 161, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_295, 169), __HIVE_P2_temp0_296 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_296, 169), __HIVE_P2_temp0_297 = 10, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_297, 169), __HIVE_P2_temp0_298 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_298, 169), __HIVE_P2_temp0_299 = 357, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_299, 169), __HIVE_P2_temp0_300 = 0, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_300, 169), __HIVE_P2_temp0_301 = 62, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_301, 169), __HIVE_P2_temp0_302 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_302, 169), __HIVE_P2_temp0_303 = 499, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_303, 169), __HIVE_P2_temp0_304 = 13, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_304, 169), __HIVE_P2_temp0_305 = 245, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_305, 169), __HIVE_P2_temp0_306 = 1, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_306, 169), __HIVE_P2_temp0_307 = 2, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_307, 169), __HIVE_P2_temp0_308 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_308, 169), __HIVE_P2_temp0_309 = 726, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_309, 169), __HIVE_P2_temp0_310 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_310, 169), __HIVE_P2_temp0_311 = 110, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_311, 169), __HIVE_P2_temp0_312 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_312, 169), __HIVE_P2_temp0_313 = 6, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_313, 169), __HIVE_P2_temp0_314 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_314, 169), __HIVE_P2_temp0_315 = 4759, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_315, 169), __HIVE_P2_temp0_316 = 9, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_316, 169), __HIVE_P2_temp0_317 = 787719, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_317, 169), __HIVE_P2_temp0_318 = 239, __HIVE_P2_temp0_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_0, __HIVE_P2_temp0_318, 169), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp0_0, 169), __HIVE_P2_reserveArray(318, 169, 318), __HIVE_P2_ownArray([__HIVE_P2_temp0_1, __HIVE_P2_temp0_2, __HIVE_P2_temp0_3, __HIVE_P2_temp0_4, __HIVE_P2_temp0_5, __HIVE_P2_temp0_6, __HIVE_P2_temp0_7, __HIVE_P2_temp0_8, __HIVE_P2_temp0_9, __HIVE_P2_temp0_10, __HIVE_P2_temp0_11, __HIVE_P2_temp0_12, __HIVE_P2_temp0_13, __HIVE_P2_temp0_14, __HIVE_P2_temp0_15, __HIVE_P2_temp0_16, __HIVE_P2_temp0_17, __HIVE_P2_temp0_18, __HIVE_P2_temp0_19, __HIVE_P2_temp0_20, __HIVE_P2_temp0_21, __HIVE_P2_temp0_22, __HIVE_P2_temp0_23, __HIVE_P2_temp0_24, __HIVE_P2_temp0_25, __HIVE_P2_temp0_26, __HIVE_P2_temp0_27, __HIVE_P2_temp0_28, __HIVE_P2_temp0_29, __HIVE_P2_temp0_30, __HIVE_P2_temp0_31, __HIVE_P2_temp0_32, __HIVE_P2_temp0_33, __HIVE_P2_temp0_34, __HIVE_P2_temp0_35, __HIVE_P2_temp0_36, __HIVE_P2_temp0_37, __HIVE_P2_temp0_38, __HIVE_P2_temp0_39, __HIVE_P2_temp0_40, __HIVE_P2_temp0_41, __HIVE_P2_temp0_42, __HIVE_P2_temp0_43, __HIVE_P2_temp0_44, __HIVE_P2_temp0_45, __HIVE_P2_temp0_46, __HIVE_P2_temp0_47, __HIVE_P2_temp0_48, __HIVE_P2_temp0_49, __HIVE_P2_temp0_50, __HIVE_P2_temp0_51, __HIVE_P2_temp0_52, __HIVE_P2_temp0_53, __HIVE_P2_temp0_54, __HIVE_P2_temp0_55, __HIVE_P2_temp0_56, __HIVE_P2_temp0_57, __HIVE_P2_temp0_58, __HIVE_P2_temp0_59, __HIVE_P2_temp0_60, __HIVE_P2_temp0_61, __HIVE_P2_temp0_62, __HIVE_P2_temp0_63, __HIVE_P2_temp0_64, __HIVE_P2_temp0_65, __HIVE_P2_temp0_66, __HIVE_P2_temp0_67, __HIVE_P2_temp0_68, __HIVE_P2_temp0_69, __HIVE_P2_temp0_70, __HIVE_P2_temp0_71, __HIVE_P2_temp0_72, __HIVE_P2_temp0_73, __HIVE_P2_temp0_74, __HIVE_P2_temp0_75, __HIVE_P2_temp0_76, __HIVE_P2_temp0_77, __HIVE_P2_temp0_78, __HIVE_P2_temp0_79, __HIVE_P2_temp0_80, __HIVE_P2_temp0_81, __HIVE_P2_temp0_82, __HIVE_P2_temp0_83, __HIVE_P2_temp0_84, __HIVE_P2_temp0_85, __HIVE_P2_temp0_86, __HIVE_P2_temp0_87, __HIVE_P2_temp0_88, __HIVE_P2_temp0_89, __HIVE_P2_temp0_90, __HIVE_P2_temp0_91, __HIVE_P2_temp0_92, __HIVE_P2_temp0_93, __HIVE_P2_temp0_94, __HIVE_P2_temp0_95, __HIVE_P2_temp0_96, __HIVE_P2_temp0_97, __HIVE_P2_temp0_98, __HIVE_P2_temp0_99, __HIVE_P2_temp0_100, __HIVE_P2_temp0_101, __HIVE_P2_temp0_102, __HIVE_P2_temp0_103, __HIVE_P2_temp0_104, __HIVE_P2_temp0_105, __HIVE_P2_temp0_106, __HIVE_P2_temp0_107, __HIVE_P2_temp0_108, __HIVE_P2_temp0_109, __HIVE_P2_temp0_110, __HIVE_P2_temp0_111, __HIVE_P2_temp0_112, __HIVE_P2_temp0_113, __HIVE_P2_temp0_114, __HIVE_P2_temp0_115, __HIVE_P2_temp0_116, __HIVE_P2_temp0_117, __HIVE_P2_temp0_118, __HIVE_P2_temp0_119, __HIVE_P2_temp0_120, __HIVE_P2_temp0_121, __HIVE_P2_temp0_122, __HIVE_P2_temp0_123, __HIVE_P2_temp0_124, __HIVE_P2_temp0_125, __HIVE_P2_temp0_126, __HIVE_P2_temp0_127, __HIVE_P2_temp0_128, __HIVE_P2_temp0_129, __HIVE_P2_temp0_130, __HIVE_P2_temp0_131, __HIVE_P2_temp0_132, __HIVE_P2_temp0_133, __HIVE_P2_temp0_134, __HIVE_P2_temp0_135, __HIVE_P2_temp0_136, __HIVE_P2_temp0_137, __HIVE_P2_temp0_138, __HIVE_P2_temp0_139, __HIVE_P2_temp0_140, __HIVE_P2_temp0_141, __HIVE_P2_temp0_142, __HIVE_P2_temp0_143, __HIVE_P2_temp0_144, __HIVE_P2_temp0_145, __HIVE_P2_temp0_146, __HIVE_P2_temp0_147, __HIVE_P2_temp0_148, __HIVE_P2_temp0_149, __HIVE_P2_temp0_150, __HIVE_P2_temp0_151, __HIVE_P2_temp0_152, __HIVE_P2_temp0_153, __HIVE_P2_temp0_154, __HIVE_P2_temp0_155, __HIVE_P2_temp0_156, __HIVE_P2_temp0_157, __HIVE_P2_temp0_158, __HIVE_P2_temp0_159, __HIVE_P2_temp0_160, __HIVE_P2_temp0_161, __HIVE_P2_temp0_162, __HIVE_P2_temp0_163, __HIVE_P2_temp0_164, __HIVE_P2_temp0_165, __HIVE_P2_temp0_166, __HIVE_P2_temp0_167, __HIVE_P2_temp0_168, __HIVE_P2_temp0_169, __HIVE_P2_temp0_170, __HIVE_P2_temp0_171, __HIVE_P2_temp0_172, __HIVE_P2_temp0_173, __HIVE_P2_temp0_174, __HIVE_P2_temp0_175, __HIVE_P2_temp0_176, __HIVE_P2_temp0_177, __HIVE_P2_temp0_178, __HIVE_P2_temp0_179, __HIVE_P2_temp0_180, __HIVE_P2_temp0_181, __HIVE_P2_temp0_182, __HIVE_P2_temp0_183, __HIVE_P2_temp0_184, __HIVE_P2_temp0_185, __HIVE_P2_temp0_186, __HIVE_P2_temp0_187, __HIVE_P2_temp0_188, __HIVE_P2_temp0_189, __HIVE_P2_temp0_190, __HIVE_P2_temp0_191, __HIVE_P2_temp0_192, __HIVE_P2_temp0_193, __HIVE_P2_temp0_194, __HIVE_P2_temp0_195, __HIVE_P2_temp0_196, __HIVE_P2_temp0_197, __HIVE_P2_temp0_198, __HIVE_P2_temp0_199, __HIVE_P2_temp0_200, __HIVE_P2_temp0_201, __HIVE_P2_temp0_202, __HIVE_P2_temp0_203, __HIVE_P2_temp0_204, __HIVE_P2_temp0_205, __HIVE_P2_temp0_206, __HIVE_P2_temp0_207, __HIVE_P2_temp0_208, __HIVE_P2_temp0_209, __HIVE_P2_temp0_210, __HIVE_P2_temp0_211, __HIVE_P2_temp0_212, __HIVE_P2_temp0_213, __HIVE_P2_temp0_214, __HIVE_P2_temp0_215, __HIVE_P2_temp0_216, __HIVE_P2_temp0_217, __HIVE_P2_temp0_218, __HIVE_P2_temp0_219, __HIVE_P2_temp0_220, __HIVE_P2_temp0_221, __HIVE_P2_temp0_222, __HIVE_P2_temp0_223, __HIVE_P2_temp0_224, __HIVE_P2_temp0_225, __HIVE_P2_temp0_226, __HIVE_P2_temp0_227, __HIVE_P2_temp0_228, __HIVE_P2_temp0_229, __HIVE_P2_temp0_230, __HIVE_P2_temp0_231, __HIVE_P2_temp0_232, __HIVE_P2_temp0_233, __HIVE_P2_temp0_234, __HIVE_P2_temp0_235, __HIVE_P2_temp0_236, __HIVE_P2_temp0_237, __HIVE_P2_temp0_238, __HIVE_P2_temp0_239, __HIVE_P2_temp0_240, __HIVE_P2_temp0_241, __HIVE_P2_temp0_242, __HIVE_P2_temp0_243, __HIVE_P2_temp0_244, __HIVE_P2_temp0_245, __HIVE_P2_temp0_246, __HIVE_P2_temp0_247, __HIVE_P2_temp0_248, __HIVE_P2_temp0_249, __HIVE_P2_temp0_250, __HIVE_P2_temp0_251, __HIVE_P2_temp0_252, __HIVE_P2_temp0_253, __HIVE_P2_temp0_254, __HIVE_P2_temp0_255, __HIVE_P2_temp0_256, __HIVE_P2_temp0_257, __HIVE_P2_temp0_258, __HIVE_P2_temp0_259, __HIVE_P2_temp0_260, __HIVE_P2_temp0_261, __HIVE_P2_temp0_262, __HIVE_P2_temp0_263, __HIVE_P2_temp0_264, __HIVE_P2_temp0_265, __HIVE_P2_temp0_266, __HIVE_P2_temp0_267, __HIVE_P2_temp0_268, __HIVE_P2_temp0_269, __HIVE_P2_temp0_270, __HIVE_P2_temp0_271, __HIVE_P2_temp0_272, __HIVE_P2_temp0_273, __HIVE_P2_temp0_274, __HIVE_P2_temp0_275, __HIVE_P2_temp0_276, __HIVE_P2_temp0_277, __HIVE_P2_temp0_278, __HIVE_P2_temp0_279, __HIVE_P2_temp0_280, __HIVE_P2_temp0_281, __HIVE_P2_temp0_282, __HIVE_P2_temp0_283, __HIVE_P2_temp0_284, __HIVE_P2_temp0_285, __HIVE_P2_temp0_286, __HIVE_P2_temp0_287, __HIVE_P2_temp0_288, __HIVE_P2_temp0_289, __HIVE_P2_temp0_290, __HIVE_P2_temp0_291, __HIVE_P2_temp0_292, __HIVE_P2_temp0_293, __HIVE_P2_temp0_294, __HIVE_P2_temp0_295, __HIVE_P2_temp0_296, __HIVE_P2_temp0_297, __HIVE_P2_temp0_298, __HIVE_P2_temp0_299, __HIVE_P2_temp0_300, __HIVE_P2_temp0_301, __HIVE_P2_temp0_302, __HIVE_P2_temp0_303, __HIVE_P2_temp0_304, __HIVE_P2_temp0_305, __HIVE_P2_temp0_306, __HIVE_P2_temp0_307, __HIVE_P2_temp0_308, __HIVE_P2_temp0_309, __HIVE_P2_temp0_310, __HIVE_P2_temp0_311, __HIVE_P2_temp0_312, __HIVE_P2_temp0_313, __HIVE_P2_temp0_314, __HIVE_P2_temp0_315, __HIVE_P2_temp0_316, __HIVE_P2_temp0_317, __HIVE_P2_temp0_318], 169, "ARRAY", __HIVE_P2_temp0_0));
+    var i = (__HIVE_P2_temp0_319 = 0, __HIVE_P2_temp0_320 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_320, 170), __HIVE_P2_temp0_321 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_321, 170), __HIVE_P2_temp0_322 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_322, 170), __HIVE_P2_temp0_323 = 25, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_323, 170), __HIVE_P2_temp0_324 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_324, 170), __HIVE_P2_temp0_325 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_325, 170), __HIVE_P2_temp0_326 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_326, 170), __HIVE_P2_temp0_327 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_327, 170), __HIVE_P2_temp0_328 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_328, 170), __HIVE_P2_temp0_329 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_329, 170), __HIVE_P2_temp0_330 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_330, 170), __HIVE_P2_temp0_331 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_331, 170), __HIVE_P2_temp0_332 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_332, 170), __HIVE_P2_temp0_333 = 122, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_333, 170), __HIVE_P2_temp0_334 = 70, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_334, 170), __HIVE_P2_temp0_335 = 52, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_335, 170), __HIVE_P2_temp0_336 = 268, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_336, 170), __HIVE_P2_temp0_337 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_337, 170), __HIVE_P2_temp0_338 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_338, 170), __HIVE_P2_temp0_339 = 48, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_339, 170), __HIVE_P2_temp0_340 = 48, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_340, 170), __HIVE_P2_temp0_341 = 31, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_341, 170), __HIVE_P2_temp0_342 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_342, 170), __HIVE_P2_temp0_343 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_343, 170), __HIVE_P2_temp0_344 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_344, 170), __HIVE_P2_temp0_345 = 37, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_345, 170), __HIVE_P2_temp0_346 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_346, 170), __HIVE_P2_temp0_347 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_347, 170), __HIVE_P2_temp0_348 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_348, 170), __HIVE_P2_temp0_349 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_349, 170), __HIVE_P2_temp0_350 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_350, 170), __HIVE_P2_temp0_351 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_351, 170), __HIVE_P2_temp0_352 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_352, 170), __HIVE_P2_temp0_353 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_353, 170), __HIVE_P2_temp0_354 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_354, 170), __HIVE_P2_temp0_355 = 157, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_355, 170), __HIVE_P2_temp0_356 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_356, 170), __HIVE_P2_temp0_357 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_357, 170), __HIVE_P2_temp0_358 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_358, 170), __HIVE_P2_temp0_359 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_359, 170), __HIVE_P2_temp0_360 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_360, 170), __HIVE_P2_temp0_361 = 39, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_361, 170), __HIVE_P2_temp0_362 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_362, 170), __HIVE_P2_temp0_363 = 51, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_363, 170), __HIVE_P2_temp0_364 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_364, 170), __HIVE_P2_temp0_365 = 10, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_365, 170), __HIVE_P2_temp0_366 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_366, 170), __HIVE_P2_temp0_367 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_367, 170), __HIVE_P2_temp0_368 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_368, 170), __HIVE_P2_temp0_369 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_369, 170), __HIVE_P2_temp0_370 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_370, 170), __HIVE_P2_temp0_371 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_371, 170), __HIVE_P2_temp0_372 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_372, 170), __HIVE_P2_temp0_373 = 10, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_373, 170), __HIVE_P2_temp0_374 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_374, 170), __HIVE_P2_temp0_375 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_375, 170), __HIVE_P2_temp0_376 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_376, 170), __HIVE_P2_temp0_377 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_377, 170), __HIVE_P2_temp0_378 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_378, 170), __HIVE_P2_temp0_379 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_379, 170), __HIVE_P2_temp0_380 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_380, 170), __HIVE_P2_temp0_381 = 51, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_381, 170), __HIVE_P2_temp0_382 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_382, 170), __HIVE_P2_temp0_383 = 310, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_383, 170), __HIVE_P2_temp0_384 = 10, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_384, 170), __HIVE_P2_temp0_385 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_385, 170), __HIVE_P2_temp0_386 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_386, 170), __HIVE_P2_temp0_387 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_387, 170), __HIVE_P2_temp0_388 = 25, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_388, 170), __HIVE_P2_temp0_389 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_389, 170), __HIVE_P2_temp0_390 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_390, 170), __HIVE_P2_temp0_391 = 41, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_391, 170), __HIVE_P2_temp0_392 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_392, 170), __HIVE_P2_temp0_393 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_393, 170), __HIVE_P2_temp0_394 = 70, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_394, 170), __HIVE_P2_temp0_395 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_395, 170), __HIVE_P2_temp0_396 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_396, 170), __HIVE_P2_temp0_397 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_397, 170), __HIVE_P2_temp0_398 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_398, 170), __HIVE_P2_temp0_399 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_399, 170), __HIVE_P2_temp0_400 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_400, 170), __HIVE_P2_temp0_401 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_401, 170), __HIVE_P2_temp0_402 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_402, 170), __HIVE_P2_temp0_403 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_403, 170), __HIVE_P2_temp0_404 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_404, 170), __HIVE_P2_temp0_405 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_405, 170), __HIVE_P2_temp0_406 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_406, 170), __HIVE_P2_temp0_407 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_407, 170), __HIVE_P2_temp0_408 = 10, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_408, 170), __HIVE_P2_temp0_409 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_409, 170), __HIVE_P2_temp0_410 = 66, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_410, 170), __HIVE_P2_temp0_411 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_411, 170), __HIVE_P2_temp0_412 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_412, 170), __HIVE_P2_temp0_413 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_413, 170), __HIVE_P2_temp0_414 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_414, 170), __HIVE_P2_temp0_415 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_415, 170), __HIVE_P2_temp0_416 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_416, 170), __HIVE_P2_temp0_417 = 25, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_417, 170), __HIVE_P2_temp0_418 = 71, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_418, 170), __HIVE_P2_temp0_419 = 55, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_419, 170), __HIVE_P2_temp0_420 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_420, 170), __HIVE_P2_temp0_421 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_421, 170), __HIVE_P2_temp0_422 = 65, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_422, 170), __HIVE_P2_temp0_423 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_423, 170), __HIVE_P2_temp0_424 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_424, 170), __HIVE_P2_temp0_425 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_425, 170), __HIVE_P2_temp0_426 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_426, 170), __HIVE_P2_temp0_427 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_427, 170), __HIVE_P2_temp0_428 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_428, 170), __HIVE_P2_temp0_429 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_429, 170), __HIVE_P2_temp0_430 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_430, 170), __HIVE_P2_temp0_431 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_431, 170), __HIVE_P2_temp0_432 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_432, 170), __HIVE_P2_temp0_433 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_433, 170), __HIVE_P2_temp0_434 = 36, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_434, 170), __HIVE_P2_temp0_435 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_435, 170), __HIVE_P2_temp0_436 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_436, 170), __HIVE_P2_temp0_437 = 27, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_437, 170), __HIVE_P2_temp0_438 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_438, 170), __HIVE_P2_temp0_439 = 53, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_439, 170), __HIVE_P2_temp0_440 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_440, 170), __HIVE_P2_temp0_441 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_441, 170), __HIVE_P2_temp0_442 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_442, 170), __HIVE_P2_temp0_443 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_443, 170), __HIVE_P2_temp0_444 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_444, 170), __HIVE_P2_temp0_445 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_445, 170), __HIVE_P2_temp0_446 = 111, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_446, 170), __HIVE_P2_temp0_447 = 72, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_447, 170), __HIVE_P2_temp0_448 = 56, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_448, 170), __HIVE_P2_temp0_449 = 50, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_449, 170), __HIVE_P2_temp0_450 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_450, 170), __HIVE_P2_temp0_451 = 50, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_451, 170), __HIVE_P2_temp0_452 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_452, 170), __HIVE_P2_temp0_453 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_453, 170), __HIVE_P2_temp0_454 = 39, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_454, 170), __HIVE_P2_temp0_455 = 27, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_455, 170), __HIVE_P2_temp0_456 = 10, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_456, 170), __HIVE_P2_temp0_457 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_457, 170), __HIVE_P2_temp0_458 = 251, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_458, 170), __HIVE_P2_temp0_459 = 41, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_459, 170), __HIVE_P2_temp0_460 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_460, 170), __HIVE_P2_temp0_461 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_461, 170), __HIVE_P2_temp0_462 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_462, 170), __HIVE_P2_temp0_463 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_463, 170), __HIVE_P2_temp0_464 = 60, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_464, 170), __HIVE_P2_temp0_465 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_465, 170), __HIVE_P2_temp0_466 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_466, 170), __HIVE_P2_temp0_467 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_467, 170), __HIVE_P2_temp0_468 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_468, 170), __HIVE_P2_temp0_469 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_469, 170), __HIVE_P2_temp0_470 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_470, 170), __HIVE_P2_temp0_471 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_471, 170), __HIVE_P2_temp0_472 = 47, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_472, 170), __HIVE_P2_temp0_473 = 20, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_473, 170), __HIVE_P2_temp0_474 = 28, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_474, 170), __HIVE_P2_temp0_475 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_475, 170), __HIVE_P2_temp0_476 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_476, 170), __HIVE_P2_temp0_477 = 52, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_477, 170), __HIVE_P2_temp0_478 = 58, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_478, 170), __HIVE_P2_temp0_479 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_479, 170), __HIVE_P2_temp0_480 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_480, 170), __HIVE_P2_temp0_481 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_481, 170), __HIVE_P2_temp0_482 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_482, 170), __HIVE_P2_temp0_483 = 44, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_483, 170), __HIVE_P2_temp0_484 = 33, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_484, 170), __HIVE_P2_temp0_485 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_485, 170), __HIVE_P2_temp0_486 = 27, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_486, 170), __HIVE_P2_temp0_487 = 35, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_487, 170), __HIVE_P2_temp0_488 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_488, 170), __HIVE_P2_temp0_489 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_489, 170), __HIVE_P2_temp0_490 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_490, 170), __HIVE_P2_temp0_491 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_491, 170), __HIVE_P2_temp0_492 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_492, 170), __HIVE_P2_temp0_493 = 34, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_493, 170), __HIVE_P2_temp0_494 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_494, 170), __HIVE_P2_temp0_495 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_495, 170), __HIVE_P2_temp0_496 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_496, 170), __HIVE_P2_temp0_497 = 47, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_497, 170), __HIVE_P2_temp0_498 = 15, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_498, 170), __HIVE_P2_temp0_499 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_499, 170), __HIVE_P2_temp0_500 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_500, 170), __HIVE_P2_temp0_501 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_501, 170), __HIVE_P2_temp0_502 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_502, 170), __HIVE_P2_temp0_503 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_503, 170), __HIVE_P2_temp0_504 = 36, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_504, 170), __HIVE_P2_temp0_505 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_505, 170), __HIVE_P2_temp0_506 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_506, 170), __HIVE_P2_temp0_507 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_507, 170), __HIVE_P2_temp0_508 = 20, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_508, 170), __HIVE_P2_temp0_509 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_509, 170), __HIVE_P2_temp0_510 = 64, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_510, 170), __HIVE_P2_temp0_511 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_511, 170), __HIVE_P2_temp0_512 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_512, 170), __HIVE_P2_temp0_513 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_513, 170), __HIVE_P2_temp0_514 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_514, 170), __HIVE_P2_temp0_515 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_515, 170), __HIVE_P2_temp0_516 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_516, 170), __HIVE_P2_temp0_517 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_517, 170), __HIVE_P2_temp0_518 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_518, 170), __HIVE_P2_temp0_519 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_519, 170), __HIVE_P2_temp0_520 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_520, 170), __HIVE_P2_temp0_521 = 46, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_521, 170), __HIVE_P2_temp0_522 = 39, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_522, 170), __HIVE_P2_temp0_523 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_523, 170), __HIVE_P2_temp0_524 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_524, 170), __HIVE_P2_temp0_525 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_525, 170), __HIVE_P2_temp0_526 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_526, 170), __HIVE_P2_temp0_527 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_527, 170), __HIVE_P2_temp0_528 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_528, 170), __HIVE_P2_temp0_529 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_529, 170), __HIVE_P2_temp0_530 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_530, 170), __HIVE_P2_temp0_531 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_531, 170), __HIVE_P2_temp0_532 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_532, 170), __HIVE_P2_temp0_533 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_533, 170), __HIVE_P2_temp0_534 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_534, 170), __HIVE_P2_temp0_535 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_535, 170), __HIVE_P2_temp0_536 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_536, 170), __HIVE_P2_temp0_537 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_537, 170), __HIVE_P2_temp0_538 = 13, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_538, 170), __HIVE_P2_temp0_539 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_539, 170), __HIVE_P2_temp0_540 = 31, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_540, 170), __HIVE_P2_temp0_541 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_541, 170), __HIVE_P2_temp0_542 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_542, 170), __HIVE_P2_temp0_543 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_543, 170), __HIVE_P2_temp0_544 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_544, 170), __HIVE_P2_temp0_545 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_545, 170), __HIVE_P2_temp0_546 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_546, 170), __HIVE_P2_temp0_547 = 37, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_547, 170), __HIVE_P2_temp0_548 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_548, 170), __HIVE_P2_temp0_549 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_549, 170), __HIVE_P2_temp0_550 = 26, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_550, 170), __HIVE_P2_temp0_551 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_551, 170), __HIVE_P2_temp0_552 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_552, 170), __HIVE_P2_temp0_553 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_553, 170), __HIVE_P2_temp0_554 = 45, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_554, 170), __HIVE_P2_temp0_555 = 52, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_555, 170), __HIVE_P2_temp0_556 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_556, 170), __HIVE_P2_temp0_557 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_557, 170), __HIVE_P2_temp0_558 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_558, 170), __HIVE_P2_temp0_559 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_559, 170), __HIVE_P2_temp0_560 = 31, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_560, 170), __HIVE_P2_temp0_561 = 47, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_561, 170), __HIVE_P2_temp0_562 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_562, 170), __HIVE_P2_temp0_563 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_563, 170), __HIVE_P2_temp0_564 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_564, 170), __HIVE_P2_temp0_565 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_565, 170), __HIVE_P2_temp0_566 = 185, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_566, 170), __HIVE_P2_temp0_567 = 46, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_567, 170), __HIVE_P2_temp0_568 = 42, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_568, 170), __HIVE_P2_temp0_569 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_569, 170), __HIVE_P2_temp0_570 = 37, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_570, 170), __HIVE_P2_temp0_571 = 47, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_571, 170), __HIVE_P2_temp0_572 = 21, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_572, 170), __HIVE_P2_temp0_573 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_573, 170), __HIVE_P2_temp0_574 = 60, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_574, 170), __HIVE_P2_temp0_575 = 42, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_575, 170), __HIVE_P2_temp0_576 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_576, 170), __HIVE_P2_temp0_577 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_577, 170), __HIVE_P2_temp0_578 = 72, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_578, 170), __HIVE_P2_temp0_579 = 26, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_579, 170), __HIVE_P2_temp0_580 = 38, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_580, 170), __HIVE_P2_temp0_581 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_581, 170), __HIVE_P2_temp0_582 = 186, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_582, 170), __HIVE_P2_temp0_583 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_583, 170), __HIVE_P2_temp0_584 = 117, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_584, 170), __HIVE_P2_temp0_585 = 63, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_585, 170), __HIVE_P2_temp0_586 = 32, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_586, 170), __HIVE_P2_temp0_587 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_587, 170), __HIVE_P2_temp0_588 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_588, 170), __HIVE_P2_temp0_589 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_589, 170), __HIVE_P2_temp0_590 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_590, 170), __HIVE_P2_temp0_591 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_591, 170), __HIVE_P2_temp0_592 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_592, 170), __HIVE_P2_temp0_593 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_593, 170), __HIVE_P2_temp0_594 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_594, 170), __HIVE_P2_temp0_595 = 23, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_595, 170), __HIVE_P2_temp0_596 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_596, 170), __HIVE_P2_temp0_597 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_597, 170), __HIVE_P2_temp0_598 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_598, 170), __HIVE_P2_temp0_599 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_599, 170), __HIVE_P2_temp0_600 = 95, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_600, 170), __HIVE_P2_temp0_601 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_601, 170), __HIVE_P2_temp0_602 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_602, 170), __HIVE_P2_temp0_603 = 38, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_603, 170), __HIVE_P2_temp0_604 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_604, 170), __HIVE_P2_temp0_605 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_605, 170), __HIVE_P2_temp0_606 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_606, 170), __HIVE_P2_temp0_607 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_607, 170), __HIVE_P2_temp0_608 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_608, 170), __HIVE_P2_temp0_609 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_609, 170), __HIVE_P2_temp0_610 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_610, 170), __HIVE_P2_temp0_611 = 39, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_611, 170), __HIVE_P2_temp0_612 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_612, 170), __HIVE_P2_temp0_613 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_613, 170), __HIVE_P2_temp0_614 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_614, 170), __HIVE_P2_temp0_615 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_615, 170), __HIVE_P2_temp0_616 = 12, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_616, 170), __HIVE_P2_temp0_617 = 45, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_617, 170), __HIVE_P2_temp0_618 = 20, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_618, 170), __HIVE_P2_temp0_619 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_619, 170), __HIVE_P2_temp0_620 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_620, 170), __HIVE_P2_temp0_621 = 72, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_621, 170), __HIVE_P2_temp0_622 = 200, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_622, 170), __HIVE_P2_temp0_623 = 32, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_623, 170), __HIVE_P2_temp0_624 = 32, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_624, 170), __HIVE_P2_temp0_625 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_625, 170), __HIVE_P2_temp0_626 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_626, 170), __HIVE_P2_temp0_627 = 36, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_627, 170), __HIVE_P2_temp0_628 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_628, 170), __HIVE_P2_temp0_629 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_629, 170), __HIVE_P2_temp0_630 = 50, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_630, 170), __HIVE_P2_temp0_631 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_631, 170), __HIVE_P2_temp0_632 = 113, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_632, 170), __HIVE_P2_temp0_633 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_633, 170), __HIVE_P2_temp0_634 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_634, 170), __HIVE_P2_temp0_635 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_635, 170), __HIVE_P2_temp0_636 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_636, 170), __HIVE_P2_temp0_637 = 37, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_637, 170), __HIVE_P2_temp0_638 = 22, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_638, 170), __HIVE_P2_temp0_639 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_639, 170), __HIVE_P2_temp0_640 = 26, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_640, 170), __HIVE_P2_temp0_641 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_641, 170), __HIVE_P2_temp0_642 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_642, 170), __HIVE_P2_temp0_643 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_643, 170), __HIVE_P2_temp0_644 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_644, 170), __HIVE_P2_temp0_645 = 31, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_645, 170), __HIVE_P2_temp0_646 = 15, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_646, 170), __HIVE_P2_temp0_647 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_647, 170), __HIVE_P2_temp0_648 = 328, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_648, 170), __HIVE_P2_temp0_649 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_649, 170), __HIVE_P2_temp0_650 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_650, 170), __HIVE_P2_temp0_651 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_651, 170), __HIVE_P2_temp0_652 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_652, 170), __HIVE_P2_temp0_653 = 12, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_653, 170), __HIVE_P2_temp0_654 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_654, 170), __HIVE_P2_temp0_655 = 33, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_655, 170), __HIVE_P2_temp0_656 = 125, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_656, 170), __HIVE_P2_temp0_657 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_657, 170), __HIVE_P2_temp0_658 = 80, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_658, 170), __HIVE_P2_temp0_659 = 921, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_659, 170), __HIVE_P2_temp0_660 = 103, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_660, 170), __HIVE_P2_temp0_661 = 110, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_661, 170), __HIVE_P2_temp0_662 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_662, 170), __HIVE_P2_temp0_663 = 195, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_663, 170), __HIVE_P2_temp0_664 = 2637, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_664, 170), __HIVE_P2_temp0_665 = 96, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_665, 170), __HIVE_P2_temp0_666 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_666, 170), __HIVE_P2_temp0_667 = 1071, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_667, 170), __HIVE_P2_temp0_668 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_668, 170), __HIVE_P2_temp0_669 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_669, 170), __HIVE_P2_temp0_670 = 26, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_670, 170), __HIVE_P2_temp0_671 = 3994, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_671, 170), __HIVE_P2_temp0_672 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_672, 170), __HIVE_P2_temp0_673 = 582, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_673, 170), __HIVE_P2_temp0_674 = 6842, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_674, 170), __HIVE_P2_temp0_675 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_675, 170), __HIVE_P2_temp0_676 = 1763, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_676, 170), __HIVE_P2_temp0_677 = 568, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_677, 170), __HIVE_P2_temp0_678 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_678, 170), __HIVE_P2_temp0_679 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_679, 170), __HIVE_P2_temp0_680 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_680, 170), __HIVE_P2_temp0_681 = 78, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_681, 170), __HIVE_P2_temp0_682 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_682, 170), __HIVE_P2_temp0_683 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_683, 170), __HIVE_P2_temp0_684 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_684, 170), __HIVE_P2_temp0_685 = 47, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_685, 170), __HIVE_P2_temp0_686 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_686, 170), __HIVE_P2_temp0_687 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_687, 170), __HIVE_P2_temp0_688 = 32, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_688, 170), __HIVE_P2_temp0_689 = 20, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_689, 170), __HIVE_P2_temp0_690 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_690, 170), __HIVE_P2_temp0_691 = 18, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_691, 170), __HIVE_P2_temp0_692 = 433, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_692, 170), __HIVE_P2_temp0_693 = 44, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_693, 170), __HIVE_P2_temp0_694 = 212, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_694, 170), __HIVE_P2_temp0_695 = 63, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_695, 170), __HIVE_P2_temp0_696 = 129, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_696, 170), __HIVE_P2_temp0_697 = 74, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_697, 170), __HIVE_P2_temp0_698 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_698, 170), __HIVE_P2_temp0_699 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_699, 170), __HIVE_P2_temp0_700 = 67, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_700, 170), __HIVE_P2_temp0_701 = 12, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_701, 170), __HIVE_P2_temp0_702 = 65, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_702, 170), __HIVE_P2_temp0_703 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_703, 170), __HIVE_P2_temp0_704 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_704, 170), __HIVE_P2_temp0_705 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_705, 170), __HIVE_P2_temp0_706 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_706, 170), __HIVE_P2_temp0_707 = 6135, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_707, 170), __HIVE_P2_temp0_708 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_708, 170), __HIVE_P2_temp0_709 = 1237, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_709, 170), __HIVE_P2_temp0_710 = 42, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_710, 170), __HIVE_P2_temp0_711 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_711, 170), __HIVE_P2_temp0_712 = 8936, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_712, 170), __HIVE_P2_temp0_713 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_713, 170), __HIVE_P2_temp0_714 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_714, 170), __HIVE_P2_temp0_715 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_715, 170), __HIVE_P2_temp0_716 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_716, 170), __HIVE_P2_temp0_717 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_717, 170), __HIVE_P2_temp0_718 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_718, 170), __HIVE_P2_temp0_719 = 290, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_719, 170), __HIVE_P2_temp0_720 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_720, 170), __HIVE_P2_temp0_721 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_721, 170), __HIVE_P2_temp0_722 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_722, 170), __HIVE_P2_temp0_723 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_723, 170), __HIVE_P2_temp0_724 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_724, 170), __HIVE_P2_temp0_725 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_725, 170), __HIVE_P2_temp0_726 = 15, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_726, 170), __HIVE_P2_temp0_727 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_727, 170), __HIVE_P2_temp0_728 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_728, 170), __HIVE_P2_temp0_729 = 395, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_729, 170), __HIVE_P2_temp0_730 = 2309, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_730, 170), __HIVE_P2_temp0_731 = 106, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_731, 170), __HIVE_P2_temp0_732 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_732, 170), __HIVE_P2_temp0_733 = 12, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_733, 170), __HIVE_P2_temp0_734 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_734, 170), __HIVE_P2_temp0_735 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_735, 170), __HIVE_P2_temp0_736 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_736, 170), __HIVE_P2_temp0_737 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_737, 170), __HIVE_P2_temp0_738 = 5991, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_738, 170), __HIVE_P2_temp0_739 = 84, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_739, 170), __HIVE_P2_temp0_740 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_740, 170), __HIVE_P2_temp0_741 = 70, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_741, 170), __HIVE_P2_temp0_742 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_742, 170), __HIVE_P2_temp0_743 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_743, 170), __HIVE_P2_temp0_744 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_744, 170), __HIVE_P2_temp0_745 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_745, 170), __HIVE_P2_temp0_746 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_746, 170), __HIVE_P2_temp0_747 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_747, 170), __HIVE_P2_temp0_748 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_748, 170), __HIVE_P2_temp0_749 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_749, 170), __HIVE_P2_temp0_750 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_750, 170), __HIVE_P2_temp0_751 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_751, 170), __HIVE_P2_temp0_752 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_752, 170), __HIVE_P2_temp0_753 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_753, 170), __HIVE_P2_temp0_754 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_754, 170), __HIVE_P2_temp0_755 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_755, 170), __HIVE_P2_temp0_756 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_756, 170), __HIVE_P2_temp0_757 = 64, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_757, 170), __HIVE_P2_temp0_758 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_758, 170), __HIVE_P2_temp0_759 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_759, 170), __HIVE_P2_temp0_760 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_760, 170), __HIVE_P2_temp0_761 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_761, 170), __HIVE_P2_temp0_762 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_762, 170), __HIVE_P2_temp0_763 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_763, 170), __HIVE_P2_temp0_764 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_764, 170), __HIVE_P2_temp0_765 = 27, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_765, 170), __HIVE_P2_temp0_766 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_766, 170), __HIVE_P2_temp0_767 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_767, 170), __HIVE_P2_temp0_768 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_768, 170), __HIVE_P2_temp0_769 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_769, 170), __HIVE_P2_temp0_770 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_770, 170), __HIVE_P2_temp0_771 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_771, 170), __HIVE_P2_temp0_772 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_772, 170), __HIVE_P2_temp0_773 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_773, 170), __HIVE_P2_temp0_774 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_774, 170), __HIVE_P2_temp0_775 = 339, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_775, 170), __HIVE_P2_temp0_776 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_776, 170), __HIVE_P2_temp0_777 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_777, 170), __HIVE_P2_temp0_778 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_778, 170), __HIVE_P2_temp0_779 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_779, 170), __HIVE_P2_temp0_780 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_780, 170), __HIVE_P2_temp0_781 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_781, 170), __HIVE_P2_temp0_782 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_782, 170), __HIVE_P2_temp0_783 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_783, 170), __HIVE_P2_temp0_784 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_784, 170), __HIVE_P2_temp0_785 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_785, 170), __HIVE_P2_temp0_786 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_786, 170), __HIVE_P2_temp0_787 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_787, 170), __HIVE_P2_temp0_788 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_788, 170), __HIVE_P2_temp0_789 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_789, 170), __HIVE_P2_temp0_790 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_790, 170), __HIVE_P2_temp0_791 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_791, 170), __HIVE_P2_temp0_792 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_792, 170), __HIVE_P2_temp0_793 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_793, 170), __HIVE_P2_temp0_794 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_794, 170), __HIVE_P2_temp0_795 = 24, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_795, 170), __HIVE_P2_temp0_796 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_796, 170), __HIVE_P2_temp0_797 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_797, 170), __HIVE_P2_temp0_798 = 1845, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_798, 170), __HIVE_P2_temp0_799 = 30, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_799, 170), __HIVE_P2_temp0_800 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_800, 170), __HIVE_P2_temp0_801 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_801, 170), __HIVE_P2_temp0_802 = 262, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_802, 170), __HIVE_P2_temp0_803 = 61, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_803, 170), __HIVE_P2_temp0_804 = 147, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_804, 170), __HIVE_P2_temp0_805 = 44, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_805, 170), __HIVE_P2_temp0_806 = 11, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_806, 170), __HIVE_P2_temp0_807 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_807, 170), __HIVE_P2_temp0_808 = 17, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_808, 170), __HIVE_P2_temp0_809 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_809, 170), __HIVE_P2_temp0_810 = 322, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_810, 170), __HIVE_P2_temp0_811 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_811, 170), __HIVE_P2_temp0_812 = 19, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_812, 170), __HIVE_P2_temp0_813 = 43, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_813, 170), __HIVE_P2_temp0_814 = 485, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_814, 170), __HIVE_P2_temp0_815 = 27, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_815, 170), __HIVE_P2_temp0_816 = 229, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_816, 170), __HIVE_P2_temp0_817 = 29, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_817, 170), __HIVE_P2_temp0_818 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_818, 170), __HIVE_P2_temp0_819 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_819, 170), __HIVE_P2_temp0_820 = 496, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_820, 170), __HIVE_P2_temp0_821 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_821, 170), __HIVE_P2_temp0_822 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_822, 170), __HIVE_P2_temp0_823 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_823, 170), __HIVE_P2_temp0_824 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_824, 170), __HIVE_P2_temp0_825 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_825, 170), __HIVE_P2_temp0_826 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_826, 170), __HIVE_P2_temp0_827 = 14, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_827, 170), __HIVE_P2_temp0_828 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_828, 170), __HIVE_P2_temp0_829 = 196, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_829, 170), __HIVE_P2_temp0_830 = 60, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_830, 170), __HIVE_P2_temp0_831 = 67, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_831, 170), __HIVE_P2_temp0_832 = 8, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_832, 170), __HIVE_P2_temp0_833 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_833, 170), __HIVE_P2_temp0_834 = 1205, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_834, 170), __HIVE_P2_temp0_835 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_835, 170), __HIVE_P2_temp0_836 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_836, 170), __HIVE_P2_temp0_837 = 26, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_837, 170), __HIVE_P2_temp0_838 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_838, 170), __HIVE_P2_temp0_839 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_839, 170), __HIVE_P2_temp0_840 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_840, 170), __HIVE_P2_temp0_841 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_841, 170), __HIVE_P2_temp0_842 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_842, 170), __HIVE_P2_temp0_843 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_843, 170), __HIVE_P2_temp0_844 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_844, 170), __HIVE_P2_temp0_845 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_845, 170), __HIVE_P2_temp0_846 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_846, 170), __HIVE_P2_temp0_847 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_847, 170), __HIVE_P2_temp0_848 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_848, 170), __HIVE_P2_temp0_849 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_849, 170), __HIVE_P2_temp0_850 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_850, 170), __HIVE_P2_temp0_851 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_851, 170), __HIVE_P2_temp0_852 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_852, 170), __HIVE_P2_temp0_853 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_853, 170), __HIVE_P2_temp0_854 = 5, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_854, 170), __HIVE_P2_temp0_855 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_855, 170), __HIVE_P2_temp0_856 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_856, 170), __HIVE_P2_temp0_857 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_857, 170), __HIVE_P2_temp0_858 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_858, 170), __HIVE_P2_temp0_859 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_859, 170), __HIVE_P2_temp0_860 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_860, 170), __HIVE_P2_temp0_861 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_861, 170), __HIVE_P2_temp0_862 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_862, 170), __HIVE_P2_temp0_863 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_863, 170), __HIVE_P2_temp0_864 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_864, 170), __HIVE_P2_temp0_865 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_865, 170), __HIVE_P2_temp0_866 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_866, 170), __HIVE_P2_temp0_867 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_867, 170), __HIVE_P2_temp0_868 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_868, 170), __HIVE_P2_temp0_869 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_869, 170), __HIVE_P2_temp0_870 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_870, 170), __HIVE_P2_temp0_871 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_871, 170), __HIVE_P2_temp0_872 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_872, 170), __HIVE_P2_temp0_873 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_873, 170), __HIVE_P2_temp0_874 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_874, 170), __HIVE_P2_temp0_875 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_875, 170), __HIVE_P2_temp0_876 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_876, 170), __HIVE_P2_temp0_877 = 1, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_877, 170), __HIVE_P2_temp0_878 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_878, 170), __HIVE_P2_temp0_879 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_879, 170), __HIVE_P2_temp0_880 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_880, 170), __HIVE_P2_temp0_881 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_881, 170), __HIVE_P2_temp0_882 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_882, 170), __HIVE_P2_temp0_883 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_883, 170), __HIVE_P2_temp0_884 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_884, 170), __HIVE_P2_temp0_885 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_885, 170), __HIVE_P2_temp0_886 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_886, 170), __HIVE_P2_temp0_887 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_887, 170), __HIVE_P2_temp0_888 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_888, 170), __HIVE_P2_temp0_889 = 0, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_889, 170), __HIVE_P2_temp0_890 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_890, 170), __HIVE_P2_temp0_891 = 9, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_891, 170), __HIVE_P2_temp0_892 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_892, 170), __HIVE_P2_temp0_893 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_893, 170), __HIVE_P2_temp0_894 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_894, 170), __HIVE_P2_temp0_895 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_895, 170), __HIVE_P2_temp0_896 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_896, 170), __HIVE_P2_temp0_897 = 4, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_897, 170), __HIVE_P2_temp0_898 = 2, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_898, 170), __HIVE_P2_temp0_899 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_899, 170), __HIVE_P2_temp0_900 = 4421, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_900, 170), __HIVE_P2_temp0_901 = 42719, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_901, 170), __HIVE_P2_temp0_902 = 33, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_902, 170), __HIVE_P2_temp0_903 = 4153, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_903, 170), __HIVE_P2_temp0_904 = 7, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_904, 170), __HIVE_P2_temp0_905 = 221, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_905, 170), __HIVE_P2_temp0_906 = 3, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_906, 170), __HIVE_P2_temp0_907 = 5761, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_907, 170), __HIVE_P2_temp0_908 = 15, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_908, 170), __HIVE_P2_temp0_909 = 7472, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_909, 170), __HIVE_P2_temp0_910 = 16, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_910, 170), __HIVE_P2_temp0_911 = 621, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_911, 170), __HIVE_P2_temp0_912 = 2467, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_912, 170), __HIVE_P2_temp0_913 = 541, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_913, 170), __HIVE_P2_temp0_914 = 1507, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_914, 170), __HIVE_P2_temp0_915 = 4938, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_915, 170), __HIVE_P2_temp0_916 = 6, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_916, 170), __HIVE_P2_temp0_917 = 4191, __HIVE_P2_temp0_319 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_319, __HIVE_P2_temp0_917, 170), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp0_319, 170), __HIVE_P2_reserveArray(598, 170, 598), __HIVE_P2_ownArray([__HIVE_P2_temp0_320, __HIVE_P2_temp0_321, __HIVE_P2_temp0_322, __HIVE_P2_temp0_323, __HIVE_P2_temp0_324, __HIVE_P2_temp0_325, __HIVE_P2_temp0_326, __HIVE_P2_temp0_327, __HIVE_P2_temp0_328, __HIVE_P2_temp0_329, __HIVE_P2_temp0_330, __HIVE_P2_temp0_331, __HIVE_P2_temp0_332, __HIVE_P2_temp0_333, __HIVE_P2_temp0_334, __HIVE_P2_temp0_335, __HIVE_P2_temp0_336, __HIVE_P2_temp0_337, __HIVE_P2_temp0_338, __HIVE_P2_temp0_339, __HIVE_P2_temp0_340, __HIVE_P2_temp0_341, __HIVE_P2_temp0_342, __HIVE_P2_temp0_343, __HIVE_P2_temp0_344, __HIVE_P2_temp0_345, __HIVE_P2_temp0_346, __HIVE_P2_temp0_347, __HIVE_P2_temp0_348, __HIVE_P2_temp0_349, __HIVE_P2_temp0_350, __HIVE_P2_temp0_351, __HIVE_P2_temp0_352, __HIVE_P2_temp0_353, __HIVE_P2_temp0_354, __HIVE_P2_temp0_355, __HIVE_P2_temp0_356, __HIVE_P2_temp0_357, __HIVE_P2_temp0_358, __HIVE_P2_temp0_359, __HIVE_P2_temp0_360, __HIVE_P2_temp0_361, __HIVE_P2_temp0_362, __HIVE_P2_temp0_363, __HIVE_P2_temp0_364, __HIVE_P2_temp0_365, __HIVE_P2_temp0_366, __HIVE_P2_temp0_367, __HIVE_P2_temp0_368, __HIVE_P2_temp0_369, __HIVE_P2_temp0_370, __HIVE_P2_temp0_371, __HIVE_P2_temp0_372, __HIVE_P2_temp0_373, __HIVE_P2_temp0_374, __HIVE_P2_temp0_375, __HIVE_P2_temp0_376, __HIVE_P2_temp0_377, __HIVE_P2_temp0_378, __HIVE_P2_temp0_379, __HIVE_P2_temp0_380, __HIVE_P2_temp0_381, __HIVE_P2_temp0_382, __HIVE_P2_temp0_383, __HIVE_P2_temp0_384, __HIVE_P2_temp0_385, __HIVE_P2_temp0_386, __HIVE_P2_temp0_387, __HIVE_P2_temp0_388, __HIVE_P2_temp0_389, __HIVE_P2_temp0_390, __HIVE_P2_temp0_391, __HIVE_P2_temp0_392, __HIVE_P2_temp0_393, __HIVE_P2_temp0_394, __HIVE_P2_temp0_395, __HIVE_P2_temp0_396, __HIVE_P2_temp0_397, __HIVE_P2_temp0_398, __HIVE_P2_temp0_399, __HIVE_P2_temp0_400, __HIVE_P2_temp0_401, __HIVE_P2_temp0_402, __HIVE_P2_temp0_403, __HIVE_P2_temp0_404, __HIVE_P2_temp0_405, __HIVE_P2_temp0_406, __HIVE_P2_temp0_407, __HIVE_P2_temp0_408, __HIVE_P2_temp0_409, __HIVE_P2_temp0_410, __HIVE_P2_temp0_411, __HIVE_P2_temp0_412, __HIVE_P2_temp0_413, __HIVE_P2_temp0_414, __HIVE_P2_temp0_415, __HIVE_P2_temp0_416, __HIVE_P2_temp0_417, __HIVE_P2_temp0_418, __HIVE_P2_temp0_419, __HIVE_P2_temp0_420, __HIVE_P2_temp0_421, __HIVE_P2_temp0_422, __HIVE_P2_temp0_423, __HIVE_P2_temp0_424, __HIVE_P2_temp0_425, __HIVE_P2_temp0_426, __HIVE_P2_temp0_427, __HIVE_P2_temp0_428, __HIVE_P2_temp0_429, __HIVE_P2_temp0_430, __HIVE_P2_temp0_431, __HIVE_P2_temp0_432, __HIVE_P2_temp0_433, __HIVE_P2_temp0_434, __HIVE_P2_temp0_435, __HIVE_P2_temp0_436, __HIVE_P2_temp0_437, __HIVE_P2_temp0_438, __HIVE_P2_temp0_439, __HIVE_P2_temp0_440, __HIVE_P2_temp0_441, __HIVE_P2_temp0_442, __HIVE_P2_temp0_443, __HIVE_P2_temp0_444, __HIVE_P2_temp0_445, __HIVE_P2_temp0_446, __HIVE_P2_temp0_447, __HIVE_P2_temp0_448, __HIVE_P2_temp0_449, __HIVE_P2_temp0_450, __HIVE_P2_temp0_451, __HIVE_P2_temp0_452, __HIVE_P2_temp0_453, __HIVE_P2_temp0_454, __HIVE_P2_temp0_455, __HIVE_P2_temp0_456, __HIVE_P2_temp0_457, __HIVE_P2_temp0_458, __HIVE_P2_temp0_459, __HIVE_P2_temp0_460, __HIVE_P2_temp0_461, __HIVE_P2_temp0_462, __HIVE_P2_temp0_463, __HIVE_P2_temp0_464, __HIVE_P2_temp0_465, __HIVE_P2_temp0_466, __HIVE_P2_temp0_467, __HIVE_P2_temp0_468, __HIVE_P2_temp0_469, __HIVE_P2_temp0_470, __HIVE_P2_temp0_471, __HIVE_P2_temp0_472, __HIVE_P2_temp0_473, __HIVE_P2_temp0_474, __HIVE_P2_temp0_475, __HIVE_P2_temp0_476, __HIVE_P2_temp0_477, __HIVE_P2_temp0_478, __HIVE_P2_temp0_479, __HIVE_P2_temp0_480, __HIVE_P2_temp0_481, __HIVE_P2_temp0_482, __HIVE_P2_temp0_483, __HIVE_P2_temp0_484, __HIVE_P2_temp0_485, __HIVE_P2_temp0_486, __HIVE_P2_temp0_487, __HIVE_P2_temp0_488, __HIVE_P2_temp0_489, __HIVE_P2_temp0_490, __HIVE_P2_temp0_491, __HIVE_P2_temp0_492, __HIVE_P2_temp0_493, __HIVE_P2_temp0_494, __HIVE_P2_temp0_495, __HIVE_P2_temp0_496, __HIVE_P2_temp0_497, __HIVE_P2_temp0_498, __HIVE_P2_temp0_499, __HIVE_P2_temp0_500, __HIVE_P2_temp0_501, __HIVE_P2_temp0_502, __HIVE_P2_temp0_503, __HIVE_P2_temp0_504, __HIVE_P2_temp0_505, __HIVE_P2_temp0_506, __HIVE_P2_temp0_507, __HIVE_P2_temp0_508, __HIVE_P2_temp0_509, __HIVE_P2_temp0_510, __HIVE_P2_temp0_511, __HIVE_P2_temp0_512, __HIVE_P2_temp0_513, __HIVE_P2_temp0_514, __HIVE_P2_temp0_515, __HIVE_P2_temp0_516, __HIVE_P2_temp0_517, __HIVE_P2_temp0_518, __HIVE_P2_temp0_519, __HIVE_P2_temp0_520, __HIVE_P2_temp0_521, __HIVE_P2_temp0_522, __HIVE_P2_temp0_523, __HIVE_P2_temp0_524, __HIVE_P2_temp0_525, __HIVE_P2_temp0_526, __HIVE_P2_temp0_527, __HIVE_P2_temp0_528, __HIVE_P2_temp0_529, __HIVE_P2_temp0_530, __HIVE_P2_temp0_531, __HIVE_P2_temp0_532, __HIVE_P2_temp0_533, __HIVE_P2_temp0_534, __HIVE_P2_temp0_535, __HIVE_P2_temp0_536, __HIVE_P2_temp0_537, __HIVE_P2_temp0_538, __HIVE_P2_temp0_539, __HIVE_P2_temp0_540, __HIVE_P2_temp0_541, __HIVE_P2_temp0_542, __HIVE_P2_temp0_543, __HIVE_P2_temp0_544, __HIVE_P2_temp0_545, __HIVE_P2_temp0_546, __HIVE_P2_temp0_547, __HIVE_P2_temp0_548, __HIVE_P2_temp0_549, __HIVE_P2_temp0_550, __HIVE_P2_temp0_551, __HIVE_P2_temp0_552, __HIVE_P2_temp0_553, __HIVE_P2_temp0_554, __HIVE_P2_temp0_555, __HIVE_P2_temp0_556, __HIVE_P2_temp0_557, __HIVE_P2_temp0_558, __HIVE_P2_temp0_559, __HIVE_P2_temp0_560, __HIVE_P2_temp0_561, __HIVE_P2_temp0_562, __HIVE_P2_temp0_563, __HIVE_P2_temp0_564, __HIVE_P2_temp0_565, __HIVE_P2_temp0_566, __HIVE_P2_temp0_567, __HIVE_P2_temp0_568, __HIVE_P2_temp0_569, __HIVE_P2_temp0_570, __HIVE_P2_temp0_571, __HIVE_P2_temp0_572, __HIVE_P2_temp0_573, __HIVE_P2_temp0_574, __HIVE_P2_temp0_575, __HIVE_P2_temp0_576, __HIVE_P2_temp0_577, __HIVE_P2_temp0_578, __HIVE_P2_temp0_579, __HIVE_P2_temp0_580, __HIVE_P2_temp0_581, __HIVE_P2_temp0_582, __HIVE_P2_temp0_583, __HIVE_P2_temp0_584, __HIVE_P2_temp0_585, __HIVE_P2_temp0_586, __HIVE_P2_temp0_587, __HIVE_P2_temp0_588, __HIVE_P2_temp0_589, __HIVE_P2_temp0_590, __HIVE_P2_temp0_591, __HIVE_P2_temp0_592, __HIVE_P2_temp0_593, __HIVE_P2_temp0_594, __HIVE_P2_temp0_595, __HIVE_P2_temp0_596, __HIVE_P2_temp0_597, __HIVE_P2_temp0_598, __HIVE_P2_temp0_599, __HIVE_P2_temp0_600, __HIVE_P2_temp0_601, __HIVE_P2_temp0_602, __HIVE_P2_temp0_603, __HIVE_P2_temp0_604, __HIVE_P2_temp0_605, __HIVE_P2_temp0_606, __HIVE_P2_temp0_607, __HIVE_P2_temp0_608, __HIVE_P2_temp0_609, __HIVE_P2_temp0_610, __HIVE_P2_temp0_611, __HIVE_P2_temp0_612, __HIVE_P2_temp0_613, __HIVE_P2_temp0_614, __HIVE_P2_temp0_615, __HIVE_P2_temp0_616, __HIVE_P2_temp0_617, __HIVE_P2_temp0_618, __HIVE_P2_temp0_619, __HIVE_P2_temp0_620, __HIVE_P2_temp0_621, __HIVE_P2_temp0_622, __HIVE_P2_temp0_623, __HIVE_P2_temp0_624, __HIVE_P2_temp0_625, __HIVE_P2_temp0_626, __HIVE_P2_temp0_627, __HIVE_P2_temp0_628, __HIVE_P2_temp0_629, __HIVE_P2_temp0_630, __HIVE_P2_temp0_631, __HIVE_P2_temp0_632, __HIVE_P2_temp0_633, __HIVE_P2_temp0_634, __HIVE_P2_temp0_635, __HIVE_P2_temp0_636, __HIVE_P2_temp0_637, __HIVE_P2_temp0_638, __HIVE_P2_temp0_639, __HIVE_P2_temp0_640, __HIVE_P2_temp0_641, __HIVE_P2_temp0_642, __HIVE_P2_temp0_643, __HIVE_P2_temp0_644, __HIVE_P2_temp0_645, __HIVE_P2_temp0_646, __HIVE_P2_temp0_647, __HIVE_P2_temp0_648, __HIVE_P2_temp0_649, __HIVE_P2_temp0_650, __HIVE_P2_temp0_651, __HIVE_P2_temp0_652, __HIVE_P2_temp0_653, __HIVE_P2_temp0_654, __HIVE_P2_temp0_655, __HIVE_P2_temp0_656, __HIVE_P2_temp0_657, __HIVE_P2_temp0_658, __HIVE_P2_temp0_659, __HIVE_P2_temp0_660, __HIVE_P2_temp0_661, __HIVE_P2_temp0_662, __HIVE_P2_temp0_663, __HIVE_P2_temp0_664, __HIVE_P2_temp0_665, __HIVE_P2_temp0_666, __HIVE_P2_temp0_667, __HIVE_P2_temp0_668, __HIVE_P2_temp0_669, __HIVE_P2_temp0_670, __HIVE_P2_temp0_671, __HIVE_P2_temp0_672, __HIVE_P2_temp0_673, __HIVE_P2_temp0_674, __HIVE_P2_temp0_675, __HIVE_P2_temp0_676, __HIVE_P2_temp0_677, __HIVE_P2_temp0_678, __HIVE_P2_temp0_679, __HIVE_P2_temp0_680, __HIVE_P2_temp0_681, __HIVE_P2_temp0_682, __HIVE_P2_temp0_683, __HIVE_P2_temp0_684, __HIVE_P2_temp0_685, __HIVE_P2_temp0_686, __HIVE_P2_temp0_687, __HIVE_P2_temp0_688, __HIVE_P2_temp0_689, __HIVE_P2_temp0_690, __HIVE_P2_temp0_691, __HIVE_P2_temp0_692, __HIVE_P2_temp0_693, __HIVE_P2_temp0_694, __HIVE_P2_temp0_695, __HIVE_P2_temp0_696, __HIVE_P2_temp0_697, __HIVE_P2_temp0_698, __HIVE_P2_temp0_699, __HIVE_P2_temp0_700, __HIVE_P2_temp0_701, __HIVE_P2_temp0_702, __HIVE_P2_temp0_703, __HIVE_P2_temp0_704, __HIVE_P2_temp0_705, __HIVE_P2_temp0_706, __HIVE_P2_temp0_707, __HIVE_P2_temp0_708, __HIVE_P2_temp0_709, __HIVE_P2_temp0_710, __HIVE_P2_temp0_711, __HIVE_P2_temp0_712, __HIVE_P2_temp0_713, __HIVE_P2_temp0_714, __HIVE_P2_temp0_715, __HIVE_P2_temp0_716, __HIVE_P2_temp0_717, __HIVE_P2_temp0_718, __HIVE_P2_temp0_719, __HIVE_P2_temp0_720, __HIVE_P2_temp0_721, __HIVE_P2_temp0_722, __HIVE_P2_temp0_723, __HIVE_P2_temp0_724, __HIVE_P2_temp0_725, __HIVE_P2_temp0_726, __HIVE_P2_temp0_727, __HIVE_P2_temp0_728, __HIVE_P2_temp0_729, __HIVE_P2_temp0_730, __HIVE_P2_temp0_731, __HIVE_P2_temp0_732, __HIVE_P2_temp0_733, __HIVE_P2_temp0_734, __HIVE_P2_temp0_735, __HIVE_P2_temp0_736, __HIVE_P2_temp0_737, __HIVE_P2_temp0_738, __HIVE_P2_temp0_739, __HIVE_P2_temp0_740, __HIVE_P2_temp0_741, __HIVE_P2_temp0_742, __HIVE_P2_temp0_743, __HIVE_P2_temp0_744, __HIVE_P2_temp0_745, __HIVE_P2_temp0_746, __HIVE_P2_temp0_747, __HIVE_P2_temp0_748, __HIVE_P2_temp0_749, __HIVE_P2_temp0_750, __HIVE_P2_temp0_751, __HIVE_P2_temp0_752, __HIVE_P2_temp0_753, __HIVE_P2_temp0_754, __HIVE_P2_temp0_755, __HIVE_P2_temp0_756, __HIVE_P2_temp0_757, __HIVE_P2_temp0_758, __HIVE_P2_temp0_759, __HIVE_P2_temp0_760, __HIVE_P2_temp0_761, __HIVE_P2_temp0_762, __HIVE_P2_temp0_763, __HIVE_P2_temp0_764, __HIVE_P2_temp0_765, __HIVE_P2_temp0_766, __HIVE_P2_temp0_767, __HIVE_P2_temp0_768, __HIVE_P2_temp0_769, __HIVE_P2_temp0_770, __HIVE_P2_temp0_771, __HIVE_P2_temp0_772, __HIVE_P2_temp0_773, __HIVE_P2_temp0_774, __HIVE_P2_temp0_775, __HIVE_P2_temp0_776, __HIVE_P2_temp0_777, __HIVE_P2_temp0_778, __HIVE_P2_temp0_779, __HIVE_P2_temp0_780, __HIVE_P2_temp0_781, __HIVE_P2_temp0_782, __HIVE_P2_temp0_783, __HIVE_P2_temp0_784, __HIVE_P2_temp0_785, __HIVE_P2_temp0_786, __HIVE_P2_temp0_787, __HIVE_P2_temp0_788, __HIVE_P2_temp0_789, __HIVE_P2_temp0_790, __HIVE_P2_temp0_791, __HIVE_P2_temp0_792, __HIVE_P2_temp0_793, __HIVE_P2_temp0_794, __HIVE_P2_temp0_795, __HIVE_P2_temp0_796, __HIVE_P2_temp0_797, __HIVE_P2_temp0_798, __HIVE_P2_temp0_799, __HIVE_P2_temp0_800, __HIVE_P2_temp0_801, __HIVE_P2_temp0_802, __HIVE_P2_temp0_803, __HIVE_P2_temp0_804, __HIVE_P2_temp0_805, __HIVE_P2_temp0_806, __HIVE_P2_temp0_807, __HIVE_P2_temp0_808, __HIVE_P2_temp0_809, __HIVE_P2_temp0_810, __HIVE_P2_temp0_811, __HIVE_P2_temp0_812, __HIVE_P2_temp0_813, __HIVE_P2_temp0_814, __HIVE_P2_temp0_815, __HIVE_P2_temp0_816, __HIVE_P2_temp0_817, __HIVE_P2_temp0_818, __HIVE_P2_temp0_819, __HIVE_P2_temp0_820, __HIVE_P2_temp0_821, __HIVE_P2_temp0_822, __HIVE_P2_temp0_823, __HIVE_P2_temp0_824, __HIVE_P2_temp0_825, __HIVE_P2_temp0_826, __HIVE_P2_temp0_827, __HIVE_P2_temp0_828, __HIVE_P2_temp0_829, __HIVE_P2_temp0_830, __HIVE_P2_temp0_831, __HIVE_P2_temp0_832, __HIVE_P2_temp0_833, __HIVE_P2_temp0_834, __HIVE_P2_temp0_835, __HIVE_P2_temp0_836, __HIVE_P2_temp0_837, __HIVE_P2_temp0_838, __HIVE_P2_temp0_839, __HIVE_P2_temp0_840, __HIVE_P2_temp0_841, __HIVE_P2_temp0_842, __HIVE_P2_temp0_843, __HIVE_P2_temp0_844, __HIVE_P2_temp0_845, __HIVE_P2_temp0_846, __HIVE_P2_temp0_847, __HIVE_P2_temp0_848, __HIVE_P2_temp0_849, __HIVE_P2_temp0_850, __HIVE_P2_temp0_851, __HIVE_P2_temp0_852, __HIVE_P2_temp0_853, __HIVE_P2_temp0_854, __HIVE_P2_temp0_855, __HIVE_P2_temp0_856, __HIVE_P2_temp0_857, __HIVE_P2_temp0_858, __HIVE_P2_temp0_859, __HIVE_P2_temp0_860, __HIVE_P2_temp0_861, __HIVE_P2_temp0_862, __HIVE_P2_temp0_863, __HIVE_P2_temp0_864, __HIVE_P2_temp0_865, __HIVE_P2_temp0_866, __HIVE_P2_temp0_867, __HIVE_P2_temp0_868, __HIVE_P2_temp0_869, __HIVE_P2_temp0_870, __HIVE_P2_temp0_871, __HIVE_P2_temp0_872, __HIVE_P2_temp0_873, __HIVE_P2_temp0_874, __HIVE_P2_temp0_875, __HIVE_P2_temp0_876, __HIVE_P2_temp0_877, __HIVE_P2_temp0_878, __HIVE_P2_temp0_879, __HIVE_P2_temp0_880, __HIVE_P2_temp0_881, __HIVE_P2_temp0_882, __HIVE_P2_temp0_883, __HIVE_P2_temp0_884, __HIVE_P2_temp0_885, __HIVE_P2_temp0_886, __HIVE_P2_temp0_887, __HIVE_P2_temp0_888, __HIVE_P2_temp0_889, __HIVE_P2_temp0_890, __HIVE_P2_temp0_891, __HIVE_P2_temp0_892, __HIVE_P2_temp0_893, __HIVE_P2_temp0_894, __HIVE_P2_temp0_895, __HIVE_P2_temp0_896, __HIVE_P2_temp0_897, __HIVE_P2_temp0_898, __HIVE_P2_temp0_899, __HIVE_P2_temp0_900, __HIVE_P2_temp0_901, __HIVE_P2_temp0_902, __HIVE_P2_temp0_903, __HIVE_P2_temp0_904, __HIVE_P2_temp0_905, __HIVE_P2_temp0_906, __HIVE_P2_temp0_907, __HIVE_P2_temp0_908, __HIVE_P2_temp0_909, __HIVE_P2_temp0_910, __HIVE_P2_temp0_911, __HIVE_P2_temp0_912, __HIVE_P2_temp0_913, __HIVE_P2_temp0_914, __HIVE_P2_temp0_915, __HIVE_P2_temp0_916, __HIVE_P2_temp0_917], 170, "ARRAY", __HIVE_P2_temp0_319));
+    var s = "‌‍·̀-ͯ·҃-֑҇-ׇֽֿׁׂׅׄؐ-ًؚ-٩ٰۖ-ۜ۟-۪ۤۧۨ-ۭ۰-۹ܑܰ-݊ަ-ް߀-߉߫-߽߳ࠖ-࠙ࠛ-ࠣࠥ-ࠧࠩ-࡙࠭-࡛ࢗ-࢟࣊-ࣣ࣡-ःऺ-़ा-ॏ॑-ॗॢॣ०-९ঁ-ঃ়া-ৄেৈো-্ৗৢৣ০-৯৾ਁ-ਃ਼ਾ-ੂੇੈੋ-੍ੑ੦-ੱੵઁ-ઃ઼ા-ૅે-ૉો-્ૢૣ૦-૯ૺ-૿ଁ-ଃ଼ା-ୄେୈୋ-୍୕-ୗୢୣ୦-୯ஂா-ூெ-ைொ-்ௗ௦-௯ఀ-ఄ఼ా-ౄె-ైొ-్ౕౖౢౣ౦-౯ಁ-ಃ಼ಾ-ೄೆ-ೈೊ-್ೕೖೢೣ೦-೯ೳഀ-ഃ഻഼ാ-ൄെ-ൈൊ-്ൗൢൣ൦-൯ඁ-ඃ්ා-ුූෘ-ෟ෦-෯ෲෳัิ-ฺ็-๎๐-๙ັິ-ຼ່-໎໐-໙༘༙༠-༩༹༵༷༾༿ཱ-྄྆྇ྍ-ྗྙ-ྼ࿆ါ-ှ၀-၉ၖ-ၙၞ-ၠၢ-ၤၧ-ၭၱ-ၴႂ-ႍႏ-ႝ፝-፟፩-፱ᜒ-᜕ᜲ-᜴ᝒᝓᝲᝳ឴-៓៝០-៩᠋-᠍᠏-᠙ᢩᤠ-ᤫᤰ-᤻᥆-᥏᧐-᧚ᨗ-ᨛᩕ-ᩞ᩠-᩿᩼-᪉᪐-᪙᪰-᪽ᪿ-ᫎᬀ-ᬄ᬴-᭄᭐-᭙᭫-᭳ᮀ-ᮂᮡ-ᮭ᮰-᮹᯦-᯳ᰤ-᰷᱀-᱉᱐-᱙᳐-᳔᳒-᳨᳭᳴᳷-᳹᷀-᷿‌‍‿⁀⁔⃐-⃥⃜⃡-⃰⳯-⵿⳱ⷠ-〪ⷿ-゙゚〯・꘠-꘩꙯ꙴ-꙽ꚞꚟ꛰꛱ꠂ꠆ꠋꠣ-ꠧ꠬ꢀꢁꢴ-ꣅ꣐-꣙꣠-꣱ꣿ-꤉ꤦ-꤭ꥇ-꥓ꦀ-ꦃ꦳-꧀꧐-꧙ꧥ꧰-꧹ꨩ-ꨶꩃꩌꩍ꩐-꩙ꩻ-ꩽꪰꪲ-ꪴꪷꪸꪾ꪿꫁ꫫ-ꫯꫵ꫶ꯣ-ꯪ꯬꯭꯰-꯹ﬞ︀-️︠-︯︳︴﹍-﹏０-９＿･";
+    var r = "ªµºÀ-ÖØ-öø-ˁˆ-ˑˠ-ˤˬˮͰ-ʹͶͷͺ-ͽͿΆΈ-ΊΌΎ-ΡΣ-ϵϷ-ҁҊ-ԯԱ-Ֆՙՠ-ֈא-תׯ-ײؠ-يٮٯٱ-ۓەۥۦۮۯۺ-ۼۿܐܒ-ܯݍ-ޥޱߊ-ߪߴߵߺࠀ-ࠕࠚࠤࠨࡀ-ࡘࡠ-ࡪࡰ-ࢇࢉ-ࢎࢠ-ࣉऄ-हऽॐक़-ॡॱ-ঀঅ-ঌএঐও-নপ-রলশ-হঽৎড়ঢ়য়-ৡৰৱৼਅ-ਊਏਐਓ-ਨਪ-ਰਲਲ਼ਵਸ਼ਸਹਖ਼-ੜਫ਼ੲ-ੴઅ-ઍએ-ઑઓ-નપ-રલળવ-હઽૐૠૡૹଅ-ଌଏଐଓ-ନପ-ରଲଳଵ-ହଽଡ଼ଢ଼ୟ-ୡୱஃஅ-ஊஎ-ஐஒ-கஙசஜஞடணதந-பம-ஹௐఅ-ఌఎ-ఐఒ-నప-హఽౘ-ౚౝౠౡಀಅ-ಌಎ-ಐಒ-ನಪ-ಳವ-ಹಽೝೞೠೡೱೲഄ-ഌഎ-ഐഒ-ഺഽൎൔ-ൖൟ-ൡൺ-ൿඅ-ඖක-නඳ-රලව-ෆก-ะาำเ-ๆກຂຄຆ-ຊຌ-ຣລວ-ະາຳຽເ-ໄໆໜ-ໟༀཀ-ཇཉ-ཬྈ-ྌက-ဪဿၐ-ၕၚ-ၝၡၥၦၮ-ၰၵ-ႁႎႠ-ჅჇჍა-ჺჼ-ቈቊ-ቍቐ-ቖቘቚ-ቝበ-ኈኊ-ኍነ-ኰኲ-ኵኸ-ኾዀዂ-ዅወ-ዖዘ-ጐጒ-ጕጘ-ፚᎀ-ᎏᎠ-Ᏽᏸ-ᏽᐁ-ᙬᙯ-ᙿᚁ-ᚚᚠ-ᛪᛮ-ᛸᜀ-ᜑᜟ-ᜱᝀ-ᝑᝠ-ᝬᝮ-ᝰក-ឳៗៜᠠ-ᡸᢀ-ᢨᢪᢰ-ᣵᤀ-ᤞᥐ-ᥭᥰ-ᥴᦀ-ᦫᦰ-ᧉᨀ-ᨖᨠ-ᩔᪧᬅ-ᬳᭅ-ᭌᮃ-ᮠᮮᮯᮺ-ᯥᰀ-ᰣᱍ-ᱏᱚ-ᱽᲀ-ᲊᲐ-ᲺᲽ-Ჿᳩ-ᳬᳮ-ᳳᳵᳶᳺᴀ-ᶿḀ-ἕἘ-Ἕἠ-ὅὈ-Ὅὐ-ὗὙὛὝὟ-ώᾀ-ᾴᾶ-ᾼιῂ-ῄῆ-ῌῐ-ΐῖ-Ίῠ-Ῥῲ-ῴῶ-ῼⁱⁿₐ-ₜℂℇℊ-ℓℕ℘-ℝℤΩℨK-ℹℼ-ℿⅅ-ⅉⅎⅠ-ↈⰀ-ⳤⳫ-ⳮⳲⳳⴀ-ⴥⴧⴭⴰ-ⵧⵯⶀ-ⶖⶠ-ⶦⶨ-ⶮⶰ-ⶶⶸ-ⶾⷀ-ⷆⷈ-ⷎⷐ-ⷖⷘ-ⷞ々-〇〡-〩〱-〵〸-〼ぁ-ゖ゛-ゟァ-ヺー-ヿㄅ-ㄯㄱ-ㆎㆠ-ㆿㇰ-ㇿ㐀-䶿一-ꒌꓐ-ꓽꔀ-ꘌꘐ-ꘟꘪꘫꙀ-ꙮꙿ-ꚝꚠ-ꛯꜗ-ꜟꜢ-ꞈꞋ-ꟍꟐꟑꟓꟕ-Ƛꟲ-ꠁꠃ-ꠅꠇ-ꠊꠌ-ꠢꡀ-ꡳꢂ-ꢳꣲ-ꣷꣻꣽꣾꤊ-ꤥꤰ-ꥆꥠ-ꥼꦄ-ꦲꧏꧠ-ꧤꧦ-ꧯꧺ-ꧾꨀ-ꨨꩀ-ꩂꩄ-ꩋꩠ-ꩶꩺꩾ-ꪯꪱꪵꪶꪹ-ꪽꫀꫂꫛ-ꫝꫠ-ꫪꫲ-ꫴꬁ-ꬆꬉ-ꬎꬑ-ꬖꬠ-ꬦꬨ-ꬮꬰ-ꭚꭜ-ꭩꭰ-ꯢ가-힣ힰ-ퟆퟋ-ퟻ豈-舘並-龎ﬀ-ﬆﬓ-ﬗיִײַ-ﬨשׁ-זּטּ-לּמּנּסּףּפּצּ-ﮱﯓ-ﴽﵐ-ﶏﶒ-ﷇﷰ-ﷻﹰ-ﹴﹶ-ﻼＡ-Ｚａ-ｚｦ-ﾾￂ-ￇￊ-ￏￒ-ￗￚ-ￜ";
+    var a = (__HIVE_P2_reserveObject(5, 171), __HIVE_P2_ownObject({ 3: "abstract boolean byte char class double enum export extends final float goto implements import int interface long native package private protected public short static super synchronized throws transient volatile", 5: "class enum extends super const export import", 6: "enum", strict: "implements interface let package private protected public static yield", strictBind: "eval arguments" }, 171, 5, 19));
+    var n = "break case catch continue debugger default do else finally for function if return switch throw try var while with null true false instanceof typeof void delete new in this";
+    var o = (__HIVE_P2_reserveObject(3, 172), __HIVE_P2_ownObject({ 5: n, "5module": __HIVE_P2_binary("+", n, " export import", 173), 6: __HIVE_P2_binary("+", n, " const class extends export import super", 174) }, 172, 3, 9));
+    var h = __HIVE_P2_toolRegex("/^in(stanceof)?$/", 175);
+    var p = __HIVE_P2_construct(__HIVE_P2_RegExp, (__HIVE_P2_reserveArray(1, 176), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_binary("+", "[", r, 178), "]", 177)], 176, "CONTROL_ARRAY")), 176);
+    var c = __HIVE_P2_construct(__HIVE_P2_RegExp, (__HIVE_P2_reserveArray(1, 179), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_binary("+", __HIVE_P2_binary("+", "[", r, 182), s, 181), "]", 180)], 179, "CONTROL_ARRAY")), 179);
+    function isInAstralSet(e, t) {
+        var i = 65536;
+        for (var s = 0; __HIVE_P2_binary("<", s, __HIVE_P2_get(t, "length", 186), 185); s = __HIVE_P2_binary("+", s, 2, 187)) {
+            __HIVE_P2_tick(184);
+            i = __HIVE_P2_binary("+", i, __HIVE_P2_get(t, s, 189), 188);
+            if (__HIVE_P2_binary(">", i, e, 190)) {
+                return false;
+            }
+            i = __HIVE_P2_binary("+", i, __HIVE_P2_get(t, __HIVE_P2_binary("+", s, 1, 193), 192), 191);
+            if (__HIVE_P2_binary(">=", i, e, 194)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function isIdentifierStart(e, t) {
+        if (__HIVE_P2_binary(">", e, 127, 197))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 198), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 198, "CONTROL_ARRAY")), 198);
+        return e === 36 || e === 95 || __HIVE_P2_binary(">=", e, 65, 199) && __HIVE_P2_binary("<=", e, 90, 200) || __HIVE_P2_binary(">=", e, 97, 201) && __HIVE_P2_binary("<=", e, 122, 202);
+    }
+    function isIdentifierChar(e, s) {
+        if (__HIVE_P2_binary(">", e, 127, 205))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 206), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 206, "CONTROL_ARRAY")), 206);
+        return e === 36 || e === 95 || __HIVE_P2_binary(">=", e, 48, 207) && __HIVE_P2_binary("<=", e, 57, 208) || __HIVE_P2_binary(">=", e, 65, 209) && __HIVE_P2_binary("<=", e, 90, 210) || __HIVE_P2_binary(">=", e, 97, 211) && __HIVE_P2_binary("<=", e, 122, 212);
+    }
+    var l = (__HIVE_P2_reserveFunction(213), __HIVE_P2_registerFunction(function TokenType(e, t) {
+        var __HIVE_P2_temp213_0, __HIVE_P2_temp213_1, __HIVE_P2_temp213_2, __HIVE_P2_temp213_3, __HIVE_P2_temp213_4, __HIVE_P2_temp213_5, __HIVE_P2_temp213_6, __HIVE_P2_temp213_7, __HIVE_P2_temp213_8, __HIVE_P2_temp213_9, __HIVE_P2_temp213_10, __HIVE_P2_temp213_11, __HIVE_P2_temp213_12, __HIVE_P2_temp213_13, __HIVE_P2_temp213_14, __HIVE_P2_temp213_15, __HIVE_P2_temp213_16, __HIVE_P2_temp213_17, __HIVE_P2_temp213_18, __HIVE_P2_temp213_19, __HIVE_P2_temp213_20, __HIVE_P2_temp213_21, __HIVE_P2_temp213_22, __HIVE_P2_temp213_23, __HIVE_P2_temp213_24, __HIVE_P2_temp213_25, __HIVE_P2_temp213_26, __HIVE_P2_temp213_27, __HIVE_P2_temp213_28, __HIVE_P2_temp213_29;
+        if (t === void 0)
+            t = (__HIVE_P2_reserveObject(0, 215), __HIVE_P2_ownObject({}, 215, 0, 0));
+        (__HIVE_P2_temp213_0 = this, __HIVE_P2_temp213_1 = "label", __HIVE_P2_set(__HIVE_P2_temp213_0, __HIVE_P2_temp213_1, e, 216));
+        (__HIVE_P2_temp213_3 = this, __HIVE_P2_temp213_4 = "keyword", __HIVE_P2_set(__HIVE_P2_temp213_3, __HIVE_P2_temp213_4, __HIVE_P2_get(t, "keyword", 220), 218));
+        (__HIVE_P2_temp213_6 = this, __HIVE_P2_temp213_7 = "beforeExpr", __HIVE_P2_set(__HIVE_P2_temp213_6, __HIVE_P2_temp213_7, !!__HIVE_P2_get(t, "beforeExpr", 223), 221));
+        (__HIVE_P2_temp213_9 = this, __HIVE_P2_temp213_10 = "startsExpr", __HIVE_P2_set(__HIVE_P2_temp213_9, __HIVE_P2_temp213_10, !!__HIVE_P2_get(t, "startsExpr", 226), 224));
+        (__HIVE_P2_temp213_12 = this, __HIVE_P2_temp213_13 = "isLoop", __HIVE_P2_set(__HIVE_P2_temp213_12, __HIVE_P2_temp213_13, !!__HIVE_P2_get(t, "isLoop", 229), 227));
+        (__HIVE_P2_temp213_15 = this, __HIVE_P2_temp213_16 = "isAssign", __HIVE_P2_set(__HIVE_P2_temp213_15, __HIVE_P2_temp213_16, !!__HIVE_P2_get(t, "isAssign", 232), 230));
+        (__HIVE_P2_temp213_18 = this, __HIVE_P2_temp213_19 = "prefix", __HIVE_P2_set(__HIVE_P2_temp213_18, __HIVE_P2_temp213_19, !!__HIVE_P2_get(t, "prefix", 235), 233));
+        (__HIVE_P2_temp213_21 = this, __HIVE_P2_temp213_22 = "postfix", __HIVE_P2_set(__HIVE_P2_temp213_21, __HIVE_P2_temp213_22, !!__HIVE_P2_get(t, "postfix", 238), 236));
+        (__HIVE_P2_temp213_24 = this, __HIVE_P2_temp213_25 = "binop", __HIVE_P2_set(__HIVE_P2_temp213_24, __HIVE_P2_temp213_25, __HIVE_P2_get(t, "binop", 241) || null, 239));
+        (__HIVE_P2_temp213_27 = this, __HIVE_P2_temp213_28 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp213_27, __HIVE_P2_temp213_28, null, 242));
+    }, 30, 2, 0, 213));
+    function binop(e, t) {
+        return __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 245), __HIVE_P2_ownArray([e, (__HIVE_P2_reserveObject(2, 246), __HIVE_P2_ownObject({ beforeExpr: true, binop: t }, 246, 2, 15))], 245, "CONTROL_ARRAY")), 245);
+    }
+    var u = (__HIVE_P2_reserveObject(1, 247), __HIVE_P2_ownObject({ beforeExpr: true }, 247, 1, 10)), f = (__HIVE_P2_reserveObject(1, 248), __HIVE_P2_ownObject({ startsExpr: true }, 248, 1, 10));
+    var d = (__HIVE_P2_reserveObject(0, 249), __HIVE_P2_ownObject({}, 249, 0, 0));
+    function kw(e, t) {
+        var __HIVE_P2_temp250_0, __HIVE_P2_temp250_1, __HIVE_P2_temp250_2, __HIVE_P2_temp250_3, __HIVE_P2_temp250_4, __HIVE_P2_temp250_5;
+        if (t === void 0)
+            t = (__HIVE_P2_reserveObject(0, 252), __HIVE_P2_ownObject({}, 252, 0, 0));
+        (__HIVE_P2_temp250_0 = t, __HIVE_P2_temp250_1 = "keyword", __HIVE_P2_set(__HIVE_P2_temp250_0, __HIVE_P2_temp250_1, e, 253));
+        return (__HIVE_P2_temp250_3 = d, __HIVE_P2_temp250_4 = e, __HIVE_P2_set(__HIVE_P2_temp250_3, __HIVE_P2_temp250_4, __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 257), __HIVE_P2_ownArray([e, t], 257, "CONTROL_ARRAY")), 257), 255));
+    }
+    var m = (__HIVE_P2_reserveObject(77, 258), __HIVE_P2_ownObject({ num: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 259), __HIVE_P2_ownArray(["num", f], 259, "CONTROL_ARRAY")), 259), regexp: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 260), __HIVE_P2_ownArray(["regexp", f], 260, "CONTROL_ARRAY")), 260), string: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 261), __HIVE_P2_ownArray(["string", f], 261, "CONTROL_ARRAY")), 261), name: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 262), __HIVE_P2_ownArray(["name", f], 262, "CONTROL_ARRAY")), 262), privateId: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 263), __HIVE_P2_ownArray(["privateId", f], 263, "CONTROL_ARRAY")), 263), eof: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 264), __HIVE_P2_ownArray(["eof"], 264, "CONTROL_ARRAY")), 264), bracketL: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 265), __HIVE_P2_ownArray(["[", (__HIVE_P2_reserveObject(2, 266), __HIVE_P2_ownObject({ beforeExpr: true, startsExpr: true }, 266, 2, 20))], 265, "CONTROL_ARRAY")), 265), bracketR: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 267), __HIVE_P2_ownArray(["]"], 267, "CONTROL_ARRAY")), 267), braceL: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 268), __HIVE_P2_ownArray(["{", (__HIVE_P2_reserveObject(2, 269), __HIVE_P2_ownObject({ beforeExpr: true, startsExpr: true }, 269, 2, 20))], 268, "CONTROL_ARRAY")), 268), braceR: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 270), __HIVE_P2_ownArray(["}"], 270, "CONTROL_ARRAY")), 270), parenL: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 271), __HIVE_P2_ownArray(["(", (__HIVE_P2_reserveObject(2, 272), __HIVE_P2_ownObject({ beforeExpr: true, startsExpr: true }, 272, 2, 20))], 271, "CONTROL_ARRAY")), 271), parenR: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 273), __HIVE_P2_ownArray([")"], 273, "CONTROL_ARRAY")), 273), comma: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 274), __HIVE_P2_ownArray([",", u], 274, "CONTROL_ARRAY")), 274), semi: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 275), __HIVE_P2_ownArray([";", u], 275, "CONTROL_ARRAY")), 275), colon: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 276), __HIVE_P2_ownArray([":", u], 276, "CONTROL_ARRAY")), 276), dot: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 277), __HIVE_P2_ownArray(["."], 277, "CONTROL_ARRAY")), 277), question: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 278), __HIVE_P2_ownArray(["?", u], 278, "CONTROL_ARRAY")), 278), questionDot: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 279), __HIVE_P2_ownArray(["?."], 279, "CONTROL_ARRAY")), 279), arrow: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 280), __HIVE_P2_ownArray(["=>", u], 280, "CONTROL_ARRAY")), 280), template: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 281), __HIVE_P2_ownArray(["template"], 281, "CONTROL_ARRAY")), 281), invalidTemplate: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(1, 282), __HIVE_P2_ownArray(["invalidTemplate"], 282, "CONTROL_ARRAY")), 282), ellipsis: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 283), __HIVE_P2_ownArray(["...", u], 283, "CONTROL_ARRAY")), 283), backQuote: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 284), __HIVE_P2_ownArray(["`", f], 284, "CONTROL_ARRAY")), 284), dollarBraceL: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 285), __HIVE_P2_ownArray(["${", (__HIVE_P2_reserveObject(2, 286), __HIVE_P2_ownObject({ beforeExpr: true, startsExpr: true }, 286, 2, 20))], 285, "CONTROL_ARRAY")), 285), eq: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 287), __HIVE_P2_ownArray(["=", (__HIVE_P2_reserveObject(2, 288), __HIVE_P2_ownObject({ beforeExpr: true, isAssign: true }, 288, 2, 18))], 287, "CONTROL_ARRAY")), 287), assign: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 289), __HIVE_P2_ownArray(["_=", (__HIVE_P2_reserveObject(2, 290), __HIVE_P2_ownObject({ beforeExpr: true, isAssign: true }, 290, 2, 18))], 289, "CONTROL_ARRAY")), 289), incDec: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 291), __HIVE_P2_ownArray(["++/--", (__HIVE_P2_reserveObject(3, 292), __HIVE_P2_ownObject({ prefix: true, postfix: true, startsExpr: true }, 292, 3, 23))], 291, "CONTROL_ARRAY")), 291), prefix: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 293), __HIVE_P2_ownArray(["!/~", (__HIVE_P2_reserveObject(3, 294), __HIVE_P2_ownObject({ beforeExpr: true, prefix: true, startsExpr: true }, 294, 3, 26))], 293, "CONTROL_ARRAY")), 293), logicalOR: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 295), __HIVE_P2_ownArray(["||", 1], 295, "CONTROL_ARRAY")), 295), logicalAND: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 296), __HIVE_P2_ownArray(["&&", 2], 296, "CONTROL_ARRAY")), 296), bitwiseOR: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 297), __HIVE_P2_ownArray(["|", 3], 297, "CONTROL_ARRAY")), 297), bitwiseXOR: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 298), __HIVE_P2_ownArray(["^", 4], 298, "CONTROL_ARRAY")), 298), bitwiseAND: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 299), __HIVE_P2_ownArray(["&", 5], 299, "CONTROL_ARRAY")), 299), equality: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 300), __HIVE_P2_ownArray(["==/!=/===/!==", 6], 300, "CONTROL_ARRAY")), 300), relational: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 301), __HIVE_P2_ownArray(["</>/<=/>=", 7], 301, "CONTROL_ARRAY")), 301), bitShift: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 302), __HIVE_P2_ownArray(["<</>>/>>>", 8], 302, "CONTROL_ARRAY")), 302), plusMin: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 303), __HIVE_P2_ownArray(["+/-", (__HIVE_P2_reserveObject(4, 304), __HIVE_P2_ownObject({ beforeExpr: true, binop: 9, prefix: true, startsExpr: true }, 304, 4, 31))], 303, "CONTROL_ARRAY")), 303), modulo: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 305), __HIVE_P2_ownArray(["%", 10], 305, "CONTROL_ARRAY")), 305), star: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 306), __HIVE_P2_ownArray(["*", 10], 306, "CONTROL_ARRAY")), 306), slash: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 307), __HIVE_P2_ownArray(["/", 10], 307, "CONTROL_ARRAY")), 307), starstar: __HIVE_P2_construct(l, (__HIVE_P2_reserveArray(2, 308), __HIVE_P2_ownArray(["**", (__HIVE_P2_reserveObject(1, 309), __HIVE_P2_ownObject({ beforeExpr: true }, 309, 1, 10))], 308, "CONTROL_ARRAY")), 308), coalesce: __HIVE_P2_invoke(binop, void 0, (__HIVE_P2_reserveArray(2, 310), __HIVE_P2_ownArray(["??", 1], 310, "CONTROL_ARRAY")), 310), _break: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 311), __HIVE_P2_ownArray(["break"], 311, "CONTROL_ARRAY")), 311), _case: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 312), __HIVE_P2_ownArray(["case", u], 312, "CONTROL_ARRAY")), 312), _catch: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 313), __HIVE_P2_ownArray(["catch"], 313, "CONTROL_ARRAY")), 313), _continue: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 314), __HIVE_P2_ownArray(["continue"], 314, "CONTROL_ARRAY")), 314), _debugger: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 315), __HIVE_P2_ownArray(["debugger"], 315, "CONTROL_ARRAY")), 315), _default: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 316), __HIVE_P2_ownArray(["default", u], 316, "CONTROL_ARRAY")), 316), _do: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 317), __HIVE_P2_ownArray(["do", (__HIVE_P2_reserveObject(2, 318), __HIVE_P2_ownObject({ isLoop: true, beforeExpr: true }, 318, 2, 16))], 317, "CONTROL_ARRAY")), 317), _else: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 319), __HIVE_P2_ownArray(["else", u], 319, "CONTROL_ARRAY")), 319), _finally: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 320), __HIVE_P2_ownArray(["finally"], 320, "CONTROL_ARRAY")), 320), _for: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 321), __HIVE_P2_ownArray(["for", (__HIVE_P2_reserveObject(1, 322), __HIVE_P2_ownObject({ isLoop: true }, 322, 1, 6))], 321, "CONTROL_ARRAY")), 321), _function: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 323), __HIVE_P2_ownArray(["function", f], 323, "CONTROL_ARRAY")), 323), _if: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 324), __HIVE_P2_ownArray(["if"], 324, "CONTROL_ARRAY")), 324), _return: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 325), __HIVE_P2_ownArray(["return", u], 325, "CONTROL_ARRAY")), 325), _switch: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 326), __HIVE_P2_ownArray(["switch"], 326, "CONTROL_ARRAY")), 326), _throw: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 327), __HIVE_P2_ownArray(["throw", u], 327, "CONTROL_ARRAY")), 327), _try: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 328), __HIVE_P2_ownArray(["try"], 328, "CONTROL_ARRAY")), 328), _var: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 329), __HIVE_P2_ownArray(["var"], 329, "CONTROL_ARRAY")), 329), _const: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 330), __HIVE_P2_ownArray(["const"], 330, "CONTROL_ARRAY")), 330), _while: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 331), __HIVE_P2_ownArray(["while", (__HIVE_P2_reserveObject(1, 332), __HIVE_P2_ownObject({ isLoop: true }, 332, 1, 6))], 331, "CONTROL_ARRAY")), 331), _with: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 333), __HIVE_P2_ownArray(["with"], 333, "CONTROL_ARRAY")), 333), _new: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 334), __HIVE_P2_ownArray(["new", (__HIVE_P2_reserveObject(2, 335), __HIVE_P2_ownObject({ beforeExpr: true, startsExpr: true }, 335, 2, 20))], 334, "CONTROL_ARRAY")), 334), _this: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 336), __HIVE_P2_ownArray(["this", f], 336, "CONTROL_ARRAY")), 336), _super: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 337), __HIVE_P2_ownArray(["super", f], 337, "CONTROL_ARRAY")), 337), _class: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 338), __HIVE_P2_ownArray(["class", f], 338, "CONTROL_ARRAY")), 338), _extends: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 339), __HIVE_P2_ownArray(["extends", u], 339, "CONTROL_ARRAY")), 339), _export: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(1, 340), __HIVE_P2_ownArray(["export"], 340, "CONTROL_ARRAY")), 340), _import: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 341), __HIVE_P2_ownArray(["import", f], 341, "CONTROL_ARRAY")), 341), _null: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 342), __HIVE_P2_ownArray(["null", f], 342, "CONTROL_ARRAY")), 342), _true: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 343), __HIVE_P2_ownArray(["true", f], 343, "CONTROL_ARRAY")), 343), _false: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 344), __HIVE_P2_ownArray(["false", f], 344, "CONTROL_ARRAY")), 344), _in: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 345), __HIVE_P2_ownArray(["in", (__HIVE_P2_reserveObject(2, 346), __HIVE_P2_ownObject({ beforeExpr: true, binop: 7 }, 346, 2, 15))], 345, "CONTROL_ARRAY")), 345), _instanceof: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 347), __HIVE_P2_ownArray(["instanceof", (__HIVE_P2_reserveObject(2, 348), __HIVE_P2_ownObject({ beforeExpr: true, binop: 7 }, 348, 2, 15))], 347, "CONTROL_ARRAY")), 347), _typeof: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 349), __HIVE_P2_ownArray(["typeof", (__HIVE_P2_reserveObject(3, 350), __HIVE_P2_ownObject({ beforeExpr: true, prefix: true, startsExpr: true }, 350, 3, 26))], 349, "CONTROL_ARRAY")), 349), _void: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 351), __HIVE_P2_ownArray(["void", (__HIVE_P2_reserveObject(3, 352), __HIVE_P2_ownObject({ beforeExpr: true, prefix: true, startsExpr: true }, 352, 3, 26))], 351, "CONTROL_ARRAY")), 351), _delete: __HIVE_P2_invoke(kw, void 0, (__HIVE_P2_reserveArray(2, 353), __HIVE_P2_ownArray(["delete", (__HIVE_P2_reserveObject(3, 354), __HIVE_P2_ownObject({ beforeExpr: true, prefix: true, startsExpr: true }, 354, 3, 26))], 353, "CONTROL_ARRAY")), 353) }, 258, 77, 508));
+    var g = __HIVE_P2_toolRegex("/\\r\\n?|\\n|\\u2028|\\u2029/", 355);
+    var v = __HIVE_P2_construct(__HIVE_P2_RegExp, (__HIVE_P2_reserveArray(2, 356), __HIVE_P2_ownArray([__HIVE_P2_get(g, "source", 357), "g"], 356, "CONTROL_ARRAY")), 356);
+    function isNewLine(e) {
+        return e === 10 || e === 13 || e === 8232 || e === 8233;
+    }
+    function nextLineBreak(e, t, i) {
+        var __HIVE_P2_temp359_0, __HIVE_P2_temp359_1, __HIVE_P2_temp359_2, __HIVE_P2_temp359_3, __HIVE_P2_temp359_4, __HIVE_P2_temp359_5;
+        if (i === void 0)
+            i = __HIVE_P2_get(e, "length", 361);
+        for (var s = t; __HIVE_P2_binary("<", s, i, 363); (__HIVE_P2_temp359_0 = __HIVE_P2_numeric(s, 364), __HIVE_P2_temp359_1 = __HIVE_P2_temp359_0 + 1, s = __HIVE_P2_temp359_1, __HIVE_P2_temp359_0)) {
+            __HIVE_P2_tick(362);
+            var r = (__HIVE_P2_temp359_2 = e, __HIVE_P2_temp359_3 = __HIVE_P2_get(__HIVE_P2_temp359_2, "charCodeAt", 365), __HIVE_P2_invoke(__HIVE_P2_temp359_3, __HIVE_P2_temp359_2, (__HIVE_P2_reserveArray(1, 365), __HIVE_P2_ownArray([s], 365, "CONTROL_ARRAY")), 365));
+            if (__HIVE_P2_invoke(isNewLine, void 0, (__HIVE_P2_reserveArray(1, 367), __HIVE_P2_ownArray([r], 367, "CONTROL_ARRAY")), 367)) {
+                return __HIVE_P2_binary("<", s, __HIVE_P2_binary("-", i, 1, 369), 368) && r === 13 && (__HIVE_P2_temp359_4 = e, __HIVE_P2_temp359_5 = __HIVE_P2_get(__HIVE_P2_temp359_4, "charCodeAt", 370), __HIVE_P2_invoke(__HIVE_P2_temp359_5, __HIVE_P2_temp359_4, (__HIVE_P2_reserveArray(1, 370), __HIVE_P2_ownArray([__HIVE_P2_binary("+", s, 1, 371)], 370, "CONTROL_ARRAY")), 370)) === 10 ? __HIVE_P2_binary("+", s, 2, 373) : __HIVE_P2_binary("+", s, 1, 374);
+            }
+        }
+        return __HIVE_P2_unary("-", 1, 375);
+    }
+    var x = __HIVE_P2_toolRegex("/[\\u1680\\u2000-\\u200a\\u202f\\u205f\\u3000\\ufeff]/", 376);
+    var y = __HIVE_P2_toolRegex("/(?:\\s|\\/\\/.*|\\/\\*[^]*?\\*\\/)*/g", 377);
+    var b = __HIVE_P2_get(__HIVE_P2_Object, "prototype", 378);
+    var k = __HIVE_P2_get(b, "hasOwnProperty", 379);
+    var _ = __HIVE_P2_get(b, "toString", 380);
+    var S = __HIVE_P2_get(__HIVE_P2_Object, "hasOwn", 381) || (__HIVE_P2_reserveFunction(382), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp382_0, __HIVE_P2_temp382_1;
+        return (__HIVE_P2_temp382_0 = k, __HIVE_P2_temp382_1 = __HIVE_P2_get(__HIVE_P2_temp382_0, "call", 383), __HIVE_P2_invoke(__HIVE_P2_temp382_1, __HIVE_P2_temp382_0, (__HIVE_P2_reserveArray(2, 383), __HIVE_P2_ownArray([e, t], 383, "CONTROL_ARRAY")), 383));
+    }, 2, 2, 0, 382));
+    var C = __HIVE_P2_get(__HIVE_P2_Array, "isArray", 385) || (__HIVE_P2_reserveFunction(386), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp386_0, __HIVE_P2_temp386_1;
+        return (__HIVE_P2_temp386_0 = _, __HIVE_P2_temp386_1 = __HIVE_P2_get(__HIVE_P2_temp386_0, "call", 387), __HIVE_P2_invoke(__HIVE_P2_temp386_1, __HIVE_P2_temp386_0, (__HIVE_P2_reserveArray(1, 387), __HIVE_P2_ownArray([e], 387, "CONTROL_ARRAY")), 387)) === "[object Array]";
+    }, 2, 1, 0, 386));
+    var w = (__HIVE_P2_temp0_918 = __HIVE_P2_Object, __HIVE_P2_temp0_919 = __HIVE_P2_get(__HIVE_P2_temp0_918, "create", 389), __HIVE_P2_invoke(__HIVE_P2_temp0_919, __HIVE_P2_temp0_918, (__HIVE_P2_reserveArray(1, 389), __HIVE_P2_ownArray([null], 389, "CONTROL_ARRAY")), 389));
+    function wordsRegexp(e) {
+        var __HIVE_P2_temp392_0, __HIVE_P2_temp392_1;
+        return __HIVE_P2_construct(__HIVE_P2_RegExp, (__HIVE_P2_reserveArray(1, 393), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_binary("+", "^(?:", (__HIVE_P2_temp392_0 = e, __HIVE_P2_temp392_1 = __HIVE_P2_get(__HIVE_P2_temp392_0, "replace", 396), __HIVE_P2_invoke(__HIVE_P2_temp392_1, __HIVE_P2_temp392_0, (__HIVE_P2_reserveArray(2, 396), __HIVE_P2_ownArray([__HIVE_P2_toolRegex("/ /g", 397), "|"], 396, "CONTROL_ARRAY")), 396)), 395), ")$", 394)], 393, "CONTROL_ARRAY")), 393);
+    }
+    function codePointToString(e) {
+        return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 401), __HIVE_P2_ownArray([e], 401, "CONTROL_ARRAY")), 401);
+    }
+    var E = __HIVE_P2_toolRegex("/(?:[\\uD800-\\uDBFF](?![\\uDC00-\\uDFFF])|(?:[^\\uD800-\\uDBFF]|^)[\\uDC00-\\uDFFF])/", 402);
+    var I = (__HIVE_P2_reserveFunction(403), __HIVE_P2_registerFunction(function Position(e, t) {
+        var __HIVE_P2_temp403_0, __HIVE_P2_temp403_1, __HIVE_P2_temp403_2, __HIVE_P2_temp403_3, __HIVE_P2_temp403_4, __HIVE_P2_temp403_5;
+        (__HIVE_P2_temp403_0 = this, __HIVE_P2_temp403_1 = "line", __HIVE_P2_set(__HIVE_P2_temp403_0, __HIVE_P2_temp403_1, e, 404));
+        (__HIVE_P2_temp403_3 = this, __HIVE_P2_temp403_4 = "column", __HIVE_P2_set(__HIVE_P2_temp403_3, __HIVE_P2_temp403_4, t, 406));
+    }, 6, 2, 0, 403));
+    (__HIVE_P2_temp0_920 = __HIVE_P2_get(I, "prototype", 410), __HIVE_P2_temp0_921 = "offset", __HIVE_P2_set(__HIVE_P2_temp0_920, __HIVE_P2_temp0_921, (__HIVE_P2_reserveFunction(411), __HIVE_P2_registerFunction(function offset(e) {
+        return __HIVE_P2_construct(I, (__HIVE_P2_reserveArray(2, 412), __HIVE_P2_ownArray([__HIVE_P2_get(this, "line", 413), __HIVE_P2_binary("+", __HIVE_P2_get(this, "column", 415), e, 414)], 412, "CONTROL_ARRAY")), 412);
+    }, 0, 1, 0, 411)), 408));
+    var A = (__HIVE_P2_reserveFunction(416), __HIVE_P2_registerFunction(function SourceLocation(e, t, i) {
+        var __HIVE_P2_temp416_0, __HIVE_P2_temp416_1, __HIVE_P2_temp416_2, __HIVE_P2_temp416_3, __HIVE_P2_temp416_4, __HIVE_P2_temp416_5, __HIVE_P2_temp416_6, __HIVE_P2_temp416_7, __HIVE_P2_temp416_8;
+        (__HIVE_P2_temp416_0 = this, __HIVE_P2_temp416_1 = "start", __HIVE_P2_set(__HIVE_P2_temp416_0, __HIVE_P2_temp416_1, t, 417));
+        (__HIVE_P2_temp416_3 = this, __HIVE_P2_temp416_4 = "end", __HIVE_P2_set(__HIVE_P2_temp416_3, __HIVE_P2_temp416_4, i, 419));
+        if (__HIVE_P2_get(e, "sourceFile", 421) !== null) {
+            (__HIVE_P2_temp416_6 = this, __HIVE_P2_temp416_7 = "source", __HIVE_P2_set(__HIVE_P2_temp416_6, __HIVE_P2_temp416_7, __HIVE_P2_get(e, "sourceFile", 424), 422));
+        }
+    }, 9, 3, 0, 416));
+    function getLineInfo(e, t) {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 427), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 427, "CONTROL_ARRAY")), 427);
+    }
+    var P = (__HIVE_P2_reserveObject(19, 428), __HIVE_P2_ownObject({ ecmaVersion: null, sourceType: "script", onInsertedSemicolon: null, onTrailingComma: null, allowReserved: null, allowReturnOutsideFunction: false, allowImportExportEverywhere: false, allowAwaitOutsideFunction: null, allowSuperOutsideMethod: null, allowHashBang: false, checkPrivateFields: true, locations: false, onToken: null, onComment: null, ranges: false, program: null, sourceFile: null, directSourceFile: null, preserveParens: false }, 428, 19, 278));
+    var N = false;
+    function getOptions(e) {
+        return e;
+    }
+    function pushComment(e, t) {
+        return (__HIVE_P2_reserveFunction(432), __HIVE_P2_registerFunction(function (i, s, r, a, n, o) {
+            var __HIVE_P2_temp432_0, __HIVE_P2_temp432_1, __HIVE_P2_temp432_2, __HIVE_P2_temp432_3, __HIVE_P2_temp432_4, __HIVE_P2_temp432_5, __HIVE_P2_temp432_6, __HIVE_P2_temp432_7, __HIVE_P2_temp432_8, __HIVE_P2_temp432_9, __HIVE_P2_temp432_10;
+            var h = (__HIVE_P2_reserveObject(4, 433), __HIVE_P2_ownObject({ type: i ? "Block" : "Line", value: s, start: r, end: a }, 433, 4, 17));
+            if (__HIVE_P2_get(e, "locations", 434)) {
+                (__HIVE_P2_temp432_0 = h, __HIVE_P2_temp432_1 = "loc", __HIVE_P2_set(__HIVE_P2_temp432_0, __HIVE_P2_temp432_1, __HIVE_P2_construct(A, (__HIVE_P2_reserveArray(3, 437), __HIVE_P2_ownArray([this, n, o], 437, "CONTROL_ARRAY")), 437), 435));
+            }
+            if (__HIVE_P2_get(e, "ranges", 438)) {
+                (__HIVE_P2_temp432_3 = h, __HIVE_P2_temp432_4 = "range", __HIVE_P2_set(__HIVE_P2_temp432_3, __HIVE_P2_temp432_4, (__HIVE_P2_temp432_6 = 0, __HIVE_P2_temp432_7 = r, __HIVE_P2_temp432_6 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp432_6, __HIVE_P2_temp432_7, 441), __HIVE_P2_temp432_8 = a, __HIVE_P2_temp432_6 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp432_6, __HIVE_P2_temp432_8, 441), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp432_6, 441), __HIVE_P2_reserveArray(2, 441, 2), __HIVE_P2_ownArray([__HIVE_P2_temp432_7, __HIVE_P2_temp432_8], 441, "ARRAY", __HIVE_P2_temp432_6)), 439));
+            }
+            (__HIVE_P2_temp432_9 = t, __HIVE_P2_temp432_10 = __HIVE_P2_get(__HIVE_P2_temp432_9, "push", 442), __HIVE_P2_invoke(__HIVE_P2_temp432_10, __HIVE_P2_temp432_9, (__HIVE_P2_reserveArray(1, 442), __HIVE_P2_ownArray([h], 442, "CONTROL_ARRAY")), 442));
+        }, 12, 6, 0, 432));
+    }
+    var T = 1, V = 2, L = 4, R = 8, D = 16, O = 32, B = 64, M = 128, F = 256, U = __HIVE_P2_binary("|", __HIVE_P2_binary("|", T, V, 445), F, 444);
+    function functionFlags(e, t) {
+        return __HIVE_P2_binary("|", __HIVE_P2_binary("|", V, (e ? L : 0), 448), (t ? R : 0), 447);
+    }
+    var q = 0, j = 1, G = 2, H = 3, W = 4, z = 5;
+    var K = (__HIVE_P2_reserveFunction(449), __HIVE_P2_registerFunction(function Parser(e, t, i) {
+        var __HIVE_P2_temp449_0, __HIVE_P2_temp449_1, __HIVE_P2_temp449_2, __HIVE_P2_temp449_3, __HIVE_P2_temp449_4, __HIVE_P2_temp449_5, __HIVE_P2_temp449_6, __HIVE_P2_temp449_7, __HIVE_P2_temp449_8, __HIVE_P2_temp449_9, __HIVE_P2_temp449_10, __HIVE_P2_temp449_11, __HIVE_P2_temp449_12, __HIVE_P2_temp449_13, __HIVE_P2_temp449_14, __HIVE_P2_temp449_15, __HIVE_P2_temp449_16, __HIVE_P2_temp449_17, __HIVE_P2_temp449_18, __HIVE_P2_temp449_19, __HIVE_P2_temp449_20, __HIVE_P2_temp449_21, __HIVE_P2_temp449_22, __HIVE_P2_temp449_23, __HIVE_P2_temp449_24, __HIVE_P2_temp449_25, __HIVE_P2_temp449_26, __HIVE_P2_temp449_27, __HIVE_P2_temp449_28, __HIVE_P2_temp449_29, __HIVE_P2_temp449_30, __HIVE_P2_temp449_31, __HIVE_P2_temp449_32, __HIVE_P2_temp449_33, __HIVE_P2_temp449_34, __HIVE_P2_temp449_35, __HIVE_P2_temp449_36, __HIVE_P2_temp449_37, __HIVE_P2_temp449_38, __HIVE_P2_temp449_39, __HIVE_P2_temp449_40, __HIVE_P2_temp449_41, __HIVE_P2_temp449_42, __HIVE_P2_temp449_43, __HIVE_P2_temp449_44, __HIVE_P2_temp449_45, __HIVE_P2_temp449_46, __HIVE_P2_temp449_47, __HIVE_P2_temp449_48, __HIVE_P2_temp449_49, __HIVE_P2_temp449_50, __HIVE_P2_temp449_51, __HIVE_P2_temp449_52, __HIVE_P2_temp449_53, __HIVE_P2_temp449_54, __HIVE_P2_temp449_55, __HIVE_P2_temp449_56, __HIVE_P2_temp449_57, __HIVE_P2_temp449_58, __HIVE_P2_temp449_59, __HIVE_P2_temp449_60, __HIVE_P2_temp449_61, __HIVE_P2_temp449_62, __HIVE_P2_temp449_63, __HIVE_P2_temp449_64, __HIVE_P2_temp449_65, __HIVE_P2_temp449_66, __HIVE_P2_temp449_67, __HIVE_P2_temp449_68, __HIVE_P2_temp449_69, __HIVE_P2_temp449_70, __HIVE_P2_temp449_71, __HIVE_P2_temp449_72, __HIVE_P2_temp449_73, __HIVE_P2_temp449_74, __HIVE_P2_temp449_75, __HIVE_P2_temp449_76, __HIVE_P2_temp449_77, __HIVE_P2_temp449_78, __HIVE_P2_temp449_79, __HIVE_P2_temp449_80, __HIVE_P2_temp449_81, __HIVE_P2_temp449_82, __HIVE_P2_temp449_83, __HIVE_P2_temp449_84, __HIVE_P2_temp449_85, __HIVE_P2_temp449_86, __HIVE_P2_temp449_87, __HIVE_P2_temp449_88, __HIVE_P2_temp449_89, __HIVE_P2_temp449_90, __HIVE_P2_temp449_91, __HIVE_P2_temp449_92, __HIVE_P2_temp449_93, __HIVE_P2_temp449_94, __HIVE_P2_temp449_95, __HIVE_P2_temp449_96, __HIVE_P2_temp449_97, __HIVE_P2_temp449_98, __HIVE_P2_temp449_99, __HIVE_P2_temp449_100, __HIVE_P2_temp449_101, __HIVE_P2_temp449_102, __HIVE_P2_temp449_103, __HIVE_P2_temp449_104, __HIVE_P2_temp449_105, __HIVE_P2_temp449_106, __HIVE_P2_temp449_107, __HIVE_P2_temp449_108, __HIVE_P2_temp449_109, __HIVE_P2_temp449_110, __HIVE_P2_temp449_111, __HIVE_P2_temp449_112, __HIVE_P2_temp449_113, __HIVE_P2_temp449_114, __HIVE_P2_temp449_115, __HIVE_P2_temp449_116, __HIVE_P2_temp449_117, __HIVE_P2_temp449_118, __HIVE_P2_temp449_119, __HIVE_P2_temp449_120, __HIVE_P2_temp449_121, __HIVE_P2_temp449_122, __HIVE_P2_temp449_123, __HIVE_P2_temp449_124, __HIVE_P2_temp449_125, __HIVE_P2_temp449_126, __HIVE_P2_temp449_127, __HIVE_P2_temp449_128, __HIVE_P2_temp449_129, __HIVE_P2_temp449_130, __HIVE_P2_temp449_131, __HIVE_P2_temp449_132, __HIVE_P2_temp449_133, __HIVE_P2_temp449_134, __HIVE_P2_temp449_135, __HIVE_P2_temp449_136;
+        (__HIVE_P2_temp449_0 = this, __HIVE_P2_temp449_1 = "options", __HIVE_P2_set(__HIVE_P2_temp449_0, __HIVE_P2_temp449_1, e = __HIVE_P2_invoke(getOptions, void 0, (__HIVE_P2_reserveArray(1, 453), __HIVE_P2_ownArray([e], 453, "CONTROL_ARRAY")), 453), 450));
+        (__HIVE_P2_temp449_3 = this, __HIVE_P2_temp449_4 = "sourceFile", __HIVE_P2_set(__HIVE_P2_temp449_3, __HIVE_P2_temp449_4, __HIVE_P2_get(e, "sourceFile", 456), 454));
+        (__HIVE_P2_temp449_6 = this, __HIVE_P2_temp449_7 = "keywords", __HIVE_P2_set(__HIVE_P2_temp449_6, __HIVE_P2_temp449_7, __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 459), __HIVE_P2_ownArray([__HIVE_P2_get(o, __HIVE_P2_binary(">=", __HIVE_P2_get(e, "ecmaVersion", 462), 6, 461) ? 6 : __HIVE_P2_get(e, "sourceType", 463) === "module" ? "5module" : 5, 460)], 459, "CONTROL_ARRAY")), 459), 457));
+        var s = "";
+        if (__HIVE_P2_get(e, "allowReserved", 464) !== true) {
+            s = __HIVE_P2_get(a, __HIVE_P2_binary(">=", __HIVE_P2_get(e, "ecmaVersion", 468), 6, 467) ? 6 : __HIVE_P2_get(e, "ecmaVersion", 469) === 5 ? 5 : 3, 466);
+            if (__HIVE_P2_get(e, "sourceType", 470) === "module") {
+                s = __HIVE_P2_binary("+", s, " await", 471);
+            }
+        }
+        (__HIVE_P2_temp449_9 = this, __HIVE_P2_temp449_10 = "reservedWords", __HIVE_P2_set(__HIVE_P2_temp449_9, __HIVE_P2_temp449_10, __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 474), __HIVE_P2_ownArray([s], 474, "CONTROL_ARRAY")), 474), 472));
+        var r = __HIVE_P2_binary("+", (s ? __HIVE_P2_binary("+", s, " ", 476) : ""), __HIVE_P2_get(a, "strict", 477), 475);
+        (__HIVE_P2_temp449_12 = this, __HIVE_P2_temp449_13 = "reservedWordsStrict", __HIVE_P2_set(__HIVE_P2_temp449_12, __HIVE_P2_temp449_13, __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 480), __HIVE_P2_ownArray([r], 480, "CONTROL_ARRAY")), 480), 478));
+        (__HIVE_P2_temp449_15 = this, __HIVE_P2_temp449_16 = "reservedWordsStrictBind", __HIVE_P2_set(__HIVE_P2_temp449_15, __HIVE_P2_temp449_16, __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 483), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_binary("+", r, " ", 485), __HIVE_P2_get(a, "strictBind", 486), 484)], 483, "CONTROL_ARRAY")), 483), 481));
+        (__HIVE_P2_temp449_18 = this, __HIVE_P2_temp449_19 = "input", __HIVE_P2_set(__HIVE_P2_temp449_18, __HIVE_P2_temp449_19, __HIVE_P2_invoke(__HIVE_P2_String, void 0, (__HIVE_P2_reserveArray(1, 489), __HIVE_P2_ownArray([t], 489, "CONTROL_ARRAY")), 489), 487));
+        (__HIVE_P2_temp449_21 = this, __HIVE_P2_temp449_22 = "containsEsc", __HIVE_P2_set(__HIVE_P2_temp449_21, __HIVE_P2_temp449_22, false, 490));
+        if (i) {
+            (__HIVE_P2_temp449_24 = this, __HIVE_P2_temp449_25 = "pos", __HIVE_P2_set(__HIVE_P2_temp449_24, __HIVE_P2_temp449_25, i, 492));
+            (__HIVE_P2_temp449_27 = this, __HIVE_P2_temp449_28 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp449_27, __HIVE_P2_temp449_28, __HIVE_P2_binary("+", (__HIVE_P2_temp449_30 = __HIVE_P2_get(this, "input", 500), __HIVE_P2_temp449_31 = __HIVE_P2_get(__HIVE_P2_temp449_30, "lastIndexOf", 497), __HIVE_P2_invoke(__HIVE_P2_temp449_31, __HIVE_P2_temp449_30, (__HIVE_P2_reserveArray(2, 497), __HIVE_P2_ownArray(["\n", __HIVE_P2_binary("-", i, 1, 498)], 497, "CONTROL_ARRAY")), 497)), 1, 496), 494));
+            (__HIVE_P2_temp449_32 = this, __HIVE_P2_temp449_33 = "curLine", __HIVE_P2_set(__HIVE_P2_temp449_32, __HIVE_P2_temp449_33, __HIVE_P2_get((__HIVE_P2_temp449_35 = (__HIVE_P2_temp449_37 = __HIVE_P2_get(this, "input", 509), __HIVE_P2_temp449_38 = __HIVE_P2_get(__HIVE_P2_temp449_37, "slice", 506), __HIVE_P2_invoke(__HIVE_P2_temp449_38, __HIVE_P2_temp449_37, (__HIVE_P2_reserveArray(2, 506), __HIVE_P2_ownArray([0, __HIVE_P2_get(this, "lineStart", 507)], 506, "CONTROL_ARRAY")), 506)), __HIVE_P2_temp449_36 = __HIVE_P2_get(__HIVE_P2_temp449_35, "split", 504), __HIVE_P2_invoke(__HIVE_P2_temp449_36, __HIVE_P2_temp449_35, (__HIVE_P2_reserveArray(1, 504), __HIVE_P2_ownArray([g], 504, "CONTROL_ARRAY")), 504)), "length", 503), 501));
+        }
+        else {
+            (__HIVE_P2_temp449_39 = this, __HIVE_P2_temp449_40 = "pos", __HIVE_P2_set(__HIVE_P2_temp449_39, __HIVE_P2_temp449_40, (__HIVE_P2_temp449_42 = this, __HIVE_P2_temp449_43 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp449_42, __HIVE_P2_temp449_43, 0, 512)), 510));
+            (__HIVE_P2_temp449_45 = this, __HIVE_P2_temp449_46 = "curLine", __HIVE_P2_set(__HIVE_P2_temp449_45, __HIVE_P2_temp449_46, 1, 514));
+        }
+        (__HIVE_P2_temp449_48 = this, __HIVE_P2_temp449_49 = "type", __HIVE_P2_set(__HIVE_P2_temp449_48, __HIVE_P2_temp449_49, __HIVE_P2_get(m, "eof", 518), 516));
+        (__HIVE_P2_temp449_51 = this, __HIVE_P2_temp449_52 = "value", __HIVE_P2_set(__HIVE_P2_temp449_51, __HIVE_P2_temp449_52, null, 519));
+        (__HIVE_P2_temp449_54 = this, __HIVE_P2_temp449_55 = "start", __HIVE_P2_set(__HIVE_P2_temp449_54, __HIVE_P2_temp449_55, (__HIVE_P2_temp449_57 = this, __HIVE_P2_temp449_58 = "end", __HIVE_P2_set(__HIVE_P2_temp449_57, __HIVE_P2_temp449_58, __HIVE_P2_get(this, "pos", 525), 523)), 521));
+        (__HIVE_P2_temp449_60 = this, __HIVE_P2_temp449_61 = "startLoc", __HIVE_P2_set(__HIVE_P2_temp449_60, __HIVE_P2_temp449_61, (__HIVE_P2_temp449_63 = this, __HIVE_P2_temp449_64 = "endLoc", __HIVE_P2_set(__HIVE_P2_temp449_63, __HIVE_P2_temp449_64, (__HIVE_P2_temp449_66 = this, __HIVE_P2_temp449_67 = __HIVE_P2_get(__HIVE_P2_temp449_66, "curPosition", 530), __HIVE_P2_invoke(__HIVE_P2_temp449_67, __HIVE_P2_temp449_66, (__HIVE_P2_reserveArray(0, 530), __HIVE_P2_ownArray([], 530, "CONTROL_ARRAY")), 530)), 528)), 526));
+        (__HIVE_P2_temp449_68 = this, __HIVE_P2_temp449_69 = "lastTokEndLoc", __HIVE_P2_set(__HIVE_P2_temp449_68, __HIVE_P2_temp449_69, (__HIVE_P2_temp449_71 = this, __HIVE_P2_temp449_72 = "lastTokStartLoc", __HIVE_P2_set(__HIVE_P2_temp449_71, __HIVE_P2_temp449_72, null, 534)), 532));
+        (__HIVE_P2_temp449_74 = this, __HIVE_P2_temp449_75 = "lastTokStart", __HIVE_P2_set(__HIVE_P2_temp449_74, __HIVE_P2_temp449_75, (__HIVE_P2_temp449_77 = this, __HIVE_P2_temp449_78 = "lastTokEnd", __HIVE_P2_set(__HIVE_P2_temp449_77, __HIVE_P2_temp449_78, __HIVE_P2_get(this, "pos", 540), 538)), 536));
+        (__HIVE_P2_temp449_80 = this, __HIVE_P2_temp449_81 = "context", __HIVE_P2_set(__HIVE_P2_temp449_80, __HIVE_P2_temp449_81, (__HIVE_P2_temp449_83 = this, __HIVE_P2_temp449_84 = __HIVE_P2_get(__HIVE_P2_temp449_83, "initialContext", 543), __HIVE_P2_invoke(__HIVE_P2_temp449_84, __HIVE_P2_temp449_83, (__HIVE_P2_reserveArray(0, 543), __HIVE_P2_ownArray([], 543, "CONTROL_ARRAY")), 543)), 541));
+        (__HIVE_P2_temp449_85 = this, __HIVE_P2_temp449_86 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp449_85, __HIVE_P2_temp449_86, true, 545));
+        (__HIVE_P2_temp449_88 = this, __HIVE_P2_temp449_89 = "inModule", __HIVE_P2_set(__HIVE_P2_temp449_88, __HIVE_P2_temp449_89, __HIVE_P2_get(e, "sourceType", 549) === "module", 547));
+        (__HIVE_P2_temp449_91 = this, __HIVE_P2_temp449_92 = "strict", __HIVE_P2_set(__HIVE_P2_temp449_91, __HIVE_P2_temp449_92, __HIVE_P2_get(this, "inModule", 552) || (__HIVE_P2_temp449_94 = this, __HIVE_P2_temp449_95 = __HIVE_P2_get(__HIVE_P2_temp449_94, "strictDirective", 553), __HIVE_P2_invoke(__HIVE_P2_temp449_95, __HIVE_P2_temp449_94, (__HIVE_P2_reserveArray(1, 553), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 554)], 553, "CONTROL_ARRAY")), 553)), 550));
+        (__HIVE_P2_temp449_96 = this, __HIVE_P2_temp449_97 = "potentialArrowAt", __HIVE_P2_set(__HIVE_P2_temp449_96, __HIVE_P2_temp449_97, __HIVE_P2_unary("-", 1, 558), 556));
+        (__HIVE_P2_temp449_99 = this, __HIVE_P2_temp449_100 = "potentialArrowInForAwait", __HIVE_P2_set(__HIVE_P2_temp449_99, __HIVE_P2_temp449_100, false, 559));
+        (__HIVE_P2_temp449_102 = this, __HIVE_P2_temp449_103 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp449_102, __HIVE_P2_temp449_103, (__HIVE_P2_temp449_105 = this, __HIVE_P2_temp449_106 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp449_105, __HIVE_P2_temp449_106, (__HIVE_P2_temp449_108 = this, __HIVE_P2_temp449_109 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp449_108, __HIVE_P2_temp449_109, 0, 565)), 563)), 561));
+        (__HIVE_P2_temp449_111 = this, __HIVE_P2_temp449_112 = "labels", __HIVE_P2_set(__HIVE_P2_temp449_111, __HIVE_P2_temp449_112, (__HIVE_P2_temp449_114 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp449_114, 569), __HIVE_P2_reserveArray(0, 569, 0), __HIVE_P2_ownArray([], 569, "ARRAY", __HIVE_P2_temp449_114)), 567));
+        (__HIVE_P2_temp449_115 = this, __HIVE_P2_temp449_116 = "undefinedExports", __HIVE_P2_set(__HIVE_P2_temp449_115, __HIVE_P2_temp449_116, (__HIVE_P2_temp449_118 = __HIVE_P2_Object, __HIVE_P2_temp449_119 = __HIVE_P2_get(__HIVE_P2_temp449_118, "create", 572), __HIVE_P2_invoke(__HIVE_P2_temp449_119, __HIVE_P2_temp449_118, (__HIVE_P2_reserveArray(1, 572), __HIVE_P2_ownArray([null], 572, "CONTROL_ARRAY")), 572)), 570));
+        if (__HIVE_P2_get(this, "pos", 574) === 0 && __HIVE_P2_get(e, "allowHashBang", 575) && (__HIVE_P2_temp449_120 = __HIVE_P2_get(this, "input", 578), __HIVE_P2_temp449_121 = __HIVE_P2_get(__HIVE_P2_temp449_120, "slice", 576), __HIVE_P2_invoke(__HIVE_P2_temp449_121, __HIVE_P2_temp449_120, (__HIVE_P2_reserveArray(2, 576), __HIVE_P2_ownArray([0, 2], 576, "CONTROL_ARRAY")), 576)) === "#!") {
+            (__HIVE_P2_temp449_122 = this, __HIVE_P2_temp449_123 = __HIVE_P2_get(__HIVE_P2_temp449_122, "skipLineComment", 579), __HIVE_P2_invoke(__HIVE_P2_temp449_123, __HIVE_P2_temp449_122, (__HIVE_P2_reserveArray(1, 579), __HIVE_P2_ownArray([2], 579, "CONTROL_ARRAY")), 579));
+        }
+        (__HIVE_P2_temp449_124 = this, __HIVE_P2_temp449_125 = "scopeStack", __HIVE_P2_set(__HIVE_P2_temp449_124, __HIVE_P2_temp449_125, (__HIVE_P2_temp449_127 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp449_127, 583), __HIVE_P2_reserveArray(0, 583, 0), __HIVE_P2_ownArray([], 583, "ARRAY", __HIVE_P2_temp449_127)), 581));
+        (__HIVE_P2_temp449_128 = this, __HIVE_P2_temp449_129 = __HIVE_P2_get(__HIVE_P2_temp449_128, "enterScope", 584), __HIVE_P2_invoke(__HIVE_P2_temp449_129, __HIVE_P2_temp449_128, (__HIVE_P2_reserveArray(1, 584), __HIVE_P2_ownArray([T], 584, "CONTROL_ARRAY")), 584));
+        (__HIVE_P2_temp449_130 = this, __HIVE_P2_temp449_131 = "regexpState", __HIVE_P2_set(__HIVE_P2_temp449_130, __HIVE_P2_temp449_131, null, 586));
+        (__HIVE_P2_temp449_133 = this, __HIVE_P2_temp449_134 = "privateNameStack", __HIVE_P2_set(__HIVE_P2_temp449_133, __HIVE_P2_temp449_134, (__HIVE_P2_temp449_136 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp449_136, 590), __HIVE_P2_reserveArray(0, 590, 0), __HIVE_P2_ownArray([], 590, "ARRAY", __HIVE_P2_temp449_136)), 588));
+    }, 139, 3, 0, 449));
+    var Q = (__HIVE_P2_reserveObject(9, 591), __HIVE_P2_ownObject({ inFunction: (__HIVE_P2_reserveObject(1, 592), __HIVE_P2_ownObject({ configurable: true }, 592, 1, 12)), inGenerator: (__HIVE_P2_reserveObject(1, 593), __HIVE_P2_ownObject({ configurable: true }, 593, 1, 12)), inAsync: (__HIVE_P2_reserveObject(1, 594), __HIVE_P2_ownObject({ configurable: true }, 594, 1, 12)), canAwait: (__HIVE_P2_reserveObject(1, 595), __HIVE_P2_ownObject({ configurable: true }, 595, 1, 12)), allowSuper: (__HIVE_P2_reserveObject(1, 596), __HIVE_P2_ownObject({ configurable: true }, 596, 1, 12)), allowDirectSuper: (__HIVE_P2_reserveObject(1, 597), __HIVE_P2_ownObject({ configurable: true }, 597, 1, 12)), treatFunctionsAsVar: (__HIVE_P2_reserveObject(1, 598), __HIVE_P2_ownObject({ configurable: true }, 598, 1, 12)), allowNewDotTarget: (__HIVE_P2_reserveObject(1, 599), __HIVE_P2_ownObject({ configurable: true }, 599, 1, 12)), inClassStaticBlock: (__HIVE_P2_reserveObject(1, 600), __HIVE_P2_ownObject({ configurable: true }, 600, 1, 12)) }, 591, 9, 116));
+    (__HIVE_P2_temp0_923 = __HIVE_P2_get(K, "prototype", 603), __HIVE_P2_temp0_924 = "parse", __HIVE_P2_set(__HIVE_P2_temp0_923, __HIVE_P2_temp0_924, (__HIVE_P2_reserveFunction(604), __HIVE_P2_registerFunction(function parse() {
+        var __HIVE_P2_temp604_0, __HIVE_P2_temp604_1, __HIVE_P2_temp604_2, __HIVE_P2_temp604_3, __HIVE_P2_temp604_4, __HIVE_P2_temp604_5;
+        var e = __HIVE_P2_get(__HIVE_P2_get(this, "options", 606), "program", 605) || (__HIVE_P2_temp604_0 = this, __HIVE_P2_temp604_1 = __HIVE_P2_get(__HIVE_P2_temp604_0, "startNode", 607), __HIVE_P2_invoke(__HIVE_P2_temp604_1, __HIVE_P2_temp604_0, (__HIVE_P2_reserveArray(0, 607), __HIVE_P2_ownArray([], 607, "CONTROL_ARRAY")), 607));
+        (__HIVE_P2_temp604_2 = this, __HIVE_P2_temp604_3 = __HIVE_P2_get(__HIVE_P2_temp604_2, "nextToken", 609), __HIVE_P2_invoke(__HIVE_P2_temp604_3, __HIVE_P2_temp604_2, (__HIVE_P2_reserveArray(0, 609), __HIVE_P2_ownArray([], 609, "CONTROL_ARRAY")), 609));
+        return (__HIVE_P2_temp604_4 = this, __HIVE_P2_temp604_5 = __HIVE_P2_get(__HIVE_P2_temp604_4, "parseTopLevel", 611), __HIVE_P2_invoke(__HIVE_P2_temp604_5, __HIVE_P2_temp604_4, (__HIVE_P2_reserveArray(1, 611), __HIVE_P2_ownArray([e], 611, "CONTROL_ARRAY")), 611));
+    }, 7, 0, 0, 604)), 601));
+    (__HIVE_P2_temp0_926 = __HIVE_P2_get(Q, "inFunction", 615), __HIVE_P2_temp0_927 = "get", __HIVE_P2_set(__HIVE_P2_temp0_926, __HIVE_P2_temp0_927, (__HIVE_P2_reserveFunction(616), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp616_0, __HIVE_P2_temp616_1;
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get((__HIVE_P2_temp616_0 = this, __HIVE_P2_temp616_1 = __HIVE_P2_get(__HIVE_P2_temp616_0, "currentVarScope", 620), __HIVE_P2_invoke(__HIVE_P2_temp616_1, __HIVE_P2_temp616_0, (__HIVE_P2_reserveArray(0, 620), __HIVE_P2_ownArray([], 620, "CONTROL_ARRAY")), 620)), "flags", 619), V, 618)), 0, 617);
+    }, 2, 0, 0, 616)), 613));
+    (__HIVE_P2_temp0_929 = __HIVE_P2_get(Q, "inGenerator", 624), __HIVE_P2_temp0_930 = "get", __HIVE_P2_set(__HIVE_P2_temp0_929, __HIVE_P2_temp0_930, (__HIVE_P2_reserveFunction(625), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp625_0, __HIVE_P2_temp625_1, __HIVE_P2_temp625_2, __HIVE_P2_temp625_3;
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get((__HIVE_P2_temp625_0 = this, __HIVE_P2_temp625_1 = __HIVE_P2_get(__HIVE_P2_temp625_0, "currentVarScope", 629), __HIVE_P2_invoke(__HIVE_P2_temp625_1, __HIVE_P2_temp625_0, (__HIVE_P2_reserveArray(0, 629), __HIVE_P2_ownArray([], 629, "CONTROL_ARRAY")), 629)), "flags", 628), R, 627)), 0, 626) && !__HIVE_P2_get((__HIVE_P2_temp625_2 = this, __HIVE_P2_temp625_3 = __HIVE_P2_get(__HIVE_P2_temp625_2, "currentVarScope", 632), __HIVE_P2_invoke(__HIVE_P2_temp625_3, __HIVE_P2_temp625_2, (__HIVE_P2_reserveArray(0, 632), __HIVE_P2_ownArray([], 632, "CONTROL_ARRAY")), 632)), "inClassFieldInit", 631);
+    }, 4, 0, 0, 625)), 622));
+    (__HIVE_P2_temp0_932 = __HIVE_P2_get(Q, "inAsync", 636), __HIVE_P2_temp0_933 = "get", __HIVE_P2_set(__HIVE_P2_temp0_932, __HIVE_P2_temp0_933, (__HIVE_P2_reserveFunction(637), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp637_0, __HIVE_P2_temp637_1, __HIVE_P2_temp637_2, __HIVE_P2_temp637_3;
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get((__HIVE_P2_temp637_0 = this, __HIVE_P2_temp637_1 = __HIVE_P2_get(__HIVE_P2_temp637_0, "currentVarScope", 641), __HIVE_P2_invoke(__HIVE_P2_temp637_1, __HIVE_P2_temp637_0, (__HIVE_P2_reserveArray(0, 641), __HIVE_P2_ownArray([], 641, "CONTROL_ARRAY")), 641)), "flags", 640), L, 639)), 0, 638) && !__HIVE_P2_get((__HIVE_P2_temp637_2 = this, __HIVE_P2_temp637_3 = __HIVE_P2_get(__HIVE_P2_temp637_2, "currentVarScope", 644), __HIVE_P2_invoke(__HIVE_P2_temp637_3, __HIVE_P2_temp637_2, (__HIVE_P2_reserveArray(0, 644), __HIVE_P2_ownArray([], 644, "CONTROL_ARRAY")), 644)), "inClassFieldInit", 643);
+    }, 4, 0, 0, 637)), 634));
+    (__HIVE_P2_temp0_935 = __HIVE_P2_get(Q, "canAwait", 648), __HIVE_P2_temp0_936 = "get", __HIVE_P2_set(__HIVE_P2_temp0_935, __HIVE_P2_temp0_936, (__HIVE_P2_reserveFunction(649), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp649_0, __HIVE_P2_temp649_1;
+        for (var e = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 653), "length", 652), 1, 651); __HIVE_P2_binary(">=", e, 0, 654); (__HIVE_P2_temp649_0 = __HIVE_P2_numeric(e, 655), __HIVE_P2_temp649_1 = __HIVE_P2_temp649_0 + -1, e = __HIVE_P2_temp649_1, __HIVE_P2_temp649_0)) {
+            __HIVE_P2_tick(650);
+            var t = __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 657), e, 656);
+            if (__HIVE_P2_get(t, "inClassFieldInit", 658) || __HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 660), F, 659)) {
+                return false;
+            }
+            if (__HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 662), V, 661)) {
+                return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 665), L, 664)), 0, 663);
+            }
+        }
+        return __HIVE_P2_get(this, "inModule", 666) && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 669), "ecmaVersion", 668), 13, 667) || __HIVE_P2_get(__HIVE_P2_get(this, "options", 671), "allowAwaitOutsideFunction", 670);
+    }, 4, 0, 0, 649)), 646));
+    (__HIVE_P2_temp0_938 = __HIVE_P2_get(Q, "allowSuper", 674), __HIVE_P2_temp0_939 = "get", __HIVE_P2_set(__HIVE_P2_temp0_938, __HIVE_P2_temp0_939, (__HIVE_P2_reserveFunction(675), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp675_0, __HIVE_P2_temp675_1;
+        var e = (__HIVE_P2_temp675_0 = this, __HIVE_P2_temp675_1 = __HIVE_P2_get(__HIVE_P2_temp675_0, "currentThisScope", 676), __HIVE_P2_invoke(__HIVE_P2_temp675_1, __HIVE_P2_temp675_0, (__HIVE_P2_reserveArray(0, 676), __HIVE_P2_ownArray([], 676, "CONTROL_ARRAY")), 676));
+        var t = __HIVE_P2_get(e, "flags", 678);
+        var i = __HIVE_P2_get(e, "inClassFieldInit", 679);
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", t, B, 681)), 0, 680) || i || __HIVE_P2_get(__HIVE_P2_get(this, "options", 683), "allowSuperOutsideMethod", 682);
+    }, 5, 0, 0, 675)), 672));
+    (__HIVE_P2_temp0_941 = __HIVE_P2_get(Q, "allowDirectSuper", 686), __HIVE_P2_temp0_942 = "get", __HIVE_P2_set(__HIVE_P2_temp0_941, __HIVE_P2_temp0_942, (__HIVE_P2_reserveFunction(687), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp687_0, __HIVE_P2_temp687_1;
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get((__HIVE_P2_temp687_0 = this, __HIVE_P2_temp687_1 = __HIVE_P2_get(__HIVE_P2_temp687_0, "currentThisScope", 691), __HIVE_P2_invoke(__HIVE_P2_temp687_1, __HIVE_P2_temp687_0, (__HIVE_P2_reserveArray(0, 691), __HIVE_P2_ownArray([], 691, "CONTROL_ARRAY")), 691)), "flags", 690), M, 689)), 0, 688);
+    }, 2, 0, 0, 687)), 684));
+    (__HIVE_P2_temp0_944 = __HIVE_P2_get(Q, "treatFunctionsAsVar", 695), __HIVE_P2_temp0_945 = "get", __HIVE_P2_set(__HIVE_P2_temp0_944, __HIVE_P2_temp0_945, (__HIVE_P2_reserveFunction(696), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp696_0, __HIVE_P2_temp696_1, __HIVE_P2_temp696_2, __HIVE_P2_temp696_3;
+        return (__HIVE_P2_temp696_2 = this, __HIVE_P2_temp696_3 = __HIVE_P2_get(__HIVE_P2_temp696_2, "treatFunctionsAsVarInScope", 697), __HIVE_P2_invoke(__HIVE_P2_temp696_3, __HIVE_P2_temp696_2, (__HIVE_P2_reserveArray(1, 697), __HIVE_P2_ownArray([(__HIVE_P2_temp696_0 = this, __HIVE_P2_temp696_1 = __HIVE_P2_get(__HIVE_P2_temp696_0, "currentScope", 698), __HIVE_P2_invoke(__HIVE_P2_temp696_1, __HIVE_P2_temp696_0, (__HIVE_P2_reserveArray(0, 698), __HIVE_P2_ownArray([], 698, "CONTROL_ARRAY")), 698))], 697, "CONTROL_ARRAY")), 697));
+    }, 4, 0, 0, 696)), 693));
+    (__HIVE_P2_temp0_947 = __HIVE_P2_get(Q, "allowNewDotTarget", 703), __HIVE_P2_temp0_948 = "get", __HIVE_P2_set(__HIVE_P2_temp0_947, __HIVE_P2_temp0_948, (__HIVE_P2_reserveFunction(704), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp704_0, __HIVE_P2_temp704_1;
+        var e = (__HIVE_P2_temp704_0 = this, __HIVE_P2_temp704_1 = __HIVE_P2_get(__HIVE_P2_temp704_0, "currentThisScope", 705), __HIVE_P2_invoke(__HIVE_P2_temp704_1, __HIVE_P2_temp704_0, (__HIVE_P2_reserveArray(0, 705), __HIVE_P2_ownArray([], 705, "CONTROL_ARRAY")), 705));
+        var t = __HIVE_P2_get(e, "flags", 707);
+        var i = __HIVE_P2_get(e, "inClassFieldInit", 708);
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", t, (__HIVE_P2_binary("|", V, F, 711)), 710)), 0, 709) || i;
+    }, 5, 0, 0, 704)), 701));
+    (__HIVE_P2_temp0_950 = __HIVE_P2_get(Q, "inClassStaticBlock", 714), __HIVE_P2_temp0_951 = "get", __HIVE_P2_set(__HIVE_P2_temp0_950, __HIVE_P2_temp0_951, (__HIVE_P2_reserveFunction(715), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp715_0, __HIVE_P2_temp715_1;
+        return __HIVE_P2_binary(">", (__HIVE_P2_binary("&", __HIVE_P2_get((__HIVE_P2_temp715_0 = this, __HIVE_P2_temp715_1 = __HIVE_P2_get(__HIVE_P2_temp715_0, "currentVarScope", 719), __HIVE_P2_invoke(__HIVE_P2_temp715_1, __HIVE_P2_temp715_0, (__HIVE_P2_reserveArray(0, 719), __HIVE_P2_ownArray([], 719, "CONTROL_ARRAY")), 719)), "flags", 718), F, 717)), 0, 716);
+    }, 2, 0, 0, 715)), 712));
+    (__HIVE_P2_temp0_953 = __HIVE_P2_Object, __HIVE_P2_temp0_954 = __HIVE_P2_get(__HIVE_P2_temp0_953, "defineProperties", 725), __HIVE_P2_invoke(__HIVE_P2_temp0_954, __HIVE_P2_temp0_953, (__HIVE_P2_reserveArray(2, 725), __HIVE_P2_ownArray([__HIVE_P2_get(K, "prototype", 726), Q], 725, "CONTROL_ARRAY")), 725));
+    var Y = __HIVE_P2_get(K, "prototype", 728);
+    var X = __HIVE_P2_toolRegex("/^(?:'((?:\\\\[^]|[^'\\\\])*?)'|\"((?:\\\\[^]|[^\"\\\\])*?)\")/", 729);
+    __HIVE_P2_set(Y, "strictDirective", (__HIVE_P2_reserveFunction(731), __HIVE_P2_registerFunction(function (start) {
+        var __HIVE_P2_temp731_0, __HIVE_P2_temp731_1, __HIVE_P2_temp731_2, __HIVE_P2_temp731_3, __HIVE_P2_temp731_4, __HIVE_P2_temp731_5, __HIVE_P2_temp731_6, __HIVE_P2_temp731_7;
+        var i = start, previousEnd = start, text = __HIVE_P2_get(this, "input", 732);
+        for (;;) {
+            __HIVE_P2_tick(733);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 734), __HIVE_P2_ownArray([], 734, "CONTROL_ARRAY")), 734);
+            var trivia = __HIVE_P2_invoke(__scalarTrivia, void 0, (__HIVE_P2_reserveArray(5, 735), __HIVE_P2_ownArray([text, i, __HIVE_P2_get(this, "inModule", 736), previousEnd, __HIVE_P2_get(__HIVE_P2_get(this, "options", 738), "allowHashBang", 737)], 735, "CONTROL_ARRAY")), 735);
+            i = __HIVE_P2_binary("/", (__HIVE_P2_binary("-", trivia, __HIVE_P2_binary("%", trivia, 2, 742), 741)), 2, 740);
+            var quote = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 743), __HIVE_P2_ownArray([text, i], 743, "CONTROL_ARRAY")), 743);
+            if (quote !== 34 && quote !== 39)
+                return false;
+            var p = __HIVE_P2_binary("+", i, 1, 744), raw = true, length = 0, closed = false;
+            while (__HIVE_P2_binary("<", p, __HIVE_P2_get(text, "length", 747), 746)) {
+                __HIVE_P2_tick(745);
+                __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 748), __HIVE_P2_ownArray([], 748, "CONTROL_ARRAY")), 748);
+                var c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 749), __HIVE_P2_ownArray([text, (__HIVE_P2_temp731_0 = __HIVE_P2_numeric(p, 750), __HIVE_P2_temp731_1 = __HIVE_P2_temp731_0 + 1, p = __HIVE_P2_temp731_1, __HIVE_P2_temp731_0)], 749, "CONTROL_ARRAY")), 749);
+                if (c === quote) {
+                    closed = true;
+                    break;
+                }
+                if (c === 10 || c === 13)
+                    __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 752), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 752, "CONTROL_ARRAY")), 752);
+                if (c === 92) {
+                    raw = false;
+                    var escaped = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 754), __HIVE_P2_ownArray([text, (__HIVE_P2_temp731_2 = __HIVE_P2_numeric(p, 755), __HIVE_P2_temp731_3 = __HIVE_P2_temp731_2 + 1, p = __HIVE_P2_temp731_3, __HIVE_P2_temp731_2)], 754, "CONTROL_ARRAY")), 754);
+                    if (escaped !== escaped)
+                        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 756), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 756, "CONTROL_ARRAY")), 756);
+                    if (escaped === 13 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 757), __HIVE_P2_ownArray([text, p], 757, "CONTROL_ARRAY")), 757) === 10)
+                        (__HIVE_P2_temp731_4 = __HIVE_P2_numeric(p, 758), __HIVE_P2_temp731_5 = __HIVE_P2_temp731_4 + 1, p = __HIVE_P2_temp731_5, __HIVE_P2_temp731_4);
+                }
+                else if (__HIVE_P2_binary(">=", length, 10, 759) || c !== __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 760), __HIVE_P2_ownArray(["use strict", length], 760, "CONTROL_ARRAY")), 760))
+                    raw = false;
+                (__HIVE_P2_temp731_6 = __HIVE_P2_numeric(length, 762), __HIVE_P2_temp731_7 = __HIVE_P2_temp731_6 + 1, length = __HIVE_P2_temp731_7, __HIVE_P2_temp731_6);
+            }
+            if (!closed)
+                __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 763), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 763, "CONTROL_ARRAY")), 763);
+            var gap = __HIVE_P2_invoke(__scalarTrivia, void 0, (__HIVE_P2_reserveArray(5, 764), __HIVE_P2_ownArray([text, p, __HIVE_P2_get(this, "inModule", 765), p, __HIVE_P2_get(__HIVE_P2_get(this, "options", 767), "allowHashBang", 766)], 764, "CONTROL_ARRAY")), 764);
+            var end = __HIVE_P2_binary("/", (__HIVE_P2_binary("-", gap, __HIVE_P2_binary("%", gap, 2, 770), 769)), 2, 768), hasLine = __HIVE_P2_binary("%", gap, 2, 771) === 1, next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 772), __HIVE_P2_ownArray([text, end], 772, "CONTROL_ARRAY")), 772);
+            var continued = next === 40 || next === 91 || next === 46 || next === 96 || next === 42 || next === 47 || next === 37 || next === 60 || next === 62 || next === 61 || next === 38 || next === 124 || next === 94 || next === 63 || next === 44;
+            if (next === 43 || next === 45) {
+                continued = !(hasLine && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 774), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", end, 1, 775)], 774, "CONTROL_ARRAY")), 774) === next);
+            }
+            if (next === 33 && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 776), __HIVE_P2_ownArray([text, __HIVE_P2_binary("+", end, 1, 777)], 776, "CONTROL_ARRAY")), 776) === 61)
+                continued = true;
+            if (__HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 779), __HIVE_P2_ownArray([next], 779, "CONTROL_ARRAY")), 779) || next === 92 || __HIVE_P2_binary(">=", next, 128, 780)) {
+                var word = __HIVE_P2_invoke(__scalarPeekWord, void 0, (__HIVE_P2_reserveArray(2, 781), __HIVE_P2_ownArray([text, end], 781, "CONTROL_ARRAY")), 781);
+                if (__HIVE_P2_get(word, "value", 782) === "in" || __HIVE_P2_get(word, "value", 783) === "instanceof")
+                    continued = true;
+            }
+            if (continued)
+                return false;
+            if (!(next === 59 || next === 125 || end === __HIVE_P2_get(text, "length", 785) || hasLine))
+                return false;
+            if (raw && length === 10)
+                return true;
+            if (next === 59) {
+                i = __HIVE_P2_binary("+", end, 1, 787);
+                previousEnd = i;
+            }
+            else if (next === 125 || end === __HIVE_P2_get(text, "length", 789))
+                return false;
+            else {
+                i = end;
+                previousEnd = p;
+            }
+        }
+    }, 25, 1, 0, 731)), 792);
+    (__HIVE_P2_temp0_955 = Y, __HIVE_P2_temp0_956 = "eat", __HIVE_P2_set(__HIVE_P2_temp0_955, __HIVE_P2_temp0_956, (__HIVE_P2_reserveFunction(796), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp796_0, __HIVE_P2_temp796_1;
+        if (__HIVE_P2_get(this, "type", 797) === e) {
+            (__HIVE_P2_temp796_0 = this, __HIVE_P2_temp796_1 = __HIVE_P2_get(__HIVE_P2_temp796_0, "next", 798), __HIVE_P2_invoke(__HIVE_P2_temp796_1, __HIVE_P2_temp796_0, (__HIVE_P2_reserveArray(0, 798), __HIVE_P2_ownArray([], 798, "CONTROL_ARRAY")), 798));
+            return true;
+        }
+        else {
+            return false;
+        }
+    }, 2, 1, 0, 796)), 794));
+    (__HIVE_P2_temp0_958 = Y, __HIVE_P2_temp0_959 = "isContextual", __HIVE_P2_set(__HIVE_P2_temp0_958, __HIVE_P2_temp0_959, (__HIVE_P2_reserveFunction(802), __HIVE_P2_registerFunction(function (e) {
+        return __HIVE_P2_get(this, "type", 803) === __HIVE_P2_get(m, "name", 804) && __HIVE_P2_get(this, "value", 805) === e && !__HIVE_P2_get(this, "containsEsc", 806);
+    }, 0, 1, 0, 802)), 800));
+    (__HIVE_P2_temp0_961 = Y, __HIVE_P2_temp0_962 = "eatContextual", __HIVE_P2_set(__HIVE_P2_temp0_961, __HIVE_P2_temp0_962, (__HIVE_P2_reserveFunction(809), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp809_0, __HIVE_P2_temp809_1, __HIVE_P2_temp809_2, __HIVE_P2_temp809_3;
+        if (!(__HIVE_P2_temp809_0 = this, __HIVE_P2_temp809_1 = __HIVE_P2_get(__HIVE_P2_temp809_0, "isContextual", 810), __HIVE_P2_invoke(__HIVE_P2_temp809_1, __HIVE_P2_temp809_0, (__HIVE_P2_reserveArray(1, 810), __HIVE_P2_ownArray([e], 810, "CONTROL_ARRAY")), 810))) {
+            return false;
+        }
+        (__HIVE_P2_temp809_2 = this, __HIVE_P2_temp809_3 = __HIVE_P2_get(__HIVE_P2_temp809_2, "next", 812), __HIVE_P2_invoke(__HIVE_P2_temp809_3, __HIVE_P2_temp809_2, (__HIVE_P2_reserveArray(0, 812), __HIVE_P2_ownArray([], 812, "CONTROL_ARRAY")), 812));
+        return true;
+    }, 4, 1, 0, 809)), 807));
+    (__HIVE_P2_temp0_964 = Y, __HIVE_P2_temp0_965 = "expectContextual", __HIVE_P2_set(__HIVE_P2_temp0_964, __HIVE_P2_temp0_965, (__HIVE_P2_reserveFunction(816), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp816_0, __HIVE_P2_temp816_1;
+        if (!(__HIVE_P2_temp816_0 = this, __HIVE_P2_temp816_1 = __HIVE_P2_get(__HIVE_P2_temp816_0, "eatContextual", 817), __HIVE_P2_invoke(__HIVE_P2_temp816_1, __HIVE_P2_temp816_0, (__HIVE_P2_reserveArray(1, 817), __HIVE_P2_ownArray([e], 817, "CONTROL_ARRAY")), 817))) {
+            __HIVE_P2_syntaxRefusal(819);
+        }
+    }, 2, 1, 0, 816)), 814));
+    __HIVE_P2_set(Y, "canInsertSemicolon", (__HIVE_P2_reserveFunction(821), __HIVE_P2_registerFunction(function () {
+        return __HIVE_P2_get(this, "type", 822) === __HIVE_P2_get(m, "eof", 823) || __HIVE_P2_get(this, "type", 824) === __HIVE_P2_get(m, "braceR", 825) || __HIVE_P2_invoke(__scalarGapLine, void 0, (__HIVE_P2_reserveArray(3, 826), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 827), __HIVE_P2_get(this, "lastTokEnd", 828), __HIVE_P2_get(this, "start", 829)], 826, "CONTROL_ARRAY")), 826);
+    }, 0, 0, 0, 821)), 830);
+    (__HIVE_P2_temp0_967 = Y, __HIVE_P2_temp0_968 = "insertSemicolon", __HIVE_P2_set(__HIVE_P2_temp0_967, __HIVE_P2_temp0_968, (__HIVE_P2_reserveFunction(834), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp834_0, __HIVE_P2_temp834_1, __HIVE_P2_temp834_2, __HIVE_P2_temp834_3;
+        if ((__HIVE_P2_temp834_0 = this, __HIVE_P2_temp834_1 = __HIVE_P2_get(__HIVE_P2_temp834_0, "canInsertSemicolon", 835), __HIVE_P2_invoke(__HIVE_P2_temp834_1, __HIVE_P2_temp834_0, (__HIVE_P2_reserveArray(0, 835), __HIVE_P2_ownArray([], 835, "CONTROL_ARRAY")), 835))) {
+            if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 838), "onInsertedSemicolon", 837)) {
+                (__HIVE_P2_temp834_2 = __HIVE_P2_get(this, "options", 843), __HIVE_P2_temp834_3 = __HIVE_P2_get(__HIVE_P2_temp834_2, "onInsertedSemicolon", 839), __HIVE_P2_invoke(__HIVE_P2_temp834_3, __HIVE_P2_temp834_2, (__HIVE_P2_reserveArray(2, 839), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 840), __HIVE_P2_get(this, "lastTokEndLoc", 841)], 839, "CONTROL_ARRAY")), 839));
+            }
+            return true;
+        }
+    }, 4, 0, 0, 834)), 832));
+    (__HIVE_P2_temp0_970 = Y, __HIVE_P2_temp0_971 = "semicolon", __HIVE_P2_set(__HIVE_P2_temp0_970, __HIVE_P2_temp0_971, (__HIVE_P2_reserveFunction(846), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp846_0, __HIVE_P2_temp846_1, __HIVE_P2_temp846_2, __HIVE_P2_temp846_3;
+        if (!(__HIVE_P2_temp846_0 = this, __HIVE_P2_temp846_1 = __HIVE_P2_get(__HIVE_P2_temp846_0, "eat", 847), __HIVE_P2_invoke(__HIVE_P2_temp846_1, __HIVE_P2_temp846_0, (__HIVE_P2_reserveArray(1, 847), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 848)], 847, "CONTROL_ARRAY")), 847)) && !(__HIVE_P2_temp846_2 = this, __HIVE_P2_temp846_3 = __HIVE_P2_get(__HIVE_P2_temp846_2, "insertSemicolon", 850), __HIVE_P2_invoke(__HIVE_P2_temp846_3, __HIVE_P2_temp846_2, (__HIVE_P2_reserveArray(0, 850), __HIVE_P2_ownArray([], 850, "CONTROL_ARRAY")), 850))) {
+            __HIVE_P2_syntaxRefusal(852);
+        }
+    }, 4, 0, 0, 846)), 844));
+    (__HIVE_P2_temp0_973 = Y, __HIVE_P2_temp0_974 = "afterTrailingComma", __HIVE_P2_set(__HIVE_P2_temp0_973, __HIVE_P2_temp0_974, (__HIVE_P2_reserveFunction(855), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp855_0, __HIVE_P2_temp855_1, __HIVE_P2_temp855_2, __HIVE_P2_temp855_3;
+        if (__HIVE_P2_get(this, "type", 856) === e) {
+            if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 858), "onTrailingComma", 857)) {
+                (__HIVE_P2_temp855_0 = __HIVE_P2_get(this, "options", 863), __HIVE_P2_temp855_1 = __HIVE_P2_get(__HIVE_P2_temp855_0, "onTrailingComma", 859), __HIVE_P2_invoke(__HIVE_P2_temp855_1, __HIVE_P2_temp855_0, (__HIVE_P2_reserveArray(2, 859), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokStart", 860), __HIVE_P2_get(this, "lastTokStartLoc", 861)], 859, "CONTROL_ARRAY")), 859));
+            }
+            if (!t) {
+                (__HIVE_P2_temp855_2 = this, __HIVE_P2_temp855_3 = __HIVE_P2_get(__HIVE_P2_temp855_2, "next", 864), __HIVE_P2_invoke(__HIVE_P2_temp855_3, __HIVE_P2_temp855_2, (__HIVE_P2_reserveArray(0, 864), __HIVE_P2_ownArray([], 864, "CONTROL_ARRAY")), 864));
+            }
+            return true;
+        }
+    }, 4, 2, 0, 855)), 853));
+    (__HIVE_P2_temp0_976 = Y, __HIVE_P2_temp0_977 = "expect", __HIVE_P2_set(__HIVE_P2_temp0_976, __HIVE_P2_temp0_977, (__HIVE_P2_reserveFunction(868), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp868_0, __HIVE_P2_temp868_1;
+        (__HIVE_P2_temp868_0 = this, __HIVE_P2_temp868_1 = __HIVE_P2_get(__HIVE_P2_temp868_0, "eat", 869), __HIVE_P2_invoke(__HIVE_P2_temp868_1, __HIVE_P2_temp868_0, (__HIVE_P2_reserveArray(1, 869), __HIVE_P2_ownArray([e], 869, "CONTROL_ARRAY")), 869)) || __HIVE_P2_syntaxRefusal(871);
+    }, 2, 1, 0, 868)), 866));
+    __HIVE_P2_set(Y, "unexpected", (__HIVE_P2_reserveFunction(873), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 874), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 874, "CONTROL_ARRAY")), 874);
+    }, 0, 0, 0, 873)), 875);
+    var Z = (__HIVE_P2_reserveFunction(877), __HIVE_P2_registerFunction(function DestructuringErrors() {
+        var __HIVE_P2_temp877_0, __HIVE_P2_temp877_1, __HIVE_P2_temp877_2, __HIVE_P2_temp877_3, __HIVE_P2_temp877_4, __HIVE_P2_temp877_5, __HIVE_P2_temp877_6, __HIVE_P2_temp877_7, __HIVE_P2_temp877_8, __HIVE_P2_temp877_9, __HIVE_P2_temp877_10, __HIVE_P2_temp877_11, __HIVE_P2_temp877_12, __HIVE_P2_temp877_13, __HIVE_P2_temp877_14;
+        (__HIVE_P2_temp877_0 = this, __HIVE_P2_temp877_1 = "shorthandAssign", __HIVE_P2_set(__HIVE_P2_temp877_0, __HIVE_P2_temp877_1, (__HIVE_P2_temp877_3 = this, __HIVE_P2_temp877_4 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp877_3, __HIVE_P2_temp877_4, (__HIVE_P2_temp877_6 = this, __HIVE_P2_temp877_7 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp877_6, __HIVE_P2_temp877_7, (__HIVE_P2_temp877_9 = this, __HIVE_P2_temp877_10 = "parenthesizedBind", __HIVE_P2_set(__HIVE_P2_temp877_9, __HIVE_P2_temp877_10, (__HIVE_P2_temp877_12 = this, __HIVE_P2_temp877_13 = "doubleProto", __HIVE_P2_set(__HIVE_P2_temp877_12, __HIVE_P2_temp877_13, __HIVE_P2_unary("-", 1, 888), 886)), 884)), 882)), 880)), 878));
+    }, 15, 0, 0, 877));
+    (__HIVE_P2_temp0_979 = Y, __HIVE_P2_temp0_980 = "checkPatternErrors", __HIVE_P2_set(__HIVE_P2_temp0_979, __HIVE_P2_temp0_980, (__HIVE_P2_reserveFunction(891), __HIVE_P2_registerFunction(function (e, t) {
+        if (!e) {
+            return;
+        }
+        if (__HIVE_P2_binary(">", __HIVE_P2_get(e, "trailingComma", 893), __HIVE_P2_unary("-", 1, 894), 892)) {
+            __HIVE_P2_syntaxRefusal(895);
+        }
+        var i = t ? __HIVE_P2_get(e, "parenthesizedAssign", 896) : __HIVE_P2_get(e, "parenthesizedBind", 897);
+        if (__HIVE_P2_binary(">", i, __HIVE_P2_unary("-", 1, 899), 898)) {
+            __HIVE_P2_syntaxRefusal(900);
+        }
+    }, 1, 2, 0, 891)), 889));
+    (__HIVE_P2_temp0_982 = Y, __HIVE_P2_temp0_983 = "checkExpressionErrors", __HIVE_P2_set(__HIVE_P2_temp0_982, __HIVE_P2_temp0_983, (__HIVE_P2_reserveFunction(903), __HIVE_P2_registerFunction(function (e, t) {
+        if (!e) {
+            return false;
+        }
+        var i = __HIVE_P2_get(e, "shorthandAssign", 904);
+        var s = __HIVE_P2_get(e, "doubleProto", 905);
+        if (!t) {
+            return __HIVE_P2_binary(">=", i, 0, 906) || __HIVE_P2_binary(">=", s, 0, 907);
+        }
+        if (__HIVE_P2_binary(">=", i, 0, 908)) {
+            __HIVE_P2_syntaxRefusal(909);
+        }
+        if (__HIVE_P2_binary(">=", s, 0, 910)) {
+            __HIVE_P2_syntaxRefusal(911);
+        }
+    }, 2, 2, 0, 903)), 901));
+    (__HIVE_P2_temp0_985 = Y, __HIVE_P2_temp0_986 = "checkYieldAwaitInDefaultParams", __HIVE_P2_set(__HIVE_P2_temp0_985, __HIVE_P2_temp0_986, (__HIVE_P2_reserveFunction(914), __HIVE_P2_registerFunction(function () {
+        if (__HIVE_P2_get(this, "yieldPos", 915) && (!__HIVE_P2_get(this, "awaitPos", 916) || __HIVE_P2_binary("<", __HIVE_P2_get(this, "yieldPos", 918), __HIVE_P2_get(this, "awaitPos", 919), 917))) {
+            __HIVE_P2_syntaxRefusal(920);
+        }
+        if (__HIVE_P2_get(this, "awaitPos", 921)) {
+            __HIVE_P2_syntaxRefusal(922);
+        }
+    }, 0, 0, 0, 914)), 912));
+    (__HIVE_P2_temp0_988 = Y, __HIVE_P2_temp0_989 = "isSimpleAssignTarget", __HIVE_P2_set(__HIVE_P2_temp0_988, __HIVE_P2_temp0_989, (__HIVE_P2_reserveFunction(925), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp925_0, __HIVE_P2_temp925_1;
+        if (__HIVE_P2_get(e, "type", 926) === "ParenthesizedExpression") {
+            return (__HIVE_P2_temp925_0 = this, __HIVE_P2_temp925_1 = __HIVE_P2_get(__HIVE_P2_temp925_0, "isSimpleAssignTarget", 927), __HIVE_P2_invoke(__HIVE_P2_temp925_1, __HIVE_P2_temp925_0, (__HIVE_P2_reserveArray(1, 927), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 928)], 927, "CONTROL_ARRAY")), 927));
+        }
+        return __HIVE_P2_get(e, "type", 930) === "Identifier" || __HIVE_P2_get(e, "type", 931) === "MemberExpression";
+    }, 2, 1, 0, 925)), 923));
+    var $ = __HIVE_P2_get(K, "prototype", 932);
+    (__HIVE_P2_temp0_991 = $, __HIVE_P2_temp0_992 = "parseTopLevel", __HIVE_P2_set(__HIVE_P2_temp0_991, __HIVE_P2_temp0_992, (__HIVE_P2_reserveFunction(935), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp935_0, __HIVE_P2_temp935_1, __HIVE_P2_temp935_2, __HIVE_P2_temp935_3, __HIVE_P2_temp935_4, __HIVE_P2_temp935_5, __HIVE_P2_temp935_6, __HIVE_P2_temp935_7, __HIVE_P2_temp935_8, __HIVE_P2_temp935_9, __HIVE_P2_temp935_10, __HIVE_P2_temp935_11, __HIVE_P2_temp935_12, __HIVE_P2_temp935_13, __HIVE_P2_temp935_14, __HIVE_P2_temp935_15, __HIVE_P2_temp935_16, __HIVE_P2_temp935_17, __HIVE_P2_temp935_18, __HIVE_P2_temp935_19, __HIVE_P2_temp935_20;
+        var t = (__HIVE_P2_temp935_0 = __HIVE_P2_Object, __HIVE_P2_temp935_1 = __HIVE_P2_get(__HIVE_P2_temp935_0, "create", 936), __HIVE_P2_invoke(__HIVE_P2_temp935_1, __HIVE_P2_temp935_0, (__HIVE_P2_reserveArray(1, 936), __HIVE_P2_ownArray([null], 936, "CONTROL_ARRAY")), 936));
+        if (!__HIVE_P2_get(e, "body", 938)) {
+            (__HIVE_P2_temp935_2 = e, __HIVE_P2_temp935_3 = "body", __HIVE_P2_set(__HIVE_P2_temp935_2, __HIVE_P2_temp935_3, (__HIVE_P2_temp935_5 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp935_5, 941), __HIVE_P2_reserveArray(0, 941, 0), __HIVE_P2_ownArray([], 941, "ARRAY", __HIVE_P2_temp935_5)), 939));
+        }
+        while (__HIVE_P2_get(this, "type", 943) !== __HIVE_P2_get(m, "eof", 944)) {
+            __HIVE_P2_tick(942);
+            var i = (__HIVE_P2_temp935_6 = this, __HIVE_P2_temp935_7 = __HIVE_P2_get(__HIVE_P2_temp935_6, "parseStatement", 945), __HIVE_P2_invoke(__HIVE_P2_temp935_7, __HIVE_P2_temp935_6, (__HIVE_P2_reserveArray(3, 945), __HIVE_P2_ownArray([null, true, t], 945, "CONTROL_ARRAY")), 945));
+            (__HIVE_P2_temp935_8 = __HIVE_P2_get(e, "body", 949), __HIVE_P2_temp935_9 = __HIVE_P2_get(__HIVE_P2_temp935_8, "push", 947), __HIVE_P2_invoke(__HIVE_P2_temp935_9, __HIVE_P2_temp935_8, (__HIVE_P2_reserveArray(1, 947), __HIVE_P2_ownArray([i], 947, "CONTROL_ARRAY")), 947));
+        }
+        if (__HIVE_P2_get(this, "inModule", 950)) {
+            for (var s = 0, r = (__HIVE_P2_temp935_10 = __HIVE_P2_Object, __HIVE_P2_temp935_11 = __HIVE_P2_get(__HIVE_P2_temp935_10, "keys", 952), __HIVE_P2_invoke(__HIVE_P2_temp935_11, __HIVE_P2_temp935_10, (__HIVE_P2_reserveArray(1, 952), __HIVE_P2_ownArray([__HIVE_P2_get(this, "undefinedExports", 953)], 952, "CONTROL_ARRAY")), 952)); __HIVE_P2_binary("<", s, __HIVE_P2_get(r, "length", 956), 955); s = __HIVE_P2_binary("+", s, 1, 957)) {
+                __HIVE_P2_tick(951);
+                var a = __HIVE_P2_get(r, s, 958);
+                __HIVE_P2_syntaxRefusal(959);
+            }
+        }
+        (__HIVE_P2_temp935_12 = this, __HIVE_P2_temp935_13 = __HIVE_P2_get(__HIVE_P2_temp935_12, "adaptDirectivePrologue", 960), __HIVE_P2_invoke(__HIVE_P2_temp935_13, __HIVE_P2_temp935_12, (__HIVE_P2_reserveArray(1, 960), __HIVE_P2_ownArray([__HIVE_P2_get(e, "body", 961)], 960, "CONTROL_ARRAY")), 960));
+        (__HIVE_P2_temp935_14 = this, __HIVE_P2_temp935_15 = __HIVE_P2_get(__HIVE_P2_temp935_14, "next", 963), __HIVE_P2_invoke(__HIVE_P2_temp935_15, __HIVE_P2_temp935_14, (__HIVE_P2_reserveArray(0, 963), __HIVE_P2_ownArray([], 963, "CONTROL_ARRAY")), 963));
+        (__HIVE_P2_temp935_16 = e, __HIVE_P2_temp935_17 = "sourceType", __HIVE_P2_set(__HIVE_P2_temp935_16, __HIVE_P2_temp935_17, __HIVE_P2_get(__HIVE_P2_get(this, "options", 968), "sourceType", 967), 965));
+        return (__HIVE_P2_temp935_19 = this, __HIVE_P2_temp935_20 = __HIVE_P2_get(__HIVE_P2_temp935_19, "finishNode", 969), __HIVE_P2_invoke(__HIVE_P2_temp935_20, __HIVE_P2_temp935_19, (__HIVE_P2_reserveArray(2, 969), __HIVE_P2_ownArray([e, "Program"], 969, "CONTROL_ARRAY")), 969));
+    }, 26, 1, 0, 935)), 933));
+    var J = (__HIVE_P2_reserveObject(1, 971), __HIVE_P2_ownObject({ kind: "loop" }, 971, 1, 4)), ee = (__HIVE_P2_reserveObject(1, 972), __HIVE_P2_ownObject({ kind: "switch" }, 972, 1, 4));
+    __HIVE_P2_set($, "isLet", (__HIVE_P2_reserveFunction(974), __HIVE_P2_registerFunction(function (context) {
+        var __HIVE_P2_temp974_0, __HIVE_P2_temp974_1;
+        if (!(__HIVE_P2_temp974_0 = this, __HIVE_P2_temp974_1 = __HIVE_P2_get(__HIVE_P2_temp974_0, "isContextual", 975), __HIVE_P2_invoke(__HIVE_P2_temp974_1, __HIVE_P2_temp974_0, (__HIVE_P2_reserveArray(1, 975), __HIVE_P2_ownArray(["let"], 975, "CONTROL_ARRAY")), 975)))
+            return false;
+        var packed = __HIVE_P2_invoke(__scalarTrivia, void 0, (__HIVE_P2_reserveArray(5, 977), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 978), __HIVE_P2_get(this, "pos", 979), __HIVE_P2_get(this, "inModule", 980), __HIVE_P2_get(this, "lastTokEnd", 981), __HIVE_P2_get(__HIVE_P2_get(this, "options", 983), "allowHashBang", 982)], 977, "CONTROL_ARRAY")), 977);
+        var i = __HIVE_P2_binary("/", (__HIVE_P2_binary("-", packed, __HIVE_P2_binary("%", packed, 2, 986), 985)), 2, 984), c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 987), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 988), i], 987, "CONTROL_ARRAY")), 987);
+        if (c === 91 || c === 92)
+            return true;
+        if (context)
+            return false;
+        if (c === 123)
+            return true;
+        if (__HIVE_P2_binary(">=", c, 128, 989))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 990), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 990, "CONTROL_ARRAY")), 990);
+        if (__HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 991), __HIVE_P2_ownArray([c], 991, "CONTROL_ARRAY")), 991)) {
+            var word = __HIVE_P2_invoke(__scalarPeekWord, void 0, (__HIVE_P2_reserveArray(2, 992), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 993), i], 992, "CONTROL_ARRAY")), 992);
+            return __HIVE_P2_get(word, "escaped", 994) || __HIVE_P2_get(word, "value", 995) !== "in" && __HIVE_P2_get(word, "value", 996) !== "instanceof";
+        }
+        return false;
+    }, 6, 1, 0, 974)), 997);
+    __HIVE_P2_set($, "isAsyncFunction", (__HIVE_P2_reserveFunction(1000), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp1000_0, __HIVE_P2_temp1000_1;
+        if (!(__HIVE_P2_temp1000_0 = this, __HIVE_P2_temp1000_1 = __HIVE_P2_get(__HIVE_P2_temp1000_0, "isContextual", 1001), __HIVE_P2_invoke(__HIVE_P2_temp1000_1, __HIVE_P2_temp1000_0, (__HIVE_P2_reserveArray(1, 1001), __HIVE_P2_ownArray(["async"], 1001, "CONTROL_ARRAY")), 1001)))
+            return false;
+        var packed = __HIVE_P2_invoke(__scalarTrivia, void 0, (__HIVE_P2_reserveArray(5, 1003), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 1004), __HIVE_P2_get(this, "pos", 1005), __HIVE_P2_get(this, "inModule", 1006), __HIVE_P2_get(this, "lastTokEnd", 1007), __HIVE_P2_get(__HIVE_P2_get(this, "options", 1009), "allowHashBang", 1008)], 1003, "CONTROL_ARRAY")), 1003);
+        if (__HIVE_P2_binary("%", packed, 2, 1010) === 1)
+            return false;
+        var i = __HIVE_P2_binary("/", (__HIVE_P2_binary("-", packed, __HIVE_P2_binary("%", packed, 2, 1013), 1012)), 2, 1011);
+        if (!__HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 1014), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 1015), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 1016), i], 1015, "CONTROL_ARRAY")), 1015)], 1014, "CONTROL_ARRAY")), 1014)) {
+            if (__HIVE_P2_binary(">=", __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 1018), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 1019), i], 1018, "CONTROL_ARRAY")), 1018), 128, 1017))
+                __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 1020), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 1020, "CONTROL_ARRAY")), 1020);
+            return false;
+        }
+        var word = __HIVE_P2_invoke(__scalarPeekWord, void 0, (__HIVE_P2_reserveArray(2, 1021), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 1022), i], 1021, "CONTROL_ARRAY")), 1021);
+        return !__HIVE_P2_get(word, "escaped", 1023) && __HIVE_P2_get(word, "value", 1024) === "function";
+    }, 5, 0, 0, 1000)), 1025);
+    (__HIVE_P2_temp0_994 = $, __HIVE_P2_temp0_995 = "parseStatement", __HIVE_P2_set(__HIVE_P2_temp0_994, __HIVE_P2_temp0_995, (__HIVE_P2_reserveFunction(1029), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp1029_0, __HIVE_P2_temp1029_1, __HIVE_P2_temp1029_2, __HIVE_P2_temp1029_3, __HIVE_P2_temp1029_4, __HIVE_P2_temp1029_5, __HIVE_P2_temp1029_6, __HIVE_P2_temp1029_7, __HIVE_P2_temp1029_8, __HIVE_P2_temp1029_9, __HIVE_P2_temp1029_10, __HIVE_P2_temp1029_11, __HIVE_P2_temp1029_12, __HIVE_P2_temp1029_13, __HIVE_P2_temp1029_14, __HIVE_P2_temp1029_15, __HIVE_P2_temp1029_16, __HIVE_P2_temp1029_17, __HIVE_P2_temp1029_18, __HIVE_P2_temp1029_19, __HIVE_P2_temp1029_20, __HIVE_P2_temp1029_21, __HIVE_P2_temp1029_22, __HIVE_P2_temp1029_23, __HIVE_P2_temp1029_24, __HIVE_P2_temp1029_25, __HIVE_P2_temp1029_26, __HIVE_P2_temp1029_27, __HIVE_P2_temp1029_28, __HIVE_P2_temp1029_29, __HIVE_P2_temp1029_30, __HIVE_P2_temp1029_31, __HIVE_P2_temp1029_32, __HIVE_P2_temp1029_33, __HIVE_P2_temp1029_34, __HIVE_P2_temp1029_35, __HIVE_P2_temp1029_36, __HIVE_P2_temp1029_37, __HIVE_P2_temp1029_38, __HIVE_P2_temp1029_39, __HIVE_P2_temp1029_40, __HIVE_P2_temp1029_41, __HIVE_P2_temp1029_42, __HIVE_P2_temp1029_43, __HIVE_P2_temp1029_44, __HIVE_P2_temp1029_45, __HIVE_P2_temp1029_46, __HIVE_P2_temp1029_47, __HIVE_P2_temp1029_48, __HIVE_P2_temp1029_49, __HIVE_P2_temp1029_50, __HIVE_P2_temp1029_51, __HIVE_P2_temp1029_52, __HIVE_P2_temp1029_53, __HIVE_P2_temp1029_54, __HIVE_P2_temp1029_55, __HIVE_P2_temp1029_56, __HIVE_P2_temp1029_57, __HIVE_P2_temp1029_58, __HIVE_P2_temp1029_59, __HIVE_P2_temp1029_60, __HIVE_P2_temp1029_61, __HIVE_P2_temp1029_62, __HIVE_P2_temp1029_63, __HIVE_P2_temp1029_64;
+        var s = __HIVE_P2_get(this, "type", 1030), r = (__HIVE_P2_temp1029_0 = this, __HIVE_P2_temp1029_1 = __HIVE_P2_get(__HIVE_P2_temp1029_0, "startNode", 1031), __HIVE_P2_invoke(__HIVE_P2_temp1029_1, __HIVE_P2_temp1029_0, (__HIVE_P2_reserveArray(0, 1031), __HIVE_P2_ownArray([], 1031, "CONTROL_ARRAY")), 1031)), a;
+        if ((__HIVE_P2_temp1029_2 = this, __HIVE_P2_temp1029_3 = __HIVE_P2_get(__HIVE_P2_temp1029_2, "isLet", 1033), __HIVE_P2_invoke(__HIVE_P2_temp1029_3, __HIVE_P2_temp1029_2, (__HIVE_P2_reserveArray(1, 1033), __HIVE_P2_ownArray([e], 1033, "CONTROL_ARRAY")), 1033))) {
+            s = __HIVE_P2_get(m, "_var", 1036);
+            a = "let";
+        }
+        switch (s) {
+            case __HIVE_P2_get(m, "_break", 1038):
+            case __HIVE_P2_get(m, "_continue", 1039): return (__HIVE_P2_temp1029_4 = this, __HIVE_P2_temp1029_5 = __HIVE_P2_get(__HIVE_P2_temp1029_4, "parseBreakContinueStatement", 1040), __HIVE_P2_invoke(__HIVE_P2_temp1029_5, __HIVE_P2_temp1029_4, (__HIVE_P2_reserveArray(2, 1040), __HIVE_P2_ownArray([r, __HIVE_P2_get(s, "keyword", 1041)], 1040, "CONTROL_ARRAY")), 1040));
+            case __HIVE_P2_get(m, "_debugger", 1043): return (__HIVE_P2_temp1029_6 = this, __HIVE_P2_temp1029_7 = __HIVE_P2_get(__HIVE_P2_temp1029_6, "parseDebuggerStatement", 1044), __HIVE_P2_invoke(__HIVE_P2_temp1029_7, __HIVE_P2_temp1029_6, (__HIVE_P2_reserveArray(1, 1044), __HIVE_P2_ownArray([r], 1044, "CONTROL_ARRAY")), 1044));
+            case __HIVE_P2_get(m, "_do", 1046): return (__HIVE_P2_temp1029_8 = this, __HIVE_P2_temp1029_9 = __HIVE_P2_get(__HIVE_P2_temp1029_8, "parseDoStatement", 1047), __HIVE_P2_invoke(__HIVE_P2_temp1029_9, __HIVE_P2_temp1029_8, (__HIVE_P2_reserveArray(1, 1047), __HIVE_P2_ownArray([r], 1047, "CONTROL_ARRAY")), 1047));
+            case __HIVE_P2_get(m, "_for", 1049): return (__HIVE_P2_temp1029_10 = this, __HIVE_P2_temp1029_11 = __HIVE_P2_get(__HIVE_P2_temp1029_10, "parseForStatement", 1050), __HIVE_P2_invoke(__HIVE_P2_temp1029_11, __HIVE_P2_temp1029_10, (__HIVE_P2_reserveArray(1, 1050), __HIVE_P2_ownArray([r], 1050, "CONTROL_ARRAY")), 1050));
+            case __HIVE_P2_get(m, "_function", 1052):
+                if (e && (__HIVE_P2_get(this, "strict", 1053) || e !== "if" && e !== "label") && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1056), "ecmaVersion", 1055), 6, 1054)) {
+                    __HIVE_P2_syntaxRefusal(1057);
+                }
+                return (__HIVE_P2_temp1029_12 = this, __HIVE_P2_temp1029_13 = __HIVE_P2_get(__HIVE_P2_temp1029_12, "parseFunctionStatement", 1058), __HIVE_P2_invoke(__HIVE_P2_temp1029_13, __HIVE_P2_temp1029_12, (__HIVE_P2_reserveArray(3, 1058), __HIVE_P2_ownArray([r, false, !e], 1058, "CONTROL_ARRAY")), 1058));
+            case __HIVE_P2_get(m, "_class", 1060):
+                if (e) {
+                    __HIVE_P2_syntaxRefusal(1061);
+                }
+                return (__HIVE_P2_temp1029_14 = this, __HIVE_P2_temp1029_15 = __HIVE_P2_get(__HIVE_P2_temp1029_14, "parseClass", 1062), __HIVE_P2_invoke(__HIVE_P2_temp1029_15, __HIVE_P2_temp1029_14, (__HIVE_P2_reserveArray(2, 1062), __HIVE_P2_ownArray([r, true], 1062, "CONTROL_ARRAY")), 1062));
+            case __HIVE_P2_get(m, "_if", 1064): return (__HIVE_P2_temp1029_16 = this, __HIVE_P2_temp1029_17 = __HIVE_P2_get(__HIVE_P2_temp1029_16, "parseIfStatement", 1065), __HIVE_P2_invoke(__HIVE_P2_temp1029_17, __HIVE_P2_temp1029_16, (__HIVE_P2_reserveArray(1, 1065), __HIVE_P2_ownArray([r], 1065, "CONTROL_ARRAY")), 1065));
+            case __HIVE_P2_get(m, "_return", 1067): return (__HIVE_P2_temp1029_18 = this, __HIVE_P2_temp1029_19 = __HIVE_P2_get(__HIVE_P2_temp1029_18, "parseReturnStatement", 1068), __HIVE_P2_invoke(__HIVE_P2_temp1029_19, __HIVE_P2_temp1029_18, (__HIVE_P2_reserveArray(1, 1068), __HIVE_P2_ownArray([r], 1068, "CONTROL_ARRAY")), 1068));
+            case __HIVE_P2_get(m, "_switch", 1070): return (__HIVE_P2_temp1029_20 = this, __HIVE_P2_temp1029_21 = __HIVE_P2_get(__HIVE_P2_temp1029_20, "parseSwitchStatement", 1071), __HIVE_P2_invoke(__HIVE_P2_temp1029_21, __HIVE_P2_temp1029_20, (__HIVE_P2_reserveArray(1, 1071), __HIVE_P2_ownArray([r], 1071, "CONTROL_ARRAY")), 1071));
+            case __HIVE_P2_get(m, "_throw", 1073): return (__HIVE_P2_temp1029_22 = this, __HIVE_P2_temp1029_23 = __HIVE_P2_get(__HIVE_P2_temp1029_22, "parseThrowStatement", 1074), __HIVE_P2_invoke(__HIVE_P2_temp1029_23, __HIVE_P2_temp1029_22, (__HIVE_P2_reserveArray(1, 1074), __HIVE_P2_ownArray([r], 1074, "CONTROL_ARRAY")), 1074));
+            case __HIVE_P2_get(m, "_try", 1076): return (__HIVE_P2_temp1029_24 = this, __HIVE_P2_temp1029_25 = __HIVE_P2_get(__HIVE_P2_temp1029_24, "parseTryStatement", 1077), __HIVE_P2_invoke(__HIVE_P2_temp1029_25, __HIVE_P2_temp1029_24, (__HIVE_P2_reserveArray(1, 1077), __HIVE_P2_ownArray([r], 1077, "CONTROL_ARRAY")), 1077));
+            case __HIVE_P2_get(m, "_const", 1079):
+            case __HIVE_P2_get(m, "_var", 1080):
+                a = a || __HIVE_P2_get(this, "value", 1082);
+                if (e && a !== "var") {
+                    __HIVE_P2_syntaxRefusal(1083);
+                }
+                return (__HIVE_P2_temp1029_26 = this, __HIVE_P2_temp1029_27 = __HIVE_P2_get(__HIVE_P2_temp1029_26, "parseVarStatement", 1084), __HIVE_P2_invoke(__HIVE_P2_temp1029_27, __HIVE_P2_temp1029_26, (__HIVE_P2_reserveArray(2, 1084), __HIVE_P2_ownArray([r, a], 1084, "CONTROL_ARRAY")), 1084));
+            case __HIVE_P2_get(m, "_while", 1086): return (__HIVE_P2_temp1029_28 = this, __HIVE_P2_temp1029_29 = __HIVE_P2_get(__HIVE_P2_temp1029_28, "parseWhileStatement", 1087), __HIVE_P2_invoke(__HIVE_P2_temp1029_29, __HIVE_P2_temp1029_28, (__HIVE_P2_reserveArray(1, 1087), __HIVE_P2_ownArray([r], 1087, "CONTROL_ARRAY")), 1087));
+            case __HIVE_P2_get(m, "_with", 1089): return (__HIVE_P2_temp1029_30 = this, __HIVE_P2_temp1029_31 = __HIVE_P2_get(__HIVE_P2_temp1029_30, "parseWithStatement", 1090), __HIVE_P2_invoke(__HIVE_P2_temp1029_31, __HIVE_P2_temp1029_30, (__HIVE_P2_reserveArray(1, 1090), __HIVE_P2_ownArray([r], 1090, "CONTROL_ARRAY")), 1090));
+            case __HIVE_P2_get(m, "braceL", 1092): return (__HIVE_P2_temp1029_32 = this, __HIVE_P2_temp1029_33 = __HIVE_P2_get(__HIVE_P2_temp1029_32, "parseBlock", 1093), __HIVE_P2_invoke(__HIVE_P2_temp1029_33, __HIVE_P2_temp1029_32, (__HIVE_P2_reserveArray(2, 1093), __HIVE_P2_ownArray([true, r], 1093, "CONTROL_ARRAY")), 1093));
+            case __HIVE_P2_get(m, "semi", 1095): return (__HIVE_P2_temp1029_34 = this, __HIVE_P2_temp1029_35 = __HIVE_P2_get(__HIVE_P2_temp1029_34, "parseEmptyStatement", 1096), __HIVE_P2_invoke(__HIVE_P2_temp1029_35, __HIVE_P2_temp1029_34, (__HIVE_P2_reserveArray(1, 1096), __HIVE_P2_ownArray([r], 1096, "CONTROL_ARRAY")), 1096));
+            case __HIVE_P2_get(m, "_export", 1098):
+            case __HIVE_P2_get(m, "_import", 1099):
+                if (__HIVE_P2_binary(">", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1102), "ecmaVersion", 1101), 10, 1100) && s === __HIVE_P2_get(m, "_import", 1103)) {
+                    (__HIVE_P2_temp1029_36 = y, __HIVE_P2_temp1029_37 = "lastIndex", __HIVE_P2_set(__HIVE_P2_temp1029_36, __HIVE_P2_temp1029_37, __HIVE_P2_get(this, "pos", 1106), 1104));
+                    var n = (__HIVE_P2_temp1029_39 = y, __HIVE_P2_temp1029_40 = __HIVE_P2_get(__HIVE_P2_temp1029_39, "exec", 1107), __HIVE_P2_invoke(__HIVE_P2_temp1029_40, __HIVE_P2_temp1029_39, (__HIVE_P2_reserveArray(1, 1107), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 1108)], 1107, "CONTROL_ARRAY")), 1107));
+                    var o = __HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 1111), __HIVE_P2_get(__HIVE_P2_get(n, 0, 1113), "length", 1112), 1110), h = (__HIVE_P2_temp1029_41 = __HIVE_P2_get(this, "input", 1116), __HIVE_P2_temp1029_42 = __HIVE_P2_get(__HIVE_P2_temp1029_41, "charCodeAt", 1114), __HIVE_P2_invoke(__HIVE_P2_temp1029_42, __HIVE_P2_temp1029_41, (__HIVE_P2_reserveArray(1, 1114), __HIVE_P2_ownArray([o], 1114, "CONTROL_ARRAY")), 1114));
+                    if (h === 40 || h === 46) {
+                        return (__HIVE_P2_temp1029_45 = this, __HIVE_P2_temp1029_46 = __HIVE_P2_get(__HIVE_P2_temp1029_45, "parseExpressionStatement", 1117), __HIVE_P2_invoke(__HIVE_P2_temp1029_46, __HIVE_P2_temp1029_45, (__HIVE_P2_reserveArray(2, 1117), __HIVE_P2_ownArray([r, (__HIVE_P2_temp1029_43 = this, __HIVE_P2_temp1029_44 = __HIVE_P2_get(__HIVE_P2_temp1029_43, "parseExpression", 1118), __HIVE_P2_invoke(__HIVE_P2_temp1029_44, __HIVE_P2_temp1029_43, (__HIVE_P2_reserveArray(0, 1118), __HIVE_P2_ownArray([], 1118, "CONTROL_ARRAY")), 1118))], 1117, "CONTROL_ARRAY")), 1117));
+                    }
+                }
+                if (!__HIVE_P2_get(__HIVE_P2_get(this, "options", 1122), "allowImportExportEverywhere", 1121)) {
+                    if (!t) {
+                        __HIVE_P2_syntaxRefusal(1123);
+                    }
+                    if (!__HIVE_P2_get(this, "inModule", 1124)) {
+                        __HIVE_P2_syntaxRefusal(1125);
+                    }
+                }
+                return s === __HIVE_P2_get(m, "_import", 1126) ? (__HIVE_P2_temp1029_47 = this, __HIVE_P2_temp1029_48 = __HIVE_P2_get(__HIVE_P2_temp1029_47, "parseImport", 1127), __HIVE_P2_invoke(__HIVE_P2_temp1029_48, __HIVE_P2_temp1029_47, (__HIVE_P2_reserveArray(1, 1127), __HIVE_P2_ownArray([r], 1127, "CONTROL_ARRAY")), 1127)) : (__HIVE_P2_temp1029_49 = this, __HIVE_P2_temp1029_50 = __HIVE_P2_get(__HIVE_P2_temp1029_49, "parseExport", 1129), __HIVE_P2_invoke(__HIVE_P2_temp1029_50, __HIVE_P2_temp1029_49, (__HIVE_P2_reserveArray(2, 1129), __HIVE_P2_ownArray([r, i], 1129, "CONTROL_ARRAY")), 1129));
+            default:
+                if ((__HIVE_P2_temp1029_51 = this, __HIVE_P2_temp1029_52 = __HIVE_P2_get(__HIVE_P2_temp1029_51, "isAsyncFunction", 1131), __HIVE_P2_invoke(__HIVE_P2_temp1029_52, __HIVE_P2_temp1029_51, (__HIVE_P2_reserveArray(0, 1131), __HIVE_P2_ownArray([], 1131, "CONTROL_ARRAY")), 1131))) {
+                    if (e) {
+                        __HIVE_P2_syntaxRefusal(1133);
+                    }
+                    (__HIVE_P2_temp1029_53 = this, __HIVE_P2_temp1029_54 = __HIVE_P2_get(__HIVE_P2_temp1029_53, "next", 1134), __HIVE_P2_invoke(__HIVE_P2_temp1029_54, __HIVE_P2_temp1029_53, (__HIVE_P2_reserveArray(0, 1134), __HIVE_P2_ownArray([], 1134, "CONTROL_ARRAY")), 1134));
+                    return (__HIVE_P2_temp1029_55 = this, __HIVE_P2_temp1029_56 = __HIVE_P2_get(__HIVE_P2_temp1029_55, "parseFunctionStatement", 1136), __HIVE_P2_invoke(__HIVE_P2_temp1029_56, __HIVE_P2_temp1029_55, (__HIVE_P2_reserveArray(3, 1136), __HIVE_P2_ownArray([r, true, !e], 1136, "CONTROL_ARRAY")), 1136));
+                }
+                var p = __HIVE_P2_get(this, "value", 1138), c = (__HIVE_P2_temp1029_57 = this, __HIVE_P2_temp1029_58 = __HIVE_P2_get(__HIVE_P2_temp1029_57, "parseExpression", 1139), __HIVE_P2_invoke(__HIVE_P2_temp1029_58, __HIVE_P2_temp1029_57, (__HIVE_P2_reserveArray(0, 1139), __HIVE_P2_ownArray([], 1139, "CONTROL_ARRAY")), 1139));
+                if (s === __HIVE_P2_get(m, "name", 1141) && __HIVE_P2_get(c, "type", 1142) === "Identifier" && (__HIVE_P2_temp1029_59 = this, __HIVE_P2_temp1029_60 = __HIVE_P2_get(__HIVE_P2_temp1029_59, "eat", 1143), __HIVE_P2_invoke(__HIVE_P2_temp1029_60, __HIVE_P2_temp1029_59, (__HIVE_P2_reserveArray(1, 1143), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 1144)], 1143, "CONTROL_ARRAY")), 1143))) {
+                    return (__HIVE_P2_temp1029_61 = this, __HIVE_P2_temp1029_62 = __HIVE_P2_get(__HIVE_P2_temp1029_61, "parseLabeledStatement", 1146), __HIVE_P2_invoke(__HIVE_P2_temp1029_62, __HIVE_P2_temp1029_61, (__HIVE_P2_reserveArray(4, 1146), __HIVE_P2_ownArray([r, p, c, e], 1146, "CONTROL_ARRAY")), 1146));
+                }
+                else {
+                    return (__HIVE_P2_temp1029_63 = this, __HIVE_P2_temp1029_64 = __HIVE_P2_get(__HIVE_P2_temp1029_63, "parseExpressionStatement", 1148), __HIVE_P2_invoke(__HIVE_P2_temp1029_64, __HIVE_P2_temp1029_63, (__HIVE_P2_reserveArray(2, 1148), __HIVE_P2_ownArray([r, c], 1148, "CONTROL_ARRAY")), 1148));
+                }
+        }
+    }, 73, 3, 0, 1029)), 1027));
+    (__HIVE_P2_temp0_997 = $, __HIVE_P2_temp0_998 = "parseBreakContinueStatement", __HIVE_P2_set(__HIVE_P2_temp0_997, __HIVE_P2_temp0_998, (__HIVE_P2_reserveFunction(1152), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1152_0, __HIVE_P2_temp1152_1, __HIVE_P2_temp1152_2, __HIVE_P2_temp1152_3, __HIVE_P2_temp1152_4, __HIVE_P2_temp1152_5, __HIVE_P2_temp1152_6, __HIVE_P2_temp1152_7, __HIVE_P2_temp1152_8, __HIVE_P2_temp1152_9, __HIVE_P2_temp1152_10, __HIVE_P2_temp1152_11, __HIVE_P2_temp1152_12, __HIVE_P2_temp1152_13, __HIVE_P2_temp1152_14, __HIVE_P2_temp1152_15, __HIVE_P2_temp1152_16, __HIVE_P2_temp1152_17, __HIVE_P2_temp1152_18, __HIVE_P2_temp1152_19;
+        var i = t === "break";
+        (__HIVE_P2_temp1152_0 = this, __HIVE_P2_temp1152_1 = __HIVE_P2_get(__HIVE_P2_temp1152_0, "next", 1153), __HIVE_P2_invoke(__HIVE_P2_temp1152_1, __HIVE_P2_temp1152_0, (__HIVE_P2_reserveArray(0, 1153), __HIVE_P2_ownArray([], 1153, "CONTROL_ARRAY")), 1153));
+        if ((__HIVE_P2_temp1152_2 = this, __HIVE_P2_temp1152_3 = __HIVE_P2_get(__HIVE_P2_temp1152_2, "eat", 1155), __HIVE_P2_invoke(__HIVE_P2_temp1152_3, __HIVE_P2_temp1152_2, (__HIVE_P2_reserveArray(1, 1155), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1156)], 1155, "CONTROL_ARRAY")), 1155)) || (__HIVE_P2_temp1152_4 = this, __HIVE_P2_temp1152_5 = __HIVE_P2_get(__HIVE_P2_temp1152_4, "insertSemicolon", 1158), __HIVE_P2_invoke(__HIVE_P2_temp1152_5, __HIVE_P2_temp1152_4, (__HIVE_P2_reserveArray(0, 1158), __HIVE_P2_ownArray([], 1158, "CONTROL_ARRAY")), 1158))) {
+            (__HIVE_P2_temp1152_6 = e, __HIVE_P2_temp1152_7 = "label", __HIVE_P2_set(__HIVE_P2_temp1152_6, __HIVE_P2_temp1152_7, null, 1160));
+        }
+        else if (__HIVE_P2_get(this, "type", 1162) !== __HIVE_P2_get(m, "name", 1163)) {
+            __HIVE_P2_syntaxRefusal(1164);
+        }
+        else {
+            (__HIVE_P2_temp1152_9 = e, __HIVE_P2_temp1152_10 = "label", __HIVE_P2_set(__HIVE_P2_temp1152_9, __HIVE_P2_temp1152_10, (__HIVE_P2_temp1152_12 = this, __HIVE_P2_temp1152_13 = __HIVE_P2_get(__HIVE_P2_temp1152_12, "parseIdent", 1167), __HIVE_P2_invoke(__HIVE_P2_temp1152_13, __HIVE_P2_temp1152_12, (__HIVE_P2_reserveArray(0, 1167), __HIVE_P2_ownArray([], 1167, "CONTROL_ARRAY")), 1167)), 1165));
+            (__HIVE_P2_temp1152_14 = this, __HIVE_P2_temp1152_15 = __HIVE_P2_get(__HIVE_P2_temp1152_14, "semicolon", 1169), __HIVE_P2_invoke(__HIVE_P2_temp1152_15, __HIVE_P2_temp1152_14, (__HIVE_P2_reserveArray(0, 1169), __HIVE_P2_ownArray([], 1169, "CONTROL_ARRAY")), 1169));
+        }
+        var s = 0;
+        for (; __HIVE_P2_binary("<", s, __HIVE_P2_get(__HIVE_P2_get(this, "labels", 1174), "length", 1173), 1172); (__HIVE_P2_temp1152_16 = __HIVE_P2_numeric(s, 1175), __HIVE_P2_temp1152_17 = __HIVE_P2_temp1152_16 + 1, s = __HIVE_P2_temp1152_17, __HIVE_P2_temp1152_17)) {
+            __HIVE_P2_tick(1171);
+            var r = __HIVE_P2_get(__HIVE_P2_get(this, "labels", 1177), s, 1176);
+            if (__HIVE_P2_binary("==", __HIVE_P2_get(e, "label", 1179), null, 1178) || __HIVE_P2_get(r, "name", 1180) === __HIVE_P2_get(__HIVE_P2_get(e, "label", 1182), "name", 1181)) {
+                if (__HIVE_P2_binary("!=", __HIVE_P2_get(r, "kind", 1184), null, 1183) && (i || __HIVE_P2_get(r, "kind", 1185) === "loop")) {
+                    break;
+                }
+                if (__HIVE_P2_get(e, "label", 1186) && i) {
+                    break;
+                }
+            }
+        }
+        if (s === __HIVE_P2_get(__HIVE_P2_get(this, "labels", 1188), "length", 1187)) {
+            __HIVE_P2_syntaxRefusal(1189);
+        }
+        return (__HIVE_P2_temp1152_18 = this, __HIVE_P2_temp1152_19 = __HIVE_P2_get(__HIVE_P2_temp1152_18, "finishNode", 1190), __HIVE_P2_invoke(__HIVE_P2_temp1152_19, __HIVE_P2_temp1152_18, (__HIVE_P2_reserveArray(2, 1190), __HIVE_P2_ownArray([e, i ? "BreakStatement" : "ContinueStatement"], 1190, "CONTROL_ARRAY")), 1190));
+    }, 23, 2, 0, 1152)), 1150));
+    (__HIVE_P2_temp0_1000 = $, __HIVE_P2_temp0_1001 = "parseDebuggerStatement", __HIVE_P2_set(__HIVE_P2_temp0_1000, __HIVE_P2_temp0_1001, (__HIVE_P2_reserveFunction(1194), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1194_0, __HIVE_P2_temp1194_1, __HIVE_P2_temp1194_2, __HIVE_P2_temp1194_3, __HIVE_P2_temp1194_4, __HIVE_P2_temp1194_5;
+        (__HIVE_P2_temp1194_0 = this, __HIVE_P2_temp1194_1 = __HIVE_P2_get(__HIVE_P2_temp1194_0, "next", 1195), __HIVE_P2_invoke(__HIVE_P2_temp1194_1, __HIVE_P2_temp1194_0, (__HIVE_P2_reserveArray(0, 1195), __HIVE_P2_ownArray([], 1195, "CONTROL_ARRAY")), 1195));
+        (__HIVE_P2_temp1194_2 = this, __HIVE_P2_temp1194_3 = __HIVE_P2_get(__HIVE_P2_temp1194_2, "semicolon", 1197), __HIVE_P2_invoke(__HIVE_P2_temp1194_3, __HIVE_P2_temp1194_2, (__HIVE_P2_reserveArray(0, 1197), __HIVE_P2_ownArray([], 1197, "CONTROL_ARRAY")), 1197));
+        return (__HIVE_P2_temp1194_4 = this, __HIVE_P2_temp1194_5 = __HIVE_P2_get(__HIVE_P2_temp1194_4, "finishNode", 1199), __HIVE_P2_invoke(__HIVE_P2_temp1194_5, __HIVE_P2_temp1194_4, (__HIVE_P2_reserveArray(2, 1199), __HIVE_P2_ownArray([e, "DebuggerStatement"], 1199, "CONTROL_ARRAY")), 1199));
+    }, 6, 1, 0, 1194)), 1192));
+    (__HIVE_P2_temp0_1003 = $, __HIVE_P2_temp0_1004 = "parseDoStatement", __HIVE_P2_set(__HIVE_P2_temp0_1003, __HIVE_P2_temp0_1004, (__HIVE_P2_reserveFunction(1203), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1203_0, __HIVE_P2_temp1203_1, __HIVE_P2_temp1203_2, __HIVE_P2_temp1203_3, __HIVE_P2_temp1203_4, __HIVE_P2_temp1203_5, __HIVE_P2_temp1203_6, __HIVE_P2_temp1203_7, __HIVE_P2_temp1203_8, __HIVE_P2_temp1203_9, __HIVE_P2_temp1203_10, __HIVE_P2_temp1203_11, __HIVE_P2_temp1203_12, __HIVE_P2_temp1203_13, __HIVE_P2_temp1203_14, __HIVE_P2_temp1203_15, __HIVE_P2_temp1203_16, __HIVE_P2_temp1203_17, __HIVE_P2_temp1203_18, __HIVE_P2_temp1203_19, __HIVE_P2_temp1203_20, __HIVE_P2_temp1203_21, __HIVE_P2_temp1203_22, __HIVE_P2_temp1203_23;
+        (__HIVE_P2_temp1203_0 = this, __HIVE_P2_temp1203_1 = __HIVE_P2_get(__HIVE_P2_temp1203_0, "next", 1204), __HIVE_P2_invoke(__HIVE_P2_temp1203_1, __HIVE_P2_temp1203_0, (__HIVE_P2_reserveArray(0, 1204), __HIVE_P2_ownArray([], 1204, "CONTROL_ARRAY")), 1204));
+        (__HIVE_P2_temp1203_2 = __HIVE_P2_get(this, "labels", 1208), __HIVE_P2_temp1203_3 = __HIVE_P2_get(__HIVE_P2_temp1203_2, "push", 1206), __HIVE_P2_invoke(__HIVE_P2_temp1203_3, __HIVE_P2_temp1203_2, (__HIVE_P2_reserveArray(1, 1206), __HIVE_P2_ownArray([J], 1206, "CONTROL_ARRAY")), 1206));
+        (__HIVE_P2_temp1203_4 = e, __HIVE_P2_temp1203_5 = "body", __HIVE_P2_set(__HIVE_P2_temp1203_4, __HIVE_P2_temp1203_5, (__HIVE_P2_temp1203_7 = this, __HIVE_P2_temp1203_8 = __HIVE_P2_get(__HIVE_P2_temp1203_7, "parseStatement", 1211), __HIVE_P2_invoke(__HIVE_P2_temp1203_8, __HIVE_P2_temp1203_7, (__HIVE_P2_reserveArray(1, 1211), __HIVE_P2_ownArray(["do"], 1211, "CONTROL_ARRAY")), 1211)), 1209));
+        (__HIVE_P2_temp1203_9 = __HIVE_P2_get(this, "labels", 1215), __HIVE_P2_temp1203_10 = __HIVE_P2_get(__HIVE_P2_temp1203_9, "pop", 1213), __HIVE_P2_invoke(__HIVE_P2_temp1203_10, __HIVE_P2_temp1203_9, (__HIVE_P2_reserveArray(0, 1213), __HIVE_P2_ownArray([], 1213, "CONTROL_ARRAY")), 1213));
+        (__HIVE_P2_temp1203_11 = this, __HIVE_P2_temp1203_12 = __HIVE_P2_get(__HIVE_P2_temp1203_11, "expect", 1216), __HIVE_P2_invoke(__HIVE_P2_temp1203_12, __HIVE_P2_temp1203_11, (__HIVE_P2_reserveArray(1, 1216), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_while", 1217)], 1216, "CONTROL_ARRAY")), 1216));
+        (__HIVE_P2_temp1203_13 = e, __HIVE_P2_temp1203_14 = "test", __HIVE_P2_set(__HIVE_P2_temp1203_13, __HIVE_P2_temp1203_14, (__HIVE_P2_temp1203_16 = this, __HIVE_P2_temp1203_17 = __HIVE_P2_get(__HIVE_P2_temp1203_16, "parseParenExpression", 1221), __HIVE_P2_invoke(__HIVE_P2_temp1203_17, __HIVE_P2_temp1203_16, (__HIVE_P2_reserveArray(0, 1221), __HIVE_P2_ownArray([], 1221, "CONTROL_ARRAY")), 1221)), 1219));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1225), "ecmaVersion", 1224), 6, 1223)) {
+            (__HIVE_P2_temp1203_18 = this, __HIVE_P2_temp1203_19 = __HIVE_P2_get(__HIVE_P2_temp1203_18, "eat", 1226), __HIVE_P2_invoke(__HIVE_P2_temp1203_19, __HIVE_P2_temp1203_18, (__HIVE_P2_reserveArray(1, 1226), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1227)], 1226, "CONTROL_ARRAY")), 1226));
+        }
+        else {
+            (__HIVE_P2_temp1203_20 = this, __HIVE_P2_temp1203_21 = __HIVE_P2_get(__HIVE_P2_temp1203_20, "semicolon", 1229), __HIVE_P2_invoke(__HIVE_P2_temp1203_21, __HIVE_P2_temp1203_20, (__HIVE_P2_reserveArray(0, 1229), __HIVE_P2_ownArray([], 1229, "CONTROL_ARRAY")), 1229));
+        }
+        return (__HIVE_P2_temp1203_22 = this, __HIVE_P2_temp1203_23 = __HIVE_P2_get(__HIVE_P2_temp1203_22, "finishNode", 1231), __HIVE_P2_invoke(__HIVE_P2_temp1203_23, __HIVE_P2_temp1203_22, (__HIVE_P2_reserveArray(2, 1231), __HIVE_P2_ownArray([e, "DoWhileStatement"], 1231, "CONTROL_ARRAY")), 1231));
+    }, 24, 1, 0, 1203)), 1201));
+    (__HIVE_P2_temp0_1006 = $, __HIVE_P2_temp0_1007 = "parseForStatement", __HIVE_P2_set(__HIVE_P2_temp0_1006, __HIVE_P2_temp0_1007, (__HIVE_P2_reserveFunction(1235), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1235_0, __HIVE_P2_temp1235_1, __HIVE_P2_temp1235_2, __HIVE_P2_temp1235_3, __HIVE_P2_temp1235_4, __HIVE_P2_temp1235_5, __HIVE_P2_temp1235_6, __HIVE_P2_temp1235_7, __HIVE_P2_temp1235_8, __HIVE_P2_temp1235_9, __HIVE_P2_temp1235_10, __HIVE_P2_temp1235_11, __HIVE_P2_temp1235_12, __HIVE_P2_temp1235_13, __HIVE_P2_temp1235_14, __HIVE_P2_temp1235_15, __HIVE_P2_temp1235_16, __HIVE_P2_temp1235_17, __HIVE_P2_temp1235_18, __HIVE_P2_temp1235_19, __HIVE_P2_temp1235_20, __HIVE_P2_temp1235_21, __HIVE_P2_temp1235_22, __HIVE_P2_temp1235_23, __HIVE_P2_temp1235_24, __HIVE_P2_temp1235_25, __HIVE_P2_temp1235_26, __HIVE_P2_temp1235_27, __HIVE_P2_temp1235_28, __HIVE_P2_temp1235_29, __HIVE_P2_temp1235_30, __HIVE_P2_temp1235_31, __HIVE_P2_temp1235_32, __HIVE_P2_temp1235_33, __HIVE_P2_temp1235_34, __HIVE_P2_temp1235_35, __HIVE_P2_temp1235_36, __HIVE_P2_temp1235_37, __HIVE_P2_temp1235_38, __HIVE_P2_temp1235_39, __HIVE_P2_temp1235_40, __HIVE_P2_temp1235_41, __HIVE_P2_temp1235_42, __HIVE_P2_temp1235_43, __HIVE_P2_temp1235_44, __HIVE_P2_temp1235_45, __HIVE_P2_temp1235_46, __HIVE_P2_temp1235_47, __HIVE_P2_temp1235_48, __HIVE_P2_temp1235_49, __HIVE_P2_temp1235_50, __HIVE_P2_temp1235_51, __HIVE_P2_temp1235_52, __HIVE_P2_temp1235_53, __HIVE_P2_temp1235_54;
+        (__HIVE_P2_temp1235_0 = this, __HIVE_P2_temp1235_1 = __HIVE_P2_get(__HIVE_P2_temp1235_0, "next", 1236), __HIVE_P2_invoke(__HIVE_P2_temp1235_1, __HIVE_P2_temp1235_0, (__HIVE_P2_reserveArray(0, 1236), __HIVE_P2_ownArray([], 1236, "CONTROL_ARRAY")), 1236));
+        var t = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1240), "ecmaVersion", 1239), 9, 1238) && __HIVE_P2_get(this, "canAwait", 1241) && (__HIVE_P2_temp1235_2 = this, __HIVE_P2_temp1235_3 = __HIVE_P2_get(__HIVE_P2_temp1235_2, "eatContextual", 1242), __HIVE_P2_invoke(__HIVE_P2_temp1235_3, __HIVE_P2_temp1235_2, (__HIVE_P2_reserveArray(1, 1242), __HIVE_P2_ownArray(["await"], 1242, "CONTROL_ARRAY")), 1242)) ? __HIVE_P2_get(this, "lastTokStart", 1244) : __HIVE_P2_unary("-", 1, 1245);
+        (__HIVE_P2_temp1235_4 = __HIVE_P2_get(this, "labels", 1248), __HIVE_P2_temp1235_5 = __HIVE_P2_get(__HIVE_P2_temp1235_4, "push", 1246), __HIVE_P2_invoke(__HIVE_P2_temp1235_5, __HIVE_P2_temp1235_4, (__HIVE_P2_reserveArray(1, 1246), __HIVE_P2_ownArray([J], 1246, "CONTROL_ARRAY")), 1246));
+        (__HIVE_P2_temp1235_6 = this, __HIVE_P2_temp1235_7 = __HIVE_P2_get(__HIVE_P2_temp1235_6, "enterScope", 1249), __HIVE_P2_invoke(__HIVE_P2_temp1235_7, __HIVE_P2_temp1235_6, (__HIVE_P2_reserveArray(1, 1249), __HIVE_P2_ownArray([0], 1249, "CONTROL_ARRAY")), 1249));
+        (__HIVE_P2_temp1235_8 = this, __HIVE_P2_temp1235_9 = __HIVE_P2_get(__HIVE_P2_temp1235_8, "expect", 1251), __HIVE_P2_invoke(__HIVE_P2_temp1235_9, __HIVE_P2_temp1235_8, (__HIVE_P2_reserveArray(1, 1251), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 1252)], 1251, "CONTROL_ARRAY")), 1251));
+        if (__HIVE_P2_get(this, "type", 1254) === __HIVE_P2_get(m, "semi", 1255)) {
+            if (__HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1257), 1256)) {
+                __HIVE_P2_syntaxRefusal(1258);
+            }
+            return (__HIVE_P2_temp1235_10 = this, __HIVE_P2_temp1235_11 = __HIVE_P2_get(__HIVE_P2_temp1235_10, "parseFor", 1259), __HIVE_P2_invoke(__HIVE_P2_temp1235_11, __HIVE_P2_temp1235_10, (__HIVE_P2_reserveArray(2, 1259), __HIVE_P2_ownArray([e, null], 1259, "CONTROL_ARRAY")), 1259));
+        }
+        var i = (__HIVE_P2_temp1235_12 = this, __HIVE_P2_temp1235_13 = __HIVE_P2_get(__HIVE_P2_temp1235_12, "isLet", 1261), __HIVE_P2_invoke(__HIVE_P2_temp1235_13, __HIVE_P2_temp1235_12, (__HIVE_P2_reserveArray(0, 1261), __HIVE_P2_ownArray([], 1261, "CONTROL_ARRAY")), 1261));
+        if (__HIVE_P2_get(this, "type", 1263) === __HIVE_P2_get(m, "_var", 1264) || __HIVE_P2_get(this, "type", 1265) === __HIVE_P2_get(m, "_const", 1266) || i) {
+            var s = (__HIVE_P2_temp1235_14 = this, __HIVE_P2_temp1235_15 = __HIVE_P2_get(__HIVE_P2_temp1235_14, "startNode", 1267), __HIVE_P2_invoke(__HIVE_P2_temp1235_15, __HIVE_P2_temp1235_14, (__HIVE_P2_reserveArray(0, 1267), __HIVE_P2_ownArray([], 1267, "CONTROL_ARRAY")), 1267)), r = i ? "let" : __HIVE_P2_get(this, "value", 1269);
+            (__HIVE_P2_temp1235_16 = this, __HIVE_P2_temp1235_17 = __HIVE_P2_get(__HIVE_P2_temp1235_16, "next", 1270), __HIVE_P2_invoke(__HIVE_P2_temp1235_17, __HIVE_P2_temp1235_16, (__HIVE_P2_reserveArray(0, 1270), __HIVE_P2_ownArray([], 1270, "CONTROL_ARRAY")), 1270));
+            (__HIVE_P2_temp1235_18 = this, __HIVE_P2_temp1235_19 = __HIVE_P2_get(__HIVE_P2_temp1235_18, "parseVar", 1272), __HIVE_P2_invoke(__HIVE_P2_temp1235_19, __HIVE_P2_temp1235_18, (__HIVE_P2_reserveArray(3, 1272), __HIVE_P2_ownArray([s, true, r], 1272, "CONTROL_ARRAY")), 1272));
+            (__HIVE_P2_temp1235_20 = this, __HIVE_P2_temp1235_21 = __HIVE_P2_get(__HIVE_P2_temp1235_20, "finishNode", 1274), __HIVE_P2_invoke(__HIVE_P2_temp1235_21, __HIVE_P2_temp1235_20, (__HIVE_P2_reserveArray(2, 1274), __HIVE_P2_ownArray([s, "VariableDeclaration"], 1274, "CONTROL_ARRAY")), 1274));
+            if ((__HIVE_P2_get(this, "type", 1276) === __HIVE_P2_get(m, "_in", 1277) || __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1280), "ecmaVersion", 1279), 6, 1278) && (__HIVE_P2_temp1235_22 = this, __HIVE_P2_temp1235_23 = __HIVE_P2_get(__HIVE_P2_temp1235_22, "isContextual", 1281), __HIVE_P2_invoke(__HIVE_P2_temp1235_23, __HIVE_P2_temp1235_22, (__HIVE_P2_reserveArray(1, 1281), __HIVE_P2_ownArray(["of"], 1281, "CONTROL_ARRAY")), 1281))) && __HIVE_P2_get(__HIVE_P2_get(s, "declarations", 1284), "length", 1283) === 1) {
+                if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1287), "ecmaVersion", 1286), 9, 1285)) {
+                    if (__HIVE_P2_get(this, "type", 1288) === __HIVE_P2_get(m, "_in", 1289)) {
+                        if (__HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1291), 1290)) {
+                            __HIVE_P2_syntaxRefusal(1292);
+                        }
+                    }
+                    else {
+                        (__HIVE_P2_temp1235_24 = e, __HIVE_P2_temp1235_25 = "await", __HIVE_P2_set(__HIVE_P2_temp1235_24, __HIVE_P2_temp1235_25, __HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1296), 1295), 1293));
+                    }
+                }
+                return (__HIVE_P2_temp1235_27 = this, __HIVE_P2_temp1235_28 = __HIVE_P2_get(__HIVE_P2_temp1235_27, "parseForIn", 1297), __HIVE_P2_invoke(__HIVE_P2_temp1235_28, __HIVE_P2_temp1235_27, (__HIVE_P2_reserveArray(2, 1297), __HIVE_P2_ownArray([e, s], 1297, "CONTROL_ARRAY")), 1297));
+            }
+            if (__HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1300), 1299)) {
+                __HIVE_P2_syntaxRefusal(1301);
+            }
+            return (__HIVE_P2_temp1235_29 = this, __HIVE_P2_temp1235_30 = __HIVE_P2_get(__HIVE_P2_temp1235_29, "parseFor", 1302), __HIVE_P2_invoke(__HIVE_P2_temp1235_30, __HIVE_P2_temp1235_29, (__HIVE_P2_reserveArray(2, 1302), __HIVE_P2_ownArray([e, s], 1302, "CONTROL_ARRAY")), 1302));
+        }
+        var a = (__HIVE_P2_temp1235_31 = this, __HIVE_P2_temp1235_32 = __HIVE_P2_get(__HIVE_P2_temp1235_31, "isContextual", 1304), __HIVE_P2_invoke(__HIVE_P2_temp1235_32, __HIVE_P2_temp1235_31, (__HIVE_P2_reserveArray(1, 1304), __HIVE_P2_ownArray(["let"], 1304, "CONTROL_ARRAY")), 1304)), n = false;
+        var o = __HIVE_P2_get(this, "containsEsc", 1306);
+        var h = __HIVE_P2_construct(Z, (__HIVE_P2_reserveArray(0, 1307), __HIVE_P2_ownArray([], 1307, "CONTROL_ARRAY")), 1307);
+        var p = __HIVE_P2_get(this, "start", 1308);
+        var c = __HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1310), 1309) ? (__HIVE_P2_temp1235_33 = this, __HIVE_P2_temp1235_34 = __HIVE_P2_get(__HIVE_P2_temp1235_33, "parseExprSubscripts", 1311), __HIVE_P2_invoke(__HIVE_P2_temp1235_34, __HIVE_P2_temp1235_33, (__HIVE_P2_reserveArray(2, 1311), __HIVE_P2_ownArray([h, "await"], 1311, "CONTROL_ARRAY")), 1311)) : (__HIVE_P2_temp1235_35 = this, __HIVE_P2_temp1235_36 = __HIVE_P2_get(__HIVE_P2_temp1235_35, "parseExpression", 1313), __HIVE_P2_invoke(__HIVE_P2_temp1235_36, __HIVE_P2_temp1235_35, (__HIVE_P2_reserveArray(2, 1313), __HIVE_P2_ownArray([true, h], 1313, "CONTROL_ARRAY")), 1313));
+        if (__HIVE_P2_get(this, "type", 1315) === __HIVE_P2_get(m, "_in", 1316) || (n = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1320), "ecmaVersion", 1319), 6, 1318) && (__HIVE_P2_temp1235_37 = this, __HIVE_P2_temp1235_38 = __HIVE_P2_get(__HIVE_P2_temp1235_37, "isContextual", 1321), __HIVE_P2_invoke(__HIVE_P2_temp1235_38, __HIVE_P2_temp1235_37, (__HIVE_P2_reserveArray(1, 1321), __HIVE_P2_ownArray(["of"], 1321, "CONTROL_ARRAY")), 1321)))) {
+            if (__HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1324), 1323)) {
+                if (__HIVE_P2_get(this, "type", 1325) === __HIVE_P2_get(m, "_in", 1326)) {
+                    __HIVE_P2_syntaxRefusal(1327);
+                }
+                (__HIVE_P2_temp1235_39 = e, __HIVE_P2_temp1235_40 = "await", __HIVE_P2_set(__HIVE_P2_temp1235_39, __HIVE_P2_temp1235_40, true, 1328));
+            }
+            else if (n && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1332), "ecmaVersion", 1331), 8, 1330)) {
+                if (__HIVE_P2_get(c, "start", 1333) === p && !o && __HIVE_P2_get(c, "type", 1334) === "Identifier" && __HIVE_P2_get(c, "name", 1335) === "async") {
+                    __HIVE_P2_syntaxRefusal(1336);
+                }
+                else if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1339), "ecmaVersion", 1338), 9, 1337)) {
+                    (__HIVE_P2_temp1235_42 = e, __HIVE_P2_temp1235_43 = "await", __HIVE_P2_set(__HIVE_P2_temp1235_42, __HIVE_P2_temp1235_43, false, 1340));
+                }
+            }
+            if (a && n) {
+                __HIVE_P2_syntaxRefusal(1342);
+            }
+            (__HIVE_P2_temp1235_45 = this, __HIVE_P2_temp1235_46 = __HIVE_P2_get(__HIVE_P2_temp1235_45, "toAssignable", 1343), __HIVE_P2_invoke(__HIVE_P2_temp1235_46, __HIVE_P2_temp1235_45, (__HIVE_P2_reserveArray(3, 1343), __HIVE_P2_ownArray([c, false, h], 1343, "CONTROL_ARRAY")), 1343));
+            (__HIVE_P2_temp1235_47 = this, __HIVE_P2_temp1235_48 = __HIVE_P2_get(__HIVE_P2_temp1235_47, "checkLValPattern", 1345), __HIVE_P2_invoke(__HIVE_P2_temp1235_48, __HIVE_P2_temp1235_47, (__HIVE_P2_reserveArray(1, 1345), __HIVE_P2_ownArray([c], 1345, "CONTROL_ARRAY")), 1345));
+            return (__HIVE_P2_temp1235_49 = this, __HIVE_P2_temp1235_50 = __HIVE_P2_get(__HIVE_P2_temp1235_49, "parseForIn", 1347), __HIVE_P2_invoke(__HIVE_P2_temp1235_50, __HIVE_P2_temp1235_49, (__HIVE_P2_reserveArray(2, 1347), __HIVE_P2_ownArray([e, c], 1347, "CONTROL_ARRAY")), 1347));
+        }
+        else {
+            (__HIVE_P2_temp1235_51 = this, __HIVE_P2_temp1235_52 = __HIVE_P2_get(__HIVE_P2_temp1235_51, "checkExpressionErrors", 1349), __HIVE_P2_invoke(__HIVE_P2_temp1235_52, __HIVE_P2_temp1235_51, (__HIVE_P2_reserveArray(2, 1349), __HIVE_P2_ownArray([h, true], 1349, "CONTROL_ARRAY")), 1349));
+        }
+        if (__HIVE_P2_binary(">", t, __HIVE_P2_unary("-", 1, 1352), 1351)) {
+            __HIVE_P2_syntaxRefusal(1353);
+        }
+        return (__HIVE_P2_temp1235_53 = this, __HIVE_P2_temp1235_54 = __HIVE_P2_get(__HIVE_P2_temp1235_53, "parseFor", 1354), __HIVE_P2_invoke(__HIVE_P2_temp1235_54, __HIVE_P2_temp1235_53, (__HIVE_P2_reserveArray(2, 1354), __HIVE_P2_ownArray([e, c], 1354, "CONTROL_ARRAY")), 1354));
+    }, 65, 1, 0, 1235)), 1233));
+    (__HIVE_P2_temp0_1009 = $, __HIVE_P2_temp0_1010 = "parseFunctionStatement", __HIVE_P2_set(__HIVE_P2_temp0_1009, __HIVE_P2_temp0_1010, (__HIVE_P2_reserveFunction(1358), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp1358_0, __HIVE_P2_temp1358_1, __HIVE_P2_temp1358_2, __HIVE_P2_temp1358_3;
+        (__HIVE_P2_temp1358_0 = this, __HIVE_P2_temp1358_1 = __HIVE_P2_get(__HIVE_P2_temp1358_0, "next", 1359), __HIVE_P2_invoke(__HIVE_P2_temp1358_1, __HIVE_P2_temp1358_0, (__HIVE_P2_reserveArray(0, 1359), __HIVE_P2_ownArray([], 1359, "CONTROL_ARRAY")), 1359));
+        return (__HIVE_P2_temp1358_2 = this, __HIVE_P2_temp1358_3 = __HIVE_P2_get(__HIVE_P2_temp1358_2, "parseFunction", 1361), __HIVE_P2_invoke(__HIVE_P2_temp1358_3, __HIVE_P2_temp1358_2, (__HIVE_P2_reserveArray(4, 1361), __HIVE_P2_ownArray([e, __HIVE_P2_binary("|", ie, (i ? 0 : se), 1362), false, t], 1361, "CONTROL_ARRAY")), 1361));
+    }, 4, 3, 0, 1358)), 1356));
+    (__HIVE_P2_temp0_1012 = $, __HIVE_P2_temp0_1013 = "parseIfStatement", __HIVE_P2_set(__HIVE_P2_temp0_1012, __HIVE_P2_temp0_1013, (__HIVE_P2_reserveFunction(1366), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1366_0, __HIVE_P2_temp1366_1, __HIVE_P2_temp1366_2, __HIVE_P2_temp1366_3, __HIVE_P2_temp1366_4, __HIVE_P2_temp1366_5, __HIVE_P2_temp1366_6, __HIVE_P2_temp1366_7, __HIVE_P2_temp1366_8, __HIVE_P2_temp1366_9, __HIVE_P2_temp1366_10, __HIVE_P2_temp1366_11, __HIVE_P2_temp1366_12, __HIVE_P2_temp1366_13, __HIVE_P2_temp1366_14, __HIVE_P2_temp1366_15, __HIVE_P2_temp1366_16, __HIVE_P2_temp1366_17, __HIVE_P2_temp1366_18, __HIVE_P2_temp1366_19, __HIVE_P2_temp1366_20;
+        (__HIVE_P2_temp1366_0 = this, __HIVE_P2_temp1366_1 = __HIVE_P2_get(__HIVE_P2_temp1366_0, "next", 1367), __HIVE_P2_invoke(__HIVE_P2_temp1366_1, __HIVE_P2_temp1366_0, (__HIVE_P2_reserveArray(0, 1367), __HIVE_P2_ownArray([], 1367, "CONTROL_ARRAY")), 1367));
+        (__HIVE_P2_temp1366_2 = e, __HIVE_P2_temp1366_3 = "test", __HIVE_P2_set(__HIVE_P2_temp1366_2, __HIVE_P2_temp1366_3, (__HIVE_P2_temp1366_5 = this, __HIVE_P2_temp1366_6 = __HIVE_P2_get(__HIVE_P2_temp1366_5, "parseParenExpression", 1371), __HIVE_P2_invoke(__HIVE_P2_temp1366_6, __HIVE_P2_temp1366_5, (__HIVE_P2_reserveArray(0, 1371), __HIVE_P2_ownArray([], 1371, "CONTROL_ARRAY")), 1371)), 1369));
+        (__HIVE_P2_temp1366_7 = e, __HIVE_P2_temp1366_8 = "consequent", __HIVE_P2_set(__HIVE_P2_temp1366_7, __HIVE_P2_temp1366_8, (__HIVE_P2_temp1366_10 = this, __HIVE_P2_temp1366_11 = __HIVE_P2_get(__HIVE_P2_temp1366_10, "parseStatement", 1375), __HIVE_P2_invoke(__HIVE_P2_temp1366_11, __HIVE_P2_temp1366_10, (__HIVE_P2_reserveArray(1, 1375), __HIVE_P2_ownArray(["if"], 1375, "CONTROL_ARRAY")), 1375)), 1373));
+        (__HIVE_P2_temp1366_12 = e, __HIVE_P2_temp1366_13 = "alternate", __HIVE_P2_set(__HIVE_P2_temp1366_12, __HIVE_P2_temp1366_13, (__HIVE_P2_temp1366_15 = this, __HIVE_P2_temp1366_16 = __HIVE_P2_get(__HIVE_P2_temp1366_15, "eat", 1379), __HIVE_P2_invoke(__HIVE_P2_temp1366_16, __HIVE_P2_temp1366_15, (__HIVE_P2_reserveArray(1, 1379), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_else", 1380)], 1379, "CONTROL_ARRAY")), 1379)) ? (__HIVE_P2_temp1366_17 = this, __HIVE_P2_temp1366_18 = __HIVE_P2_get(__HIVE_P2_temp1366_17, "parseStatement", 1382), __HIVE_P2_invoke(__HIVE_P2_temp1366_18, __HIVE_P2_temp1366_17, (__HIVE_P2_reserveArray(1, 1382), __HIVE_P2_ownArray(["if"], 1382, "CONTROL_ARRAY")), 1382)) : null, 1377));
+        return (__HIVE_P2_temp1366_19 = this, __HIVE_P2_temp1366_20 = __HIVE_P2_get(__HIVE_P2_temp1366_19, "finishNode", 1384), __HIVE_P2_invoke(__HIVE_P2_temp1366_20, __HIVE_P2_temp1366_19, (__HIVE_P2_reserveArray(2, 1384), __HIVE_P2_ownArray([e, "IfStatement"], 1384, "CONTROL_ARRAY")), 1384));
+    }, 21, 1, 0, 1366)), 1364));
+    (__HIVE_P2_temp0_1015 = $, __HIVE_P2_temp0_1016 = "parseReturnStatement", __HIVE_P2_set(__HIVE_P2_temp0_1015, __HIVE_P2_temp0_1016, (__HIVE_P2_reserveFunction(1388), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1388_0, __HIVE_P2_temp1388_1, __HIVE_P2_temp1388_2, __HIVE_P2_temp1388_3, __HIVE_P2_temp1388_4, __HIVE_P2_temp1388_5, __HIVE_P2_temp1388_6, __HIVE_P2_temp1388_7, __HIVE_P2_temp1388_8, __HIVE_P2_temp1388_9, __HIVE_P2_temp1388_10, __HIVE_P2_temp1388_11, __HIVE_P2_temp1388_12, __HIVE_P2_temp1388_13, __HIVE_P2_temp1388_14, __HIVE_P2_temp1388_15, __HIVE_P2_temp1388_16, __HIVE_P2_temp1388_17;
+        if (!__HIVE_P2_get(this, "inFunction", 1389) && !__HIVE_P2_get(__HIVE_P2_get(this, "options", 1391), "allowReturnOutsideFunction", 1390)) {
+            __HIVE_P2_syntaxRefusal(1392);
+        }
+        (__HIVE_P2_temp1388_0 = this, __HIVE_P2_temp1388_1 = __HIVE_P2_get(__HIVE_P2_temp1388_0, "next", 1393), __HIVE_P2_invoke(__HIVE_P2_temp1388_1, __HIVE_P2_temp1388_0, (__HIVE_P2_reserveArray(0, 1393), __HIVE_P2_ownArray([], 1393, "CONTROL_ARRAY")), 1393));
+        if ((__HIVE_P2_temp1388_2 = this, __HIVE_P2_temp1388_3 = __HIVE_P2_get(__HIVE_P2_temp1388_2, "eat", 1395), __HIVE_P2_invoke(__HIVE_P2_temp1388_3, __HIVE_P2_temp1388_2, (__HIVE_P2_reserveArray(1, 1395), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1396)], 1395, "CONTROL_ARRAY")), 1395)) || (__HIVE_P2_temp1388_4 = this, __HIVE_P2_temp1388_5 = __HIVE_P2_get(__HIVE_P2_temp1388_4, "insertSemicolon", 1398), __HIVE_P2_invoke(__HIVE_P2_temp1388_5, __HIVE_P2_temp1388_4, (__HIVE_P2_reserveArray(0, 1398), __HIVE_P2_ownArray([], 1398, "CONTROL_ARRAY")), 1398))) {
+            (__HIVE_P2_temp1388_6 = e, __HIVE_P2_temp1388_7 = "argument", __HIVE_P2_set(__HIVE_P2_temp1388_6, __HIVE_P2_temp1388_7, null, 1400));
+        }
+        else {
+            (__HIVE_P2_temp1388_9 = e, __HIVE_P2_temp1388_10 = "argument", __HIVE_P2_set(__HIVE_P2_temp1388_9, __HIVE_P2_temp1388_10, (__HIVE_P2_temp1388_12 = this, __HIVE_P2_temp1388_13 = __HIVE_P2_get(__HIVE_P2_temp1388_12, "parseExpression", 1404), __HIVE_P2_invoke(__HIVE_P2_temp1388_13, __HIVE_P2_temp1388_12, (__HIVE_P2_reserveArray(0, 1404), __HIVE_P2_ownArray([], 1404, "CONTROL_ARRAY")), 1404)), 1402));
+            (__HIVE_P2_temp1388_14 = this, __HIVE_P2_temp1388_15 = __HIVE_P2_get(__HIVE_P2_temp1388_14, "semicolon", 1406), __HIVE_P2_invoke(__HIVE_P2_temp1388_15, __HIVE_P2_temp1388_14, (__HIVE_P2_reserveArray(0, 1406), __HIVE_P2_ownArray([], 1406, "CONTROL_ARRAY")), 1406));
+        }
+        return (__HIVE_P2_temp1388_16 = this, __HIVE_P2_temp1388_17 = __HIVE_P2_get(__HIVE_P2_temp1388_16, "finishNode", 1408), __HIVE_P2_invoke(__HIVE_P2_temp1388_17, __HIVE_P2_temp1388_16, (__HIVE_P2_reserveArray(2, 1408), __HIVE_P2_ownArray([e, "ReturnStatement"], 1408, "CONTROL_ARRAY")), 1408));
+    }, 18, 1, 0, 1388)), 1386));
+    (__HIVE_P2_temp0_1018 = $, __HIVE_P2_temp0_1019 = "parseSwitchStatement", __HIVE_P2_set(__HIVE_P2_temp0_1018, __HIVE_P2_temp0_1019, (__HIVE_P2_reserveFunction(1412), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1412_0, __HIVE_P2_temp1412_1, __HIVE_P2_temp1412_2, __HIVE_P2_temp1412_3, __HIVE_P2_temp1412_4, __HIVE_P2_temp1412_5, __HIVE_P2_temp1412_6, __HIVE_P2_temp1412_7, __HIVE_P2_temp1412_8, __HIVE_P2_temp1412_9, __HIVE_P2_temp1412_10, __HIVE_P2_temp1412_11, __HIVE_P2_temp1412_12, __HIVE_P2_temp1412_13, __HIVE_P2_temp1412_14, __HIVE_P2_temp1412_15, __HIVE_P2_temp1412_16, __HIVE_P2_temp1412_17, __HIVE_P2_temp1412_18, __HIVE_P2_temp1412_19, __HIVE_P2_temp1412_20, __HIVE_P2_temp1412_21, __HIVE_P2_temp1412_22, __HIVE_P2_temp1412_23, __HIVE_P2_temp1412_24, __HIVE_P2_temp1412_25, __HIVE_P2_temp1412_26, __HIVE_P2_temp1412_27, __HIVE_P2_temp1412_28, __HIVE_P2_temp1412_29, __HIVE_P2_temp1412_30, __HIVE_P2_temp1412_31, __HIVE_P2_temp1412_32, __HIVE_P2_temp1412_33, __HIVE_P2_temp1412_34, __HIVE_P2_temp1412_35, __HIVE_P2_temp1412_36, __HIVE_P2_temp1412_37, __HIVE_P2_temp1412_38, __HIVE_P2_temp1412_39, __HIVE_P2_temp1412_40, __HIVE_P2_temp1412_41, __HIVE_P2_temp1412_42, __HIVE_P2_temp1412_43, __HIVE_P2_temp1412_44, __HIVE_P2_temp1412_45, __HIVE_P2_temp1412_46, __HIVE_P2_temp1412_47, __HIVE_P2_temp1412_48, __HIVE_P2_temp1412_49, __HIVE_P2_temp1412_50, __HIVE_P2_temp1412_51, __HIVE_P2_temp1412_52;
+        (__HIVE_P2_temp1412_0 = this, __HIVE_P2_temp1412_1 = __HIVE_P2_get(__HIVE_P2_temp1412_0, "next", 1413), __HIVE_P2_invoke(__HIVE_P2_temp1412_1, __HIVE_P2_temp1412_0, (__HIVE_P2_reserveArray(0, 1413), __HIVE_P2_ownArray([], 1413, "CONTROL_ARRAY")), 1413));
+        (__HIVE_P2_temp1412_2 = e, __HIVE_P2_temp1412_3 = "discriminant", __HIVE_P2_set(__HIVE_P2_temp1412_2, __HIVE_P2_temp1412_3, (__HIVE_P2_temp1412_5 = this, __HIVE_P2_temp1412_6 = __HIVE_P2_get(__HIVE_P2_temp1412_5, "parseParenExpression", 1417), __HIVE_P2_invoke(__HIVE_P2_temp1412_6, __HIVE_P2_temp1412_5, (__HIVE_P2_reserveArray(0, 1417), __HIVE_P2_ownArray([], 1417, "CONTROL_ARRAY")), 1417)), 1415));
+        (__HIVE_P2_temp1412_7 = e, __HIVE_P2_temp1412_8 = "cases", __HIVE_P2_set(__HIVE_P2_temp1412_7, __HIVE_P2_temp1412_8, (__HIVE_P2_temp1412_10 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp1412_10, 1421), __HIVE_P2_reserveArray(0, 1421, 0), __HIVE_P2_ownArray([], 1421, "ARRAY", __HIVE_P2_temp1412_10)), 1419));
+        (__HIVE_P2_temp1412_11 = this, __HIVE_P2_temp1412_12 = __HIVE_P2_get(__HIVE_P2_temp1412_11, "expect", 1422), __HIVE_P2_invoke(__HIVE_P2_temp1412_12, __HIVE_P2_temp1412_11, (__HIVE_P2_reserveArray(1, 1422), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 1423)], 1422, "CONTROL_ARRAY")), 1422));
+        (__HIVE_P2_temp1412_13 = __HIVE_P2_get(this, "labels", 1427), __HIVE_P2_temp1412_14 = __HIVE_P2_get(__HIVE_P2_temp1412_13, "push", 1425), __HIVE_P2_invoke(__HIVE_P2_temp1412_14, __HIVE_P2_temp1412_13, (__HIVE_P2_reserveArray(1, 1425), __HIVE_P2_ownArray([ee], 1425, "CONTROL_ARRAY")), 1425));
+        (__HIVE_P2_temp1412_15 = this, __HIVE_P2_temp1412_16 = __HIVE_P2_get(__HIVE_P2_temp1412_15, "enterScope", 1428), __HIVE_P2_invoke(__HIVE_P2_temp1412_16, __HIVE_P2_temp1412_15, (__HIVE_P2_reserveArray(1, 1428), __HIVE_P2_ownArray([0], 1428, "CONTROL_ARRAY")), 1428));
+        var t;
+        for (var i = false; __HIVE_P2_get(this, "type", 1431) !== __HIVE_P2_get(m, "braceR", 1432);) {
+            __HIVE_P2_tick(1430);
+            if (__HIVE_P2_get(this, "type", 1433) === __HIVE_P2_get(m, "_case", 1434) || __HIVE_P2_get(this, "type", 1435) === __HIVE_P2_get(m, "_default", 1436)) {
+                var s = __HIVE_P2_get(this, "type", 1437) === __HIVE_P2_get(m, "_case", 1438);
+                if (t) {
+                    (__HIVE_P2_temp1412_17 = this, __HIVE_P2_temp1412_18 = __HIVE_P2_get(__HIVE_P2_temp1412_17, "finishNode", 1439), __HIVE_P2_invoke(__HIVE_P2_temp1412_18, __HIVE_P2_temp1412_17, (__HIVE_P2_reserveArray(2, 1439), __HIVE_P2_ownArray([t, "SwitchCase"], 1439, "CONTROL_ARRAY")), 1439));
+                }
+                (__HIVE_P2_temp1412_21 = __HIVE_P2_get(e, "cases", 1446), __HIVE_P2_temp1412_22 = __HIVE_P2_get(__HIVE_P2_temp1412_21, "push", 1441), __HIVE_P2_invoke(__HIVE_P2_temp1412_22, __HIVE_P2_temp1412_21, (__HIVE_P2_reserveArray(1, 1441), __HIVE_P2_ownArray([t = (__HIVE_P2_temp1412_19 = this, __HIVE_P2_temp1412_20 = __HIVE_P2_get(__HIVE_P2_temp1412_19, "startNode", 1443), __HIVE_P2_invoke(__HIVE_P2_temp1412_20, __HIVE_P2_temp1412_19, (__HIVE_P2_reserveArray(0, 1443), __HIVE_P2_ownArray([], 1443, "CONTROL_ARRAY")), 1443))], 1441, "CONTROL_ARRAY")), 1441));
+                (__HIVE_P2_temp1412_23 = t, __HIVE_P2_temp1412_24 = "consequent", __HIVE_P2_set(__HIVE_P2_temp1412_23, __HIVE_P2_temp1412_24, (__HIVE_P2_temp1412_26 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp1412_26, 1449), __HIVE_P2_reserveArray(0, 1449, 0), __HIVE_P2_ownArray([], 1449, "ARRAY", __HIVE_P2_temp1412_26)), 1447));
+                (__HIVE_P2_temp1412_27 = this, __HIVE_P2_temp1412_28 = __HIVE_P2_get(__HIVE_P2_temp1412_27, "next", 1450), __HIVE_P2_invoke(__HIVE_P2_temp1412_28, __HIVE_P2_temp1412_27, (__HIVE_P2_reserveArray(0, 1450), __HIVE_P2_ownArray([], 1450, "CONTROL_ARRAY")), 1450));
+                if (s) {
+                    (__HIVE_P2_temp1412_29 = t, __HIVE_P2_temp1412_30 = "test", __HIVE_P2_set(__HIVE_P2_temp1412_29, __HIVE_P2_temp1412_30, (__HIVE_P2_temp1412_32 = this, __HIVE_P2_temp1412_33 = __HIVE_P2_get(__HIVE_P2_temp1412_32, "parseExpression", 1454), __HIVE_P2_invoke(__HIVE_P2_temp1412_33, __HIVE_P2_temp1412_32, (__HIVE_P2_reserveArray(0, 1454), __HIVE_P2_ownArray([], 1454, "CONTROL_ARRAY")), 1454)), 1452));
+                }
+                else {
+                    if (i) {
+                        __HIVE_P2_syntaxRefusal(1456);
+                    }
+                    i = true;
+                    (__HIVE_P2_temp1412_34 = t, __HIVE_P2_temp1412_35 = "test", __HIVE_P2_set(__HIVE_P2_temp1412_34, __HIVE_P2_temp1412_35, null, 1458));
+                }
+                (__HIVE_P2_temp1412_37 = this, __HIVE_P2_temp1412_38 = __HIVE_P2_get(__HIVE_P2_temp1412_37, "expect", 1460), __HIVE_P2_invoke(__HIVE_P2_temp1412_38, __HIVE_P2_temp1412_37, (__HIVE_P2_reserveArray(1, 1460), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 1461)], 1460, "CONTROL_ARRAY")), 1460));
+            }
+            else {
+                if (!t) {
+                    __HIVE_P2_syntaxRefusal(1463);
+                }
+                (__HIVE_P2_temp1412_41 = __HIVE_P2_get(t, "consequent", 1468), __HIVE_P2_temp1412_42 = __HIVE_P2_get(__HIVE_P2_temp1412_41, "push", 1464), __HIVE_P2_invoke(__HIVE_P2_temp1412_42, __HIVE_P2_temp1412_41, (__HIVE_P2_reserveArray(1, 1464), __HIVE_P2_ownArray([(__HIVE_P2_temp1412_39 = this, __HIVE_P2_temp1412_40 = __HIVE_P2_get(__HIVE_P2_temp1412_39, "parseStatement", 1465), __HIVE_P2_invoke(__HIVE_P2_temp1412_40, __HIVE_P2_temp1412_39, (__HIVE_P2_reserveArray(1, 1465), __HIVE_P2_ownArray([null], 1465, "CONTROL_ARRAY")), 1465))], 1464, "CONTROL_ARRAY")), 1464));
+            }
+        }
+        (__HIVE_P2_temp1412_43 = this, __HIVE_P2_temp1412_44 = __HIVE_P2_get(__HIVE_P2_temp1412_43, "exitScope", 1469), __HIVE_P2_invoke(__HIVE_P2_temp1412_44, __HIVE_P2_temp1412_43, (__HIVE_P2_reserveArray(0, 1469), __HIVE_P2_ownArray([], 1469, "CONTROL_ARRAY")), 1469));
+        if (t) {
+            (__HIVE_P2_temp1412_45 = this, __HIVE_P2_temp1412_46 = __HIVE_P2_get(__HIVE_P2_temp1412_45, "finishNode", 1471), __HIVE_P2_invoke(__HIVE_P2_temp1412_46, __HIVE_P2_temp1412_45, (__HIVE_P2_reserveArray(2, 1471), __HIVE_P2_ownArray([t, "SwitchCase"], 1471, "CONTROL_ARRAY")), 1471));
+        }
+        (__HIVE_P2_temp1412_47 = this, __HIVE_P2_temp1412_48 = __HIVE_P2_get(__HIVE_P2_temp1412_47, "next", 1473), __HIVE_P2_invoke(__HIVE_P2_temp1412_48, __HIVE_P2_temp1412_47, (__HIVE_P2_reserveArray(0, 1473), __HIVE_P2_ownArray([], 1473, "CONTROL_ARRAY")), 1473));
+        (__HIVE_P2_temp1412_49 = __HIVE_P2_get(this, "labels", 1477), __HIVE_P2_temp1412_50 = __HIVE_P2_get(__HIVE_P2_temp1412_49, "pop", 1475), __HIVE_P2_invoke(__HIVE_P2_temp1412_50, __HIVE_P2_temp1412_49, (__HIVE_P2_reserveArray(0, 1475), __HIVE_P2_ownArray([], 1475, "CONTROL_ARRAY")), 1475));
+        return (__HIVE_P2_temp1412_51 = this, __HIVE_P2_temp1412_52 = __HIVE_P2_get(__HIVE_P2_temp1412_51, "finishNode", 1478), __HIVE_P2_invoke(__HIVE_P2_temp1412_52, __HIVE_P2_temp1412_51, (__HIVE_P2_reserveArray(2, 1478), __HIVE_P2_ownArray([e, "SwitchStatement"], 1478, "CONTROL_ARRAY")), 1478));
+    }, 56, 1, 0, 1412)), 1410));
+    (__HIVE_P2_temp0_1021 = $, __HIVE_P2_temp0_1022 = "parseThrowStatement", __HIVE_P2_set(__HIVE_P2_temp0_1021, __HIVE_P2_temp0_1022, (__HIVE_P2_reserveFunction(1482), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1482_0, __HIVE_P2_temp1482_1, __HIVE_P2_temp1482_2, __HIVE_P2_temp1482_3, __HIVE_P2_temp1482_4, __HIVE_P2_temp1482_5, __HIVE_P2_temp1482_6, __HIVE_P2_temp1482_7, __HIVE_P2_temp1482_8, __HIVE_P2_temp1482_9, __HIVE_P2_temp1482_10, __HIVE_P2_temp1482_11, __HIVE_P2_temp1482_12, __HIVE_P2_temp1482_13, __HIVE_P2_temp1482_14;
+        (__HIVE_P2_temp1482_0 = this, __HIVE_P2_temp1482_1 = __HIVE_P2_get(__HIVE_P2_temp1482_0, "next", 1483), __HIVE_P2_invoke(__HIVE_P2_temp1482_1, __HIVE_P2_temp1482_0, (__HIVE_P2_reserveArray(0, 1483), __HIVE_P2_ownArray([], 1483, "CONTROL_ARRAY")), 1483));
+        if ((__HIVE_P2_temp1482_4 = g, __HIVE_P2_temp1482_5 = __HIVE_P2_get(__HIVE_P2_temp1482_4, "test", 1485), __HIVE_P2_invoke(__HIVE_P2_temp1482_5, __HIVE_P2_temp1482_4, (__HIVE_P2_reserveArray(1, 1485), __HIVE_P2_ownArray([(__HIVE_P2_temp1482_2 = __HIVE_P2_get(this, "input", 1490), __HIVE_P2_temp1482_3 = __HIVE_P2_get(__HIVE_P2_temp1482_2, "slice", 1486), __HIVE_P2_invoke(__HIVE_P2_temp1482_3, __HIVE_P2_temp1482_2, (__HIVE_P2_reserveArray(2, 1486), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 1487), __HIVE_P2_get(this, "start", 1488)], 1486, "CONTROL_ARRAY")), 1486))], 1485, "CONTROL_ARRAY")), 1485))) {
+            __HIVE_P2_syntaxRefusal(1492);
+        }
+        (__HIVE_P2_temp1482_6 = e, __HIVE_P2_temp1482_7 = "argument", __HIVE_P2_set(__HIVE_P2_temp1482_6, __HIVE_P2_temp1482_7, (__HIVE_P2_temp1482_9 = this, __HIVE_P2_temp1482_10 = __HIVE_P2_get(__HIVE_P2_temp1482_9, "parseExpression", 1495), __HIVE_P2_invoke(__HIVE_P2_temp1482_10, __HIVE_P2_temp1482_9, (__HIVE_P2_reserveArray(0, 1495), __HIVE_P2_ownArray([], 1495, "CONTROL_ARRAY")), 1495)), 1493));
+        (__HIVE_P2_temp1482_11 = this, __HIVE_P2_temp1482_12 = __HIVE_P2_get(__HIVE_P2_temp1482_11, "semicolon", 1497), __HIVE_P2_invoke(__HIVE_P2_temp1482_12, __HIVE_P2_temp1482_11, (__HIVE_P2_reserveArray(0, 1497), __HIVE_P2_ownArray([], 1497, "CONTROL_ARRAY")), 1497));
+        return (__HIVE_P2_temp1482_13 = this, __HIVE_P2_temp1482_14 = __HIVE_P2_get(__HIVE_P2_temp1482_13, "finishNode", 1499), __HIVE_P2_invoke(__HIVE_P2_temp1482_14, __HIVE_P2_temp1482_13, (__HIVE_P2_reserveArray(2, 1499), __HIVE_P2_ownArray([e, "ThrowStatement"], 1499, "CONTROL_ARRAY")), 1499));
+    }, 15, 1, 0, 1482)), 1480));
+    var te = (__HIVE_P2_temp0_1024 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp0_1024, 1501), __HIVE_P2_reserveArray(0, 1501, 0), __HIVE_P2_ownArray([], 1501, "ARRAY", __HIVE_P2_temp0_1024));
+    (__HIVE_P2_temp0_1025 = $, __HIVE_P2_temp0_1026 = "parseCatchClauseParam", __HIVE_P2_set(__HIVE_P2_temp0_1025, __HIVE_P2_temp0_1026, (__HIVE_P2_reserveFunction(1504), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp1504_0, __HIVE_P2_temp1504_1, __HIVE_P2_temp1504_2, __HIVE_P2_temp1504_3, __HIVE_P2_temp1504_4, __HIVE_P2_temp1504_5, __HIVE_P2_temp1504_6, __HIVE_P2_temp1504_7;
+        var e = (__HIVE_P2_temp1504_0 = this, __HIVE_P2_temp1504_1 = __HIVE_P2_get(__HIVE_P2_temp1504_0, "parseBindingAtom", 1505), __HIVE_P2_invoke(__HIVE_P2_temp1504_1, __HIVE_P2_temp1504_0, (__HIVE_P2_reserveArray(0, 1505), __HIVE_P2_ownArray([], 1505, "CONTROL_ARRAY")), 1505));
+        var t = __HIVE_P2_get(e, "type", 1507) === "Identifier";
+        (__HIVE_P2_temp1504_2 = this, __HIVE_P2_temp1504_3 = __HIVE_P2_get(__HIVE_P2_temp1504_2, "enterScope", 1508), __HIVE_P2_invoke(__HIVE_P2_temp1504_3, __HIVE_P2_temp1504_2, (__HIVE_P2_reserveArray(1, 1508), __HIVE_P2_ownArray([t ? O : 0], 1508, "CONTROL_ARRAY")), 1508));
+        (__HIVE_P2_temp1504_4 = this, __HIVE_P2_temp1504_5 = __HIVE_P2_get(__HIVE_P2_temp1504_4, "checkLValPattern", 1510), __HIVE_P2_invoke(__HIVE_P2_temp1504_5, __HIVE_P2_temp1504_4, (__HIVE_P2_reserveArray(2, 1510), __HIVE_P2_ownArray([e, t ? W : G], 1510, "CONTROL_ARRAY")), 1510));
+        (__HIVE_P2_temp1504_6 = this, __HIVE_P2_temp1504_7 = __HIVE_P2_get(__HIVE_P2_temp1504_6, "expect", 1512), __HIVE_P2_invoke(__HIVE_P2_temp1504_7, __HIVE_P2_temp1504_6, (__HIVE_P2_reserveArray(1, 1512), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 1513)], 1512, "CONTROL_ARRAY")), 1512));
+        return e;
+    }, 10, 0, 0, 1504)), 1502));
+    (__HIVE_P2_temp0_1028 = $, __HIVE_P2_temp0_1029 = "parseTryStatement", __HIVE_P2_set(__HIVE_P2_temp0_1028, __HIVE_P2_temp0_1029, (__HIVE_P2_reserveFunction(1517), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1517_0, __HIVE_P2_temp1517_1, __HIVE_P2_temp1517_2, __HIVE_P2_temp1517_3, __HIVE_P2_temp1517_4, __HIVE_P2_temp1517_5, __HIVE_P2_temp1517_6, __HIVE_P2_temp1517_7, __HIVE_P2_temp1517_8, __HIVE_P2_temp1517_9, __HIVE_P2_temp1517_10, __HIVE_P2_temp1517_11, __HIVE_P2_temp1517_12, __HIVE_P2_temp1517_13, __HIVE_P2_temp1517_14, __HIVE_P2_temp1517_15, __HIVE_P2_temp1517_16, __HIVE_P2_temp1517_17, __HIVE_P2_temp1517_18, __HIVE_P2_temp1517_19, __HIVE_P2_temp1517_20, __HIVE_P2_temp1517_21, __HIVE_P2_temp1517_22, __HIVE_P2_temp1517_23, __HIVE_P2_temp1517_24, __HIVE_P2_temp1517_25, __HIVE_P2_temp1517_26, __HIVE_P2_temp1517_27, __HIVE_P2_temp1517_28, __HIVE_P2_temp1517_29, __HIVE_P2_temp1517_30, __HIVE_P2_temp1517_31, __HIVE_P2_temp1517_32, __HIVE_P2_temp1517_33, __HIVE_P2_temp1517_34, __HIVE_P2_temp1517_35, __HIVE_P2_temp1517_36, __HIVE_P2_temp1517_37, __HIVE_P2_temp1517_38, __HIVE_P2_temp1517_39, __HIVE_P2_temp1517_40, __HIVE_P2_temp1517_41, __HIVE_P2_temp1517_42, __HIVE_P2_temp1517_43, __HIVE_P2_temp1517_44, __HIVE_P2_temp1517_45, __HIVE_P2_temp1517_46;
+        (__HIVE_P2_temp1517_0 = this, __HIVE_P2_temp1517_1 = __HIVE_P2_get(__HIVE_P2_temp1517_0, "next", 1518), __HIVE_P2_invoke(__HIVE_P2_temp1517_1, __HIVE_P2_temp1517_0, (__HIVE_P2_reserveArray(0, 1518), __HIVE_P2_ownArray([], 1518, "CONTROL_ARRAY")), 1518));
+        (__HIVE_P2_temp1517_2 = e, __HIVE_P2_temp1517_3 = "block", __HIVE_P2_set(__HIVE_P2_temp1517_2, __HIVE_P2_temp1517_3, (__HIVE_P2_temp1517_5 = this, __HIVE_P2_temp1517_6 = __HIVE_P2_get(__HIVE_P2_temp1517_5, "parseBlock", 1522), __HIVE_P2_invoke(__HIVE_P2_temp1517_6, __HIVE_P2_temp1517_5, (__HIVE_P2_reserveArray(0, 1522), __HIVE_P2_ownArray([], 1522, "CONTROL_ARRAY")), 1522)), 1520));
+        (__HIVE_P2_temp1517_7 = e, __HIVE_P2_temp1517_8 = "handler", __HIVE_P2_set(__HIVE_P2_temp1517_7, __HIVE_P2_temp1517_8, null, 1524));
+        if (__HIVE_P2_get(this, "type", 1526) === __HIVE_P2_get(m, "_catch", 1527)) {
+            var t = (__HIVE_P2_temp1517_10 = this, __HIVE_P2_temp1517_11 = __HIVE_P2_get(__HIVE_P2_temp1517_10, "startNode", 1528), __HIVE_P2_invoke(__HIVE_P2_temp1517_11, __HIVE_P2_temp1517_10, (__HIVE_P2_reserveArray(0, 1528), __HIVE_P2_ownArray([], 1528, "CONTROL_ARRAY")), 1528));
+            (__HIVE_P2_temp1517_12 = this, __HIVE_P2_temp1517_13 = __HIVE_P2_get(__HIVE_P2_temp1517_12, "next", 1530), __HIVE_P2_invoke(__HIVE_P2_temp1517_13, __HIVE_P2_temp1517_12, (__HIVE_P2_reserveArray(0, 1530), __HIVE_P2_ownArray([], 1530, "CONTROL_ARRAY")), 1530));
+            if ((__HIVE_P2_temp1517_14 = this, __HIVE_P2_temp1517_15 = __HIVE_P2_get(__HIVE_P2_temp1517_14, "eat", 1532), __HIVE_P2_invoke(__HIVE_P2_temp1517_15, __HIVE_P2_temp1517_14, (__HIVE_P2_reserveArray(1, 1532), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 1533)], 1532, "CONTROL_ARRAY")), 1532))) {
+                (__HIVE_P2_temp1517_16 = t, __HIVE_P2_temp1517_17 = "param", __HIVE_P2_set(__HIVE_P2_temp1517_16, __HIVE_P2_temp1517_17, (__HIVE_P2_temp1517_19 = this, __HIVE_P2_temp1517_20 = __HIVE_P2_get(__HIVE_P2_temp1517_19, "parseCatchClauseParam", 1537), __HIVE_P2_invoke(__HIVE_P2_temp1517_20, __HIVE_P2_temp1517_19, (__HIVE_P2_reserveArray(0, 1537), __HIVE_P2_ownArray([], 1537, "CONTROL_ARRAY")), 1537)), 1535));
+            }
+            else {
+                if (__HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1541), "ecmaVersion", 1540), 10, 1539)) {
+                    __HIVE_P2_syntaxRefusal(1542);
+                }
+                (__HIVE_P2_temp1517_21 = t, __HIVE_P2_temp1517_22 = "param", __HIVE_P2_set(__HIVE_P2_temp1517_21, __HIVE_P2_temp1517_22, null, 1543));
+                (__HIVE_P2_temp1517_24 = this, __HIVE_P2_temp1517_25 = __HIVE_P2_get(__HIVE_P2_temp1517_24, "enterScope", 1545), __HIVE_P2_invoke(__HIVE_P2_temp1517_25, __HIVE_P2_temp1517_24, (__HIVE_P2_reserveArray(1, 1545), __HIVE_P2_ownArray([0], 1545, "CONTROL_ARRAY")), 1545));
+            }
+            (__HIVE_P2_temp1517_26 = t, __HIVE_P2_temp1517_27 = "body", __HIVE_P2_set(__HIVE_P2_temp1517_26, __HIVE_P2_temp1517_27, (__HIVE_P2_temp1517_29 = this, __HIVE_P2_temp1517_30 = __HIVE_P2_get(__HIVE_P2_temp1517_29, "parseBlock", 1549), __HIVE_P2_invoke(__HIVE_P2_temp1517_30, __HIVE_P2_temp1517_29, (__HIVE_P2_reserveArray(1, 1549), __HIVE_P2_ownArray([false], 1549, "CONTROL_ARRAY")), 1549)), 1547));
+            (__HIVE_P2_temp1517_31 = this, __HIVE_P2_temp1517_32 = __HIVE_P2_get(__HIVE_P2_temp1517_31, "exitScope", 1551), __HIVE_P2_invoke(__HIVE_P2_temp1517_32, __HIVE_P2_temp1517_31, (__HIVE_P2_reserveArray(0, 1551), __HIVE_P2_ownArray([], 1551, "CONTROL_ARRAY")), 1551));
+            (__HIVE_P2_temp1517_33 = e, __HIVE_P2_temp1517_34 = "handler", __HIVE_P2_set(__HIVE_P2_temp1517_33, __HIVE_P2_temp1517_34, (__HIVE_P2_temp1517_36 = this, __HIVE_P2_temp1517_37 = __HIVE_P2_get(__HIVE_P2_temp1517_36, "finishNode", 1555), __HIVE_P2_invoke(__HIVE_P2_temp1517_37, __HIVE_P2_temp1517_36, (__HIVE_P2_reserveArray(2, 1555), __HIVE_P2_ownArray([t, "CatchClause"], 1555, "CONTROL_ARRAY")), 1555)), 1553));
+        }
+        (__HIVE_P2_temp1517_38 = e, __HIVE_P2_temp1517_39 = "finalizer", __HIVE_P2_set(__HIVE_P2_temp1517_38, __HIVE_P2_temp1517_39, (__HIVE_P2_temp1517_41 = this, __HIVE_P2_temp1517_42 = __HIVE_P2_get(__HIVE_P2_temp1517_41, "eat", 1559), __HIVE_P2_invoke(__HIVE_P2_temp1517_42, __HIVE_P2_temp1517_41, (__HIVE_P2_reserveArray(1, 1559), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_finally", 1560)], 1559, "CONTROL_ARRAY")), 1559)) ? (__HIVE_P2_temp1517_43 = this, __HIVE_P2_temp1517_44 = __HIVE_P2_get(__HIVE_P2_temp1517_43, "parseBlock", 1562), __HIVE_P2_invoke(__HIVE_P2_temp1517_44, __HIVE_P2_temp1517_43, (__HIVE_P2_reserveArray(0, 1562), __HIVE_P2_ownArray([], 1562, "CONTROL_ARRAY")), 1562)) : null, 1557));
+        if (!__HIVE_P2_get(e, "handler", 1564) && !__HIVE_P2_get(e, "finalizer", 1565)) {
+            __HIVE_P2_syntaxRefusal(1566);
+        }
+        return (__HIVE_P2_temp1517_45 = this, __HIVE_P2_temp1517_46 = __HIVE_P2_get(__HIVE_P2_temp1517_45, "finishNode", 1567), __HIVE_P2_invoke(__HIVE_P2_temp1517_46, __HIVE_P2_temp1517_45, (__HIVE_P2_reserveArray(2, 1567), __HIVE_P2_ownArray([e, "TryStatement"], 1567, "CONTROL_ARRAY")), 1567));
+    }, 48, 1, 0, 1517)), 1515));
+    (__HIVE_P2_temp0_1031 = $, __HIVE_P2_temp0_1032 = "parseVarStatement", __HIVE_P2_set(__HIVE_P2_temp0_1031, __HIVE_P2_temp0_1032, (__HIVE_P2_reserveFunction(1571), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp1571_0, __HIVE_P2_temp1571_1, __HIVE_P2_temp1571_2, __HIVE_P2_temp1571_3, __HIVE_P2_temp1571_4, __HIVE_P2_temp1571_5, __HIVE_P2_temp1571_6, __HIVE_P2_temp1571_7;
+        (__HIVE_P2_temp1571_0 = this, __HIVE_P2_temp1571_1 = __HIVE_P2_get(__HIVE_P2_temp1571_0, "next", 1572), __HIVE_P2_invoke(__HIVE_P2_temp1571_1, __HIVE_P2_temp1571_0, (__HIVE_P2_reserveArray(0, 1572), __HIVE_P2_ownArray([], 1572, "CONTROL_ARRAY")), 1572));
+        (__HIVE_P2_temp1571_2 = this, __HIVE_P2_temp1571_3 = __HIVE_P2_get(__HIVE_P2_temp1571_2, "parseVar", 1574), __HIVE_P2_invoke(__HIVE_P2_temp1571_3, __HIVE_P2_temp1571_2, (__HIVE_P2_reserveArray(4, 1574), __HIVE_P2_ownArray([e, false, t, i], 1574, "CONTROL_ARRAY")), 1574));
+        (__HIVE_P2_temp1571_4 = this, __HIVE_P2_temp1571_5 = __HIVE_P2_get(__HIVE_P2_temp1571_4, "semicolon", 1576), __HIVE_P2_invoke(__HIVE_P2_temp1571_5, __HIVE_P2_temp1571_4, (__HIVE_P2_reserveArray(0, 1576), __HIVE_P2_ownArray([], 1576, "CONTROL_ARRAY")), 1576));
+        return (__HIVE_P2_temp1571_6 = this, __HIVE_P2_temp1571_7 = __HIVE_P2_get(__HIVE_P2_temp1571_6, "finishNode", 1578), __HIVE_P2_invoke(__HIVE_P2_temp1571_7, __HIVE_P2_temp1571_6, (__HIVE_P2_reserveArray(2, 1578), __HIVE_P2_ownArray([e, "VariableDeclaration"], 1578, "CONTROL_ARRAY")), 1578));
+    }, 8, 3, 0, 1571)), 1569));
+    (__HIVE_P2_temp0_1034 = $, __HIVE_P2_temp0_1035 = "parseWhileStatement", __HIVE_P2_set(__HIVE_P2_temp0_1034, __HIVE_P2_temp0_1035, (__HIVE_P2_reserveFunction(1582), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1582_0, __HIVE_P2_temp1582_1, __HIVE_P2_temp1582_2, __HIVE_P2_temp1582_3, __HIVE_P2_temp1582_4, __HIVE_P2_temp1582_5, __HIVE_P2_temp1582_6, __HIVE_P2_temp1582_7, __HIVE_P2_temp1582_8, __HIVE_P2_temp1582_9, __HIVE_P2_temp1582_10, __HIVE_P2_temp1582_11, __HIVE_P2_temp1582_12, __HIVE_P2_temp1582_13, __HIVE_P2_temp1582_14, __HIVE_P2_temp1582_15, __HIVE_P2_temp1582_16, __HIVE_P2_temp1582_17;
+        (__HIVE_P2_temp1582_0 = this, __HIVE_P2_temp1582_1 = __HIVE_P2_get(__HIVE_P2_temp1582_0, "next", 1583), __HIVE_P2_invoke(__HIVE_P2_temp1582_1, __HIVE_P2_temp1582_0, (__HIVE_P2_reserveArray(0, 1583), __HIVE_P2_ownArray([], 1583, "CONTROL_ARRAY")), 1583));
+        (__HIVE_P2_temp1582_2 = e, __HIVE_P2_temp1582_3 = "test", __HIVE_P2_set(__HIVE_P2_temp1582_2, __HIVE_P2_temp1582_3, (__HIVE_P2_temp1582_5 = this, __HIVE_P2_temp1582_6 = __HIVE_P2_get(__HIVE_P2_temp1582_5, "parseParenExpression", 1587), __HIVE_P2_invoke(__HIVE_P2_temp1582_6, __HIVE_P2_temp1582_5, (__HIVE_P2_reserveArray(0, 1587), __HIVE_P2_ownArray([], 1587, "CONTROL_ARRAY")), 1587)), 1585));
+        (__HIVE_P2_temp1582_7 = __HIVE_P2_get(this, "labels", 1591), __HIVE_P2_temp1582_8 = __HIVE_P2_get(__HIVE_P2_temp1582_7, "push", 1589), __HIVE_P2_invoke(__HIVE_P2_temp1582_8, __HIVE_P2_temp1582_7, (__HIVE_P2_reserveArray(1, 1589), __HIVE_P2_ownArray([J], 1589, "CONTROL_ARRAY")), 1589));
+        (__HIVE_P2_temp1582_9 = e, __HIVE_P2_temp1582_10 = "body", __HIVE_P2_set(__HIVE_P2_temp1582_9, __HIVE_P2_temp1582_10, (__HIVE_P2_temp1582_12 = this, __HIVE_P2_temp1582_13 = __HIVE_P2_get(__HIVE_P2_temp1582_12, "parseStatement", 1594), __HIVE_P2_invoke(__HIVE_P2_temp1582_13, __HIVE_P2_temp1582_12, (__HIVE_P2_reserveArray(1, 1594), __HIVE_P2_ownArray(["while"], 1594, "CONTROL_ARRAY")), 1594)), 1592));
+        (__HIVE_P2_temp1582_14 = __HIVE_P2_get(this, "labels", 1598), __HIVE_P2_temp1582_15 = __HIVE_P2_get(__HIVE_P2_temp1582_14, "pop", 1596), __HIVE_P2_invoke(__HIVE_P2_temp1582_15, __HIVE_P2_temp1582_14, (__HIVE_P2_reserveArray(0, 1596), __HIVE_P2_ownArray([], 1596, "CONTROL_ARRAY")), 1596));
+        return (__HIVE_P2_temp1582_16 = this, __HIVE_P2_temp1582_17 = __HIVE_P2_get(__HIVE_P2_temp1582_16, "finishNode", 1599), __HIVE_P2_invoke(__HIVE_P2_temp1582_17, __HIVE_P2_temp1582_16, (__HIVE_P2_reserveArray(2, 1599), __HIVE_P2_ownArray([e, "WhileStatement"], 1599, "CONTROL_ARRAY")), 1599));
+    }, 18, 1, 0, 1582)), 1580));
+    (__HIVE_P2_temp0_1037 = $, __HIVE_P2_temp0_1038 = "parseWithStatement", __HIVE_P2_set(__HIVE_P2_temp0_1037, __HIVE_P2_temp0_1038, (__HIVE_P2_reserveFunction(1603), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1603_0, __HIVE_P2_temp1603_1, __HIVE_P2_temp1603_2, __HIVE_P2_temp1603_3, __HIVE_P2_temp1603_4, __HIVE_P2_temp1603_5, __HIVE_P2_temp1603_6, __HIVE_P2_temp1603_7, __HIVE_P2_temp1603_8, __HIVE_P2_temp1603_9, __HIVE_P2_temp1603_10, __HIVE_P2_temp1603_11, __HIVE_P2_temp1603_12, __HIVE_P2_temp1603_13;
+        if (__HIVE_P2_get(this, "strict", 1604)) {
+            __HIVE_P2_syntaxRefusal(1605);
+        }
+        (__HIVE_P2_temp1603_0 = this, __HIVE_P2_temp1603_1 = __HIVE_P2_get(__HIVE_P2_temp1603_0, "next", 1606), __HIVE_P2_invoke(__HIVE_P2_temp1603_1, __HIVE_P2_temp1603_0, (__HIVE_P2_reserveArray(0, 1606), __HIVE_P2_ownArray([], 1606, "CONTROL_ARRAY")), 1606));
+        (__HIVE_P2_temp1603_2 = e, __HIVE_P2_temp1603_3 = "object", __HIVE_P2_set(__HIVE_P2_temp1603_2, __HIVE_P2_temp1603_3, (__HIVE_P2_temp1603_5 = this, __HIVE_P2_temp1603_6 = __HIVE_P2_get(__HIVE_P2_temp1603_5, "parseParenExpression", 1610), __HIVE_P2_invoke(__HIVE_P2_temp1603_6, __HIVE_P2_temp1603_5, (__HIVE_P2_reserveArray(0, 1610), __HIVE_P2_ownArray([], 1610, "CONTROL_ARRAY")), 1610)), 1608));
+        (__HIVE_P2_temp1603_7 = e, __HIVE_P2_temp1603_8 = "body", __HIVE_P2_set(__HIVE_P2_temp1603_7, __HIVE_P2_temp1603_8, (__HIVE_P2_temp1603_10 = this, __HIVE_P2_temp1603_11 = __HIVE_P2_get(__HIVE_P2_temp1603_10, "parseStatement", 1614), __HIVE_P2_invoke(__HIVE_P2_temp1603_11, __HIVE_P2_temp1603_10, (__HIVE_P2_reserveArray(1, 1614), __HIVE_P2_ownArray(["with"], 1614, "CONTROL_ARRAY")), 1614)), 1612));
+        return (__HIVE_P2_temp1603_12 = this, __HIVE_P2_temp1603_13 = __HIVE_P2_get(__HIVE_P2_temp1603_12, "finishNode", 1616), __HIVE_P2_invoke(__HIVE_P2_temp1603_13, __HIVE_P2_temp1603_12, (__HIVE_P2_reserveArray(2, 1616), __HIVE_P2_ownArray([e, "WithStatement"], 1616, "CONTROL_ARRAY")), 1616));
+    }, 14, 1, 0, 1603)), 1601));
+    (__HIVE_P2_temp0_1040 = $, __HIVE_P2_temp0_1041 = "parseEmptyStatement", __HIVE_P2_set(__HIVE_P2_temp0_1040, __HIVE_P2_temp0_1041, (__HIVE_P2_reserveFunction(1620), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1620_0, __HIVE_P2_temp1620_1, __HIVE_P2_temp1620_2, __HIVE_P2_temp1620_3;
+        (__HIVE_P2_temp1620_0 = this, __HIVE_P2_temp1620_1 = __HIVE_P2_get(__HIVE_P2_temp1620_0, "next", 1621), __HIVE_P2_invoke(__HIVE_P2_temp1620_1, __HIVE_P2_temp1620_0, (__HIVE_P2_reserveArray(0, 1621), __HIVE_P2_ownArray([], 1621, "CONTROL_ARRAY")), 1621));
+        return (__HIVE_P2_temp1620_2 = this, __HIVE_P2_temp1620_3 = __HIVE_P2_get(__HIVE_P2_temp1620_2, "finishNode", 1623), __HIVE_P2_invoke(__HIVE_P2_temp1620_3, __HIVE_P2_temp1620_2, (__HIVE_P2_reserveArray(2, 1623), __HIVE_P2_ownArray([e, "EmptyStatement"], 1623, "CONTROL_ARRAY")), 1623));
+    }, 4, 1, 0, 1620)), 1618));
+    (__HIVE_P2_temp0_1043 = $, __HIVE_P2_temp0_1044 = "parseLabeledStatement", __HIVE_P2_set(__HIVE_P2_temp0_1043, __HIVE_P2_temp0_1044, (__HIVE_P2_reserveFunction(1627), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp1627_0, __HIVE_P2_temp1627_1, __HIVE_P2_temp1627_2, __HIVE_P2_temp1627_3, __HIVE_P2_temp1627_4, __HIVE_P2_temp1627_5, __HIVE_P2_temp1627_6, __HIVE_P2_temp1627_7, __HIVE_P2_temp1627_8, __HIVE_P2_temp1627_9, __HIVE_P2_temp1627_10, __HIVE_P2_temp1627_11, __HIVE_P2_temp1627_12, __HIVE_P2_temp1627_13, __HIVE_P2_temp1627_14, __HIVE_P2_temp1627_15, __HIVE_P2_temp1627_16, __HIVE_P2_temp1627_17, __HIVE_P2_temp1627_18, __HIVE_P2_temp1627_19, __HIVE_P2_temp1627_20, __HIVE_P2_temp1627_21, __HIVE_P2_temp1627_22, __HIVE_P2_temp1627_23;
+        for (var r = 0, a = __HIVE_P2_get(this, "labels", 1629); __HIVE_P2_binary("<", r, __HIVE_P2_get(a, "length", 1631), 1630); r = __HIVE_P2_binary("+", r, 1, 1632)) {
+            __HIVE_P2_tick(1628);
+            var n = __HIVE_P2_get(a, r, 1633);
+            if (__HIVE_P2_get(n, "name", 1634) === t) {
+                __HIVE_P2_syntaxRefusal(1635);
+            }
+        }
+        var o = __HIVE_P2_get(__HIVE_P2_get(this, "type", 1637), "isLoop", 1636) ? "loop" : __HIVE_P2_get(this, "type", 1638) === __HIVE_P2_get(m, "_switch", 1639) ? "switch" : null;
+        for (var h = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "labels", 1643), "length", 1642), 1, 1641); __HIVE_P2_binary(">=", h, 0, 1644); (__HIVE_P2_temp1627_0 = __HIVE_P2_numeric(h, 1645), __HIVE_P2_temp1627_1 = __HIVE_P2_temp1627_0 + -1, h = __HIVE_P2_temp1627_1, __HIVE_P2_temp1627_0)) {
+            __HIVE_P2_tick(1640);
+            var p = __HIVE_P2_get(__HIVE_P2_get(this, "labels", 1647), h, 1646);
+            if (__HIVE_P2_get(p, "statementStart", 1648) === __HIVE_P2_get(e, "start", 1649)) {
+                (__HIVE_P2_temp1627_2 = p, __HIVE_P2_temp1627_3 = "statementStart", __HIVE_P2_set(__HIVE_P2_temp1627_2, __HIVE_P2_temp1627_3, __HIVE_P2_get(this, "start", 1652), 1650));
+                (__HIVE_P2_temp1627_5 = p, __HIVE_P2_temp1627_6 = "kind", __HIVE_P2_set(__HIVE_P2_temp1627_5, __HIVE_P2_temp1627_6, o, 1653));
+            }
+            else {
+                break;
+            }
+        }
+        (__HIVE_P2_temp1627_8 = __HIVE_P2_get(this, "labels", 1659), __HIVE_P2_temp1627_9 = __HIVE_P2_get(__HIVE_P2_temp1627_8, "push", 1655), __HIVE_P2_invoke(__HIVE_P2_temp1627_9, __HIVE_P2_temp1627_8, (__HIVE_P2_reserveArray(1, 1655), __HIVE_P2_ownArray([(__HIVE_P2_reserveObject(3, 1656), __HIVE_P2_ownObject({ name: t, kind: o, statementStart: __HIVE_P2_get(this, "start", 1657) }, 1656, 3, 22))], 1655, "CONTROL_ARRAY")), 1655));
+        (__HIVE_P2_temp1627_10 = e, __HIVE_P2_temp1627_11 = "body", __HIVE_P2_set(__HIVE_P2_temp1627_10, __HIVE_P2_temp1627_11, (__HIVE_P2_temp1627_15 = this, __HIVE_P2_temp1627_16 = __HIVE_P2_get(__HIVE_P2_temp1627_15, "parseStatement", 1662), __HIVE_P2_invoke(__HIVE_P2_temp1627_16, __HIVE_P2_temp1627_15, (__HIVE_P2_reserveArray(1, 1662), __HIVE_P2_ownArray([s ? (__HIVE_P2_temp1627_13 = s, __HIVE_P2_temp1627_14 = __HIVE_P2_get(__HIVE_P2_temp1627_13, "indexOf", 1663), __HIVE_P2_invoke(__HIVE_P2_temp1627_14, __HIVE_P2_temp1627_13, (__HIVE_P2_reserveArray(1, 1663), __HIVE_P2_ownArray(["label"], 1663, "CONTROL_ARRAY")), 1663)) === __HIVE_P2_unary("-", 1, 1665) ? __HIVE_P2_binary("+", s, "label", 1666) : s : "label"], 1662, "CONTROL_ARRAY")), 1662)), 1660));
+        (__HIVE_P2_temp1627_17 = __HIVE_P2_get(this, "labels", 1670), __HIVE_P2_temp1627_18 = __HIVE_P2_get(__HIVE_P2_temp1627_17, "pop", 1668), __HIVE_P2_invoke(__HIVE_P2_temp1627_18, __HIVE_P2_temp1627_17, (__HIVE_P2_reserveArray(0, 1668), __HIVE_P2_ownArray([], 1668, "CONTROL_ARRAY")), 1668));
+        (__HIVE_P2_temp1627_19 = e, __HIVE_P2_temp1627_20 = "label", __HIVE_P2_set(__HIVE_P2_temp1627_19, __HIVE_P2_temp1627_20, i, 1671));
+        return (__HIVE_P2_temp1627_22 = this, __HIVE_P2_temp1627_23 = __HIVE_P2_get(__HIVE_P2_temp1627_22, "finishNode", 1673), __HIVE_P2_invoke(__HIVE_P2_temp1627_23, __HIVE_P2_temp1627_22, (__HIVE_P2_reserveArray(2, 1673), __HIVE_P2_ownArray([e, "LabeledStatement"], 1673, "CONTROL_ARRAY")), 1673));
+    }, 30, 4, 0, 1627)), 1625));
+    (__HIVE_P2_temp0_1046 = $, __HIVE_P2_temp0_1047 = "parseExpressionStatement", __HIVE_P2_set(__HIVE_P2_temp0_1046, __HIVE_P2_temp0_1047, (__HIVE_P2_reserveFunction(1677), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1677_0, __HIVE_P2_temp1677_1, __HIVE_P2_temp1677_2, __HIVE_P2_temp1677_3, __HIVE_P2_temp1677_4, __HIVE_P2_temp1677_5, __HIVE_P2_temp1677_6;
+        (__HIVE_P2_temp1677_0 = e, __HIVE_P2_temp1677_1 = "expression", __HIVE_P2_set(__HIVE_P2_temp1677_0, __HIVE_P2_temp1677_1, t, 1678));
+        (__HIVE_P2_temp1677_3 = this, __HIVE_P2_temp1677_4 = __HIVE_P2_get(__HIVE_P2_temp1677_3, "semicolon", 1680), __HIVE_P2_invoke(__HIVE_P2_temp1677_4, __HIVE_P2_temp1677_3, (__HIVE_P2_reserveArray(0, 1680), __HIVE_P2_ownArray([], 1680, "CONTROL_ARRAY")), 1680));
+        return (__HIVE_P2_temp1677_5 = this, __HIVE_P2_temp1677_6 = __HIVE_P2_get(__HIVE_P2_temp1677_5, "finishNode", 1682), __HIVE_P2_invoke(__HIVE_P2_temp1677_6, __HIVE_P2_temp1677_5, (__HIVE_P2_reserveArray(2, 1682), __HIVE_P2_ownArray([e, "ExpressionStatement"], 1682, "CONTROL_ARRAY")), 1682));
+    }, 7, 2, 0, 1677)), 1675));
+    (__HIVE_P2_temp0_1049 = $, __HIVE_P2_temp0_1050 = "parseBlock", __HIVE_P2_set(__HIVE_P2_temp0_1049, __HIVE_P2_temp0_1050, (__HIVE_P2_reserveFunction(1686), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp1686_0, __HIVE_P2_temp1686_1, __HIVE_P2_temp1686_2, __HIVE_P2_temp1686_3, __HIVE_P2_temp1686_4, __HIVE_P2_temp1686_5, __HIVE_P2_temp1686_6, __HIVE_P2_temp1686_7, __HIVE_P2_temp1686_8, __HIVE_P2_temp1686_9, __HIVE_P2_temp1686_10, __HIVE_P2_temp1686_11, __HIVE_P2_temp1686_12, __HIVE_P2_temp1686_13, __HIVE_P2_temp1686_14, __HIVE_P2_temp1686_15, __HIVE_P2_temp1686_16, __HIVE_P2_temp1686_17, __HIVE_P2_temp1686_18, __HIVE_P2_temp1686_19, __HIVE_P2_temp1686_20, __HIVE_P2_temp1686_21, __HIVE_P2_temp1686_22;
+        if (e === void 0)
+            e = true;
+        if (t === void 0)
+            t = (__HIVE_P2_temp1686_0 = this, __HIVE_P2_temp1686_1 = __HIVE_P2_get(__HIVE_P2_temp1686_0, "startNode", 1689), __HIVE_P2_invoke(__HIVE_P2_temp1686_1, __HIVE_P2_temp1686_0, (__HIVE_P2_reserveArray(0, 1689), __HIVE_P2_ownArray([], 1689, "CONTROL_ARRAY")), 1689));
+        (__HIVE_P2_temp1686_2 = t, __HIVE_P2_temp1686_3 = "body", __HIVE_P2_set(__HIVE_P2_temp1686_2, __HIVE_P2_temp1686_3, (__HIVE_P2_temp1686_5 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp1686_5, 1693), __HIVE_P2_reserveArray(0, 1693, 0), __HIVE_P2_ownArray([], 1693, "ARRAY", __HIVE_P2_temp1686_5)), 1691));
+        (__HIVE_P2_temp1686_6 = this, __HIVE_P2_temp1686_7 = __HIVE_P2_get(__HIVE_P2_temp1686_6, "expect", 1694), __HIVE_P2_invoke(__HIVE_P2_temp1686_7, __HIVE_P2_temp1686_6, (__HIVE_P2_reserveArray(1, 1694), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 1695)], 1694, "CONTROL_ARRAY")), 1694));
+        if (e) {
+            (__HIVE_P2_temp1686_8 = this, __HIVE_P2_temp1686_9 = __HIVE_P2_get(__HIVE_P2_temp1686_8, "enterScope", 1697), __HIVE_P2_invoke(__HIVE_P2_temp1686_9, __HIVE_P2_temp1686_8, (__HIVE_P2_reserveArray(1, 1697), __HIVE_P2_ownArray([0], 1697, "CONTROL_ARRAY")), 1697));
+        }
+        while (__HIVE_P2_get(this, "type", 1700) !== __HIVE_P2_get(m, "braceR", 1701)) {
+            __HIVE_P2_tick(1699);
+            var s = (__HIVE_P2_temp1686_10 = this, __HIVE_P2_temp1686_11 = __HIVE_P2_get(__HIVE_P2_temp1686_10, "parseStatement", 1702), __HIVE_P2_invoke(__HIVE_P2_temp1686_11, __HIVE_P2_temp1686_10, (__HIVE_P2_reserveArray(1, 1702), __HIVE_P2_ownArray([null], 1702, "CONTROL_ARRAY")), 1702));
+            (__HIVE_P2_temp1686_12 = __HIVE_P2_get(t, "body", 1706), __HIVE_P2_temp1686_13 = __HIVE_P2_get(__HIVE_P2_temp1686_12, "push", 1704), __HIVE_P2_invoke(__HIVE_P2_temp1686_13, __HIVE_P2_temp1686_12, (__HIVE_P2_reserveArray(1, 1704), __HIVE_P2_ownArray([s], 1704, "CONTROL_ARRAY")), 1704));
+        }
+        if (i) {
+            (__HIVE_P2_temp1686_14 = this, __HIVE_P2_temp1686_15 = "strict", __HIVE_P2_set(__HIVE_P2_temp1686_14, __HIVE_P2_temp1686_15, false, 1707));
+        }
+        (__HIVE_P2_temp1686_17 = this, __HIVE_P2_temp1686_18 = __HIVE_P2_get(__HIVE_P2_temp1686_17, "next", 1709), __HIVE_P2_invoke(__HIVE_P2_temp1686_18, __HIVE_P2_temp1686_17, (__HIVE_P2_reserveArray(0, 1709), __HIVE_P2_ownArray([], 1709, "CONTROL_ARRAY")), 1709));
+        if (e) {
+            (__HIVE_P2_temp1686_19 = this, __HIVE_P2_temp1686_20 = __HIVE_P2_get(__HIVE_P2_temp1686_19, "exitScope", 1711), __HIVE_P2_invoke(__HIVE_P2_temp1686_20, __HIVE_P2_temp1686_19, (__HIVE_P2_reserveArray(0, 1711), __HIVE_P2_ownArray([], 1711, "CONTROL_ARRAY")), 1711));
+        }
+        return (__HIVE_P2_temp1686_21 = this, __HIVE_P2_temp1686_22 = __HIVE_P2_get(__HIVE_P2_temp1686_21, "finishNode", 1713), __HIVE_P2_invoke(__HIVE_P2_temp1686_22, __HIVE_P2_temp1686_21, (__HIVE_P2_reserveArray(2, 1713), __HIVE_P2_ownArray([t, "BlockStatement"], 1713, "CONTROL_ARRAY")), 1713));
+    }, 24, 3, 0, 1686)), 1684));
+    (__HIVE_P2_temp0_1052 = $, __HIVE_P2_temp0_1053 = "parseFor", __HIVE_P2_set(__HIVE_P2_temp0_1052, __HIVE_P2_temp0_1053, (__HIVE_P2_reserveFunction(1717), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1717_0, __HIVE_P2_temp1717_1, __HIVE_P2_temp1717_2, __HIVE_P2_temp1717_3, __HIVE_P2_temp1717_4, __HIVE_P2_temp1717_5, __HIVE_P2_temp1717_6, __HIVE_P2_temp1717_7, __HIVE_P2_temp1717_8, __HIVE_P2_temp1717_9, __HIVE_P2_temp1717_10, __HIVE_P2_temp1717_11, __HIVE_P2_temp1717_12, __HIVE_P2_temp1717_13, __HIVE_P2_temp1717_14, __HIVE_P2_temp1717_15, __HIVE_P2_temp1717_16, __HIVE_P2_temp1717_17, __HIVE_P2_temp1717_18, __HIVE_P2_temp1717_19, __HIVE_P2_temp1717_20, __HIVE_P2_temp1717_21, __HIVE_P2_temp1717_22, __HIVE_P2_temp1717_23, __HIVE_P2_temp1717_24, __HIVE_P2_temp1717_25, __HIVE_P2_temp1717_26, __HIVE_P2_temp1717_27, __HIVE_P2_temp1717_28, __HIVE_P2_temp1717_29;
+        (__HIVE_P2_temp1717_0 = e, __HIVE_P2_temp1717_1 = "init", __HIVE_P2_set(__HIVE_P2_temp1717_0, __HIVE_P2_temp1717_1, t, 1718));
+        (__HIVE_P2_temp1717_3 = this, __HIVE_P2_temp1717_4 = __HIVE_P2_get(__HIVE_P2_temp1717_3, "expect", 1720), __HIVE_P2_invoke(__HIVE_P2_temp1717_4, __HIVE_P2_temp1717_3, (__HIVE_P2_reserveArray(1, 1720), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1721)], 1720, "CONTROL_ARRAY")), 1720));
+        (__HIVE_P2_temp1717_5 = e, __HIVE_P2_temp1717_6 = "test", __HIVE_P2_set(__HIVE_P2_temp1717_5, __HIVE_P2_temp1717_6, __HIVE_P2_get(this, "type", 1725) === __HIVE_P2_get(m, "semi", 1726) ? null : (__HIVE_P2_temp1717_8 = this, __HIVE_P2_temp1717_9 = __HIVE_P2_get(__HIVE_P2_temp1717_8, "parseExpression", 1727), __HIVE_P2_invoke(__HIVE_P2_temp1717_9, __HIVE_P2_temp1717_8, (__HIVE_P2_reserveArray(0, 1727), __HIVE_P2_ownArray([], 1727, "CONTROL_ARRAY")), 1727)), 1723));
+        (__HIVE_P2_temp1717_10 = this, __HIVE_P2_temp1717_11 = __HIVE_P2_get(__HIVE_P2_temp1717_10, "expect", 1729), __HIVE_P2_invoke(__HIVE_P2_temp1717_11, __HIVE_P2_temp1717_10, (__HIVE_P2_reserveArray(1, 1729), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1730)], 1729, "CONTROL_ARRAY")), 1729));
+        (__HIVE_P2_temp1717_12 = e, __HIVE_P2_temp1717_13 = "update", __HIVE_P2_set(__HIVE_P2_temp1717_12, __HIVE_P2_temp1717_13, __HIVE_P2_get(this, "type", 1734) === __HIVE_P2_get(m, "parenR", 1735) ? null : (__HIVE_P2_temp1717_15 = this, __HIVE_P2_temp1717_16 = __HIVE_P2_get(__HIVE_P2_temp1717_15, "parseExpression", 1736), __HIVE_P2_invoke(__HIVE_P2_temp1717_16, __HIVE_P2_temp1717_15, (__HIVE_P2_reserveArray(0, 1736), __HIVE_P2_ownArray([], 1736, "CONTROL_ARRAY")), 1736)), 1732));
+        (__HIVE_P2_temp1717_17 = this, __HIVE_P2_temp1717_18 = __HIVE_P2_get(__HIVE_P2_temp1717_17, "expect", 1738), __HIVE_P2_invoke(__HIVE_P2_temp1717_18, __HIVE_P2_temp1717_17, (__HIVE_P2_reserveArray(1, 1738), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 1739)], 1738, "CONTROL_ARRAY")), 1738));
+        (__HIVE_P2_temp1717_19 = e, __HIVE_P2_temp1717_20 = "body", __HIVE_P2_set(__HIVE_P2_temp1717_19, __HIVE_P2_temp1717_20, (__HIVE_P2_temp1717_22 = this, __HIVE_P2_temp1717_23 = __HIVE_P2_get(__HIVE_P2_temp1717_22, "parseStatement", 1743), __HIVE_P2_invoke(__HIVE_P2_temp1717_23, __HIVE_P2_temp1717_22, (__HIVE_P2_reserveArray(1, 1743), __HIVE_P2_ownArray(["for"], 1743, "CONTROL_ARRAY")), 1743)), 1741));
+        (__HIVE_P2_temp1717_24 = this, __HIVE_P2_temp1717_25 = __HIVE_P2_get(__HIVE_P2_temp1717_24, "exitScope", 1745), __HIVE_P2_invoke(__HIVE_P2_temp1717_25, __HIVE_P2_temp1717_24, (__HIVE_P2_reserveArray(0, 1745), __HIVE_P2_ownArray([], 1745, "CONTROL_ARRAY")), 1745));
+        (__HIVE_P2_temp1717_26 = __HIVE_P2_get(this, "labels", 1749), __HIVE_P2_temp1717_27 = __HIVE_P2_get(__HIVE_P2_temp1717_26, "pop", 1747), __HIVE_P2_invoke(__HIVE_P2_temp1717_27, __HIVE_P2_temp1717_26, (__HIVE_P2_reserveArray(0, 1747), __HIVE_P2_ownArray([], 1747, "CONTROL_ARRAY")), 1747));
+        return (__HIVE_P2_temp1717_28 = this, __HIVE_P2_temp1717_29 = __HIVE_P2_get(__HIVE_P2_temp1717_28, "finishNode", 1750), __HIVE_P2_invoke(__HIVE_P2_temp1717_29, __HIVE_P2_temp1717_28, (__HIVE_P2_reserveArray(2, 1750), __HIVE_P2_ownArray([e, "ForStatement"], 1750, "CONTROL_ARRAY")), 1750));
+    }, 30, 2, 0, 1717)), 1715));
+    (__HIVE_P2_temp0_1055 = $, __HIVE_P2_temp0_1056 = "parseForIn", __HIVE_P2_set(__HIVE_P2_temp0_1055, __HIVE_P2_temp0_1056, (__HIVE_P2_reserveFunction(1754), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1754_0, __HIVE_P2_temp1754_1, __HIVE_P2_temp1754_2, __HIVE_P2_temp1754_3, __HIVE_P2_temp1754_4, __HIVE_P2_temp1754_5, __HIVE_P2_temp1754_6, __HIVE_P2_temp1754_7, __HIVE_P2_temp1754_8, __HIVE_P2_temp1754_9, __HIVE_P2_temp1754_10, __HIVE_P2_temp1754_11, __HIVE_P2_temp1754_12, __HIVE_P2_temp1754_13, __HIVE_P2_temp1754_14, __HIVE_P2_temp1754_15, __HIVE_P2_temp1754_16, __HIVE_P2_temp1754_17, __HIVE_P2_temp1754_18, __HIVE_P2_temp1754_19, __HIVE_P2_temp1754_20, __HIVE_P2_temp1754_21, __HIVE_P2_temp1754_22, __HIVE_P2_temp1754_23, __HIVE_P2_temp1754_24;
+        var i = __HIVE_P2_get(this, "type", 1755) === __HIVE_P2_get(m, "_in", 1756);
+        (__HIVE_P2_temp1754_0 = this, __HIVE_P2_temp1754_1 = __HIVE_P2_get(__HIVE_P2_temp1754_0, "next", 1757), __HIVE_P2_invoke(__HIVE_P2_temp1754_1, __HIVE_P2_temp1754_0, (__HIVE_P2_reserveArray(0, 1757), __HIVE_P2_ownArray([], 1757, "CONTROL_ARRAY")), 1757));
+        if (__HIVE_P2_get(t, "type", 1759) === "VariableDeclaration" && __HIVE_P2_binary("!=", __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(t, "declarations", 1763), 0, 1762), "init", 1761), null, 1760) && (!i || __HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1766), "ecmaVersion", 1765), 8, 1764) || __HIVE_P2_get(this, "strict", 1767) || __HIVE_P2_get(t, "kind", 1768) !== "var" || __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(t, "declarations", 1772), 0, 1771), "id", 1770), "type", 1769) !== "Identifier")) {
+            __HIVE_P2_syntaxRefusal(1773);
+        }
+        (__HIVE_P2_temp1754_2 = e, __HIVE_P2_temp1754_3 = "left", __HIVE_P2_set(__HIVE_P2_temp1754_2, __HIVE_P2_temp1754_3, t, 1774));
+        (__HIVE_P2_temp1754_5 = e, __HIVE_P2_temp1754_6 = "right", __HIVE_P2_set(__HIVE_P2_temp1754_5, __HIVE_P2_temp1754_6, i ? (__HIVE_P2_temp1754_8 = this, __HIVE_P2_temp1754_9 = __HIVE_P2_get(__HIVE_P2_temp1754_8, "parseExpression", 1778), __HIVE_P2_invoke(__HIVE_P2_temp1754_9, __HIVE_P2_temp1754_8, (__HIVE_P2_reserveArray(0, 1778), __HIVE_P2_ownArray([], 1778, "CONTROL_ARRAY")), 1778)) : (__HIVE_P2_temp1754_10 = this, __HIVE_P2_temp1754_11 = __HIVE_P2_get(__HIVE_P2_temp1754_10, "parseMaybeAssign", 1780), __HIVE_P2_invoke(__HIVE_P2_temp1754_11, __HIVE_P2_temp1754_10, (__HIVE_P2_reserveArray(0, 1780), __HIVE_P2_ownArray([], 1780, "CONTROL_ARRAY")), 1780)), 1776));
+        (__HIVE_P2_temp1754_12 = this, __HIVE_P2_temp1754_13 = __HIVE_P2_get(__HIVE_P2_temp1754_12, "expect", 1782), __HIVE_P2_invoke(__HIVE_P2_temp1754_13, __HIVE_P2_temp1754_12, (__HIVE_P2_reserveArray(1, 1782), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 1783)], 1782, "CONTROL_ARRAY")), 1782));
+        (__HIVE_P2_temp1754_14 = e, __HIVE_P2_temp1754_15 = "body", __HIVE_P2_set(__HIVE_P2_temp1754_14, __HIVE_P2_temp1754_15, (__HIVE_P2_temp1754_17 = this, __HIVE_P2_temp1754_18 = __HIVE_P2_get(__HIVE_P2_temp1754_17, "parseStatement", 1787), __HIVE_P2_invoke(__HIVE_P2_temp1754_18, __HIVE_P2_temp1754_17, (__HIVE_P2_reserveArray(1, 1787), __HIVE_P2_ownArray(["for"], 1787, "CONTROL_ARRAY")), 1787)), 1785));
+        (__HIVE_P2_temp1754_19 = this, __HIVE_P2_temp1754_20 = __HIVE_P2_get(__HIVE_P2_temp1754_19, "exitScope", 1789), __HIVE_P2_invoke(__HIVE_P2_temp1754_20, __HIVE_P2_temp1754_19, (__HIVE_P2_reserveArray(0, 1789), __HIVE_P2_ownArray([], 1789, "CONTROL_ARRAY")), 1789));
+        (__HIVE_P2_temp1754_21 = __HIVE_P2_get(this, "labels", 1793), __HIVE_P2_temp1754_22 = __HIVE_P2_get(__HIVE_P2_temp1754_21, "pop", 1791), __HIVE_P2_invoke(__HIVE_P2_temp1754_22, __HIVE_P2_temp1754_21, (__HIVE_P2_reserveArray(0, 1791), __HIVE_P2_ownArray([], 1791, "CONTROL_ARRAY")), 1791));
+        return (__HIVE_P2_temp1754_23 = this, __HIVE_P2_temp1754_24 = __HIVE_P2_get(__HIVE_P2_temp1754_23, "finishNode", 1794), __HIVE_P2_invoke(__HIVE_P2_temp1754_24, __HIVE_P2_temp1754_23, (__HIVE_P2_reserveArray(2, 1794), __HIVE_P2_ownArray([e, i ? "ForInStatement" : "ForOfStatement"], 1794, "CONTROL_ARRAY")), 1794));
+    }, 26, 2, 0, 1754)), 1752));
+    (__HIVE_P2_temp0_1058 = $, __HIVE_P2_temp0_1059 = "parseVar", __HIVE_P2_set(__HIVE_P2_temp0_1058, __HIVE_P2_temp0_1059, (__HIVE_P2_reserveFunction(1798), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp1798_0, __HIVE_P2_temp1798_1, __HIVE_P2_temp1798_2, __HIVE_P2_temp1798_3, __HIVE_P2_temp1798_4, __HIVE_P2_temp1798_5, __HIVE_P2_temp1798_6, __HIVE_P2_temp1798_7, __HIVE_P2_temp1798_8, __HIVE_P2_temp1798_9, __HIVE_P2_temp1798_10, __HIVE_P2_temp1798_11, __HIVE_P2_temp1798_12, __HIVE_P2_temp1798_13, __HIVE_P2_temp1798_14, __HIVE_P2_temp1798_15, __HIVE_P2_temp1798_16, __HIVE_P2_temp1798_17, __HIVE_P2_temp1798_18, __HIVE_P2_temp1798_19, __HIVE_P2_temp1798_20, __HIVE_P2_temp1798_21, __HIVE_P2_temp1798_22, __HIVE_P2_temp1798_23, __HIVE_P2_temp1798_24, __HIVE_P2_temp1798_25, __HIVE_P2_temp1798_26, __HIVE_P2_temp1798_27, __HIVE_P2_temp1798_28, __HIVE_P2_temp1798_29, __HIVE_P2_temp1798_30;
+        (__HIVE_P2_temp1798_0 = e, __HIVE_P2_temp1798_1 = "declarations", __HIVE_P2_set(__HIVE_P2_temp1798_0, __HIVE_P2_temp1798_1, (__HIVE_P2_temp1798_3 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp1798_3, 1801), __HIVE_P2_reserveArray(0, 1801, 0), __HIVE_P2_ownArray([], 1801, "ARRAY", __HIVE_P2_temp1798_3)), 1799));
+        (__HIVE_P2_temp1798_4 = e, __HIVE_P2_temp1798_5 = "kind", __HIVE_P2_set(__HIVE_P2_temp1798_4, __HIVE_P2_temp1798_5, i, 1802));
+        for (;;) {
+            __HIVE_P2_tick(1804);
+            var r = (__HIVE_P2_temp1798_7 = this, __HIVE_P2_temp1798_8 = __HIVE_P2_get(__HIVE_P2_temp1798_7, "startNode", 1805), __HIVE_P2_invoke(__HIVE_P2_temp1798_8, __HIVE_P2_temp1798_7, (__HIVE_P2_reserveArray(0, 1805), __HIVE_P2_ownArray([], 1805, "CONTROL_ARRAY")), 1805));
+            (__HIVE_P2_temp1798_9 = this, __HIVE_P2_temp1798_10 = __HIVE_P2_get(__HIVE_P2_temp1798_9, "parseVarId", 1807), __HIVE_P2_invoke(__HIVE_P2_temp1798_10, __HIVE_P2_temp1798_9, (__HIVE_P2_reserveArray(2, 1807), __HIVE_P2_ownArray([r, i], 1807, "CONTROL_ARRAY")), 1807));
+            if ((__HIVE_P2_temp1798_11 = this, __HIVE_P2_temp1798_12 = __HIVE_P2_get(__HIVE_P2_temp1798_11, "eat", 1809), __HIVE_P2_invoke(__HIVE_P2_temp1798_12, __HIVE_P2_temp1798_11, (__HIVE_P2_reserveArray(1, 1809), __HIVE_P2_ownArray([__HIVE_P2_get(m, "eq", 1810)], 1809, "CONTROL_ARRAY")), 1809))) {
+                (__HIVE_P2_temp1798_13 = r, __HIVE_P2_temp1798_14 = "init", __HIVE_P2_set(__HIVE_P2_temp1798_13, __HIVE_P2_temp1798_14, (__HIVE_P2_temp1798_16 = this, __HIVE_P2_temp1798_17 = __HIVE_P2_get(__HIVE_P2_temp1798_16, "parseMaybeAssign", 1814), __HIVE_P2_invoke(__HIVE_P2_temp1798_17, __HIVE_P2_temp1798_16, (__HIVE_P2_reserveArray(1, 1814), __HIVE_P2_ownArray([t], 1814, "CONTROL_ARRAY")), 1814)), 1812));
+            }
+            else if (!s && i === "const" && !(__HIVE_P2_get(this, "type", 1816) === __HIVE_P2_get(m, "_in", 1817) || __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1820), "ecmaVersion", 1819), 6, 1818) && (__HIVE_P2_temp1798_18 = this, __HIVE_P2_temp1798_19 = __HIVE_P2_get(__HIVE_P2_temp1798_18, "isContextual", 1821), __HIVE_P2_invoke(__HIVE_P2_temp1798_19, __HIVE_P2_temp1798_18, (__HIVE_P2_reserveArray(1, 1821), __HIVE_P2_ownArray(["of"], 1821, "CONTROL_ARRAY")), 1821)))) {
+                __HIVE_P2_syntaxRefusal(1823);
+            }
+            else if (!s && __HIVE_P2_get(__HIVE_P2_get(r, "id", 1825), "type", 1824) !== "Identifier" && !(t && (__HIVE_P2_get(this, "type", 1826) === __HIVE_P2_get(m, "_in", 1827) || (__HIVE_P2_temp1798_20 = this, __HIVE_P2_temp1798_21 = __HIVE_P2_get(__HIVE_P2_temp1798_20, "isContextual", 1828), __HIVE_P2_invoke(__HIVE_P2_temp1798_21, __HIVE_P2_temp1798_20, (__HIVE_P2_reserveArray(1, 1828), __HIVE_P2_ownArray(["of"], 1828, "CONTROL_ARRAY")), 1828))))) {
+                __HIVE_P2_syntaxRefusal(1830);
+            }
+            else {
+                (__HIVE_P2_temp1798_22 = r, __HIVE_P2_temp1798_23 = "init", __HIVE_P2_set(__HIVE_P2_temp1798_22, __HIVE_P2_temp1798_23, null, 1831));
+            }
+            (__HIVE_P2_temp1798_27 = __HIVE_P2_get(e, "declarations", 1837), __HIVE_P2_temp1798_28 = __HIVE_P2_get(__HIVE_P2_temp1798_27, "push", 1833), __HIVE_P2_invoke(__HIVE_P2_temp1798_28, __HIVE_P2_temp1798_27, (__HIVE_P2_reserveArray(1, 1833), __HIVE_P2_ownArray([(__HIVE_P2_temp1798_25 = this, __HIVE_P2_temp1798_26 = __HIVE_P2_get(__HIVE_P2_temp1798_25, "finishNode", 1834), __HIVE_P2_invoke(__HIVE_P2_temp1798_26, __HIVE_P2_temp1798_25, (__HIVE_P2_reserveArray(2, 1834), __HIVE_P2_ownArray([r, "VariableDeclarator"], 1834, "CONTROL_ARRAY")), 1834))], 1833, "CONTROL_ARRAY")), 1833));
+            if (!(__HIVE_P2_temp1798_29 = this, __HIVE_P2_temp1798_30 = __HIVE_P2_get(__HIVE_P2_temp1798_29, "eat", 1838), __HIVE_P2_invoke(__HIVE_P2_temp1798_30, __HIVE_P2_temp1798_29, (__HIVE_P2_reserveArray(1, 1838), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 1839)], 1838, "CONTROL_ARRAY")), 1838))) {
+                break;
+            }
+        }
+        return e;
+    }, 32, 4, 0, 1798)), 1796));
+    (__HIVE_P2_temp0_1061 = $, __HIVE_P2_temp0_1062 = "parseVarId", __HIVE_P2_set(__HIVE_P2_temp0_1061, __HIVE_P2_temp0_1062, (__HIVE_P2_reserveFunction(1843), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1843_0, __HIVE_P2_temp1843_1, __HIVE_P2_temp1843_2, __HIVE_P2_temp1843_3, __HIVE_P2_temp1843_4, __HIVE_P2_temp1843_5, __HIVE_P2_temp1843_6;
+        (__HIVE_P2_temp1843_0 = e, __HIVE_P2_temp1843_1 = "id", __HIVE_P2_set(__HIVE_P2_temp1843_0, __HIVE_P2_temp1843_1, (__HIVE_P2_temp1843_3 = this, __HIVE_P2_temp1843_4 = __HIVE_P2_get(__HIVE_P2_temp1843_3, "parseBindingAtom", 1846), __HIVE_P2_invoke(__HIVE_P2_temp1843_4, __HIVE_P2_temp1843_3, (__HIVE_P2_reserveArray(0, 1846), __HIVE_P2_ownArray([], 1846, "CONTROL_ARRAY")), 1846)), 1844));
+        (__HIVE_P2_temp1843_5 = this, __HIVE_P2_temp1843_6 = __HIVE_P2_get(__HIVE_P2_temp1843_5, "checkLValPattern", 1848), __HIVE_P2_invoke(__HIVE_P2_temp1843_6, __HIVE_P2_temp1843_5, (__HIVE_P2_reserveArray(3, 1848), __HIVE_P2_ownArray([__HIVE_P2_get(e, "id", 1849), t === "var" ? j : G, false], 1848, "CONTROL_ARRAY")), 1848));
+    }, 7, 2, 0, 1843)), 1841));
+    var ie = 1, se = 2, re = 4;
+    (__HIVE_P2_temp0_1064 = $, __HIVE_P2_temp0_1065 = "parseFunction", __HIVE_P2_set(__HIVE_P2_temp0_1064, __HIVE_P2_temp0_1065, (__HIVE_P2_reserveFunction(1853), __HIVE_P2_registerFunction(function (e, t, i, s, r) {
+        var __HIVE_P2_temp1853_0, __HIVE_P2_temp1853_1, __HIVE_P2_temp1853_2, __HIVE_P2_temp1853_3, __HIVE_P2_temp1853_4, __HIVE_P2_temp1853_5, __HIVE_P2_temp1853_6, __HIVE_P2_temp1853_7, __HIVE_P2_temp1853_8, __HIVE_P2_temp1853_9, __HIVE_P2_temp1853_10, __HIVE_P2_temp1853_11, __HIVE_P2_temp1853_12, __HIVE_P2_temp1853_13, __HIVE_P2_temp1853_14, __HIVE_P2_temp1853_15, __HIVE_P2_temp1853_16, __HIVE_P2_temp1853_17, __HIVE_P2_temp1853_18, __HIVE_P2_temp1853_19, __HIVE_P2_temp1853_20, __HIVE_P2_temp1853_21, __HIVE_P2_temp1853_22, __HIVE_P2_temp1853_23, __HIVE_P2_temp1853_24, __HIVE_P2_temp1853_25, __HIVE_P2_temp1853_26, __HIVE_P2_temp1853_27, __HIVE_P2_temp1853_28, __HIVE_P2_temp1853_29, __HIVE_P2_temp1853_30, __HIVE_P2_temp1853_31, __HIVE_P2_temp1853_32, __HIVE_P2_temp1853_33, __HIVE_P2_temp1853_34, __HIVE_P2_temp1853_35, __HIVE_P2_temp1853_36, __HIVE_P2_temp1853_37, __HIVE_P2_temp1853_38, __HIVE_P2_temp1853_39, __HIVE_P2_temp1853_40, __HIVE_P2_temp1853_41, __HIVE_P2_temp1853_42, __HIVE_P2_temp1853_43, __HIVE_P2_temp1853_44, __HIVE_P2_temp1853_45, __HIVE_P2_temp1853_46, __HIVE_P2_temp1853_47;
+        (__HIVE_P2_temp1853_0 = this, __HIVE_P2_temp1853_1 = __HIVE_P2_get(__HIVE_P2_temp1853_0, "initFunction", 1854), __HIVE_P2_invoke(__HIVE_P2_temp1853_1, __HIVE_P2_temp1853_0, (__HIVE_P2_reserveArray(1, 1854), __HIVE_P2_ownArray([e], 1854, "CONTROL_ARRAY")), 1854));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1858), "ecmaVersion", 1857), 9, 1856) || __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1861), "ecmaVersion", 1860), 6, 1859) && !s) {
+            if (__HIVE_P2_get(this, "type", 1862) === __HIVE_P2_get(m, "star", 1863) && __HIVE_P2_binary("&", t, se, 1864)) {
+                __HIVE_P2_syntaxRefusal(1865);
+            }
+            (__HIVE_P2_temp1853_2 = e, __HIVE_P2_temp1853_3 = "generator", __HIVE_P2_set(__HIVE_P2_temp1853_2, __HIVE_P2_temp1853_3, (__HIVE_P2_temp1853_5 = this, __HIVE_P2_temp1853_6 = __HIVE_P2_get(__HIVE_P2_temp1853_5, "eat", 1868), __HIVE_P2_invoke(__HIVE_P2_temp1853_6, __HIVE_P2_temp1853_5, (__HIVE_P2_reserveArray(1, 1868), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 1869)], 1868, "CONTROL_ARRAY")), 1868)), 1866));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1873), "ecmaVersion", 1872), 8, 1871)) {
+            (__HIVE_P2_temp1853_7 = e, __HIVE_P2_temp1853_8 = "async", __HIVE_P2_set(__HIVE_P2_temp1853_7, __HIVE_P2_temp1853_8, !!s, 1874));
+        }
+        if (__HIVE_P2_binary("&", t, ie, 1876)) {
+            (__HIVE_P2_temp1853_10 = e, __HIVE_P2_temp1853_11 = "id", __HIVE_P2_set(__HIVE_P2_temp1853_10, __HIVE_P2_temp1853_11, __HIVE_P2_binary("&", t, re, 1879) && __HIVE_P2_get(this, "type", 1880) !== __HIVE_P2_get(m, "name", 1881) ? null : (__HIVE_P2_temp1853_13 = this, __HIVE_P2_temp1853_14 = __HIVE_P2_get(__HIVE_P2_temp1853_13, "parseIdent", 1882), __HIVE_P2_invoke(__HIVE_P2_temp1853_14, __HIVE_P2_temp1853_13, (__HIVE_P2_reserveArray(0, 1882), __HIVE_P2_ownArray([], 1882, "CONTROL_ARRAY")), 1882)), 1877));
+            if (__HIVE_P2_get(e, "id", 1884) && !(__HIVE_P2_binary("&", t, se, 1885))) {
+                (__HIVE_P2_temp1853_15 = this, __HIVE_P2_temp1853_16 = __HIVE_P2_get(__HIVE_P2_temp1853_15, "checkLValSimple", 1886), __HIVE_P2_invoke(__HIVE_P2_temp1853_16, __HIVE_P2_temp1853_15, (__HIVE_P2_reserveArray(2, 1886), __HIVE_P2_ownArray([__HIVE_P2_get(e, "id", 1887), __HIVE_P2_get(this, "strict", 1888) || __HIVE_P2_get(e, "generator", 1889) || __HIVE_P2_get(e, "async", 1890) ? __HIVE_P2_get(this, "treatFunctionsAsVar", 1891) ? j : G : H], 1886, "CONTROL_ARRAY")), 1886));
+            }
+        }
+        var a = __HIVE_P2_get(this, "yieldPos", 1893), n = __HIVE_P2_get(this, "awaitPos", 1894), o = __HIVE_P2_get(this, "awaitIdentPos", 1895);
+        (__HIVE_P2_temp1853_17 = this, __HIVE_P2_temp1853_18 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp1853_17, __HIVE_P2_temp1853_18, 0, 1896));
+        (__HIVE_P2_temp1853_20 = this, __HIVE_P2_temp1853_21 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp1853_20, __HIVE_P2_temp1853_21, 0, 1898));
+        (__HIVE_P2_temp1853_23 = this, __HIVE_P2_temp1853_24 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp1853_23, __HIVE_P2_temp1853_24, 0, 1900));
+        (__HIVE_P2_temp1853_26 = this, __HIVE_P2_temp1853_27 = __HIVE_P2_get(__HIVE_P2_temp1853_26, "enterScope", 1902), __HIVE_P2_invoke(__HIVE_P2_temp1853_27, __HIVE_P2_temp1853_26, (__HIVE_P2_reserveArray(1, 1902), __HIVE_P2_ownArray([__HIVE_P2_invoke(functionFlags, void 0, (__HIVE_P2_reserveArray(2, 1903), __HIVE_P2_ownArray([__HIVE_P2_get(e, "async", 1904), __HIVE_P2_get(e, "generator", 1905)], 1903, "CONTROL_ARRAY")), 1903)], 1902, "CONTROL_ARRAY")), 1902));
+        if (!(__HIVE_P2_binary("&", t, ie, 1907))) {
+            (__HIVE_P2_temp1853_28 = e, __HIVE_P2_temp1853_29 = "id", __HIVE_P2_set(__HIVE_P2_temp1853_28, __HIVE_P2_temp1853_29, __HIVE_P2_get(this, "type", 1910) === __HIVE_P2_get(m, "name", 1911) ? (__HIVE_P2_temp1853_31 = this, __HIVE_P2_temp1853_32 = __HIVE_P2_get(__HIVE_P2_temp1853_31, "parseIdent", 1912), __HIVE_P2_invoke(__HIVE_P2_temp1853_32, __HIVE_P2_temp1853_31, (__HIVE_P2_reserveArray(0, 1912), __HIVE_P2_ownArray([], 1912, "CONTROL_ARRAY")), 1912)) : null, 1908));
+        }
+        (__HIVE_P2_temp1853_33 = this, __HIVE_P2_temp1853_34 = __HIVE_P2_get(__HIVE_P2_temp1853_33, "parseFunctionParams", 1914), __HIVE_P2_invoke(__HIVE_P2_temp1853_34, __HIVE_P2_temp1853_33, (__HIVE_P2_reserveArray(1, 1914), __HIVE_P2_ownArray([e], 1914, "CONTROL_ARRAY")), 1914));
+        (__HIVE_P2_temp1853_35 = this, __HIVE_P2_temp1853_36 = __HIVE_P2_get(__HIVE_P2_temp1853_35, "parseFunctionBody", 1916), __HIVE_P2_invoke(__HIVE_P2_temp1853_36, __HIVE_P2_temp1853_35, (__HIVE_P2_reserveArray(4, 1916), __HIVE_P2_ownArray([e, i, false, r], 1916, "CONTROL_ARRAY")), 1916));
+        (__HIVE_P2_temp1853_37 = this, __HIVE_P2_temp1853_38 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp1853_37, __HIVE_P2_temp1853_38, a, 1918));
+        (__HIVE_P2_temp1853_40 = this, __HIVE_P2_temp1853_41 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp1853_40, __HIVE_P2_temp1853_41, n, 1920));
+        (__HIVE_P2_temp1853_43 = this, __HIVE_P2_temp1853_44 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp1853_43, __HIVE_P2_temp1853_44, o, 1922));
+        return (__HIVE_P2_temp1853_46 = this, __HIVE_P2_temp1853_47 = __HIVE_P2_get(__HIVE_P2_temp1853_46, "finishNode", 1924), __HIVE_P2_invoke(__HIVE_P2_temp1853_47, __HIVE_P2_temp1853_46, (__HIVE_P2_reserveArray(2, 1924), __HIVE_P2_ownArray([e, __HIVE_P2_binary("&", t, ie, 1925) ? "FunctionDeclaration" : "FunctionExpression"], 1924, "CONTROL_ARRAY")), 1924));
+    }, 51, 5, 0, 1853)), 1851));
+    (__HIVE_P2_temp0_1067 = $, __HIVE_P2_temp0_1068 = "parseFunctionParams", __HIVE_P2_set(__HIVE_P2_temp0_1067, __HIVE_P2_temp0_1068, (__HIVE_P2_reserveFunction(1929), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1929_0, __HIVE_P2_temp1929_1, __HIVE_P2_temp1929_2, __HIVE_P2_temp1929_3, __HIVE_P2_temp1929_4, __HIVE_P2_temp1929_5, __HIVE_P2_temp1929_6, __HIVE_P2_temp1929_7, __HIVE_P2_temp1929_8;
+        (__HIVE_P2_temp1929_0 = this, __HIVE_P2_temp1929_1 = __HIVE_P2_get(__HIVE_P2_temp1929_0, "expect", 1930), __HIVE_P2_invoke(__HIVE_P2_temp1929_1, __HIVE_P2_temp1929_0, (__HIVE_P2_reserveArray(1, 1930), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 1931)], 1930, "CONTROL_ARRAY")), 1930));
+        (__HIVE_P2_temp1929_2 = e, __HIVE_P2_temp1929_3 = "params", __HIVE_P2_set(__HIVE_P2_temp1929_2, __HIVE_P2_temp1929_3, (__HIVE_P2_temp1929_5 = this, __HIVE_P2_temp1929_6 = __HIVE_P2_get(__HIVE_P2_temp1929_5, "parseBindingList", 1935), __HIVE_P2_invoke(__HIVE_P2_temp1929_6, __HIVE_P2_temp1929_5, (__HIVE_P2_reserveArray(3, 1935), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 1936), false, __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 1939), "ecmaVersion", 1938), 8, 1937)], 1935, "CONTROL_ARRAY")), 1935)), 1933));
+        (__HIVE_P2_temp1929_7 = this, __HIVE_P2_temp1929_8 = __HIVE_P2_get(__HIVE_P2_temp1929_7, "checkYieldAwaitInDefaultParams", 1941), __HIVE_P2_invoke(__HIVE_P2_temp1929_8, __HIVE_P2_temp1929_7, (__HIVE_P2_reserveArray(0, 1941), __HIVE_P2_ownArray([], 1941, "CONTROL_ARRAY")), 1941));
+    }, 9, 1, 0, 1929)), 1927));
+    (__HIVE_P2_temp0_1070 = $, __HIVE_P2_temp0_1071 = "parseClass", __HIVE_P2_set(__HIVE_P2_temp0_1070, __HIVE_P2_temp0_1071, (__HIVE_P2_reserveFunction(1945), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp1945_0, __HIVE_P2_temp1945_1, __HIVE_P2_temp1945_2, __HIVE_P2_temp1945_3, __HIVE_P2_temp1945_4, __HIVE_P2_temp1945_5, __HIVE_P2_temp1945_6, __HIVE_P2_temp1945_7, __HIVE_P2_temp1945_8, __HIVE_P2_temp1945_9, __HIVE_P2_temp1945_10, __HIVE_P2_temp1945_11, __HIVE_P2_temp1945_12, __HIVE_P2_temp1945_13, __HIVE_P2_temp1945_14, __HIVE_P2_temp1945_15, __HIVE_P2_temp1945_16, __HIVE_P2_temp1945_17, __HIVE_P2_temp1945_18, __HIVE_P2_temp1945_19, __HIVE_P2_temp1945_20, __HIVE_P2_temp1945_21, __HIVE_P2_temp1945_22, __HIVE_P2_temp1945_23, __HIVE_P2_temp1945_24, __HIVE_P2_temp1945_25, __HIVE_P2_temp1945_26, __HIVE_P2_temp1945_27, __HIVE_P2_temp1945_28, __HIVE_P2_temp1945_29, __HIVE_P2_temp1945_30, __HIVE_P2_temp1945_31, __HIVE_P2_temp1945_32, __HIVE_P2_temp1945_33, __HIVE_P2_temp1945_34, __HIVE_P2_temp1945_35, __HIVE_P2_temp1945_36;
+        (__HIVE_P2_temp1945_0 = this, __HIVE_P2_temp1945_1 = __HIVE_P2_get(__HIVE_P2_temp1945_0, "next", 1946), __HIVE_P2_invoke(__HIVE_P2_temp1945_1, __HIVE_P2_temp1945_0, (__HIVE_P2_reserveArray(0, 1946), __HIVE_P2_ownArray([], 1946, "CONTROL_ARRAY")), 1946));
+        var i = __HIVE_P2_get(this, "strict", 1948);
+        (__HIVE_P2_temp1945_2 = this, __HIVE_P2_temp1945_3 = "strict", __HIVE_P2_set(__HIVE_P2_temp1945_2, __HIVE_P2_temp1945_3, true, 1949));
+        (__HIVE_P2_temp1945_5 = this, __HIVE_P2_temp1945_6 = __HIVE_P2_get(__HIVE_P2_temp1945_5, "parseClassId", 1951), __HIVE_P2_invoke(__HIVE_P2_temp1945_6, __HIVE_P2_temp1945_5, (__HIVE_P2_reserveArray(2, 1951), __HIVE_P2_ownArray([e, t], 1951, "CONTROL_ARRAY")), 1951));
+        (__HIVE_P2_temp1945_7 = this, __HIVE_P2_temp1945_8 = __HIVE_P2_get(__HIVE_P2_temp1945_7, "parseClassSuper", 1953), __HIVE_P2_invoke(__HIVE_P2_temp1945_8, __HIVE_P2_temp1945_7, (__HIVE_P2_reserveArray(1, 1953), __HIVE_P2_ownArray([e], 1953, "CONTROL_ARRAY")), 1953));
+        var s = (__HIVE_P2_temp1945_9 = this, __HIVE_P2_temp1945_10 = __HIVE_P2_get(__HIVE_P2_temp1945_9, "enterClassBody", 1955), __HIVE_P2_invoke(__HIVE_P2_temp1945_10, __HIVE_P2_temp1945_9, (__HIVE_P2_reserveArray(0, 1955), __HIVE_P2_ownArray([], 1955, "CONTROL_ARRAY")), 1955));
+        var r = (__HIVE_P2_temp1945_11 = this, __HIVE_P2_temp1945_12 = __HIVE_P2_get(__HIVE_P2_temp1945_11, "startNode", 1957), __HIVE_P2_invoke(__HIVE_P2_temp1945_12, __HIVE_P2_temp1945_11, (__HIVE_P2_reserveArray(0, 1957), __HIVE_P2_ownArray([], 1957, "CONTROL_ARRAY")), 1957));
+        var a = false;
+        (__HIVE_P2_temp1945_13 = r, __HIVE_P2_temp1945_14 = "body", __HIVE_P2_set(__HIVE_P2_temp1945_13, __HIVE_P2_temp1945_14, (__HIVE_P2_temp1945_16 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp1945_16, 1961), __HIVE_P2_reserveArray(0, 1961, 0), __HIVE_P2_ownArray([], 1961, "ARRAY", __HIVE_P2_temp1945_16)), 1959));
+        (__HIVE_P2_temp1945_17 = this, __HIVE_P2_temp1945_18 = __HIVE_P2_get(__HIVE_P2_temp1945_17, "expect", 1962), __HIVE_P2_invoke(__HIVE_P2_temp1945_18, __HIVE_P2_temp1945_17, (__HIVE_P2_reserveArray(1, 1962), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 1963)], 1962, "CONTROL_ARRAY")), 1962));
+        while (__HIVE_P2_get(this, "type", 1966) !== __HIVE_P2_get(m, "braceR", 1967)) {
+            __HIVE_P2_tick(1965);
+            var n = (__HIVE_P2_temp1945_19 = this, __HIVE_P2_temp1945_20 = __HIVE_P2_get(__HIVE_P2_temp1945_19, "parseClassElement", 1968), __HIVE_P2_invoke(__HIVE_P2_temp1945_20, __HIVE_P2_temp1945_19, (__HIVE_P2_reserveArray(1, 1968), __HIVE_P2_ownArray([__HIVE_P2_get(e, "superClass", 1969) !== null], 1968, "CONTROL_ARRAY")), 1968));
+            if (n) {
+                (__HIVE_P2_temp1945_21 = __HIVE_P2_get(r, "body", 1973), __HIVE_P2_temp1945_22 = __HIVE_P2_get(__HIVE_P2_temp1945_21, "push", 1971), __HIVE_P2_invoke(__HIVE_P2_temp1945_22, __HIVE_P2_temp1945_21, (__HIVE_P2_reserveArray(1, 1971), __HIVE_P2_ownArray([n], 1971, "CONTROL_ARRAY")), 1971));
+                if (__HIVE_P2_get(n, "type", 1974) === "MethodDefinition" && __HIVE_P2_get(n, "kind", 1975) === "constructor") {
+                    if (a) {
+                        __HIVE_P2_syntaxRefusal(1976);
+                    }
+                    a = true;
+                }
+                else if (__HIVE_P2_get(n, "key", 1978) && __HIVE_P2_get(__HIVE_P2_get(n, "key", 1980), "type", 1979) === "PrivateIdentifier" && __HIVE_P2_invoke(isPrivateNameConflicted, void 0, (__HIVE_P2_reserveArray(2, 1981), __HIVE_P2_ownArray([s, n], 1981, "CONTROL_ARRAY")), 1981)) {
+                    __HIVE_P2_syntaxRefusal(1982);
+                }
+            }
+        }
+        (__HIVE_P2_temp1945_23 = this, __HIVE_P2_temp1945_24 = "strict", __HIVE_P2_set(__HIVE_P2_temp1945_23, __HIVE_P2_temp1945_24, i, 1983));
+        (__HIVE_P2_temp1945_26 = this, __HIVE_P2_temp1945_27 = __HIVE_P2_get(__HIVE_P2_temp1945_26, "next", 1985), __HIVE_P2_invoke(__HIVE_P2_temp1945_27, __HIVE_P2_temp1945_26, (__HIVE_P2_reserveArray(0, 1985), __HIVE_P2_ownArray([], 1985, "CONTROL_ARRAY")), 1985));
+        (__HIVE_P2_temp1945_28 = e, __HIVE_P2_temp1945_29 = "body", __HIVE_P2_set(__HIVE_P2_temp1945_28, __HIVE_P2_temp1945_29, (__HIVE_P2_temp1945_31 = this, __HIVE_P2_temp1945_32 = __HIVE_P2_get(__HIVE_P2_temp1945_31, "finishNode", 1989), __HIVE_P2_invoke(__HIVE_P2_temp1945_32, __HIVE_P2_temp1945_31, (__HIVE_P2_reserveArray(2, 1989), __HIVE_P2_ownArray([r, "ClassBody"], 1989, "CONTROL_ARRAY")), 1989)), 1987));
+        (__HIVE_P2_temp1945_33 = this, __HIVE_P2_temp1945_34 = __HIVE_P2_get(__HIVE_P2_temp1945_33, "exitClassBody", 1991), __HIVE_P2_invoke(__HIVE_P2_temp1945_34, __HIVE_P2_temp1945_33, (__HIVE_P2_reserveArray(0, 1991), __HIVE_P2_ownArray([], 1991, "CONTROL_ARRAY")), 1991));
+        return (__HIVE_P2_temp1945_35 = this, __HIVE_P2_temp1945_36 = __HIVE_P2_get(__HIVE_P2_temp1945_35, "finishNode", 1993), __HIVE_P2_invoke(__HIVE_P2_temp1945_36, __HIVE_P2_temp1945_35, (__HIVE_P2_reserveArray(2, 1993), __HIVE_P2_ownArray([e, t ? "ClassDeclaration" : "ClassExpression"], 1993, "CONTROL_ARRAY")), 1993));
+    }, 42, 2, 0, 1945)), 1943));
+    (__HIVE_P2_temp0_1073 = $, __HIVE_P2_temp0_1074 = "parseClassElement", __HIVE_P2_set(__HIVE_P2_temp0_1073, __HIVE_P2_temp0_1074, (__HIVE_P2_reserveFunction(1997), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp1997_0, __HIVE_P2_temp1997_1, __HIVE_P2_temp1997_2, __HIVE_P2_temp1997_3, __HIVE_P2_temp1997_4, __HIVE_P2_temp1997_5, __HIVE_P2_temp1997_6, __HIVE_P2_temp1997_7, __HIVE_P2_temp1997_8, __HIVE_P2_temp1997_9, __HIVE_P2_temp1997_10, __HIVE_P2_temp1997_11, __HIVE_P2_temp1997_12, __HIVE_P2_temp1997_13, __HIVE_P2_temp1997_14, __HIVE_P2_temp1997_15, __HIVE_P2_temp1997_16, __HIVE_P2_temp1997_17, __HIVE_P2_temp1997_18, __HIVE_P2_temp1997_19, __HIVE_P2_temp1997_20, __HIVE_P2_temp1997_21, __HIVE_P2_temp1997_22, __HIVE_P2_temp1997_23, __HIVE_P2_temp1997_24, __HIVE_P2_temp1997_25, __HIVE_P2_temp1997_26, __HIVE_P2_temp1997_27, __HIVE_P2_temp1997_28, __HIVE_P2_temp1997_29, __HIVE_P2_temp1997_30, __HIVE_P2_temp1997_31, __HIVE_P2_temp1997_32, __HIVE_P2_temp1997_33, __HIVE_P2_temp1997_34, __HIVE_P2_temp1997_35, __HIVE_P2_temp1997_36, __HIVE_P2_temp1997_37, __HIVE_P2_temp1997_38, __HIVE_P2_temp1997_39, __HIVE_P2_temp1997_40, __HIVE_P2_temp1997_41, __HIVE_P2_temp1997_42, __HIVE_P2_temp1997_43, __HIVE_P2_temp1997_44, __HIVE_P2_temp1997_45, __HIVE_P2_temp1997_46, __HIVE_P2_temp1997_47, __HIVE_P2_temp1997_48, __HIVE_P2_temp1997_49, __HIVE_P2_temp1997_50;
+        if ((__HIVE_P2_temp1997_0 = this, __HIVE_P2_temp1997_1 = __HIVE_P2_get(__HIVE_P2_temp1997_0, "eat", 1998), __HIVE_P2_invoke(__HIVE_P2_temp1997_1, __HIVE_P2_temp1997_0, (__HIVE_P2_reserveArray(1, 1998), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 1999)], 1998, "CONTROL_ARRAY")), 1998))) {
+            return null;
+        }
+        var t = __HIVE_P2_get(__HIVE_P2_get(this, "options", 2002), "ecmaVersion", 2001);
+        var i = (__HIVE_P2_temp1997_2 = this, __HIVE_P2_temp1997_3 = __HIVE_P2_get(__HIVE_P2_temp1997_2, "startNode", 2003), __HIVE_P2_invoke(__HIVE_P2_temp1997_3, __HIVE_P2_temp1997_2, (__HIVE_P2_reserveArray(0, 2003), __HIVE_P2_ownArray([], 2003, "CONTROL_ARRAY")), 2003));
+        var s = "";
+        var r = false;
+        var a = false;
+        var n = "method";
+        var o = false;
+        if ((__HIVE_P2_temp1997_4 = this, __HIVE_P2_temp1997_5 = __HIVE_P2_get(__HIVE_P2_temp1997_4, "eatContextual", 2005), __HIVE_P2_invoke(__HIVE_P2_temp1997_5, __HIVE_P2_temp1997_4, (__HIVE_P2_reserveArray(1, 2005), __HIVE_P2_ownArray(["static"], 2005, "CONTROL_ARRAY")), 2005))) {
+            if (__HIVE_P2_binary(">=", t, 13, 2007) && (__HIVE_P2_temp1997_6 = this, __HIVE_P2_temp1997_7 = __HIVE_P2_get(__HIVE_P2_temp1997_6, "eat", 2008), __HIVE_P2_invoke(__HIVE_P2_temp1997_7, __HIVE_P2_temp1997_6, (__HIVE_P2_reserveArray(1, 2008), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 2009)], 2008, "CONTROL_ARRAY")), 2008))) {
+                (__HIVE_P2_temp1997_8 = this, __HIVE_P2_temp1997_9 = __HIVE_P2_get(__HIVE_P2_temp1997_8, "parseClassStaticBlock", 2011), __HIVE_P2_invoke(__HIVE_P2_temp1997_9, __HIVE_P2_temp1997_8, (__HIVE_P2_reserveArray(1, 2011), __HIVE_P2_ownArray([i], 2011, "CONTROL_ARRAY")), 2011));
+                return i;
+            }
+            if ((__HIVE_P2_temp1997_10 = this, __HIVE_P2_temp1997_11 = __HIVE_P2_get(__HIVE_P2_temp1997_10, "isClassElementNameStart", 2013), __HIVE_P2_invoke(__HIVE_P2_temp1997_11, __HIVE_P2_temp1997_10, (__HIVE_P2_reserveArray(0, 2013), __HIVE_P2_ownArray([], 2013, "CONTROL_ARRAY")), 2013)) || __HIVE_P2_get(this, "type", 2015) === __HIVE_P2_get(m, "star", 2016)) {
+                o = true;
+            }
+            else {
+                s = "static";
+            }
+        }
+        (__HIVE_P2_temp1997_12 = i, __HIVE_P2_temp1997_13 = "static", __HIVE_P2_set(__HIVE_P2_temp1997_12, __HIVE_P2_temp1997_13, o, 2019));
+        if (!s && __HIVE_P2_binary(">=", t, 8, 2021) && (__HIVE_P2_temp1997_15 = this, __HIVE_P2_temp1997_16 = __HIVE_P2_get(__HIVE_P2_temp1997_15, "eatContextual", 2022), __HIVE_P2_invoke(__HIVE_P2_temp1997_16, __HIVE_P2_temp1997_15, (__HIVE_P2_reserveArray(1, 2022), __HIVE_P2_ownArray(["async"], 2022, "CONTROL_ARRAY")), 2022))) {
+            if (((__HIVE_P2_temp1997_17 = this, __HIVE_P2_temp1997_18 = __HIVE_P2_get(__HIVE_P2_temp1997_17, "isClassElementNameStart", 2024), __HIVE_P2_invoke(__HIVE_P2_temp1997_18, __HIVE_P2_temp1997_17, (__HIVE_P2_reserveArray(0, 2024), __HIVE_P2_ownArray([], 2024, "CONTROL_ARRAY")), 2024)) || __HIVE_P2_get(this, "type", 2026) === __HIVE_P2_get(m, "star", 2027)) && !(__HIVE_P2_temp1997_19 = this, __HIVE_P2_temp1997_20 = __HIVE_P2_get(__HIVE_P2_temp1997_19, "canInsertSemicolon", 2028), __HIVE_P2_invoke(__HIVE_P2_temp1997_20, __HIVE_P2_temp1997_19, (__HIVE_P2_reserveArray(0, 2028), __HIVE_P2_ownArray([], 2028, "CONTROL_ARRAY")), 2028))) {
+                a = true;
+            }
+            else {
+                s = "async";
+            }
+        }
+        if (!s && (__HIVE_P2_binary(">=", t, 9, 2032) || !a) && (__HIVE_P2_temp1997_21 = this, __HIVE_P2_temp1997_22 = __HIVE_P2_get(__HIVE_P2_temp1997_21, "eat", 2033), __HIVE_P2_invoke(__HIVE_P2_temp1997_22, __HIVE_P2_temp1997_21, (__HIVE_P2_reserveArray(1, 2033), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 2034)], 2033, "CONTROL_ARRAY")), 2033))) {
+            r = true;
+        }
+        if (!s && !a && !r) {
+            var h = __HIVE_P2_get(this, "value", 2037);
+            if ((__HIVE_P2_temp1997_23 = this, __HIVE_P2_temp1997_24 = __HIVE_P2_get(__HIVE_P2_temp1997_23, "eatContextual", 2038), __HIVE_P2_invoke(__HIVE_P2_temp1997_24, __HIVE_P2_temp1997_23, (__HIVE_P2_reserveArray(1, 2038), __HIVE_P2_ownArray(["get"], 2038, "CONTROL_ARRAY")), 2038)) || (__HIVE_P2_temp1997_25 = this, __HIVE_P2_temp1997_26 = __HIVE_P2_get(__HIVE_P2_temp1997_25, "eatContextual", 2040), __HIVE_P2_invoke(__HIVE_P2_temp1997_26, __HIVE_P2_temp1997_25, (__HIVE_P2_reserveArray(1, 2040), __HIVE_P2_ownArray(["set"], 2040, "CONTROL_ARRAY")), 2040))) {
+                if ((__HIVE_P2_temp1997_27 = this, __HIVE_P2_temp1997_28 = __HIVE_P2_get(__HIVE_P2_temp1997_27, "isClassElementNameStart", 2042), __HIVE_P2_invoke(__HIVE_P2_temp1997_28, __HIVE_P2_temp1997_27, (__HIVE_P2_reserveArray(0, 2042), __HIVE_P2_ownArray([], 2042, "CONTROL_ARRAY")), 2042))) {
+                    n = h;
+                }
+                else {
+                    s = h;
+                }
+            }
+        }
+        if (s) {
+            (__HIVE_P2_temp1997_29 = i, __HIVE_P2_temp1997_30 = "computed", __HIVE_P2_set(__HIVE_P2_temp1997_29, __HIVE_P2_temp1997_30, false, 2046));
+            (__HIVE_P2_temp1997_32 = i, __HIVE_P2_temp1997_33 = "key", __HIVE_P2_set(__HIVE_P2_temp1997_32, __HIVE_P2_temp1997_33, (__HIVE_P2_temp1997_35 = this, __HIVE_P2_temp1997_36 = __HIVE_P2_get(__HIVE_P2_temp1997_35, "startNodeAt", 2050), __HIVE_P2_invoke(__HIVE_P2_temp1997_36, __HIVE_P2_temp1997_35, (__HIVE_P2_reserveArray(2, 2050), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokStart", 2051), __HIVE_P2_get(this, "lastTokStartLoc", 2052)], 2050, "CONTROL_ARRAY")), 2050)), 2048));
+            (__HIVE_P2_temp1997_37 = __HIVE_P2_get(i, "key", 2056), __HIVE_P2_temp1997_38 = "name", __HIVE_P2_set(__HIVE_P2_temp1997_37, __HIVE_P2_temp1997_38, s, 2054));
+            (__HIVE_P2_temp1997_40 = this, __HIVE_P2_temp1997_41 = __HIVE_P2_get(__HIVE_P2_temp1997_40, "finishNode", 2057), __HIVE_P2_invoke(__HIVE_P2_temp1997_41, __HIVE_P2_temp1997_40, (__HIVE_P2_reserveArray(2, 2057), __HIVE_P2_ownArray([__HIVE_P2_get(i, "key", 2058), "Identifier"], 2057, "CONTROL_ARRAY")), 2057));
+        }
+        else {
+            (__HIVE_P2_temp1997_42 = this, __HIVE_P2_temp1997_43 = __HIVE_P2_get(__HIVE_P2_temp1997_42, "parseClassElementName", 2060), __HIVE_P2_invoke(__HIVE_P2_temp1997_43, __HIVE_P2_temp1997_42, (__HIVE_P2_reserveArray(1, 2060), __HIVE_P2_ownArray([i], 2060, "CONTROL_ARRAY")), 2060));
+        }
+        if (__HIVE_P2_binary("<", t, 13, 2062) || __HIVE_P2_get(this, "type", 2063) === __HIVE_P2_get(m, "parenL", 2064) || n !== "method" || r || a) {
+            var p = !__HIVE_P2_get(i, "static", 2065) && __HIVE_P2_invoke(checkKeyName, void 0, (__HIVE_P2_reserveArray(2, 2066), __HIVE_P2_ownArray([i, "constructor"], 2066, "CONTROL_ARRAY")), 2066);
+            var c = p && e;
+            if (p && n !== "method") {
+                __HIVE_P2_syntaxRefusal(2067);
+            }
+            (__HIVE_P2_temp1997_44 = i, __HIVE_P2_temp1997_45 = "kind", __HIVE_P2_set(__HIVE_P2_temp1997_44, __HIVE_P2_temp1997_45, p ? "constructor" : n, 2068));
+            (__HIVE_P2_temp1997_47 = this, __HIVE_P2_temp1997_48 = __HIVE_P2_get(__HIVE_P2_temp1997_47, "parseClassMethod", 2070), __HIVE_P2_invoke(__HIVE_P2_temp1997_48, __HIVE_P2_temp1997_47, (__HIVE_P2_reserveArray(4, 2070), __HIVE_P2_ownArray([i, r, a, c], 2070, "CONTROL_ARRAY")), 2070));
+        }
+        else {
+            (__HIVE_P2_temp1997_49 = this, __HIVE_P2_temp1997_50 = __HIVE_P2_get(__HIVE_P2_temp1997_49, "parseClassField", 2072), __HIVE_P2_invoke(__HIVE_P2_temp1997_50, __HIVE_P2_temp1997_49, (__HIVE_P2_reserveArray(1, 2072), __HIVE_P2_ownArray([i], 2072, "CONTROL_ARRAY")), 2072));
+        }
+        return i;
+    }, 61, 1, 0, 1997)), 1995));
+    (__HIVE_P2_temp0_1076 = $, __HIVE_P2_temp0_1077 = "isClassElementNameStart", __HIVE_P2_set(__HIVE_P2_temp0_1076, __HIVE_P2_temp0_1077, (__HIVE_P2_reserveFunction(2076), __HIVE_P2_registerFunction(function () {
+        return __HIVE_P2_get(this, "type", 2077) === __HIVE_P2_get(m, "name", 2078) || __HIVE_P2_get(this, "type", 2079) === __HIVE_P2_get(m, "privateId", 2080) || __HIVE_P2_get(this, "type", 2081) === __HIVE_P2_get(m, "num", 2082) || __HIVE_P2_get(this, "type", 2083) === __HIVE_P2_get(m, "string", 2084) || __HIVE_P2_get(this, "type", 2085) === __HIVE_P2_get(m, "bracketL", 2086) || __HIVE_P2_get(__HIVE_P2_get(this, "type", 2088), "keyword", 2087);
+    }, 0, 0, 0, 2076)), 2074));
+    (__HIVE_P2_temp0_1079 = $, __HIVE_P2_temp0_1080 = "parseClassElementName", __HIVE_P2_set(__HIVE_P2_temp0_1079, __HIVE_P2_temp0_1080, (__HIVE_P2_reserveFunction(2091), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2091_0, __HIVE_P2_temp2091_1, __HIVE_P2_temp2091_2, __HIVE_P2_temp2091_3, __HIVE_P2_temp2091_4, __HIVE_P2_temp2091_5, __HIVE_P2_temp2091_6, __HIVE_P2_temp2091_7, __HIVE_P2_temp2091_8, __HIVE_P2_temp2091_9;
+        if (__HIVE_P2_get(this, "type", 2092) === __HIVE_P2_get(m, "privateId", 2093)) {
+            if (__HIVE_P2_get(this, "value", 2094) === "constructor") {
+                __HIVE_P2_syntaxRefusal(2095);
+            }
+            (__HIVE_P2_temp2091_0 = e, __HIVE_P2_temp2091_1 = "computed", __HIVE_P2_set(__HIVE_P2_temp2091_0, __HIVE_P2_temp2091_1, false, 2096));
+            (__HIVE_P2_temp2091_3 = e, __HIVE_P2_temp2091_4 = "key", __HIVE_P2_set(__HIVE_P2_temp2091_3, __HIVE_P2_temp2091_4, (__HIVE_P2_temp2091_6 = this, __HIVE_P2_temp2091_7 = __HIVE_P2_get(__HIVE_P2_temp2091_6, "parsePrivateIdent", 2100), __HIVE_P2_invoke(__HIVE_P2_temp2091_7, __HIVE_P2_temp2091_6, (__HIVE_P2_reserveArray(0, 2100), __HIVE_P2_ownArray([], 2100, "CONTROL_ARRAY")), 2100)), 2098));
+        }
+        else {
+            (__HIVE_P2_temp2091_8 = this, __HIVE_P2_temp2091_9 = __HIVE_P2_get(__HIVE_P2_temp2091_8, "parsePropertyName", 2102), __HIVE_P2_invoke(__HIVE_P2_temp2091_9, __HIVE_P2_temp2091_8, (__HIVE_P2_reserveArray(1, 2102), __HIVE_P2_ownArray([e], 2102, "CONTROL_ARRAY")), 2102));
+        }
+    }, 10, 1, 0, 2091)), 2089));
+    (__HIVE_P2_temp0_1082 = $, __HIVE_P2_temp0_1083 = "parseClassMethod", __HIVE_P2_set(__HIVE_P2_temp0_1082, __HIVE_P2_temp0_1083, (__HIVE_P2_reserveFunction(2106), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp2106_0, __HIVE_P2_temp2106_1, __HIVE_P2_temp2106_2, __HIVE_P2_temp2106_3, __HIVE_P2_temp2106_4, __HIVE_P2_temp2106_5, __HIVE_P2_temp2106_6;
+        var r = __HIVE_P2_get(e, "key", 2107);
+        if (__HIVE_P2_get(e, "kind", 2108) === "constructor") {
+            if (t) {
+                __HIVE_P2_syntaxRefusal(2109);
+            }
+            if (i) {
+                __HIVE_P2_syntaxRefusal(2110);
+            }
+        }
+        else if (__HIVE_P2_get(e, "static", 2111) && __HIVE_P2_invoke(checkKeyName, void 0, (__HIVE_P2_reserveArray(2, 2112), __HIVE_P2_ownArray([e, "prototype"], 2112, "CONTROL_ARRAY")), 2112)) {
+            __HIVE_P2_syntaxRefusal(2113);
+        }
+        var a = (__HIVE_P2_temp2106_0 = e, __HIVE_P2_temp2106_1 = "value", __HIVE_P2_set(__HIVE_P2_temp2106_0, __HIVE_P2_temp2106_1, (__HIVE_P2_temp2106_3 = this, __HIVE_P2_temp2106_4 = __HIVE_P2_get(__HIVE_P2_temp2106_3, "parseMethod", 2116), __HIVE_P2_invoke(__HIVE_P2_temp2106_4, __HIVE_P2_temp2106_3, (__HIVE_P2_reserveArray(3, 2116), __HIVE_P2_ownArray([t, i, s], 2116, "CONTROL_ARRAY")), 2116)), 2114));
+        if (__HIVE_P2_get(e, "kind", 2118) === "get" && __HIVE_P2_get(__HIVE_P2_get(a, "params", 2120), "length", 2119) !== 0) {
+            __HIVE_P2_syntaxRefusal(2121);
+        }
+        if (__HIVE_P2_get(e, "kind", 2122) === "set" && __HIVE_P2_get(__HIVE_P2_get(a, "params", 2124), "length", 2123) !== 1) {
+            __HIVE_P2_syntaxRefusal(2125);
+        }
+        if (__HIVE_P2_get(e, "kind", 2126) === "set" && __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(a, "params", 2129), 0, 2128), "type", 2127) === "RestElement") {
+            __HIVE_P2_syntaxRefusal(2130);
+        }
+        return (__HIVE_P2_temp2106_5 = this, __HIVE_P2_temp2106_6 = __HIVE_P2_get(__HIVE_P2_temp2106_5, "finishNode", 2131), __HIVE_P2_invoke(__HIVE_P2_temp2106_6, __HIVE_P2_temp2106_5, (__HIVE_P2_reserveArray(2, 2131), __HIVE_P2_ownArray([e, "MethodDefinition"], 2131, "CONTROL_ARRAY")), 2131));
+    }, 9, 4, 0, 2106)), 2104));
+    (__HIVE_P2_temp0_1085 = $, __HIVE_P2_temp0_1086 = "parseClassField", __HIVE_P2_set(__HIVE_P2_temp0_1085, __HIVE_P2_temp0_1086, (__HIVE_P2_reserveFunction(2135), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2135_0, __HIVE_P2_temp2135_1, __HIVE_P2_temp2135_2, __HIVE_P2_temp2135_3, __HIVE_P2_temp2135_4, __HIVE_P2_temp2135_5, __HIVE_P2_temp2135_6, __HIVE_P2_temp2135_7, __HIVE_P2_temp2135_8, __HIVE_P2_temp2135_9, __HIVE_P2_temp2135_10, __HIVE_P2_temp2135_11, __HIVE_P2_temp2135_12, __HIVE_P2_temp2135_13, __HIVE_P2_temp2135_14, __HIVE_P2_temp2135_15, __HIVE_P2_temp2135_16, __HIVE_P2_temp2135_17, __HIVE_P2_temp2135_18, __HIVE_P2_temp2135_19, __HIVE_P2_temp2135_20, __HIVE_P2_temp2135_21;
+        if (__HIVE_P2_invoke(checkKeyName, void 0, (__HIVE_P2_reserveArray(2, 2136), __HIVE_P2_ownArray([e, "constructor"], 2136, "CONTROL_ARRAY")), 2136)) {
+            __HIVE_P2_syntaxRefusal(2137);
+        }
+        else if (__HIVE_P2_get(e, "static", 2138) && __HIVE_P2_invoke(checkKeyName, void 0, (__HIVE_P2_reserveArray(2, 2139), __HIVE_P2_ownArray([e, "prototype"], 2139, "CONTROL_ARRAY")), 2139)) {
+            __HIVE_P2_syntaxRefusal(2140);
+        }
+        if ((__HIVE_P2_temp2135_0 = this, __HIVE_P2_temp2135_1 = __HIVE_P2_get(__HIVE_P2_temp2135_0, "eat", 2141), __HIVE_P2_invoke(__HIVE_P2_temp2135_1, __HIVE_P2_temp2135_0, (__HIVE_P2_reserveArray(1, 2141), __HIVE_P2_ownArray([__HIVE_P2_get(m, "eq", 2142)], 2141, "CONTROL_ARRAY")), 2141))) {
+            var t = (__HIVE_P2_temp2135_2 = this, __HIVE_P2_temp2135_3 = __HIVE_P2_get(__HIVE_P2_temp2135_2, "currentThisScope", 2144), __HIVE_P2_invoke(__HIVE_P2_temp2135_3, __HIVE_P2_temp2135_2, (__HIVE_P2_reserveArray(0, 2144), __HIVE_P2_ownArray([], 2144, "CONTROL_ARRAY")), 2144));
+            var i = __HIVE_P2_get(t, "inClassFieldInit", 2146);
+            (__HIVE_P2_temp2135_4 = t, __HIVE_P2_temp2135_5 = "inClassFieldInit", __HIVE_P2_set(__HIVE_P2_temp2135_4, __HIVE_P2_temp2135_5, true, 2147));
+            (__HIVE_P2_temp2135_7 = e, __HIVE_P2_temp2135_8 = "value", __HIVE_P2_set(__HIVE_P2_temp2135_7, __HIVE_P2_temp2135_8, (__HIVE_P2_temp2135_10 = this, __HIVE_P2_temp2135_11 = __HIVE_P2_get(__HIVE_P2_temp2135_10, "parseMaybeAssign", 2151), __HIVE_P2_invoke(__HIVE_P2_temp2135_11, __HIVE_P2_temp2135_10, (__HIVE_P2_reserveArray(0, 2151), __HIVE_P2_ownArray([], 2151, "CONTROL_ARRAY")), 2151)), 2149));
+            (__HIVE_P2_temp2135_12 = t, __HIVE_P2_temp2135_13 = "inClassFieldInit", __HIVE_P2_set(__HIVE_P2_temp2135_12, __HIVE_P2_temp2135_13, i, 2153));
+        }
+        else {
+            (__HIVE_P2_temp2135_15 = e, __HIVE_P2_temp2135_16 = "value", __HIVE_P2_set(__HIVE_P2_temp2135_15, __HIVE_P2_temp2135_16, null, 2155));
+        }
+        (__HIVE_P2_temp2135_18 = this, __HIVE_P2_temp2135_19 = __HIVE_P2_get(__HIVE_P2_temp2135_18, "semicolon", 2157), __HIVE_P2_invoke(__HIVE_P2_temp2135_19, __HIVE_P2_temp2135_18, (__HIVE_P2_reserveArray(0, 2157), __HIVE_P2_ownArray([], 2157, "CONTROL_ARRAY")), 2157));
+        return (__HIVE_P2_temp2135_20 = this, __HIVE_P2_temp2135_21 = __HIVE_P2_get(__HIVE_P2_temp2135_20, "finishNode", 2159), __HIVE_P2_invoke(__HIVE_P2_temp2135_21, __HIVE_P2_temp2135_20, (__HIVE_P2_reserveArray(2, 2159), __HIVE_P2_ownArray([e, "PropertyDefinition"], 2159, "CONTROL_ARRAY")), 2159));
+    }, 24, 1, 0, 2135)), 2133));
+    (__HIVE_P2_temp0_1088 = $, __HIVE_P2_temp0_1089 = "parseClassStaticBlock", __HIVE_P2_set(__HIVE_P2_temp0_1088, __HIVE_P2_temp0_1089, (__HIVE_P2_reserveFunction(2163), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2163_0, __HIVE_P2_temp2163_1, __HIVE_P2_temp2163_2, __HIVE_P2_temp2163_3, __HIVE_P2_temp2163_4, __HIVE_P2_temp2163_5, __HIVE_P2_temp2163_6, __HIVE_P2_temp2163_7, __HIVE_P2_temp2163_8, __HIVE_P2_temp2163_9, __HIVE_P2_temp2163_10, __HIVE_P2_temp2163_11, __HIVE_P2_temp2163_12, __HIVE_P2_temp2163_13, __HIVE_P2_temp2163_14, __HIVE_P2_temp2163_15, __HIVE_P2_temp2163_16, __HIVE_P2_temp2163_17, __HIVE_P2_temp2163_18, __HIVE_P2_temp2163_19, __HIVE_P2_temp2163_20, __HIVE_P2_temp2163_21, __HIVE_P2_temp2163_22;
+        (__HIVE_P2_temp2163_0 = e, __HIVE_P2_temp2163_1 = "body", __HIVE_P2_set(__HIVE_P2_temp2163_0, __HIVE_P2_temp2163_1, (__HIVE_P2_temp2163_3 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2163_3, 2166), __HIVE_P2_reserveArray(0, 2166, 0), __HIVE_P2_ownArray([], 2166, "ARRAY", __HIVE_P2_temp2163_3)), 2164));
+        var t = __HIVE_P2_get(this, "labels", 2167);
+        (__HIVE_P2_temp2163_4 = this, __HIVE_P2_temp2163_5 = "labels", __HIVE_P2_set(__HIVE_P2_temp2163_4, __HIVE_P2_temp2163_5, (__HIVE_P2_temp2163_7 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2163_7, 2170), __HIVE_P2_reserveArray(0, 2170, 0), __HIVE_P2_ownArray([], 2170, "ARRAY", __HIVE_P2_temp2163_7)), 2168));
+        (__HIVE_P2_temp2163_8 = this, __HIVE_P2_temp2163_9 = __HIVE_P2_get(__HIVE_P2_temp2163_8, "enterScope", 2171), __HIVE_P2_invoke(__HIVE_P2_temp2163_9, __HIVE_P2_temp2163_8, (__HIVE_P2_reserveArray(1, 2171), __HIVE_P2_ownArray([__HIVE_P2_binary("|", F, B, 2172)], 2171, "CONTROL_ARRAY")), 2171));
+        while (__HIVE_P2_get(this, "type", 2175) !== __HIVE_P2_get(m, "braceR", 2176)) {
+            __HIVE_P2_tick(2174);
+            var i = (__HIVE_P2_temp2163_10 = this, __HIVE_P2_temp2163_11 = __HIVE_P2_get(__HIVE_P2_temp2163_10, "parseStatement", 2177), __HIVE_P2_invoke(__HIVE_P2_temp2163_11, __HIVE_P2_temp2163_10, (__HIVE_P2_reserveArray(1, 2177), __HIVE_P2_ownArray([null], 2177, "CONTROL_ARRAY")), 2177));
+            (__HIVE_P2_temp2163_12 = __HIVE_P2_get(e, "body", 2181), __HIVE_P2_temp2163_13 = __HIVE_P2_get(__HIVE_P2_temp2163_12, "push", 2179), __HIVE_P2_invoke(__HIVE_P2_temp2163_13, __HIVE_P2_temp2163_12, (__HIVE_P2_reserveArray(1, 2179), __HIVE_P2_ownArray([i], 2179, "CONTROL_ARRAY")), 2179));
+        }
+        (__HIVE_P2_temp2163_14 = this, __HIVE_P2_temp2163_15 = __HIVE_P2_get(__HIVE_P2_temp2163_14, "next", 2182), __HIVE_P2_invoke(__HIVE_P2_temp2163_15, __HIVE_P2_temp2163_14, (__HIVE_P2_reserveArray(0, 2182), __HIVE_P2_ownArray([], 2182, "CONTROL_ARRAY")), 2182));
+        (__HIVE_P2_temp2163_16 = this, __HIVE_P2_temp2163_17 = __HIVE_P2_get(__HIVE_P2_temp2163_16, "exitScope", 2184), __HIVE_P2_invoke(__HIVE_P2_temp2163_17, __HIVE_P2_temp2163_16, (__HIVE_P2_reserveArray(0, 2184), __HIVE_P2_ownArray([], 2184, "CONTROL_ARRAY")), 2184));
+        (__HIVE_P2_temp2163_18 = this, __HIVE_P2_temp2163_19 = "labels", __HIVE_P2_set(__HIVE_P2_temp2163_18, __HIVE_P2_temp2163_19, t, 2186));
+        return (__HIVE_P2_temp2163_21 = this, __HIVE_P2_temp2163_22 = __HIVE_P2_get(__HIVE_P2_temp2163_21, "finishNode", 2188), __HIVE_P2_invoke(__HIVE_P2_temp2163_22, __HIVE_P2_temp2163_21, (__HIVE_P2_reserveArray(2, 2188), __HIVE_P2_ownArray([e, "StaticBlock"], 2188, "CONTROL_ARRAY")), 2188));
+    }, 25, 1, 0, 2163)), 2161));
+    (__HIVE_P2_temp0_1091 = $, __HIVE_P2_temp0_1092 = "parseClassId", __HIVE_P2_set(__HIVE_P2_temp0_1091, __HIVE_P2_temp0_1092, (__HIVE_P2_reserveFunction(2192), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2192_0, __HIVE_P2_temp2192_1, __HIVE_P2_temp2192_2, __HIVE_P2_temp2192_3, __HIVE_P2_temp2192_4, __HIVE_P2_temp2192_5, __HIVE_P2_temp2192_6, __HIVE_P2_temp2192_7, __HIVE_P2_temp2192_8, __HIVE_P2_temp2192_9;
+        if (__HIVE_P2_get(this, "type", 2193) === __HIVE_P2_get(m, "name", 2194)) {
+            (__HIVE_P2_temp2192_0 = e, __HIVE_P2_temp2192_1 = "id", __HIVE_P2_set(__HIVE_P2_temp2192_0, __HIVE_P2_temp2192_1, (__HIVE_P2_temp2192_3 = this, __HIVE_P2_temp2192_4 = __HIVE_P2_get(__HIVE_P2_temp2192_3, "parseIdent", 2197), __HIVE_P2_invoke(__HIVE_P2_temp2192_4, __HIVE_P2_temp2192_3, (__HIVE_P2_reserveArray(0, 2197), __HIVE_P2_ownArray([], 2197, "CONTROL_ARRAY")), 2197)), 2195));
+            if (t) {
+                (__HIVE_P2_temp2192_5 = this, __HIVE_P2_temp2192_6 = __HIVE_P2_get(__HIVE_P2_temp2192_5, "checkLValSimple", 2199), __HIVE_P2_invoke(__HIVE_P2_temp2192_6, __HIVE_P2_temp2192_5, (__HIVE_P2_reserveArray(3, 2199), __HIVE_P2_ownArray([__HIVE_P2_get(e, "id", 2200), G, false], 2199, "CONTROL_ARRAY")), 2199));
+            }
+        }
+        else {
+            if (t === true) {
+                __HIVE_P2_syntaxRefusal(2202);
+            }
+            (__HIVE_P2_temp2192_7 = e, __HIVE_P2_temp2192_8 = "id", __HIVE_P2_set(__HIVE_P2_temp2192_7, __HIVE_P2_temp2192_8, null, 2203));
+        }
+    }, 10, 2, 0, 2192)), 2190));
+    (__HIVE_P2_temp0_1094 = $, __HIVE_P2_temp0_1095 = "parseClassSuper", __HIVE_P2_set(__HIVE_P2_temp0_1094, __HIVE_P2_temp0_1095, (__HIVE_P2_reserveFunction(2207), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2207_0, __HIVE_P2_temp2207_1, __HIVE_P2_temp2207_2, __HIVE_P2_temp2207_3, __HIVE_P2_temp2207_4, __HIVE_P2_temp2207_5, __HIVE_P2_temp2207_6;
+        (__HIVE_P2_temp2207_0 = e, __HIVE_P2_temp2207_1 = "superClass", __HIVE_P2_set(__HIVE_P2_temp2207_0, __HIVE_P2_temp2207_1, (__HIVE_P2_temp2207_3 = this, __HIVE_P2_temp2207_4 = __HIVE_P2_get(__HIVE_P2_temp2207_3, "eat", 2210), __HIVE_P2_invoke(__HIVE_P2_temp2207_4, __HIVE_P2_temp2207_3, (__HIVE_P2_reserveArray(1, 2210), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_extends", 2211)], 2210, "CONTROL_ARRAY")), 2210)) ? (__HIVE_P2_temp2207_5 = this, __HIVE_P2_temp2207_6 = __HIVE_P2_get(__HIVE_P2_temp2207_5, "parseExprSubscripts", 2213), __HIVE_P2_invoke(__HIVE_P2_temp2207_6, __HIVE_P2_temp2207_5, (__HIVE_P2_reserveArray(2, 2213), __HIVE_P2_ownArray([null, false], 2213, "CONTROL_ARRAY")), 2213)) : null, 2208));
+    }, 7, 1, 0, 2207)), 2205));
+    (__HIVE_P2_temp0_1097 = $, __HIVE_P2_temp0_1098 = "enterClassBody", __HIVE_P2_set(__HIVE_P2_temp0_1097, __HIVE_P2_temp0_1098, (__HIVE_P2_reserveFunction(2217), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2217_0, __HIVE_P2_temp2217_1, __HIVE_P2_temp2217_2, __HIVE_P2_temp2217_3, __HIVE_P2_temp2217_4;
+        var e = (__HIVE_P2_reserveObject(2, 2218), __HIVE_P2_ownObject({ declared: (__HIVE_P2_temp2217_0 = __HIVE_P2_Object, __HIVE_P2_temp2217_1 = __HIVE_P2_get(__HIVE_P2_temp2217_0, "create", 2219), __HIVE_P2_invoke(__HIVE_P2_temp2217_1, __HIVE_P2_temp2217_0, (__HIVE_P2_reserveArray(1, 2219), __HIVE_P2_ownArray([null], 2219, "CONTROL_ARRAY")), 2219)), used: (__HIVE_P2_temp2217_2 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2217_2, 2221), __HIVE_P2_reserveArray(0, 2221, 0), __HIVE_P2_ownArray([], 2221, "ARRAY", __HIVE_P2_temp2217_2)) }, 2218, 2, 12));
+        (__HIVE_P2_temp2217_3 = __HIVE_P2_get(this, "privateNameStack", 2224), __HIVE_P2_temp2217_4 = __HIVE_P2_get(__HIVE_P2_temp2217_3, "push", 2222), __HIVE_P2_invoke(__HIVE_P2_temp2217_4, __HIVE_P2_temp2217_3, (__HIVE_P2_reserveArray(1, 2222), __HIVE_P2_ownArray([e], 2222, "CONTROL_ARRAY")), 2222));
+        return __HIVE_P2_get(e, "declared", 2225);
+    }, 6, 0, 0, 2217)), 2215));
+    (__HIVE_P2_temp0_1100 = $, __HIVE_P2_temp0_1101 = "exitClassBody", __HIVE_P2_set(__HIVE_P2_temp0_1100, __HIVE_P2_temp0_1101, (__HIVE_P2_reserveFunction(2228), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2228_0, __HIVE_P2_temp2228_1, __HIVE_P2_temp2228_2, __HIVE_P2_temp2228_3, __HIVE_P2_temp2228_4, __HIVE_P2_temp2228_5;
+        var e = (__HIVE_P2_temp2228_0 = __HIVE_P2_get(this, "privateNameStack", 2231), __HIVE_P2_temp2228_1 = __HIVE_P2_get(__HIVE_P2_temp2228_0, "pop", 2229), __HIVE_P2_invoke(__HIVE_P2_temp2228_1, __HIVE_P2_temp2228_0, (__HIVE_P2_reserveArray(0, 2229), __HIVE_P2_ownArray([], 2229, "CONTROL_ARRAY")), 2229));
+        var t = __HIVE_P2_get(e, "declared", 2232);
+        var i = __HIVE_P2_get(e, "used", 2233);
+        if (!__HIVE_P2_get(__HIVE_P2_get(this, "options", 2235), "checkPrivateFields", 2234)) {
+            return;
+        }
+        var s = __HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 2237), "length", 2236);
+        var r = s === 0 ? null : __HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 2239), __HIVE_P2_binary("-", s, 1, 2240), 2238);
+        for (var a = 0; __HIVE_P2_binary("<", a, __HIVE_P2_get(i, "length", 2243), 2242); (__HIVE_P2_temp2228_2 = __HIVE_P2_numeric(a, 2244), __HIVE_P2_temp2228_3 = __HIVE_P2_temp2228_2 + 1, a = __HIVE_P2_temp2228_3, __HIVE_P2_temp2228_3)) {
+            __HIVE_P2_tick(2241);
+            var n = __HIVE_P2_get(i, a, 2245);
+            if (!__HIVE_P2_invoke(S, void 0, (__HIVE_P2_reserveArray(2, 2246), __HIVE_P2_ownArray([t, __HIVE_P2_get(n, "name", 2247)], 2246, "CONTROL_ARRAY")), 2246)) {
+                if (r) {
+                    (__HIVE_P2_temp2228_4 = __HIVE_P2_get(r, "used", 2250), __HIVE_P2_temp2228_5 = __HIVE_P2_get(__HIVE_P2_temp2228_4, "push", 2248), __HIVE_P2_invoke(__HIVE_P2_temp2228_5, __HIVE_P2_temp2228_4, (__HIVE_P2_reserveArray(1, 2248), __HIVE_P2_ownArray([n], 2248, "CONTROL_ARRAY")), 2248));
+                }
+                else {
+                    __HIVE_P2_syntaxRefusal(2251);
+                }
+            }
+        }
+    }, 13, 0, 0, 2228)), 2226));
+    function isPrivateNameConflicted(e, t) {
+        var __HIVE_P2_temp2252_0, __HIVE_P2_temp2252_1, __HIVE_P2_temp2252_2, __HIVE_P2_temp2252_3, __HIVE_P2_temp2252_4, __HIVE_P2_temp2252_5;
+        var i = __HIVE_P2_get(__HIVE_P2_get(t, "key", 2254), "name", 2253);
+        var s = __HIVE_P2_get(e, i, 2255);
+        var r = "true";
+        if (__HIVE_P2_get(t, "type", 2256) === "MethodDefinition" && (__HIVE_P2_get(t, "kind", 2257) === "get" || __HIVE_P2_get(t, "kind", 2258) === "set")) {
+            r = __HIVE_P2_binary("+", (__HIVE_P2_get(t, "static", 2261) ? "s" : "i"), __HIVE_P2_get(t, "kind", 2262), 2260);
+        }
+        if (s === "iget" && r === "iset" || s === "iset" && r === "iget" || s === "sget" && r === "sset" || s === "sset" && r === "sget") {
+            (__HIVE_P2_temp2252_0 = e, __HIVE_P2_temp2252_1 = i, __HIVE_P2_set(__HIVE_P2_temp2252_0, __HIVE_P2_temp2252_1, "true", 2263));
+            return false;
+        }
+        else if (!s) {
+            (__HIVE_P2_temp2252_3 = e, __HIVE_P2_temp2252_4 = i, __HIVE_P2_set(__HIVE_P2_temp2252_3, __HIVE_P2_temp2252_4, r, 2265));
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    function checkKeyName(e, t) {
+        var i = __HIVE_P2_get(e, "computed", 2268);
+        var s = __HIVE_P2_get(e, "key", 2269);
+        return !i && (__HIVE_P2_get(s, "type", 2270) === "Identifier" && __HIVE_P2_get(s, "name", 2271) === t || __HIVE_P2_get(s, "type", 2272) === "Literal" && __HIVE_P2_get(s, "value", 2273) === t);
+    }
+    (__HIVE_P2_temp0_1103 = $, __HIVE_P2_temp0_1104 = "parseExportAllDeclaration", __HIVE_P2_set(__HIVE_P2_temp0_1103, __HIVE_P2_temp0_1104, (__HIVE_P2_reserveFunction(2276), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2276_0, __HIVE_P2_temp2276_1, __HIVE_P2_temp2276_2, __HIVE_P2_temp2276_3, __HIVE_P2_temp2276_4, __HIVE_P2_temp2276_5, __HIVE_P2_temp2276_6, __HIVE_P2_temp2276_7, __HIVE_P2_temp2276_8, __HIVE_P2_temp2276_9, __HIVE_P2_temp2276_10, __HIVE_P2_temp2276_11, __HIVE_P2_temp2276_12, __HIVE_P2_temp2276_13, __HIVE_P2_temp2276_14, __HIVE_P2_temp2276_15, __HIVE_P2_temp2276_16, __HIVE_P2_temp2276_17, __HIVE_P2_temp2276_18, __HIVE_P2_temp2276_19, __HIVE_P2_temp2276_20, __HIVE_P2_temp2276_21, __HIVE_P2_temp2276_22, __HIVE_P2_temp2276_23, __HIVE_P2_temp2276_24, __HIVE_P2_temp2276_25, __HIVE_P2_temp2276_26, __HIVE_P2_temp2276_27;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2279), "ecmaVersion", 2278), 11, 2277)) {
+            if ((__HIVE_P2_temp2276_0 = this, __HIVE_P2_temp2276_1 = __HIVE_P2_get(__HIVE_P2_temp2276_0, "eatContextual", 2280), __HIVE_P2_invoke(__HIVE_P2_temp2276_1, __HIVE_P2_temp2276_0, (__HIVE_P2_reserveArray(1, 2280), __HIVE_P2_ownArray(["as"], 2280, "CONTROL_ARRAY")), 2280))) {
+                (__HIVE_P2_temp2276_2 = e, __HIVE_P2_temp2276_3 = "exported", __HIVE_P2_set(__HIVE_P2_temp2276_2, __HIVE_P2_temp2276_3, (__HIVE_P2_temp2276_5 = this, __HIVE_P2_temp2276_6 = __HIVE_P2_get(__HIVE_P2_temp2276_5, "parseModuleExportName", 2284), __HIVE_P2_invoke(__HIVE_P2_temp2276_6, __HIVE_P2_temp2276_5, (__HIVE_P2_reserveArray(0, 2284), __HIVE_P2_ownArray([], 2284, "CONTROL_ARRAY")), 2284)), 2282));
+                (__HIVE_P2_temp2276_7 = this, __HIVE_P2_temp2276_8 = __HIVE_P2_get(__HIVE_P2_temp2276_7, "checkExport", 2286), __HIVE_P2_invoke(__HIVE_P2_temp2276_8, __HIVE_P2_temp2276_7, (__HIVE_P2_reserveArray(3, 2286), __HIVE_P2_ownArray([t, __HIVE_P2_get(e, "exported", 2287), __HIVE_P2_get(this, "lastTokStart", 2288)], 2286, "CONTROL_ARRAY")), 2286));
+            }
+            else {
+                (__HIVE_P2_temp2276_9 = e, __HIVE_P2_temp2276_10 = "exported", __HIVE_P2_set(__HIVE_P2_temp2276_9, __HIVE_P2_temp2276_10, null, 2290));
+            }
+        }
+        (__HIVE_P2_temp2276_12 = this, __HIVE_P2_temp2276_13 = __HIVE_P2_get(__HIVE_P2_temp2276_12, "expectContextual", 2292), __HIVE_P2_invoke(__HIVE_P2_temp2276_13, __HIVE_P2_temp2276_12, (__HIVE_P2_reserveArray(1, 2292), __HIVE_P2_ownArray(["from"], 2292, "CONTROL_ARRAY")), 2292));
+        if (__HIVE_P2_get(this, "type", 2294) !== __HIVE_P2_get(m, "string", 2295)) {
+            __HIVE_P2_syntaxRefusal(2296);
+        }
+        (__HIVE_P2_temp2276_14 = e, __HIVE_P2_temp2276_15 = "source", __HIVE_P2_set(__HIVE_P2_temp2276_14, __HIVE_P2_temp2276_15, (__HIVE_P2_temp2276_17 = this, __HIVE_P2_temp2276_18 = __HIVE_P2_get(__HIVE_P2_temp2276_17, "parseExprAtom", 2299), __HIVE_P2_invoke(__HIVE_P2_temp2276_18, __HIVE_P2_temp2276_17, (__HIVE_P2_reserveArray(0, 2299), __HIVE_P2_ownArray([], 2299, "CONTROL_ARRAY")), 2299)), 2297));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2303), "ecmaVersion", 2302), 16, 2301)) {
+            (__HIVE_P2_temp2276_19 = e, __HIVE_P2_temp2276_20 = "attributes", __HIVE_P2_set(__HIVE_P2_temp2276_19, __HIVE_P2_temp2276_20, (__HIVE_P2_temp2276_22 = this, __HIVE_P2_temp2276_23 = __HIVE_P2_get(__HIVE_P2_temp2276_22, "parseWithClause", 2306), __HIVE_P2_invoke(__HIVE_P2_temp2276_23, __HIVE_P2_temp2276_22, (__HIVE_P2_reserveArray(0, 2306), __HIVE_P2_ownArray([], 2306, "CONTROL_ARRAY")), 2306)), 2304));
+        }
+        (__HIVE_P2_temp2276_24 = this, __HIVE_P2_temp2276_25 = __HIVE_P2_get(__HIVE_P2_temp2276_24, "semicolon", 2308), __HIVE_P2_invoke(__HIVE_P2_temp2276_25, __HIVE_P2_temp2276_24, (__HIVE_P2_reserveArray(0, 2308), __HIVE_P2_ownArray([], 2308, "CONTROL_ARRAY")), 2308));
+        return (__HIVE_P2_temp2276_26 = this, __HIVE_P2_temp2276_27 = __HIVE_P2_get(__HIVE_P2_temp2276_26, "finishNode", 2310), __HIVE_P2_invoke(__HIVE_P2_temp2276_27, __HIVE_P2_temp2276_26, (__HIVE_P2_reserveArray(2, 2310), __HIVE_P2_ownArray([e, "ExportAllDeclaration"], 2310, "CONTROL_ARRAY")), 2310));
+    }, 28, 2, 0, 2276)), 2274));
+    (__HIVE_P2_temp0_1106 = $, __HIVE_P2_temp0_1107 = "parseExport", __HIVE_P2_set(__HIVE_P2_temp0_1106, __HIVE_P2_temp0_1107, (__HIVE_P2_reserveFunction(2314), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2314_0, __HIVE_P2_temp2314_1, __HIVE_P2_temp2314_2, __HIVE_P2_temp2314_3, __HIVE_P2_temp2314_4, __HIVE_P2_temp2314_5, __HIVE_P2_temp2314_6, __HIVE_P2_temp2314_7, __HIVE_P2_temp2314_8, __HIVE_P2_temp2314_9, __HIVE_P2_temp2314_10, __HIVE_P2_temp2314_11, __HIVE_P2_temp2314_12, __HIVE_P2_temp2314_13, __HIVE_P2_temp2314_14, __HIVE_P2_temp2314_15, __HIVE_P2_temp2314_16, __HIVE_P2_temp2314_17, __HIVE_P2_temp2314_18, __HIVE_P2_temp2314_19, __HIVE_P2_temp2314_20, __HIVE_P2_temp2314_21, __HIVE_P2_temp2314_22, __HIVE_P2_temp2314_23, __HIVE_P2_temp2314_24, __HIVE_P2_temp2314_25, __HIVE_P2_temp2314_26, __HIVE_P2_temp2314_27, __HIVE_P2_temp2314_28, __HIVE_P2_temp2314_29, __HIVE_P2_temp2314_30, __HIVE_P2_temp2314_31, __HIVE_P2_temp2314_32, __HIVE_P2_temp2314_33, __HIVE_P2_temp2314_34, __HIVE_P2_temp2314_35, __HIVE_P2_temp2314_36, __HIVE_P2_temp2314_37, __HIVE_P2_temp2314_38, __HIVE_P2_temp2314_39, __HIVE_P2_temp2314_40, __HIVE_P2_temp2314_41, __HIVE_P2_temp2314_42, __HIVE_P2_temp2314_43, __HIVE_P2_temp2314_44, __HIVE_P2_temp2314_45, __HIVE_P2_temp2314_46, __HIVE_P2_temp2314_47, __HIVE_P2_temp2314_48, __HIVE_P2_temp2314_49, __HIVE_P2_temp2314_50, __HIVE_P2_temp2314_51, __HIVE_P2_temp2314_52, __HIVE_P2_temp2314_53, __HIVE_P2_temp2314_54, __HIVE_P2_temp2314_55, __HIVE_P2_temp2314_56, __HIVE_P2_temp2314_57, __HIVE_P2_temp2314_58, __HIVE_P2_temp2314_59, __HIVE_P2_temp2314_60, __HIVE_P2_temp2314_61, __HIVE_P2_temp2314_62, __HIVE_P2_temp2314_63, __HIVE_P2_temp2314_64, __HIVE_P2_temp2314_65;
+        (__HIVE_P2_temp2314_0 = this, __HIVE_P2_temp2314_1 = __HIVE_P2_get(__HIVE_P2_temp2314_0, "next", 2315), __HIVE_P2_invoke(__HIVE_P2_temp2314_1, __HIVE_P2_temp2314_0, (__HIVE_P2_reserveArray(0, 2315), __HIVE_P2_ownArray([], 2315, "CONTROL_ARRAY")), 2315));
+        if ((__HIVE_P2_temp2314_2 = this, __HIVE_P2_temp2314_3 = __HIVE_P2_get(__HIVE_P2_temp2314_2, "eat", 2317), __HIVE_P2_invoke(__HIVE_P2_temp2314_3, __HIVE_P2_temp2314_2, (__HIVE_P2_reserveArray(1, 2317), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 2318)], 2317, "CONTROL_ARRAY")), 2317))) {
+            return (__HIVE_P2_temp2314_4 = this, __HIVE_P2_temp2314_5 = __HIVE_P2_get(__HIVE_P2_temp2314_4, "parseExportAllDeclaration", 2320), __HIVE_P2_invoke(__HIVE_P2_temp2314_5, __HIVE_P2_temp2314_4, (__HIVE_P2_reserveArray(2, 2320), __HIVE_P2_ownArray([e, t], 2320, "CONTROL_ARRAY")), 2320));
+        }
+        if ((__HIVE_P2_temp2314_6 = this, __HIVE_P2_temp2314_7 = __HIVE_P2_get(__HIVE_P2_temp2314_6, "eat", 2322), __HIVE_P2_invoke(__HIVE_P2_temp2314_7, __HIVE_P2_temp2314_6, (__HIVE_P2_reserveArray(1, 2322), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_default", 2323)], 2322, "CONTROL_ARRAY")), 2322))) {
+            (__HIVE_P2_temp2314_8 = this, __HIVE_P2_temp2314_9 = __HIVE_P2_get(__HIVE_P2_temp2314_8, "checkExport", 2325), __HIVE_P2_invoke(__HIVE_P2_temp2314_9, __HIVE_P2_temp2314_8, (__HIVE_P2_reserveArray(3, 2325), __HIVE_P2_ownArray([t, "default", __HIVE_P2_get(this, "lastTokStart", 2326)], 2325, "CONTROL_ARRAY")), 2325));
+            (__HIVE_P2_temp2314_10 = e, __HIVE_P2_temp2314_11 = "declaration", __HIVE_P2_set(__HIVE_P2_temp2314_10, __HIVE_P2_temp2314_11, (__HIVE_P2_temp2314_13 = this, __HIVE_P2_temp2314_14 = __HIVE_P2_get(__HIVE_P2_temp2314_13, "parseExportDefaultDeclaration", 2330), __HIVE_P2_invoke(__HIVE_P2_temp2314_14, __HIVE_P2_temp2314_13, (__HIVE_P2_reserveArray(0, 2330), __HIVE_P2_ownArray([], 2330, "CONTROL_ARRAY")), 2330)), 2328));
+            return (__HIVE_P2_temp2314_15 = this, __HIVE_P2_temp2314_16 = __HIVE_P2_get(__HIVE_P2_temp2314_15, "finishNode", 2332), __HIVE_P2_invoke(__HIVE_P2_temp2314_16, __HIVE_P2_temp2314_15, (__HIVE_P2_reserveArray(2, 2332), __HIVE_P2_ownArray([e, "ExportDefaultDeclaration"], 2332, "CONTROL_ARRAY")), 2332));
+        }
+        if ((__HIVE_P2_temp2314_17 = this, __HIVE_P2_temp2314_18 = __HIVE_P2_get(__HIVE_P2_temp2314_17, "shouldParseExportStatement", 2334), __HIVE_P2_invoke(__HIVE_P2_temp2314_18, __HIVE_P2_temp2314_17, (__HIVE_P2_reserveArray(0, 2334), __HIVE_P2_ownArray([], 2334, "CONTROL_ARRAY")), 2334))) {
+            (__HIVE_P2_temp2314_19 = e, __HIVE_P2_temp2314_20 = "declaration", __HIVE_P2_set(__HIVE_P2_temp2314_19, __HIVE_P2_temp2314_20, (__HIVE_P2_temp2314_22 = this, __HIVE_P2_temp2314_23 = __HIVE_P2_get(__HIVE_P2_temp2314_22, "parseExportDeclaration", 2338), __HIVE_P2_invoke(__HIVE_P2_temp2314_23, __HIVE_P2_temp2314_22, (__HIVE_P2_reserveArray(1, 2338), __HIVE_P2_ownArray([e], 2338, "CONTROL_ARRAY")), 2338)), 2336));
+            if (__HIVE_P2_get(__HIVE_P2_get(e, "declaration", 2341), "type", 2340) === "VariableDeclaration") {
+                (__HIVE_P2_temp2314_24 = this, __HIVE_P2_temp2314_25 = __HIVE_P2_get(__HIVE_P2_temp2314_24, "checkVariableExport", 2342), __HIVE_P2_invoke(__HIVE_P2_temp2314_25, __HIVE_P2_temp2314_24, (__HIVE_P2_reserveArray(2, 2342), __HIVE_P2_ownArray([t, __HIVE_P2_get(__HIVE_P2_get(e, "declaration", 2344), "declarations", 2343)], 2342, "CONTROL_ARRAY")), 2342));
+            }
+            else {
+                (__HIVE_P2_temp2314_26 = this, __HIVE_P2_temp2314_27 = __HIVE_P2_get(__HIVE_P2_temp2314_26, "checkExport", 2346), __HIVE_P2_invoke(__HIVE_P2_temp2314_27, __HIVE_P2_temp2314_26, (__HIVE_P2_reserveArray(3, 2346), __HIVE_P2_ownArray([t, __HIVE_P2_get(__HIVE_P2_get(e, "declaration", 2348), "id", 2347), __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(e, "declaration", 2351), "id", 2350), "start", 2349)], 2346, "CONTROL_ARRAY")), 2346));
+            }
+            (__HIVE_P2_temp2314_28 = e, __HIVE_P2_temp2314_29 = "specifiers", __HIVE_P2_set(__HIVE_P2_temp2314_28, __HIVE_P2_temp2314_29, (__HIVE_P2_temp2314_31 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2314_31, 2355), __HIVE_P2_reserveArray(0, 2355, 0), __HIVE_P2_ownArray([], 2355, "ARRAY", __HIVE_P2_temp2314_31)), 2353));
+            (__HIVE_P2_temp2314_32 = e, __HIVE_P2_temp2314_33 = "source", __HIVE_P2_set(__HIVE_P2_temp2314_32, __HIVE_P2_temp2314_33, null, 2356));
+        }
+        else {
+            (__HIVE_P2_temp2314_35 = e, __HIVE_P2_temp2314_36 = "declaration", __HIVE_P2_set(__HIVE_P2_temp2314_35, __HIVE_P2_temp2314_36, null, 2358));
+            (__HIVE_P2_temp2314_38 = e, __HIVE_P2_temp2314_39 = "specifiers", __HIVE_P2_set(__HIVE_P2_temp2314_38, __HIVE_P2_temp2314_39, (__HIVE_P2_temp2314_41 = this, __HIVE_P2_temp2314_42 = __HIVE_P2_get(__HIVE_P2_temp2314_41, "parseExportSpecifiers", 2362), __HIVE_P2_invoke(__HIVE_P2_temp2314_42, __HIVE_P2_temp2314_41, (__HIVE_P2_reserveArray(1, 2362), __HIVE_P2_ownArray([t], 2362, "CONTROL_ARRAY")), 2362)), 2360));
+            if ((__HIVE_P2_temp2314_43 = this, __HIVE_P2_temp2314_44 = __HIVE_P2_get(__HIVE_P2_temp2314_43, "eatContextual", 2364), __HIVE_P2_invoke(__HIVE_P2_temp2314_44, __HIVE_P2_temp2314_43, (__HIVE_P2_reserveArray(1, 2364), __HIVE_P2_ownArray(["from"], 2364, "CONTROL_ARRAY")), 2364))) {
+                if (__HIVE_P2_get(this, "type", 2366) !== __HIVE_P2_get(m, "string", 2367)) {
+                    __HIVE_P2_syntaxRefusal(2368);
+                }
+                (__HIVE_P2_temp2314_45 = e, __HIVE_P2_temp2314_46 = "source", __HIVE_P2_set(__HIVE_P2_temp2314_45, __HIVE_P2_temp2314_46, (__HIVE_P2_temp2314_48 = this, __HIVE_P2_temp2314_49 = __HIVE_P2_get(__HIVE_P2_temp2314_48, "parseExprAtom", 2371), __HIVE_P2_invoke(__HIVE_P2_temp2314_49, __HIVE_P2_temp2314_48, (__HIVE_P2_reserveArray(0, 2371), __HIVE_P2_ownArray([], 2371, "CONTROL_ARRAY")), 2371)), 2369));
+                if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2375), "ecmaVersion", 2374), 16, 2373)) {
+                    (__HIVE_P2_temp2314_50 = e, __HIVE_P2_temp2314_51 = "attributes", __HIVE_P2_set(__HIVE_P2_temp2314_50, __HIVE_P2_temp2314_51, (__HIVE_P2_temp2314_53 = this, __HIVE_P2_temp2314_54 = __HIVE_P2_get(__HIVE_P2_temp2314_53, "parseWithClause", 2378), __HIVE_P2_invoke(__HIVE_P2_temp2314_54, __HIVE_P2_temp2314_53, (__HIVE_P2_reserveArray(0, 2378), __HIVE_P2_ownArray([], 2378, "CONTROL_ARRAY")), 2378)), 2376));
+                }
+            }
+            else {
+                for (var i = 0, s = __HIVE_P2_get(e, "specifiers", 2381); __HIVE_P2_binary("<", i, __HIVE_P2_get(s, "length", 2383), 2382); i = __HIVE_P2_binary("+", i, 1, 2384)) {
+                    __HIVE_P2_tick(2380);
+                    var r = __HIVE_P2_get(s, i, 2385);
+                    (__HIVE_P2_temp2314_55 = this, __HIVE_P2_temp2314_56 = __HIVE_P2_get(__HIVE_P2_temp2314_55, "checkUnreserved", 2386), __HIVE_P2_invoke(__HIVE_P2_temp2314_56, __HIVE_P2_temp2314_55, (__HIVE_P2_reserveArray(1, 2386), __HIVE_P2_ownArray([__HIVE_P2_get(r, "local", 2387)], 2386, "CONTROL_ARRAY")), 2386));
+                    (__HIVE_P2_temp2314_57 = this, __HIVE_P2_temp2314_58 = __HIVE_P2_get(__HIVE_P2_temp2314_57, "checkLocalExport", 2389), __HIVE_P2_invoke(__HIVE_P2_temp2314_58, __HIVE_P2_temp2314_57, (__HIVE_P2_reserveArray(1, 2389), __HIVE_P2_ownArray([__HIVE_P2_get(r, "local", 2390)], 2389, "CONTROL_ARRAY")), 2389));
+                    if (__HIVE_P2_get(__HIVE_P2_get(r, "local", 2393), "type", 2392) === "Literal") {
+                        __HIVE_P2_syntaxRefusal(2394);
+                    }
+                }
+                (__HIVE_P2_temp2314_59 = e, __HIVE_P2_temp2314_60 = "source", __HIVE_P2_set(__HIVE_P2_temp2314_59, __HIVE_P2_temp2314_60, null, 2395));
+            }
+            (__HIVE_P2_temp2314_62 = this, __HIVE_P2_temp2314_63 = __HIVE_P2_get(__HIVE_P2_temp2314_62, "semicolon", 2397), __HIVE_P2_invoke(__HIVE_P2_temp2314_63, __HIVE_P2_temp2314_62, (__HIVE_P2_reserveArray(0, 2397), __HIVE_P2_ownArray([], 2397, "CONTROL_ARRAY")), 2397));
+        }
+        return (__HIVE_P2_temp2314_64 = this, __HIVE_P2_temp2314_65 = __HIVE_P2_get(__HIVE_P2_temp2314_64, "finishNode", 2399), __HIVE_P2_invoke(__HIVE_P2_temp2314_65, __HIVE_P2_temp2314_64, (__HIVE_P2_reserveArray(2, 2399), __HIVE_P2_ownArray([e, "ExportNamedDeclaration"], 2399, "CONTROL_ARRAY")), 2399));
+    }, 69, 2, 0, 2314)), 2312));
+    (__HIVE_P2_temp0_1109 = $, __HIVE_P2_temp0_1110 = "parseExportDeclaration", __HIVE_P2_set(__HIVE_P2_temp0_1109, __HIVE_P2_temp0_1110, (__HIVE_P2_reserveFunction(2403), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2403_0, __HIVE_P2_temp2403_1;
+        return (__HIVE_P2_temp2403_0 = this, __HIVE_P2_temp2403_1 = __HIVE_P2_get(__HIVE_P2_temp2403_0, "parseStatement", 2404), __HIVE_P2_invoke(__HIVE_P2_temp2403_1, __HIVE_P2_temp2403_0, (__HIVE_P2_reserveArray(1, 2404), __HIVE_P2_ownArray([null], 2404, "CONTROL_ARRAY")), 2404));
+    }, 2, 1, 0, 2403)), 2401));
+    (__HIVE_P2_temp0_1112 = $, __HIVE_P2_temp0_1113 = "parseExportDefaultDeclaration", __HIVE_P2_set(__HIVE_P2_temp0_1112, __HIVE_P2_temp0_1113, (__HIVE_P2_reserveFunction(2408), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2408_0, __HIVE_P2_temp2408_1, __HIVE_P2_temp2408_2, __HIVE_P2_temp2408_3, __HIVE_P2_temp2408_4, __HIVE_P2_temp2408_5, __HIVE_P2_temp2408_6, __HIVE_P2_temp2408_7, __HIVE_P2_temp2408_8, __HIVE_P2_temp2408_9, __HIVE_P2_temp2408_10, __HIVE_P2_temp2408_11, __HIVE_P2_temp2408_12, __HIVE_P2_temp2408_13, __HIVE_P2_temp2408_14, __HIVE_P2_temp2408_15, __HIVE_P2_temp2408_16, __HIVE_P2_temp2408_17;
+        var e;
+        if (__HIVE_P2_get(this, "type", 2409) === __HIVE_P2_get(m, "_function", 2410) || (e = (__HIVE_P2_temp2408_0 = this, __HIVE_P2_temp2408_1 = __HIVE_P2_get(__HIVE_P2_temp2408_0, "isAsyncFunction", 2412), __HIVE_P2_invoke(__HIVE_P2_temp2408_1, __HIVE_P2_temp2408_0, (__HIVE_P2_reserveArray(0, 2412), __HIVE_P2_ownArray([], 2412, "CONTROL_ARRAY")), 2412)))) {
+            var t = (__HIVE_P2_temp2408_2 = this, __HIVE_P2_temp2408_3 = __HIVE_P2_get(__HIVE_P2_temp2408_2, "startNode", 2414), __HIVE_P2_invoke(__HIVE_P2_temp2408_3, __HIVE_P2_temp2408_2, (__HIVE_P2_reserveArray(0, 2414), __HIVE_P2_ownArray([], 2414, "CONTROL_ARRAY")), 2414));
+            (__HIVE_P2_temp2408_4 = this, __HIVE_P2_temp2408_5 = __HIVE_P2_get(__HIVE_P2_temp2408_4, "next", 2416), __HIVE_P2_invoke(__HIVE_P2_temp2408_5, __HIVE_P2_temp2408_4, (__HIVE_P2_reserveArray(0, 2416), __HIVE_P2_ownArray([], 2416, "CONTROL_ARRAY")), 2416));
+            if (e) {
+                (__HIVE_P2_temp2408_6 = this, __HIVE_P2_temp2408_7 = __HIVE_P2_get(__HIVE_P2_temp2408_6, "next", 2418), __HIVE_P2_invoke(__HIVE_P2_temp2408_7, __HIVE_P2_temp2408_6, (__HIVE_P2_reserveArray(0, 2418), __HIVE_P2_ownArray([], 2418, "CONTROL_ARRAY")), 2418));
+            }
+            return (__HIVE_P2_temp2408_8 = this, __HIVE_P2_temp2408_9 = __HIVE_P2_get(__HIVE_P2_temp2408_8, "parseFunction", 2420), __HIVE_P2_invoke(__HIVE_P2_temp2408_9, __HIVE_P2_temp2408_8, (__HIVE_P2_reserveArray(4, 2420), __HIVE_P2_ownArray([t, __HIVE_P2_binary("|", ie, re, 2421), false, e], 2420, "CONTROL_ARRAY")), 2420));
+        }
+        else if (__HIVE_P2_get(this, "type", 2423) === __HIVE_P2_get(m, "_class", 2424)) {
+            var i = (__HIVE_P2_temp2408_10 = this, __HIVE_P2_temp2408_11 = __HIVE_P2_get(__HIVE_P2_temp2408_10, "startNode", 2425), __HIVE_P2_invoke(__HIVE_P2_temp2408_11, __HIVE_P2_temp2408_10, (__HIVE_P2_reserveArray(0, 2425), __HIVE_P2_ownArray([], 2425, "CONTROL_ARRAY")), 2425));
+            return (__HIVE_P2_temp2408_12 = this, __HIVE_P2_temp2408_13 = __HIVE_P2_get(__HIVE_P2_temp2408_12, "parseClass", 2427), __HIVE_P2_invoke(__HIVE_P2_temp2408_13, __HIVE_P2_temp2408_12, (__HIVE_P2_reserveArray(2, 2427), __HIVE_P2_ownArray([i, "nullableID"], 2427, "CONTROL_ARRAY")), 2427));
+        }
+        else {
+            var s = (__HIVE_P2_temp2408_14 = this, __HIVE_P2_temp2408_15 = __HIVE_P2_get(__HIVE_P2_temp2408_14, "parseMaybeAssign", 2429), __HIVE_P2_invoke(__HIVE_P2_temp2408_15, __HIVE_P2_temp2408_14, (__HIVE_P2_reserveArray(0, 2429), __HIVE_P2_ownArray([], 2429, "CONTROL_ARRAY")), 2429));
+            (__HIVE_P2_temp2408_16 = this, __HIVE_P2_temp2408_17 = __HIVE_P2_get(__HIVE_P2_temp2408_16, "semicolon", 2431), __HIVE_P2_invoke(__HIVE_P2_temp2408_17, __HIVE_P2_temp2408_16, (__HIVE_P2_reserveArray(0, 2431), __HIVE_P2_ownArray([], 2431, "CONTROL_ARRAY")), 2431));
+            return s;
+        }
+    }, 22, 0, 0, 2408)), 2406));
+    (__HIVE_P2_temp0_1115 = $, __HIVE_P2_temp0_1116 = "checkExport", __HIVE_P2_set(__HIVE_P2_temp0_1115, __HIVE_P2_temp0_1116, (__HIVE_P2_reserveFunction(2435), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp2435_0, __HIVE_P2_temp2435_1, __HIVE_P2_temp2435_2;
+        if (!e) {
+            return;
+        }
+        if (typeof t !== "string") {
+            t = __HIVE_P2_get(t, "type", 2437) === "Identifier" ? __HIVE_P2_get(t, "name", 2438) : __HIVE_P2_get(t, "value", 2439);
+        }
+        if (__HIVE_P2_invoke(S, void 0, (__HIVE_P2_reserveArray(2, 2440), __HIVE_P2_ownArray([e, t], 2440, "CONTROL_ARRAY")), 2440)) {
+            __HIVE_P2_syntaxRefusal(2441);
+        }
+        (__HIVE_P2_temp2435_0 = e, __HIVE_P2_temp2435_1 = t, __HIVE_P2_set(__HIVE_P2_temp2435_0, __HIVE_P2_temp2435_1, true, 2442));
+    }, 3, 3, 0, 2435)), 2433));
+    (__HIVE_P2_temp0_1118 = $, __HIVE_P2_temp0_1119 = "checkPatternExport", __HIVE_P2_set(__HIVE_P2_temp0_1118, __HIVE_P2_temp0_1119, (__HIVE_P2_reserveFunction(2446), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2446_0, __HIVE_P2_temp2446_1, __HIVE_P2_temp2446_2, __HIVE_P2_temp2446_3, __HIVE_P2_temp2446_4, __HIVE_P2_temp2446_5, __HIVE_P2_temp2446_6, __HIVE_P2_temp2446_7, __HIVE_P2_temp2446_8, __HIVE_P2_temp2446_9, __HIVE_P2_temp2446_10, __HIVE_P2_temp2446_11;
+        var i = __HIVE_P2_get(t, "type", 2447);
+        if (i === "Identifier") {
+            (__HIVE_P2_temp2446_0 = this, __HIVE_P2_temp2446_1 = __HIVE_P2_get(__HIVE_P2_temp2446_0, "checkExport", 2448), __HIVE_P2_invoke(__HIVE_P2_temp2446_1, __HIVE_P2_temp2446_0, (__HIVE_P2_reserveArray(3, 2448), __HIVE_P2_ownArray([e, t, __HIVE_P2_get(t, "start", 2449)], 2448, "CONTROL_ARRAY")), 2448));
+        }
+        else if (i === "ObjectPattern") {
+            for (var s = 0, r = __HIVE_P2_get(t, "properties", 2452); __HIVE_P2_binary("<", s, __HIVE_P2_get(r, "length", 2454), 2453); s = __HIVE_P2_binary("+", s, 1, 2455)) {
+                __HIVE_P2_tick(2451);
+                var a = __HIVE_P2_get(r, s, 2456);
+                (__HIVE_P2_temp2446_2 = this, __HIVE_P2_temp2446_3 = __HIVE_P2_get(__HIVE_P2_temp2446_2, "checkPatternExport", 2457), __HIVE_P2_invoke(__HIVE_P2_temp2446_3, __HIVE_P2_temp2446_2, (__HIVE_P2_reserveArray(2, 2457), __HIVE_P2_ownArray([e, a], 2457, "CONTROL_ARRAY")), 2457));
+            }
+        }
+        else if (i === "ArrayPattern") {
+            for (var n = 0, o = __HIVE_P2_get(t, "elements", 2460); __HIVE_P2_binary("<", n, __HIVE_P2_get(o, "length", 2462), 2461); n = __HIVE_P2_binary("+", n, 1, 2463)) {
+                __HIVE_P2_tick(2459);
+                var h = __HIVE_P2_get(o, n, 2464);
+                if (h) {
+                    (__HIVE_P2_temp2446_4 = this, __HIVE_P2_temp2446_5 = __HIVE_P2_get(__HIVE_P2_temp2446_4, "checkPatternExport", 2465), __HIVE_P2_invoke(__HIVE_P2_temp2446_5, __HIVE_P2_temp2446_4, (__HIVE_P2_reserveArray(2, 2465), __HIVE_P2_ownArray([e, h], 2465, "CONTROL_ARRAY")), 2465));
+                }
+            }
+        }
+        else if (i === "Property") {
+            (__HIVE_P2_temp2446_6 = this, __HIVE_P2_temp2446_7 = __HIVE_P2_get(__HIVE_P2_temp2446_6, "checkPatternExport", 2467), __HIVE_P2_invoke(__HIVE_P2_temp2446_7, __HIVE_P2_temp2446_6, (__HIVE_P2_reserveArray(2, 2467), __HIVE_P2_ownArray([e, __HIVE_P2_get(t, "value", 2468)], 2467, "CONTROL_ARRAY")), 2467));
+        }
+        else if (i === "AssignmentPattern") {
+            (__HIVE_P2_temp2446_8 = this, __HIVE_P2_temp2446_9 = __HIVE_P2_get(__HIVE_P2_temp2446_8, "checkPatternExport", 2470), __HIVE_P2_invoke(__HIVE_P2_temp2446_9, __HIVE_P2_temp2446_8, (__HIVE_P2_reserveArray(2, 2470), __HIVE_P2_ownArray([e, __HIVE_P2_get(t, "left", 2471)], 2470, "CONTROL_ARRAY")), 2470));
+        }
+        else if (i === "RestElement") {
+            (__HIVE_P2_temp2446_10 = this, __HIVE_P2_temp2446_11 = __HIVE_P2_get(__HIVE_P2_temp2446_10, "checkPatternExport", 2473), __HIVE_P2_invoke(__HIVE_P2_temp2446_11, __HIVE_P2_temp2446_10, (__HIVE_P2_reserveArray(2, 2473), __HIVE_P2_ownArray([e, __HIVE_P2_get(t, "argument", 2474)], 2473, "CONTROL_ARRAY")), 2473));
+        }
+    }, 19, 2, 0, 2446)), 2444));
+    (__HIVE_P2_temp0_1121 = $, __HIVE_P2_temp0_1122 = "checkVariableExport", __HIVE_P2_set(__HIVE_P2_temp0_1121, __HIVE_P2_temp0_1122, (__HIVE_P2_reserveFunction(2478), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2478_0, __HIVE_P2_temp2478_1;
+        if (!e) {
+            return;
+        }
+        for (var i = 0, s = t; __HIVE_P2_binary("<", i, __HIVE_P2_get(s, "length", 2481), 2480); i = __HIVE_P2_binary("+", i, 1, 2482)) {
+            __HIVE_P2_tick(2479);
+            var r = __HIVE_P2_get(s, i, 2483);
+            (__HIVE_P2_temp2478_0 = this, __HIVE_P2_temp2478_1 = __HIVE_P2_get(__HIVE_P2_temp2478_0, "checkPatternExport", 2484), __HIVE_P2_invoke(__HIVE_P2_temp2478_1, __HIVE_P2_temp2478_0, (__HIVE_P2_reserveArray(2, 2484), __HIVE_P2_ownArray([e, __HIVE_P2_get(r, "id", 2485)], 2484, "CONTROL_ARRAY")), 2484));
+        }
+    }, 5, 2, 0, 2478)), 2476));
+    (__HIVE_P2_temp0_1124 = $, __HIVE_P2_temp0_1125 = "shouldParseExportStatement", __HIVE_P2_set(__HIVE_P2_temp0_1124, __HIVE_P2_temp0_1125, (__HIVE_P2_reserveFunction(2489), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2489_0, __HIVE_P2_temp2489_1, __HIVE_P2_temp2489_2, __HIVE_P2_temp2489_3;
+        return __HIVE_P2_get(__HIVE_P2_get(this, "type", 2491), "keyword", 2490) === "var" || __HIVE_P2_get(__HIVE_P2_get(this, "type", 2493), "keyword", 2492) === "const" || __HIVE_P2_get(__HIVE_P2_get(this, "type", 2495), "keyword", 2494) === "class" || __HIVE_P2_get(__HIVE_P2_get(this, "type", 2497), "keyword", 2496) === "function" || (__HIVE_P2_temp2489_0 = this, __HIVE_P2_temp2489_1 = __HIVE_P2_get(__HIVE_P2_temp2489_0, "isLet", 2498), __HIVE_P2_invoke(__HIVE_P2_temp2489_1, __HIVE_P2_temp2489_0, (__HIVE_P2_reserveArray(0, 2498), __HIVE_P2_ownArray([], 2498, "CONTROL_ARRAY")), 2498)) || (__HIVE_P2_temp2489_2 = this, __HIVE_P2_temp2489_3 = __HIVE_P2_get(__HIVE_P2_temp2489_2, "isAsyncFunction", 2500), __HIVE_P2_invoke(__HIVE_P2_temp2489_3, __HIVE_P2_temp2489_2, (__HIVE_P2_reserveArray(0, 2500), __HIVE_P2_ownArray([], 2500, "CONTROL_ARRAY")), 2500));
+    }, 4, 0, 0, 2489)), 2487));
+    (__HIVE_P2_temp0_1127 = $, __HIVE_P2_temp0_1128 = "parseExportSpecifier", __HIVE_P2_set(__HIVE_P2_temp0_1127, __HIVE_P2_temp0_1128, (__HIVE_P2_reserveFunction(2504), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2504_0, __HIVE_P2_temp2504_1, __HIVE_P2_temp2504_2, __HIVE_P2_temp2504_3, __HIVE_P2_temp2504_4, __HIVE_P2_temp2504_5, __HIVE_P2_temp2504_6, __HIVE_P2_temp2504_7, __HIVE_P2_temp2504_8, __HIVE_P2_temp2504_9, __HIVE_P2_temp2504_10, __HIVE_P2_temp2504_11, __HIVE_P2_temp2504_12, __HIVE_P2_temp2504_13, __HIVE_P2_temp2504_14, __HIVE_P2_temp2504_15, __HIVE_P2_temp2504_16, __HIVE_P2_temp2504_17;
+        var t = (__HIVE_P2_temp2504_0 = this, __HIVE_P2_temp2504_1 = __HIVE_P2_get(__HIVE_P2_temp2504_0, "startNode", 2505), __HIVE_P2_invoke(__HIVE_P2_temp2504_1, __HIVE_P2_temp2504_0, (__HIVE_P2_reserveArray(0, 2505), __HIVE_P2_ownArray([], 2505, "CONTROL_ARRAY")), 2505));
+        (__HIVE_P2_temp2504_2 = t, __HIVE_P2_temp2504_3 = "local", __HIVE_P2_set(__HIVE_P2_temp2504_2, __HIVE_P2_temp2504_3, (__HIVE_P2_temp2504_5 = this, __HIVE_P2_temp2504_6 = __HIVE_P2_get(__HIVE_P2_temp2504_5, "parseModuleExportName", 2509), __HIVE_P2_invoke(__HIVE_P2_temp2504_6, __HIVE_P2_temp2504_5, (__HIVE_P2_reserveArray(0, 2509), __HIVE_P2_ownArray([], 2509, "CONTROL_ARRAY")), 2509)), 2507));
+        (__HIVE_P2_temp2504_7 = t, __HIVE_P2_temp2504_8 = "exported", __HIVE_P2_set(__HIVE_P2_temp2504_7, __HIVE_P2_temp2504_8, (__HIVE_P2_temp2504_10 = this, __HIVE_P2_temp2504_11 = __HIVE_P2_get(__HIVE_P2_temp2504_10, "eatContextual", 2513), __HIVE_P2_invoke(__HIVE_P2_temp2504_11, __HIVE_P2_temp2504_10, (__HIVE_P2_reserveArray(1, 2513), __HIVE_P2_ownArray(["as"], 2513, "CONTROL_ARRAY")), 2513)) ? (__HIVE_P2_temp2504_12 = this, __HIVE_P2_temp2504_13 = __HIVE_P2_get(__HIVE_P2_temp2504_12, "parseModuleExportName", 2515), __HIVE_P2_invoke(__HIVE_P2_temp2504_13, __HIVE_P2_temp2504_12, (__HIVE_P2_reserveArray(0, 2515), __HIVE_P2_ownArray([], 2515, "CONTROL_ARRAY")), 2515)) : __HIVE_P2_get(t, "local", 2517), 2511));
+        (__HIVE_P2_temp2504_14 = this, __HIVE_P2_temp2504_15 = __HIVE_P2_get(__HIVE_P2_temp2504_14, "checkExport", 2518), __HIVE_P2_invoke(__HIVE_P2_temp2504_15, __HIVE_P2_temp2504_14, (__HIVE_P2_reserveArray(3, 2518), __HIVE_P2_ownArray([e, __HIVE_P2_get(t, "exported", 2519), __HIVE_P2_get(__HIVE_P2_get(t, "exported", 2521), "start", 2520)], 2518, "CONTROL_ARRAY")), 2518));
+        return (__HIVE_P2_temp2504_16 = this, __HIVE_P2_temp2504_17 = __HIVE_P2_get(__HIVE_P2_temp2504_16, "finishNode", 2523), __HIVE_P2_invoke(__HIVE_P2_temp2504_17, __HIVE_P2_temp2504_16, (__HIVE_P2_reserveArray(2, 2523), __HIVE_P2_ownArray([t, "ExportSpecifier"], 2523, "CONTROL_ARRAY")), 2523));
+    }, 19, 1, 0, 2504)), 2502));
+    (__HIVE_P2_temp0_1130 = $, __HIVE_P2_temp0_1131 = "parseExportSpecifiers", __HIVE_P2_set(__HIVE_P2_temp0_1130, __HIVE_P2_temp0_1131, (__HIVE_P2_reserveFunction(2527), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2527_0, __HIVE_P2_temp2527_1, __HIVE_P2_temp2527_2, __HIVE_P2_temp2527_3, __HIVE_P2_temp2527_4, __HIVE_P2_temp2527_5, __HIVE_P2_temp2527_6, __HIVE_P2_temp2527_7, __HIVE_P2_temp2527_8, __HIVE_P2_temp2527_9, __HIVE_P2_temp2527_10, __HIVE_P2_temp2527_11, __HIVE_P2_temp2527_12;
+        var t = (__HIVE_P2_temp2527_0 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2527_0, 2528), __HIVE_P2_reserveArray(0, 2528, 0), __HIVE_P2_ownArray([], 2528, "ARRAY", __HIVE_P2_temp2527_0)), i = true;
+        (__HIVE_P2_temp2527_1 = this, __HIVE_P2_temp2527_2 = __HIVE_P2_get(__HIVE_P2_temp2527_1, "expect", 2529), __HIVE_P2_invoke(__HIVE_P2_temp2527_2, __HIVE_P2_temp2527_1, (__HIVE_P2_reserveArray(1, 2529), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 2530)], 2529, "CONTROL_ARRAY")), 2529));
+        while (!(__HIVE_P2_temp2527_3 = this, __HIVE_P2_temp2527_4 = __HIVE_P2_get(__HIVE_P2_temp2527_3, "eat", 2533), __HIVE_P2_invoke(__HIVE_P2_temp2527_4, __HIVE_P2_temp2527_3, (__HIVE_P2_reserveArray(1, 2533), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2534)], 2533, "CONTROL_ARRAY")), 2533))) {
+            __HIVE_P2_tick(2532);
+            if (!i) {
+                (__HIVE_P2_temp2527_5 = this, __HIVE_P2_temp2527_6 = __HIVE_P2_get(__HIVE_P2_temp2527_5, "expect", 2536), __HIVE_P2_invoke(__HIVE_P2_temp2527_6, __HIVE_P2_temp2527_5, (__HIVE_P2_reserveArray(1, 2536), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 2537)], 2536, "CONTROL_ARRAY")), 2536));
+                if ((__HIVE_P2_temp2527_7 = this, __HIVE_P2_temp2527_8 = __HIVE_P2_get(__HIVE_P2_temp2527_7, "afterTrailingComma", 2539), __HIVE_P2_invoke(__HIVE_P2_temp2527_8, __HIVE_P2_temp2527_7, (__HIVE_P2_reserveArray(1, 2539), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2540)], 2539, "CONTROL_ARRAY")), 2539))) {
+                    break;
+                }
+            }
+            else {
+                i = false;
+            }
+            (__HIVE_P2_temp2527_11 = t, __HIVE_P2_temp2527_12 = __HIVE_P2_get(__HIVE_P2_temp2527_11, "push", 2543), __HIVE_P2_invoke(__HIVE_P2_temp2527_12, __HIVE_P2_temp2527_11, (__HIVE_P2_reserveArray(1, 2543), __HIVE_P2_ownArray([(__HIVE_P2_temp2527_9 = this, __HIVE_P2_temp2527_10 = __HIVE_P2_get(__HIVE_P2_temp2527_9, "parseExportSpecifier", 2544), __HIVE_P2_invoke(__HIVE_P2_temp2527_10, __HIVE_P2_temp2527_9, (__HIVE_P2_reserveArray(1, 2544), __HIVE_P2_ownArray([e], 2544, "CONTROL_ARRAY")), 2544))], 2543, "CONTROL_ARRAY")), 2543));
+        }
+        return t;
+    }, 15, 1, 0, 2527)), 2525));
+    (__HIVE_P2_temp0_1133 = $, __HIVE_P2_temp0_1134 = "parseImport", __HIVE_P2_set(__HIVE_P2_temp0_1133, __HIVE_P2_temp0_1134, (__HIVE_P2_reserveFunction(2549), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2549_0, __HIVE_P2_temp2549_1, __HIVE_P2_temp2549_2, __HIVE_P2_temp2549_3, __HIVE_P2_temp2549_4, __HIVE_P2_temp2549_5, __HIVE_P2_temp2549_6, __HIVE_P2_temp2549_7, __HIVE_P2_temp2549_8, __HIVE_P2_temp2549_9, __HIVE_P2_temp2549_10, __HIVE_P2_temp2549_11, __HIVE_P2_temp2549_12, __HIVE_P2_temp2549_13, __HIVE_P2_temp2549_14, __HIVE_P2_temp2549_15, __HIVE_P2_temp2549_16, __HIVE_P2_temp2549_17, __HIVE_P2_temp2549_18, __HIVE_P2_temp2549_19, __HIVE_P2_temp2549_20, __HIVE_P2_temp2549_21, __HIVE_P2_temp2549_22, __HIVE_P2_temp2549_23, __HIVE_P2_temp2549_24, __HIVE_P2_temp2549_25, __HIVE_P2_temp2549_26, __HIVE_P2_temp2549_27, __HIVE_P2_temp2549_28, __HIVE_P2_temp2549_29, __HIVE_P2_temp2549_30;
+        (__HIVE_P2_temp2549_0 = this, __HIVE_P2_temp2549_1 = __HIVE_P2_get(__HIVE_P2_temp2549_0, "next", 2550), __HIVE_P2_invoke(__HIVE_P2_temp2549_1, __HIVE_P2_temp2549_0, (__HIVE_P2_reserveArray(0, 2550), __HIVE_P2_ownArray([], 2550, "CONTROL_ARRAY")), 2550));
+        if (__HIVE_P2_get(this, "type", 2552) === __HIVE_P2_get(m, "string", 2553)) {
+            (__HIVE_P2_temp2549_2 = e, __HIVE_P2_temp2549_3 = "specifiers", __HIVE_P2_set(__HIVE_P2_temp2549_2, __HIVE_P2_temp2549_3, (__HIVE_P2_checkArrayDepth(0, 2556), __HIVE_P2_reserveArray(0, 2556, 0), __HIVE_P2_ownArray([], 2556, "ARRAY", 0)), 2554));
+            (__HIVE_P2_temp2549_5 = e, __HIVE_P2_temp2549_6 = "source", __HIVE_P2_set(__HIVE_P2_temp2549_5, __HIVE_P2_temp2549_6, (__HIVE_P2_temp2549_8 = this, __HIVE_P2_temp2549_9 = __HIVE_P2_get(__HIVE_P2_temp2549_8, "parseExprAtom", 2559), __HIVE_P2_invoke(__HIVE_P2_temp2549_9, __HIVE_P2_temp2549_8, (__HIVE_P2_reserveArray(0, 2559), __HIVE_P2_ownArray([], 2559, "CONTROL_ARRAY")), 2559)), 2557));
+        }
+        else {
+            (__HIVE_P2_temp2549_10 = e, __HIVE_P2_temp2549_11 = "specifiers", __HIVE_P2_set(__HIVE_P2_temp2549_10, __HIVE_P2_temp2549_11, (__HIVE_P2_temp2549_13 = this, __HIVE_P2_temp2549_14 = __HIVE_P2_get(__HIVE_P2_temp2549_13, "parseImportSpecifiers", 2563), __HIVE_P2_invoke(__HIVE_P2_temp2549_14, __HIVE_P2_temp2549_13, (__HIVE_P2_reserveArray(0, 2563), __HIVE_P2_ownArray([], 2563, "CONTROL_ARRAY")), 2563)), 2561));
+            (__HIVE_P2_temp2549_15 = this, __HIVE_P2_temp2549_16 = __HIVE_P2_get(__HIVE_P2_temp2549_15, "expectContextual", 2565), __HIVE_P2_invoke(__HIVE_P2_temp2549_16, __HIVE_P2_temp2549_15, (__HIVE_P2_reserveArray(1, 2565), __HIVE_P2_ownArray(["from"], 2565, "CONTROL_ARRAY")), 2565));
+            (__HIVE_P2_temp2549_17 = e, __HIVE_P2_temp2549_18 = "source", __HIVE_P2_set(__HIVE_P2_temp2549_17, __HIVE_P2_temp2549_18, __HIVE_P2_get(this, "type", 2569) === __HIVE_P2_get(m, "string", 2570) ? (__HIVE_P2_temp2549_20 = this, __HIVE_P2_temp2549_21 = __HIVE_P2_get(__HIVE_P2_temp2549_20, "parseExprAtom", 2571), __HIVE_P2_invoke(__HIVE_P2_temp2549_21, __HIVE_P2_temp2549_20, (__HIVE_P2_reserveArray(0, 2571), __HIVE_P2_ownArray([], 2571, "CONTROL_ARRAY")), 2571)) : __HIVE_P2_syntaxRefusal(2573), 2567));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2576), "ecmaVersion", 2575), 16, 2574)) {
+            (__HIVE_P2_temp2549_22 = e, __HIVE_P2_temp2549_23 = "attributes", __HIVE_P2_set(__HIVE_P2_temp2549_22, __HIVE_P2_temp2549_23, (__HIVE_P2_temp2549_25 = this, __HIVE_P2_temp2549_26 = __HIVE_P2_get(__HIVE_P2_temp2549_25, "parseWithClause", 2579), __HIVE_P2_invoke(__HIVE_P2_temp2549_26, __HIVE_P2_temp2549_25, (__HIVE_P2_reserveArray(0, 2579), __HIVE_P2_ownArray([], 2579, "CONTROL_ARRAY")), 2579)), 2577));
+        }
+        (__HIVE_P2_temp2549_27 = this, __HIVE_P2_temp2549_28 = __HIVE_P2_get(__HIVE_P2_temp2549_27, "semicolon", 2581), __HIVE_P2_invoke(__HIVE_P2_temp2549_28, __HIVE_P2_temp2549_27, (__HIVE_P2_reserveArray(0, 2581), __HIVE_P2_ownArray([], 2581, "CONTROL_ARRAY")), 2581));
+        return (__HIVE_P2_temp2549_29 = this, __HIVE_P2_temp2549_30 = __HIVE_P2_get(__HIVE_P2_temp2549_29, "finishNode", 2583), __HIVE_P2_invoke(__HIVE_P2_temp2549_30, __HIVE_P2_temp2549_29, (__HIVE_P2_reserveArray(2, 2583), __HIVE_P2_ownArray([e, "ImportDeclaration"], 2583, "CONTROL_ARRAY")), 2583));
+    }, 31, 1, 0, 2549)), 2547));
+    (__HIVE_P2_temp0_1136 = $, __HIVE_P2_temp0_1137 = "parseImportSpecifier", __HIVE_P2_set(__HIVE_P2_temp0_1136, __HIVE_P2_temp0_1137, (__HIVE_P2_reserveFunction(2587), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2587_0, __HIVE_P2_temp2587_1, __HIVE_P2_temp2587_2, __HIVE_P2_temp2587_3, __HIVE_P2_temp2587_4, __HIVE_P2_temp2587_5, __HIVE_P2_temp2587_6, __HIVE_P2_temp2587_7, __HIVE_P2_temp2587_8, __HIVE_P2_temp2587_9, __HIVE_P2_temp2587_10, __HIVE_P2_temp2587_11, __HIVE_P2_temp2587_12, __HIVE_P2_temp2587_13, __HIVE_P2_temp2587_14, __HIVE_P2_temp2587_15, __HIVE_P2_temp2587_16, __HIVE_P2_temp2587_17, __HIVE_P2_temp2587_18, __HIVE_P2_temp2587_19, __HIVE_P2_temp2587_20, __HIVE_P2_temp2587_21, __HIVE_P2_temp2587_22;
+        var e = (__HIVE_P2_temp2587_0 = this, __HIVE_P2_temp2587_1 = __HIVE_P2_get(__HIVE_P2_temp2587_0, "startNode", 2588), __HIVE_P2_invoke(__HIVE_P2_temp2587_1, __HIVE_P2_temp2587_0, (__HIVE_P2_reserveArray(0, 2588), __HIVE_P2_ownArray([], 2588, "CONTROL_ARRAY")), 2588));
+        (__HIVE_P2_temp2587_2 = e, __HIVE_P2_temp2587_3 = "imported", __HIVE_P2_set(__HIVE_P2_temp2587_2, __HIVE_P2_temp2587_3, (__HIVE_P2_temp2587_5 = this, __HIVE_P2_temp2587_6 = __HIVE_P2_get(__HIVE_P2_temp2587_5, "parseModuleExportName", 2592), __HIVE_P2_invoke(__HIVE_P2_temp2587_6, __HIVE_P2_temp2587_5, (__HIVE_P2_reserveArray(0, 2592), __HIVE_P2_ownArray([], 2592, "CONTROL_ARRAY")), 2592)), 2590));
+        if ((__HIVE_P2_temp2587_7 = this, __HIVE_P2_temp2587_8 = __HIVE_P2_get(__HIVE_P2_temp2587_7, "eatContextual", 2594), __HIVE_P2_invoke(__HIVE_P2_temp2587_8, __HIVE_P2_temp2587_7, (__HIVE_P2_reserveArray(1, 2594), __HIVE_P2_ownArray(["as"], 2594, "CONTROL_ARRAY")), 2594))) {
+            (__HIVE_P2_temp2587_9 = e, __HIVE_P2_temp2587_10 = "local", __HIVE_P2_set(__HIVE_P2_temp2587_9, __HIVE_P2_temp2587_10, (__HIVE_P2_temp2587_12 = this, __HIVE_P2_temp2587_13 = __HIVE_P2_get(__HIVE_P2_temp2587_12, "parseIdent", 2598), __HIVE_P2_invoke(__HIVE_P2_temp2587_13, __HIVE_P2_temp2587_12, (__HIVE_P2_reserveArray(0, 2598), __HIVE_P2_ownArray([], 2598, "CONTROL_ARRAY")), 2598)), 2596));
+        }
+        else {
+            (__HIVE_P2_temp2587_14 = this, __HIVE_P2_temp2587_15 = __HIVE_P2_get(__HIVE_P2_temp2587_14, "checkUnreserved", 2600), __HIVE_P2_invoke(__HIVE_P2_temp2587_15, __HIVE_P2_temp2587_14, (__HIVE_P2_reserveArray(1, 2600), __HIVE_P2_ownArray([__HIVE_P2_get(e, "imported", 2601)], 2600, "CONTROL_ARRAY")), 2600));
+            (__HIVE_P2_temp2587_16 = e, __HIVE_P2_temp2587_17 = "local", __HIVE_P2_set(__HIVE_P2_temp2587_16, __HIVE_P2_temp2587_17, __HIVE_P2_get(e, "imported", 2605), 2603));
+        }
+        (__HIVE_P2_temp2587_19 = this, __HIVE_P2_temp2587_20 = __HIVE_P2_get(__HIVE_P2_temp2587_19, "checkLValSimple", 2606), __HIVE_P2_invoke(__HIVE_P2_temp2587_20, __HIVE_P2_temp2587_19, (__HIVE_P2_reserveArray(2, 2606), __HIVE_P2_ownArray([__HIVE_P2_get(e, "local", 2607), G], 2606, "CONTROL_ARRAY")), 2606));
+        return (__HIVE_P2_temp2587_21 = this, __HIVE_P2_temp2587_22 = __HIVE_P2_get(__HIVE_P2_temp2587_21, "finishNode", 2609), __HIVE_P2_invoke(__HIVE_P2_temp2587_22, __HIVE_P2_temp2587_21, (__HIVE_P2_reserveArray(2, 2609), __HIVE_P2_ownArray([e, "ImportSpecifier"], 2609, "CONTROL_ARRAY")), 2609));
+    }, 24, 0, 0, 2587)), 2585));
+    (__HIVE_P2_temp0_1139 = $, __HIVE_P2_temp0_1140 = "parseImportDefaultSpecifier", __HIVE_P2_set(__HIVE_P2_temp0_1139, __HIVE_P2_temp0_1140, (__HIVE_P2_reserveFunction(2613), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2613_0, __HIVE_P2_temp2613_1, __HIVE_P2_temp2613_2, __HIVE_P2_temp2613_3, __HIVE_P2_temp2613_4, __HIVE_P2_temp2613_5, __HIVE_P2_temp2613_6, __HIVE_P2_temp2613_7, __HIVE_P2_temp2613_8, __HIVE_P2_temp2613_9, __HIVE_P2_temp2613_10;
+        var e = (__HIVE_P2_temp2613_0 = this, __HIVE_P2_temp2613_1 = __HIVE_P2_get(__HIVE_P2_temp2613_0, "startNode", 2614), __HIVE_P2_invoke(__HIVE_P2_temp2613_1, __HIVE_P2_temp2613_0, (__HIVE_P2_reserveArray(0, 2614), __HIVE_P2_ownArray([], 2614, "CONTROL_ARRAY")), 2614));
+        (__HIVE_P2_temp2613_2 = e, __HIVE_P2_temp2613_3 = "local", __HIVE_P2_set(__HIVE_P2_temp2613_2, __HIVE_P2_temp2613_3, (__HIVE_P2_temp2613_5 = this, __HIVE_P2_temp2613_6 = __HIVE_P2_get(__HIVE_P2_temp2613_5, "parseIdent", 2618), __HIVE_P2_invoke(__HIVE_P2_temp2613_6, __HIVE_P2_temp2613_5, (__HIVE_P2_reserveArray(0, 2618), __HIVE_P2_ownArray([], 2618, "CONTROL_ARRAY")), 2618)), 2616));
+        (__HIVE_P2_temp2613_7 = this, __HIVE_P2_temp2613_8 = __HIVE_P2_get(__HIVE_P2_temp2613_7, "checkLValSimple", 2620), __HIVE_P2_invoke(__HIVE_P2_temp2613_8, __HIVE_P2_temp2613_7, (__HIVE_P2_reserveArray(2, 2620), __HIVE_P2_ownArray([__HIVE_P2_get(e, "local", 2621), G], 2620, "CONTROL_ARRAY")), 2620));
+        return (__HIVE_P2_temp2613_9 = this, __HIVE_P2_temp2613_10 = __HIVE_P2_get(__HIVE_P2_temp2613_9, "finishNode", 2623), __HIVE_P2_invoke(__HIVE_P2_temp2613_10, __HIVE_P2_temp2613_9, (__HIVE_P2_reserveArray(2, 2623), __HIVE_P2_ownArray([e, "ImportDefaultSpecifier"], 2623, "CONTROL_ARRAY")), 2623));
+    }, 12, 0, 0, 2613)), 2611));
+    (__HIVE_P2_temp0_1142 = $, __HIVE_P2_temp0_1143 = "parseImportNamespaceSpecifier", __HIVE_P2_set(__HIVE_P2_temp0_1142, __HIVE_P2_temp0_1143, (__HIVE_P2_reserveFunction(2627), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2627_0, __HIVE_P2_temp2627_1, __HIVE_P2_temp2627_2, __HIVE_P2_temp2627_3, __HIVE_P2_temp2627_4, __HIVE_P2_temp2627_5, __HIVE_P2_temp2627_6, __HIVE_P2_temp2627_7, __HIVE_P2_temp2627_8, __HIVE_P2_temp2627_9, __HIVE_P2_temp2627_10, __HIVE_P2_temp2627_11, __HIVE_P2_temp2627_12, __HIVE_P2_temp2627_13, __HIVE_P2_temp2627_14;
+        var e = (__HIVE_P2_temp2627_0 = this, __HIVE_P2_temp2627_1 = __HIVE_P2_get(__HIVE_P2_temp2627_0, "startNode", 2628), __HIVE_P2_invoke(__HIVE_P2_temp2627_1, __HIVE_P2_temp2627_0, (__HIVE_P2_reserveArray(0, 2628), __HIVE_P2_ownArray([], 2628, "CONTROL_ARRAY")), 2628));
+        (__HIVE_P2_temp2627_2 = this, __HIVE_P2_temp2627_3 = __HIVE_P2_get(__HIVE_P2_temp2627_2, "next", 2630), __HIVE_P2_invoke(__HIVE_P2_temp2627_3, __HIVE_P2_temp2627_2, (__HIVE_P2_reserveArray(0, 2630), __HIVE_P2_ownArray([], 2630, "CONTROL_ARRAY")), 2630));
+        (__HIVE_P2_temp2627_4 = this, __HIVE_P2_temp2627_5 = __HIVE_P2_get(__HIVE_P2_temp2627_4, "expectContextual", 2632), __HIVE_P2_invoke(__HIVE_P2_temp2627_5, __HIVE_P2_temp2627_4, (__HIVE_P2_reserveArray(1, 2632), __HIVE_P2_ownArray(["as"], 2632, "CONTROL_ARRAY")), 2632));
+        (__HIVE_P2_temp2627_6 = e, __HIVE_P2_temp2627_7 = "local", __HIVE_P2_set(__HIVE_P2_temp2627_6, __HIVE_P2_temp2627_7, (__HIVE_P2_temp2627_9 = this, __HIVE_P2_temp2627_10 = __HIVE_P2_get(__HIVE_P2_temp2627_9, "parseIdent", 2636), __HIVE_P2_invoke(__HIVE_P2_temp2627_10, __HIVE_P2_temp2627_9, (__HIVE_P2_reserveArray(0, 2636), __HIVE_P2_ownArray([], 2636, "CONTROL_ARRAY")), 2636)), 2634));
+        (__HIVE_P2_temp2627_11 = this, __HIVE_P2_temp2627_12 = __HIVE_P2_get(__HIVE_P2_temp2627_11, "checkLValSimple", 2638), __HIVE_P2_invoke(__HIVE_P2_temp2627_12, __HIVE_P2_temp2627_11, (__HIVE_P2_reserveArray(2, 2638), __HIVE_P2_ownArray([__HIVE_P2_get(e, "local", 2639), G], 2638, "CONTROL_ARRAY")), 2638));
+        return (__HIVE_P2_temp2627_13 = this, __HIVE_P2_temp2627_14 = __HIVE_P2_get(__HIVE_P2_temp2627_13, "finishNode", 2641), __HIVE_P2_invoke(__HIVE_P2_temp2627_14, __HIVE_P2_temp2627_13, (__HIVE_P2_reserveArray(2, 2641), __HIVE_P2_ownArray([e, "ImportNamespaceSpecifier"], 2641, "CONTROL_ARRAY")), 2641));
+    }, 16, 0, 0, 2627)), 2625));
+    (__HIVE_P2_temp0_1145 = $, __HIVE_P2_temp0_1146 = "parseImportSpecifiers", __HIVE_P2_set(__HIVE_P2_temp0_1145, __HIVE_P2_temp0_1146, (__HIVE_P2_reserveFunction(2645), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2645_0, __HIVE_P2_temp2645_1, __HIVE_P2_temp2645_2, __HIVE_P2_temp2645_3, __HIVE_P2_temp2645_4, __HIVE_P2_temp2645_5, __HIVE_P2_temp2645_6, __HIVE_P2_temp2645_7, __HIVE_P2_temp2645_8, __HIVE_P2_temp2645_9, __HIVE_P2_temp2645_10, __HIVE_P2_temp2645_11, __HIVE_P2_temp2645_12, __HIVE_P2_temp2645_13, __HIVE_P2_temp2645_14, __HIVE_P2_temp2645_15, __HIVE_P2_temp2645_16, __HIVE_P2_temp2645_17, __HIVE_P2_temp2645_18, __HIVE_P2_temp2645_19, __HIVE_P2_temp2645_20, __HIVE_P2_temp2645_21, __HIVE_P2_temp2645_22;
+        var e = (__HIVE_P2_temp2645_0 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2645_0, 2646), __HIVE_P2_reserveArray(0, 2646, 0), __HIVE_P2_ownArray([], 2646, "ARRAY", __HIVE_P2_temp2645_0)), t = true;
+        if (__HIVE_P2_get(this, "type", 2647) === __HIVE_P2_get(m, "name", 2648)) {
+            (__HIVE_P2_temp2645_3 = e, __HIVE_P2_temp2645_4 = __HIVE_P2_get(__HIVE_P2_temp2645_3, "push", 2649), __HIVE_P2_invoke(__HIVE_P2_temp2645_4, __HIVE_P2_temp2645_3, (__HIVE_P2_reserveArray(1, 2649), __HIVE_P2_ownArray([(__HIVE_P2_temp2645_1 = this, __HIVE_P2_temp2645_2 = __HIVE_P2_get(__HIVE_P2_temp2645_1, "parseImportDefaultSpecifier", 2650), __HIVE_P2_invoke(__HIVE_P2_temp2645_2, __HIVE_P2_temp2645_1, (__HIVE_P2_reserveArray(0, 2650), __HIVE_P2_ownArray([], 2650, "CONTROL_ARRAY")), 2650))], 2649, "CONTROL_ARRAY")), 2649));
+            if (!(__HIVE_P2_temp2645_5 = this, __HIVE_P2_temp2645_6 = __HIVE_P2_get(__HIVE_P2_temp2645_5, "eat", 2653), __HIVE_P2_invoke(__HIVE_P2_temp2645_6, __HIVE_P2_temp2645_5, (__HIVE_P2_reserveArray(1, 2653), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 2654)], 2653, "CONTROL_ARRAY")), 2653))) {
+                return e;
+            }
+        }
+        if (__HIVE_P2_get(this, "type", 2656) === __HIVE_P2_get(m, "star", 2657)) {
+            (__HIVE_P2_temp2645_9 = e, __HIVE_P2_temp2645_10 = __HIVE_P2_get(__HIVE_P2_temp2645_9, "push", 2658), __HIVE_P2_invoke(__HIVE_P2_temp2645_10, __HIVE_P2_temp2645_9, (__HIVE_P2_reserveArray(1, 2658), __HIVE_P2_ownArray([(__HIVE_P2_temp2645_7 = this, __HIVE_P2_temp2645_8 = __HIVE_P2_get(__HIVE_P2_temp2645_7, "parseImportNamespaceSpecifier", 2659), __HIVE_P2_invoke(__HIVE_P2_temp2645_8, __HIVE_P2_temp2645_7, (__HIVE_P2_reserveArray(0, 2659), __HIVE_P2_ownArray([], 2659, "CONTROL_ARRAY")), 2659))], 2658, "CONTROL_ARRAY")), 2658));
+            return e;
+        }
+        (__HIVE_P2_temp2645_11 = this, __HIVE_P2_temp2645_12 = __HIVE_P2_get(__HIVE_P2_temp2645_11, "expect", 2662), __HIVE_P2_invoke(__HIVE_P2_temp2645_12, __HIVE_P2_temp2645_11, (__HIVE_P2_reserveArray(1, 2662), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 2663)], 2662, "CONTROL_ARRAY")), 2662));
+        while (!(__HIVE_P2_temp2645_13 = this, __HIVE_P2_temp2645_14 = __HIVE_P2_get(__HIVE_P2_temp2645_13, "eat", 2666), __HIVE_P2_invoke(__HIVE_P2_temp2645_14, __HIVE_P2_temp2645_13, (__HIVE_P2_reserveArray(1, 2666), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2667)], 2666, "CONTROL_ARRAY")), 2666))) {
+            __HIVE_P2_tick(2665);
+            if (!t) {
+                (__HIVE_P2_temp2645_15 = this, __HIVE_P2_temp2645_16 = __HIVE_P2_get(__HIVE_P2_temp2645_15, "expect", 2669), __HIVE_P2_invoke(__HIVE_P2_temp2645_16, __HIVE_P2_temp2645_15, (__HIVE_P2_reserveArray(1, 2669), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 2670)], 2669, "CONTROL_ARRAY")), 2669));
+                if ((__HIVE_P2_temp2645_17 = this, __HIVE_P2_temp2645_18 = __HIVE_P2_get(__HIVE_P2_temp2645_17, "afterTrailingComma", 2672), __HIVE_P2_invoke(__HIVE_P2_temp2645_18, __HIVE_P2_temp2645_17, (__HIVE_P2_reserveArray(1, 2672), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2673)], 2672, "CONTROL_ARRAY")), 2672))) {
+                    break;
+                }
+            }
+            else {
+                t = false;
+            }
+            (__HIVE_P2_temp2645_21 = e, __HIVE_P2_temp2645_22 = __HIVE_P2_get(__HIVE_P2_temp2645_21, "push", 2676), __HIVE_P2_invoke(__HIVE_P2_temp2645_22, __HIVE_P2_temp2645_21, (__HIVE_P2_reserveArray(1, 2676), __HIVE_P2_ownArray([(__HIVE_P2_temp2645_19 = this, __HIVE_P2_temp2645_20 = __HIVE_P2_get(__HIVE_P2_temp2645_19, "parseImportSpecifier", 2677), __HIVE_P2_invoke(__HIVE_P2_temp2645_20, __HIVE_P2_temp2645_19, (__HIVE_P2_reserveArray(0, 2677), __HIVE_P2_ownArray([], 2677, "CONTROL_ARRAY")), 2677))], 2676, "CONTROL_ARRAY")), 2676));
+        }
+        return e;
+    }, 25, 0, 0, 2645)), 2643));
+    (__HIVE_P2_temp0_1148 = $, __HIVE_P2_temp0_1149 = "parseWithClause", __HIVE_P2_set(__HIVE_P2_temp0_1148, __HIVE_P2_temp0_1149, (__HIVE_P2_reserveFunction(2682), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2682_0, __HIVE_P2_temp2682_1, __HIVE_P2_temp2682_2, __HIVE_P2_temp2682_3, __HIVE_P2_temp2682_4, __HIVE_P2_temp2682_5, __HIVE_P2_temp2682_6, __HIVE_P2_temp2682_7, __HIVE_P2_temp2682_8, __HIVE_P2_temp2682_9, __HIVE_P2_temp2682_10, __HIVE_P2_temp2682_11, __HIVE_P2_temp2682_12, __HIVE_P2_temp2682_13, __HIVE_P2_temp2682_14, __HIVE_P2_temp2682_15, __HIVE_P2_temp2682_16, __HIVE_P2_temp2682_17;
+        var e = (__HIVE_P2_temp2682_0 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2682_0, 2683), __HIVE_P2_reserveArray(0, 2683, 0), __HIVE_P2_ownArray([], 2683, "ARRAY", __HIVE_P2_temp2682_0));
+        if (!(__HIVE_P2_temp2682_1 = this, __HIVE_P2_temp2682_2 = __HIVE_P2_get(__HIVE_P2_temp2682_1, "eat", 2684), __HIVE_P2_invoke(__HIVE_P2_temp2682_2, __HIVE_P2_temp2682_1, (__HIVE_P2_reserveArray(1, 2684), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_with", 2685)], 2684, "CONTROL_ARRAY")), 2684))) {
+            return e;
+        }
+        (__HIVE_P2_temp2682_3 = this, __HIVE_P2_temp2682_4 = __HIVE_P2_get(__HIVE_P2_temp2682_3, "expect", 2687), __HIVE_P2_invoke(__HIVE_P2_temp2682_4, __HIVE_P2_temp2682_3, (__HIVE_P2_reserveArray(1, 2687), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 2688)], 2687, "CONTROL_ARRAY")), 2687));
+        var t = (__HIVE_P2_reserveObject(0, 2690), __HIVE_P2_ownObject({}, 2690, 0, 0));
+        var i = true;
+        while (!(__HIVE_P2_temp2682_5 = this, __HIVE_P2_temp2682_6 = __HIVE_P2_get(__HIVE_P2_temp2682_5, "eat", 2692), __HIVE_P2_invoke(__HIVE_P2_temp2682_6, __HIVE_P2_temp2682_5, (__HIVE_P2_reserveArray(1, 2692), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2693)], 2692, "CONTROL_ARRAY")), 2692))) {
+            __HIVE_P2_tick(2691);
+            if (!i) {
+                (__HIVE_P2_temp2682_7 = this, __HIVE_P2_temp2682_8 = __HIVE_P2_get(__HIVE_P2_temp2682_7, "expect", 2695), __HIVE_P2_invoke(__HIVE_P2_temp2682_8, __HIVE_P2_temp2682_7, (__HIVE_P2_reserveArray(1, 2695), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 2696)], 2695, "CONTROL_ARRAY")), 2695));
+                if ((__HIVE_P2_temp2682_9 = this, __HIVE_P2_temp2682_10 = __HIVE_P2_get(__HIVE_P2_temp2682_9, "afterTrailingComma", 2698), __HIVE_P2_invoke(__HIVE_P2_temp2682_10, __HIVE_P2_temp2682_9, (__HIVE_P2_reserveArray(1, 2698), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 2699)], 2698, "CONTROL_ARRAY")), 2698))) {
+                    break;
+                }
+            }
+            else {
+                i = false;
+            }
+            var s = (__HIVE_P2_temp2682_11 = this, __HIVE_P2_temp2682_12 = __HIVE_P2_get(__HIVE_P2_temp2682_11, "parseImportAttribute", 2702), __HIVE_P2_invoke(__HIVE_P2_temp2682_12, __HIVE_P2_temp2682_11, (__HIVE_P2_reserveArray(0, 2702), __HIVE_P2_ownArray([], 2702, "CONTROL_ARRAY")), 2702));
+            var r = __HIVE_P2_get(__HIVE_P2_get(s, "key", 2705), "type", 2704) === "Identifier" ? __HIVE_P2_get(__HIVE_P2_get(s, "key", 2707), "name", 2706) : __HIVE_P2_get(__HIVE_P2_get(s, "key", 2709), "value", 2708);
+            if (__HIVE_P2_invoke(S, void 0, (__HIVE_P2_reserveArray(2, 2710), __HIVE_P2_ownArray([t, r], 2710, "CONTROL_ARRAY")), 2710)) {
+                __HIVE_P2_syntaxRefusal(2711);
+            }
+            (__HIVE_P2_temp2682_13 = t, __HIVE_P2_temp2682_14 = r, __HIVE_P2_set(__HIVE_P2_temp2682_13, __HIVE_P2_temp2682_14, true, 2712));
+            (__HIVE_P2_temp2682_16 = e, __HIVE_P2_temp2682_17 = __HIVE_P2_get(__HIVE_P2_temp2682_16, "push", 2714), __HIVE_P2_invoke(__HIVE_P2_temp2682_17, __HIVE_P2_temp2682_16, (__HIVE_P2_reserveArray(1, 2714), __HIVE_P2_ownArray([s], 2714, "CONTROL_ARRAY")), 2714));
+        }
+        return e;
+    }, 23, 0, 0, 2682)), 2680));
+    (__HIVE_P2_temp0_1151 = $, __HIVE_P2_temp0_1152 = "parseImportAttribute", __HIVE_P2_set(__HIVE_P2_temp0_1151, __HIVE_P2_temp0_1152, (__HIVE_P2_reserveFunction(2718), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2718_0, __HIVE_P2_temp2718_1, __HIVE_P2_temp2718_2, __HIVE_P2_temp2718_3, __HIVE_P2_temp2718_4, __HIVE_P2_temp2718_5, __HIVE_P2_temp2718_6, __HIVE_P2_temp2718_7, __HIVE_P2_temp2718_8, __HIVE_P2_temp2718_9, __HIVE_P2_temp2718_10, __HIVE_P2_temp2718_11, __HIVE_P2_temp2718_12, __HIVE_P2_temp2718_13, __HIVE_P2_temp2718_14, __HIVE_P2_temp2718_15, __HIVE_P2_temp2718_16, __HIVE_P2_temp2718_17;
+        var e = (__HIVE_P2_temp2718_0 = this, __HIVE_P2_temp2718_1 = __HIVE_P2_get(__HIVE_P2_temp2718_0, "startNode", 2719), __HIVE_P2_invoke(__HIVE_P2_temp2718_1, __HIVE_P2_temp2718_0, (__HIVE_P2_reserveArray(0, 2719), __HIVE_P2_ownArray([], 2719, "CONTROL_ARRAY")), 2719));
+        (__HIVE_P2_temp2718_2 = e, __HIVE_P2_temp2718_3 = "key", __HIVE_P2_set(__HIVE_P2_temp2718_2, __HIVE_P2_temp2718_3, __HIVE_P2_get(this, "type", 2723) === __HIVE_P2_get(m, "string", 2724) ? (__HIVE_P2_temp2718_5 = this, __HIVE_P2_temp2718_6 = __HIVE_P2_get(__HIVE_P2_temp2718_5, "parseExprAtom", 2725), __HIVE_P2_invoke(__HIVE_P2_temp2718_6, __HIVE_P2_temp2718_5, (__HIVE_P2_reserveArray(0, 2725), __HIVE_P2_ownArray([], 2725, "CONTROL_ARRAY")), 2725)) : (__HIVE_P2_temp2718_7 = this, __HIVE_P2_temp2718_8 = __HIVE_P2_get(__HIVE_P2_temp2718_7, "parseIdent", 2727), __HIVE_P2_invoke(__HIVE_P2_temp2718_8, __HIVE_P2_temp2718_7, (__HIVE_P2_reserveArray(1, 2727), __HIVE_P2_ownArray([__HIVE_P2_get(__HIVE_P2_get(this, "options", 2729), "allowReserved", 2728) !== "never"], 2727, "CONTROL_ARRAY")), 2727)), 2721));
+        (__HIVE_P2_temp2718_9 = this, __HIVE_P2_temp2718_10 = __HIVE_P2_get(__HIVE_P2_temp2718_9, "expect", 2731), __HIVE_P2_invoke(__HIVE_P2_temp2718_10, __HIVE_P2_temp2718_9, (__HIVE_P2_reserveArray(1, 2731), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 2732)], 2731, "CONTROL_ARRAY")), 2731));
+        if (__HIVE_P2_get(this, "type", 2734) !== __HIVE_P2_get(m, "string", 2735)) {
+            __HIVE_P2_syntaxRefusal(2736);
+        }
+        (__HIVE_P2_temp2718_11 = e, __HIVE_P2_temp2718_12 = "value", __HIVE_P2_set(__HIVE_P2_temp2718_11, __HIVE_P2_temp2718_12, (__HIVE_P2_temp2718_14 = this, __HIVE_P2_temp2718_15 = __HIVE_P2_get(__HIVE_P2_temp2718_14, "parseExprAtom", 2739), __HIVE_P2_invoke(__HIVE_P2_temp2718_15, __HIVE_P2_temp2718_14, (__HIVE_P2_reserveArray(0, 2739), __HIVE_P2_ownArray([], 2739, "CONTROL_ARRAY")), 2739)), 2737));
+        return (__HIVE_P2_temp2718_16 = this, __HIVE_P2_temp2718_17 = __HIVE_P2_get(__HIVE_P2_temp2718_16, "finishNode", 2741), __HIVE_P2_invoke(__HIVE_P2_temp2718_17, __HIVE_P2_temp2718_16, (__HIVE_P2_reserveArray(2, 2741), __HIVE_P2_ownArray([e, "ImportAttribute"], 2741, "CONTROL_ARRAY")), 2741));
+    }, 19, 0, 0, 2718)), 2716));
+    (__HIVE_P2_temp0_1154 = $, __HIVE_P2_temp0_1155 = "parseModuleExportName", __HIVE_P2_set(__HIVE_P2_temp0_1154, __HIVE_P2_temp0_1155, (__HIVE_P2_reserveFunction(2745), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2745_0, __HIVE_P2_temp2745_1, __HIVE_P2_temp2745_2, __HIVE_P2_temp2745_3, __HIVE_P2_temp2745_4, __HIVE_P2_temp2745_5;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2748), "ecmaVersion", 2747), 13, 2746) && __HIVE_P2_get(this, "type", 2749) === __HIVE_P2_get(m, "string", 2750)) {
+            var e = (__HIVE_P2_temp2745_0 = this, __HIVE_P2_temp2745_1 = __HIVE_P2_get(__HIVE_P2_temp2745_0, "parseLiteral", 2751), __HIVE_P2_invoke(__HIVE_P2_temp2745_1, __HIVE_P2_temp2745_0, (__HIVE_P2_reserveArray(1, 2751), __HIVE_P2_ownArray([__HIVE_P2_get(this, "value", 2752)], 2751, "CONTROL_ARRAY")), 2751));
+            if ((__HIVE_P2_temp2745_2 = E, __HIVE_P2_temp2745_3 = __HIVE_P2_get(__HIVE_P2_temp2745_2, "test", 2754), __HIVE_P2_invoke(__HIVE_P2_temp2745_3, __HIVE_P2_temp2745_2, (__HIVE_P2_reserveArray(1, 2754), __HIVE_P2_ownArray([__HIVE_P2_get(e, "value", 2755)], 2754, "CONTROL_ARRAY")), 2754))) {
+                __HIVE_P2_syntaxRefusal(2757);
+            }
+            return e;
+        }
+        return (__HIVE_P2_temp2745_4 = this, __HIVE_P2_temp2745_5 = __HIVE_P2_get(__HIVE_P2_temp2745_4, "parseIdent", 2758), __HIVE_P2_invoke(__HIVE_P2_temp2745_5, __HIVE_P2_temp2745_4, (__HIVE_P2_reserveArray(1, 2758), __HIVE_P2_ownArray([true], 2758, "CONTROL_ARRAY")), 2758));
+    }, 7, 0, 0, 2745)), 2743));
+    (__HIVE_P2_temp0_1157 = $, __HIVE_P2_temp0_1158 = "adaptDirectivePrologue", __HIVE_P2_set(__HIVE_P2_temp0_1157, __HIVE_P2_temp0_1158, (__HIVE_P2_reserveFunction(2762), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2762_0, __HIVE_P2_temp2762_1, __HIVE_P2_temp2762_2, __HIVE_P2_temp2762_3, __HIVE_P2_temp2762_4, __HIVE_P2_temp2762_5, __HIVE_P2_temp2762_6, __HIVE_P2_temp2762_7, __HIVE_P2_temp2762_8;
+        for (var t = 0; __HIVE_P2_binary("<", t, __HIVE_P2_get(e, "length", 2765), 2764) && (__HIVE_P2_temp2762_0 = this, __HIVE_P2_temp2762_1 = __HIVE_P2_get(__HIVE_P2_temp2762_0, "isDirectiveCandidate", 2766), __HIVE_P2_invoke(__HIVE_P2_temp2762_1, __HIVE_P2_temp2762_0, (__HIVE_P2_reserveArray(1, 2766), __HIVE_P2_ownArray([__HIVE_P2_get(e, t, 2767)], 2766, "CONTROL_ARRAY")), 2766)); (__HIVE_P2_temp2762_2 = __HIVE_P2_numeric(t, 2769), __HIVE_P2_temp2762_3 = __HIVE_P2_temp2762_2 + 1, t = __HIVE_P2_temp2762_3, __HIVE_P2_temp2762_3)) {
+            __HIVE_P2_tick(2763);
+            (__HIVE_P2_temp2762_4 = __HIVE_P2_get(e, t, 2772), __HIVE_P2_temp2762_5 = "directive", __HIVE_P2_set(__HIVE_P2_temp2762_4, __HIVE_P2_temp2762_5, (__HIVE_P2_temp2762_7 = __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(e, t, 2778), "expression", 2777), "raw", 2776), __HIVE_P2_temp2762_8 = __HIVE_P2_get(__HIVE_P2_temp2762_7, "slice", 2773), __HIVE_P2_invoke(__HIVE_P2_temp2762_8, __HIVE_P2_temp2762_7, (__HIVE_P2_reserveArray(2, 2773), __HIVE_P2_ownArray([1, __HIVE_P2_unary("-", 1, 2774)], 2773, "CONTROL_ARRAY")), 2773)), 2770));
+        }
+    }, 10, 1, 0, 2762)), 2760));
+    (__HIVE_P2_temp0_1160 = $, __HIVE_P2_temp0_1161 = "isDirectiveCandidate", __HIVE_P2_set(__HIVE_P2_temp0_1160, __HIVE_P2_temp0_1161, (__HIVE_P2_reserveFunction(2781), __HIVE_P2_registerFunction(function (e) {
+        return __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2784), "ecmaVersion", 2783), 5, 2782) && __HIVE_P2_get(e, "type", 2785) === "ExpressionStatement" && __HIVE_P2_get(__HIVE_P2_get(e, "expression", 2787), "type", 2786) === "Literal" && typeof __HIVE_P2_get(__HIVE_P2_get(e, "expression", 2789), "value", 2788) === "string" && (__HIVE_P2_get(__HIVE_P2_get(this, "input", 2791), __HIVE_P2_get(e, "start", 2792), 2790) === '"' || __HIVE_P2_get(__HIVE_P2_get(this, "input", 2794), __HIVE_P2_get(e, "start", 2795), 2793) === "'");
+    }, 0, 1, 0, 2781)), 2779));
+    var ae = __HIVE_P2_get(K, "prototype", 2796);
+    (__HIVE_P2_temp0_1163 = ae, __HIVE_P2_temp0_1164 = "toAssignable", __HIVE_P2_set(__HIVE_P2_temp0_1163, __HIVE_P2_temp0_1164, (__HIVE_P2_reserveFunction(2799), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp2799_0, __HIVE_P2_temp2799_1, __HIVE_P2_temp2799_2, __HIVE_P2_temp2799_3, __HIVE_P2_temp2799_4, __HIVE_P2_temp2799_5, __HIVE_P2_temp2799_6, __HIVE_P2_temp2799_7, __HIVE_P2_temp2799_8, __HIVE_P2_temp2799_9, __HIVE_P2_temp2799_10, __HIVE_P2_temp2799_11, __HIVE_P2_temp2799_12, __HIVE_P2_temp2799_13, __HIVE_P2_temp2799_14, __HIVE_P2_temp2799_15, __HIVE_P2_temp2799_16, __HIVE_P2_temp2799_17, __HIVE_P2_temp2799_18, __HIVE_P2_temp2799_19, __HIVE_P2_temp2799_20, __HIVE_P2_temp2799_21, __HIVE_P2_temp2799_22, __HIVE_P2_temp2799_23, __HIVE_P2_temp2799_24, __HIVE_P2_temp2799_25, __HIVE_P2_temp2799_26, __HIVE_P2_temp2799_27, __HIVE_P2_temp2799_28, __HIVE_P2_temp2799_29;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2802), "ecmaVersion", 2801), 6, 2800) && e) {
+            switch (__HIVE_P2_get(e, "type", 2803)) {
+                case "Identifier":
+                    if (__HIVE_P2_get(this, "inAsync", 2804) && __HIVE_P2_get(e, "name", 2805) === "await") {
+                        __HIVE_P2_syntaxRefusal(2806);
+                    }
+                    break;
+                case "ObjectPattern":
+                case "ArrayPattern":
+                case "AssignmentPattern":
+                case "RestElement": break;
+                case "ObjectExpression":
+                    (__HIVE_P2_temp2799_0 = e, __HIVE_P2_temp2799_1 = "type", __HIVE_P2_set(__HIVE_P2_temp2799_0, __HIVE_P2_temp2799_1, "ObjectPattern", 2807));
+                    if (i) {
+                        (__HIVE_P2_temp2799_3 = this, __HIVE_P2_temp2799_4 = __HIVE_P2_get(__HIVE_P2_temp2799_3, "checkPatternErrors", 2809), __HIVE_P2_invoke(__HIVE_P2_temp2799_4, __HIVE_P2_temp2799_3, (__HIVE_P2_reserveArray(2, 2809), __HIVE_P2_ownArray([i, true], 2809, "CONTROL_ARRAY")), 2809));
+                    }
+                    for (var s = 0, r = __HIVE_P2_get(e, "properties", 2812); __HIVE_P2_binary("<", s, __HIVE_P2_get(r, "length", 2814), 2813); s = __HIVE_P2_binary("+", s, 1, 2815)) {
+                        __HIVE_P2_tick(2811);
+                        var a = __HIVE_P2_get(r, s, 2816);
+                        (__HIVE_P2_temp2799_5 = this, __HIVE_P2_temp2799_6 = __HIVE_P2_get(__HIVE_P2_temp2799_5, "toAssignable", 2817), __HIVE_P2_invoke(__HIVE_P2_temp2799_6, __HIVE_P2_temp2799_5, (__HIVE_P2_reserveArray(2, 2817), __HIVE_P2_ownArray([a, t], 2817, "CONTROL_ARRAY")), 2817));
+                        if (__HIVE_P2_get(a, "type", 2819) === "RestElement" && (__HIVE_P2_get(__HIVE_P2_get(a, "argument", 2821), "type", 2820) === "ArrayPattern" || __HIVE_P2_get(__HIVE_P2_get(a, "argument", 2823), "type", 2822) === "ObjectPattern")) {
+                            __HIVE_P2_syntaxRefusal(2824);
+                        }
+                    }
+                    break;
+                case "Property":
+                    if (__HIVE_P2_get(e, "kind", 2825) !== "init") {
+                        __HIVE_P2_syntaxRefusal(2826);
+                    }
+                    (__HIVE_P2_temp2799_7 = this, __HIVE_P2_temp2799_8 = __HIVE_P2_get(__HIVE_P2_temp2799_7, "toAssignable", 2827), __HIVE_P2_invoke(__HIVE_P2_temp2799_8, __HIVE_P2_temp2799_7, (__HIVE_P2_reserveArray(2, 2827), __HIVE_P2_ownArray([__HIVE_P2_get(e, "value", 2828), t], 2827, "CONTROL_ARRAY")), 2827));
+                    break;
+                case "ArrayExpression":
+                    (__HIVE_P2_temp2799_9 = e, __HIVE_P2_temp2799_10 = "type", __HIVE_P2_set(__HIVE_P2_temp2799_9, __HIVE_P2_temp2799_10, "ArrayPattern", 2830));
+                    if (i) {
+                        (__HIVE_P2_temp2799_12 = this, __HIVE_P2_temp2799_13 = __HIVE_P2_get(__HIVE_P2_temp2799_12, "checkPatternErrors", 2832), __HIVE_P2_invoke(__HIVE_P2_temp2799_13, __HIVE_P2_temp2799_12, (__HIVE_P2_reserveArray(2, 2832), __HIVE_P2_ownArray([i, true], 2832, "CONTROL_ARRAY")), 2832));
+                    }
+                    (__HIVE_P2_temp2799_14 = this, __HIVE_P2_temp2799_15 = __HIVE_P2_get(__HIVE_P2_temp2799_14, "toAssignableList", 2834), __HIVE_P2_invoke(__HIVE_P2_temp2799_15, __HIVE_P2_temp2799_14, (__HIVE_P2_reserveArray(2, 2834), __HIVE_P2_ownArray([__HIVE_P2_get(e, "elements", 2835), t], 2834, "CONTROL_ARRAY")), 2834));
+                    break;
+                case "SpreadElement":
+                    (__HIVE_P2_temp2799_16 = e, __HIVE_P2_temp2799_17 = "type", __HIVE_P2_set(__HIVE_P2_temp2799_16, __HIVE_P2_temp2799_17, "RestElement", 2837));
+                    (__HIVE_P2_temp2799_19 = this, __HIVE_P2_temp2799_20 = __HIVE_P2_get(__HIVE_P2_temp2799_19, "toAssignable", 2839), __HIVE_P2_invoke(__HIVE_P2_temp2799_20, __HIVE_P2_temp2799_19, (__HIVE_P2_reserveArray(2, 2839), __HIVE_P2_ownArray([__HIVE_P2_get(e, "argument", 2840), t], 2839, "CONTROL_ARRAY")), 2839));
+                    if (__HIVE_P2_get(__HIVE_P2_get(e, "argument", 2843), "type", 2842) === "AssignmentPattern") {
+                        __HIVE_P2_syntaxRefusal(2844);
+                    }
+                    break;
+                case "AssignmentExpression":
+                    if (__HIVE_P2_get(e, "operator", 2845) !== "=") {
+                        __HIVE_P2_syntaxRefusal(2846);
+                    }
+                    (__HIVE_P2_temp2799_21 = e, __HIVE_P2_temp2799_22 = "type", __HIVE_P2_set(__HIVE_P2_temp2799_21, __HIVE_P2_temp2799_22, "AssignmentPattern", 2847));
+                    __HIVE_P2_remove(e, "operator", 2849);
+                    (__HIVE_P2_temp2799_24 = this, __HIVE_P2_temp2799_25 = __HIVE_P2_get(__HIVE_P2_temp2799_24, "toAssignable", 2851), __HIVE_P2_invoke(__HIVE_P2_temp2799_25, __HIVE_P2_temp2799_24, (__HIVE_P2_reserveArray(2, 2851), __HIVE_P2_ownArray([__HIVE_P2_get(e, "left", 2852), t], 2851, "CONTROL_ARRAY")), 2851));
+                    break;
+                case "ParenthesizedExpression":
+                    (__HIVE_P2_temp2799_26 = this, __HIVE_P2_temp2799_27 = __HIVE_P2_get(__HIVE_P2_temp2799_26, "toAssignable", 2854), __HIVE_P2_invoke(__HIVE_P2_temp2799_27, __HIVE_P2_temp2799_26, (__HIVE_P2_reserveArray(3, 2854), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 2855), t, i], 2854, "CONTROL_ARRAY")), 2854));
+                    break;
+                case "ChainExpression":
+                    __HIVE_P2_syntaxRefusal(2857);
+                    break;
+                case "MemberExpression": if (!t) {
+                    break;
+                }
+                default: __HIVE_P2_syntaxRefusal(2858);
+            }
+        }
+        else if (i) {
+            (__HIVE_P2_temp2799_28 = this, __HIVE_P2_temp2799_29 = __HIVE_P2_get(__HIVE_P2_temp2799_28, "checkPatternErrors", 2859), __HIVE_P2_invoke(__HIVE_P2_temp2799_29, __HIVE_P2_temp2799_28, (__HIVE_P2_reserveArray(2, 2859), __HIVE_P2_ownArray([i, true], 2859, "CONTROL_ARRAY")), 2859));
+        }
+        return e;
+    }, 33, 3, 0, 2799)), 2797));
+    (__HIVE_P2_temp0_1166 = ae, __HIVE_P2_temp0_1167 = "toAssignableList", __HIVE_P2_set(__HIVE_P2_temp0_1166, __HIVE_P2_temp0_1167, (__HIVE_P2_reserveFunction(2863), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp2863_0, __HIVE_P2_temp2863_1, __HIVE_P2_temp2863_2, __HIVE_P2_temp2863_3;
+        var i = __HIVE_P2_get(e, "length", 2864);
+        for (var s = 0; __HIVE_P2_binary("<", s, i, 2866); (__HIVE_P2_temp2863_0 = __HIVE_P2_numeric(s, 2867), __HIVE_P2_temp2863_1 = __HIVE_P2_temp2863_0 + 1, s = __HIVE_P2_temp2863_1, __HIVE_P2_temp2863_0)) {
+            __HIVE_P2_tick(2865);
+            var r = __HIVE_P2_get(e, s, 2868);
+            if (r) {
+                (__HIVE_P2_temp2863_2 = this, __HIVE_P2_temp2863_3 = __HIVE_P2_get(__HIVE_P2_temp2863_2, "toAssignable", 2869), __HIVE_P2_invoke(__HIVE_P2_temp2863_3, __HIVE_P2_temp2863_2, (__HIVE_P2_reserveArray(2, 2869), __HIVE_P2_ownArray([r, t], 2869, "CONTROL_ARRAY")), 2869));
+            }
+        }
+        if (i) {
+            var a = __HIVE_P2_get(e, __HIVE_P2_binary("-", i, 1, 2872), 2871);
+            if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 2874), "ecmaVersion", 2873) === 6 && t && a && __HIVE_P2_get(a, "type", 2875) === "RestElement" && __HIVE_P2_get(__HIVE_P2_get(a, "argument", 2877), "type", 2876) !== "Identifier") {
+                __HIVE_P2_syntaxRefusal(2878);
+            }
+        }
+        return e;
+    }, 8, 2, 0, 2863)), 2861));
+    (__HIVE_P2_temp0_1169 = ae, __HIVE_P2_temp0_1170 = "parseSpread", __HIVE_P2_set(__HIVE_P2_temp0_1169, __HIVE_P2_temp0_1170, (__HIVE_P2_reserveFunction(2881), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2881_0, __HIVE_P2_temp2881_1, __HIVE_P2_temp2881_2, __HIVE_P2_temp2881_3, __HIVE_P2_temp2881_4, __HIVE_P2_temp2881_5, __HIVE_P2_temp2881_6, __HIVE_P2_temp2881_7, __HIVE_P2_temp2881_8, __HIVE_P2_temp2881_9, __HIVE_P2_temp2881_10;
+        var t = (__HIVE_P2_temp2881_0 = this, __HIVE_P2_temp2881_1 = __HIVE_P2_get(__HIVE_P2_temp2881_0, "startNode", 2882), __HIVE_P2_invoke(__HIVE_P2_temp2881_1, __HIVE_P2_temp2881_0, (__HIVE_P2_reserveArray(0, 2882), __HIVE_P2_ownArray([], 2882, "CONTROL_ARRAY")), 2882));
+        (__HIVE_P2_temp2881_2 = this, __HIVE_P2_temp2881_3 = __HIVE_P2_get(__HIVE_P2_temp2881_2, "next", 2884), __HIVE_P2_invoke(__HIVE_P2_temp2881_3, __HIVE_P2_temp2881_2, (__HIVE_P2_reserveArray(0, 2884), __HIVE_P2_ownArray([], 2884, "CONTROL_ARRAY")), 2884));
+        (__HIVE_P2_temp2881_4 = t, __HIVE_P2_temp2881_5 = "argument", __HIVE_P2_set(__HIVE_P2_temp2881_4, __HIVE_P2_temp2881_5, (__HIVE_P2_temp2881_7 = this, __HIVE_P2_temp2881_8 = __HIVE_P2_get(__HIVE_P2_temp2881_7, "parseMaybeAssign", 2888), __HIVE_P2_invoke(__HIVE_P2_temp2881_8, __HIVE_P2_temp2881_7, (__HIVE_P2_reserveArray(2, 2888), __HIVE_P2_ownArray([false, e], 2888, "CONTROL_ARRAY")), 2888)), 2886));
+        return (__HIVE_P2_temp2881_9 = this, __HIVE_P2_temp2881_10 = __HIVE_P2_get(__HIVE_P2_temp2881_9, "finishNode", 2890), __HIVE_P2_invoke(__HIVE_P2_temp2881_10, __HIVE_P2_temp2881_9, (__HIVE_P2_reserveArray(2, 2890), __HIVE_P2_ownArray([t, "SpreadElement"], 2890, "CONTROL_ARRAY")), 2890));
+    }, 12, 1, 0, 2881)), 2879));
+    (__HIVE_P2_temp0_1172 = ae, __HIVE_P2_temp0_1173 = "parseRestBinding", __HIVE_P2_set(__HIVE_P2_temp0_1172, __HIVE_P2_temp0_1173, (__HIVE_P2_reserveFunction(2894), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2894_0, __HIVE_P2_temp2894_1, __HIVE_P2_temp2894_2, __HIVE_P2_temp2894_3, __HIVE_P2_temp2894_4, __HIVE_P2_temp2894_5, __HIVE_P2_temp2894_6, __HIVE_P2_temp2894_7, __HIVE_P2_temp2894_8, __HIVE_P2_temp2894_9, __HIVE_P2_temp2894_10;
+        var e = (__HIVE_P2_temp2894_0 = this, __HIVE_P2_temp2894_1 = __HIVE_P2_get(__HIVE_P2_temp2894_0, "startNode", 2895), __HIVE_P2_invoke(__HIVE_P2_temp2894_1, __HIVE_P2_temp2894_0, (__HIVE_P2_reserveArray(0, 2895), __HIVE_P2_ownArray([], 2895, "CONTROL_ARRAY")), 2895));
+        (__HIVE_P2_temp2894_2 = this, __HIVE_P2_temp2894_3 = __HIVE_P2_get(__HIVE_P2_temp2894_2, "next", 2897), __HIVE_P2_invoke(__HIVE_P2_temp2894_3, __HIVE_P2_temp2894_2, (__HIVE_P2_reserveArray(0, 2897), __HIVE_P2_ownArray([], 2897, "CONTROL_ARRAY")), 2897));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 2900), "ecmaVersion", 2899) === 6 && __HIVE_P2_get(this, "type", 2901) !== __HIVE_P2_get(m, "name", 2902)) {
+            __HIVE_P2_syntaxRefusal(2903);
+        }
+        (__HIVE_P2_temp2894_4 = e, __HIVE_P2_temp2894_5 = "argument", __HIVE_P2_set(__HIVE_P2_temp2894_4, __HIVE_P2_temp2894_5, (__HIVE_P2_temp2894_7 = this, __HIVE_P2_temp2894_8 = __HIVE_P2_get(__HIVE_P2_temp2894_7, "parseBindingAtom", 2906), __HIVE_P2_invoke(__HIVE_P2_temp2894_8, __HIVE_P2_temp2894_7, (__HIVE_P2_reserveArray(0, 2906), __HIVE_P2_ownArray([], 2906, "CONTROL_ARRAY")), 2906)), 2904));
+        return (__HIVE_P2_temp2894_9 = this, __HIVE_P2_temp2894_10 = __HIVE_P2_get(__HIVE_P2_temp2894_9, "finishNode", 2908), __HIVE_P2_invoke(__HIVE_P2_temp2894_10, __HIVE_P2_temp2894_9, (__HIVE_P2_reserveArray(2, 2908), __HIVE_P2_ownArray([e, "RestElement"], 2908, "CONTROL_ARRAY")), 2908));
+    }, 12, 0, 0, 2894)), 2892));
+    (__HIVE_P2_temp0_1175 = ae, __HIVE_P2_temp0_1176 = "parseBindingAtom", __HIVE_P2_set(__HIVE_P2_temp0_1175, __HIVE_P2_temp0_1176, (__HIVE_P2_reserveFunction(2912), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp2912_0, __HIVE_P2_temp2912_1, __HIVE_P2_temp2912_2, __HIVE_P2_temp2912_3, __HIVE_P2_temp2912_4, __HIVE_P2_temp2912_5, __HIVE_P2_temp2912_6, __HIVE_P2_temp2912_7, __HIVE_P2_temp2912_8, __HIVE_P2_temp2912_9, __HIVE_P2_temp2912_10, __HIVE_P2_temp2912_11, __HIVE_P2_temp2912_12, __HIVE_P2_temp2912_13, __HIVE_P2_temp2912_14;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2915), "ecmaVersion", 2914), 6, 2913)) {
+            switch (__HIVE_P2_get(this, "type", 2916)) {
+                case __HIVE_P2_get(m, "bracketL", 2917):
+                    var e = (__HIVE_P2_temp2912_0 = this, __HIVE_P2_temp2912_1 = __HIVE_P2_get(__HIVE_P2_temp2912_0, "startNode", 2918), __HIVE_P2_invoke(__HIVE_P2_temp2912_1, __HIVE_P2_temp2912_0, (__HIVE_P2_reserveArray(0, 2918), __HIVE_P2_ownArray([], 2918, "CONTROL_ARRAY")), 2918));
+                    (__HIVE_P2_temp2912_2 = this, __HIVE_P2_temp2912_3 = __HIVE_P2_get(__HIVE_P2_temp2912_2, "next", 2920), __HIVE_P2_invoke(__HIVE_P2_temp2912_3, __HIVE_P2_temp2912_2, (__HIVE_P2_reserveArray(0, 2920), __HIVE_P2_ownArray([], 2920, "CONTROL_ARRAY")), 2920));
+                    (__HIVE_P2_temp2912_4 = e, __HIVE_P2_temp2912_5 = "elements", __HIVE_P2_set(__HIVE_P2_temp2912_4, __HIVE_P2_temp2912_5, (__HIVE_P2_temp2912_7 = this, __HIVE_P2_temp2912_8 = __HIVE_P2_get(__HIVE_P2_temp2912_7, "parseBindingList", 2924), __HIVE_P2_invoke(__HIVE_P2_temp2912_8, __HIVE_P2_temp2912_7, (__HIVE_P2_reserveArray(3, 2924), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketR", 2925), true, true], 2924, "CONTROL_ARRAY")), 2924)), 2922));
+                    return (__HIVE_P2_temp2912_9 = this, __HIVE_P2_temp2912_10 = __HIVE_P2_get(__HIVE_P2_temp2912_9, "finishNode", 2927), __HIVE_P2_invoke(__HIVE_P2_temp2912_10, __HIVE_P2_temp2912_9, (__HIVE_P2_reserveArray(2, 2927), __HIVE_P2_ownArray([e, "ArrayPattern"], 2927, "CONTROL_ARRAY")), 2927));
+                case __HIVE_P2_get(m, "braceL", 2929): return (__HIVE_P2_temp2912_11 = this, __HIVE_P2_temp2912_12 = __HIVE_P2_get(__HIVE_P2_temp2912_11, "parseObj", 2930), __HIVE_P2_invoke(__HIVE_P2_temp2912_12, __HIVE_P2_temp2912_11, (__HIVE_P2_reserveArray(1, 2930), __HIVE_P2_ownArray([true], 2930, "CONTROL_ARRAY")), 2930));
+            }
+        }
+        return (__HIVE_P2_temp2912_13 = this, __HIVE_P2_temp2912_14 = __HIVE_P2_get(__HIVE_P2_temp2912_13, "parseIdent", 2932), __HIVE_P2_invoke(__HIVE_P2_temp2912_14, __HIVE_P2_temp2912_13, (__HIVE_P2_reserveArray(0, 2932), __HIVE_P2_ownArray([], 2932, "CONTROL_ARRAY")), 2932));
+    }, 16, 0, 0, 2912)), 2910));
+    (__HIVE_P2_temp0_1178 = ae, __HIVE_P2_temp0_1179 = "parseBindingList", __HIVE_P2_set(__HIVE_P2_temp0_1178, __HIVE_P2_temp0_1179, (__HIVE_P2_reserveFunction(2936), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp2936_0, __HIVE_P2_temp2936_1, __HIVE_P2_temp2936_2, __HIVE_P2_temp2936_3, __HIVE_P2_temp2936_4, __HIVE_P2_temp2936_5, __HIVE_P2_temp2936_6, __HIVE_P2_temp2936_7, __HIVE_P2_temp2936_8, __HIVE_P2_temp2936_9, __HIVE_P2_temp2936_10, __HIVE_P2_temp2936_11, __HIVE_P2_temp2936_12, __HIVE_P2_temp2936_13, __HIVE_P2_temp2936_14, __HIVE_P2_temp2936_15, __HIVE_P2_temp2936_16, __HIVE_P2_temp2936_17, __HIVE_P2_temp2936_18, __HIVE_P2_temp2936_19, __HIVE_P2_temp2936_20;
+        var r = (__HIVE_P2_temp2936_0 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp2936_0, 2937), __HIVE_P2_reserveArray(0, 2937, 0), __HIVE_P2_ownArray([], 2937, "ARRAY", __HIVE_P2_temp2936_0)), a = true;
+        while (!(__HIVE_P2_temp2936_1 = this, __HIVE_P2_temp2936_2 = __HIVE_P2_get(__HIVE_P2_temp2936_1, "eat", 2939), __HIVE_P2_invoke(__HIVE_P2_temp2936_2, __HIVE_P2_temp2936_1, (__HIVE_P2_reserveArray(1, 2939), __HIVE_P2_ownArray([e], 2939, "CONTROL_ARRAY")), 2939))) {
+            __HIVE_P2_tick(2938);
+            if (a) {
+                a = false;
+            }
+            else {
+                (__HIVE_P2_temp2936_3 = this, __HIVE_P2_temp2936_4 = __HIVE_P2_get(__HIVE_P2_temp2936_3, "expect", 2942), __HIVE_P2_invoke(__HIVE_P2_temp2936_4, __HIVE_P2_temp2936_3, (__HIVE_P2_reserveArray(1, 2942), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 2943)], 2942, "CONTROL_ARRAY")), 2942));
+            }
+            if (t && __HIVE_P2_get(this, "type", 2945) === __HIVE_P2_get(m, "comma", 2946)) {
+                (__HIVE_P2_temp2936_5 = r, __HIVE_P2_temp2936_6 = __HIVE_P2_get(__HIVE_P2_temp2936_5, "push", 2947), __HIVE_P2_invoke(__HIVE_P2_temp2936_6, __HIVE_P2_temp2936_5, (__HIVE_P2_reserveArray(1, 2947), __HIVE_P2_ownArray([null], 2947, "CONTROL_ARRAY")), 2947));
+            }
+            else if (i && (__HIVE_P2_temp2936_7 = this, __HIVE_P2_temp2936_8 = __HIVE_P2_get(__HIVE_P2_temp2936_7, "afterTrailingComma", 2949), __HIVE_P2_invoke(__HIVE_P2_temp2936_8, __HIVE_P2_temp2936_7, (__HIVE_P2_reserveArray(1, 2949), __HIVE_P2_ownArray([e], 2949, "CONTROL_ARRAY")), 2949))) {
+                break;
+            }
+            else if (__HIVE_P2_get(this, "type", 2951) === __HIVE_P2_get(m, "ellipsis", 2952)) {
+                var n = (__HIVE_P2_temp2936_9 = this, __HIVE_P2_temp2936_10 = __HIVE_P2_get(__HIVE_P2_temp2936_9, "parseRestBinding", 2953), __HIVE_P2_invoke(__HIVE_P2_temp2936_10, __HIVE_P2_temp2936_9, (__HIVE_P2_reserveArray(0, 2953), __HIVE_P2_ownArray([], 2953, "CONTROL_ARRAY")), 2953));
+                (__HIVE_P2_temp2936_11 = this, __HIVE_P2_temp2936_12 = __HIVE_P2_get(__HIVE_P2_temp2936_11, "parseBindingListItem", 2955), __HIVE_P2_invoke(__HIVE_P2_temp2936_12, __HIVE_P2_temp2936_11, (__HIVE_P2_reserveArray(1, 2955), __HIVE_P2_ownArray([n], 2955, "CONTROL_ARRAY")), 2955));
+                (__HIVE_P2_temp2936_13 = r, __HIVE_P2_temp2936_14 = __HIVE_P2_get(__HIVE_P2_temp2936_13, "push", 2957), __HIVE_P2_invoke(__HIVE_P2_temp2936_14, __HIVE_P2_temp2936_13, (__HIVE_P2_reserveArray(1, 2957), __HIVE_P2_ownArray([n], 2957, "CONTROL_ARRAY")), 2957));
+                if (__HIVE_P2_get(this, "type", 2959) === __HIVE_P2_get(m, "comma", 2960)) {
+                    __HIVE_P2_syntaxRefusal(2961);
+                }
+                (__HIVE_P2_temp2936_15 = this, __HIVE_P2_temp2936_16 = __HIVE_P2_get(__HIVE_P2_temp2936_15, "expect", 2962), __HIVE_P2_invoke(__HIVE_P2_temp2936_16, __HIVE_P2_temp2936_15, (__HIVE_P2_reserveArray(1, 2962), __HIVE_P2_ownArray([e], 2962, "CONTROL_ARRAY")), 2962));
+                break;
+            }
+            else {
+                (__HIVE_P2_temp2936_19 = r, __HIVE_P2_temp2936_20 = __HIVE_P2_get(__HIVE_P2_temp2936_19, "push", 2964), __HIVE_P2_invoke(__HIVE_P2_temp2936_20, __HIVE_P2_temp2936_19, (__HIVE_P2_reserveArray(1, 2964), __HIVE_P2_ownArray([(__HIVE_P2_temp2936_17 = this, __HIVE_P2_temp2936_18 = __HIVE_P2_get(__HIVE_P2_temp2936_17, "parseAssignableListItem", 2965), __HIVE_P2_invoke(__HIVE_P2_temp2936_18, __HIVE_P2_temp2936_17, (__HIVE_P2_reserveArray(1, 2965), __HIVE_P2_ownArray([s], 2965, "CONTROL_ARRAY")), 2965))], 2964, "CONTROL_ARRAY")), 2964));
+            }
+        }
+        return r;
+    }, 24, 4, 0, 2936)), 2934));
+    (__HIVE_P2_temp0_1181 = ae, __HIVE_P2_temp0_1182 = "parseAssignableListItem", __HIVE_P2_set(__HIVE_P2_temp0_1181, __HIVE_P2_temp0_1182, (__HIVE_P2_reserveFunction(2970), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp2970_0, __HIVE_P2_temp2970_1, __HIVE_P2_temp2970_2, __HIVE_P2_temp2970_3;
+        var t = (__HIVE_P2_temp2970_0 = this, __HIVE_P2_temp2970_1 = __HIVE_P2_get(__HIVE_P2_temp2970_0, "parseMaybeDefault", 2971), __HIVE_P2_invoke(__HIVE_P2_temp2970_1, __HIVE_P2_temp2970_0, (__HIVE_P2_reserveArray(2, 2971), __HIVE_P2_ownArray([__HIVE_P2_get(this, "start", 2972), __HIVE_P2_get(this, "startLoc", 2973)], 2971, "CONTROL_ARRAY")), 2971));
+        (__HIVE_P2_temp2970_2 = this, __HIVE_P2_temp2970_3 = __HIVE_P2_get(__HIVE_P2_temp2970_2, "parseBindingListItem", 2975), __HIVE_P2_invoke(__HIVE_P2_temp2970_3, __HIVE_P2_temp2970_2, (__HIVE_P2_reserveArray(1, 2975), __HIVE_P2_ownArray([t], 2975, "CONTROL_ARRAY")), 2975));
+        return t;
+    }, 5, 1, 0, 2970)), 2968));
+    (__HIVE_P2_temp0_1184 = ae, __HIVE_P2_temp0_1185 = "parseBindingListItem", __HIVE_P2_set(__HIVE_P2_temp0_1184, __HIVE_P2_temp0_1185, (__HIVE_P2_reserveFunction(2979), __HIVE_P2_registerFunction(function (e) {
+        return e;
+    }, 0, 1, 0, 2979)), 2977));
+    (__HIVE_P2_temp0_1187 = ae, __HIVE_P2_temp0_1188 = "parseMaybeDefault", __HIVE_P2_set(__HIVE_P2_temp0_1187, __HIVE_P2_temp0_1188, (__HIVE_P2_reserveFunction(2982), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp2982_0, __HIVE_P2_temp2982_1, __HIVE_P2_temp2982_2, __HIVE_P2_temp2982_3, __HIVE_P2_temp2982_4, __HIVE_P2_temp2982_5, __HIVE_P2_temp2982_6, __HIVE_P2_temp2982_7, __HIVE_P2_temp2982_8, __HIVE_P2_temp2982_9, __HIVE_P2_temp2982_10, __HIVE_P2_temp2982_11, __HIVE_P2_temp2982_12, __HIVE_P2_temp2982_13, __HIVE_P2_temp2982_14, __HIVE_P2_temp2982_15;
+        i = i || (__HIVE_P2_temp2982_0 = this, __HIVE_P2_temp2982_1 = __HIVE_P2_get(__HIVE_P2_temp2982_0, "parseBindingAtom", 2984), __HIVE_P2_invoke(__HIVE_P2_temp2982_1, __HIVE_P2_temp2982_0, (__HIVE_P2_reserveArray(0, 2984), __HIVE_P2_ownArray([], 2984, "CONTROL_ARRAY")), 2984));
+        if (__HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 2988), "ecmaVersion", 2987), 6, 2986) || !(__HIVE_P2_temp2982_2 = this, __HIVE_P2_temp2982_3 = __HIVE_P2_get(__HIVE_P2_temp2982_2, "eat", 2989), __HIVE_P2_invoke(__HIVE_P2_temp2982_3, __HIVE_P2_temp2982_2, (__HIVE_P2_reserveArray(1, 2989), __HIVE_P2_ownArray([__HIVE_P2_get(m, "eq", 2990)], 2989, "CONTROL_ARRAY")), 2989))) {
+            return i;
+        }
+        var s = (__HIVE_P2_temp2982_4 = this, __HIVE_P2_temp2982_5 = __HIVE_P2_get(__HIVE_P2_temp2982_4, "startNodeAt", 2992), __HIVE_P2_invoke(__HIVE_P2_temp2982_5, __HIVE_P2_temp2982_4, (__HIVE_P2_reserveArray(2, 2992), __HIVE_P2_ownArray([e, t], 2992, "CONTROL_ARRAY")), 2992));
+        (__HIVE_P2_temp2982_6 = s, __HIVE_P2_temp2982_7 = "left", __HIVE_P2_set(__HIVE_P2_temp2982_6, __HIVE_P2_temp2982_7, i, 2994));
+        (__HIVE_P2_temp2982_9 = s, __HIVE_P2_temp2982_10 = "right", __HIVE_P2_set(__HIVE_P2_temp2982_9, __HIVE_P2_temp2982_10, (__HIVE_P2_temp2982_12 = this, __HIVE_P2_temp2982_13 = __HIVE_P2_get(__HIVE_P2_temp2982_12, "parseMaybeAssign", 2998), __HIVE_P2_invoke(__HIVE_P2_temp2982_13, __HIVE_P2_temp2982_12, (__HIVE_P2_reserveArray(0, 2998), __HIVE_P2_ownArray([], 2998, "CONTROL_ARRAY")), 2998)), 2996));
+        return (__HIVE_P2_temp2982_14 = this, __HIVE_P2_temp2982_15 = __HIVE_P2_get(__HIVE_P2_temp2982_14, "finishNode", 3000), __HIVE_P2_invoke(__HIVE_P2_temp2982_15, __HIVE_P2_temp2982_14, (__HIVE_P2_reserveArray(2, 3000), __HIVE_P2_ownArray([s, "AssignmentPattern"], 3000, "CONTROL_ARRAY")), 3000));
+    }, 17, 3, 0, 2982)), 2980));
+    (__HIVE_P2_temp0_1190 = ae, __HIVE_P2_temp0_1191 = "checkLValSimple", __HIVE_P2_set(__HIVE_P2_temp0_1190, __HIVE_P2_temp0_1191, (__HIVE_P2_reserveFunction(3004), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3004_0, __HIVE_P2_temp3004_1, __HIVE_P2_temp3004_2, __HIVE_P2_temp3004_3, __HIVE_P2_temp3004_4, __HIVE_P2_temp3004_5, __HIVE_P2_temp3004_6, __HIVE_P2_temp3004_7, __HIVE_P2_temp3004_8;
+        if (t === void 0)
+            t = q;
+        var s = t !== q;
+        switch (__HIVE_P2_get(e, "type", 3006)) {
+            case "Identifier":
+                if (__HIVE_P2_get(this, "strict", 3007) && (__HIVE_P2_temp3004_0 = __HIVE_P2_get(this, "reservedWordsStrictBind", 3011), __HIVE_P2_temp3004_1 = __HIVE_P2_get(__HIVE_P2_temp3004_0, "test", 3008), __HIVE_P2_invoke(__HIVE_P2_temp3004_1, __HIVE_P2_temp3004_0, (__HIVE_P2_reserveArray(1, 3008), __HIVE_P2_ownArray([__HIVE_P2_get(e, "name", 3009)], 3008, "CONTROL_ARRAY")), 3008))) {
+                    __HIVE_P2_syntaxRefusal(3012);
+                }
+                if (s) {
+                    if (t === G && __HIVE_P2_get(e, "name", 3013) === "let") {
+                        __HIVE_P2_syntaxRefusal(3014);
+                    }
+                    if (i) {
+                        if (__HIVE_P2_invoke(S, void 0, (__HIVE_P2_reserveArray(2, 3015), __HIVE_P2_ownArray([i, __HIVE_P2_get(e, "name", 3016)], 3015, "CONTROL_ARRAY")), 3015)) {
+                            __HIVE_P2_syntaxRefusal(3017);
+                        }
+                        (__HIVE_P2_temp3004_2 = i, __HIVE_P2_temp3004_3 = __HIVE_P2_get(e, "name", 3020), __HIVE_P2_set(__HIVE_P2_temp3004_2, __HIVE_P2_temp3004_3, true, 3018));
+                    }
+                    if (t !== z) {
+                        (__HIVE_P2_temp3004_5 = this, __HIVE_P2_temp3004_6 = __HIVE_P2_get(__HIVE_P2_temp3004_5, "declareName", 3021), __HIVE_P2_invoke(__HIVE_P2_temp3004_6, __HIVE_P2_temp3004_5, (__HIVE_P2_reserveArray(3, 3021), __HIVE_P2_ownArray([__HIVE_P2_get(e, "name", 3022), t, __HIVE_P2_get(e, "start", 3023)], 3021, "CONTROL_ARRAY")), 3021));
+                    }
+                }
+                break;
+            case "ChainExpression":
+                __HIVE_P2_syntaxRefusal(3025);
+                break;
+            case "MemberExpression":
+                if (s) {
+                    __HIVE_P2_syntaxRefusal(3026);
+                }
+                break;
+            case "ParenthesizedExpression":
+                if (s) {
+                    __HIVE_P2_syntaxRefusal(3027);
+                }
+                return (__HIVE_P2_temp3004_7 = this, __HIVE_P2_temp3004_8 = __HIVE_P2_get(__HIVE_P2_temp3004_7, "checkLValSimple", 3028), __HIVE_P2_invoke(__HIVE_P2_temp3004_8, __HIVE_P2_temp3004_7, (__HIVE_P2_reserveArray(3, 3028), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 3029), t, i], 3028, "CONTROL_ARRAY")), 3028));
+            default: __HIVE_P2_syntaxRefusal(3031);
+        }
+    }, 10, 3, 0, 3004)), 3002));
+    (__HIVE_P2_temp0_1193 = ae, __HIVE_P2_temp0_1194 = "checkLValPattern", __HIVE_P2_set(__HIVE_P2_temp0_1193, __HIVE_P2_temp0_1194, (__HIVE_P2_reserveFunction(3034), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3034_0, __HIVE_P2_temp3034_1, __HIVE_P2_temp3034_2, __HIVE_P2_temp3034_3, __HIVE_P2_temp3034_4, __HIVE_P2_temp3034_5;
+        if (t === void 0)
+            t = q;
+        switch (__HIVE_P2_get(e, "type", 3036)) {
+            case "ObjectPattern":
+                for (var s = 0, r = __HIVE_P2_get(e, "properties", 3038); __HIVE_P2_binary("<", s, __HIVE_P2_get(r, "length", 3040), 3039); s = __HIVE_P2_binary("+", s, 1, 3041)) {
+                    __HIVE_P2_tick(3037);
+                    var a = __HIVE_P2_get(r, s, 3042);
+                    (__HIVE_P2_temp3034_0 = this, __HIVE_P2_temp3034_1 = __HIVE_P2_get(__HIVE_P2_temp3034_0, "checkLValInnerPattern", 3043), __HIVE_P2_invoke(__HIVE_P2_temp3034_1, __HIVE_P2_temp3034_0, (__HIVE_P2_reserveArray(3, 3043), __HIVE_P2_ownArray([a, t, i], 3043, "CONTROL_ARRAY")), 3043));
+                }
+                break;
+            case "ArrayPattern":
+                for (var n = 0, o = __HIVE_P2_get(e, "elements", 3046); __HIVE_P2_binary("<", n, __HIVE_P2_get(o, "length", 3048), 3047); n = __HIVE_P2_binary("+", n, 1, 3049)) {
+                    __HIVE_P2_tick(3045);
+                    var h = __HIVE_P2_get(o, n, 3050);
+                    if (h) {
+                        (__HIVE_P2_temp3034_2 = this, __HIVE_P2_temp3034_3 = __HIVE_P2_get(__HIVE_P2_temp3034_2, "checkLValInnerPattern", 3051), __HIVE_P2_invoke(__HIVE_P2_temp3034_3, __HIVE_P2_temp3034_2, (__HIVE_P2_reserveArray(3, 3051), __HIVE_P2_ownArray([h, t, i], 3051, "CONTROL_ARRAY")), 3051));
+                    }
+                }
+                break;
+            default: (__HIVE_P2_temp3034_4 = this, __HIVE_P2_temp3034_5 = __HIVE_P2_get(__HIVE_P2_temp3034_4, "checkLValSimple", 3053), __HIVE_P2_invoke(__HIVE_P2_temp3034_5, __HIVE_P2_temp3034_4, (__HIVE_P2_reserveArray(3, 3053), __HIVE_P2_ownArray([e, t, i], 3053, "CONTROL_ARRAY")), 3053));
+        }
+    }, 12, 3, 0, 3034)), 3032));
+    (__HIVE_P2_temp0_1196 = ae, __HIVE_P2_temp0_1197 = "checkLValInnerPattern", __HIVE_P2_set(__HIVE_P2_temp0_1196, __HIVE_P2_temp0_1197, (__HIVE_P2_reserveFunction(3057), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3057_0, __HIVE_P2_temp3057_1, __HIVE_P2_temp3057_2, __HIVE_P2_temp3057_3, __HIVE_P2_temp3057_4, __HIVE_P2_temp3057_5, __HIVE_P2_temp3057_6, __HIVE_P2_temp3057_7;
+        if (t === void 0)
+            t = q;
+        switch (__HIVE_P2_get(e, "type", 3059)) {
+            case "Property":
+                (__HIVE_P2_temp3057_0 = this, __HIVE_P2_temp3057_1 = __HIVE_P2_get(__HIVE_P2_temp3057_0, "checkLValInnerPattern", 3060), __HIVE_P2_invoke(__HIVE_P2_temp3057_1, __HIVE_P2_temp3057_0, (__HIVE_P2_reserveArray(3, 3060), __HIVE_P2_ownArray([__HIVE_P2_get(e, "value", 3061), t, i], 3060, "CONTROL_ARRAY")), 3060));
+                break;
+            case "AssignmentPattern":
+                (__HIVE_P2_temp3057_2 = this, __HIVE_P2_temp3057_3 = __HIVE_P2_get(__HIVE_P2_temp3057_2, "checkLValPattern", 3063), __HIVE_P2_invoke(__HIVE_P2_temp3057_3, __HIVE_P2_temp3057_2, (__HIVE_P2_reserveArray(3, 3063), __HIVE_P2_ownArray([__HIVE_P2_get(e, "left", 3064), t, i], 3063, "CONTROL_ARRAY")), 3063));
+                break;
+            case "RestElement":
+                (__HIVE_P2_temp3057_4 = this, __HIVE_P2_temp3057_5 = __HIVE_P2_get(__HIVE_P2_temp3057_4, "checkLValPattern", 3066), __HIVE_P2_invoke(__HIVE_P2_temp3057_5, __HIVE_P2_temp3057_4, (__HIVE_P2_reserveArray(3, 3066), __HIVE_P2_ownArray([__HIVE_P2_get(e, "argument", 3067), t, i], 3066, "CONTROL_ARRAY")), 3066));
+                break;
+            default: (__HIVE_P2_temp3057_6 = this, __HIVE_P2_temp3057_7 = __HIVE_P2_get(__HIVE_P2_temp3057_6, "checkLValPattern", 3069), __HIVE_P2_invoke(__HIVE_P2_temp3057_7, __HIVE_P2_temp3057_6, (__HIVE_P2_reserveArray(3, 3069), __HIVE_P2_ownArray([e, t, i], 3069, "CONTROL_ARRAY")), 3069));
+        }
+    }, 8, 3, 0, 3057)), 3055));
+    var ne = (__HIVE_P2_reserveFunction(3071), __HIVE_P2_registerFunction(function TokContext(e, t, i, s, r) {
+        var __HIVE_P2_temp3071_0, __HIVE_P2_temp3071_1, __HIVE_P2_temp3071_2, __HIVE_P2_temp3071_3, __HIVE_P2_temp3071_4, __HIVE_P2_temp3071_5, __HIVE_P2_temp3071_6, __HIVE_P2_temp3071_7, __HIVE_P2_temp3071_8, __HIVE_P2_temp3071_9, __HIVE_P2_temp3071_10, __HIVE_P2_temp3071_11, __HIVE_P2_temp3071_12, __HIVE_P2_temp3071_13, __HIVE_P2_temp3071_14;
+        (__HIVE_P2_temp3071_0 = this, __HIVE_P2_temp3071_1 = "token", __HIVE_P2_set(__HIVE_P2_temp3071_0, __HIVE_P2_temp3071_1, e, 3072));
+        (__HIVE_P2_temp3071_3 = this, __HIVE_P2_temp3071_4 = "isExpr", __HIVE_P2_set(__HIVE_P2_temp3071_3, __HIVE_P2_temp3071_4, !!t, 3074));
+        (__HIVE_P2_temp3071_6 = this, __HIVE_P2_temp3071_7 = "preserveSpace", __HIVE_P2_set(__HIVE_P2_temp3071_6, __HIVE_P2_temp3071_7, !!i, 3076));
+        (__HIVE_P2_temp3071_9 = this, __HIVE_P2_temp3071_10 = "override", __HIVE_P2_set(__HIVE_P2_temp3071_9, __HIVE_P2_temp3071_10, s, 3078));
+        (__HIVE_P2_temp3071_12 = this, __HIVE_P2_temp3071_13 = "generator", __HIVE_P2_set(__HIVE_P2_temp3071_12, __HIVE_P2_temp3071_13, !!r, 3080));
+    }, 15, 5, 0, 3071));
+    var oe = (__HIVE_P2_reserveObject(10, 3082), __HIVE_P2_ownObject({ b_stat: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3083), __HIVE_P2_ownArray(["{", false], 3083, "CONTROL_ARRAY")), 3083), b_expr: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3084), __HIVE_P2_ownArray(["{", true], 3084, "CONTROL_ARRAY")), 3084), b_tmpl: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3085), __HIVE_P2_ownArray(["${", false], 3085, "CONTROL_ARRAY")), 3085), p_stat: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3086), __HIVE_P2_ownArray(["(", false], 3086, "CONTROL_ARRAY")), 3086), p_expr: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3087), __HIVE_P2_ownArray(["(", true], 3087, "CONTROL_ARRAY")), 3087), q_tmpl: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(4, 3088), __HIVE_P2_ownArray(["`", true, true, ((__HIVE_P2_reserveFunction(3089), __HIVE_P2_registerFunction(function (e) {
+                var __HIVE_P2_temp3089_0, __HIVE_P2_temp3089_1;
+                return (__HIVE_P2_temp3089_0 = e, __HIVE_P2_temp3089_1 = __HIVE_P2_get(__HIVE_P2_temp3089_0, "tryReadTemplateToken", 3090), __HIVE_P2_invoke(__HIVE_P2_temp3089_1, __HIVE_P2_temp3089_0, (__HIVE_P2_reserveArray(0, 3090), __HIVE_P2_ownArray([], 3090, "CONTROL_ARRAY")), 3090));
+            }, 2, 1, 0, 3089)))], 3088, "CONTROL_ARRAY")), 3088), f_stat: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3092), __HIVE_P2_ownArray(["function", false], 3092, "CONTROL_ARRAY")), 3092), f_expr: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(2, 3093), __HIVE_P2_ownArray(["function", true], 3093, "CONTROL_ARRAY")), 3093), f_expr_gen: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(5, 3094), __HIVE_P2_ownArray(["function", true, false, null, true], 3094, "CONTROL_ARRAY")), 3094), f_gen: __HIVE_P2_construct(ne, (__HIVE_P2_reserveArray(5, 3095), __HIVE_P2_ownArray(["function", false, false, null, true], 3095, "CONTROL_ARRAY")), 3095) }, 3082, 10, 63));
+    var he = __HIVE_P2_get(K, "prototype", 3096);
+    (__HIVE_P2_temp0_1199 = he, __HIVE_P2_temp0_1200 = "initialContext", __HIVE_P2_set(__HIVE_P2_temp0_1199, __HIVE_P2_temp0_1200, (__HIVE_P2_reserveFunction(3099), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3099_0, __HIVE_P2_temp3099_1;
+        return (__HIVE_P2_temp3099_0 = 0, __HIVE_P2_temp3099_1 = __HIVE_P2_get(oe, "b_stat", 3101), __HIVE_P2_temp3099_0 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp3099_0, __HIVE_P2_temp3099_1, 3100), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp3099_0, 3100), __HIVE_P2_reserveArray(1, 3100, 1), __HIVE_P2_ownArray([__HIVE_P2_temp3099_1], 3100, "ARRAY", __HIVE_P2_temp3099_0));
+    }, 2, 0, 0, 3099)), 3097));
+    (__HIVE_P2_temp0_1202 = he, __HIVE_P2_temp0_1203 = "curContext", __HIVE_P2_set(__HIVE_P2_temp0_1202, __HIVE_P2_temp0_1203, (__HIVE_P2_reserveFunction(3104), __HIVE_P2_registerFunction(function () {
+        return __HIVE_P2_get(__HIVE_P2_get(this, "context", 3106), __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "context", 3109), "length", 3108), 1, 3107), 3105);
+    }, 0, 0, 0, 3104)), 3102));
+    (__HIVE_P2_temp0_1205 = he, __HIVE_P2_temp0_1206 = "braceIsBlock", __HIVE_P2_set(__HIVE_P2_temp0_1205, __HIVE_P2_temp0_1206, (__HIVE_P2_reserveFunction(3112), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3112_0, __HIVE_P2_temp3112_1, __HIVE_P2_temp3112_2, __HIVE_P2_temp3112_3, __HIVE_P2_temp3112_4, __HIVE_P2_temp3112_5;
+        var t = (__HIVE_P2_temp3112_0 = this, __HIVE_P2_temp3112_1 = __HIVE_P2_get(__HIVE_P2_temp3112_0, "curContext", 3113), __HIVE_P2_invoke(__HIVE_P2_temp3112_1, __HIVE_P2_temp3112_0, (__HIVE_P2_reserveArray(0, 3113), __HIVE_P2_ownArray([], 3113, "CONTROL_ARRAY")), 3113));
+        if (t === __HIVE_P2_get(oe, "f_expr", 3115) || t === __HIVE_P2_get(oe, "f_stat", 3116)) {
+            return true;
+        }
+        if (e === __HIVE_P2_get(m, "colon", 3117) && (t === __HIVE_P2_get(oe, "b_stat", 3118) || t === __HIVE_P2_get(oe, "b_expr", 3119))) {
+            return !__HIVE_P2_get(t, "isExpr", 3120);
+        }
+        if (e === __HIVE_P2_get(m, "_return", 3121) || e === __HIVE_P2_get(m, "name", 3122) && __HIVE_P2_get(this, "exprAllowed", 3123)) {
+            return (__HIVE_P2_temp3112_4 = g, __HIVE_P2_temp3112_5 = __HIVE_P2_get(__HIVE_P2_temp3112_4, "test", 3124), __HIVE_P2_invoke(__HIVE_P2_temp3112_5, __HIVE_P2_temp3112_4, (__HIVE_P2_reserveArray(1, 3124), __HIVE_P2_ownArray([(__HIVE_P2_temp3112_2 = __HIVE_P2_get(this, "input", 3129), __HIVE_P2_temp3112_3 = __HIVE_P2_get(__HIVE_P2_temp3112_2, "slice", 3125), __HIVE_P2_invoke(__HIVE_P2_temp3112_3, __HIVE_P2_temp3112_2, (__HIVE_P2_reserveArray(2, 3125), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 3126), __HIVE_P2_get(this, "start", 3127)], 3125, "CONTROL_ARRAY")), 3125))], 3124, "CONTROL_ARRAY")), 3124));
+        }
+        if (e === __HIVE_P2_get(m, "_else", 3131) || e === __HIVE_P2_get(m, "semi", 3132) || e === __HIVE_P2_get(m, "eof", 3133) || e === __HIVE_P2_get(m, "parenR", 3134) || e === __HIVE_P2_get(m, "arrow", 3135)) {
+            return true;
+        }
+        if (e === __HIVE_P2_get(m, "braceL", 3136)) {
+            return t === __HIVE_P2_get(oe, "b_stat", 3137);
+        }
+        if (e === __HIVE_P2_get(m, "_var", 3138) || e === __HIVE_P2_get(m, "_const", 3139) || e === __HIVE_P2_get(m, "name", 3140)) {
+            return false;
+        }
+        return !__HIVE_P2_get(this, "exprAllowed", 3141);
+    }, 7, 1, 0, 3112)), 3110));
+    (__HIVE_P2_temp0_1208 = he, __HIVE_P2_temp0_1209 = "inGeneratorContext", __HIVE_P2_set(__HIVE_P2_temp0_1208, __HIVE_P2_temp0_1209, (__HIVE_P2_reserveFunction(3144), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3144_0, __HIVE_P2_temp3144_1;
+        for (var e = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "context", 3148), "length", 3147), 1, 3146); __HIVE_P2_binary(">=", e, 1, 3149); (__HIVE_P2_temp3144_0 = __HIVE_P2_numeric(e, 3150), __HIVE_P2_temp3144_1 = __HIVE_P2_temp3144_0 + -1, e = __HIVE_P2_temp3144_1, __HIVE_P2_temp3144_0)) {
+            __HIVE_P2_tick(3145);
+            var t = __HIVE_P2_get(__HIVE_P2_get(this, "context", 3152), e, 3151);
+            if (__HIVE_P2_get(t, "token", 3153) === "function") {
+                return __HIVE_P2_get(t, "generator", 3154);
+            }
+        }
+        return false;
+    }, 4, 0, 0, 3144)), 3142));
+    (__HIVE_P2_temp0_1211 = he, __HIVE_P2_temp0_1212 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1211, __HIVE_P2_temp0_1212, (__HIVE_P2_reserveFunction(3157), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3157_0, __HIVE_P2_temp3157_1, __HIVE_P2_temp3157_2, __HIVE_P2_temp3157_3, __HIVE_P2_temp3157_4, __HIVE_P2_temp3157_5, __HIVE_P2_temp3157_6, __HIVE_P2_temp3157_7;
+        var t, i = __HIVE_P2_get(this, "type", 3158);
+        if (__HIVE_P2_get(i, "keyword", 3159) && e === __HIVE_P2_get(m, "dot", 3160)) {
+            (__HIVE_P2_temp3157_0 = this, __HIVE_P2_temp3157_1 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3157_0, __HIVE_P2_temp3157_1, false, 3161));
+        }
+        else if (t = __HIVE_P2_get(i, "updateContext", 3164)) {
+            (__HIVE_P2_temp3157_3 = t, __HIVE_P2_temp3157_4 = __HIVE_P2_get(__HIVE_P2_temp3157_3, "call", 3165), __HIVE_P2_invoke(__HIVE_P2_temp3157_4, __HIVE_P2_temp3157_3, (__HIVE_P2_reserveArray(2, 3165), __HIVE_P2_ownArray([this, e], 3165, "CONTROL_ARRAY")), 3165));
+        }
+        else {
+            (__HIVE_P2_temp3157_5 = this, __HIVE_P2_temp3157_6 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3157_5, __HIVE_P2_temp3157_6, __HIVE_P2_get(i, "beforeExpr", 3169), 3167));
+        }
+    }, 10, 1, 0, 3157)), 3155));
+    (__HIVE_P2_temp0_1214 = he, __HIVE_P2_temp0_1215 = "overrideContext", __HIVE_P2_set(__HIVE_P2_temp0_1214, __HIVE_P2_temp0_1215, (__HIVE_P2_reserveFunction(3172), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3172_0, __HIVE_P2_temp3172_1, __HIVE_P2_temp3172_2, __HIVE_P2_temp3172_3, __HIVE_P2_temp3172_4;
+        if ((__HIVE_P2_temp3172_0 = this, __HIVE_P2_temp3172_1 = __HIVE_P2_get(__HIVE_P2_temp3172_0, "curContext", 3173), __HIVE_P2_invoke(__HIVE_P2_temp3172_1, __HIVE_P2_temp3172_0, (__HIVE_P2_reserveArray(0, 3173), __HIVE_P2_ownArray([], 3173, "CONTROL_ARRAY")), 3173)) !== e) {
+            (__HIVE_P2_temp3172_2 = __HIVE_P2_get(this, "context", 3177), __HIVE_P2_temp3172_3 = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "context", 3180), "length", 3179), 1, 3178), __HIVE_P2_set(__HIVE_P2_temp3172_2, __HIVE_P2_temp3172_3, e, 3175));
+        }
+    }, 5, 1, 0, 3172)), 3170));
+    (__HIVE_P2_temp0_1217 = __HIVE_P2_get(m, "parenR", 3183), __HIVE_P2_temp0_1218 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1217, __HIVE_P2_temp0_1218, (__HIVE_P2_temp0_1220 = __HIVE_P2_get(m, "braceR", 3186), __HIVE_P2_temp0_1221 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1220, __HIVE_P2_temp0_1221, (__HIVE_P2_reserveFunction(3187), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3187_0, __HIVE_P2_temp3187_1, __HIVE_P2_temp3187_2, __HIVE_P2_temp3187_3, __HIVE_P2_temp3187_4, __HIVE_P2_temp3187_5, __HIVE_P2_temp3187_6, __HIVE_P2_temp3187_7, __HIVE_P2_temp3187_8, __HIVE_P2_temp3187_9, __HIVE_P2_temp3187_10, __HIVE_P2_temp3187_11;
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "context", 3189), "length", 3188) === 1) {
+            (__HIVE_P2_temp3187_0 = this, __HIVE_P2_temp3187_1 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3187_0, __HIVE_P2_temp3187_1, true, 3190));
+            return;
+        }
+        var e = (__HIVE_P2_temp3187_3 = __HIVE_P2_get(this, "context", 3194), __HIVE_P2_temp3187_4 = __HIVE_P2_get(__HIVE_P2_temp3187_3, "pop", 3192), __HIVE_P2_invoke(__HIVE_P2_temp3187_4, __HIVE_P2_temp3187_3, (__HIVE_P2_reserveArray(0, 3192), __HIVE_P2_ownArray([], 3192, "CONTROL_ARRAY")), 3192));
+        if (e === __HIVE_P2_get(oe, "b_stat", 3195) && __HIVE_P2_get((__HIVE_P2_temp3187_5 = this, __HIVE_P2_temp3187_6 = __HIVE_P2_get(__HIVE_P2_temp3187_5, "curContext", 3197), __HIVE_P2_invoke(__HIVE_P2_temp3187_6, __HIVE_P2_temp3187_5, (__HIVE_P2_reserveArray(0, 3197), __HIVE_P2_ownArray([], 3197, "CONTROL_ARRAY")), 3197)), "token", 3196) === "function") {
+            e = (__HIVE_P2_temp3187_7 = __HIVE_P2_get(this, "context", 3202), __HIVE_P2_temp3187_8 = __HIVE_P2_get(__HIVE_P2_temp3187_7, "pop", 3200), __HIVE_P2_invoke(__HIVE_P2_temp3187_8, __HIVE_P2_temp3187_7, (__HIVE_P2_reserveArray(0, 3200), __HIVE_P2_ownArray([], 3200, "CONTROL_ARRAY")), 3200));
+        }
+        (__HIVE_P2_temp3187_9 = this, __HIVE_P2_temp3187_10 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3187_9, __HIVE_P2_temp3187_10, !__HIVE_P2_get(e, "isExpr", 3205), 3203));
+    }, 13, 0, 0, 3187)), 3184)), 3181));
+    (__HIVE_P2_temp0_1223 = __HIVE_P2_get(m, "braceL", 3208), __HIVE_P2_temp0_1224 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1223, __HIVE_P2_temp0_1224, (__HIVE_P2_reserveFunction(3209), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3209_0, __HIVE_P2_temp3209_1, __HIVE_P2_temp3209_2, __HIVE_P2_temp3209_3, __HIVE_P2_temp3209_4, __HIVE_P2_temp3209_5, __HIVE_P2_temp3209_6;
+        (__HIVE_P2_temp3209_2 = __HIVE_P2_get(this, "context", 3216), __HIVE_P2_temp3209_3 = __HIVE_P2_get(__HIVE_P2_temp3209_2, "push", 3210), __HIVE_P2_invoke(__HIVE_P2_temp3209_3, __HIVE_P2_temp3209_2, (__HIVE_P2_reserveArray(1, 3210), __HIVE_P2_ownArray([(__HIVE_P2_temp3209_0 = this, __HIVE_P2_temp3209_1 = __HIVE_P2_get(__HIVE_P2_temp3209_0, "braceIsBlock", 3211), __HIVE_P2_invoke(__HIVE_P2_temp3209_1, __HIVE_P2_temp3209_0, (__HIVE_P2_reserveArray(1, 3211), __HIVE_P2_ownArray([e], 3211, "CONTROL_ARRAY")), 3211)) ? __HIVE_P2_get(oe, "b_stat", 3213) : __HIVE_P2_get(oe, "b_expr", 3214)], 3210, "CONTROL_ARRAY")), 3210));
+        (__HIVE_P2_temp3209_4 = this, __HIVE_P2_temp3209_5 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3209_4, __HIVE_P2_temp3209_5, true, 3217));
+    }, 7, 1, 0, 3209)), 3206));
+    (__HIVE_P2_temp0_1226 = __HIVE_P2_get(m, "dollarBraceL", 3221), __HIVE_P2_temp0_1227 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1226, __HIVE_P2_temp0_1227, (__HIVE_P2_reserveFunction(3222), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3222_0, __HIVE_P2_temp3222_1, __HIVE_P2_temp3222_2, __HIVE_P2_temp3222_3, __HIVE_P2_temp3222_4;
+        (__HIVE_P2_temp3222_0 = __HIVE_P2_get(this, "context", 3226), __HIVE_P2_temp3222_1 = __HIVE_P2_get(__HIVE_P2_temp3222_0, "push", 3223), __HIVE_P2_invoke(__HIVE_P2_temp3222_1, __HIVE_P2_temp3222_0, (__HIVE_P2_reserveArray(1, 3223), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "b_tmpl", 3224)], 3223, "CONTROL_ARRAY")), 3223));
+        (__HIVE_P2_temp3222_2 = this, __HIVE_P2_temp3222_3 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3222_2, __HIVE_P2_temp3222_3, true, 3227));
+    }, 5, 0, 0, 3222)), 3219));
+    (__HIVE_P2_temp0_1229 = __HIVE_P2_get(m, "parenL", 3231), __HIVE_P2_temp0_1230 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1229, __HIVE_P2_temp0_1230, (__HIVE_P2_reserveFunction(3232), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3232_0, __HIVE_P2_temp3232_1, __HIVE_P2_temp3232_2, __HIVE_P2_temp3232_3, __HIVE_P2_temp3232_4;
+        var t = e === __HIVE_P2_get(m, "_if", 3233) || e === __HIVE_P2_get(m, "_for", 3234) || e === __HIVE_P2_get(m, "_with", 3235) || e === __HIVE_P2_get(m, "_while", 3236);
+        (__HIVE_P2_temp3232_0 = __HIVE_P2_get(this, "context", 3241), __HIVE_P2_temp3232_1 = __HIVE_P2_get(__HIVE_P2_temp3232_0, "push", 3237), __HIVE_P2_invoke(__HIVE_P2_temp3232_1, __HIVE_P2_temp3232_0, (__HIVE_P2_reserveArray(1, 3237), __HIVE_P2_ownArray([t ? __HIVE_P2_get(oe, "p_stat", 3238) : __HIVE_P2_get(oe, "p_expr", 3239)], 3237, "CONTROL_ARRAY")), 3237));
+        (__HIVE_P2_temp3232_2 = this, __HIVE_P2_temp3232_3 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3232_2, __HIVE_P2_temp3232_3, true, 3242));
+    }, 6, 1, 0, 3232)), 3229));
+    (__HIVE_P2_temp0_1232 = __HIVE_P2_get(m, "incDec", 3246), __HIVE_P2_temp0_1233 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1232, __HIVE_P2_temp0_1233, (__HIVE_P2_reserveFunction(3247), __HIVE_P2_registerFunction(function () {
+    }, 0, 0, 0, 3247)), 3244));
+    (__HIVE_P2_temp0_1235 = __HIVE_P2_get(m, "_function", 3250), __HIVE_P2_temp0_1236 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1235, __HIVE_P2_temp0_1236, (__HIVE_P2_temp0_1238 = __HIVE_P2_get(m, "_class", 3253), __HIVE_P2_temp0_1239 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1238, __HIVE_P2_temp0_1239, (__HIVE_P2_reserveFunction(3254), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3254_0, __HIVE_P2_temp3254_1, __HIVE_P2_temp3254_2, __HIVE_P2_temp3254_3, __HIVE_P2_temp3254_4, __HIVE_P2_temp3254_5, __HIVE_P2_temp3254_6, __HIVE_P2_temp3254_7, __HIVE_P2_temp3254_8, __HIVE_P2_temp3254_9, __HIVE_P2_temp3254_10, __HIVE_P2_temp3254_11, __HIVE_P2_temp3254_12, __HIVE_P2_temp3254_13, __HIVE_P2_temp3254_14;
+        if (__HIVE_P2_get(e, "beforeExpr", 3255) && e !== __HIVE_P2_get(m, "_else", 3256) && !(e === __HIVE_P2_get(m, "semi", 3257) && (__HIVE_P2_temp3254_0 = this, __HIVE_P2_temp3254_1 = __HIVE_P2_get(__HIVE_P2_temp3254_0, "curContext", 3258), __HIVE_P2_invoke(__HIVE_P2_temp3254_1, __HIVE_P2_temp3254_0, (__HIVE_P2_reserveArray(0, 3258), __HIVE_P2_ownArray([], 3258, "CONTROL_ARRAY")), 3258)) !== __HIVE_P2_get(oe, "p_stat", 3260)) && !(e === __HIVE_P2_get(m, "_return", 3261) && (__HIVE_P2_temp3254_4 = g, __HIVE_P2_temp3254_5 = __HIVE_P2_get(__HIVE_P2_temp3254_4, "test", 3262), __HIVE_P2_invoke(__HIVE_P2_temp3254_5, __HIVE_P2_temp3254_4, (__HIVE_P2_reserveArray(1, 3262), __HIVE_P2_ownArray([(__HIVE_P2_temp3254_2 = __HIVE_P2_get(this, "input", 3267), __HIVE_P2_temp3254_3 = __HIVE_P2_get(__HIVE_P2_temp3254_2, "slice", 3263), __HIVE_P2_invoke(__HIVE_P2_temp3254_3, __HIVE_P2_temp3254_2, (__HIVE_P2_reserveArray(2, 3263), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 3264), __HIVE_P2_get(this, "start", 3265)], 3263, "CONTROL_ARRAY")), 3263))], 3262, "CONTROL_ARRAY")), 3262))) && !((e === __HIVE_P2_get(m, "colon", 3269) || e === __HIVE_P2_get(m, "braceL", 3270)) && (__HIVE_P2_temp3254_6 = this, __HIVE_P2_temp3254_7 = __HIVE_P2_get(__HIVE_P2_temp3254_6, "curContext", 3271), __HIVE_P2_invoke(__HIVE_P2_temp3254_7, __HIVE_P2_temp3254_6, (__HIVE_P2_reserveArray(0, 3271), __HIVE_P2_ownArray([], 3271, "CONTROL_ARRAY")), 3271)) === __HIVE_P2_get(oe, "b_stat", 3273))) {
+            (__HIVE_P2_temp3254_8 = __HIVE_P2_get(this, "context", 3277), __HIVE_P2_temp3254_9 = __HIVE_P2_get(__HIVE_P2_temp3254_8, "push", 3274), __HIVE_P2_invoke(__HIVE_P2_temp3254_9, __HIVE_P2_temp3254_8, (__HIVE_P2_reserveArray(1, 3274), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "f_expr", 3275)], 3274, "CONTROL_ARRAY")), 3274));
+        }
+        else {
+            (__HIVE_P2_temp3254_10 = __HIVE_P2_get(this, "context", 3281), __HIVE_P2_temp3254_11 = __HIVE_P2_get(__HIVE_P2_temp3254_10, "push", 3278), __HIVE_P2_invoke(__HIVE_P2_temp3254_11, __HIVE_P2_temp3254_10, (__HIVE_P2_reserveArray(1, 3278), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "f_stat", 3279)], 3278, "CONTROL_ARRAY")), 3278));
+        }
+        (__HIVE_P2_temp3254_12 = this, __HIVE_P2_temp3254_13 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3254_12, __HIVE_P2_temp3254_13, false, 3282));
+    }, 15, 1, 0, 3254)), 3251)), 3248));
+    (__HIVE_P2_temp0_1241 = __HIVE_P2_get(m, "colon", 3286), __HIVE_P2_temp0_1242 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1241, __HIVE_P2_temp0_1242, (__HIVE_P2_reserveFunction(3287), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3287_0, __HIVE_P2_temp3287_1, __HIVE_P2_temp3287_2, __HIVE_P2_temp3287_3, __HIVE_P2_temp3287_4, __HIVE_P2_temp3287_5, __HIVE_P2_temp3287_6;
+        if (__HIVE_P2_get((__HIVE_P2_temp3287_0 = this, __HIVE_P2_temp3287_1 = __HIVE_P2_get(__HIVE_P2_temp3287_0, "curContext", 3289), __HIVE_P2_invoke(__HIVE_P2_temp3287_1, __HIVE_P2_temp3287_0, (__HIVE_P2_reserveArray(0, 3289), __HIVE_P2_ownArray([], 3289, "CONTROL_ARRAY")), 3289)), "token", 3288) === "function") {
+            (__HIVE_P2_temp3287_2 = __HIVE_P2_get(this, "context", 3293), __HIVE_P2_temp3287_3 = __HIVE_P2_get(__HIVE_P2_temp3287_2, "pop", 3291), __HIVE_P2_invoke(__HIVE_P2_temp3287_3, __HIVE_P2_temp3287_2, (__HIVE_P2_reserveArray(0, 3291), __HIVE_P2_ownArray([], 3291, "CONTROL_ARRAY")), 3291));
+        }
+        (__HIVE_P2_temp3287_4 = this, __HIVE_P2_temp3287_5 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3287_4, __HIVE_P2_temp3287_5, true, 3294));
+    }, 7, 0, 0, 3287)), 3284));
+    (__HIVE_P2_temp0_1244 = __HIVE_P2_get(m, "backQuote", 3298), __HIVE_P2_temp0_1245 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1244, __HIVE_P2_temp0_1245, (__HIVE_P2_reserveFunction(3299), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3299_0, __HIVE_P2_temp3299_1, __HIVE_P2_temp3299_2, __HIVE_P2_temp3299_3, __HIVE_P2_temp3299_4, __HIVE_P2_temp3299_5, __HIVE_P2_temp3299_6, __HIVE_P2_temp3299_7, __HIVE_P2_temp3299_8;
+        if ((__HIVE_P2_temp3299_0 = this, __HIVE_P2_temp3299_1 = __HIVE_P2_get(__HIVE_P2_temp3299_0, "curContext", 3300), __HIVE_P2_invoke(__HIVE_P2_temp3299_1, __HIVE_P2_temp3299_0, (__HIVE_P2_reserveArray(0, 3300), __HIVE_P2_ownArray([], 3300, "CONTROL_ARRAY")), 3300)) === __HIVE_P2_get(oe, "q_tmpl", 3302)) {
+            (__HIVE_P2_temp3299_2 = __HIVE_P2_get(this, "context", 3305), __HIVE_P2_temp3299_3 = __HIVE_P2_get(__HIVE_P2_temp3299_2, "pop", 3303), __HIVE_P2_invoke(__HIVE_P2_temp3299_3, __HIVE_P2_temp3299_2, (__HIVE_P2_reserveArray(0, 3303), __HIVE_P2_ownArray([], 3303, "CONTROL_ARRAY")), 3303));
+        }
+        else {
+            (__HIVE_P2_temp3299_4 = __HIVE_P2_get(this, "context", 3309), __HIVE_P2_temp3299_5 = __HIVE_P2_get(__HIVE_P2_temp3299_4, "push", 3306), __HIVE_P2_invoke(__HIVE_P2_temp3299_5, __HIVE_P2_temp3299_4, (__HIVE_P2_reserveArray(1, 3306), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "q_tmpl", 3307)], 3306, "CONTROL_ARRAY")), 3306));
+        }
+        (__HIVE_P2_temp3299_6 = this, __HIVE_P2_temp3299_7 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3299_6, __HIVE_P2_temp3299_7, false, 3310));
+    }, 9, 0, 0, 3299)), 3296));
+    (__HIVE_P2_temp0_1247 = __HIVE_P2_get(m, "star", 3314), __HIVE_P2_temp0_1248 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1247, __HIVE_P2_temp0_1248, (__HIVE_P2_reserveFunction(3315), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3315_0, __HIVE_P2_temp3315_1, __HIVE_P2_temp3315_2, __HIVE_P2_temp3315_3, __HIVE_P2_temp3315_4, __HIVE_P2_temp3315_5, __HIVE_P2_temp3315_6, __HIVE_P2_temp3315_7, __HIVE_P2_temp3315_8;
+        if (e === __HIVE_P2_get(m, "_function", 3316)) {
+            var t = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "context", 3319), "length", 3318), 1, 3317);
+            if (__HIVE_P2_get(__HIVE_P2_get(this, "context", 3321), t, 3320) === __HIVE_P2_get(oe, "f_expr", 3322)) {
+                (__HIVE_P2_temp3315_0 = __HIVE_P2_get(this, "context", 3325), __HIVE_P2_temp3315_1 = t, __HIVE_P2_set(__HIVE_P2_temp3315_0, __HIVE_P2_temp3315_1, __HIVE_P2_get(oe, "f_expr_gen", 3326), 3323));
+            }
+            else {
+                (__HIVE_P2_temp3315_3 = __HIVE_P2_get(this, "context", 3329), __HIVE_P2_temp3315_4 = t, __HIVE_P2_set(__HIVE_P2_temp3315_3, __HIVE_P2_temp3315_4, __HIVE_P2_get(oe, "f_gen", 3330), 3327));
+            }
+        }
+        (__HIVE_P2_temp3315_6 = this, __HIVE_P2_temp3315_7 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3315_6, __HIVE_P2_temp3315_7, true, 3331));
+    }, 10, 1, 0, 3315)), 3312));
+    (__HIVE_P2_temp0_1250 = __HIVE_P2_get(m, "name", 3335), __HIVE_P2_temp0_1251 = "updateContext", __HIVE_P2_set(__HIVE_P2_temp0_1250, __HIVE_P2_temp0_1251, (__HIVE_P2_reserveFunction(3336), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp3336_0, __HIVE_P2_temp3336_1, __HIVE_P2_temp3336_2, __HIVE_P2_temp3336_3, __HIVE_P2_temp3336_4;
+        var t = false;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3339), "ecmaVersion", 3338), 6, 3337) && e !== __HIVE_P2_get(m, "dot", 3340)) {
+            if (__HIVE_P2_get(this, "value", 3341) === "of" && !__HIVE_P2_get(this, "exprAllowed", 3342) || __HIVE_P2_get(this, "value", 3343) === "yield" && (__HIVE_P2_temp3336_0 = this, __HIVE_P2_temp3336_1 = __HIVE_P2_get(__HIVE_P2_temp3336_0, "inGeneratorContext", 3344), __HIVE_P2_invoke(__HIVE_P2_temp3336_1, __HIVE_P2_temp3336_0, (__HIVE_P2_reserveArray(0, 3344), __HIVE_P2_ownArray([], 3344, "CONTROL_ARRAY")), 3344))) {
+                t = true;
+            }
+        }
+        (__HIVE_P2_temp3336_2 = this, __HIVE_P2_temp3336_3 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3336_2, __HIVE_P2_temp3336_3, t, 3347));
+    }, 6, 1, 0, 3336)), 3333));
+    var pe = __HIVE_P2_get(K, "prototype", 3349);
+    (__HIVE_P2_temp0_1253 = pe, __HIVE_P2_temp0_1254 = "checkPropClash", __HIVE_P2_set(__HIVE_P2_temp0_1253, __HIVE_P2_temp0_1254, (__HIVE_P2_reserveFunction(3352), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3352_0, __HIVE_P2_temp3352_1, __HIVE_P2_temp3352_2, __HIVE_P2_temp3352_3, __HIVE_P2_temp3352_4, __HIVE_P2_temp3352_5, __HIVE_P2_temp3352_6, __HIVE_P2_temp3352_7, __HIVE_P2_temp3352_8, __HIVE_P2_temp3352_9, __HIVE_P2_temp3352_10, __HIVE_P2_temp3352_11;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3355), "ecmaVersion", 3354), 9, 3353) && __HIVE_P2_get(e, "type", 3356) === "SpreadElement") {
+            return;
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3359), "ecmaVersion", 3358), 6, 3357) && (__HIVE_P2_get(e, "computed", 3360) || __HIVE_P2_get(e, "method", 3361) || __HIVE_P2_get(e, "shorthand", 3362))) {
+            return;
+        }
+        var s = __HIVE_P2_get(e, "key", 3363);
+        var r;
+        switch (__HIVE_P2_get(s, "type", 3364)) {
+            case "Identifier":
+                r = __HIVE_P2_get(s, "name", 3366);
+                break;
+            case "Literal":
+                r = __HIVE_P2_invoke(__HIVE_P2_String, void 0, (__HIVE_P2_reserveArray(1, 3368), __HIVE_P2_ownArray([__HIVE_P2_get(s, "value", 3369)], 3368, "CONTROL_ARRAY")), 3368);
+                break;
+            default: return;
+        }
+        var a = __HIVE_P2_get(e, "kind", 3370);
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3373), "ecmaVersion", 3372), 6, 3371)) {
+            if (r === "__proto__" && a === "init") {
+                if (__HIVE_P2_get(t, "proto", 3374)) {
+                    if (i) {
+                        if (__HIVE_P2_binary("<", __HIVE_P2_get(i, "doubleProto", 3376), 0, 3375)) {
+                            (__HIVE_P2_temp3352_0 = i, __HIVE_P2_temp3352_1 = "doubleProto", __HIVE_P2_set(__HIVE_P2_temp3352_0, __HIVE_P2_temp3352_1, __HIVE_P2_get(s, "start", 3379), 3377));
+                        }
+                    }
+                    else {
+                        __HIVE_P2_syntaxRefusal(3380);
+                    }
+                }
+                (__HIVE_P2_temp3352_3 = t, __HIVE_P2_temp3352_4 = "proto", __HIVE_P2_set(__HIVE_P2_temp3352_3, __HIVE_P2_temp3352_4, true, 3381));
+            }
+            return;
+        }
+        r = __HIVE_P2_binary("+", "$", r, 3384);
+        var n = __HIVE_P2_get(t, r, 3385);
+        if (n) {
+            var o;
+            if (a === "init") {
+                o = __HIVE_P2_get(this, "strict", 3387) && __HIVE_P2_get(n, "init", 3388) || __HIVE_P2_get(n, "get", 3389) || __HIVE_P2_get(n, "set", 3390);
+            }
+            else {
+                o = __HIVE_P2_get(n, "init", 3392) || __HIVE_P2_get(n, a, 3393);
+            }
+            if (o) {
+                __HIVE_P2_syntaxRefusal(3394);
+            }
+        }
+        else {
+            n = (__HIVE_P2_temp3352_6 = t, __HIVE_P2_temp3352_7 = r, __HIVE_P2_set(__HIVE_P2_temp3352_6, __HIVE_P2_temp3352_7, (__HIVE_P2_reserveObject(3, 3398), __HIVE_P2_ownObject({ init: false, get: false, set: false }, 3398, 3, 10)), 3396));
+        }
+        (__HIVE_P2_temp3352_9 = n, __HIVE_P2_temp3352_10 = a, __HIVE_P2_set(__HIVE_P2_temp3352_9, __HIVE_P2_temp3352_10, true, 3399));
+    }, 17, 3, 0, 3352)), 3350));
+    (__HIVE_P2_temp0_1256 = pe, __HIVE_P2_temp0_1257 = "parseExpression", __HIVE_P2_set(__HIVE_P2_temp0_1256, __HIVE_P2_temp0_1257, (__HIVE_P2_reserveFunction(3403), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp3403_0, __HIVE_P2_temp3403_1, __HIVE_P2_temp3403_2, __HIVE_P2_temp3403_3, __HIVE_P2_temp3403_4, __HIVE_P2_temp3403_5, __HIVE_P2_temp3403_6, __HIVE_P2_temp3403_7, __HIVE_P2_temp3403_8, __HIVE_P2_temp3403_9, __HIVE_P2_temp3403_10, __HIVE_P2_temp3403_11, __HIVE_P2_temp3403_12, __HIVE_P2_temp3403_13, __HIVE_P2_temp3403_14, __HIVE_P2_temp3403_15, __HIVE_P2_temp3403_16;
+        var i = __HIVE_P2_get(this, "start", 3404), s = __HIVE_P2_get(this, "startLoc", 3405);
+        var r = (__HIVE_P2_temp3403_0 = this, __HIVE_P2_temp3403_1 = __HIVE_P2_get(__HIVE_P2_temp3403_0, "parseMaybeAssign", 3406), __HIVE_P2_invoke(__HIVE_P2_temp3403_1, __HIVE_P2_temp3403_0, (__HIVE_P2_reserveArray(2, 3406), __HIVE_P2_ownArray([e, t], 3406, "CONTROL_ARRAY")), 3406));
+        if (__HIVE_P2_get(this, "type", 3408) === __HIVE_P2_get(m, "comma", 3409)) {
+            var a = (__HIVE_P2_temp3403_2 = this, __HIVE_P2_temp3403_3 = __HIVE_P2_get(__HIVE_P2_temp3403_2, "startNodeAt", 3410), __HIVE_P2_invoke(__HIVE_P2_temp3403_3, __HIVE_P2_temp3403_2, (__HIVE_P2_reserveArray(2, 3410), __HIVE_P2_ownArray([i, s], 3410, "CONTROL_ARRAY")), 3410));
+            (__HIVE_P2_temp3403_4 = a, __HIVE_P2_temp3403_5 = "expressions", __HIVE_P2_set(__HIVE_P2_temp3403_4, __HIVE_P2_temp3403_5, (__HIVE_P2_temp3403_7 = 0, __HIVE_P2_temp3403_8 = r, __HIVE_P2_temp3403_7 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp3403_7, __HIVE_P2_temp3403_8, 3414), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp3403_7, 3414), __HIVE_P2_reserveArray(1, 3414, 1), __HIVE_P2_ownArray([__HIVE_P2_temp3403_8], 3414, "ARRAY", __HIVE_P2_temp3403_7)), 3412));
+            while ((__HIVE_P2_temp3403_9 = this, __HIVE_P2_temp3403_10 = __HIVE_P2_get(__HIVE_P2_temp3403_9, "eat", 3416), __HIVE_P2_invoke(__HIVE_P2_temp3403_10, __HIVE_P2_temp3403_9, (__HIVE_P2_reserveArray(1, 3416), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 3417)], 3416, "CONTROL_ARRAY")), 3416))) {
+                __HIVE_P2_tick(3415);
+                (__HIVE_P2_temp3403_13 = __HIVE_P2_get(a, "expressions", 3423), __HIVE_P2_temp3403_14 = __HIVE_P2_get(__HIVE_P2_temp3403_13, "push", 3419), __HIVE_P2_invoke(__HIVE_P2_temp3403_14, __HIVE_P2_temp3403_13, (__HIVE_P2_reserveArray(1, 3419), __HIVE_P2_ownArray([(__HIVE_P2_temp3403_11 = this, __HIVE_P2_temp3403_12 = __HIVE_P2_get(__HIVE_P2_temp3403_11, "parseMaybeAssign", 3420), __HIVE_P2_invoke(__HIVE_P2_temp3403_12, __HIVE_P2_temp3403_11, (__HIVE_P2_reserveArray(2, 3420), __HIVE_P2_ownArray([e, t], 3420, "CONTROL_ARRAY")), 3420))], 3419, "CONTROL_ARRAY")), 3419));
+            }
+            return (__HIVE_P2_temp3403_15 = this, __HIVE_P2_temp3403_16 = __HIVE_P2_get(__HIVE_P2_temp3403_15, "finishNode", 3424), __HIVE_P2_invoke(__HIVE_P2_temp3403_16, __HIVE_P2_temp3403_15, (__HIVE_P2_reserveArray(2, 3424), __HIVE_P2_ownArray([a, "SequenceExpression"], 3424, "CONTROL_ARRAY")), 3424));
+        }
+        return r;
+    }, 21, 2, 0, 3403)), 3401));
+    (__HIVE_P2_temp0_1259 = pe, __HIVE_P2_temp0_1260 = "parseMaybeAssign", __HIVE_P2_set(__HIVE_P2_temp0_1259, __HIVE_P2_temp0_1260, (__HIVE_P2_reserveFunction(3428), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3428_0, __HIVE_P2_temp3428_1, __HIVE_P2_temp3428_2, __HIVE_P2_temp3428_3, __HIVE_P2_temp3428_4, __HIVE_P2_temp3428_5, __HIVE_P2_temp3428_6, __HIVE_P2_temp3428_7, __HIVE_P2_temp3428_8, __HIVE_P2_temp3428_9, __HIVE_P2_temp3428_10, __HIVE_P2_temp3428_11, __HIVE_P2_temp3428_12, __HIVE_P2_temp3428_13, __HIVE_P2_temp3428_14, __HIVE_P2_temp3428_15, __HIVE_P2_temp3428_16, __HIVE_P2_temp3428_17, __HIVE_P2_temp3428_18, __HIVE_P2_temp3428_19, __HIVE_P2_temp3428_20, __HIVE_P2_temp3428_21, __HIVE_P2_temp3428_22, __HIVE_P2_temp3428_23, __HIVE_P2_temp3428_24, __HIVE_P2_temp3428_25, __HIVE_P2_temp3428_26, __HIVE_P2_temp3428_27, __HIVE_P2_temp3428_28, __HIVE_P2_temp3428_29, __HIVE_P2_temp3428_30, __HIVE_P2_temp3428_31, __HIVE_P2_temp3428_32, __HIVE_P2_temp3428_33, __HIVE_P2_temp3428_34, __HIVE_P2_temp3428_35, __HIVE_P2_temp3428_36, __HIVE_P2_temp3428_37, __HIVE_P2_temp3428_38, __HIVE_P2_temp3428_39, __HIVE_P2_temp3428_40, __HIVE_P2_temp3428_41, __HIVE_P2_temp3428_42, __HIVE_P2_temp3428_43, __HIVE_P2_temp3428_44, __HIVE_P2_temp3428_45, __HIVE_P2_temp3428_46, __HIVE_P2_temp3428_47, __HIVE_P2_temp3428_48, __HIVE_P2_temp3428_49, __HIVE_P2_temp3428_50, __HIVE_P2_temp3428_51, __HIVE_P2_temp3428_52, __HIVE_P2_temp3428_53, __HIVE_P2_temp3428_54, __HIVE_P2_temp3428_55, __HIVE_P2_temp3428_56, __HIVE_P2_temp3428_57, __HIVE_P2_temp3428_58, __HIVE_P2_temp3428_59, __HIVE_P2_temp3428_60, __HIVE_P2_temp3428_61, __HIVE_P2_temp3428_62, __HIVE_P2_temp3428_63, __HIVE_P2_temp3428_64, __HIVE_P2_temp3428_65, __HIVE_P2_temp3428_66, __HIVE_P2_temp3428_67, __HIVE_P2_temp3428_68;
+        if ((__HIVE_P2_temp3428_0 = this, __HIVE_P2_temp3428_1 = __HIVE_P2_get(__HIVE_P2_temp3428_0, "isContextual", 3429), __HIVE_P2_invoke(__HIVE_P2_temp3428_1, __HIVE_P2_temp3428_0, (__HIVE_P2_reserveArray(1, 3429), __HIVE_P2_ownArray(["yield"], 3429, "CONTROL_ARRAY")), 3429))) {
+            if (__HIVE_P2_get(this, "inGenerator", 3431)) {
+                return (__HIVE_P2_temp3428_2 = this, __HIVE_P2_temp3428_3 = __HIVE_P2_get(__HIVE_P2_temp3428_2, "parseYield", 3432), __HIVE_P2_invoke(__HIVE_P2_temp3428_3, __HIVE_P2_temp3428_2, (__HIVE_P2_reserveArray(1, 3432), __HIVE_P2_ownArray([e], 3432, "CONTROL_ARRAY")), 3432));
+            }
+            else {
+                (__HIVE_P2_temp3428_4 = this, __HIVE_P2_temp3428_5 = "exprAllowed", __HIVE_P2_set(__HIVE_P2_temp3428_4, __HIVE_P2_temp3428_5, false, 3434));
+            }
+        }
+        var s = false, r = __HIVE_P2_unary("-", 1, 3436), a = __HIVE_P2_unary("-", 1, 3437), n = __HIVE_P2_unary("-", 1, 3438);
+        if (t) {
+            r = __HIVE_P2_get(t, "parenthesizedAssign", 3440);
+            a = __HIVE_P2_get(t, "trailingComma", 3442);
+            n = __HIVE_P2_get(t, "doubleProto", 3444);
+            (__HIVE_P2_temp3428_7 = t, __HIVE_P2_temp3428_8 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp3428_7, __HIVE_P2_temp3428_8, (__HIVE_P2_temp3428_10 = t, __HIVE_P2_temp3428_11 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp3428_10, __HIVE_P2_temp3428_11, __HIVE_P2_unary("-", 1, 3449), 3447)), 3445));
+        }
+        else {
+            t = __HIVE_P2_construct(Z, (__HIVE_P2_reserveArray(0, 3451), __HIVE_P2_ownArray([], 3451, "CONTROL_ARRAY")), 3451);
+            s = true;
+        }
+        var o = __HIVE_P2_get(this, "start", 3453), h = __HIVE_P2_get(this, "startLoc", 3454);
+        if (__HIVE_P2_get(this, "type", 3455) === __HIVE_P2_get(m, "parenL", 3456) || __HIVE_P2_get(this, "type", 3457) === __HIVE_P2_get(m, "name", 3458)) {
+            (__HIVE_P2_temp3428_13 = this, __HIVE_P2_temp3428_14 = "potentialArrowAt", __HIVE_P2_set(__HIVE_P2_temp3428_13, __HIVE_P2_temp3428_14, __HIVE_P2_get(this, "start", 3461), 3459));
+            (__HIVE_P2_temp3428_16 = this, __HIVE_P2_temp3428_17 = "potentialArrowInForAwait", __HIVE_P2_set(__HIVE_P2_temp3428_16, __HIVE_P2_temp3428_17, e === "await", 3462));
+        }
+        var p = (__HIVE_P2_temp3428_19 = this, __HIVE_P2_temp3428_20 = __HIVE_P2_get(__HIVE_P2_temp3428_19, "parseMaybeConditional", 3464), __HIVE_P2_invoke(__HIVE_P2_temp3428_20, __HIVE_P2_temp3428_19, (__HIVE_P2_reserveArray(2, 3464), __HIVE_P2_ownArray([e, t], 3464, "CONTROL_ARRAY")), 3464));
+        if (i) {
+            p = (__HIVE_P2_temp3428_21 = i, __HIVE_P2_temp3428_22 = __HIVE_P2_get(__HIVE_P2_temp3428_21, "call", 3467), __HIVE_P2_invoke(__HIVE_P2_temp3428_22, __HIVE_P2_temp3428_21, (__HIVE_P2_reserveArray(4, 3467), __HIVE_P2_ownArray([this, p, o, h], 3467, "CONTROL_ARRAY")), 3467));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "type", 3470), "isAssign", 3469)) {
+            var c = (__HIVE_P2_temp3428_23 = this, __HIVE_P2_temp3428_24 = __HIVE_P2_get(__HIVE_P2_temp3428_23, "startNodeAt", 3471), __HIVE_P2_invoke(__HIVE_P2_temp3428_24, __HIVE_P2_temp3428_23, (__HIVE_P2_reserveArray(2, 3471), __HIVE_P2_ownArray([o, h], 3471, "CONTROL_ARRAY")), 3471));
+            (__HIVE_P2_temp3428_25 = c, __HIVE_P2_temp3428_26 = "operator", __HIVE_P2_set(__HIVE_P2_temp3428_25, __HIVE_P2_temp3428_26, __HIVE_P2_get(this, "value", 3475), 3473));
+            if (__HIVE_P2_get(this, "type", 3476) === __HIVE_P2_get(m, "eq", 3477)) {
+                p = (__HIVE_P2_temp3428_28 = this, __HIVE_P2_temp3428_29 = __HIVE_P2_get(__HIVE_P2_temp3428_28, "toAssignable", 3479), __HIVE_P2_invoke(__HIVE_P2_temp3428_29, __HIVE_P2_temp3428_28, (__HIVE_P2_reserveArray(3, 3479), __HIVE_P2_ownArray([p, false, t], 3479, "CONTROL_ARRAY")), 3479));
+            }
+            if (!s) {
+                (__HIVE_P2_temp3428_30 = t, __HIVE_P2_temp3428_31 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp3428_30, __HIVE_P2_temp3428_31, (__HIVE_P2_temp3428_33 = t, __HIVE_P2_temp3428_34 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp3428_33, __HIVE_P2_temp3428_34, (__HIVE_P2_temp3428_36 = t, __HIVE_P2_temp3428_37 = "doubleProto", __HIVE_P2_set(__HIVE_P2_temp3428_36, __HIVE_P2_temp3428_37, __HIVE_P2_unary("-", 1, 3487), 3485)), 3483)), 3481));
+            }
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(t, "shorthandAssign", 3489), __HIVE_P2_get(p, "start", 3490), 3488)) {
+                (__HIVE_P2_temp3428_39 = t, __HIVE_P2_temp3428_40 = "shorthandAssign", __HIVE_P2_set(__HIVE_P2_temp3428_39, __HIVE_P2_temp3428_40, __HIVE_P2_unary("-", 1, 3493), 3491));
+            }
+            if (__HIVE_P2_get(this, "type", 3494) === __HIVE_P2_get(m, "eq", 3495)) {
+                (__HIVE_P2_temp3428_42 = this, __HIVE_P2_temp3428_43 = __HIVE_P2_get(__HIVE_P2_temp3428_42, "checkLValPattern", 3496), __HIVE_P2_invoke(__HIVE_P2_temp3428_43, __HIVE_P2_temp3428_42, (__HIVE_P2_reserveArray(1, 3496), __HIVE_P2_ownArray([p], 3496, "CONTROL_ARRAY")), 3496));
+            }
+            else {
+                (__HIVE_P2_temp3428_44 = this, __HIVE_P2_temp3428_45 = __HIVE_P2_get(__HIVE_P2_temp3428_44, "checkLValSimple", 3498), __HIVE_P2_invoke(__HIVE_P2_temp3428_45, __HIVE_P2_temp3428_44, (__HIVE_P2_reserveArray(1, 3498), __HIVE_P2_ownArray([p], 3498, "CONTROL_ARRAY")), 3498));
+            }
+            (__HIVE_P2_temp3428_46 = c, __HIVE_P2_temp3428_47 = "left", __HIVE_P2_set(__HIVE_P2_temp3428_46, __HIVE_P2_temp3428_47, p, 3500));
+            (__HIVE_P2_temp3428_49 = this, __HIVE_P2_temp3428_50 = __HIVE_P2_get(__HIVE_P2_temp3428_49, "next", 3502), __HIVE_P2_invoke(__HIVE_P2_temp3428_50, __HIVE_P2_temp3428_49, (__HIVE_P2_reserveArray(0, 3502), __HIVE_P2_ownArray([], 3502, "CONTROL_ARRAY")), 3502));
+            (__HIVE_P2_temp3428_51 = c, __HIVE_P2_temp3428_52 = "right", __HIVE_P2_set(__HIVE_P2_temp3428_51, __HIVE_P2_temp3428_52, (__HIVE_P2_temp3428_54 = this, __HIVE_P2_temp3428_55 = __HIVE_P2_get(__HIVE_P2_temp3428_54, "parseMaybeAssign", 3506), __HIVE_P2_invoke(__HIVE_P2_temp3428_55, __HIVE_P2_temp3428_54, (__HIVE_P2_reserveArray(1, 3506), __HIVE_P2_ownArray([e], 3506, "CONTROL_ARRAY")), 3506)), 3504));
+            if (__HIVE_P2_binary(">", n, __HIVE_P2_unary("-", 1, 3509), 3508)) {
+                (__HIVE_P2_temp3428_56 = t, __HIVE_P2_temp3428_57 = "doubleProto", __HIVE_P2_set(__HIVE_P2_temp3428_56, __HIVE_P2_temp3428_57, n, 3510));
+            }
+            return (__HIVE_P2_temp3428_59 = this, __HIVE_P2_temp3428_60 = __HIVE_P2_get(__HIVE_P2_temp3428_59, "finishNode", 3512), __HIVE_P2_invoke(__HIVE_P2_temp3428_60, __HIVE_P2_temp3428_59, (__HIVE_P2_reserveArray(2, 3512), __HIVE_P2_ownArray([c, "AssignmentExpression"], 3512, "CONTROL_ARRAY")), 3512));
+        }
+        else {
+            if (s) {
+                (__HIVE_P2_temp3428_61 = this, __HIVE_P2_temp3428_62 = __HIVE_P2_get(__HIVE_P2_temp3428_61, "checkExpressionErrors", 3514), __HIVE_P2_invoke(__HIVE_P2_temp3428_62, __HIVE_P2_temp3428_61, (__HIVE_P2_reserveArray(2, 3514), __HIVE_P2_ownArray([t, true], 3514, "CONTROL_ARRAY")), 3514));
+            }
+        }
+        if (__HIVE_P2_binary(">", r, __HIVE_P2_unary("-", 1, 3517), 3516)) {
+            (__HIVE_P2_temp3428_63 = t, __HIVE_P2_temp3428_64 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp3428_63, __HIVE_P2_temp3428_64, r, 3518));
+        }
+        if (__HIVE_P2_binary(">", a, __HIVE_P2_unary("-", 1, 3521), 3520)) {
+            (__HIVE_P2_temp3428_66 = t, __HIVE_P2_temp3428_67 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp3428_66, __HIVE_P2_temp3428_67, a, 3522));
+        }
+        return p;
+    }, 77, 3, 0, 3428)), 3426));
+    (__HIVE_P2_temp0_1262 = pe, __HIVE_P2_temp0_1263 = "parseMaybeConditional", __HIVE_P2_set(__HIVE_P2_temp0_1262, __HIVE_P2_temp0_1263, (__HIVE_P2_reserveFunction(3526), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp3526_0, __HIVE_P2_temp3526_1, __HIVE_P2_temp3526_2, __HIVE_P2_temp3526_3, __HIVE_P2_temp3526_4, __HIVE_P2_temp3526_5, __HIVE_P2_temp3526_6, __HIVE_P2_temp3526_7, __HIVE_P2_temp3526_8, __HIVE_P2_temp3526_9, __HIVE_P2_temp3526_10, __HIVE_P2_temp3526_11, __HIVE_P2_temp3526_12, __HIVE_P2_temp3526_13, __HIVE_P2_temp3526_14, __HIVE_P2_temp3526_15, __HIVE_P2_temp3526_16, __HIVE_P2_temp3526_17, __HIVE_P2_temp3526_18, __HIVE_P2_temp3526_19, __HIVE_P2_temp3526_20, __HIVE_P2_temp3526_21, __HIVE_P2_temp3526_22, __HIVE_P2_temp3526_23, __HIVE_P2_temp3526_24;
+        var i = __HIVE_P2_get(this, "start", 3527), s = __HIVE_P2_get(this, "startLoc", 3528);
+        var r = (__HIVE_P2_temp3526_0 = this, __HIVE_P2_temp3526_1 = __HIVE_P2_get(__HIVE_P2_temp3526_0, "parseExprOps", 3529), __HIVE_P2_invoke(__HIVE_P2_temp3526_1, __HIVE_P2_temp3526_0, (__HIVE_P2_reserveArray(2, 3529), __HIVE_P2_ownArray([e, t], 3529, "CONTROL_ARRAY")), 3529));
+        if ((__HIVE_P2_temp3526_2 = this, __HIVE_P2_temp3526_3 = __HIVE_P2_get(__HIVE_P2_temp3526_2, "checkExpressionErrors", 3531), __HIVE_P2_invoke(__HIVE_P2_temp3526_3, __HIVE_P2_temp3526_2, (__HIVE_P2_reserveArray(1, 3531), __HIVE_P2_ownArray([t], 3531, "CONTROL_ARRAY")), 3531))) {
+            return r;
+        }
+        if ((__HIVE_P2_temp3526_4 = this, __HIVE_P2_temp3526_5 = __HIVE_P2_get(__HIVE_P2_temp3526_4, "eat", 3533), __HIVE_P2_invoke(__HIVE_P2_temp3526_5, __HIVE_P2_temp3526_4, (__HIVE_P2_reserveArray(1, 3533), __HIVE_P2_ownArray([__HIVE_P2_get(m, "question", 3534)], 3533, "CONTROL_ARRAY")), 3533))) {
+            var a = (__HIVE_P2_temp3526_6 = this, __HIVE_P2_temp3526_7 = __HIVE_P2_get(__HIVE_P2_temp3526_6, "startNodeAt", 3536), __HIVE_P2_invoke(__HIVE_P2_temp3526_7, __HIVE_P2_temp3526_6, (__HIVE_P2_reserveArray(2, 3536), __HIVE_P2_ownArray([i, s], 3536, "CONTROL_ARRAY")), 3536));
+            (__HIVE_P2_temp3526_8 = a, __HIVE_P2_temp3526_9 = "test", __HIVE_P2_set(__HIVE_P2_temp3526_8, __HIVE_P2_temp3526_9, r, 3538));
+            (__HIVE_P2_temp3526_11 = a, __HIVE_P2_temp3526_12 = "consequent", __HIVE_P2_set(__HIVE_P2_temp3526_11, __HIVE_P2_temp3526_12, (__HIVE_P2_temp3526_14 = this, __HIVE_P2_temp3526_15 = __HIVE_P2_get(__HIVE_P2_temp3526_14, "parseMaybeAssign", 3542), __HIVE_P2_invoke(__HIVE_P2_temp3526_15, __HIVE_P2_temp3526_14, (__HIVE_P2_reserveArray(0, 3542), __HIVE_P2_ownArray([], 3542, "CONTROL_ARRAY")), 3542)), 3540));
+            (__HIVE_P2_temp3526_16 = this, __HIVE_P2_temp3526_17 = __HIVE_P2_get(__HIVE_P2_temp3526_16, "expect", 3544), __HIVE_P2_invoke(__HIVE_P2_temp3526_17, __HIVE_P2_temp3526_16, (__HIVE_P2_reserveArray(1, 3544), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 3545)], 3544, "CONTROL_ARRAY")), 3544));
+            (__HIVE_P2_temp3526_18 = a, __HIVE_P2_temp3526_19 = "alternate", __HIVE_P2_set(__HIVE_P2_temp3526_18, __HIVE_P2_temp3526_19, (__HIVE_P2_temp3526_21 = this, __HIVE_P2_temp3526_22 = __HIVE_P2_get(__HIVE_P2_temp3526_21, "parseMaybeAssign", 3549), __HIVE_P2_invoke(__HIVE_P2_temp3526_22, __HIVE_P2_temp3526_21, (__HIVE_P2_reserveArray(1, 3549), __HIVE_P2_ownArray([e], 3549, "CONTROL_ARRAY")), 3549)), 3547));
+            return (__HIVE_P2_temp3526_23 = this, __HIVE_P2_temp3526_24 = __HIVE_P2_get(__HIVE_P2_temp3526_23, "finishNode", 3551), __HIVE_P2_invoke(__HIVE_P2_temp3526_24, __HIVE_P2_temp3526_23, (__HIVE_P2_reserveArray(2, 3551), __HIVE_P2_ownArray([a, "ConditionalExpression"], 3551, "CONTROL_ARRAY")), 3551));
+        }
+        return r;
+    }, 29, 2, 0, 3526)), 3524));
+    (__HIVE_P2_temp0_1265 = pe, __HIVE_P2_temp0_1266 = "parseExprOps", __HIVE_P2_set(__HIVE_P2_temp0_1265, __HIVE_P2_temp0_1266, (__HIVE_P2_reserveFunction(3555), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp3555_0, __HIVE_P2_temp3555_1, __HIVE_P2_temp3555_2, __HIVE_P2_temp3555_3, __HIVE_P2_temp3555_4, __HIVE_P2_temp3555_5;
+        var i = __HIVE_P2_get(this, "start", 3556), s = __HIVE_P2_get(this, "startLoc", 3557);
+        var r = (__HIVE_P2_temp3555_0 = this, __HIVE_P2_temp3555_1 = __HIVE_P2_get(__HIVE_P2_temp3555_0, "parseMaybeUnary", 3558), __HIVE_P2_invoke(__HIVE_P2_temp3555_1, __HIVE_P2_temp3555_0, (__HIVE_P2_reserveArray(4, 3558), __HIVE_P2_ownArray([t, false, false, e], 3558, "CONTROL_ARRAY")), 3558));
+        if ((__HIVE_P2_temp3555_2 = this, __HIVE_P2_temp3555_3 = __HIVE_P2_get(__HIVE_P2_temp3555_2, "checkExpressionErrors", 3560), __HIVE_P2_invoke(__HIVE_P2_temp3555_3, __HIVE_P2_temp3555_2, (__HIVE_P2_reserveArray(1, 3560), __HIVE_P2_ownArray([t], 3560, "CONTROL_ARRAY")), 3560))) {
+            return r;
+        }
+        return __HIVE_P2_get(r, "start", 3562) === i && __HIVE_P2_get(r, "type", 3563) === "ArrowFunctionExpression" ? r : (__HIVE_P2_temp3555_4 = this, __HIVE_P2_temp3555_5 = __HIVE_P2_get(__HIVE_P2_temp3555_4, "parseExprOp", 3564), __HIVE_P2_invoke(__HIVE_P2_temp3555_5, __HIVE_P2_temp3555_4, (__HIVE_P2_reserveArray(5, 3564), __HIVE_P2_ownArray([r, i, s, __HIVE_P2_unary("-", 1, 3565), e], 3564, "CONTROL_ARRAY")), 3564));
+    }, 9, 2, 0, 3555)), 3553));
+    (__HIVE_P2_temp0_1268 = pe, __HIVE_P2_temp0_1269 = "parseExprOp", __HIVE_P2_set(__HIVE_P2_temp0_1268, __HIVE_P2_temp0_1269, (__HIVE_P2_reserveFunction(3569), __HIVE_P2_registerFunction(function (e, t, i, s, r) {
+        var __HIVE_P2_temp3569_0, __HIVE_P2_temp3569_1, __HIVE_P2_temp3569_2, __HIVE_P2_temp3569_3, __HIVE_P2_temp3569_4, __HIVE_P2_temp3569_5, __HIVE_P2_temp3569_6, __HIVE_P2_temp3569_7, __HIVE_P2_temp3569_8, __HIVE_P2_temp3569_9;
+        var a = __HIVE_P2_get(__HIVE_P2_get(this, "type", 3571), "binop", 3570);
+        if (__HIVE_P2_binary("!=", a, null, 3572) && (!r || __HIVE_P2_get(this, "type", 3573) !== __HIVE_P2_get(m, "_in", 3574))) {
+            if (__HIVE_P2_binary(">", a, s, 3575)) {
+                var n = __HIVE_P2_get(this, "type", 3576) === __HIVE_P2_get(m, "logicalOR", 3577) || __HIVE_P2_get(this, "type", 3578) === __HIVE_P2_get(m, "logicalAND", 3579);
+                var o = __HIVE_P2_get(this, "type", 3580) === __HIVE_P2_get(m, "coalesce", 3581);
+                if (o) {
+                    a = __HIVE_P2_get(__HIVE_P2_get(m, "logicalAND", 3584), "binop", 3583);
+                }
+                var h = __HIVE_P2_get(this, "value", 3585);
+                (__HIVE_P2_temp3569_0 = this, __HIVE_P2_temp3569_1 = __HIVE_P2_get(__HIVE_P2_temp3569_0, "next", 3586), __HIVE_P2_invoke(__HIVE_P2_temp3569_1, __HIVE_P2_temp3569_0, (__HIVE_P2_reserveArray(0, 3586), __HIVE_P2_ownArray([], 3586, "CONTROL_ARRAY")), 3586));
+                var p = __HIVE_P2_get(this, "start", 3588), c = __HIVE_P2_get(this, "startLoc", 3589);
+                var l = (__HIVE_P2_temp3569_4 = this, __HIVE_P2_temp3569_5 = __HIVE_P2_get(__HIVE_P2_temp3569_4, "parseExprOp", 3590), __HIVE_P2_invoke(__HIVE_P2_temp3569_5, __HIVE_P2_temp3569_4, (__HIVE_P2_reserveArray(5, 3590), __HIVE_P2_ownArray([(__HIVE_P2_temp3569_2 = this, __HIVE_P2_temp3569_3 = __HIVE_P2_get(__HIVE_P2_temp3569_2, "parseMaybeUnary", 3591), __HIVE_P2_invoke(__HIVE_P2_temp3569_3, __HIVE_P2_temp3569_2, (__HIVE_P2_reserveArray(4, 3591), __HIVE_P2_ownArray([null, false, false, r], 3591, "CONTROL_ARRAY")), 3591)), p, c, a, r], 3590, "CONTROL_ARRAY")), 3590));
+                var u = (__HIVE_P2_temp3569_6 = this, __HIVE_P2_temp3569_7 = __HIVE_P2_get(__HIVE_P2_temp3569_6, "buildBinary", 3594), __HIVE_P2_invoke(__HIVE_P2_temp3569_7, __HIVE_P2_temp3569_6, (__HIVE_P2_reserveArray(6, 3594), __HIVE_P2_ownArray([t, i, e, l, h, n || o], 3594, "CONTROL_ARRAY")), 3594));
+                if (n && __HIVE_P2_get(this, "type", 3596) === __HIVE_P2_get(m, "coalesce", 3597) || o && (__HIVE_P2_get(this, "type", 3598) === __HIVE_P2_get(m, "logicalOR", 3599) || __HIVE_P2_get(this, "type", 3600) === __HIVE_P2_get(m, "logicalAND", 3601))) {
+                    __HIVE_P2_syntaxRefusal(3602);
+                }
+                return (__HIVE_P2_temp3569_8 = this, __HIVE_P2_temp3569_9 = __HIVE_P2_get(__HIVE_P2_temp3569_8, "parseExprOp", 3603), __HIVE_P2_invoke(__HIVE_P2_temp3569_9, __HIVE_P2_temp3569_8, (__HIVE_P2_reserveArray(5, 3603), __HIVE_P2_ownArray([u, t, i, s, r], 3603, "CONTROL_ARRAY")), 3603));
+            }
+        }
+        return e;
+    }, 18, 5, 0, 3569)), 3567));
+    (__HIVE_P2_temp0_1271 = pe, __HIVE_P2_temp0_1272 = "buildBinary", __HIVE_P2_set(__HIVE_P2_temp0_1271, __HIVE_P2_temp0_1272, (__HIVE_P2_reserveFunction(3607), __HIVE_P2_registerFunction(function (e, t, i, s, r, a) {
+        var __HIVE_P2_temp3607_0, __HIVE_P2_temp3607_1, __HIVE_P2_temp3607_2, __HIVE_P2_temp3607_3, __HIVE_P2_temp3607_4, __HIVE_P2_temp3607_5, __HIVE_P2_temp3607_6, __HIVE_P2_temp3607_7, __HIVE_P2_temp3607_8, __HIVE_P2_temp3607_9, __HIVE_P2_temp3607_10, __HIVE_P2_temp3607_11, __HIVE_P2_temp3607_12;
+        if (__HIVE_P2_get(s, "type", 3608) === "PrivateIdentifier") {
+            __HIVE_P2_syntaxRefusal(3609);
+        }
+        var n = (__HIVE_P2_temp3607_0 = this, __HIVE_P2_temp3607_1 = __HIVE_P2_get(__HIVE_P2_temp3607_0, "startNodeAt", 3610), __HIVE_P2_invoke(__HIVE_P2_temp3607_1, __HIVE_P2_temp3607_0, (__HIVE_P2_reserveArray(2, 3610), __HIVE_P2_ownArray([e, t], 3610, "CONTROL_ARRAY")), 3610));
+        (__HIVE_P2_temp3607_2 = n, __HIVE_P2_temp3607_3 = "left", __HIVE_P2_set(__HIVE_P2_temp3607_2, __HIVE_P2_temp3607_3, i, 3612));
+        (__HIVE_P2_temp3607_5 = n, __HIVE_P2_temp3607_6 = "operator", __HIVE_P2_set(__HIVE_P2_temp3607_5, __HIVE_P2_temp3607_6, r, 3614));
+        (__HIVE_P2_temp3607_8 = n, __HIVE_P2_temp3607_9 = "right", __HIVE_P2_set(__HIVE_P2_temp3607_8, __HIVE_P2_temp3607_9, s, 3616));
+        return (__HIVE_P2_temp3607_11 = this, __HIVE_P2_temp3607_12 = __HIVE_P2_get(__HIVE_P2_temp3607_11, "finishNode", 3618), __HIVE_P2_invoke(__HIVE_P2_temp3607_12, __HIVE_P2_temp3607_11, (__HIVE_P2_reserveArray(2, 3618), __HIVE_P2_ownArray([n, a ? "LogicalExpression" : "BinaryExpression"], 3618, "CONTROL_ARRAY")), 3618));
+    }, 14, 6, 0, 3607)), 3605));
+    (__HIVE_P2_temp0_1274 = pe, __HIVE_P2_temp0_1275 = "parseMaybeUnary", __HIVE_P2_set(__HIVE_P2_temp0_1274, __HIVE_P2_temp0_1275, (__HIVE_P2_reserveFunction(3622), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp3622_0, __HIVE_P2_temp3622_1, __HIVE_P2_temp3622_2, __HIVE_P2_temp3622_3, __HIVE_P2_temp3622_4, __HIVE_P2_temp3622_5, __HIVE_P2_temp3622_6, __HIVE_P2_temp3622_7, __HIVE_P2_temp3622_8, __HIVE_P2_temp3622_9, __HIVE_P2_temp3622_10, __HIVE_P2_temp3622_11, __HIVE_P2_temp3622_12, __HIVE_P2_temp3622_13, __HIVE_P2_temp3622_14, __HIVE_P2_temp3622_15, __HIVE_P2_temp3622_16, __HIVE_P2_temp3622_17, __HIVE_P2_temp3622_18, __HIVE_P2_temp3622_19, __HIVE_P2_temp3622_20, __HIVE_P2_temp3622_21, __HIVE_P2_temp3622_22, __HIVE_P2_temp3622_23, __HIVE_P2_temp3622_24, __HIVE_P2_temp3622_25, __HIVE_P2_temp3622_26, __HIVE_P2_temp3622_27, __HIVE_P2_temp3622_28, __HIVE_P2_temp3622_29, __HIVE_P2_temp3622_30, __HIVE_P2_temp3622_31, __HIVE_P2_temp3622_32, __HIVE_P2_temp3622_33, __HIVE_P2_temp3622_34, __HIVE_P2_temp3622_35, __HIVE_P2_temp3622_36, __HIVE_P2_temp3622_37, __HIVE_P2_temp3622_38, __HIVE_P2_temp3622_39, __HIVE_P2_temp3622_40, __HIVE_P2_temp3622_41, __HIVE_P2_temp3622_42, __HIVE_P2_temp3622_43, __HIVE_P2_temp3622_44, __HIVE_P2_temp3622_45, __HIVE_P2_temp3622_46, __HIVE_P2_temp3622_47, __HIVE_P2_temp3622_48, __HIVE_P2_temp3622_49, __HIVE_P2_temp3622_50, __HIVE_P2_temp3622_51, __HIVE_P2_temp3622_52, __HIVE_P2_temp3622_53, __HIVE_P2_temp3622_54, __HIVE_P2_temp3622_55;
+        var r = __HIVE_P2_get(this, "start", 3623), a = __HIVE_P2_get(this, "startLoc", 3624), n;
+        if ((__HIVE_P2_temp3622_0 = this, __HIVE_P2_temp3622_1 = __HIVE_P2_get(__HIVE_P2_temp3622_0, "isContextual", 3625), __HIVE_P2_invoke(__HIVE_P2_temp3622_1, __HIVE_P2_temp3622_0, (__HIVE_P2_reserveArray(1, 3625), __HIVE_P2_ownArray(["await"], 3625, "CONTROL_ARRAY")), 3625)) && __HIVE_P2_get(this, "canAwait", 3627)) {
+            n = (__HIVE_P2_temp3622_2 = this, __HIVE_P2_temp3622_3 = __HIVE_P2_get(__HIVE_P2_temp3622_2, "parseAwait", 3629), __HIVE_P2_invoke(__HIVE_P2_temp3622_3, __HIVE_P2_temp3622_2, (__HIVE_P2_reserveArray(1, 3629), __HIVE_P2_ownArray([s], 3629, "CONTROL_ARRAY")), 3629));
+            t = true;
+        }
+        else if (__HIVE_P2_get(__HIVE_P2_get(this, "type", 3633), "prefix", 3632)) {
+            var o = (__HIVE_P2_temp3622_4 = this, __HIVE_P2_temp3622_5 = __HIVE_P2_get(__HIVE_P2_temp3622_4, "startNode", 3634), __HIVE_P2_invoke(__HIVE_P2_temp3622_5, __HIVE_P2_temp3622_4, (__HIVE_P2_reserveArray(0, 3634), __HIVE_P2_ownArray([], 3634, "CONTROL_ARRAY")), 3634)), h = __HIVE_P2_get(this, "type", 3636) === __HIVE_P2_get(m, "incDec", 3637);
+            (__HIVE_P2_temp3622_6 = o, __HIVE_P2_temp3622_7 = "operator", __HIVE_P2_set(__HIVE_P2_temp3622_6, __HIVE_P2_temp3622_7, __HIVE_P2_get(this, "value", 3640), 3638));
+            (__HIVE_P2_temp3622_9 = o, __HIVE_P2_temp3622_10 = "prefix", __HIVE_P2_set(__HIVE_P2_temp3622_9, __HIVE_P2_temp3622_10, true, 3641));
+            (__HIVE_P2_temp3622_12 = this, __HIVE_P2_temp3622_13 = __HIVE_P2_get(__HIVE_P2_temp3622_12, "next", 3643), __HIVE_P2_invoke(__HIVE_P2_temp3622_13, __HIVE_P2_temp3622_12, (__HIVE_P2_reserveArray(0, 3643), __HIVE_P2_ownArray([], 3643, "CONTROL_ARRAY")), 3643));
+            (__HIVE_P2_temp3622_14 = o, __HIVE_P2_temp3622_15 = "argument", __HIVE_P2_set(__HIVE_P2_temp3622_14, __HIVE_P2_temp3622_15, (__HIVE_P2_temp3622_17 = this, __HIVE_P2_temp3622_18 = __HIVE_P2_get(__HIVE_P2_temp3622_17, "parseMaybeUnary", 3647), __HIVE_P2_invoke(__HIVE_P2_temp3622_18, __HIVE_P2_temp3622_17, (__HIVE_P2_reserveArray(4, 3647), __HIVE_P2_ownArray([null, true, h, s], 3647, "CONTROL_ARRAY")), 3647)), 3645));
+            (__HIVE_P2_temp3622_19 = this, __HIVE_P2_temp3622_20 = __HIVE_P2_get(__HIVE_P2_temp3622_19, "checkExpressionErrors", 3649), __HIVE_P2_invoke(__HIVE_P2_temp3622_20, __HIVE_P2_temp3622_19, (__HIVE_P2_reserveArray(2, 3649), __HIVE_P2_ownArray([e, true], 3649, "CONTROL_ARRAY")), 3649));
+            if (h) {
+                (__HIVE_P2_temp3622_21 = this, __HIVE_P2_temp3622_22 = __HIVE_P2_get(__HIVE_P2_temp3622_21, "checkLValSimple", 3651), __HIVE_P2_invoke(__HIVE_P2_temp3622_22, __HIVE_P2_temp3622_21, (__HIVE_P2_reserveArray(1, 3651), __HIVE_P2_ownArray([__HIVE_P2_get(o, "argument", 3652)], 3651, "CONTROL_ARRAY")), 3651));
+            }
+            else if (__HIVE_P2_get(this, "strict", 3654) && __HIVE_P2_get(o, "operator", 3655) === "delete" && __HIVE_P2_invoke(isLocalVariableAccess, void 0, (__HIVE_P2_reserveArray(1, 3656), __HIVE_P2_ownArray([__HIVE_P2_get(o, "argument", 3657)], 3656, "CONTROL_ARRAY")), 3656)) {
+                __HIVE_P2_syntaxRefusal(3658);
+            }
+            else if (__HIVE_P2_get(o, "operator", 3659) === "delete" && __HIVE_P2_invoke(isPrivateFieldAccess, void 0, (__HIVE_P2_reserveArray(1, 3660), __HIVE_P2_ownArray([__HIVE_P2_get(o, "argument", 3661)], 3660, "CONTROL_ARRAY")), 3660)) {
+                __HIVE_P2_syntaxRefusal(3662);
+            }
+            else {
+                t = true;
+            }
+            n = (__HIVE_P2_temp3622_23 = this, __HIVE_P2_temp3622_24 = __HIVE_P2_get(__HIVE_P2_temp3622_23, "finishNode", 3665), __HIVE_P2_invoke(__HIVE_P2_temp3622_24, __HIVE_P2_temp3622_23, (__HIVE_P2_reserveArray(2, 3665), __HIVE_P2_ownArray([o, h ? "UpdateExpression" : "UnaryExpression"], 3665, "CONTROL_ARRAY")), 3665));
+        }
+        else if (!t && __HIVE_P2_get(this, "type", 3667) === __HIVE_P2_get(m, "privateId", 3668)) {
+            if ((s || __HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 3670), "length", 3669) === 0) && __HIVE_P2_get(__HIVE_P2_get(this, "options", 3672), "checkPrivateFields", 3671)) {
+                __HIVE_P2_syntaxRefusal(3673);
+            }
+            n = (__HIVE_P2_temp3622_25 = this, __HIVE_P2_temp3622_26 = __HIVE_P2_get(__HIVE_P2_temp3622_25, "parsePrivateIdent", 3675), __HIVE_P2_invoke(__HIVE_P2_temp3622_26, __HIVE_P2_temp3622_25, (__HIVE_P2_reserveArray(0, 3675), __HIVE_P2_ownArray([], 3675, "CONTROL_ARRAY")), 3675));
+            if (__HIVE_P2_get(this, "type", 3677) !== __HIVE_P2_get(m, "_in", 3678)) {
+                __HIVE_P2_syntaxRefusal(3679);
+            }
+        }
+        else {
+            n = (__HIVE_P2_temp3622_27 = this, __HIVE_P2_temp3622_28 = __HIVE_P2_get(__HIVE_P2_temp3622_27, "parseExprSubscripts", 3681), __HIVE_P2_invoke(__HIVE_P2_temp3622_28, __HIVE_P2_temp3622_27, (__HIVE_P2_reserveArray(2, 3681), __HIVE_P2_ownArray([e, s], 3681, "CONTROL_ARRAY")), 3681));
+            if ((__HIVE_P2_temp3622_29 = this, __HIVE_P2_temp3622_30 = __HIVE_P2_get(__HIVE_P2_temp3622_29, "checkExpressionErrors", 3683), __HIVE_P2_invoke(__HIVE_P2_temp3622_30, __HIVE_P2_temp3622_29, (__HIVE_P2_reserveArray(1, 3683), __HIVE_P2_ownArray([e], 3683, "CONTROL_ARRAY")), 3683))) {
+                return n;
+            }
+            while (__HIVE_P2_get(__HIVE_P2_get(this, "type", 3687), "postfix", 3686) && !(__HIVE_P2_temp3622_31 = this, __HIVE_P2_temp3622_32 = __HIVE_P2_get(__HIVE_P2_temp3622_31, "canInsertSemicolon", 3688), __HIVE_P2_invoke(__HIVE_P2_temp3622_32, __HIVE_P2_temp3622_31, (__HIVE_P2_reserveArray(0, 3688), __HIVE_P2_ownArray([], 3688, "CONTROL_ARRAY")), 3688))) {
+                __HIVE_P2_tick(3685);
+                var p = (__HIVE_P2_temp3622_33 = this, __HIVE_P2_temp3622_34 = __HIVE_P2_get(__HIVE_P2_temp3622_33, "startNodeAt", 3690), __HIVE_P2_invoke(__HIVE_P2_temp3622_34, __HIVE_P2_temp3622_33, (__HIVE_P2_reserveArray(2, 3690), __HIVE_P2_ownArray([r, a], 3690, "CONTROL_ARRAY")), 3690));
+                (__HIVE_P2_temp3622_35 = p, __HIVE_P2_temp3622_36 = "operator", __HIVE_P2_set(__HIVE_P2_temp3622_35, __HIVE_P2_temp3622_36, __HIVE_P2_get(this, "value", 3694), 3692));
+                (__HIVE_P2_temp3622_38 = p, __HIVE_P2_temp3622_39 = "prefix", __HIVE_P2_set(__HIVE_P2_temp3622_38, __HIVE_P2_temp3622_39, false, 3695));
+                (__HIVE_P2_temp3622_41 = p, __HIVE_P2_temp3622_42 = "argument", __HIVE_P2_set(__HIVE_P2_temp3622_41, __HIVE_P2_temp3622_42, n, 3697));
+                (__HIVE_P2_temp3622_44 = this, __HIVE_P2_temp3622_45 = __HIVE_P2_get(__HIVE_P2_temp3622_44, "checkLValSimple", 3699), __HIVE_P2_invoke(__HIVE_P2_temp3622_45, __HIVE_P2_temp3622_44, (__HIVE_P2_reserveArray(1, 3699), __HIVE_P2_ownArray([n], 3699, "CONTROL_ARRAY")), 3699));
+                (__HIVE_P2_temp3622_46 = this, __HIVE_P2_temp3622_47 = __HIVE_P2_get(__HIVE_P2_temp3622_46, "next", 3701), __HIVE_P2_invoke(__HIVE_P2_temp3622_47, __HIVE_P2_temp3622_46, (__HIVE_P2_reserveArray(0, 3701), __HIVE_P2_ownArray([], 3701, "CONTROL_ARRAY")), 3701));
+                n = (__HIVE_P2_temp3622_48 = this, __HIVE_P2_temp3622_49 = __HIVE_P2_get(__HIVE_P2_temp3622_48, "finishNode", 3704), __HIVE_P2_invoke(__HIVE_P2_temp3622_49, __HIVE_P2_temp3622_48, (__HIVE_P2_reserveArray(2, 3704), __HIVE_P2_ownArray([p, "UpdateExpression"], 3704, "CONTROL_ARRAY")), 3704));
+            }
+        }
+        if (!i && (__HIVE_P2_temp3622_50 = this, __HIVE_P2_temp3622_51 = __HIVE_P2_get(__HIVE_P2_temp3622_50, "eat", 3706), __HIVE_P2_invoke(__HIVE_P2_temp3622_51, __HIVE_P2_temp3622_50, (__HIVE_P2_reserveArray(1, 3706), __HIVE_P2_ownArray([__HIVE_P2_get(m, "starstar", 3707)], 3706, "CONTROL_ARRAY")), 3706))) {
+            if (t) {
+                __HIVE_P2_syntaxRefusal(3709);
+            }
+            else {
+                return (__HIVE_P2_temp3622_54 = this, __HIVE_P2_temp3622_55 = __HIVE_P2_get(__HIVE_P2_temp3622_54, "buildBinary", 3710), __HIVE_P2_invoke(__HIVE_P2_temp3622_55, __HIVE_P2_temp3622_54, (__HIVE_P2_reserveArray(6, 3710), __HIVE_P2_ownArray([r, a, n, (__HIVE_P2_temp3622_52 = this, __HIVE_P2_temp3622_53 = __HIVE_P2_get(__HIVE_P2_temp3622_52, "parseMaybeUnary", 3711), __HIVE_P2_invoke(__HIVE_P2_temp3622_53, __HIVE_P2_temp3622_52, (__HIVE_P2_reserveArray(4, 3711), __HIVE_P2_ownArray([null, false, false, s], 3711, "CONTROL_ARRAY")), 3711)), "**", false], 3710, "CONTROL_ARRAY")), 3710));
+            }
+        }
+        else {
+            return n;
+        }
+    }, 62, 4, 0, 3622)), 3620));
+    function isLocalVariableAccess(e) {
+        return __HIVE_P2_get(e, "type", 3715) === "Identifier" || __HIVE_P2_get(e, "type", 3716) === "ParenthesizedExpression" && __HIVE_P2_invoke(isLocalVariableAccess, void 0, (__HIVE_P2_reserveArray(1, 3717), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 3718)], 3717, "CONTROL_ARRAY")), 3717);
+    }
+    function isPrivateFieldAccess(e) {
+        return __HIVE_P2_get(e, "type", 3720) === "MemberExpression" && __HIVE_P2_get(__HIVE_P2_get(e, "property", 3722), "type", 3721) === "PrivateIdentifier" || __HIVE_P2_get(e, "type", 3723) === "ChainExpression" && __HIVE_P2_invoke(isPrivateFieldAccess, void 0, (__HIVE_P2_reserveArray(1, 3724), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 3725)], 3724, "CONTROL_ARRAY")), 3724) || __HIVE_P2_get(e, "type", 3726) === "ParenthesizedExpression" && __HIVE_P2_invoke(isPrivateFieldAccess, void 0, (__HIVE_P2_reserveArray(1, 3727), __HIVE_P2_ownArray([__HIVE_P2_get(e, "expression", 3728)], 3727, "CONTROL_ARRAY")), 3727);
+    }
+    (__HIVE_P2_temp0_1277 = pe, __HIVE_P2_temp0_1278 = "parseExprSubscripts", __HIVE_P2_set(__HIVE_P2_temp0_1277, __HIVE_P2_temp0_1278, (__HIVE_P2_reserveFunction(3731), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp3731_0, __HIVE_P2_temp3731_1, __HIVE_P2_temp3731_2, __HIVE_P2_temp3731_3, __HIVE_P2_temp3731_4, __HIVE_P2_temp3731_5, __HIVE_P2_temp3731_6, __HIVE_P2_temp3731_7, __HIVE_P2_temp3731_8, __HIVE_P2_temp3731_9, __HIVE_P2_temp3731_10, __HIVE_P2_temp3731_11, __HIVE_P2_temp3731_12, __HIVE_P2_temp3731_13, __HIVE_P2_temp3731_14;
+        var i = __HIVE_P2_get(this, "start", 3732), s = __HIVE_P2_get(this, "startLoc", 3733);
+        var r = (__HIVE_P2_temp3731_0 = this, __HIVE_P2_temp3731_1 = __HIVE_P2_get(__HIVE_P2_temp3731_0, "parseExprAtom", 3734), __HIVE_P2_invoke(__HIVE_P2_temp3731_1, __HIVE_P2_temp3731_0, (__HIVE_P2_reserveArray(2, 3734), __HIVE_P2_ownArray([e, t], 3734, "CONTROL_ARRAY")), 3734));
+        if (__HIVE_P2_get(r, "type", 3736) === "ArrowFunctionExpression" && (__HIVE_P2_temp3731_2 = __HIVE_P2_get(this, "input", 3741), __HIVE_P2_temp3731_3 = __HIVE_P2_get(__HIVE_P2_temp3731_2, "slice", 3737), __HIVE_P2_invoke(__HIVE_P2_temp3731_3, __HIVE_P2_temp3731_2, (__HIVE_P2_reserveArray(2, 3737), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokStart", 3738), __HIVE_P2_get(this, "lastTokEnd", 3739)], 3737, "CONTROL_ARRAY")), 3737)) !== ")") {
+            return r;
+        }
+        var a = (__HIVE_P2_temp3731_4 = this, __HIVE_P2_temp3731_5 = __HIVE_P2_get(__HIVE_P2_temp3731_4, "parseSubscripts", 3742), __HIVE_P2_invoke(__HIVE_P2_temp3731_5, __HIVE_P2_temp3731_4, (__HIVE_P2_reserveArray(5, 3742), __HIVE_P2_ownArray([r, i, s, false, t], 3742, "CONTROL_ARRAY")), 3742));
+        if (e && __HIVE_P2_get(a, "type", 3744) === "MemberExpression") {
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(e, "parenthesizedAssign", 3746), __HIVE_P2_get(a, "start", 3747), 3745)) {
+                (__HIVE_P2_temp3731_6 = e, __HIVE_P2_temp3731_7 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp3731_6, __HIVE_P2_temp3731_7, __HIVE_P2_unary("-", 1, 3750), 3748));
+            }
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(e, "parenthesizedBind", 3752), __HIVE_P2_get(a, "start", 3753), 3751)) {
+                (__HIVE_P2_temp3731_9 = e, __HIVE_P2_temp3731_10 = "parenthesizedBind", __HIVE_P2_set(__HIVE_P2_temp3731_9, __HIVE_P2_temp3731_10, __HIVE_P2_unary("-", 1, 3756), 3754));
+            }
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(e, "trailingComma", 3758), __HIVE_P2_get(a, "start", 3759), 3757)) {
+                (__HIVE_P2_temp3731_12 = e, __HIVE_P2_temp3731_13 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp3731_12, __HIVE_P2_temp3731_13, __HIVE_P2_unary("-", 1, 3762), 3760));
+            }
+        }
+        return a;
+    }, 19, 2, 0, 3731)), 3729));
+    (__HIVE_P2_temp0_1280 = pe, __HIVE_P2_temp0_1281 = "parseSubscripts", __HIVE_P2_set(__HIVE_P2_temp0_1280, __HIVE_P2_temp0_1281, (__HIVE_P2_reserveFunction(3765), __HIVE_P2_registerFunction(function (e, t, i, s, r) {
+        var __HIVE_P2_temp3765_0, __HIVE_P2_temp3765_1, __HIVE_P2_temp3765_2, __HIVE_P2_temp3765_3, __HIVE_P2_temp3765_4, __HIVE_P2_temp3765_5, __HIVE_P2_temp3765_6, __HIVE_P2_temp3765_7, __HIVE_P2_temp3765_8, __HIVE_P2_temp3765_9, __HIVE_P2_temp3765_10;
+        var a = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3768), "ecmaVersion", 3767), 8, 3766) && __HIVE_P2_get(e, "type", 3769) === "Identifier" && __HIVE_P2_get(e, "name", 3770) === "async" && __HIVE_P2_get(this, "lastTokEnd", 3771) === __HIVE_P2_get(e, "end", 3772) && !(__HIVE_P2_temp3765_0 = this, __HIVE_P2_temp3765_1 = __HIVE_P2_get(__HIVE_P2_temp3765_0, "canInsertSemicolon", 3773), __HIVE_P2_invoke(__HIVE_P2_temp3765_1, __HIVE_P2_temp3765_0, (__HIVE_P2_reserveArray(0, 3773), __HIVE_P2_ownArray([], 3773, "CONTROL_ARRAY")), 3773)) && __HIVE_P2_binary("-", __HIVE_P2_get(e, "end", 3776), __HIVE_P2_get(e, "start", 3777), 3775) === 5 && __HIVE_P2_get(this, "potentialArrowAt", 3778) === __HIVE_P2_get(e, "start", 3779);
+        var n = false;
+        while (true) {
+            __HIVE_P2_tick(3780);
+            var o = (__HIVE_P2_temp3765_2 = this, __HIVE_P2_temp3765_3 = __HIVE_P2_get(__HIVE_P2_temp3765_2, "parseSubscript", 3781), __HIVE_P2_invoke(__HIVE_P2_temp3765_3, __HIVE_P2_temp3765_2, (__HIVE_P2_reserveArray(7, 3781), __HIVE_P2_ownArray([e, t, i, s, a, n, r], 3781, "CONTROL_ARRAY")), 3781));
+            if (__HIVE_P2_get(o, "optional", 3783)) {
+                n = true;
+            }
+            if (o === e || __HIVE_P2_get(o, "type", 3785) === "ArrowFunctionExpression") {
+                if (n) {
+                    var h = (__HIVE_P2_temp3765_4 = this, __HIVE_P2_temp3765_5 = __HIVE_P2_get(__HIVE_P2_temp3765_4, "startNodeAt", 3786), __HIVE_P2_invoke(__HIVE_P2_temp3765_5, __HIVE_P2_temp3765_4, (__HIVE_P2_reserveArray(2, 3786), __HIVE_P2_ownArray([t, i], 3786, "CONTROL_ARRAY")), 3786));
+                    (__HIVE_P2_temp3765_6 = h, __HIVE_P2_temp3765_7 = "expression", __HIVE_P2_set(__HIVE_P2_temp3765_6, __HIVE_P2_temp3765_7, o, 3788));
+                    o = (__HIVE_P2_temp3765_9 = this, __HIVE_P2_temp3765_10 = __HIVE_P2_get(__HIVE_P2_temp3765_9, "finishNode", 3791), __HIVE_P2_invoke(__HIVE_P2_temp3765_10, __HIVE_P2_temp3765_9, (__HIVE_P2_reserveArray(2, 3791), __HIVE_P2_ownArray([h, "ChainExpression"], 3791, "CONTROL_ARRAY")), 3791));
+                }
+                return o;
+            }
+            e = o;
+        }
+    }, 15, 5, 0, 3765)), 3763));
+    (__HIVE_P2_temp0_1283 = pe, __HIVE_P2_temp0_1284 = "shouldParseAsyncArrow", __HIVE_P2_set(__HIVE_P2_temp0_1283, __HIVE_P2_temp0_1284, (__HIVE_P2_reserveFunction(3796), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp3796_0, __HIVE_P2_temp3796_1, __HIVE_P2_temp3796_2, __HIVE_P2_temp3796_3;
+        return !(__HIVE_P2_temp3796_0 = this, __HIVE_P2_temp3796_1 = __HIVE_P2_get(__HIVE_P2_temp3796_0, "canInsertSemicolon", 3797), __HIVE_P2_invoke(__HIVE_P2_temp3796_1, __HIVE_P2_temp3796_0, (__HIVE_P2_reserveArray(0, 3797), __HIVE_P2_ownArray([], 3797, "CONTROL_ARRAY")), 3797)) && (__HIVE_P2_temp3796_2 = this, __HIVE_P2_temp3796_3 = __HIVE_P2_get(__HIVE_P2_temp3796_2, "eat", 3799), __HIVE_P2_invoke(__HIVE_P2_temp3796_3, __HIVE_P2_temp3796_2, (__HIVE_P2_reserveArray(1, 3799), __HIVE_P2_ownArray([__HIVE_P2_get(m, "arrow", 3800)], 3799, "CONTROL_ARRAY")), 3799));
+    }, 4, 0, 0, 3796)), 3794));
+    (__HIVE_P2_temp0_1286 = pe, __HIVE_P2_temp0_1287 = "parseSubscriptAsyncArrow", __HIVE_P2_set(__HIVE_P2_temp0_1286, __HIVE_P2_temp0_1287, (__HIVE_P2_reserveFunction(3804), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp3804_0, __HIVE_P2_temp3804_1, __HIVE_P2_temp3804_2, __HIVE_P2_temp3804_3;
+        return (__HIVE_P2_temp3804_2 = this, __HIVE_P2_temp3804_3 = __HIVE_P2_get(__HIVE_P2_temp3804_2, "parseArrowExpression", 3805), __HIVE_P2_invoke(__HIVE_P2_temp3804_3, __HIVE_P2_temp3804_2, (__HIVE_P2_reserveArray(4, 3805), __HIVE_P2_ownArray([(__HIVE_P2_temp3804_0 = this, __HIVE_P2_temp3804_1 = __HIVE_P2_get(__HIVE_P2_temp3804_0, "startNodeAt", 3806), __HIVE_P2_invoke(__HIVE_P2_temp3804_1, __HIVE_P2_temp3804_0, (__HIVE_P2_reserveArray(2, 3806), __HIVE_P2_ownArray([e, t], 3806, "CONTROL_ARRAY")), 3806)), i, true, s], 3805, "CONTROL_ARRAY")), 3805));
+    }, 4, 4, 0, 3804)), 3802));
+    (__HIVE_P2_temp0_1289 = pe, __HIVE_P2_temp0_1290 = "parseSubscript", __HIVE_P2_set(__HIVE_P2_temp0_1289, __HIVE_P2_temp0_1290, (__HIVE_P2_reserveFunction(3811), __HIVE_P2_registerFunction(function (e, t, i, s, r, a, n) {
+        var __HIVE_P2_temp3811_0, __HIVE_P2_temp3811_1, __HIVE_P2_temp3811_2, __HIVE_P2_temp3811_3, __HIVE_P2_temp3811_4, __HIVE_P2_temp3811_5, __HIVE_P2_temp3811_6, __HIVE_P2_temp3811_7, __HIVE_P2_temp3811_8, __HIVE_P2_temp3811_9, __HIVE_P2_temp3811_10, __HIVE_P2_temp3811_11, __HIVE_P2_temp3811_12, __HIVE_P2_temp3811_13, __HIVE_P2_temp3811_14, __HIVE_P2_temp3811_15, __HIVE_P2_temp3811_16, __HIVE_P2_temp3811_17, __HIVE_P2_temp3811_18, __HIVE_P2_temp3811_19, __HIVE_P2_temp3811_20, __HIVE_P2_temp3811_21, __HIVE_P2_temp3811_22, __HIVE_P2_temp3811_23, __HIVE_P2_temp3811_24, __HIVE_P2_temp3811_25, __HIVE_P2_temp3811_26, __HIVE_P2_temp3811_27, __HIVE_P2_temp3811_28, __HIVE_P2_temp3811_29, __HIVE_P2_temp3811_30, __HIVE_P2_temp3811_31, __HIVE_P2_temp3811_32, __HIVE_P2_temp3811_33, __HIVE_P2_temp3811_34, __HIVE_P2_temp3811_35, __HIVE_P2_temp3811_36, __HIVE_P2_temp3811_37, __HIVE_P2_temp3811_38, __HIVE_P2_temp3811_39, __HIVE_P2_temp3811_40, __HIVE_P2_temp3811_41, __HIVE_P2_temp3811_42, __HIVE_P2_temp3811_43, __HIVE_P2_temp3811_44, __HIVE_P2_temp3811_45, __HIVE_P2_temp3811_46, __HIVE_P2_temp3811_47, __HIVE_P2_temp3811_48, __HIVE_P2_temp3811_49, __HIVE_P2_temp3811_50, __HIVE_P2_temp3811_51, __HIVE_P2_temp3811_52, __HIVE_P2_temp3811_53, __HIVE_P2_temp3811_54, __HIVE_P2_temp3811_55, __HIVE_P2_temp3811_56, __HIVE_P2_temp3811_57, __HIVE_P2_temp3811_58, __HIVE_P2_temp3811_59, __HIVE_P2_temp3811_60, __HIVE_P2_temp3811_61, __HIVE_P2_temp3811_62, __HIVE_P2_temp3811_63, __HIVE_P2_temp3811_64, __HIVE_P2_temp3811_65, __HIVE_P2_temp3811_66, __HIVE_P2_temp3811_67, __HIVE_P2_temp3811_68, __HIVE_P2_temp3811_69, __HIVE_P2_temp3811_70, __HIVE_P2_temp3811_71, __HIVE_P2_temp3811_72, __HIVE_P2_temp3811_73, __HIVE_P2_temp3811_74, __HIVE_P2_temp3811_75, __HIVE_P2_temp3811_76, __HIVE_P2_temp3811_77, __HIVE_P2_temp3811_78, __HIVE_P2_temp3811_79, __HIVE_P2_temp3811_80, __HIVE_P2_temp3811_81, __HIVE_P2_temp3811_82, __HIVE_P2_temp3811_83, __HIVE_P2_temp3811_84, __HIVE_P2_temp3811_85, __HIVE_P2_temp3811_86, __HIVE_P2_temp3811_87, __HIVE_P2_temp3811_88, __HIVE_P2_temp3811_89, __HIVE_P2_temp3811_90, __HIVE_P2_temp3811_91, __HIVE_P2_temp3811_92, __HIVE_P2_temp3811_93, __HIVE_P2_temp3811_94, __HIVE_P2_temp3811_95, __HIVE_P2_temp3811_96, __HIVE_P2_temp3811_97, __HIVE_P2_temp3811_98, __HIVE_P2_temp3811_99, __HIVE_P2_temp3811_100, __HIVE_P2_temp3811_101;
+        var o = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3814), "ecmaVersion", 3813), 11, 3812);
+        var h = o && (__HIVE_P2_temp3811_0 = this, __HIVE_P2_temp3811_1 = __HIVE_P2_get(__HIVE_P2_temp3811_0, "eat", 3815), __HIVE_P2_invoke(__HIVE_P2_temp3811_1, __HIVE_P2_temp3811_0, (__HIVE_P2_reserveArray(1, 3815), __HIVE_P2_ownArray([__HIVE_P2_get(m, "questionDot", 3816)], 3815, "CONTROL_ARRAY")), 3815));
+        if (s && h) {
+            __HIVE_P2_syntaxRefusal(3818);
+        }
+        var p = (__HIVE_P2_temp3811_2 = this, __HIVE_P2_temp3811_3 = __HIVE_P2_get(__HIVE_P2_temp3811_2, "eat", 3819), __HIVE_P2_invoke(__HIVE_P2_temp3811_3, __HIVE_P2_temp3811_2, (__HIVE_P2_reserveArray(1, 3819), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketL", 3820)], 3819, "CONTROL_ARRAY")), 3819));
+        if (p || h && __HIVE_P2_get(this, "type", 3822) !== __HIVE_P2_get(m, "parenL", 3823) && __HIVE_P2_get(this, "type", 3824) !== __HIVE_P2_get(m, "backQuote", 3825) || (__HIVE_P2_temp3811_4 = this, __HIVE_P2_temp3811_5 = __HIVE_P2_get(__HIVE_P2_temp3811_4, "eat", 3826), __HIVE_P2_invoke(__HIVE_P2_temp3811_5, __HIVE_P2_temp3811_4, (__HIVE_P2_reserveArray(1, 3826), __HIVE_P2_ownArray([__HIVE_P2_get(m, "dot", 3827)], 3826, "CONTROL_ARRAY")), 3826))) {
+            var c = (__HIVE_P2_temp3811_6 = this, __HIVE_P2_temp3811_7 = __HIVE_P2_get(__HIVE_P2_temp3811_6, "startNodeAt", 3829), __HIVE_P2_invoke(__HIVE_P2_temp3811_7, __HIVE_P2_temp3811_6, (__HIVE_P2_reserveArray(2, 3829), __HIVE_P2_ownArray([t, i], 3829, "CONTROL_ARRAY")), 3829));
+            (__HIVE_P2_temp3811_8 = c, __HIVE_P2_temp3811_9 = "object", __HIVE_P2_set(__HIVE_P2_temp3811_8, __HIVE_P2_temp3811_9, e, 3831));
+            if (p) {
+                (__HIVE_P2_temp3811_11 = c, __HIVE_P2_temp3811_12 = "property", __HIVE_P2_set(__HIVE_P2_temp3811_11, __HIVE_P2_temp3811_12, (__HIVE_P2_temp3811_14 = this, __HIVE_P2_temp3811_15 = __HIVE_P2_get(__HIVE_P2_temp3811_14, "parseExpression", 3835), __HIVE_P2_invoke(__HIVE_P2_temp3811_15, __HIVE_P2_temp3811_14, (__HIVE_P2_reserveArray(0, 3835), __HIVE_P2_ownArray([], 3835, "CONTROL_ARRAY")), 3835)), 3833));
+                (__HIVE_P2_temp3811_16 = this, __HIVE_P2_temp3811_17 = __HIVE_P2_get(__HIVE_P2_temp3811_16, "expect", 3837), __HIVE_P2_invoke(__HIVE_P2_temp3811_17, __HIVE_P2_temp3811_16, (__HIVE_P2_reserveArray(1, 3837), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketR", 3838)], 3837, "CONTROL_ARRAY")), 3837));
+            }
+            else if (__HIVE_P2_get(this, "type", 3840) === __HIVE_P2_get(m, "privateId", 3841) && __HIVE_P2_get(e, "type", 3842) !== "Super") {
+                (__HIVE_P2_temp3811_18 = c, __HIVE_P2_temp3811_19 = "property", __HIVE_P2_set(__HIVE_P2_temp3811_18, __HIVE_P2_temp3811_19, (__HIVE_P2_temp3811_21 = this, __HIVE_P2_temp3811_22 = __HIVE_P2_get(__HIVE_P2_temp3811_21, "parsePrivateIdent", 3845), __HIVE_P2_invoke(__HIVE_P2_temp3811_22, __HIVE_P2_temp3811_21, (__HIVE_P2_reserveArray(0, 3845), __HIVE_P2_ownArray([], 3845, "CONTROL_ARRAY")), 3845)), 3843));
+            }
+            else {
+                (__HIVE_P2_temp3811_23 = c, __HIVE_P2_temp3811_24 = "property", __HIVE_P2_set(__HIVE_P2_temp3811_23, __HIVE_P2_temp3811_24, (__HIVE_P2_temp3811_26 = this, __HIVE_P2_temp3811_27 = __HIVE_P2_get(__HIVE_P2_temp3811_26, "parseIdent", 3849), __HIVE_P2_invoke(__HIVE_P2_temp3811_27, __HIVE_P2_temp3811_26, (__HIVE_P2_reserveArray(1, 3849), __HIVE_P2_ownArray([__HIVE_P2_get(__HIVE_P2_get(this, "options", 3851), "allowReserved", 3850) !== "never"], 3849, "CONTROL_ARRAY")), 3849)), 3847));
+            }
+            (__HIVE_P2_temp3811_28 = c, __HIVE_P2_temp3811_29 = "computed", __HIVE_P2_set(__HIVE_P2_temp3811_28, __HIVE_P2_temp3811_29, !!p, 3853));
+            if (o) {
+                (__HIVE_P2_temp3811_31 = c, __HIVE_P2_temp3811_32 = "optional", __HIVE_P2_set(__HIVE_P2_temp3811_31, __HIVE_P2_temp3811_32, h, 3855));
+            }
+            e = (__HIVE_P2_temp3811_34 = this, __HIVE_P2_temp3811_35 = __HIVE_P2_get(__HIVE_P2_temp3811_34, "finishNode", 3858), __HIVE_P2_invoke(__HIVE_P2_temp3811_35, __HIVE_P2_temp3811_34, (__HIVE_P2_reserveArray(2, 3858), __HIVE_P2_ownArray([c, "MemberExpression"], 3858, "CONTROL_ARRAY")), 3858));
+        }
+        else if (!s && (__HIVE_P2_temp3811_36 = this, __HIVE_P2_temp3811_37 = __HIVE_P2_get(__HIVE_P2_temp3811_36, "eat", 3860), __HIVE_P2_invoke(__HIVE_P2_temp3811_37, __HIVE_P2_temp3811_36, (__HIVE_P2_reserveArray(1, 3860), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 3861)], 3860, "CONTROL_ARRAY")), 3860))) {
+            var l = __HIVE_P2_construct(Z, (__HIVE_P2_reserveArray(0, 3863), __HIVE_P2_ownArray([], 3863, "CONTROL_ARRAY")), 3863), u = __HIVE_P2_get(this, "yieldPos", 3864), f = __HIVE_P2_get(this, "awaitPos", 3865), d = __HIVE_P2_get(this, "awaitIdentPos", 3866);
+            (__HIVE_P2_temp3811_38 = this, __HIVE_P2_temp3811_39 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp3811_38, __HIVE_P2_temp3811_39, 0, 3867));
+            (__HIVE_P2_temp3811_41 = this, __HIVE_P2_temp3811_42 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp3811_41, __HIVE_P2_temp3811_42, 0, 3869));
+            (__HIVE_P2_temp3811_44 = this, __HIVE_P2_temp3811_45 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp3811_44, __HIVE_P2_temp3811_45, 0, 3871));
+            var g = (__HIVE_P2_temp3811_47 = this, __HIVE_P2_temp3811_48 = __HIVE_P2_get(__HIVE_P2_temp3811_47, "parseExprList", 3873), __HIVE_P2_invoke(__HIVE_P2_temp3811_48, __HIVE_P2_temp3811_47, (__HIVE_P2_reserveArray(4, 3873), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 3874), __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3877), "ecmaVersion", 3876), 8, 3875), false, l], 3873, "CONTROL_ARRAY")), 3873));
+            if (r && !h && (__HIVE_P2_temp3811_49 = this, __HIVE_P2_temp3811_50 = __HIVE_P2_get(__HIVE_P2_temp3811_49, "shouldParseAsyncArrow", 3879), __HIVE_P2_invoke(__HIVE_P2_temp3811_50, __HIVE_P2_temp3811_49, (__HIVE_P2_reserveArray(0, 3879), __HIVE_P2_ownArray([], 3879, "CONTROL_ARRAY")), 3879))) {
+                (__HIVE_P2_temp3811_51 = this, __HIVE_P2_temp3811_52 = __HIVE_P2_get(__HIVE_P2_temp3811_51, "checkPatternErrors", 3881), __HIVE_P2_invoke(__HIVE_P2_temp3811_52, __HIVE_P2_temp3811_51, (__HIVE_P2_reserveArray(2, 3881), __HIVE_P2_ownArray([l, false], 3881, "CONTROL_ARRAY")), 3881));
+                (__HIVE_P2_temp3811_53 = this, __HIVE_P2_temp3811_54 = __HIVE_P2_get(__HIVE_P2_temp3811_53, "checkYieldAwaitInDefaultParams", 3883), __HIVE_P2_invoke(__HIVE_P2_temp3811_54, __HIVE_P2_temp3811_53, (__HIVE_P2_reserveArray(0, 3883), __HIVE_P2_ownArray([], 3883, "CONTROL_ARRAY")), 3883));
+                if (__HIVE_P2_binary(">", __HIVE_P2_get(this, "awaitIdentPos", 3886), 0, 3885)) {
+                    __HIVE_P2_syntaxRefusal(3887);
+                }
+                (__HIVE_P2_temp3811_55 = this, __HIVE_P2_temp3811_56 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp3811_55, __HIVE_P2_temp3811_56, u, 3888));
+                (__HIVE_P2_temp3811_58 = this, __HIVE_P2_temp3811_59 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp3811_58, __HIVE_P2_temp3811_59, f, 3890));
+                (__HIVE_P2_temp3811_61 = this, __HIVE_P2_temp3811_62 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp3811_61, __HIVE_P2_temp3811_62, d, 3892));
+                return (__HIVE_P2_temp3811_64 = this, __HIVE_P2_temp3811_65 = __HIVE_P2_get(__HIVE_P2_temp3811_64, "parseSubscriptAsyncArrow", 3894), __HIVE_P2_invoke(__HIVE_P2_temp3811_65, __HIVE_P2_temp3811_64, (__HIVE_P2_reserveArray(4, 3894), __HIVE_P2_ownArray([t, i, g, n], 3894, "CONTROL_ARRAY")), 3894));
+            }
+            (__HIVE_P2_temp3811_66 = this, __HIVE_P2_temp3811_67 = __HIVE_P2_get(__HIVE_P2_temp3811_66, "checkExpressionErrors", 3896), __HIVE_P2_invoke(__HIVE_P2_temp3811_67, __HIVE_P2_temp3811_66, (__HIVE_P2_reserveArray(2, 3896), __HIVE_P2_ownArray([l, true], 3896, "CONTROL_ARRAY")), 3896));
+            (__HIVE_P2_temp3811_68 = this, __HIVE_P2_temp3811_69 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp3811_68, __HIVE_P2_temp3811_69, u || __HIVE_P2_get(this, "yieldPos", 3900), 3898));
+            (__HIVE_P2_temp3811_71 = this, __HIVE_P2_temp3811_72 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp3811_71, __HIVE_P2_temp3811_72, f || __HIVE_P2_get(this, "awaitPos", 3903), 3901));
+            (__HIVE_P2_temp3811_74 = this, __HIVE_P2_temp3811_75 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp3811_74, __HIVE_P2_temp3811_75, d || __HIVE_P2_get(this, "awaitIdentPos", 3906), 3904));
+            var v = (__HIVE_P2_temp3811_77 = this, __HIVE_P2_temp3811_78 = __HIVE_P2_get(__HIVE_P2_temp3811_77, "startNodeAt", 3907), __HIVE_P2_invoke(__HIVE_P2_temp3811_78, __HIVE_P2_temp3811_77, (__HIVE_P2_reserveArray(2, 3907), __HIVE_P2_ownArray([t, i], 3907, "CONTROL_ARRAY")), 3907));
+            (__HIVE_P2_temp3811_79 = v, __HIVE_P2_temp3811_80 = "callee", __HIVE_P2_set(__HIVE_P2_temp3811_79, __HIVE_P2_temp3811_80, e, 3909));
+            (__HIVE_P2_temp3811_82 = v, __HIVE_P2_temp3811_83 = "arguments", __HIVE_P2_set(__HIVE_P2_temp3811_82, __HIVE_P2_temp3811_83, g, 3911));
+            if (o) {
+                (__HIVE_P2_temp3811_85 = v, __HIVE_P2_temp3811_86 = "optional", __HIVE_P2_set(__HIVE_P2_temp3811_85, __HIVE_P2_temp3811_86, h, 3913));
+            }
+            e = (__HIVE_P2_temp3811_88 = this, __HIVE_P2_temp3811_89 = __HIVE_P2_get(__HIVE_P2_temp3811_88, "finishNode", 3916), __HIVE_P2_invoke(__HIVE_P2_temp3811_89, __HIVE_P2_temp3811_88, (__HIVE_P2_reserveArray(2, 3916), __HIVE_P2_ownArray([v, "CallExpression"], 3916, "CONTROL_ARRAY")), 3916));
+        }
+        else if (__HIVE_P2_get(this, "type", 3918) === __HIVE_P2_get(m, "backQuote", 3919)) {
+            if (h || a) {
+                __HIVE_P2_syntaxRefusal(3920);
+            }
+            var x = (__HIVE_P2_temp3811_90 = this, __HIVE_P2_temp3811_91 = __HIVE_P2_get(__HIVE_P2_temp3811_90, "startNodeAt", 3921), __HIVE_P2_invoke(__HIVE_P2_temp3811_91, __HIVE_P2_temp3811_90, (__HIVE_P2_reserveArray(2, 3921), __HIVE_P2_ownArray([t, i], 3921, "CONTROL_ARRAY")), 3921));
+            (__HIVE_P2_temp3811_92 = x, __HIVE_P2_temp3811_93 = "tag", __HIVE_P2_set(__HIVE_P2_temp3811_92, __HIVE_P2_temp3811_93, e, 3923));
+            (__HIVE_P2_temp3811_95 = x, __HIVE_P2_temp3811_96 = "quasi", __HIVE_P2_set(__HIVE_P2_temp3811_95, __HIVE_P2_temp3811_96, (__HIVE_P2_temp3811_98 = this, __HIVE_P2_temp3811_99 = __HIVE_P2_get(__HIVE_P2_temp3811_98, "parseTemplate", 3927), __HIVE_P2_invoke(__HIVE_P2_temp3811_99, __HIVE_P2_temp3811_98, (__HIVE_P2_reserveArray(1, 3927), __HIVE_P2_ownArray([(__HIVE_P2_reserveObject(1, 3928), __HIVE_P2_ownObject({ isTagged: true }, 3928, 1, 8))], 3927, "CONTROL_ARRAY")), 3927)), 3925));
+            e = (__HIVE_P2_temp3811_100 = this, __HIVE_P2_temp3811_101 = __HIVE_P2_get(__HIVE_P2_temp3811_100, "finishNode", 3931), __HIVE_P2_invoke(__HIVE_P2_temp3811_101, __HIVE_P2_temp3811_100, (__HIVE_P2_reserveArray(2, 3931), __HIVE_P2_ownArray([x, "TaggedTemplateExpression"], 3931, "CONTROL_ARRAY")), 3931));
+        }
+        return e;
+    }, 113, 7, 0, 3811)), 3809));
+    (__HIVE_P2_temp0_1292 = pe, __HIVE_P2_temp0_1293 = "parseExprAtom", __HIVE_P2_set(__HIVE_P2_temp0_1292, __HIVE_P2_temp0_1293, (__HIVE_P2_reserveFunction(3935), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp3935_0, __HIVE_P2_temp3935_1, __HIVE_P2_temp3935_2, __HIVE_P2_temp3935_3, __HIVE_P2_temp3935_4, __HIVE_P2_temp3935_5, __HIVE_P2_temp3935_6, __HIVE_P2_temp3935_7, __HIVE_P2_temp3935_8, __HIVE_P2_temp3935_9, __HIVE_P2_temp3935_10, __HIVE_P2_temp3935_11, __HIVE_P2_temp3935_12, __HIVE_P2_temp3935_13, __HIVE_P2_temp3935_14, __HIVE_P2_temp3935_15, __HIVE_P2_temp3935_16, __HIVE_P2_temp3935_17, __HIVE_P2_temp3935_18, __HIVE_P2_temp3935_19, __HIVE_P2_temp3935_20, __HIVE_P2_temp3935_21, __HIVE_P2_temp3935_22, __HIVE_P2_temp3935_23, __HIVE_P2_temp3935_24, __HIVE_P2_temp3935_25, __HIVE_P2_temp3935_26, __HIVE_P2_temp3935_27, __HIVE_P2_temp3935_28, __HIVE_P2_temp3935_29, __HIVE_P2_temp3935_30, __HIVE_P2_temp3935_31, __HIVE_P2_temp3935_32, __HIVE_P2_temp3935_33, __HIVE_P2_temp3935_34, __HIVE_P2_temp3935_35, __HIVE_P2_temp3935_36, __HIVE_P2_temp3935_37, __HIVE_P2_temp3935_38, __HIVE_P2_temp3935_39, __HIVE_P2_temp3935_40, __HIVE_P2_temp3935_41, __HIVE_P2_temp3935_42, __HIVE_P2_temp3935_43, __HIVE_P2_temp3935_44, __HIVE_P2_temp3935_45, __HIVE_P2_temp3935_46, __HIVE_P2_temp3935_47, __HIVE_P2_temp3935_48, __HIVE_P2_temp3935_49, __HIVE_P2_temp3935_50, __HIVE_P2_temp3935_51, __HIVE_P2_temp3935_52, __HIVE_P2_temp3935_53, __HIVE_P2_temp3935_54, __HIVE_P2_temp3935_55, __HIVE_P2_temp3935_56, __HIVE_P2_temp3935_57, __HIVE_P2_temp3935_58, __HIVE_P2_temp3935_59, __HIVE_P2_temp3935_60, __HIVE_P2_temp3935_61, __HIVE_P2_temp3935_62, __HIVE_P2_temp3935_63, __HIVE_P2_temp3935_64, __HIVE_P2_temp3935_65, __HIVE_P2_temp3935_66, __HIVE_P2_temp3935_67, __HIVE_P2_temp3935_68, __HIVE_P2_temp3935_69, __HIVE_P2_temp3935_70, __HIVE_P2_temp3935_71, __HIVE_P2_temp3935_72, __HIVE_P2_temp3935_73, __HIVE_P2_temp3935_74, __HIVE_P2_temp3935_75, __HIVE_P2_temp3935_76, __HIVE_P2_temp3935_77, __HIVE_P2_temp3935_78, __HIVE_P2_temp3935_79, __HIVE_P2_temp3935_80, __HIVE_P2_temp3935_81, __HIVE_P2_temp3935_82, __HIVE_P2_temp3935_83, __HIVE_P2_temp3935_84, __HIVE_P2_temp3935_85, __HIVE_P2_temp3935_86, __HIVE_P2_temp3935_87, __HIVE_P2_temp3935_88, __HIVE_P2_temp3935_89, __HIVE_P2_temp3935_90, __HIVE_P2_temp3935_91, __HIVE_P2_temp3935_92, __HIVE_P2_temp3935_93, __HIVE_P2_temp3935_94, __HIVE_P2_temp3935_95, __HIVE_P2_temp3935_96, __HIVE_P2_temp3935_97, __HIVE_P2_temp3935_98, __HIVE_P2_temp3935_99, __HIVE_P2_temp3935_100, __HIVE_P2_temp3935_101, __HIVE_P2_temp3935_102, __HIVE_P2_temp3935_103, __HIVE_P2_temp3935_104, __HIVE_P2_temp3935_105, __HIVE_P2_temp3935_106, __HIVE_P2_temp3935_107, __HIVE_P2_temp3935_108, __HIVE_P2_temp3935_109;
+        if (__HIVE_P2_get(this, "type", 3936) === __HIVE_P2_get(m, "slash", 3937)) {
+            (__HIVE_P2_temp3935_0 = this, __HIVE_P2_temp3935_1 = __HIVE_P2_get(__HIVE_P2_temp3935_0, "readRegexp", 3938), __HIVE_P2_invoke(__HIVE_P2_temp3935_1, __HIVE_P2_temp3935_0, (__HIVE_P2_reserveArray(0, 3938), __HIVE_P2_ownArray([], 3938, "CONTROL_ARRAY")), 3938));
+        }
+        var s, r = __HIVE_P2_get(this, "potentialArrowAt", 3940) === __HIVE_P2_get(this, "start", 3941);
+        switch (__HIVE_P2_get(this, "type", 3942)) {
+            case __HIVE_P2_get(m, "_super", 3943):
+                if (!__HIVE_P2_get(this, "allowSuper", 3944)) {
+                    __HIVE_P2_syntaxRefusal(3945);
+                }
+                s = (__HIVE_P2_temp3935_2 = this, __HIVE_P2_temp3935_3 = __HIVE_P2_get(__HIVE_P2_temp3935_2, "startNode", 3947), __HIVE_P2_invoke(__HIVE_P2_temp3935_3, __HIVE_P2_temp3935_2, (__HIVE_P2_reserveArray(0, 3947), __HIVE_P2_ownArray([], 3947, "CONTROL_ARRAY")), 3947));
+                (__HIVE_P2_temp3935_4 = this, __HIVE_P2_temp3935_5 = __HIVE_P2_get(__HIVE_P2_temp3935_4, "next", 3949), __HIVE_P2_invoke(__HIVE_P2_temp3935_5, __HIVE_P2_temp3935_4, (__HIVE_P2_reserveArray(0, 3949), __HIVE_P2_ownArray([], 3949, "CONTROL_ARRAY")), 3949));
+                if (__HIVE_P2_get(this, "type", 3951) === __HIVE_P2_get(m, "parenL", 3952) && !__HIVE_P2_get(this, "allowDirectSuper", 3953)) {
+                    __HIVE_P2_syntaxRefusal(3954);
+                }
+                if (__HIVE_P2_get(this, "type", 3955) !== __HIVE_P2_get(m, "dot", 3956) && __HIVE_P2_get(this, "type", 3957) !== __HIVE_P2_get(m, "bracketL", 3958) && __HIVE_P2_get(this, "type", 3959) !== __HIVE_P2_get(m, "parenL", 3960)) {
+                    __HIVE_P2_syntaxRefusal(3961);
+                }
+                return (__HIVE_P2_temp3935_6 = this, __HIVE_P2_temp3935_7 = __HIVE_P2_get(__HIVE_P2_temp3935_6, "finishNode", 3962), __HIVE_P2_invoke(__HIVE_P2_temp3935_7, __HIVE_P2_temp3935_6, (__HIVE_P2_reserveArray(2, 3962), __HIVE_P2_ownArray([s, "Super"], 3962, "CONTROL_ARRAY")), 3962));
+            case __HIVE_P2_get(m, "_this", 3964):
+                s = (__HIVE_P2_temp3935_8 = this, __HIVE_P2_temp3935_9 = __HIVE_P2_get(__HIVE_P2_temp3935_8, "startNode", 3966), __HIVE_P2_invoke(__HIVE_P2_temp3935_9, __HIVE_P2_temp3935_8, (__HIVE_P2_reserveArray(0, 3966), __HIVE_P2_ownArray([], 3966, "CONTROL_ARRAY")), 3966));
+                (__HIVE_P2_temp3935_10 = this, __HIVE_P2_temp3935_11 = __HIVE_P2_get(__HIVE_P2_temp3935_10, "next", 3968), __HIVE_P2_invoke(__HIVE_P2_temp3935_11, __HIVE_P2_temp3935_10, (__HIVE_P2_reserveArray(0, 3968), __HIVE_P2_ownArray([], 3968, "CONTROL_ARRAY")), 3968));
+                return (__HIVE_P2_temp3935_12 = this, __HIVE_P2_temp3935_13 = __HIVE_P2_get(__HIVE_P2_temp3935_12, "finishNode", 3970), __HIVE_P2_invoke(__HIVE_P2_temp3935_13, __HIVE_P2_temp3935_12, (__HIVE_P2_reserveArray(2, 3970), __HIVE_P2_ownArray([s, "ThisExpression"], 3970, "CONTROL_ARRAY")), 3970));
+            case __HIVE_P2_get(m, "name", 3972):
+                var a = __HIVE_P2_get(this, "start", 3973), n = __HIVE_P2_get(this, "startLoc", 3974), o = __HIVE_P2_get(this, "containsEsc", 3975);
+                var h = (__HIVE_P2_temp3935_14 = this, __HIVE_P2_temp3935_15 = __HIVE_P2_get(__HIVE_P2_temp3935_14, "parseIdent", 3976), __HIVE_P2_invoke(__HIVE_P2_temp3935_15, __HIVE_P2_temp3935_14, (__HIVE_P2_reserveArray(1, 3976), __HIVE_P2_ownArray([false], 3976, "CONTROL_ARRAY")), 3976));
+                if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 3980), "ecmaVersion", 3979), 8, 3978) && !o && __HIVE_P2_get(h, "name", 3981) === "async" && !(__HIVE_P2_temp3935_16 = this, __HIVE_P2_temp3935_17 = __HIVE_P2_get(__HIVE_P2_temp3935_16, "canInsertSemicolon", 3982), __HIVE_P2_invoke(__HIVE_P2_temp3935_17, __HIVE_P2_temp3935_16, (__HIVE_P2_reserveArray(0, 3982), __HIVE_P2_ownArray([], 3982, "CONTROL_ARRAY")), 3982)) && (__HIVE_P2_temp3935_18 = this, __HIVE_P2_temp3935_19 = __HIVE_P2_get(__HIVE_P2_temp3935_18, "eat", 3984), __HIVE_P2_invoke(__HIVE_P2_temp3935_19, __HIVE_P2_temp3935_18, (__HIVE_P2_reserveArray(1, 3984), __HIVE_P2_ownArray([__HIVE_P2_get(m, "_function", 3985)], 3984, "CONTROL_ARRAY")), 3984))) {
+                    (__HIVE_P2_temp3935_20 = this, __HIVE_P2_temp3935_21 = __HIVE_P2_get(__HIVE_P2_temp3935_20, "overrideContext", 3987), __HIVE_P2_invoke(__HIVE_P2_temp3935_21, __HIVE_P2_temp3935_20, (__HIVE_P2_reserveArray(1, 3987), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "f_expr", 3988)], 3987, "CONTROL_ARRAY")), 3987));
+                    return (__HIVE_P2_temp3935_24 = this, __HIVE_P2_temp3935_25 = __HIVE_P2_get(__HIVE_P2_temp3935_24, "parseFunction", 3990), __HIVE_P2_invoke(__HIVE_P2_temp3935_25, __HIVE_P2_temp3935_24, (__HIVE_P2_reserveArray(5, 3990), __HIVE_P2_ownArray([(__HIVE_P2_temp3935_22 = this, __HIVE_P2_temp3935_23 = __HIVE_P2_get(__HIVE_P2_temp3935_22, "startNodeAt", 3991), __HIVE_P2_invoke(__HIVE_P2_temp3935_23, __HIVE_P2_temp3935_22, (__HIVE_P2_reserveArray(2, 3991), __HIVE_P2_ownArray([a, n], 3991, "CONTROL_ARRAY")), 3991)), 0, false, true, t], 3990, "CONTROL_ARRAY")), 3990));
+                }
+                if (r && !(__HIVE_P2_temp3935_26 = this, __HIVE_P2_temp3935_27 = __HIVE_P2_get(__HIVE_P2_temp3935_26, "canInsertSemicolon", 3994), __HIVE_P2_invoke(__HIVE_P2_temp3935_27, __HIVE_P2_temp3935_26, (__HIVE_P2_reserveArray(0, 3994), __HIVE_P2_ownArray([], 3994, "CONTROL_ARRAY")), 3994))) {
+                    if ((__HIVE_P2_temp3935_28 = this, __HIVE_P2_temp3935_29 = __HIVE_P2_get(__HIVE_P2_temp3935_28, "eat", 3996), __HIVE_P2_invoke(__HIVE_P2_temp3935_29, __HIVE_P2_temp3935_28, (__HIVE_P2_reserveArray(1, 3996), __HIVE_P2_ownArray([__HIVE_P2_get(m, "arrow", 3997)], 3996, "CONTROL_ARRAY")), 3996))) {
+                        return (__HIVE_P2_temp3935_34 = this, __HIVE_P2_temp3935_35 = __HIVE_P2_get(__HIVE_P2_temp3935_34, "parseArrowExpression", 3999), __HIVE_P2_invoke(__HIVE_P2_temp3935_35, __HIVE_P2_temp3935_34, (__HIVE_P2_reserveArray(4, 3999), __HIVE_P2_ownArray([(__HIVE_P2_temp3935_30 = this, __HIVE_P2_temp3935_31 = __HIVE_P2_get(__HIVE_P2_temp3935_30, "startNodeAt", 4000), __HIVE_P2_invoke(__HIVE_P2_temp3935_31, __HIVE_P2_temp3935_30, (__HIVE_P2_reserveArray(2, 4000), __HIVE_P2_ownArray([a, n], 4000, "CONTROL_ARRAY")), 4000)), (__HIVE_P2_temp3935_32 = 0, __HIVE_P2_temp3935_33 = h, __HIVE_P2_temp3935_32 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp3935_32, __HIVE_P2_temp3935_33, 4002), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp3935_32, 4002), __HIVE_P2_reserveArray(1, 4002, 1), __HIVE_P2_ownArray([__HIVE_P2_temp3935_33], 4002, "ARRAY", __HIVE_P2_temp3935_32)), false, t], 3999, "CONTROL_ARRAY")), 3999));
+                    }
+                    if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4006), "ecmaVersion", 4005), 8, 4004) && __HIVE_P2_get(h, "name", 4007) === "async" && __HIVE_P2_get(this, "type", 4008) === __HIVE_P2_get(m, "name", 4009) && !o && (!__HIVE_P2_get(this, "potentialArrowInForAwait", 4010) || __HIVE_P2_get(this, "value", 4011) !== "of" || __HIVE_P2_get(this, "containsEsc", 4012))) {
+                        h = (__HIVE_P2_temp3935_36 = this, __HIVE_P2_temp3935_37 = __HIVE_P2_get(__HIVE_P2_temp3935_36, "parseIdent", 4014), __HIVE_P2_invoke(__HIVE_P2_temp3935_37, __HIVE_P2_temp3935_36, (__HIVE_P2_reserveArray(1, 4014), __HIVE_P2_ownArray([false], 4014, "CONTROL_ARRAY")), 4014));
+                        if ((__HIVE_P2_temp3935_38 = this, __HIVE_P2_temp3935_39 = __HIVE_P2_get(__HIVE_P2_temp3935_38, "canInsertSemicolon", 4016), __HIVE_P2_invoke(__HIVE_P2_temp3935_39, __HIVE_P2_temp3935_38, (__HIVE_P2_reserveArray(0, 4016), __HIVE_P2_ownArray([], 4016, "CONTROL_ARRAY")), 4016)) || !(__HIVE_P2_temp3935_40 = this, __HIVE_P2_temp3935_41 = __HIVE_P2_get(__HIVE_P2_temp3935_40, "eat", 4018), __HIVE_P2_invoke(__HIVE_P2_temp3935_41, __HIVE_P2_temp3935_40, (__HIVE_P2_reserveArray(1, 4018), __HIVE_P2_ownArray([__HIVE_P2_get(m, "arrow", 4019)], 4018, "CONTROL_ARRAY")), 4018))) {
+                            __HIVE_P2_syntaxRefusal(4021);
+                        }
+                        return (__HIVE_P2_temp3935_46 = this, __HIVE_P2_temp3935_47 = __HIVE_P2_get(__HIVE_P2_temp3935_46, "parseArrowExpression", 4022), __HIVE_P2_invoke(__HIVE_P2_temp3935_47, __HIVE_P2_temp3935_46, (__HIVE_P2_reserveArray(4, 4022), __HIVE_P2_ownArray([(__HIVE_P2_temp3935_42 = this, __HIVE_P2_temp3935_43 = __HIVE_P2_get(__HIVE_P2_temp3935_42, "startNodeAt", 4023), __HIVE_P2_invoke(__HIVE_P2_temp3935_43, __HIVE_P2_temp3935_42, (__HIVE_P2_reserveArray(2, 4023), __HIVE_P2_ownArray([a, n], 4023, "CONTROL_ARRAY")), 4023)), (__HIVE_P2_temp3935_44 = 0, __HIVE_P2_temp3935_45 = h, __HIVE_P2_temp3935_44 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp3935_44, __HIVE_P2_temp3935_45, 4025), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp3935_44, 4025), __HIVE_P2_reserveArray(1, 4025, 1), __HIVE_P2_ownArray([__HIVE_P2_temp3935_45], 4025, "ARRAY", __HIVE_P2_temp3935_44)), true, t], 4022, "CONTROL_ARRAY")), 4022));
+                    }
+                }
+                return h;
+            case __HIVE_P2_get(m, "regexp", 4027):
+                var p = __HIVE_P2_get(this, "value", 4028);
+                s = (__HIVE_P2_temp3935_48 = this, __HIVE_P2_temp3935_49 = __HIVE_P2_get(__HIVE_P2_temp3935_48, "parseLiteral", 4030), __HIVE_P2_invoke(__HIVE_P2_temp3935_49, __HIVE_P2_temp3935_48, (__HIVE_P2_reserveArray(1, 4030), __HIVE_P2_ownArray([__HIVE_P2_get(p, "value", 4031)], 4030, "CONTROL_ARRAY")), 4030));
+                (__HIVE_P2_temp3935_50 = s, __HIVE_P2_temp3935_51 = "regex", __HIVE_P2_set(__HIVE_P2_temp3935_50, __HIVE_P2_temp3935_51, (__HIVE_P2_reserveObject(2, 4035), __HIVE_P2_ownObject({ pattern: __HIVE_P2_get(p, "pattern", 4036), flags: __HIVE_P2_get(p, "flags", 4037) }, 4035, 2, 12)), 4033));
+                return s;
+            case __HIVE_P2_get(m, "num", 4038):
+            case __HIVE_P2_get(m, "string", 4039): return (__HIVE_P2_temp3935_53 = this, __HIVE_P2_temp3935_54 = __HIVE_P2_get(__HIVE_P2_temp3935_53, "parseLiteral", 4040), __HIVE_P2_invoke(__HIVE_P2_temp3935_54, __HIVE_P2_temp3935_53, (__HIVE_P2_reserveArray(1, 4040), __HIVE_P2_ownArray([__HIVE_P2_get(this, "value", 4041)], 4040, "CONTROL_ARRAY")), 4040));
+            case __HIVE_P2_get(m, "_null", 4043):
+            case __HIVE_P2_get(m, "_true", 4044):
+            case __HIVE_P2_get(m, "_false", 4045):
+                s = (__HIVE_P2_temp3935_55 = this, __HIVE_P2_temp3935_56 = __HIVE_P2_get(__HIVE_P2_temp3935_55, "startNode", 4047), __HIVE_P2_invoke(__HIVE_P2_temp3935_56, __HIVE_P2_temp3935_55, (__HIVE_P2_reserveArray(0, 4047), __HIVE_P2_ownArray([], 4047, "CONTROL_ARRAY")), 4047));
+                (__HIVE_P2_temp3935_57 = s, __HIVE_P2_temp3935_58 = "value", __HIVE_P2_set(__HIVE_P2_temp3935_57, __HIVE_P2_temp3935_58, __HIVE_P2_get(this, "type", 4051) === __HIVE_P2_get(m, "_null", 4052) ? null : __HIVE_P2_get(this, "type", 4053) === __HIVE_P2_get(m, "_true", 4054), 4049));
+                (__HIVE_P2_temp3935_60 = s, __HIVE_P2_temp3935_61 = "raw", __HIVE_P2_set(__HIVE_P2_temp3935_60, __HIVE_P2_temp3935_61, __HIVE_P2_get(__HIVE_P2_get(this, "type", 4058), "keyword", 4057), 4055));
+                (__HIVE_P2_temp3935_63 = this, __HIVE_P2_temp3935_64 = __HIVE_P2_get(__HIVE_P2_temp3935_63, "next", 4059), __HIVE_P2_invoke(__HIVE_P2_temp3935_64, __HIVE_P2_temp3935_63, (__HIVE_P2_reserveArray(0, 4059), __HIVE_P2_ownArray([], 4059, "CONTROL_ARRAY")), 4059));
+                return (__HIVE_P2_temp3935_65 = this, __HIVE_P2_temp3935_66 = __HIVE_P2_get(__HIVE_P2_temp3935_65, "finishNode", 4061), __HIVE_P2_invoke(__HIVE_P2_temp3935_66, __HIVE_P2_temp3935_65, (__HIVE_P2_reserveArray(2, 4061), __HIVE_P2_ownArray([s, "Literal"], 4061, "CONTROL_ARRAY")), 4061));
+            case __HIVE_P2_get(m, "parenL", 4063):
+                var c = __HIVE_P2_get(this, "start", 4064), l = (__HIVE_P2_temp3935_67 = this, __HIVE_P2_temp3935_68 = __HIVE_P2_get(__HIVE_P2_temp3935_67, "parseParenAndDistinguishExpression", 4065), __HIVE_P2_invoke(__HIVE_P2_temp3935_68, __HIVE_P2_temp3935_67, (__HIVE_P2_reserveArray(2, 4065), __HIVE_P2_ownArray([r, t], 4065, "CONTROL_ARRAY")), 4065));
+                if (e) {
+                    if (__HIVE_P2_binary("<", __HIVE_P2_get(e, "parenthesizedAssign", 4068), 0, 4067) && !(__HIVE_P2_temp3935_69 = this, __HIVE_P2_temp3935_70 = __HIVE_P2_get(__HIVE_P2_temp3935_69, "isSimpleAssignTarget", 4069), __HIVE_P2_invoke(__HIVE_P2_temp3935_70, __HIVE_P2_temp3935_69, (__HIVE_P2_reserveArray(1, 4069), __HIVE_P2_ownArray([l], 4069, "CONTROL_ARRAY")), 4069))) {
+                        (__HIVE_P2_temp3935_71 = e, __HIVE_P2_temp3935_72 = "parenthesizedAssign", __HIVE_P2_set(__HIVE_P2_temp3935_71, __HIVE_P2_temp3935_72, c, 4071));
+                    }
+                    if (__HIVE_P2_binary("<", __HIVE_P2_get(e, "parenthesizedBind", 4074), 0, 4073)) {
+                        (__HIVE_P2_temp3935_74 = e, __HIVE_P2_temp3935_75 = "parenthesizedBind", __HIVE_P2_set(__HIVE_P2_temp3935_74, __HIVE_P2_temp3935_75, c, 4075));
+                    }
+                }
+                return l;
+            case __HIVE_P2_get(m, "bracketL", 4077):
+                s = (__HIVE_P2_temp3935_77 = this, __HIVE_P2_temp3935_78 = __HIVE_P2_get(__HIVE_P2_temp3935_77, "startNode", 4079), __HIVE_P2_invoke(__HIVE_P2_temp3935_78, __HIVE_P2_temp3935_77, (__HIVE_P2_reserveArray(0, 4079), __HIVE_P2_ownArray([], 4079, "CONTROL_ARRAY")), 4079));
+                (__HIVE_P2_temp3935_79 = this, __HIVE_P2_temp3935_80 = __HIVE_P2_get(__HIVE_P2_temp3935_79, "next", 4081), __HIVE_P2_invoke(__HIVE_P2_temp3935_80, __HIVE_P2_temp3935_79, (__HIVE_P2_reserveArray(0, 4081), __HIVE_P2_ownArray([], 4081, "CONTROL_ARRAY")), 4081));
+                (__HIVE_P2_temp3935_81 = s, __HIVE_P2_temp3935_82 = "elements", __HIVE_P2_set(__HIVE_P2_temp3935_81, __HIVE_P2_temp3935_82, (__HIVE_P2_temp3935_84 = this, __HIVE_P2_temp3935_85 = __HIVE_P2_get(__HIVE_P2_temp3935_84, "parseExprList", 4085), __HIVE_P2_invoke(__HIVE_P2_temp3935_85, __HIVE_P2_temp3935_84, (__HIVE_P2_reserveArray(4, 4085), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketR", 4086), true, true, e], 4085, "CONTROL_ARRAY")), 4085)), 4083));
+                return (__HIVE_P2_temp3935_86 = this, __HIVE_P2_temp3935_87 = __HIVE_P2_get(__HIVE_P2_temp3935_86, "finishNode", 4088), __HIVE_P2_invoke(__HIVE_P2_temp3935_87, __HIVE_P2_temp3935_86, (__HIVE_P2_reserveArray(2, 4088), __HIVE_P2_ownArray([s, "ArrayExpression"], 4088, "CONTROL_ARRAY")), 4088));
+            case __HIVE_P2_get(m, "braceL", 4090):
+                (__HIVE_P2_temp3935_88 = this, __HIVE_P2_temp3935_89 = __HIVE_P2_get(__HIVE_P2_temp3935_88, "overrideContext", 4091), __HIVE_P2_invoke(__HIVE_P2_temp3935_89, __HIVE_P2_temp3935_88, (__HIVE_P2_reserveArray(1, 4091), __HIVE_P2_ownArray([__HIVE_P2_get(oe, "b_expr", 4092)], 4091, "CONTROL_ARRAY")), 4091));
+                return (__HIVE_P2_temp3935_90 = this, __HIVE_P2_temp3935_91 = __HIVE_P2_get(__HIVE_P2_temp3935_90, "parseObj", 4094), __HIVE_P2_invoke(__HIVE_P2_temp3935_91, __HIVE_P2_temp3935_90, (__HIVE_P2_reserveArray(2, 4094), __HIVE_P2_ownArray([false, e], 4094, "CONTROL_ARRAY")), 4094));
+            case __HIVE_P2_get(m, "_function", 4096):
+                s = (__HIVE_P2_temp3935_92 = this, __HIVE_P2_temp3935_93 = __HIVE_P2_get(__HIVE_P2_temp3935_92, "startNode", 4098), __HIVE_P2_invoke(__HIVE_P2_temp3935_93, __HIVE_P2_temp3935_92, (__HIVE_P2_reserveArray(0, 4098), __HIVE_P2_ownArray([], 4098, "CONTROL_ARRAY")), 4098));
+                (__HIVE_P2_temp3935_94 = this, __HIVE_P2_temp3935_95 = __HIVE_P2_get(__HIVE_P2_temp3935_94, "next", 4100), __HIVE_P2_invoke(__HIVE_P2_temp3935_95, __HIVE_P2_temp3935_94, (__HIVE_P2_reserveArray(0, 4100), __HIVE_P2_ownArray([], 4100, "CONTROL_ARRAY")), 4100));
+                return (__HIVE_P2_temp3935_96 = this, __HIVE_P2_temp3935_97 = __HIVE_P2_get(__HIVE_P2_temp3935_96, "parseFunction", 4102), __HIVE_P2_invoke(__HIVE_P2_temp3935_97, __HIVE_P2_temp3935_96, (__HIVE_P2_reserveArray(2, 4102), __HIVE_P2_ownArray([s, 0], 4102, "CONTROL_ARRAY")), 4102));
+            case __HIVE_P2_get(m, "_class", 4104): return (__HIVE_P2_temp3935_100 = this, __HIVE_P2_temp3935_101 = __HIVE_P2_get(__HIVE_P2_temp3935_100, "parseClass", 4105), __HIVE_P2_invoke(__HIVE_P2_temp3935_101, __HIVE_P2_temp3935_100, (__HIVE_P2_reserveArray(2, 4105), __HIVE_P2_ownArray([(__HIVE_P2_temp3935_98 = this, __HIVE_P2_temp3935_99 = __HIVE_P2_get(__HIVE_P2_temp3935_98, "startNode", 4106), __HIVE_P2_invoke(__HIVE_P2_temp3935_99, __HIVE_P2_temp3935_98, (__HIVE_P2_reserveArray(0, 4106), __HIVE_P2_ownArray([], 4106, "CONTROL_ARRAY")), 4106)), false], 4105, "CONTROL_ARRAY")), 4105));
+            case __HIVE_P2_get(m, "_new", 4109): return (__HIVE_P2_temp3935_102 = this, __HIVE_P2_temp3935_103 = __HIVE_P2_get(__HIVE_P2_temp3935_102, "parseNew", 4110), __HIVE_P2_invoke(__HIVE_P2_temp3935_103, __HIVE_P2_temp3935_102, (__HIVE_P2_reserveArray(0, 4110), __HIVE_P2_ownArray([], 4110, "CONTROL_ARRAY")), 4110));
+            case __HIVE_P2_get(m, "backQuote", 4112): return (__HIVE_P2_temp3935_104 = this, __HIVE_P2_temp3935_105 = __HIVE_P2_get(__HIVE_P2_temp3935_104, "parseTemplate", 4113), __HIVE_P2_invoke(__HIVE_P2_temp3935_105, __HIVE_P2_temp3935_104, (__HIVE_P2_reserveArray(0, 4113), __HIVE_P2_ownArray([], 4113, "CONTROL_ARRAY")), 4113));
+            case __HIVE_P2_get(m, "_import", 4115): if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4118), "ecmaVersion", 4117), 11, 4116)) {
+                return (__HIVE_P2_temp3935_106 = this, __HIVE_P2_temp3935_107 = __HIVE_P2_get(__HIVE_P2_temp3935_106, "parseExprImport", 4119), __HIVE_P2_invoke(__HIVE_P2_temp3935_107, __HIVE_P2_temp3935_106, (__HIVE_P2_reserveArray(1, 4119), __HIVE_P2_ownArray([i], 4119, "CONTROL_ARRAY")), 4119));
+            }
+            else {
+                return __HIVE_P2_syntaxRefusal(4121);
+            }
+            default: return (__HIVE_P2_temp3935_108 = this, __HIVE_P2_temp3935_109 = __HIVE_P2_get(__HIVE_P2_temp3935_108, "parseExprAtomDefault", 4122), __HIVE_P2_invoke(__HIVE_P2_temp3935_109, __HIVE_P2_temp3935_108, (__HIVE_P2_reserveArray(0, 4122), __HIVE_P2_ownArray([], 4122, "CONTROL_ARRAY")), 4122));
+        }
+    }, 119, 3, 0, 3935)), 3933));
+    (__HIVE_P2_temp0_1295 = pe, __HIVE_P2_temp0_1296 = "parseExprAtomDefault", __HIVE_P2_set(__HIVE_P2_temp0_1295, __HIVE_P2_temp0_1296, (__HIVE_P2_reserveFunction(4126), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_syntaxRefusal(4127);
+    }, 0, 0, 0, 4126)), 4124));
+    (__HIVE_P2_temp0_1298 = pe, __HIVE_P2_temp0_1299 = "parseExprImport", __HIVE_P2_set(__HIVE_P2_temp0_1298, __HIVE_P2_temp0_1299, (__HIVE_P2_reserveFunction(4130), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4130_0, __HIVE_P2_temp4130_1, __HIVE_P2_temp4130_2, __HIVE_P2_temp4130_3, __HIVE_P2_temp4130_4, __HIVE_P2_temp4130_5, __HIVE_P2_temp4130_6, __HIVE_P2_temp4130_7, __HIVE_P2_temp4130_8, __HIVE_P2_temp4130_9, __HIVE_P2_temp4130_10, __HIVE_P2_temp4130_11, __HIVE_P2_temp4130_12, __HIVE_P2_temp4130_13, __HIVE_P2_temp4130_14, __HIVE_P2_temp4130_15, __HIVE_P2_temp4130_16, __HIVE_P2_temp4130_17;
+        var t = (__HIVE_P2_temp4130_0 = this, __HIVE_P2_temp4130_1 = __HIVE_P2_get(__HIVE_P2_temp4130_0, "startNode", 4131), __HIVE_P2_invoke(__HIVE_P2_temp4130_1, __HIVE_P2_temp4130_0, (__HIVE_P2_reserveArray(0, 4131), __HIVE_P2_ownArray([], 4131, "CONTROL_ARRAY")), 4131));
+        if (__HIVE_P2_get(this, "containsEsc", 4133)) {
+            __HIVE_P2_syntaxRefusal(4134);
+        }
+        (__HIVE_P2_temp4130_2 = this, __HIVE_P2_temp4130_3 = __HIVE_P2_get(__HIVE_P2_temp4130_2, "next", 4135), __HIVE_P2_invoke(__HIVE_P2_temp4130_3, __HIVE_P2_temp4130_2, (__HIVE_P2_reserveArray(0, 4135), __HIVE_P2_ownArray([], 4135, "CONTROL_ARRAY")), 4135));
+        if (__HIVE_P2_get(this, "type", 4137) === __HIVE_P2_get(m, "parenL", 4138) && !e) {
+            return (__HIVE_P2_temp4130_4 = this, __HIVE_P2_temp4130_5 = __HIVE_P2_get(__HIVE_P2_temp4130_4, "parseDynamicImport", 4139), __HIVE_P2_invoke(__HIVE_P2_temp4130_5, __HIVE_P2_temp4130_4, (__HIVE_P2_reserveArray(1, 4139), __HIVE_P2_ownArray([t], 4139, "CONTROL_ARRAY")), 4139));
+        }
+        else if (__HIVE_P2_get(this, "type", 4141) === __HIVE_P2_get(m, "dot", 4142)) {
+            var i = (__HIVE_P2_temp4130_6 = this, __HIVE_P2_temp4130_7 = __HIVE_P2_get(__HIVE_P2_temp4130_6, "startNodeAt", 4143), __HIVE_P2_invoke(__HIVE_P2_temp4130_7, __HIVE_P2_temp4130_6, (__HIVE_P2_reserveArray(2, 4143), __HIVE_P2_ownArray([__HIVE_P2_get(t, "start", 4144), __HIVE_P2_get(t, "loc", 4145) && __HIVE_P2_get(__HIVE_P2_get(t, "loc", 4147), "start", 4146)], 4143, "CONTROL_ARRAY")), 4143));
+            (__HIVE_P2_temp4130_8 = i, __HIVE_P2_temp4130_9 = "name", __HIVE_P2_set(__HIVE_P2_temp4130_8, __HIVE_P2_temp4130_9, "import", 4149));
+            (__HIVE_P2_temp4130_11 = t, __HIVE_P2_temp4130_12 = "meta", __HIVE_P2_set(__HIVE_P2_temp4130_11, __HIVE_P2_temp4130_12, (__HIVE_P2_temp4130_14 = this, __HIVE_P2_temp4130_15 = __HIVE_P2_get(__HIVE_P2_temp4130_14, "finishNode", 4153), __HIVE_P2_invoke(__HIVE_P2_temp4130_15, __HIVE_P2_temp4130_14, (__HIVE_P2_reserveArray(2, 4153), __HIVE_P2_ownArray([i, "Identifier"], 4153, "CONTROL_ARRAY")), 4153)), 4151));
+            return (__HIVE_P2_temp4130_16 = this, __HIVE_P2_temp4130_17 = __HIVE_P2_get(__HIVE_P2_temp4130_16, "parseImportMeta", 4155), __HIVE_P2_invoke(__HIVE_P2_temp4130_17, __HIVE_P2_temp4130_16, (__HIVE_P2_reserveArray(1, 4155), __HIVE_P2_ownArray([t], 4155, "CONTROL_ARRAY")), 4155));
+        }
+        else {
+            __HIVE_P2_syntaxRefusal(4157);
+        }
+    }, 20, 1, 0, 4130)), 4128));
+    (__HIVE_P2_temp0_1301 = pe, __HIVE_P2_temp0_1302 = "parseDynamicImport", __HIVE_P2_set(__HIVE_P2_temp0_1301, __HIVE_P2_temp0_1302, (__HIVE_P2_reserveFunction(4160), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4160_0, __HIVE_P2_temp4160_1, __HIVE_P2_temp4160_2, __HIVE_P2_temp4160_3, __HIVE_P2_temp4160_4, __HIVE_P2_temp4160_5, __HIVE_P2_temp4160_6, __HIVE_P2_temp4160_7, __HIVE_P2_temp4160_8, __HIVE_P2_temp4160_9, __HIVE_P2_temp4160_10, __HIVE_P2_temp4160_11, __HIVE_P2_temp4160_12, __HIVE_P2_temp4160_13, __HIVE_P2_temp4160_14, __HIVE_P2_temp4160_15, __HIVE_P2_temp4160_16, __HIVE_P2_temp4160_17, __HIVE_P2_temp4160_18, __HIVE_P2_temp4160_19, __HIVE_P2_temp4160_20, __HIVE_P2_temp4160_21, __HIVE_P2_temp4160_22, __HIVE_P2_temp4160_23, __HIVE_P2_temp4160_24, __HIVE_P2_temp4160_25, __HIVE_P2_temp4160_26, __HIVE_P2_temp4160_27, __HIVE_P2_temp4160_28, __HIVE_P2_temp4160_29, __HIVE_P2_temp4160_30, __HIVE_P2_temp4160_31, __HIVE_P2_temp4160_32, __HIVE_P2_temp4160_33, __HIVE_P2_temp4160_34, __HIVE_P2_temp4160_35, __HIVE_P2_temp4160_36, __HIVE_P2_temp4160_37;
+        (__HIVE_P2_temp4160_0 = this, __HIVE_P2_temp4160_1 = __HIVE_P2_get(__HIVE_P2_temp4160_0, "next", 4161), __HIVE_P2_invoke(__HIVE_P2_temp4160_1, __HIVE_P2_temp4160_0, (__HIVE_P2_reserveArray(0, 4161), __HIVE_P2_ownArray([], 4161, "CONTROL_ARRAY")), 4161));
+        (__HIVE_P2_temp4160_2 = e, __HIVE_P2_temp4160_3 = "source", __HIVE_P2_set(__HIVE_P2_temp4160_2, __HIVE_P2_temp4160_3, (__HIVE_P2_temp4160_5 = this, __HIVE_P2_temp4160_6 = __HIVE_P2_get(__HIVE_P2_temp4160_5, "parseMaybeAssign", 4165), __HIVE_P2_invoke(__HIVE_P2_temp4160_6, __HIVE_P2_temp4160_5, (__HIVE_P2_reserveArray(0, 4165), __HIVE_P2_ownArray([], 4165, "CONTROL_ARRAY")), 4165)), 4163));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4169), "ecmaVersion", 4168), 16, 4167)) {
+            if (!(__HIVE_P2_temp4160_7 = this, __HIVE_P2_temp4160_8 = __HIVE_P2_get(__HIVE_P2_temp4160_7, "eat", 4170), __HIVE_P2_invoke(__HIVE_P2_temp4160_8, __HIVE_P2_temp4160_7, (__HIVE_P2_reserveArray(1, 4170), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4171)], 4170, "CONTROL_ARRAY")), 4170))) {
+                (__HIVE_P2_temp4160_9 = this, __HIVE_P2_temp4160_10 = __HIVE_P2_get(__HIVE_P2_temp4160_9, "expect", 4173), __HIVE_P2_invoke(__HIVE_P2_temp4160_10, __HIVE_P2_temp4160_9, (__HIVE_P2_reserveArray(1, 4173), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 4174)], 4173, "CONTROL_ARRAY")), 4173));
+                if (!(__HIVE_P2_temp4160_11 = this, __HIVE_P2_temp4160_12 = __HIVE_P2_get(__HIVE_P2_temp4160_11, "afterTrailingComma", 4176), __HIVE_P2_invoke(__HIVE_P2_temp4160_12, __HIVE_P2_temp4160_11, (__HIVE_P2_reserveArray(1, 4176), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4177)], 4176, "CONTROL_ARRAY")), 4176))) {
+                    (__HIVE_P2_temp4160_13 = e, __HIVE_P2_temp4160_14 = "options", __HIVE_P2_set(__HIVE_P2_temp4160_13, __HIVE_P2_temp4160_14, (__HIVE_P2_temp4160_16 = this, __HIVE_P2_temp4160_17 = __HIVE_P2_get(__HIVE_P2_temp4160_16, "parseMaybeAssign", 4181), __HIVE_P2_invoke(__HIVE_P2_temp4160_17, __HIVE_P2_temp4160_16, (__HIVE_P2_reserveArray(0, 4181), __HIVE_P2_ownArray([], 4181, "CONTROL_ARRAY")), 4181)), 4179));
+                    if (!(__HIVE_P2_temp4160_18 = this, __HIVE_P2_temp4160_19 = __HIVE_P2_get(__HIVE_P2_temp4160_18, "eat", 4183), __HIVE_P2_invoke(__HIVE_P2_temp4160_19, __HIVE_P2_temp4160_18, (__HIVE_P2_reserveArray(1, 4183), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4184)], 4183, "CONTROL_ARRAY")), 4183))) {
+                        (__HIVE_P2_temp4160_20 = this, __HIVE_P2_temp4160_21 = __HIVE_P2_get(__HIVE_P2_temp4160_20, "expect", 4186), __HIVE_P2_invoke(__HIVE_P2_temp4160_21, __HIVE_P2_temp4160_20, (__HIVE_P2_reserveArray(1, 4186), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 4187)], 4186, "CONTROL_ARRAY")), 4186));
+                        if (!(__HIVE_P2_temp4160_22 = this, __HIVE_P2_temp4160_23 = __HIVE_P2_get(__HIVE_P2_temp4160_22, "afterTrailingComma", 4189), __HIVE_P2_invoke(__HIVE_P2_temp4160_23, __HIVE_P2_temp4160_22, (__HIVE_P2_reserveArray(1, 4189), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4190)], 4189, "CONTROL_ARRAY")), 4189))) {
+                            __HIVE_P2_syntaxRefusal(4192);
+                        }
+                    }
+                }
+                else {
+                    (__HIVE_P2_temp4160_24 = e, __HIVE_P2_temp4160_25 = "options", __HIVE_P2_set(__HIVE_P2_temp4160_24, __HIVE_P2_temp4160_25, null, 4193));
+                }
+            }
+            else {
+                (__HIVE_P2_temp4160_27 = e, __HIVE_P2_temp4160_28 = "options", __HIVE_P2_set(__HIVE_P2_temp4160_27, __HIVE_P2_temp4160_28, null, 4195));
+            }
+        }
+        else {
+            if (!(__HIVE_P2_temp4160_30 = this, __HIVE_P2_temp4160_31 = __HIVE_P2_get(__HIVE_P2_temp4160_30, "eat", 4197), __HIVE_P2_invoke(__HIVE_P2_temp4160_31, __HIVE_P2_temp4160_30, (__HIVE_P2_reserveArray(1, 4197), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4198)], 4197, "CONTROL_ARRAY")), 4197))) {
+                var t = __HIVE_P2_get(this, "start", 4200);
+                if ((__HIVE_P2_temp4160_32 = this, __HIVE_P2_temp4160_33 = __HIVE_P2_get(__HIVE_P2_temp4160_32, "eat", 4201), __HIVE_P2_invoke(__HIVE_P2_temp4160_33, __HIVE_P2_temp4160_32, (__HIVE_P2_reserveArray(1, 4201), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 4202)], 4201, "CONTROL_ARRAY")), 4201)) && (__HIVE_P2_temp4160_34 = this, __HIVE_P2_temp4160_35 = __HIVE_P2_get(__HIVE_P2_temp4160_34, "eat", 4204), __HIVE_P2_invoke(__HIVE_P2_temp4160_35, __HIVE_P2_temp4160_34, (__HIVE_P2_reserveArray(1, 4204), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4205)], 4204, "CONTROL_ARRAY")), 4204))) {
+                    __HIVE_P2_syntaxRefusal(4207);
+                }
+                else {
+                    __HIVE_P2_syntaxRefusal(4208);
+                }
+            }
+        }
+        return (__HIVE_P2_temp4160_36 = this, __HIVE_P2_temp4160_37 = __HIVE_P2_get(__HIVE_P2_temp4160_36, "finishNode", 4209), __HIVE_P2_invoke(__HIVE_P2_temp4160_37, __HIVE_P2_temp4160_36, (__HIVE_P2_reserveArray(2, 4209), __HIVE_P2_ownArray([e, "ImportExpression"], 4209, "CONTROL_ARRAY")), 4209));
+    }, 39, 1, 0, 4160)), 4158));
+    (__HIVE_P2_temp0_1304 = pe, __HIVE_P2_temp0_1305 = "parseImportMeta", __HIVE_P2_set(__HIVE_P2_temp0_1304, __HIVE_P2_temp0_1305, (__HIVE_P2_reserveFunction(4213), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4213_0, __HIVE_P2_temp4213_1, __HIVE_P2_temp4213_2, __HIVE_P2_temp4213_3, __HIVE_P2_temp4213_4, __HIVE_P2_temp4213_5, __HIVE_P2_temp4213_6, __HIVE_P2_temp4213_7, __HIVE_P2_temp4213_8;
+        (__HIVE_P2_temp4213_0 = this, __HIVE_P2_temp4213_1 = __HIVE_P2_get(__HIVE_P2_temp4213_0, "next", 4214), __HIVE_P2_invoke(__HIVE_P2_temp4213_1, __HIVE_P2_temp4213_0, (__HIVE_P2_reserveArray(0, 4214), __HIVE_P2_ownArray([], 4214, "CONTROL_ARRAY")), 4214));
+        var t = __HIVE_P2_get(this, "containsEsc", 4216);
+        (__HIVE_P2_temp4213_2 = e, __HIVE_P2_temp4213_3 = "property", __HIVE_P2_set(__HIVE_P2_temp4213_2, __HIVE_P2_temp4213_3, (__HIVE_P2_temp4213_5 = this, __HIVE_P2_temp4213_6 = __HIVE_P2_get(__HIVE_P2_temp4213_5, "parseIdent", 4219), __HIVE_P2_invoke(__HIVE_P2_temp4213_6, __HIVE_P2_temp4213_5, (__HIVE_P2_reserveArray(1, 4219), __HIVE_P2_ownArray([true], 4219, "CONTROL_ARRAY")), 4219)), 4217));
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "property", 4222), "name", 4221) !== "meta") {
+            __HIVE_P2_syntaxRefusal(4223);
+        }
+        if (t) {
+            __HIVE_P2_syntaxRefusal(4224);
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 4226), "sourceType", 4225) !== "module" && !__HIVE_P2_get(__HIVE_P2_get(this, "options", 4228), "allowImportExportEverywhere", 4227)) {
+            __HIVE_P2_syntaxRefusal(4229);
+        }
+        return (__HIVE_P2_temp4213_7 = this, __HIVE_P2_temp4213_8 = __HIVE_P2_get(__HIVE_P2_temp4213_7, "finishNode", 4230), __HIVE_P2_invoke(__HIVE_P2_temp4213_8, __HIVE_P2_temp4213_7, (__HIVE_P2_reserveArray(2, 4230), __HIVE_P2_ownArray([e, "MetaProperty"], 4230, "CONTROL_ARRAY")), 4230));
+    }, 10, 1, 0, 4213)), 4211));
+    (__HIVE_P2_temp0_1307 = pe, __HIVE_P2_temp0_1308 = "parseLiteral", __HIVE_P2_set(__HIVE_P2_temp0_1307, __HIVE_P2_temp0_1308, (__HIVE_P2_reserveFunction(4234), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4234_0, __HIVE_P2_temp4234_1, __HIVE_P2_temp4234_2, __HIVE_P2_temp4234_3, __HIVE_P2_temp4234_4, __HIVE_P2_temp4234_5, __HIVE_P2_temp4234_6, __HIVE_P2_temp4234_7, __HIVE_P2_temp4234_8, __HIVE_P2_temp4234_9, __HIVE_P2_temp4234_10, __HIVE_P2_temp4234_11, __HIVE_P2_temp4234_12, __HIVE_P2_temp4234_13, __HIVE_P2_temp4234_14, __HIVE_P2_temp4234_15, __HIVE_P2_temp4234_16, __HIVE_P2_temp4234_17, __HIVE_P2_temp4234_18, __HIVE_P2_temp4234_19, __HIVE_P2_temp4234_20, __HIVE_P2_temp4234_21, __HIVE_P2_temp4234_22;
+        var t = (__HIVE_P2_temp4234_0 = this, __HIVE_P2_temp4234_1 = __HIVE_P2_get(__HIVE_P2_temp4234_0, "startNode", 4235), __HIVE_P2_invoke(__HIVE_P2_temp4234_1, __HIVE_P2_temp4234_0, (__HIVE_P2_reserveArray(0, 4235), __HIVE_P2_ownArray([], 4235, "CONTROL_ARRAY")), 4235));
+        (__HIVE_P2_temp4234_2 = t, __HIVE_P2_temp4234_3 = "value", __HIVE_P2_set(__HIVE_P2_temp4234_2, __HIVE_P2_temp4234_3, e, 4237));
+        (__HIVE_P2_temp4234_5 = t, __HIVE_P2_temp4234_6 = "raw", __HIVE_P2_set(__HIVE_P2_temp4234_5, __HIVE_P2_temp4234_6, (__HIVE_P2_temp4234_8 = __HIVE_P2_get(this, "input", 4245), __HIVE_P2_temp4234_9 = __HIVE_P2_get(__HIVE_P2_temp4234_8, "slice", 4241), __HIVE_P2_invoke(__HIVE_P2_temp4234_9, __HIVE_P2_temp4234_8, (__HIVE_P2_reserveArray(2, 4241), __HIVE_P2_ownArray([__HIVE_P2_get(this, "start", 4242), __HIVE_P2_get(this, "end", 4243)], 4241, "CONTROL_ARRAY")), 4241)), 4239));
+        if ((__HIVE_P2_temp4234_10 = __HIVE_P2_get(t, "raw", 4251), __HIVE_P2_temp4234_11 = __HIVE_P2_get(__HIVE_P2_temp4234_10, "charCodeAt", 4246), __HIVE_P2_invoke(__HIVE_P2_temp4234_11, __HIVE_P2_temp4234_10, (__HIVE_P2_reserveArray(1, 4246), __HIVE_P2_ownArray([__HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(t, "raw", 4249), "length", 4248), 1, 4247)], 4246, "CONTROL_ARRAY")), 4246)) === 110) {
+            (__HIVE_P2_temp4234_12 = t, __HIVE_P2_temp4234_13 = "bigint", __HIVE_P2_set(__HIVE_P2_temp4234_12, __HIVE_P2_temp4234_13, (__HIVE_P2_temp4234_15 = (__HIVE_P2_temp4234_17 = __HIVE_P2_get(t, "raw", 4260), __HIVE_P2_temp4234_18 = __HIVE_P2_get(__HIVE_P2_temp4234_17, "slice", 4257), __HIVE_P2_invoke(__HIVE_P2_temp4234_18, __HIVE_P2_temp4234_17, (__HIVE_P2_reserveArray(2, 4257), __HIVE_P2_ownArray([0, __HIVE_P2_unary("-", 1, 4258)], 4257, "CONTROL_ARRAY")), 4257)), __HIVE_P2_temp4234_16 = __HIVE_P2_get(__HIVE_P2_temp4234_15, "replace", 4254), __HIVE_P2_invoke(__HIVE_P2_temp4234_16, __HIVE_P2_temp4234_15, (__HIVE_P2_reserveArray(2, 4254), __HIVE_P2_ownArray([__HIVE_P2_toolRegex("/_/g", 4255), ""], 4254, "CONTROL_ARRAY")), 4254)), 4252));
+        }
+        (__HIVE_P2_temp4234_19 = this, __HIVE_P2_temp4234_20 = __HIVE_P2_get(__HIVE_P2_temp4234_19, "next", 4261), __HIVE_P2_invoke(__HIVE_P2_temp4234_20, __HIVE_P2_temp4234_19, (__HIVE_P2_reserveArray(0, 4261), __HIVE_P2_ownArray([], 4261, "CONTROL_ARRAY")), 4261));
+        return (__HIVE_P2_temp4234_21 = this, __HIVE_P2_temp4234_22 = __HIVE_P2_get(__HIVE_P2_temp4234_21, "finishNode", 4263), __HIVE_P2_invoke(__HIVE_P2_temp4234_22, __HIVE_P2_temp4234_21, (__HIVE_P2_reserveArray(2, 4263), __HIVE_P2_ownArray([t, "Literal"], 4263, "CONTROL_ARRAY")), 4263));
+    }, 24, 1, 0, 4234)), 4232));
+    (__HIVE_P2_temp0_1310 = pe, __HIVE_P2_temp0_1311 = "parseParenExpression", __HIVE_P2_set(__HIVE_P2_temp0_1310, __HIVE_P2_temp0_1311, (__HIVE_P2_reserveFunction(4267), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp4267_0, __HIVE_P2_temp4267_1, __HIVE_P2_temp4267_2, __HIVE_P2_temp4267_3, __HIVE_P2_temp4267_4, __HIVE_P2_temp4267_5;
+        (__HIVE_P2_temp4267_0 = this, __HIVE_P2_temp4267_1 = __HIVE_P2_get(__HIVE_P2_temp4267_0, "expect", 4268), __HIVE_P2_invoke(__HIVE_P2_temp4267_1, __HIVE_P2_temp4267_0, (__HIVE_P2_reserveArray(1, 4268), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 4269)], 4268, "CONTROL_ARRAY")), 4268));
+        var e = (__HIVE_P2_temp4267_2 = this, __HIVE_P2_temp4267_3 = __HIVE_P2_get(__HIVE_P2_temp4267_2, "parseExpression", 4271), __HIVE_P2_invoke(__HIVE_P2_temp4267_3, __HIVE_P2_temp4267_2, (__HIVE_P2_reserveArray(0, 4271), __HIVE_P2_ownArray([], 4271, "CONTROL_ARRAY")), 4271));
+        (__HIVE_P2_temp4267_4 = this, __HIVE_P2_temp4267_5 = __HIVE_P2_get(__HIVE_P2_temp4267_4, "expect", 4273), __HIVE_P2_invoke(__HIVE_P2_temp4267_5, __HIVE_P2_temp4267_4, (__HIVE_P2_reserveArray(1, 4273), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4274)], 4273, "CONTROL_ARRAY")), 4273));
+        return e;
+    }, 7, 0, 0, 4267)), 4265));
+    (__HIVE_P2_temp0_1313 = pe, __HIVE_P2_temp0_1314 = "shouldParseArrow", __HIVE_P2_set(__HIVE_P2_temp0_1313, __HIVE_P2_temp0_1314, (__HIVE_P2_reserveFunction(4278), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4278_0, __HIVE_P2_temp4278_1;
+        return !(__HIVE_P2_temp4278_0 = this, __HIVE_P2_temp4278_1 = __HIVE_P2_get(__HIVE_P2_temp4278_0, "canInsertSemicolon", 4279), __HIVE_P2_invoke(__HIVE_P2_temp4278_1, __HIVE_P2_temp4278_0, (__HIVE_P2_reserveArray(0, 4279), __HIVE_P2_ownArray([], 4279, "CONTROL_ARRAY")), 4279));
+    }, 2, 1, 0, 4278)), 4276));
+    (__HIVE_P2_temp0_1316 = pe, __HIVE_P2_temp0_1317 = "parseParenAndDistinguishExpression", __HIVE_P2_set(__HIVE_P2_temp0_1316, __HIVE_P2_temp0_1317, (__HIVE_P2_reserveFunction(4283), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp4283_0, __HIVE_P2_temp4283_1, __HIVE_P2_temp4283_2, __HIVE_P2_temp4283_3, __HIVE_P2_temp4283_4, __HIVE_P2_temp4283_5, __HIVE_P2_temp4283_6, __HIVE_P2_temp4283_7, __HIVE_P2_temp4283_8, __HIVE_P2_temp4283_9, __HIVE_P2_temp4283_10, __HIVE_P2_temp4283_11, __HIVE_P2_temp4283_12, __HIVE_P2_temp4283_13, __HIVE_P2_temp4283_14, __HIVE_P2_temp4283_15, __HIVE_P2_temp4283_16, __HIVE_P2_temp4283_17, __HIVE_P2_temp4283_18, __HIVE_P2_temp4283_19, __HIVE_P2_temp4283_20, __HIVE_P2_temp4283_21, __HIVE_P2_temp4283_22, __HIVE_P2_temp4283_23, __HIVE_P2_temp4283_24, __HIVE_P2_temp4283_25, __HIVE_P2_temp4283_26, __HIVE_P2_temp4283_27, __HIVE_P2_temp4283_28, __HIVE_P2_temp4283_29, __HIVE_P2_temp4283_30, __HIVE_P2_temp4283_31, __HIVE_P2_temp4283_32, __HIVE_P2_temp4283_33, __HIVE_P2_temp4283_34, __HIVE_P2_temp4283_35, __HIVE_P2_temp4283_36, __HIVE_P2_temp4283_37, __HIVE_P2_temp4283_38, __HIVE_P2_temp4283_39, __HIVE_P2_temp4283_40, __HIVE_P2_temp4283_41, __HIVE_P2_temp4283_42, __HIVE_P2_temp4283_43, __HIVE_P2_temp4283_44, __HIVE_P2_temp4283_45, __HIVE_P2_temp4283_46, __HIVE_P2_temp4283_47, __HIVE_P2_temp4283_48, __HIVE_P2_temp4283_49, __HIVE_P2_temp4283_50, __HIVE_P2_temp4283_51, __HIVE_P2_temp4283_52, __HIVE_P2_temp4283_53, __HIVE_P2_temp4283_54, __HIVE_P2_temp4283_55, __HIVE_P2_temp4283_56, __HIVE_P2_temp4283_57, __HIVE_P2_temp4283_58, __HIVE_P2_temp4283_59, __HIVE_P2_temp4283_60, __HIVE_P2_temp4283_61, __HIVE_P2_temp4283_62, __HIVE_P2_temp4283_63, __HIVE_P2_temp4283_64;
+        var i = __HIVE_P2_get(this, "start", 4284), s = __HIVE_P2_get(this, "startLoc", 4285), r, a = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4288), "ecmaVersion", 4287), 8, 4286);
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4291), "ecmaVersion", 4290), 6, 4289)) {
+            (__HIVE_P2_temp4283_0 = this, __HIVE_P2_temp4283_1 = __HIVE_P2_get(__HIVE_P2_temp4283_0, "next", 4292), __HIVE_P2_invoke(__HIVE_P2_temp4283_1, __HIVE_P2_temp4283_0, (__HIVE_P2_reserveArray(0, 4292), __HIVE_P2_ownArray([], 4292, "CONTROL_ARRAY")), 4292));
+            var n = __HIVE_P2_get(this, "start", 4294), o = __HIVE_P2_get(this, "startLoc", 4295);
+            var h = (__HIVE_P2_temp4283_2 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp4283_2, 4296), __HIVE_P2_reserveArray(0, 4296, 0), __HIVE_P2_ownArray([], 4296, "ARRAY", __HIVE_P2_temp4283_2)), p = true, c = false;
+            var l = __HIVE_P2_construct(Z, (__HIVE_P2_reserveArray(0, 4297), __HIVE_P2_ownArray([], 4297, "CONTROL_ARRAY")), 4297), u = __HIVE_P2_get(this, "yieldPos", 4298), f = __HIVE_P2_get(this, "awaitPos", 4299), d;
+            (__HIVE_P2_temp4283_3 = this, __HIVE_P2_temp4283_4 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4283_3, __HIVE_P2_temp4283_4, 0, 4300));
+            (__HIVE_P2_temp4283_6 = this, __HIVE_P2_temp4283_7 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4283_6, __HIVE_P2_temp4283_7, 0, 4302));
+            while (__HIVE_P2_get(this, "type", 4305) !== __HIVE_P2_get(m, "parenR", 4306)) {
+                __HIVE_P2_tick(4304);
+                p ? p = false : (__HIVE_P2_temp4283_9 = this, __HIVE_P2_temp4283_10 = __HIVE_P2_get(__HIVE_P2_temp4283_9, "expect", 4308), __HIVE_P2_invoke(__HIVE_P2_temp4283_10, __HIVE_P2_temp4283_9, (__HIVE_P2_reserveArray(1, 4308), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 4309)], 4308, "CONTROL_ARRAY")), 4308));
+                if (a && (__HIVE_P2_temp4283_11 = this, __HIVE_P2_temp4283_12 = __HIVE_P2_get(__HIVE_P2_temp4283_11, "afterTrailingComma", 4311), __HIVE_P2_invoke(__HIVE_P2_temp4283_12, __HIVE_P2_temp4283_11, (__HIVE_P2_reserveArray(2, 4311), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4312), true], 4311, "CONTROL_ARRAY")), 4311))) {
+                    c = true;
+                    break;
+                }
+                else if (__HIVE_P2_get(this, "type", 4315) === __HIVE_P2_get(m, "ellipsis", 4316)) {
+                    d = __HIVE_P2_get(this, "start", 4318);
+                    (__HIVE_P2_temp4283_17 = h, __HIVE_P2_temp4283_18 = __HIVE_P2_get(__HIVE_P2_temp4283_17, "push", 4319), __HIVE_P2_invoke(__HIVE_P2_temp4283_18, __HIVE_P2_temp4283_17, (__HIVE_P2_reserveArray(1, 4319), __HIVE_P2_ownArray([(__HIVE_P2_temp4283_15 = this, __HIVE_P2_temp4283_16 = __HIVE_P2_get(__HIVE_P2_temp4283_15, "parseParenItem", 4320), __HIVE_P2_invoke(__HIVE_P2_temp4283_16, __HIVE_P2_temp4283_15, (__HIVE_P2_reserveArray(1, 4320), __HIVE_P2_ownArray([(__HIVE_P2_temp4283_13 = this, __HIVE_P2_temp4283_14 = __HIVE_P2_get(__HIVE_P2_temp4283_13, "parseRestBinding", 4321), __HIVE_P2_invoke(__HIVE_P2_temp4283_14, __HIVE_P2_temp4283_13, (__HIVE_P2_reserveArray(0, 4321), __HIVE_P2_ownArray([], 4321, "CONTROL_ARRAY")), 4321))], 4320, "CONTROL_ARRAY")), 4320))], 4319, "CONTROL_ARRAY")), 4319));
+                    if (__HIVE_P2_get(this, "type", 4325) === __HIVE_P2_get(m, "comma", 4326)) {
+                        __HIVE_P2_syntaxRefusal(4327);
+                    }
+                    break;
+                }
+                else {
+                    (__HIVE_P2_temp4283_21 = h, __HIVE_P2_temp4283_22 = __HIVE_P2_get(__HIVE_P2_temp4283_21, "push", 4328), __HIVE_P2_invoke(__HIVE_P2_temp4283_22, __HIVE_P2_temp4283_21, (__HIVE_P2_reserveArray(1, 4328), __HIVE_P2_ownArray([(__HIVE_P2_temp4283_19 = this, __HIVE_P2_temp4283_20 = __HIVE_P2_get(__HIVE_P2_temp4283_19, "parseMaybeAssign", 4329), __HIVE_P2_invoke(__HIVE_P2_temp4283_20, __HIVE_P2_temp4283_19, (__HIVE_P2_reserveArray(3, 4329), __HIVE_P2_ownArray([false, l, __HIVE_P2_get(this, "parseParenItem", 4330)], 4329, "CONTROL_ARRAY")), 4329))], 4328, "CONTROL_ARRAY")), 4328));
+                }
+            }
+            var g = __HIVE_P2_get(this, "lastTokEnd", 4333), v = __HIVE_P2_get(this, "lastTokEndLoc", 4334);
+            (__HIVE_P2_temp4283_23 = this, __HIVE_P2_temp4283_24 = __HIVE_P2_get(__HIVE_P2_temp4283_23, "expect", 4335), __HIVE_P2_invoke(__HIVE_P2_temp4283_24, __HIVE_P2_temp4283_23, (__HIVE_P2_reserveArray(1, 4335), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4336)], 4335, "CONTROL_ARRAY")), 4335));
+            if (e && (__HIVE_P2_temp4283_25 = this, __HIVE_P2_temp4283_26 = __HIVE_P2_get(__HIVE_P2_temp4283_25, "shouldParseArrow", 4338), __HIVE_P2_invoke(__HIVE_P2_temp4283_26, __HIVE_P2_temp4283_25, (__HIVE_P2_reserveArray(1, 4338), __HIVE_P2_ownArray([h], 4338, "CONTROL_ARRAY")), 4338)) && (__HIVE_P2_temp4283_27 = this, __HIVE_P2_temp4283_28 = __HIVE_P2_get(__HIVE_P2_temp4283_27, "eat", 4340), __HIVE_P2_invoke(__HIVE_P2_temp4283_28, __HIVE_P2_temp4283_27, (__HIVE_P2_reserveArray(1, 4340), __HIVE_P2_ownArray([__HIVE_P2_get(m, "arrow", 4341)], 4340, "CONTROL_ARRAY")), 4340))) {
+                (__HIVE_P2_temp4283_29 = this, __HIVE_P2_temp4283_30 = __HIVE_P2_get(__HIVE_P2_temp4283_29, "checkPatternErrors", 4343), __HIVE_P2_invoke(__HIVE_P2_temp4283_30, __HIVE_P2_temp4283_29, (__HIVE_P2_reserveArray(2, 4343), __HIVE_P2_ownArray([l, false], 4343, "CONTROL_ARRAY")), 4343));
+                (__HIVE_P2_temp4283_31 = this, __HIVE_P2_temp4283_32 = __HIVE_P2_get(__HIVE_P2_temp4283_31, "checkYieldAwaitInDefaultParams", 4345), __HIVE_P2_invoke(__HIVE_P2_temp4283_32, __HIVE_P2_temp4283_31, (__HIVE_P2_reserveArray(0, 4345), __HIVE_P2_ownArray([], 4345, "CONTROL_ARRAY")), 4345));
+                (__HIVE_P2_temp4283_33 = this, __HIVE_P2_temp4283_34 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4283_33, __HIVE_P2_temp4283_34, u, 4347));
+                (__HIVE_P2_temp4283_36 = this, __HIVE_P2_temp4283_37 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4283_36, __HIVE_P2_temp4283_37, f, 4349));
+                return (__HIVE_P2_temp4283_39 = this, __HIVE_P2_temp4283_40 = __HIVE_P2_get(__HIVE_P2_temp4283_39, "parseParenArrowList", 4351), __HIVE_P2_invoke(__HIVE_P2_temp4283_40, __HIVE_P2_temp4283_39, (__HIVE_P2_reserveArray(4, 4351), __HIVE_P2_ownArray([i, s, h, t], 4351, "CONTROL_ARRAY")), 4351));
+            }
+            if (!__HIVE_P2_get(h, "length", 4353) || c) {
+                __HIVE_P2_syntaxRefusal(4354);
+            }
+            if (d) {
+                __HIVE_P2_syntaxRefusal(4355);
+            }
+            (__HIVE_P2_temp4283_41 = this, __HIVE_P2_temp4283_42 = __HIVE_P2_get(__HIVE_P2_temp4283_41, "checkExpressionErrors", 4356), __HIVE_P2_invoke(__HIVE_P2_temp4283_42, __HIVE_P2_temp4283_41, (__HIVE_P2_reserveArray(2, 4356), __HIVE_P2_ownArray([l, true], 4356, "CONTROL_ARRAY")), 4356));
+            (__HIVE_P2_temp4283_43 = this, __HIVE_P2_temp4283_44 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4283_43, __HIVE_P2_temp4283_44, u || __HIVE_P2_get(this, "yieldPos", 4360), 4358));
+            (__HIVE_P2_temp4283_46 = this, __HIVE_P2_temp4283_47 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4283_46, __HIVE_P2_temp4283_47, f || __HIVE_P2_get(this, "awaitPos", 4363), 4361));
+            if (__HIVE_P2_binary(">", __HIVE_P2_get(h, "length", 4365), 1, 4364)) {
+                r = (__HIVE_P2_temp4283_49 = this, __HIVE_P2_temp4283_50 = __HIVE_P2_get(__HIVE_P2_temp4283_49, "startNodeAt", 4367), __HIVE_P2_invoke(__HIVE_P2_temp4283_50, __HIVE_P2_temp4283_49, (__HIVE_P2_reserveArray(2, 4367), __HIVE_P2_ownArray([n, o], 4367, "CONTROL_ARRAY")), 4367));
+                (__HIVE_P2_temp4283_51 = r, __HIVE_P2_temp4283_52 = "expressions", __HIVE_P2_set(__HIVE_P2_temp4283_51, __HIVE_P2_temp4283_52, h, 4369));
+                (__HIVE_P2_temp4283_54 = this, __HIVE_P2_temp4283_55 = __HIVE_P2_get(__HIVE_P2_temp4283_54, "finishNodeAt", 4371), __HIVE_P2_invoke(__HIVE_P2_temp4283_55, __HIVE_P2_temp4283_54, (__HIVE_P2_reserveArray(4, 4371), __HIVE_P2_ownArray([r, "SequenceExpression", g, v], 4371, "CONTROL_ARRAY")), 4371));
+            }
+            else {
+                r = __HIVE_P2_get(h, 0, 4374);
+            }
+        }
+        else {
+            r = (__HIVE_P2_temp4283_56 = this, __HIVE_P2_temp4283_57 = __HIVE_P2_get(__HIVE_P2_temp4283_56, "parseParenExpression", 4376), __HIVE_P2_invoke(__HIVE_P2_temp4283_57, __HIVE_P2_temp4283_56, (__HIVE_P2_reserveArray(0, 4376), __HIVE_P2_ownArray([], 4376, "CONTROL_ARRAY")), 4376));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 4379), "preserveParens", 4378)) {
+            var x = (__HIVE_P2_temp4283_58 = this, __HIVE_P2_temp4283_59 = __HIVE_P2_get(__HIVE_P2_temp4283_58, "startNodeAt", 4380), __HIVE_P2_invoke(__HIVE_P2_temp4283_59, __HIVE_P2_temp4283_58, (__HIVE_P2_reserveArray(2, 4380), __HIVE_P2_ownArray([i, s], 4380, "CONTROL_ARRAY")), 4380));
+            (__HIVE_P2_temp4283_60 = x, __HIVE_P2_temp4283_61 = "expression", __HIVE_P2_set(__HIVE_P2_temp4283_60, __HIVE_P2_temp4283_61, r, 4382));
+            return (__HIVE_P2_temp4283_63 = this, __HIVE_P2_temp4283_64 = __HIVE_P2_get(__HIVE_P2_temp4283_63, "finishNode", 4384), __HIVE_P2_invoke(__HIVE_P2_temp4283_64, __HIVE_P2_temp4283_63, (__HIVE_P2_reserveArray(2, 4384), __HIVE_P2_ownArray([x, "ParenthesizedExpression"], 4384, "CONTROL_ARRAY")), 4384));
+        }
+        else {
+            return r;
+        }
+    }, 81, 2, 0, 4283)), 4281));
+    (__HIVE_P2_temp0_1319 = pe, __HIVE_P2_temp0_1320 = "parseParenItem", __HIVE_P2_set(__HIVE_P2_temp0_1319, __HIVE_P2_temp0_1320, (__HIVE_P2_reserveFunction(4388), __HIVE_P2_registerFunction(function (e) {
+        return e;
+    }, 0, 1, 0, 4388)), 4386));
+    (__HIVE_P2_temp0_1322 = pe, __HIVE_P2_temp0_1323 = "parseParenArrowList", __HIVE_P2_set(__HIVE_P2_temp0_1322, __HIVE_P2_temp0_1323, (__HIVE_P2_reserveFunction(4391), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp4391_0, __HIVE_P2_temp4391_1, __HIVE_P2_temp4391_2, __HIVE_P2_temp4391_3;
+        return (__HIVE_P2_temp4391_2 = this, __HIVE_P2_temp4391_3 = __HIVE_P2_get(__HIVE_P2_temp4391_2, "parseArrowExpression", 4392), __HIVE_P2_invoke(__HIVE_P2_temp4391_3, __HIVE_P2_temp4391_2, (__HIVE_P2_reserveArray(4, 4392), __HIVE_P2_ownArray([(__HIVE_P2_temp4391_0 = this, __HIVE_P2_temp4391_1 = __HIVE_P2_get(__HIVE_P2_temp4391_0, "startNodeAt", 4393), __HIVE_P2_invoke(__HIVE_P2_temp4391_1, __HIVE_P2_temp4391_0, (__HIVE_P2_reserveArray(2, 4393), __HIVE_P2_ownArray([e, t], 4393, "CONTROL_ARRAY")), 4393)), i, false, s], 4392, "CONTROL_ARRAY")), 4392));
+    }, 4, 4, 0, 4391)), 4389));
+    var ce = (__HIVE_P2_temp0_1325 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp0_1325, 4396), __HIVE_P2_reserveArray(0, 4396, 0), __HIVE_P2_ownArray([], 4396, "ARRAY", __HIVE_P2_temp0_1325));
+    (__HIVE_P2_temp0_1326 = pe, __HIVE_P2_temp0_1327 = "parseNew", __HIVE_P2_set(__HIVE_P2_temp0_1326, __HIVE_P2_temp0_1327, (__HIVE_P2_reserveFunction(4399), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp4399_0, __HIVE_P2_temp4399_1, __HIVE_P2_temp4399_2, __HIVE_P2_temp4399_3, __HIVE_P2_temp4399_4, __HIVE_P2_temp4399_5, __HIVE_P2_temp4399_6, __HIVE_P2_temp4399_7, __HIVE_P2_temp4399_8, __HIVE_P2_temp4399_9, __HIVE_P2_temp4399_10, __HIVE_P2_temp4399_11, __HIVE_P2_temp4399_12, __HIVE_P2_temp4399_13, __HIVE_P2_temp4399_14, __HIVE_P2_temp4399_15, __HIVE_P2_temp4399_16, __HIVE_P2_temp4399_17, __HIVE_P2_temp4399_18, __HIVE_P2_temp4399_19, __HIVE_P2_temp4399_20, __HIVE_P2_temp4399_21, __HIVE_P2_temp4399_22, __HIVE_P2_temp4399_23, __HIVE_P2_temp4399_24, __HIVE_P2_temp4399_25, __HIVE_P2_temp4399_26, __HIVE_P2_temp4399_27, __HIVE_P2_temp4399_28, __HIVE_P2_temp4399_29, __HIVE_P2_temp4399_30, __HIVE_P2_temp4399_31, __HIVE_P2_temp4399_32, __HIVE_P2_temp4399_33, __HIVE_P2_temp4399_34, __HIVE_P2_temp4399_35, __HIVE_P2_temp4399_36, __HIVE_P2_temp4399_37, __HIVE_P2_temp4399_38, __HIVE_P2_temp4399_39, __HIVE_P2_temp4399_40, __HIVE_P2_temp4399_41;
+        if (__HIVE_P2_get(this, "containsEsc", 4400)) {
+            __HIVE_P2_syntaxRefusal(4401);
+        }
+        var e = (__HIVE_P2_temp4399_0 = this, __HIVE_P2_temp4399_1 = __HIVE_P2_get(__HIVE_P2_temp4399_0, "startNode", 4402), __HIVE_P2_invoke(__HIVE_P2_temp4399_1, __HIVE_P2_temp4399_0, (__HIVE_P2_reserveArray(0, 4402), __HIVE_P2_ownArray([], 4402, "CONTROL_ARRAY")), 4402));
+        (__HIVE_P2_temp4399_2 = this, __HIVE_P2_temp4399_3 = __HIVE_P2_get(__HIVE_P2_temp4399_2, "next", 4404), __HIVE_P2_invoke(__HIVE_P2_temp4399_3, __HIVE_P2_temp4399_2, (__HIVE_P2_reserveArray(0, 4404), __HIVE_P2_ownArray([], 4404, "CONTROL_ARRAY")), 4404));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4408), "ecmaVersion", 4407), 6, 4406) && __HIVE_P2_get(this, "type", 4409) === __HIVE_P2_get(m, "dot", 4410)) {
+            var t = (__HIVE_P2_temp4399_4 = this, __HIVE_P2_temp4399_5 = __HIVE_P2_get(__HIVE_P2_temp4399_4, "startNodeAt", 4411), __HIVE_P2_invoke(__HIVE_P2_temp4399_5, __HIVE_P2_temp4399_4, (__HIVE_P2_reserveArray(2, 4411), __HIVE_P2_ownArray([__HIVE_P2_get(e, "start", 4412), __HIVE_P2_get(e, "loc", 4413) && __HIVE_P2_get(__HIVE_P2_get(e, "loc", 4415), "start", 4414)], 4411, "CONTROL_ARRAY")), 4411));
+            (__HIVE_P2_temp4399_6 = t, __HIVE_P2_temp4399_7 = "name", __HIVE_P2_set(__HIVE_P2_temp4399_6, __HIVE_P2_temp4399_7, "new", 4417));
+            (__HIVE_P2_temp4399_9 = e, __HIVE_P2_temp4399_10 = "meta", __HIVE_P2_set(__HIVE_P2_temp4399_9, __HIVE_P2_temp4399_10, (__HIVE_P2_temp4399_12 = this, __HIVE_P2_temp4399_13 = __HIVE_P2_get(__HIVE_P2_temp4399_12, "finishNode", 4421), __HIVE_P2_invoke(__HIVE_P2_temp4399_13, __HIVE_P2_temp4399_12, (__HIVE_P2_reserveArray(2, 4421), __HIVE_P2_ownArray([t, "Identifier"], 4421, "CONTROL_ARRAY")), 4421)), 4419));
+            (__HIVE_P2_temp4399_14 = this, __HIVE_P2_temp4399_15 = __HIVE_P2_get(__HIVE_P2_temp4399_14, "next", 4423), __HIVE_P2_invoke(__HIVE_P2_temp4399_15, __HIVE_P2_temp4399_14, (__HIVE_P2_reserveArray(0, 4423), __HIVE_P2_ownArray([], 4423, "CONTROL_ARRAY")), 4423));
+            var i = __HIVE_P2_get(this, "containsEsc", 4425);
+            (__HIVE_P2_temp4399_16 = e, __HIVE_P2_temp4399_17 = "property", __HIVE_P2_set(__HIVE_P2_temp4399_16, __HIVE_P2_temp4399_17, (__HIVE_P2_temp4399_19 = this, __HIVE_P2_temp4399_20 = __HIVE_P2_get(__HIVE_P2_temp4399_19, "parseIdent", 4428), __HIVE_P2_invoke(__HIVE_P2_temp4399_20, __HIVE_P2_temp4399_19, (__HIVE_P2_reserveArray(1, 4428), __HIVE_P2_ownArray([true], 4428, "CONTROL_ARRAY")), 4428)), 4426));
+            if (__HIVE_P2_get(__HIVE_P2_get(e, "property", 4431), "name", 4430) !== "target") {
+                __HIVE_P2_syntaxRefusal(4432);
+            }
+            if (i) {
+                __HIVE_P2_syntaxRefusal(4433);
+            }
+            if (!__HIVE_P2_get(this, "allowNewDotTarget", 4434)) {
+                __HIVE_P2_syntaxRefusal(4435);
+            }
+            return (__HIVE_P2_temp4399_21 = this, __HIVE_P2_temp4399_22 = __HIVE_P2_get(__HIVE_P2_temp4399_21, "finishNode", 4436), __HIVE_P2_invoke(__HIVE_P2_temp4399_22, __HIVE_P2_temp4399_21, (__HIVE_P2_reserveArray(2, 4436), __HIVE_P2_ownArray([e, "MetaProperty"], 4436, "CONTROL_ARRAY")), 4436));
+        }
+        var s = __HIVE_P2_get(this, "start", 4438), r = __HIVE_P2_get(this, "startLoc", 4439);
+        (__HIVE_P2_temp4399_23 = e, __HIVE_P2_temp4399_24 = "callee", __HIVE_P2_set(__HIVE_P2_temp4399_23, __HIVE_P2_temp4399_24, (__HIVE_P2_temp4399_28 = this, __HIVE_P2_temp4399_29 = __HIVE_P2_get(__HIVE_P2_temp4399_28, "parseSubscripts", 4442), __HIVE_P2_invoke(__HIVE_P2_temp4399_29, __HIVE_P2_temp4399_28, (__HIVE_P2_reserveArray(5, 4442), __HIVE_P2_ownArray([(__HIVE_P2_temp4399_26 = this, __HIVE_P2_temp4399_27 = __HIVE_P2_get(__HIVE_P2_temp4399_26, "parseExprAtom", 4443), __HIVE_P2_invoke(__HIVE_P2_temp4399_27, __HIVE_P2_temp4399_26, (__HIVE_P2_reserveArray(3, 4443), __HIVE_P2_ownArray([null, false, true], 4443, "CONTROL_ARRAY")), 4443)), s, r, true, false], 4442, "CONTROL_ARRAY")), 4442)), 4440));
+        if ((__HIVE_P2_temp4399_30 = this, __HIVE_P2_temp4399_31 = __HIVE_P2_get(__HIVE_P2_temp4399_30, "eat", 4446), __HIVE_P2_invoke(__HIVE_P2_temp4399_31, __HIVE_P2_temp4399_30, (__HIVE_P2_reserveArray(1, 4446), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 4447)], 4446, "CONTROL_ARRAY")), 4446))) {
+            (__HIVE_P2_temp4399_32 = e, __HIVE_P2_temp4399_33 = "arguments", __HIVE_P2_set(__HIVE_P2_temp4399_32, __HIVE_P2_temp4399_33, (__HIVE_P2_temp4399_35 = this, __HIVE_P2_temp4399_36 = __HIVE_P2_get(__HIVE_P2_temp4399_35, "parseExprList", 4451), __HIVE_P2_invoke(__HIVE_P2_temp4399_36, __HIVE_P2_temp4399_35, (__HIVE_P2_reserveArray(3, 4451), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4452), __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4455), "ecmaVersion", 4454), 8, 4453), false], 4451, "CONTROL_ARRAY")), 4451)), 4449));
+        }
+        else {
+            (__HIVE_P2_temp4399_37 = e, __HIVE_P2_temp4399_38 = "arguments", __HIVE_P2_set(__HIVE_P2_temp4399_37, __HIVE_P2_temp4399_38, (__HIVE_P2_checkArrayDepth(0, 4459), __HIVE_P2_reserveArray(0, 4459, 0), __HIVE_P2_ownArray([], 4459, "ARRAY", 0)), 4457));
+        }
+        return (__HIVE_P2_temp4399_40 = this, __HIVE_P2_temp4399_41 = __HIVE_P2_get(__HIVE_P2_temp4399_40, "finishNode", 4460), __HIVE_P2_invoke(__HIVE_P2_temp4399_41, __HIVE_P2_temp4399_40, (__HIVE_P2_reserveArray(2, 4460), __HIVE_P2_ownArray([e, "NewExpression"], 4460, "CONTROL_ARRAY")), 4460));
+    }, 47, 0, 0, 4399)), 4397));
+    (__HIVE_P2_temp0_1329 = pe, __HIVE_P2_temp0_1330 = "parseTemplateElement", __HIVE_P2_set(__HIVE_P2_temp0_1329, __HIVE_P2_temp0_1330, (__HIVE_P2_reserveFunction(4464), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4464_0, __HIVE_P2_temp4464_1, __HIVE_P2_temp4464_2, __HIVE_P2_temp4464_3, __HIVE_P2_temp4464_4, __HIVE_P2_temp4464_5, __HIVE_P2_temp4464_6, __HIVE_P2_temp4464_7, __HIVE_P2_temp4464_8, __HIVE_P2_temp4464_9, __HIVE_P2_temp4464_10, __HIVE_P2_temp4464_11, __HIVE_P2_temp4464_12, __HIVE_P2_temp4464_13, __HIVE_P2_temp4464_14, __HIVE_P2_temp4464_15, __HIVE_P2_temp4464_16, __HIVE_P2_temp4464_17, __HIVE_P2_temp4464_18, __HIVE_P2_temp4464_19, __HIVE_P2_temp4464_20;
+        var t = __HIVE_P2_get(e, "isTagged", 4465);
+        var i = (__HIVE_P2_temp4464_0 = this, __HIVE_P2_temp4464_1 = __HIVE_P2_get(__HIVE_P2_temp4464_0, "startNode", 4466), __HIVE_P2_invoke(__HIVE_P2_temp4464_1, __HIVE_P2_temp4464_0, (__HIVE_P2_reserveArray(0, 4466), __HIVE_P2_ownArray([], 4466, "CONTROL_ARRAY")), 4466));
+        if (__HIVE_P2_get(this, "type", 4468) === __HIVE_P2_get(m, "invalidTemplate", 4469)) {
+            if (!t) {
+                __HIVE_P2_syntaxRefusal(4470);
+            }
+            (__HIVE_P2_temp4464_2 = i, __HIVE_P2_temp4464_3 = "value", __HIVE_P2_set(__HIVE_P2_temp4464_2, __HIVE_P2_temp4464_3, (__HIVE_P2_reserveObject(2, 4473), __HIVE_P2_ownObject({ raw: (__HIVE_P2_temp4464_5 = __HIVE_P2_get(this, "value", 4477), __HIVE_P2_temp4464_6 = __HIVE_P2_get(__HIVE_P2_temp4464_5, "replace", 4474), __HIVE_P2_invoke(__HIVE_P2_temp4464_6, __HIVE_P2_temp4464_5, (__HIVE_P2_reserveArray(2, 4474), __HIVE_P2_ownArray([__HIVE_P2_toolRegex("/\\r\\n?/g", 4475), "\n"], 4474, "CONTROL_ARRAY")), 4474)), cooked: null }, 4473, 2, 9)), 4471));
+        }
+        else {
+            (__HIVE_P2_temp4464_7 = i, __HIVE_P2_temp4464_8 = "value", __HIVE_P2_set(__HIVE_P2_temp4464_7, __HIVE_P2_temp4464_8, (__HIVE_P2_reserveObject(2, 4480), __HIVE_P2_ownObject({ raw: (__HIVE_P2_temp4464_10 = (__HIVE_P2_temp4464_12 = __HIVE_P2_get(this, "input", 4488), __HIVE_P2_temp4464_13 = __HIVE_P2_get(__HIVE_P2_temp4464_12, "slice", 4484), __HIVE_P2_invoke(__HIVE_P2_temp4464_13, __HIVE_P2_temp4464_12, (__HIVE_P2_reserveArray(2, 4484), __HIVE_P2_ownArray([__HIVE_P2_get(this, "start", 4485), __HIVE_P2_get(this, "end", 4486)], 4484, "CONTROL_ARRAY")), 4484)), __HIVE_P2_temp4464_11 = __HIVE_P2_get(__HIVE_P2_temp4464_10, "replace", 4481), __HIVE_P2_invoke(__HIVE_P2_temp4464_11, __HIVE_P2_temp4464_10, (__HIVE_P2_reserveArray(2, 4481), __HIVE_P2_ownArray([__HIVE_P2_toolRegex("/\\r\\n?/g", 4482), "\n"], 4481, "CONTROL_ARRAY")), 4481)), cooked: __HIVE_P2_get(this, "value", 4489) }, 4480, 2, 9)), 4478));
+        }
+        (__HIVE_P2_temp4464_14 = this, __HIVE_P2_temp4464_15 = __HIVE_P2_get(__HIVE_P2_temp4464_14, "next", 4490), __HIVE_P2_invoke(__HIVE_P2_temp4464_15, __HIVE_P2_temp4464_14, (__HIVE_P2_reserveArray(0, 4490), __HIVE_P2_ownArray([], 4490, "CONTROL_ARRAY")), 4490));
+        (__HIVE_P2_temp4464_16 = i, __HIVE_P2_temp4464_17 = "tail", __HIVE_P2_set(__HIVE_P2_temp4464_16, __HIVE_P2_temp4464_17, __HIVE_P2_get(this, "type", 4494) === __HIVE_P2_get(m, "backQuote", 4495), 4492));
+        return (__HIVE_P2_temp4464_19 = this, __HIVE_P2_temp4464_20 = __HIVE_P2_get(__HIVE_P2_temp4464_19, "finishNode", 4496), __HIVE_P2_invoke(__HIVE_P2_temp4464_20, __HIVE_P2_temp4464_19, (__HIVE_P2_reserveArray(2, 4496), __HIVE_P2_ownArray([i, "TemplateElement"], 4496, "CONTROL_ARRAY")), 4496));
+    }, 23, 1, 0, 4464)), 4462));
+    (__HIVE_P2_temp0_1332 = pe, __HIVE_P2_temp0_1333 = "parseTemplate", __HIVE_P2_set(__HIVE_P2_temp0_1332, __HIVE_P2_temp0_1333, (__HIVE_P2_reserveFunction(4500), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4500_0, __HIVE_P2_temp4500_1, __HIVE_P2_temp4500_2, __HIVE_P2_temp4500_3, __HIVE_P2_temp4500_4, __HIVE_P2_temp4500_5, __HIVE_P2_temp4500_6, __HIVE_P2_temp4500_7, __HIVE_P2_temp4500_8, __HIVE_P2_temp4500_9, __HIVE_P2_temp4500_10, __HIVE_P2_temp4500_11, __HIVE_P2_temp4500_12, __HIVE_P2_temp4500_13, __HIVE_P2_temp4500_14, __HIVE_P2_temp4500_15, __HIVE_P2_temp4500_16, __HIVE_P2_temp4500_17, __HIVE_P2_temp4500_18, __HIVE_P2_temp4500_19, __HIVE_P2_temp4500_20, __HIVE_P2_temp4500_21, __HIVE_P2_temp4500_22, __HIVE_P2_temp4500_23, __HIVE_P2_temp4500_24, __HIVE_P2_temp4500_25, __HIVE_P2_temp4500_26, __HIVE_P2_temp4500_27, __HIVE_P2_temp4500_28, __HIVE_P2_temp4500_29, __HIVE_P2_temp4500_30;
+        if (e === void 0)
+            e = (__HIVE_P2_reserveObject(0, 4502), __HIVE_P2_ownObject({}, 4502, 0, 0));
+        var t = __HIVE_P2_get(e, "isTagged", 4503);
+        if (t === void 0)
+            t = false;
+        var i = (__HIVE_P2_temp4500_0 = this, __HIVE_P2_temp4500_1 = __HIVE_P2_get(__HIVE_P2_temp4500_0, "startNode", 4505), __HIVE_P2_invoke(__HIVE_P2_temp4500_1, __HIVE_P2_temp4500_0, (__HIVE_P2_reserveArray(0, 4505), __HIVE_P2_ownArray([], 4505, "CONTROL_ARRAY")), 4505));
+        (__HIVE_P2_temp4500_2 = this, __HIVE_P2_temp4500_3 = __HIVE_P2_get(__HIVE_P2_temp4500_2, "next", 4507), __HIVE_P2_invoke(__HIVE_P2_temp4500_3, __HIVE_P2_temp4500_2, (__HIVE_P2_reserveArray(0, 4507), __HIVE_P2_ownArray([], 4507, "CONTROL_ARRAY")), 4507));
+        (__HIVE_P2_temp4500_4 = i, __HIVE_P2_temp4500_5 = "expressions", __HIVE_P2_set(__HIVE_P2_temp4500_4, __HIVE_P2_temp4500_5, (__HIVE_P2_temp4500_7 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp4500_7, 4511), __HIVE_P2_reserveArray(0, 4511, 0), __HIVE_P2_ownArray([], 4511, "ARRAY", __HIVE_P2_temp4500_7)), 4509));
+        var s = (__HIVE_P2_temp4500_8 = this, __HIVE_P2_temp4500_9 = __HIVE_P2_get(__HIVE_P2_temp4500_8, "parseTemplateElement", 4512), __HIVE_P2_invoke(__HIVE_P2_temp4500_9, __HIVE_P2_temp4500_8, (__HIVE_P2_reserveArray(1, 4512), __HIVE_P2_ownArray([(__HIVE_P2_reserveObject(1, 4513), __HIVE_P2_ownObject({ isTagged: t }, 4513, 1, 8))], 4512, "CONTROL_ARRAY")), 4512));
+        (__HIVE_P2_temp4500_10 = i, __HIVE_P2_temp4500_11 = "quasis", __HIVE_P2_set(__HIVE_P2_temp4500_10, __HIVE_P2_temp4500_11, (__HIVE_P2_temp4500_13 = 0, __HIVE_P2_temp4500_14 = s, __HIVE_P2_temp4500_13 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp4500_13, __HIVE_P2_temp4500_14, 4517), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp4500_13, 4517), __HIVE_P2_reserveArray(1, 4517, 1), __HIVE_P2_ownArray([__HIVE_P2_temp4500_14], 4517, "ARRAY", __HIVE_P2_temp4500_13)), 4515));
+        while (!__HIVE_P2_get(s, "tail", 4519)) {
+            __HIVE_P2_tick(4518);
+            if (__HIVE_P2_get(this, "type", 4520) === __HIVE_P2_get(m, "eof", 4521)) {
+                __HIVE_P2_syntaxRefusal(4522);
+            }
+            (__HIVE_P2_temp4500_15 = this, __HIVE_P2_temp4500_16 = __HIVE_P2_get(__HIVE_P2_temp4500_15, "expect", 4523), __HIVE_P2_invoke(__HIVE_P2_temp4500_16, __HIVE_P2_temp4500_15, (__HIVE_P2_reserveArray(1, 4523), __HIVE_P2_ownArray([__HIVE_P2_get(m, "dollarBraceL", 4524)], 4523, "CONTROL_ARRAY")), 4523));
+            (__HIVE_P2_temp4500_19 = __HIVE_P2_get(i, "expressions", 4530), __HIVE_P2_temp4500_20 = __HIVE_P2_get(__HIVE_P2_temp4500_19, "push", 4526), __HIVE_P2_invoke(__HIVE_P2_temp4500_20, __HIVE_P2_temp4500_19, (__HIVE_P2_reserveArray(1, 4526), __HIVE_P2_ownArray([(__HIVE_P2_temp4500_17 = this, __HIVE_P2_temp4500_18 = __HIVE_P2_get(__HIVE_P2_temp4500_17, "parseExpression", 4527), __HIVE_P2_invoke(__HIVE_P2_temp4500_18, __HIVE_P2_temp4500_17, (__HIVE_P2_reserveArray(0, 4527), __HIVE_P2_ownArray([], 4527, "CONTROL_ARRAY")), 4527))], 4526, "CONTROL_ARRAY")), 4526));
+            (__HIVE_P2_temp4500_21 = this, __HIVE_P2_temp4500_22 = __HIVE_P2_get(__HIVE_P2_temp4500_21, "expect", 4531), __HIVE_P2_invoke(__HIVE_P2_temp4500_22, __HIVE_P2_temp4500_21, (__HIVE_P2_reserveArray(1, 4531), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 4532)], 4531, "CONTROL_ARRAY")), 4531));
+            (__HIVE_P2_temp4500_25 = __HIVE_P2_get(i, "quasis", 4540), __HIVE_P2_temp4500_26 = __HIVE_P2_get(__HIVE_P2_temp4500_25, "push", 4534), __HIVE_P2_invoke(__HIVE_P2_temp4500_26, __HIVE_P2_temp4500_25, (__HIVE_P2_reserveArray(1, 4534), __HIVE_P2_ownArray([s = (__HIVE_P2_temp4500_23 = this, __HIVE_P2_temp4500_24 = __HIVE_P2_get(__HIVE_P2_temp4500_23, "parseTemplateElement", 4536), __HIVE_P2_invoke(__HIVE_P2_temp4500_24, __HIVE_P2_temp4500_23, (__HIVE_P2_reserveArray(1, 4536), __HIVE_P2_ownArray([(__HIVE_P2_reserveObject(1, 4537), __HIVE_P2_ownObject({ isTagged: t }, 4537, 1, 8))], 4536, "CONTROL_ARRAY")), 4536))], 4534, "CONTROL_ARRAY")), 4534));
+        }
+        (__HIVE_P2_temp4500_27 = this, __HIVE_P2_temp4500_28 = __HIVE_P2_get(__HIVE_P2_temp4500_27, "next", 4541), __HIVE_P2_invoke(__HIVE_P2_temp4500_28, __HIVE_P2_temp4500_27, (__HIVE_P2_reserveArray(0, 4541), __HIVE_P2_ownArray([], 4541, "CONTROL_ARRAY")), 4541));
+        return (__HIVE_P2_temp4500_29 = this, __HIVE_P2_temp4500_30 = __HIVE_P2_get(__HIVE_P2_temp4500_29, "finishNode", 4543), __HIVE_P2_invoke(__HIVE_P2_temp4500_30, __HIVE_P2_temp4500_29, (__HIVE_P2_reserveArray(2, 4543), __HIVE_P2_ownArray([i, "TemplateLiteral"], 4543, "CONTROL_ARRAY")), 4543));
+    }, 34, 1, 0, 4500)), 4498));
+    (__HIVE_P2_temp0_1335 = pe, __HIVE_P2_temp0_1336 = "isAsyncProp", __HIVE_P2_set(__HIVE_P2_temp0_1335, __HIVE_P2_temp0_1336, (__HIVE_P2_reserveFunction(4547), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4547_0, __HIVE_P2_temp4547_1, __HIVE_P2_temp4547_2, __HIVE_P2_temp4547_3;
+        return !__HIVE_P2_get(e, "computed", 4548) && __HIVE_P2_get(__HIVE_P2_get(e, "key", 4550), "type", 4549) === "Identifier" && __HIVE_P2_get(__HIVE_P2_get(e, "key", 4552), "name", 4551) === "async" && (__HIVE_P2_get(this, "type", 4553) === __HIVE_P2_get(m, "name", 4554) || __HIVE_P2_get(this, "type", 4555) === __HIVE_P2_get(m, "num", 4556) || __HIVE_P2_get(this, "type", 4557) === __HIVE_P2_get(m, "string", 4558) || __HIVE_P2_get(this, "type", 4559) === __HIVE_P2_get(m, "bracketL", 4560) || __HIVE_P2_get(__HIVE_P2_get(this, "type", 4562), "keyword", 4561) || __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4565), "ecmaVersion", 4564), 9, 4563) && __HIVE_P2_get(this, "type", 4566) === __HIVE_P2_get(m, "star", 4567)) && !(__HIVE_P2_temp4547_2 = g, __HIVE_P2_temp4547_3 = __HIVE_P2_get(__HIVE_P2_temp4547_2, "test", 4568), __HIVE_P2_invoke(__HIVE_P2_temp4547_3, __HIVE_P2_temp4547_2, (__HIVE_P2_reserveArray(1, 4568), __HIVE_P2_ownArray([(__HIVE_P2_temp4547_0 = __HIVE_P2_get(this, "input", 4573), __HIVE_P2_temp4547_1 = __HIVE_P2_get(__HIVE_P2_temp4547_0, "slice", 4569), __HIVE_P2_invoke(__HIVE_P2_temp4547_1, __HIVE_P2_temp4547_0, (__HIVE_P2_reserveArray(2, 4569), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 4570), __HIVE_P2_get(this, "start", 4571)], 4569, "CONTROL_ARRAY")), 4569))], 4568, "CONTROL_ARRAY")), 4568));
+    }, 4, 1, 0, 4547)), 4545));
+    (__HIVE_P2_temp0_1338 = pe, __HIVE_P2_temp0_1339 = "parseObj", __HIVE_P2_set(__HIVE_P2_temp0_1338, __HIVE_P2_temp0_1339, (__HIVE_P2_reserveFunction(4577), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp4577_0, __HIVE_P2_temp4577_1, __HIVE_P2_temp4577_2, __HIVE_P2_temp4577_3, __HIVE_P2_temp4577_4, __HIVE_P2_temp4577_5, __HIVE_P2_temp4577_6, __HIVE_P2_temp4577_7, __HIVE_P2_temp4577_8, __HIVE_P2_temp4577_9, __HIVE_P2_temp4577_10, __HIVE_P2_temp4577_11, __HIVE_P2_temp4577_12, __HIVE_P2_temp4577_13, __HIVE_P2_temp4577_14, __HIVE_P2_temp4577_15, __HIVE_P2_temp4577_16, __HIVE_P2_temp4577_17, __HIVE_P2_temp4577_18, __HIVE_P2_temp4577_19, __HIVE_P2_temp4577_20, __HIVE_P2_temp4577_21;
+        var i = (__HIVE_P2_temp4577_0 = this, __HIVE_P2_temp4577_1 = __HIVE_P2_get(__HIVE_P2_temp4577_0, "startNode", 4578), __HIVE_P2_invoke(__HIVE_P2_temp4577_1, __HIVE_P2_temp4577_0, (__HIVE_P2_reserveArray(0, 4578), __HIVE_P2_ownArray([], 4578, "CONTROL_ARRAY")), 4578)), s = true, r = (__HIVE_P2_reserveObject(0, 4580), __HIVE_P2_ownObject({}, 4580, 0, 0));
+        (__HIVE_P2_temp4577_2 = i, __HIVE_P2_temp4577_3 = "properties", __HIVE_P2_set(__HIVE_P2_temp4577_2, __HIVE_P2_temp4577_3, (__HIVE_P2_temp4577_5 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp4577_5, 4583), __HIVE_P2_reserveArray(0, 4583, 0), __HIVE_P2_ownArray([], 4583, "ARRAY", __HIVE_P2_temp4577_5)), 4581));
+        (__HIVE_P2_temp4577_6 = this, __HIVE_P2_temp4577_7 = __HIVE_P2_get(__HIVE_P2_temp4577_6, "next", 4584), __HIVE_P2_invoke(__HIVE_P2_temp4577_7, __HIVE_P2_temp4577_6, (__HIVE_P2_reserveArray(0, 4584), __HIVE_P2_ownArray([], 4584, "CONTROL_ARRAY")), 4584));
+        while (!(__HIVE_P2_temp4577_8 = this, __HIVE_P2_temp4577_9 = __HIVE_P2_get(__HIVE_P2_temp4577_8, "eat", 4587), __HIVE_P2_invoke(__HIVE_P2_temp4577_9, __HIVE_P2_temp4577_8, (__HIVE_P2_reserveArray(1, 4587), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 4588)], 4587, "CONTROL_ARRAY")), 4587))) {
+            __HIVE_P2_tick(4586);
+            if (!s) {
+                (__HIVE_P2_temp4577_10 = this, __HIVE_P2_temp4577_11 = __HIVE_P2_get(__HIVE_P2_temp4577_10, "expect", 4590), __HIVE_P2_invoke(__HIVE_P2_temp4577_11, __HIVE_P2_temp4577_10, (__HIVE_P2_reserveArray(1, 4590), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 4591)], 4590, "CONTROL_ARRAY")), 4590));
+                if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4595), "ecmaVersion", 4594), 5, 4593) && (__HIVE_P2_temp4577_12 = this, __HIVE_P2_temp4577_13 = __HIVE_P2_get(__HIVE_P2_temp4577_12, "afterTrailingComma", 4596), __HIVE_P2_invoke(__HIVE_P2_temp4577_13, __HIVE_P2_temp4577_12, (__HIVE_P2_reserveArray(1, 4596), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 4597)], 4596, "CONTROL_ARRAY")), 4596))) {
+                    break;
+                }
+            }
+            else {
+                s = false;
+            }
+            var a = (__HIVE_P2_temp4577_14 = this, __HIVE_P2_temp4577_15 = __HIVE_P2_get(__HIVE_P2_temp4577_14, "parseProperty", 4600), __HIVE_P2_invoke(__HIVE_P2_temp4577_15, __HIVE_P2_temp4577_14, (__HIVE_P2_reserveArray(2, 4600), __HIVE_P2_ownArray([e, t], 4600, "CONTROL_ARRAY")), 4600));
+            if (!e) {
+                (__HIVE_P2_temp4577_16 = this, __HIVE_P2_temp4577_17 = __HIVE_P2_get(__HIVE_P2_temp4577_16, "checkPropClash", 4602), __HIVE_P2_invoke(__HIVE_P2_temp4577_17, __HIVE_P2_temp4577_16, (__HIVE_P2_reserveArray(3, 4602), __HIVE_P2_ownArray([a, r, t], 4602, "CONTROL_ARRAY")), 4602));
+            }
+            (__HIVE_P2_temp4577_18 = __HIVE_P2_get(i, "properties", 4606), __HIVE_P2_temp4577_19 = __HIVE_P2_get(__HIVE_P2_temp4577_18, "push", 4604), __HIVE_P2_invoke(__HIVE_P2_temp4577_19, __HIVE_P2_temp4577_18, (__HIVE_P2_reserveArray(1, 4604), __HIVE_P2_ownArray([a], 4604, "CONTROL_ARRAY")), 4604));
+        }
+        return (__HIVE_P2_temp4577_20 = this, __HIVE_P2_temp4577_21 = __HIVE_P2_get(__HIVE_P2_temp4577_20, "finishNode", 4607), __HIVE_P2_invoke(__HIVE_P2_temp4577_21, __HIVE_P2_temp4577_20, (__HIVE_P2_reserveArray(2, 4607), __HIVE_P2_ownArray([i, e ? "ObjectPattern" : "ObjectExpression"], 4607, "CONTROL_ARRAY")), 4607));
+    }, 26, 2, 0, 4577)), 4575));
+    (__HIVE_P2_temp0_1341 = pe, __HIVE_P2_temp0_1342 = "parseProperty", __HIVE_P2_set(__HIVE_P2_temp0_1341, __HIVE_P2_temp0_1342, (__HIVE_P2_reserveFunction(4611), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp4611_0, __HIVE_P2_temp4611_1, __HIVE_P2_temp4611_2, __HIVE_P2_temp4611_3, __HIVE_P2_temp4611_4, __HIVE_P2_temp4611_5, __HIVE_P2_temp4611_6, __HIVE_P2_temp4611_7, __HIVE_P2_temp4611_8, __HIVE_P2_temp4611_9, __HIVE_P2_temp4611_10, __HIVE_P2_temp4611_11, __HIVE_P2_temp4611_12, __HIVE_P2_temp4611_13, __HIVE_P2_temp4611_14, __HIVE_P2_temp4611_15, __HIVE_P2_temp4611_16, __HIVE_P2_temp4611_17, __HIVE_P2_temp4611_18, __HIVE_P2_temp4611_19, __HIVE_P2_temp4611_20, __HIVE_P2_temp4611_21, __HIVE_P2_temp4611_22, __HIVE_P2_temp4611_23, __HIVE_P2_temp4611_24, __HIVE_P2_temp4611_25, __HIVE_P2_temp4611_26, __HIVE_P2_temp4611_27, __HIVE_P2_temp4611_28, __HIVE_P2_temp4611_29, __HIVE_P2_temp4611_30, __HIVE_P2_temp4611_31, __HIVE_P2_temp4611_32, __HIVE_P2_temp4611_33, __HIVE_P2_temp4611_34, __HIVE_P2_temp4611_35, __HIVE_P2_temp4611_36, __HIVE_P2_temp4611_37, __HIVE_P2_temp4611_38, __HIVE_P2_temp4611_39, __HIVE_P2_temp4611_40;
+        var i = (__HIVE_P2_temp4611_0 = this, __HIVE_P2_temp4611_1 = __HIVE_P2_get(__HIVE_P2_temp4611_0, "startNode", 4612), __HIVE_P2_invoke(__HIVE_P2_temp4611_1, __HIVE_P2_temp4611_0, (__HIVE_P2_reserveArray(0, 4612), __HIVE_P2_ownArray([], 4612, "CONTROL_ARRAY")), 4612)), s, r, a, n;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4616), "ecmaVersion", 4615), 9, 4614) && (__HIVE_P2_temp4611_2 = this, __HIVE_P2_temp4611_3 = __HIVE_P2_get(__HIVE_P2_temp4611_2, "eat", 4617), __HIVE_P2_invoke(__HIVE_P2_temp4611_3, __HIVE_P2_temp4611_2, (__HIVE_P2_reserveArray(1, 4617), __HIVE_P2_ownArray([__HIVE_P2_get(m, "ellipsis", 4618)], 4617, "CONTROL_ARRAY")), 4617))) {
+            if (e) {
+                (__HIVE_P2_temp4611_4 = i, __HIVE_P2_temp4611_5 = "argument", __HIVE_P2_set(__HIVE_P2_temp4611_4, __HIVE_P2_temp4611_5, (__HIVE_P2_temp4611_7 = this, __HIVE_P2_temp4611_8 = __HIVE_P2_get(__HIVE_P2_temp4611_7, "parseIdent", 4622), __HIVE_P2_invoke(__HIVE_P2_temp4611_8, __HIVE_P2_temp4611_7, (__HIVE_P2_reserveArray(1, 4622), __HIVE_P2_ownArray([false], 4622, "CONTROL_ARRAY")), 4622)), 4620));
+                if (__HIVE_P2_get(this, "type", 4624) === __HIVE_P2_get(m, "comma", 4625)) {
+                    __HIVE_P2_syntaxRefusal(4626);
+                }
+                return (__HIVE_P2_temp4611_9 = this, __HIVE_P2_temp4611_10 = __HIVE_P2_get(__HIVE_P2_temp4611_9, "finishNode", 4627), __HIVE_P2_invoke(__HIVE_P2_temp4611_10, __HIVE_P2_temp4611_9, (__HIVE_P2_reserveArray(2, 4627), __HIVE_P2_ownArray([i, "RestElement"], 4627, "CONTROL_ARRAY")), 4627));
+            }
+            (__HIVE_P2_temp4611_11 = i, __HIVE_P2_temp4611_12 = "argument", __HIVE_P2_set(__HIVE_P2_temp4611_11, __HIVE_P2_temp4611_12, (__HIVE_P2_temp4611_14 = this, __HIVE_P2_temp4611_15 = __HIVE_P2_get(__HIVE_P2_temp4611_14, "parseMaybeAssign", 4631), __HIVE_P2_invoke(__HIVE_P2_temp4611_15, __HIVE_P2_temp4611_14, (__HIVE_P2_reserveArray(2, 4631), __HIVE_P2_ownArray([false, t], 4631, "CONTROL_ARRAY")), 4631)), 4629));
+            if (__HIVE_P2_get(this, "type", 4633) === __HIVE_P2_get(m, "comma", 4634) && t && __HIVE_P2_binary("<", __HIVE_P2_get(t, "trailingComma", 4636), 0, 4635)) {
+                (__HIVE_P2_temp4611_16 = t, __HIVE_P2_temp4611_17 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp4611_16, __HIVE_P2_temp4611_17, __HIVE_P2_get(this, "start", 4639), 4637));
+            }
+            return (__HIVE_P2_temp4611_19 = this, __HIVE_P2_temp4611_20 = __HIVE_P2_get(__HIVE_P2_temp4611_19, "finishNode", 4640), __HIVE_P2_invoke(__HIVE_P2_temp4611_20, __HIVE_P2_temp4611_19, (__HIVE_P2_reserveArray(2, 4640), __HIVE_P2_ownArray([i, "SpreadElement"], 4640, "CONTROL_ARRAY")), 4640));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4644), "ecmaVersion", 4643), 6, 4642)) {
+            (__HIVE_P2_temp4611_21 = i, __HIVE_P2_temp4611_22 = "method", __HIVE_P2_set(__HIVE_P2_temp4611_21, __HIVE_P2_temp4611_22, false, 4645));
+            (__HIVE_P2_temp4611_24 = i, __HIVE_P2_temp4611_25 = "shorthand", __HIVE_P2_set(__HIVE_P2_temp4611_24, __HIVE_P2_temp4611_25, false, 4647));
+            if (e || t) {
+                a = __HIVE_P2_get(this, "start", 4650);
+                n = __HIVE_P2_get(this, "startLoc", 4652);
+            }
+            if (!e) {
+                s = (__HIVE_P2_temp4611_27 = this, __HIVE_P2_temp4611_28 = __HIVE_P2_get(__HIVE_P2_temp4611_27, "eat", 4654), __HIVE_P2_invoke(__HIVE_P2_temp4611_28, __HIVE_P2_temp4611_27, (__HIVE_P2_reserveArray(1, 4654), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 4655)], 4654, "CONTROL_ARRAY")), 4654));
+            }
+        }
+        var o = __HIVE_P2_get(this, "containsEsc", 4657);
+        (__HIVE_P2_temp4611_29 = this, __HIVE_P2_temp4611_30 = __HIVE_P2_get(__HIVE_P2_temp4611_29, "parsePropertyName", 4658), __HIVE_P2_invoke(__HIVE_P2_temp4611_30, __HIVE_P2_temp4611_29, (__HIVE_P2_reserveArray(1, 4658), __HIVE_P2_ownArray([i], 4658, "CONTROL_ARRAY")), 4658));
+        if (!e && !o && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4662), "ecmaVersion", 4661), 8, 4660) && !s && (__HIVE_P2_temp4611_31 = this, __HIVE_P2_temp4611_32 = __HIVE_P2_get(__HIVE_P2_temp4611_31, "isAsyncProp", 4663), __HIVE_P2_invoke(__HIVE_P2_temp4611_32, __HIVE_P2_temp4611_31, (__HIVE_P2_reserveArray(1, 4663), __HIVE_P2_ownArray([i], 4663, "CONTROL_ARRAY")), 4663))) {
+            r = true;
+            s = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4669), "ecmaVersion", 4668), 9, 4667) && (__HIVE_P2_temp4611_33 = this, __HIVE_P2_temp4611_34 = __HIVE_P2_get(__HIVE_P2_temp4611_33, "eat", 4670), __HIVE_P2_invoke(__HIVE_P2_temp4611_34, __HIVE_P2_temp4611_33, (__HIVE_P2_reserveArray(1, 4670), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 4671)], 4670, "CONTROL_ARRAY")), 4670));
+            (__HIVE_P2_temp4611_35 = this, __HIVE_P2_temp4611_36 = __HIVE_P2_get(__HIVE_P2_temp4611_35, "parsePropertyName", 4673), __HIVE_P2_invoke(__HIVE_P2_temp4611_36, __HIVE_P2_temp4611_35, (__HIVE_P2_reserveArray(1, 4673), __HIVE_P2_ownArray([i], 4673, "CONTROL_ARRAY")), 4673));
+        }
+        else {
+            r = false;
+        }
+        (__HIVE_P2_temp4611_37 = this, __HIVE_P2_temp4611_38 = __HIVE_P2_get(__HIVE_P2_temp4611_37, "parsePropertyValue", 4676), __HIVE_P2_invoke(__HIVE_P2_temp4611_38, __HIVE_P2_temp4611_37, (__HIVE_P2_reserveArray(8, 4676), __HIVE_P2_ownArray([i, e, s, r, a, n, t, o], 4676, "CONTROL_ARRAY")), 4676));
+        return (__HIVE_P2_temp4611_39 = this, __HIVE_P2_temp4611_40 = __HIVE_P2_get(__HIVE_P2_temp4611_39, "finishNode", 4678), __HIVE_P2_invoke(__HIVE_P2_temp4611_40, __HIVE_P2_temp4611_39, (__HIVE_P2_reserveArray(2, 4678), __HIVE_P2_ownArray([i, "Property"], 4678, "CONTROL_ARRAY")), 4678));
+    }, 47, 2, 0, 4611)), 4609));
+    (__HIVE_P2_temp0_1344 = pe, __HIVE_P2_temp0_1345 = "parseGetterSetter", __HIVE_P2_set(__HIVE_P2_temp0_1344, __HIVE_P2_temp0_1345, (__HIVE_P2_reserveFunction(4682), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4682_0, __HIVE_P2_temp4682_1, __HIVE_P2_temp4682_2, __HIVE_P2_temp4682_3, __HIVE_P2_temp4682_4, __HIVE_P2_temp4682_5, __HIVE_P2_temp4682_6, __HIVE_P2_temp4682_7, __HIVE_P2_temp4682_8, __HIVE_P2_temp4682_9;
+        (__HIVE_P2_temp4682_0 = e, __HIVE_P2_temp4682_1 = "kind", __HIVE_P2_set(__HIVE_P2_temp4682_0, __HIVE_P2_temp4682_1, __HIVE_P2_get(__HIVE_P2_get(e, "key", 4686), "name", 4685), 4683));
+        (__HIVE_P2_temp4682_3 = this, __HIVE_P2_temp4682_4 = __HIVE_P2_get(__HIVE_P2_temp4682_3, "parsePropertyName", 4687), __HIVE_P2_invoke(__HIVE_P2_temp4682_4, __HIVE_P2_temp4682_3, (__HIVE_P2_reserveArray(1, 4687), __HIVE_P2_ownArray([e], 4687, "CONTROL_ARRAY")), 4687));
+        (__HIVE_P2_temp4682_5 = e, __HIVE_P2_temp4682_6 = "value", __HIVE_P2_set(__HIVE_P2_temp4682_5, __HIVE_P2_temp4682_6, (__HIVE_P2_temp4682_8 = this, __HIVE_P2_temp4682_9 = __HIVE_P2_get(__HIVE_P2_temp4682_8, "parseMethod", 4691), __HIVE_P2_invoke(__HIVE_P2_temp4682_9, __HIVE_P2_temp4682_8, (__HIVE_P2_reserveArray(1, 4691), __HIVE_P2_ownArray([false], 4691, "CONTROL_ARRAY")), 4691)), 4689));
+        var t = __HIVE_P2_get(e, "kind", 4693) === "get" ? 0 : 1;
+        if (__HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(e, "value", 4696), "params", 4695), "length", 4694) !== t) {
+            var i = __HIVE_P2_get(__HIVE_P2_get(e, "value", 4698), "start", 4697);
+            if (__HIVE_P2_get(e, "kind", 4699) === "get") {
+                __HIVE_P2_syntaxRefusal(4700);
+            }
+            else {
+                __HIVE_P2_syntaxRefusal(4701);
+            }
+        }
+        else {
+            if (__HIVE_P2_get(e, "kind", 4702) === "set" && __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(e, "value", 4706), "params", 4705), 0, 4704), "type", 4703) === "RestElement") {
+                __HIVE_P2_syntaxRefusal(4707);
+            }
+        }
+    }, 12, 1, 0, 4682)), 4680));
+    (__HIVE_P2_temp0_1347 = pe, __HIVE_P2_temp0_1348 = "parsePropertyValue", __HIVE_P2_set(__HIVE_P2_temp0_1347, __HIVE_P2_temp0_1348, (__HIVE_P2_reserveFunction(4710), __HIVE_P2_registerFunction(function (e, t, i, s, r, a, n, o) {
+        var __HIVE_P2_temp4710_0, __HIVE_P2_temp4710_1, __HIVE_P2_temp4710_2, __HIVE_P2_temp4710_3, __HIVE_P2_temp4710_4, __HIVE_P2_temp4710_5, __HIVE_P2_temp4710_6, __HIVE_P2_temp4710_7, __HIVE_P2_temp4710_8, __HIVE_P2_temp4710_9, __HIVE_P2_temp4710_10, __HIVE_P2_temp4710_11, __HIVE_P2_temp4710_12, __HIVE_P2_temp4710_13, __HIVE_P2_temp4710_14, __HIVE_P2_temp4710_15, __HIVE_P2_temp4710_16, __HIVE_P2_temp4710_17, __HIVE_P2_temp4710_18, __HIVE_P2_temp4710_19, __HIVE_P2_temp4710_20, __HIVE_P2_temp4710_21, __HIVE_P2_temp4710_22, __HIVE_P2_temp4710_23, __HIVE_P2_temp4710_24, __HIVE_P2_temp4710_25, __HIVE_P2_temp4710_26, __HIVE_P2_temp4710_27, __HIVE_P2_temp4710_28, __HIVE_P2_temp4710_29, __HIVE_P2_temp4710_30, __HIVE_P2_temp4710_31, __HIVE_P2_temp4710_32, __HIVE_P2_temp4710_33, __HIVE_P2_temp4710_34, __HIVE_P2_temp4710_35, __HIVE_P2_temp4710_36, __HIVE_P2_temp4710_37, __HIVE_P2_temp4710_38, __HIVE_P2_temp4710_39, __HIVE_P2_temp4710_40, __HIVE_P2_temp4710_41, __HIVE_P2_temp4710_42, __HIVE_P2_temp4710_43, __HIVE_P2_temp4710_44, __HIVE_P2_temp4710_45, __HIVE_P2_temp4710_46, __HIVE_P2_temp4710_47, __HIVE_P2_temp4710_48, __HIVE_P2_temp4710_49, __HIVE_P2_temp4710_50, __HIVE_P2_temp4710_51, __HIVE_P2_temp4710_52, __HIVE_P2_temp4710_53, __HIVE_P2_temp4710_54, __HIVE_P2_temp4710_55, __HIVE_P2_temp4710_56, __HIVE_P2_temp4710_57;
+        if ((i || s) && __HIVE_P2_get(this, "type", 4711) === __HIVE_P2_get(m, "colon", 4712)) {
+            __HIVE_P2_syntaxRefusal(4713);
+        }
+        if ((__HIVE_P2_temp4710_0 = this, __HIVE_P2_temp4710_1 = __HIVE_P2_get(__HIVE_P2_temp4710_0, "eat", 4714), __HIVE_P2_invoke(__HIVE_P2_temp4710_1, __HIVE_P2_temp4710_0, (__HIVE_P2_reserveArray(1, 4714), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 4715)], 4714, "CONTROL_ARRAY")), 4714))) {
+            (__HIVE_P2_temp4710_2 = e, __HIVE_P2_temp4710_3 = "value", __HIVE_P2_set(__HIVE_P2_temp4710_2, __HIVE_P2_temp4710_3, t ? (__HIVE_P2_temp4710_5 = this, __HIVE_P2_temp4710_6 = __HIVE_P2_get(__HIVE_P2_temp4710_5, "parseMaybeDefault", 4719), __HIVE_P2_invoke(__HIVE_P2_temp4710_6, __HIVE_P2_temp4710_5, (__HIVE_P2_reserveArray(2, 4719), __HIVE_P2_ownArray([__HIVE_P2_get(this, "start", 4720), __HIVE_P2_get(this, "startLoc", 4721)], 4719, "CONTROL_ARRAY")), 4719)) : (__HIVE_P2_temp4710_7 = this, __HIVE_P2_temp4710_8 = __HIVE_P2_get(__HIVE_P2_temp4710_7, "parseMaybeAssign", 4723), __HIVE_P2_invoke(__HIVE_P2_temp4710_8, __HIVE_P2_temp4710_7, (__HIVE_P2_reserveArray(2, 4723), __HIVE_P2_ownArray([false, n], 4723, "CONTROL_ARRAY")), 4723)), 4717));
+            (__HIVE_P2_temp4710_9 = e, __HIVE_P2_temp4710_10 = "kind", __HIVE_P2_set(__HIVE_P2_temp4710_9, __HIVE_P2_temp4710_10, "init", 4725));
+        }
+        else if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4729), "ecmaVersion", 4728), 6, 4727) && __HIVE_P2_get(this, "type", 4730) === __HIVE_P2_get(m, "parenL", 4731)) {
+            if (t) {
+                __HIVE_P2_syntaxRefusal(4732);
+            }
+            (__HIVE_P2_temp4710_12 = e, __HIVE_P2_temp4710_13 = "kind", __HIVE_P2_set(__HIVE_P2_temp4710_12, __HIVE_P2_temp4710_13, "init", 4733));
+            (__HIVE_P2_temp4710_15 = e, __HIVE_P2_temp4710_16 = "method", __HIVE_P2_set(__HIVE_P2_temp4710_15, __HIVE_P2_temp4710_16, true, 4735));
+            (__HIVE_P2_temp4710_18 = e, __HIVE_P2_temp4710_19 = "value", __HIVE_P2_set(__HIVE_P2_temp4710_18, __HIVE_P2_temp4710_19, (__HIVE_P2_temp4710_21 = this, __HIVE_P2_temp4710_22 = __HIVE_P2_get(__HIVE_P2_temp4710_21, "parseMethod", 4739), __HIVE_P2_invoke(__HIVE_P2_temp4710_22, __HIVE_P2_temp4710_21, (__HIVE_P2_reserveArray(2, 4739), __HIVE_P2_ownArray([i, s], 4739, "CONTROL_ARRAY")), 4739)), 4737));
+        }
+        else if (!t && !o && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4743), "ecmaVersion", 4742), 5, 4741) && !__HIVE_P2_get(e, "computed", 4744) && __HIVE_P2_get(__HIVE_P2_get(e, "key", 4746), "type", 4745) === "Identifier" && (__HIVE_P2_get(__HIVE_P2_get(e, "key", 4748), "name", 4747) === "get" || __HIVE_P2_get(__HIVE_P2_get(e, "key", 4750), "name", 4749) === "set") && (__HIVE_P2_get(this, "type", 4751) !== __HIVE_P2_get(m, "comma", 4752) && __HIVE_P2_get(this, "type", 4753) !== __HIVE_P2_get(m, "braceR", 4754) && __HIVE_P2_get(this, "type", 4755) !== __HIVE_P2_get(m, "eq", 4756))) {
+            if (i || s) {
+                __HIVE_P2_syntaxRefusal(4757);
+            }
+            (__HIVE_P2_temp4710_23 = this, __HIVE_P2_temp4710_24 = __HIVE_P2_get(__HIVE_P2_temp4710_23, "parseGetterSetter", 4758), __HIVE_P2_invoke(__HIVE_P2_temp4710_24, __HIVE_P2_temp4710_23, (__HIVE_P2_reserveArray(1, 4758), __HIVE_P2_ownArray([e], 4758, "CONTROL_ARRAY")), 4758));
+        }
+        else if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4762), "ecmaVersion", 4761), 6, 4760) && !__HIVE_P2_get(e, "computed", 4763) && __HIVE_P2_get(__HIVE_P2_get(e, "key", 4765), "type", 4764) === "Identifier") {
+            if (i || s) {
+                __HIVE_P2_syntaxRefusal(4766);
+            }
+            (__HIVE_P2_temp4710_25 = this, __HIVE_P2_temp4710_26 = __HIVE_P2_get(__HIVE_P2_temp4710_25, "checkUnreserved", 4767), __HIVE_P2_invoke(__HIVE_P2_temp4710_26, __HIVE_P2_temp4710_25, (__HIVE_P2_reserveArray(1, 4767), __HIVE_P2_ownArray([__HIVE_P2_get(e, "key", 4768)], 4767, "CONTROL_ARRAY")), 4767));
+            if (__HIVE_P2_get(__HIVE_P2_get(e, "key", 4771), "name", 4770) === "await" && !__HIVE_P2_get(this, "awaitIdentPos", 4772)) {
+                (__HIVE_P2_temp4710_27 = this, __HIVE_P2_temp4710_28 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp4710_27, __HIVE_P2_temp4710_28, r, 4773));
+            }
+            (__HIVE_P2_temp4710_30 = e, __HIVE_P2_temp4710_31 = "kind", __HIVE_P2_set(__HIVE_P2_temp4710_30, __HIVE_P2_temp4710_31, "init", 4775));
+            if (t) {
+                (__HIVE_P2_temp4710_33 = e, __HIVE_P2_temp4710_34 = "value", __HIVE_P2_set(__HIVE_P2_temp4710_33, __HIVE_P2_temp4710_34, (__HIVE_P2_temp4710_38 = this, __HIVE_P2_temp4710_39 = __HIVE_P2_get(__HIVE_P2_temp4710_38, "parseMaybeDefault", 4779), __HIVE_P2_invoke(__HIVE_P2_temp4710_39, __HIVE_P2_temp4710_38, (__HIVE_P2_reserveArray(3, 4779), __HIVE_P2_ownArray([r, a, (__HIVE_P2_temp4710_36 = this, __HIVE_P2_temp4710_37 = __HIVE_P2_get(__HIVE_P2_temp4710_36, "copyNode", 4780), __HIVE_P2_invoke(__HIVE_P2_temp4710_37, __HIVE_P2_temp4710_36, (__HIVE_P2_reserveArray(1, 4780), __HIVE_P2_ownArray([__HIVE_P2_get(e, "key", 4781)], 4780, "CONTROL_ARRAY")), 4780))], 4779, "CONTROL_ARRAY")), 4779)), 4777));
+            }
+            else if (__HIVE_P2_get(this, "type", 4784) === __HIVE_P2_get(m, "eq", 4785) && n) {
+                if (__HIVE_P2_binary("<", __HIVE_P2_get(n, "shorthandAssign", 4787), 0, 4786)) {
+                    (__HIVE_P2_temp4710_40 = n, __HIVE_P2_temp4710_41 = "shorthandAssign", __HIVE_P2_set(__HIVE_P2_temp4710_40, __HIVE_P2_temp4710_41, __HIVE_P2_get(this, "start", 4790), 4788));
+                }
+                (__HIVE_P2_temp4710_43 = e, __HIVE_P2_temp4710_44 = "value", __HIVE_P2_set(__HIVE_P2_temp4710_43, __HIVE_P2_temp4710_44, (__HIVE_P2_temp4710_48 = this, __HIVE_P2_temp4710_49 = __HIVE_P2_get(__HIVE_P2_temp4710_48, "parseMaybeDefault", 4793), __HIVE_P2_invoke(__HIVE_P2_temp4710_49, __HIVE_P2_temp4710_48, (__HIVE_P2_reserveArray(3, 4793), __HIVE_P2_ownArray([r, a, (__HIVE_P2_temp4710_46 = this, __HIVE_P2_temp4710_47 = __HIVE_P2_get(__HIVE_P2_temp4710_46, "copyNode", 4794), __HIVE_P2_invoke(__HIVE_P2_temp4710_47, __HIVE_P2_temp4710_46, (__HIVE_P2_reserveArray(1, 4794), __HIVE_P2_ownArray([__HIVE_P2_get(e, "key", 4795)], 4794, "CONTROL_ARRAY")), 4794))], 4793, "CONTROL_ARRAY")), 4793)), 4791));
+            }
+            else {
+                (__HIVE_P2_temp4710_50 = e, __HIVE_P2_temp4710_51 = "value", __HIVE_P2_set(__HIVE_P2_temp4710_50, __HIVE_P2_temp4710_51, (__HIVE_P2_temp4710_53 = this, __HIVE_P2_temp4710_54 = __HIVE_P2_get(__HIVE_P2_temp4710_53, "copyNode", 4800), __HIVE_P2_invoke(__HIVE_P2_temp4710_54, __HIVE_P2_temp4710_53, (__HIVE_P2_reserveArray(1, 4800), __HIVE_P2_ownArray([__HIVE_P2_get(e, "key", 4801)], 4800, "CONTROL_ARRAY")), 4800)), 4798));
+            }
+            (__HIVE_P2_temp4710_55 = e, __HIVE_P2_temp4710_56 = "shorthand", __HIVE_P2_set(__HIVE_P2_temp4710_55, __HIVE_P2_temp4710_56, true, 4803));
+        }
+        else {
+            __HIVE_P2_syntaxRefusal(4805);
+        }
+    }, 58, 8, 0, 4710)), 4708));
+    (__HIVE_P2_temp0_1350 = pe, __HIVE_P2_temp0_1351 = "parsePropertyName", __HIVE_P2_set(__HIVE_P2_temp0_1350, __HIVE_P2_temp0_1351, (__HIVE_P2_reserveFunction(4808), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4808_0, __HIVE_P2_temp4808_1, __HIVE_P2_temp4808_2, __HIVE_P2_temp4808_3, __HIVE_P2_temp4808_4, __HIVE_P2_temp4808_5, __HIVE_P2_temp4808_6, __HIVE_P2_temp4808_7, __HIVE_P2_temp4808_8, __HIVE_P2_temp4808_9, __HIVE_P2_temp4808_10, __HIVE_P2_temp4808_11, __HIVE_P2_temp4808_12, __HIVE_P2_temp4808_13, __HIVE_P2_temp4808_14, __HIVE_P2_temp4808_15, __HIVE_P2_temp4808_16, __HIVE_P2_temp4808_17, __HIVE_P2_temp4808_18, __HIVE_P2_temp4808_19, __HIVE_P2_temp4808_20, __HIVE_P2_temp4808_21;
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4811), "ecmaVersion", 4810), 6, 4809)) {
+            if ((__HIVE_P2_temp4808_0 = this, __HIVE_P2_temp4808_1 = __HIVE_P2_get(__HIVE_P2_temp4808_0, "eat", 4812), __HIVE_P2_invoke(__HIVE_P2_temp4808_1, __HIVE_P2_temp4808_0, (__HIVE_P2_reserveArray(1, 4812), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketL", 4813)], 4812, "CONTROL_ARRAY")), 4812))) {
+                (__HIVE_P2_temp4808_2 = e, __HIVE_P2_temp4808_3 = "computed", __HIVE_P2_set(__HIVE_P2_temp4808_2, __HIVE_P2_temp4808_3, true, 4815));
+                (__HIVE_P2_temp4808_5 = e, __HIVE_P2_temp4808_6 = "key", __HIVE_P2_set(__HIVE_P2_temp4808_5, __HIVE_P2_temp4808_6, (__HIVE_P2_temp4808_8 = this, __HIVE_P2_temp4808_9 = __HIVE_P2_get(__HIVE_P2_temp4808_8, "parseMaybeAssign", 4819), __HIVE_P2_invoke(__HIVE_P2_temp4808_9, __HIVE_P2_temp4808_8, (__HIVE_P2_reserveArray(0, 4819), __HIVE_P2_ownArray([], 4819, "CONTROL_ARRAY")), 4819)), 4817));
+                (__HIVE_P2_temp4808_10 = this, __HIVE_P2_temp4808_11 = __HIVE_P2_get(__HIVE_P2_temp4808_10, "expect", 4821), __HIVE_P2_invoke(__HIVE_P2_temp4808_11, __HIVE_P2_temp4808_10, (__HIVE_P2_reserveArray(1, 4821), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketR", 4822)], 4821, "CONTROL_ARRAY")), 4821));
+                return __HIVE_P2_get(e, "key", 4824);
+            }
+            else {
+                (__HIVE_P2_temp4808_12 = e, __HIVE_P2_temp4808_13 = "computed", __HIVE_P2_set(__HIVE_P2_temp4808_12, __HIVE_P2_temp4808_13, false, 4825));
+            }
+        }
+        return (__HIVE_P2_temp4808_15 = e, __HIVE_P2_temp4808_16 = "key", __HIVE_P2_set(__HIVE_P2_temp4808_15, __HIVE_P2_temp4808_16, __HIVE_P2_get(this, "type", 4829) === __HIVE_P2_get(m, "num", 4830) || __HIVE_P2_get(this, "type", 4831) === __HIVE_P2_get(m, "string", 4832) ? (__HIVE_P2_temp4808_18 = this, __HIVE_P2_temp4808_19 = __HIVE_P2_get(__HIVE_P2_temp4808_18, "parseExprAtom", 4833), __HIVE_P2_invoke(__HIVE_P2_temp4808_19, __HIVE_P2_temp4808_18, (__HIVE_P2_reserveArray(0, 4833), __HIVE_P2_ownArray([], 4833, "CONTROL_ARRAY")), 4833)) : (__HIVE_P2_temp4808_20 = this, __HIVE_P2_temp4808_21 = __HIVE_P2_get(__HIVE_P2_temp4808_20, "parseIdent", 4835), __HIVE_P2_invoke(__HIVE_P2_temp4808_21, __HIVE_P2_temp4808_20, (__HIVE_P2_reserveArray(1, 4835), __HIVE_P2_ownArray([__HIVE_P2_get(__HIVE_P2_get(this, "options", 4837), "allowReserved", 4836) !== "never"], 4835, "CONTROL_ARRAY")), 4835)), 4827));
+    }, 22, 1, 0, 4808)), 4806));
+    (__HIVE_P2_temp0_1353 = pe, __HIVE_P2_temp0_1354 = "initFunction", __HIVE_P2_set(__HIVE_P2_temp0_1353, __HIVE_P2_temp0_1354, (__HIVE_P2_reserveFunction(4841), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp4841_0, __HIVE_P2_temp4841_1, __HIVE_P2_temp4841_2, __HIVE_P2_temp4841_3, __HIVE_P2_temp4841_4, __HIVE_P2_temp4841_5, __HIVE_P2_temp4841_6, __HIVE_P2_temp4841_7, __HIVE_P2_temp4841_8, __HIVE_P2_temp4841_9, __HIVE_P2_temp4841_10, __HIVE_P2_temp4841_11;
+        (__HIVE_P2_temp4841_0 = e, __HIVE_P2_temp4841_1 = "id", __HIVE_P2_set(__HIVE_P2_temp4841_0, __HIVE_P2_temp4841_1, null, 4842));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4846), "ecmaVersion", 4845), 6, 4844)) {
+            (__HIVE_P2_temp4841_3 = e, __HIVE_P2_temp4841_4 = "generator", __HIVE_P2_set(__HIVE_P2_temp4841_3, __HIVE_P2_temp4841_4, (__HIVE_P2_temp4841_6 = e, __HIVE_P2_temp4841_7 = "expression", __HIVE_P2_set(__HIVE_P2_temp4841_6, __HIVE_P2_temp4841_7, false, 4849)), 4847));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4853), "ecmaVersion", 4852), 8, 4851)) {
+            (__HIVE_P2_temp4841_9 = e, __HIVE_P2_temp4841_10 = "async", __HIVE_P2_set(__HIVE_P2_temp4841_9, __HIVE_P2_temp4841_10, false, 4854));
+        }
+    }, 12, 1, 0, 4841)), 4839));
+    (__HIVE_P2_temp0_1356 = pe, __HIVE_P2_temp0_1357 = "parseMethod", __HIVE_P2_set(__HIVE_P2_temp0_1356, __HIVE_P2_temp0_1357, (__HIVE_P2_reserveFunction(4858), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp4858_0, __HIVE_P2_temp4858_1, __HIVE_P2_temp4858_2, __HIVE_P2_temp4858_3, __HIVE_P2_temp4858_4, __HIVE_P2_temp4858_5, __HIVE_P2_temp4858_6, __HIVE_P2_temp4858_7, __HIVE_P2_temp4858_8, __HIVE_P2_temp4858_9, __HIVE_P2_temp4858_10, __HIVE_P2_temp4858_11, __HIVE_P2_temp4858_12, __HIVE_P2_temp4858_13, __HIVE_P2_temp4858_14, __HIVE_P2_temp4858_15, __HIVE_P2_temp4858_16, __HIVE_P2_temp4858_17, __HIVE_P2_temp4858_18, __HIVE_P2_temp4858_19, __HIVE_P2_temp4858_20, __HIVE_P2_temp4858_21, __HIVE_P2_temp4858_22, __HIVE_P2_temp4858_23, __HIVE_P2_temp4858_24, __HIVE_P2_temp4858_25, __HIVE_P2_temp4858_26, __HIVE_P2_temp4858_27, __HIVE_P2_temp4858_28, __HIVE_P2_temp4858_29, __HIVE_P2_temp4858_30, __HIVE_P2_temp4858_31, __HIVE_P2_temp4858_32, __HIVE_P2_temp4858_33, __HIVE_P2_temp4858_34, __HIVE_P2_temp4858_35, __HIVE_P2_temp4858_36, __HIVE_P2_temp4858_37, __HIVE_P2_temp4858_38, __HIVE_P2_temp4858_39, __HIVE_P2_temp4858_40, __HIVE_P2_temp4858_41, __HIVE_P2_temp4858_42;
+        var s = (__HIVE_P2_temp4858_0 = this, __HIVE_P2_temp4858_1 = __HIVE_P2_get(__HIVE_P2_temp4858_0, "startNode", 4859), __HIVE_P2_invoke(__HIVE_P2_temp4858_1, __HIVE_P2_temp4858_0, (__HIVE_P2_reserveArray(0, 4859), __HIVE_P2_ownArray([], 4859, "CONTROL_ARRAY")), 4859)), r = __HIVE_P2_get(this, "yieldPos", 4861), a = __HIVE_P2_get(this, "awaitPos", 4862), n = __HIVE_P2_get(this, "awaitIdentPos", 4863);
+        (__HIVE_P2_temp4858_2 = this, __HIVE_P2_temp4858_3 = __HIVE_P2_get(__HIVE_P2_temp4858_2, "initFunction", 4864), __HIVE_P2_invoke(__HIVE_P2_temp4858_3, __HIVE_P2_temp4858_2, (__HIVE_P2_reserveArray(1, 4864), __HIVE_P2_ownArray([s], 4864, "CONTROL_ARRAY")), 4864));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4868), "ecmaVersion", 4867), 6, 4866)) {
+            (__HIVE_P2_temp4858_4 = s, __HIVE_P2_temp4858_5 = "generator", __HIVE_P2_set(__HIVE_P2_temp4858_4, __HIVE_P2_temp4858_5, e, 4869));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4873), "ecmaVersion", 4872), 8, 4871)) {
+            (__HIVE_P2_temp4858_7 = s, __HIVE_P2_temp4858_8 = "async", __HIVE_P2_set(__HIVE_P2_temp4858_7, __HIVE_P2_temp4858_8, !!t, 4874));
+        }
+        (__HIVE_P2_temp4858_10 = this, __HIVE_P2_temp4858_11 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4858_10, __HIVE_P2_temp4858_11, 0, 4876));
+        (__HIVE_P2_temp4858_13 = this, __HIVE_P2_temp4858_14 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4858_13, __HIVE_P2_temp4858_14, 0, 4878));
+        (__HIVE_P2_temp4858_16 = this, __HIVE_P2_temp4858_17 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp4858_16, __HIVE_P2_temp4858_17, 0, 4880));
+        (__HIVE_P2_temp4858_19 = this, __HIVE_P2_temp4858_20 = __HIVE_P2_get(__HIVE_P2_temp4858_19, "enterScope", 4882), __HIVE_P2_invoke(__HIVE_P2_temp4858_20, __HIVE_P2_temp4858_19, (__HIVE_P2_reserveArray(1, 4882), __HIVE_P2_ownArray([__HIVE_P2_binary("|", __HIVE_P2_binary("|", __HIVE_P2_invoke(functionFlags, void 0, (__HIVE_P2_reserveArray(2, 4885), __HIVE_P2_ownArray([t, __HIVE_P2_get(s, "generator", 4886)], 4885, "CONTROL_ARRAY")), 4885), B, 4884), (i ? M : 0), 4883)], 4882, "CONTROL_ARRAY")), 4882));
+        (__HIVE_P2_temp4858_21 = this, __HIVE_P2_temp4858_22 = __HIVE_P2_get(__HIVE_P2_temp4858_21, "expect", 4888), __HIVE_P2_invoke(__HIVE_P2_temp4858_22, __HIVE_P2_temp4858_21, (__HIVE_P2_reserveArray(1, 4888), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 4889)], 4888, "CONTROL_ARRAY")), 4888));
+        (__HIVE_P2_temp4858_23 = s, __HIVE_P2_temp4858_24 = "params", __HIVE_P2_set(__HIVE_P2_temp4858_23, __HIVE_P2_temp4858_24, (__HIVE_P2_temp4858_26 = this, __HIVE_P2_temp4858_27 = __HIVE_P2_get(__HIVE_P2_temp4858_26, "parseBindingList", 4893), __HIVE_P2_invoke(__HIVE_P2_temp4858_27, __HIVE_P2_temp4858_26, (__HIVE_P2_reserveArray(3, 4893), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 4894), false, __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4897), "ecmaVersion", 4896), 8, 4895)], 4893, "CONTROL_ARRAY")), 4893)), 4891));
+        (__HIVE_P2_temp4858_28 = this, __HIVE_P2_temp4858_29 = __HIVE_P2_get(__HIVE_P2_temp4858_28, "checkYieldAwaitInDefaultParams", 4899), __HIVE_P2_invoke(__HIVE_P2_temp4858_29, __HIVE_P2_temp4858_28, (__HIVE_P2_reserveArray(0, 4899), __HIVE_P2_ownArray([], 4899, "CONTROL_ARRAY")), 4899));
+        (__HIVE_P2_temp4858_30 = this, __HIVE_P2_temp4858_31 = __HIVE_P2_get(__HIVE_P2_temp4858_30, "parseFunctionBody", 4901), __HIVE_P2_invoke(__HIVE_P2_temp4858_31, __HIVE_P2_temp4858_30, (__HIVE_P2_reserveArray(4, 4901), __HIVE_P2_ownArray([s, false, true, false], 4901, "CONTROL_ARRAY")), 4901));
+        (__HIVE_P2_temp4858_32 = this, __HIVE_P2_temp4858_33 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4858_32, __HIVE_P2_temp4858_33, r, 4903));
+        (__HIVE_P2_temp4858_35 = this, __HIVE_P2_temp4858_36 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4858_35, __HIVE_P2_temp4858_36, a, 4905));
+        (__HIVE_P2_temp4858_38 = this, __HIVE_P2_temp4858_39 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp4858_38, __HIVE_P2_temp4858_39, n, 4907));
+        return (__HIVE_P2_temp4858_41 = this, __HIVE_P2_temp4858_42 = __HIVE_P2_get(__HIVE_P2_temp4858_41, "finishNode", 4909), __HIVE_P2_invoke(__HIVE_P2_temp4858_42, __HIVE_P2_temp4858_41, (__HIVE_P2_reserveArray(2, 4909), __HIVE_P2_ownArray([s, "FunctionExpression"], 4909, "CONTROL_ARRAY")), 4909));
+    }, 47, 3, 0, 4858)), 4856));
+    (__HIVE_P2_temp0_1359 = pe, __HIVE_P2_temp0_1360 = "parseArrowExpression", __HIVE_P2_set(__HIVE_P2_temp0_1359, __HIVE_P2_temp0_1360, (__HIVE_P2_reserveFunction(4913), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp4913_0, __HIVE_P2_temp4913_1, __HIVE_P2_temp4913_2, __HIVE_P2_temp4913_3, __HIVE_P2_temp4913_4, __HIVE_P2_temp4913_5, __HIVE_P2_temp4913_6, __HIVE_P2_temp4913_7, __HIVE_P2_temp4913_8, __HIVE_P2_temp4913_9, __HIVE_P2_temp4913_10, __HIVE_P2_temp4913_11, __HIVE_P2_temp4913_12, __HIVE_P2_temp4913_13, __HIVE_P2_temp4913_14, __HIVE_P2_temp4913_15, __HIVE_P2_temp4913_16, __HIVE_P2_temp4913_17, __HIVE_P2_temp4913_18, __HIVE_P2_temp4913_19, __HIVE_P2_temp4913_20, __HIVE_P2_temp4913_21, __HIVE_P2_temp4913_22, __HIVE_P2_temp4913_23, __HIVE_P2_temp4913_24, __HIVE_P2_temp4913_25, __HIVE_P2_temp4913_26, __HIVE_P2_temp4913_27, __HIVE_P2_temp4913_28, __HIVE_P2_temp4913_29, __HIVE_P2_temp4913_30, __HIVE_P2_temp4913_31, __HIVE_P2_temp4913_32, __HIVE_P2_temp4913_33;
+        var r = __HIVE_P2_get(this, "yieldPos", 4914), a = __HIVE_P2_get(this, "awaitPos", 4915), n = __HIVE_P2_get(this, "awaitIdentPos", 4916);
+        (__HIVE_P2_temp4913_0 = this, __HIVE_P2_temp4913_1 = __HIVE_P2_get(__HIVE_P2_temp4913_0, "enterScope", 4917), __HIVE_P2_invoke(__HIVE_P2_temp4913_1, __HIVE_P2_temp4913_0, (__HIVE_P2_reserveArray(1, 4917), __HIVE_P2_ownArray([__HIVE_P2_binary("|", __HIVE_P2_invoke(functionFlags, void 0, (__HIVE_P2_reserveArray(2, 4919), __HIVE_P2_ownArray([i, false], 4919, "CONTROL_ARRAY")), 4919), D, 4918)], 4917, "CONTROL_ARRAY")), 4917));
+        (__HIVE_P2_temp4913_2 = this, __HIVE_P2_temp4913_3 = __HIVE_P2_get(__HIVE_P2_temp4913_2, "initFunction", 4921), __HIVE_P2_invoke(__HIVE_P2_temp4913_3, __HIVE_P2_temp4913_2, (__HIVE_P2_reserveArray(1, 4921), __HIVE_P2_ownArray([e], 4921, "CONTROL_ARRAY")), 4921));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4925), "ecmaVersion", 4924), 8, 4923)) {
+            (__HIVE_P2_temp4913_4 = e, __HIVE_P2_temp4913_5 = "async", __HIVE_P2_set(__HIVE_P2_temp4913_4, __HIVE_P2_temp4913_5, !!i, 4926));
+        }
+        (__HIVE_P2_temp4913_7 = this, __HIVE_P2_temp4913_8 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4913_7, __HIVE_P2_temp4913_8, 0, 4928));
+        (__HIVE_P2_temp4913_10 = this, __HIVE_P2_temp4913_11 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4913_10, __HIVE_P2_temp4913_11, 0, 4930));
+        (__HIVE_P2_temp4913_13 = this, __HIVE_P2_temp4913_14 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp4913_13, __HIVE_P2_temp4913_14, 0, 4932));
+        (__HIVE_P2_temp4913_16 = e, __HIVE_P2_temp4913_17 = "params", __HIVE_P2_set(__HIVE_P2_temp4913_16, __HIVE_P2_temp4913_17, (__HIVE_P2_temp4913_19 = this, __HIVE_P2_temp4913_20 = __HIVE_P2_get(__HIVE_P2_temp4913_19, "toAssignableList", 4936), __HIVE_P2_invoke(__HIVE_P2_temp4913_20, __HIVE_P2_temp4913_19, (__HIVE_P2_reserveArray(2, 4936), __HIVE_P2_ownArray([t, true], 4936, "CONTROL_ARRAY")), 4936)), 4934));
+        (__HIVE_P2_temp4913_21 = this, __HIVE_P2_temp4913_22 = __HIVE_P2_get(__HIVE_P2_temp4913_21, "parseFunctionBody", 4938), __HIVE_P2_invoke(__HIVE_P2_temp4913_22, __HIVE_P2_temp4913_21, (__HIVE_P2_reserveArray(4, 4938), __HIVE_P2_ownArray([e, true, false, s], 4938, "CONTROL_ARRAY")), 4938));
+        (__HIVE_P2_temp4913_23 = this, __HIVE_P2_temp4913_24 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp4913_23, __HIVE_P2_temp4913_24, r, 4940));
+        (__HIVE_P2_temp4913_26 = this, __HIVE_P2_temp4913_27 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp4913_26, __HIVE_P2_temp4913_27, a, 4942));
+        (__HIVE_P2_temp4913_29 = this, __HIVE_P2_temp4913_30 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp4913_29, __HIVE_P2_temp4913_30, n, 4944));
+        return (__HIVE_P2_temp4913_32 = this, __HIVE_P2_temp4913_33 = __HIVE_P2_get(__HIVE_P2_temp4913_32, "finishNode", 4946), __HIVE_P2_invoke(__HIVE_P2_temp4913_33, __HIVE_P2_temp4913_32, (__HIVE_P2_reserveArray(2, 4946), __HIVE_P2_ownArray([e, "ArrowFunctionExpression"], 4946, "CONTROL_ARRAY")), 4946));
+    }, 37, 4, 0, 4913)), 4911));
+    (__HIVE_P2_temp0_1362 = pe, __HIVE_P2_temp0_1363 = "parseFunctionBody", __HIVE_P2_set(__HIVE_P2_temp0_1362, __HIVE_P2_temp0_1363, (__HIVE_P2_reserveFunction(4950), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp4950_0, __HIVE_P2_temp4950_1, __HIVE_P2_temp4950_2, __HIVE_P2_temp4950_3, __HIVE_P2_temp4950_4, __HIVE_P2_temp4950_5, __HIVE_P2_temp4950_6, __HIVE_P2_temp4950_7, __HIVE_P2_temp4950_8, __HIVE_P2_temp4950_9, __HIVE_P2_temp4950_10, __HIVE_P2_temp4950_11, __HIVE_P2_temp4950_12, __HIVE_P2_temp4950_13, __HIVE_P2_temp4950_14, __HIVE_P2_temp4950_15, __HIVE_P2_temp4950_16, __HIVE_P2_temp4950_17, __HIVE_P2_temp4950_18, __HIVE_P2_temp4950_19, __HIVE_P2_temp4950_20, __HIVE_P2_temp4950_21, __HIVE_P2_temp4950_22, __HIVE_P2_temp4950_23, __HIVE_P2_temp4950_24, __HIVE_P2_temp4950_25, __HIVE_P2_temp4950_26, __HIVE_P2_temp4950_27, __HIVE_P2_temp4950_28, __HIVE_P2_temp4950_29, __HIVE_P2_temp4950_30, __HIVE_P2_temp4950_31, __HIVE_P2_temp4950_32, __HIVE_P2_temp4950_33, __HIVE_P2_temp4950_34, __HIVE_P2_temp4950_35, __HIVE_P2_temp4950_36, __HIVE_P2_temp4950_37, __HIVE_P2_temp4950_38, __HIVE_P2_temp4950_39, __HIVE_P2_temp4950_40, __HIVE_P2_temp4950_41;
+        var r = t && __HIVE_P2_get(this, "type", 4951) !== __HIVE_P2_get(m, "braceL", 4952);
+        var a = __HIVE_P2_get(this, "strict", 4953), n = false;
+        if (r) {
+            (__HIVE_P2_temp4950_0 = e, __HIVE_P2_temp4950_1 = "body", __HIVE_P2_set(__HIVE_P2_temp4950_0, __HIVE_P2_temp4950_1, (__HIVE_P2_temp4950_3 = this, __HIVE_P2_temp4950_4 = __HIVE_P2_get(__HIVE_P2_temp4950_3, "parseMaybeAssign", 4956), __HIVE_P2_invoke(__HIVE_P2_temp4950_4, __HIVE_P2_temp4950_3, (__HIVE_P2_reserveArray(1, 4956), __HIVE_P2_ownArray([s], 4956, "CONTROL_ARRAY")), 4956)), 4954));
+            (__HIVE_P2_temp4950_5 = e, __HIVE_P2_temp4950_6 = "expression", __HIVE_P2_set(__HIVE_P2_temp4950_5, __HIVE_P2_temp4950_6, true, 4958));
+            (__HIVE_P2_temp4950_8 = this, __HIVE_P2_temp4950_9 = __HIVE_P2_get(__HIVE_P2_temp4950_8, "checkParams", 4960), __HIVE_P2_invoke(__HIVE_P2_temp4950_9, __HIVE_P2_temp4950_8, (__HIVE_P2_reserveArray(2, 4960), __HIVE_P2_ownArray([e, false], 4960, "CONTROL_ARRAY")), 4960));
+        }
+        else {
+            var o = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 4964), "ecmaVersion", 4963), 7, 4962) && !(__HIVE_P2_temp4950_10 = this, __HIVE_P2_temp4950_11 = __HIVE_P2_get(__HIVE_P2_temp4950_10, "isSimpleParamList", 4965), __HIVE_P2_invoke(__HIVE_P2_temp4950_11, __HIVE_P2_temp4950_10, (__HIVE_P2_reserveArray(1, 4965), __HIVE_P2_ownArray([__HIVE_P2_get(e, "params", 4966)], 4965, "CONTROL_ARRAY")), 4965));
+            if (!a || o) {
+                n = (__HIVE_P2_temp4950_12 = this, __HIVE_P2_temp4950_13 = __HIVE_P2_get(__HIVE_P2_temp4950_12, "strictDirective", 4969), __HIVE_P2_invoke(__HIVE_P2_temp4950_13, __HIVE_P2_temp4950_12, (__HIVE_P2_reserveArray(1, 4969), __HIVE_P2_ownArray([__HIVE_P2_get(this, "end", 4970)], 4969, "CONTROL_ARRAY")), 4969));
+                if (n && o) {
+                    __HIVE_P2_syntaxRefusal(4972);
+                }
+            }
+            var h = __HIVE_P2_get(this, "labels", 4973);
+            (__HIVE_P2_temp4950_14 = this, __HIVE_P2_temp4950_15 = "labels", __HIVE_P2_set(__HIVE_P2_temp4950_14, __HIVE_P2_temp4950_15, (__HIVE_P2_temp4950_17 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp4950_17, 4976), __HIVE_P2_reserveArray(0, 4976, 0), __HIVE_P2_ownArray([], 4976, "ARRAY", __HIVE_P2_temp4950_17)), 4974));
+            if (n) {
+                (__HIVE_P2_temp4950_18 = this, __HIVE_P2_temp4950_19 = "strict", __HIVE_P2_set(__HIVE_P2_temp4950_18, __HIVE_P2_temp4950_19, true, 4977));
+            }
+            (__HIVE_P2_temp4950_23 = this, __HIVE_P2_temp4950_24 = __HIVE_P2_get(__HIVE_P2_temp4950_23, "checkParams", 4979), __HIVE_P2_invoke(__HIVE_P2_temp4950_24, __HIVE_P2_temp4950_23, (__HIVE_P2_reserveArray(2, 4979), __HIVE_P2_ownArray([e, !a && !n && !t && !i && (__HIVE_P2_temp4950_21 = this, __HIVE_P2_temp4950_22 = __HIVE_P2_get(__HIVE_P2_temp4950_21, "isSimpleParamList", 4980), __HIVE_P2_invoke(__HIVE_P2_temp4950_22, __HIVE_P2_temp4950_21, (__HIVE_P2_reserveArray(1, 4980), __HIVE_P2_ownArray([__HIVE_P2_get(e, "params", 4981)], 4980, "CONTROL_ARRAY")), 4980))], 4979, "CONTROL_ARRAY")), 4979));
+            if (__HIVE_P2_get(this, "strict", 4984) && __HIVE_P2_get(e, "id", 4985)) {
+                (__HIVE_P2_temp4950_25 = this, __HIVE_P2_temp4950_26 = __HIVE_P2_get(__HIVE_P2_temp4950_25, "checkLValSimple", 4986), __HIVE_P2_invoke(__HIVE_P2_temp4950_26, __HIVE_P2_temp4950_25, (__HIVE_P2_reserveArray(2, 4986), __HIVE_P2_ownArray([__HIVE_P2_get(e, "id", 4987), z], 4986, "CONTROL_ARRAY")), 4986));
+            }
+            (__HIVE_P2_temp4950_27 = e, __HIVE_P2_temp4950_28 = "body", __HIVE_P2_set(__HIVE_P2_temp4950_27, __HIVE_P2_temp4950_28, (__HIVE_P2_temp4950_30 = this, __HIVE_P2_temp4950_31 = __HIVE_P2_get(__HIVE_P2_temp4950_30, "parseBlock", 4991), __HIVE_P2_invoke(__HIVE_P2_temp4950_31, __HIVE_P2_temp4950_30, (__HIVE_P2_reserveArray(3, 4991), __HIVE_P2_ownArray([false, undefined, n && !a], 4991, "CONTROL_ARRAY")), 4991)), 4989));
+            (__HIVE_P2_temp4950_32 = e, __HIVE_P2_temp4950_33 = "expression", __HIVE_P2_set(__HIVE_P2_temp4950_32, __HIVE_P2_temp4950_33, false, 4993));
+            (__HIVE_P2_temp4950_35 = this, __HIVE_P2_temp4950_36 = __HIVE_P2_get(__HIVE_P2_temp4950_35, "adaptDirectivePrologue", 4995), __HIVE_P2_invoke(__HIVE_P2_temp4950_36, __HIVE_P2_temp4950_35, (__HIVE_P2_reserveArray(1, 4995), __HIVE_P2_ownArray([__HIVE_P2_get(__HIVE_P2_get(e, "body", 4997), "body", 4996)], 4995, "CONTROL_ARRAY")), 4995));
+            (__HIVE_P2_temp4950_37 = this, __HIVE_P2_temp4950_38 = "labels", __HIVE_P2_set(__HIVE_P2_temp4950_37, __HIVE_P2_temp4950_38, h, 4999));
+        }
+        (__HIVE_P2_temp4950_40 = this, __HIVE_P2_temp4950_41 = __HIVE_P2_get(__HIVE_P2_temp4950_40, "exitScope", 5001), __HIVE_P2_invoke(__HIVE_P2_temp4950_41, __HIVE_P2_temp4950_40, (__HIVE_P2_reserveArray(0, 5001), __HIVE_P2_ownArray([], 5001, "CONTROL_ARRAY")), 5001));
+    }, 47, 4, 0, 4950)), 4948));
+    (__HIVE_P2_temp0_1365 = pe, __HIVE_P2_temp0_1366 = "isSimpleParamList", __HIVE_P2_set(__HIVE_P2_temp0_1365, __HIVE_P2_temp0_1366, (__HIVE_P2_reserveFunction(5005), __HIVE_P2_registerFunction(function (e) {
+        for (var t = 0, i = e; __HIVE_P2_binary("<", t, __HIVE_P2_get(i, "length", 5008), 5007); t = __HIVE_P2_binary("+", t, 1, 5009)) {
+            __HIVE_P2_tick(5006);
+            var s = __HIVE_P2_get(i, t, 5010);
+            if (__HIVE_P2_get(s, "type", 5011) !== "Identifier") {
+                return false;
+            }
+        }
+        return true;
+    }, 3, 1, 0, 5005)), 5003));
+    (__HIVE_P2_temp0_1368 = pe, __HIVE_P2_temp0_1369 = "checkParams", __HIVE_P2_set(__HIVE_P2_temp0_1368, __HIVE_P2_temp0_1369, (__HIVE_P2_reserveFunction(5014), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp5014_0, __HIVE_P2_temp5014_1, __HIVE_P2_temp5014_2, __HIVE_P2_temp5014_3;
+        var i = (__HIVE_P2_temp5014_0 = __HIVE_P2_Object, __HIVE_P2_temp5014_1 = __HIVE_P2_get(__HIVE_P2_temp5014_0, "create", 5015), __HIVE_P2_invoke(__HIVE_P2_temp5014_1, __HIVE_P2_temp5014_0, (__HIVE_P2_reserveArray(1, 5015), __HIVE_P2_ownArray([null], 5015, "CONTROL_ARRAY")), 5015));
+        for (var s = 0, r = __HIVE_P2_get(e, "params", 5018); __HIVE_P2_binary("<", s, __HIVE_P2_get(r, "length", 5020), 5019); s = __HIVE_P2_binary("+", s, 1, 5021)) {
+            __HIVE_P2_tick(5017);
+            var a = __HIVE_P2_get(r, s, 5022);
+            (__HIVE_P2_temp5014_2 = this, __HIVE_P2_temp5014_3 = __HIVE_P2_get(__HIVE_P2_temp5014_2, "checkLValInnerPattern", 5023), __HIVE_P2_invoke(__HIVE_P2_temp5014_3, __HIVE_P2_temp5014_2, (__HIVE_P2_reserveArray(3, 5023), __HIVE_P2_ownArray([a, j, t ? null : i], 5023, "CONTROL_ARRAY")), 5023));
+        }
+    }, 8, 2, 0, 5014)), 5012));
+    (__HIVE_P2_temp0_1371 = pe, __HIVE_P2_temp0_1372 = "parseExprList", __HIVE_P2_set(__HIVE_P2_temp0_1371, __HIVE_P2_temp0_1372, (__HIVE_P2_reserveFunction(5027), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp5027_0, __HIVE_P2_temp5027_1, __HIVE_P2_temp5027_2, __HIVE_P2_temp5027_3, __HIVE_P2_temp5027_4, __HIVE_P2_temp5027_5, __HIVE_P2_temp5027_6, __HIVE_P2_temp5027_7, __HIVE_P2_temp5027_8, __HIVE_P2_temp5027_9, __HIVE_P2_temp5027_10, __HIVE_P2_temp5027_11, __HIVE_P2_temp5027_12, __HIVE_P2_temp5027_13, __HIVE_P2_temp5027_14, __HIVE_P2_temp5027_15;
+        var r = (__HIVE_P2_temp5027_0 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5027_0, 5028), __HIVE_P2_reserveArray(0, 5028, 0), __HIVE_P2_ownArray([], 5028, "ARRAY", __HIVE_P2_temp5027_0)), a = true;
+        while (!(__HIVE_P2_temp5027_1 = this, __HIVE_P2_temp5027_2 = __HIVE_P2_get(__HIVE_P2_temp5027_1, "eat", 5030), __HIVE_P2_invoke(__HIVE_P2_temp5027_2, __HIVE_P2_temp5027_1, (__HIVE_P2_reserveArray(1, 5030), __HIVE_P2_ownArray([e], 5030, "CONTROL_ARRAY")), 5030))) {
+            __HIVE_P2_tick(5029);
+            if (!a) {
+                (__HIVE_P2_temp5027_3 = this, __HIVE_P2_temp5027_4 = __HIVE_P2_get(__HIVE_P2_temp5027_3, "expect", 5032), __HIVE_P2_invoke(__HIVE_P2_temp5027_4, __HIVE_P2_temp5027_3, (__HIVE_P2_reserveArray(1, 5032), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 5033)], 5032, "CONTROL_ARRAY")), 5032));
+                if (t && (__HIVE_P2_temp5027_5 = this, __HIVE_P2_temp5027_6 = __HIVE_P2_get(__HIVE_P2_temp5027_5, "afterTrailingComma", 5035), __HIVE_P2_invoke(__HIVE_P2_temp5027_6, __HIVE_P2_temp5027_5, (__HIVE_P2_reserveArray(1, 5035), __HIVE_P2_ownArray([e], 5035, "CONTROL_ARRAY")), 5035))) {
+                    break;
+                }
+            }
+            else {
+                a = false;
+            }
+            var n = void 0;
+            if (i && __HIVE_P2_get(this, "type", 5038) === __HIVE_P2_get(m, "comma", 5039)) {
+                n = null;
+            }
+            else if (__HIVE_P2_get(this, "type", 5041) === __HIVE_P2_get(m, "ellipsis", 5042)) {
+                n = (__HIVE_P2_temp5027_7 = this, __HIVE_P2_temp5027_8 = __HIVE_P2_get(__HIVE_P2_temp5027_7, "parseSpread", 5044), __HIVE_P2_invoke(__HIVE_P2_temp5027_8, __HIVE_P2_temp5027_7, (__HIVE_P2_reserveArray(1, 5044), __HIVE_P2_ownArray([s], 5044, "CONTROL_ARRAY")), 5044));
+                if (s && __HIVE_P2_get(this, "type", 5046) === __HIVE_P2_get(m, "comma", 5047) && __HIVE_P2_binary("<", __HIVE_P2_get(s, "trailingComma", 5049), 0, 5048)) {
+                    (__HIVE_P2_temp5027_9 = s, __HIVE_P2_temp5027_10 = "trailingComma", __HIVE_P2_set(__HIVE_P2_temp5027_9, __HIVE_P2_temp5027_10, __HIVE_P2_get(this, "start", 5052), 5050));
+                }
+            }
+            else {
+                n = (__HIVE_P2_temp5027_12 = this, __HIVE_P2_temp5027_13 = __HIVE_P2_get(__HIVE_P2_temp5027_12, "parseMaybeAssign", 5054), __HIVE_P2_invoke(__HIVE_P2_temp5027_13, __HIVE_P2_temp5027_12, (__HIVE_P2_reserveArray(2, 5054), __HIVE_P2_ownArray([false, s], 5054, "CONTROL_ARRAY")), 5054));
+            }
+            (__HIVE_P2_temp5027_14 = r, __HIVE_P2_temp5027_15 = __HIVE_P2_get(__HIVE_P2_temp5027_14, "push", 5056), __HIVE_P2_invoke(__HIVE_P2_temp5027_15, __HIVE_P2_temp5027_14, (__HIVE_P2_reserveArray(1, 5056), __HIVE_P2_ownArray([n], 5056, "CONTROL_ARRAY")), 5056));
+        }
+        return r;
+    }, 19, 4, 0, 5027)), 5025));
+    (__HIVE_P2_temp0_1374 = pe, __HIVE_P2_temp0_1375 = "checkUnreserved", __HIVE_P2_set(__HIVE_P2_temp0_1374, __HIVE_P2_temp0_1375, (__HIVE_P2_reserveFunction(5060), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5060_0, __HIVE_P2_temp5060_1, __HIVE_P2_temp5060_2, __HIVE_P2_temp5060_3, __HIVE_P2_temp5060_4, __HIVE_P2_temp5060_5, __HIVE_P2_temp5060_6, __HIVE_P2_temp5060_7, __HIVE_P2_temp5060_8, __HIVE_P2_temp5060_9;
+        var t = __HIVE_P2_get(e, "start", 5061);
+        var i = __HIVE_P2_get(e, "end", 5062);
+        var s = __HIVE_P2_get(e, "name", 5063);
+        if (__HIVE_P2_get(this, "inGenerator", 5064) && s === "yield") {
+            __HIVE_P2_syntaxRefusal(5065);
+        }
+        if (__HIVE_P2_get(this, "inAsync", 5066) && s === "await") {
+            __HIVE_P2_syntaxRefusal(5067);
+        }
+        if (__HIVE_P2_get((__HIVE_P2_temp5060_0 = this, __HIVE_P2_temp5060_1 = __HIVE_P2_get(__HIVE_P2_temp5060_0, "currentThisScope", 5069), __HIVE_P2_invoke(__HIVE_P2_temp5060_1, __HIVE_P2_temp5060_0, (__HIVE_P2_reserveArray(0, 5069), __HIVE_P2_ownArray([], 5069, "CONTROL_ARRAY")), 5069)), "inClassFieldInit", 5068) && s === "arguments") {
+            __HIVE_P2_syntaxRefusal(5071);
+        }
+        if (__HIVE_P2_get(this, "inClassStaticBlock", 5072) && (s === "arguments" || s === "await")) {
+            __HIVE_P2_syntaxRefusal(5073);
+        }
+        if ((__HIVE_P2_temp5060_2 = __HIVE_P2_get(this, "keywords", 5076), __HIVE_P2_temp5060_3 = __HIVE_P2_get(__HIVE_P2_temp5060_2, "test", 5074), __HIVE_P2_invoke(__HIVE_P2_temp5060_3, __HIVE_P2_temp5060_2, (__HIVE_P2_reserveArray(1, 5074), __HIVE_P2_ownArray([s], 5074, "CONTROL_ARRAY")), 5074))) {
+            __HIVE_P2_syntaxRefusal(5077);
+        }
+        if (__HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 5080), "ecmaVersion", 5079), 6, 5078) && (__HIVE_P2_temp5060_4 = (__HIVE_P2_temp5060_6 = __HIVE_P2_get(this, "input", 5085), __HIVE_P2_temp5060_7 = __HIVE_P2_get(__HIVE_P2_temp5060_6, "slice", 5083), __HIVE_P2_invoke(__HIVE_P2_temp5060_7, __HIVE_P2_temp5060_6, (__HIVE_P2_reserveArray(2, 5083), __HIVE_P2_ownArray([t, i], 5083, "CONTROL_ARRAY")), 5083)), __HIVE_P2_temp5060_5 = __HIVE_P2_get(__HIVE_P2_temp5060_4, "indexOf", 5081), __HIVE_P2_invoke(__HIVE_P2_temp5060_5, __HIVE_P2_temp5060_4, (__HIVE_P2_reserveArray(1, 5081), __HIVE_P2_ownArray(["\\"], 5081, "CONTROL_ARRAY")), 5081)) !== __HIVE_P2_unary("-", 1, 5086)) {
+            return;
+        }
+        var r = __HIVE_P2_get(this, "strict", 5087) ? __HIVE_P2_get(this, "reservedWordsStrict", 5088) : __HIVE_P2_get(this, "reservedWords", 5089);
+        if ((__HIVE_P2_temp5060_8 = r, __HIVE_P2_temp5060_9 = __HIVE_P2_get(__HIVE_P2_temp5060_8, "test", 5090), __HIVE_P2_invoke(__HIVE_P2_temp5060_9, __HIVE_P2_temp5060_8, (__HIVE_P2_reserveArray(1, 5090), __HIVE_P2_ownArray([s], 5090, "CONTROL_ARRAY")), 5090))) {
+            if (!__HIVE_P2_get(this, "inAsync", 5092) && s === "await") {
+                __HIVE_P2_syntaxRefusal(5093);
+            }
+            __HIVE_P2_syntaxRefusal(5094);
+        }
+    }, 14, 1, 0, 5060)), 5058));
+    (__HIVE_P2_temp0_1377 = pe, __HIVE_P2_temp0_1378 = "parseIdent", __HIVE_P2_set(__HIVE_P2_temp0_1377, __HIVE_P2_temp0_1378, (__HIVE_P2_reserveFunction(5097), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5097_0, __HIVE_P2_temp5097_1, __HIVE_P2_temp5097_2, __HIVE_P2_temp5097_3, __HIVE_P2_temp5097_4, __HIVE_P2_temp5097_5, __HIVE_P2_temp5097_6, __HIVE_P2_temp5097_7, __HIVE_P2_temp5097_8, __HIVE_P2_temp5097_9, __HIVE_P2_temp5097_10;
+        var t = (__HIVE_P2_temp5097_0 = this, __HIVE_P2_temp5097_1 = __HIVE_P2_get(__HIVE_P2_temp5097_0, "parseIdentNode", 5098), __HIVE_P2_invoke(__HIVE_P2_temp5097_1, __HIVE_P2_temp5097_0, (__HIVE_P2_reserveArray(0, 5098), __HIVE_P2_ownArray([], 5098, "CONTROL_ARRAY")), 5098));
+        (__HIVE_P2_temp5097_2 = this, __HIVE_P2_temp5097_3 = __HIVE_P2_get(__HIVE_P2_temp5097_2, "next", 5100), __HIVE_P2_invoke(__HIVE_P2_temp5097_3, __HIVE_P2_temp5097_2, (__HIVE_P2_reserveArray(1, 5100), __HIVE_P2_ownArray([!!e], 5100, "CONTROL_ARRAY")), 5100));
+        (__HIVE_P2_temp5097_4 = this, __HIVE_P2_temp5097_5 = __HIVE_P2_get(__HIVE_P2_temp5097_4, "finishNode", 5102), __HIVE_P2_invoke(__HIVE_P2_temp5097_5, __HIVE_P2_temp5097_4, (__HIVE_P2_reserveArray(2, 5102), __HIVE_P2_ownArray([t, "Identifier"], 5102, "CONTROL_ARRAY")), 5102));
+        if (!e) {
+            (__HIVE_P2_temp5097_6 = this, __HIVE_P2_temp5097_7 = __HIVE_P2_get(__HIVE_P2_temp5097_6, "checkUnreserved", 5104), __HIVE_P2_invoke(__HIVE_P2_temp5097_7, __HIVE_P2_temp5097_6, (__HIVE_P2_reserveArray(1, 5104), __HIVE_P2_ownArray([t], 5104, "CONTROL_ARRAY")), 5104));
+            if (__HIVE_P2_get(t, "name", 5106) === "await" && !__HIVE_P2_get(this, "awaitIdentPos", 5107)) {
+                (__HIVE_P2_temp5097_8 = this, __HIVE_P2_temp5097_9 = "awaitIdentPos", __HIVE_P2_set(__HIVE_P2_temp5097_8, __HIVE_P2_temp5097_9, __HIVE_P2_get(t, "start", 5110), 5108));
+            }
+        }
+        return t;
+    }, 12, 1, 0, 5097)), 5095));
+    (__HIVE_P2_temp0_1380 = pe, __HIVE_P2_temp0_1381 = "parseIdentNode", __HIVE_P2_set(__HIVE_P2_temp0_1380, __HIVE_P2_temp0_1381, (__HIVE_P2_reserveFunction(5113), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp5113_0, __HIVE_P2_temp5113_1, __HIVE_P2_temp5113_2, __HIVE_P2_temp5113_3, __HIVE_P2_temp5113_4, __HIVE_P2_temp5113_5, __HIVE_P2_temp5113_6, __HIVE_P2_temp5113_7, __HIVE_P2_temp5113_8, __HIVE_P2_temp5113_9, __HIVE_P2_temp5113_10, __HIVE_P2_temp5113_11, __HIVE_P2_temp5113_12, __HIVE_P2_temp5113_13, __HIVE_P2_temp5113_14;
+        var e = (__HIVE_P2_temp5113_0 = this, __HIVE_P2_temp5113_1 = __HIVE_P2_get(__HIVE_P2_temp5113_0, "startNode", 5114), __HIVE_P2_invoke(__HIVE_P2_temp5113_1, __HIVE_P2_temp5113_0, (__HIVE_P2_reserveArray(0, 5114), __HIVE_P2_ownArray([], 5114, "CONTROL_ARRAY")), 5114));
+        if (__HIVE_P2_get(this, "type", 5116) === __HIVE_P2_get(m, "name", 5117)) {
+            (__HIVE_P2_temp5113_2 = e, __HIVE_P2_temp5113_3 = "name", __HIVE_P2_set(__HIVE_P2_temp5113_2, __HIVE_P2_temp5113_3, __HIVE_P2_get(this, "value", 5120), 5118));
+        }
+        else if (__HIVE_P2_get(__HIVE_P2_get(this, "type", 5122), "keyword", 5121)) {
+            (__HIVE_P2_temp5113_5 = e, __HIVE_P2_temp5113_6 = "name", __HIVE_P2_set(__HIVE_P2_temp5113_5, __HIVE_P2_temp5113_6, __HIVE_P2_get(__HIVE_P2_get(this, "type", 5126), "keyword", 5125), 5123));
+            if ((__HIVE_P2_get(e, "name", 5127) === "class" || __HIVE_P2_get(e, "name", 5128) === "function") && (__HIVE_P2_get(this, "lastTokEnd", 5129) !== __HIVE_P2_binary("+", __HIVE_P2_get(this, "lastTokStart", 5131), 1, 5130) || (__HIVE_P2_temp5113_8 = __HIVE_P2_get(this, "input", 5135), __HIVE_P2_temp5113_9 = __HIVE_P2_get(__HIVE_P2_temp5113_8, "charCodeAt", 5132), __HIVE_P2_invoke(__HIVE_P2_temp5113_9, __HIVE_P2_temp5113_8, (__HIVE_P2_reserveArray(1, 5132), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokStart", 5133)], 5132, "CONTROL_ARRAY")), 5132)) !== 46)) {
+                (__HIVE_P2_temp5113_10 = __HIVE_P2_get(this, "context", 5138), __HIVE_P2_temp5113_11 = __HIVE_P2_get(__HIVE_P2_temp5113_10, "pop", 5136), __HIVE_P2_invoke(__HIVE_P2_temp5113_11, __HIVE_P2_temp5113_10, (__HIVE_P2_reserveArray(0, 5136), __HIVE_P2_ownArray([], 5136, "CONTROL_ARRAY")), 5136));
+            }
+            (__HIVE_P2_temp5113_12 = this, __HIVE_P2_temp5113_13 = "type", __HIVE_P2_set(__HIVE_P2_temp5113_12, __HIVE_P2_temp5113_13, __HIVE_P2_get(m, "name", 5141), 5139));
+        }
+        else {
+            __HIVE_P2_syntaxRefusal(5142);
+        }
+        return e;
+    }, 16, 0, 0, 5113)), 5111));
+    (__HIVE_P2_temp0_1383 = pe, __HIVE_P2_temp0_1384 = "parsePrivateIdent", __HIVE_P2_set(__HIVE_P2_temp0_1383, __HIVE_P2_temp0_1384, (__HIVE_P2_reserveFunction(5145), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp5145_0, __HIVE_P2_temp5145_1, __HIVE_P2_temp5145_2, __HIVE_P2_temp5145_3, __HIVE_P2_temp5145_4, __HIVE_P2_temp5145_5, __HIVE_P2_temp5145_6, __HIVE_P2_temp5145_7, __HIVE_P2_temp5145_8, __HIVE_P2_temp5145_9, __HIVE_P2_temp5145_10;
+        var e = (__HIVE_P2_temp5145_0 = this, __HIVE_P2_temp5145_1 = __HIVE_P2_get(__HIVE_P2_temp5145_0, "startNode", 5146), __HIVE_P2_invoke(__HIVE_P2_temp5145_1, __HIVE_P2_temp5145_0, (__HIVE_P2_reserveArray(0, 5146), __HIVE_P2_ownArray([], 5146, "CONTROL_ARRAY")), 5146));
+        if (__HIVE_P2_get(this, "type", 5148) === __HIVE_P2_get(m, "privateId", 5149)) {
+            (__HIVE_P2_temp5145_2 = e, __HIVE_P2_temp5145_3 = "name", __HIVE_P2_set(__HIVE_P2_temp5145_2, __HIVE_P2_temp5145_3, __HIVE_P2_get(this, "value", 5152), 5150));
+        }
+        else {
+            __HIVE_P2_syntaxRefusal(5153);
+        }
+        (__HIVE_P2_temp5145_5 = this, __HIVE_P2_temp5145_6 = __HIVE_P2_get(__HIVE_P2_temp5145_5, "next", 5154), __HIVE_P2_invoke(__HIVE_P2_temp5145_6, __HIVE_P2_temp5145_5, (__HIVE_P2_reserveArray(0, 5154), __HIVE_P2_ownArray([], 5154, "CONTROL_ARRAY")), 5154));
+        (__HIVE_P2_temp5145_7 = this, __HIVE_P2_temp5145_8 = __HIVE_P2_get(__HIVE_P2_temp5145_7, "finishNode", 5156), __HIVE_P2_invoke(__HIVE_P2_temp5145_8, __HIVE_P2_temp5145_7, (__HIVE_P2_reserveArray(2, 5156), __HIVE_P2_ownArray([e, "PrivateIdentifier"], 5156, "CONTROL_ARRAY")), 5156));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 5159), "checkPrivateFields", 5158)) {
+            if (__HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 5161), "length", 5160) === 0) {
+                __HIVE_P2_syntaxRefusal(5162);
+            }
+            else {
+                (__HIVE_P2_temp5145_9 = __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 5167), __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "privateNameStack", 5170), "length", 5169), 1, 5168), 5166), "used", 5165), __HIVE_P2_temp5145_10 = __HIVE_P2_get(__HIVE_P2_temp5145_9, "push", 5163), __HIVE_P2_invoke(__HIVE_P2_temp5145_10, __HIVE_P2_temp5145_9, (__HIVE_P2_reserveArray(1, 5163), __HIVE_P2_ownArray([e], 5163, "CONTROL_ARRAY")), 5163));
+            }
+        }
+        return e;
+    }, 12, 0, 0, 5145)), 5143));
+    (__HIVE_P2_temp0_1386 = pe, __HIVE_P2_temp0_1387 = "parseYield", __HIVE_P2_set(__HIVE_P2_temp0_1386, __HIVE_P2_temp0_1387, (__HIVE_P2_reserveFunction(5173), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5173_0, __HIVE_P2_temp5173_1, __HIVE_P2_temp5173_2, __HIVE_P2_temp5173_3, __HIVE_P2_temp5173_4, __HIVE_P2_temp5173_5, __HIVE_P2_temp5173_6, __HIVE_P2_temp5173_7, __HIVE_P2_temp5173_8, __HIVE_P2_temp5173_9, __HIVE_P2_temp5173_10, __HIVE_P2_temp5173_11, __HIVE_P2_temp5173_12, __HIVE_P2_temp5173_13, __HIVE_P2_temp5173_14, __HIVE_P2_temp5173_15, __HIVE_P2_temp5173_16, __HIVE_P2_temp5173_17, __HIVE_P2_temp5173_18, __HIVE_P2_temp5173_19, __HIVE_P2_temp5173_20, __HIVE_P2_temp5173_21, __HIVE_P2_temp5173_22, __HIVE_P2_temp5173_23, __HIVE_P2_temp5173_24, __HIVE_P2_temp5173_25, __HIVE_P2_temp5173_26;
+        if (!__HIVE_P2_get(this, "yieldPos", 5174)) {
+            (__HIVE_P2_temp5173_0 = this, __HIVE_P2_temp5173_1 = "yieldPos", __HIVE_P2_set(__HIVE_P2_temp5173_0, __HIVE_P2_temp5173_1, __HIVE_P2_get(this, "start", 5177), 5175));
+        }
+        var t = (__HIVE_P2_temp5173_3 = this, __HIVE_P2_temp5173_4 = __HIVE_P2_get(__HIVE_P2_temp5173_3, "startNode", 5178), __HIVE_P2_invoke(__HIVE_P2_temp5173_4, __HIVE_P2_temp5173_3, (__HIVE_P2_reserveArray(0, 5178), __HIVE_P2_ownArray([], 5178, "CONTROL_ARRAY")), 5178));
+        (__HIVE_P2_temp5173_5 = this, __HIVE_P2_temp5173_6 = __HIVE_P2_get(__HIVE_P2_temp5173_5, "next", 5180), __HIVE_P2_invoke(__HIVE_P2_temp5173_6, __HIVE_P2_temp5173_5, (__HIVE_P2_reserveArray(0, 5180), __HIVE_P2_ownArray([], 5180, "CONTROL_ARRAY")), 5180));
+        if (__HIVE_P2_get(this, "type", 5182) === __HIVE_P2_get(m, "semi", 5183) || (__HIVE_P2_temp5173_7 = this, __HIVE_P2_temp5173_8 = __HIVE_P2_get(__HIVE_P2_temp5173_7, "canInsertSemicolon", 5184), __HIVE_P2_invoke(__HIVE_P2_temp5173_8, __HIVE_P2_temp5173_7, (__HIVE_P2_reserveArray(0, 5184), __HIVE_P2_ownArray([], 5184, "CONTROL_ARRAY")), 5184)) || __HIVE_P2_get(this, "type", 5186) !== __HIVE_P2_get(m, "star", 5187) && !__HIVE_P2_get(__HIVE_P2_get(this, "type", 5189), "startsExpr", 5188)) {
+            (__HIVE_P2_temp5173_9 = t, __HIVE_P2_temp5173_10 = "delegate", __HIVE_P2_set(__HIVE_P2_temp5173_9, __HIVE_P2_temp5173_10, false, 5190));
+            (__HIVE_P2_temp5173_12 = t, __HIVE_P2_temp5173_13 = "argument", __HIVE_P2_set(__HIVE_P2_temp5173_12, __HIVE_P2_temp5173_13, null, 5192));
+        }
+        else {
+            (__HIVE_P2_temp5173_15 = t, __HIVE_P2_temp5173_16 = "delegate", __HIVE_P2_set(__HIVE_P2_temp5173_15, __HIVE_P2_temp5173_16, (__HIVE_P2_temp5173_18 = this, __HIVE_P2_temp5173_19 = __HIVE_P2_get(__HIVE_P2_temp5173_18, "eat", 5196), __HIVE_P2_invoke(__HIVE_P2_temp5173_19, __HIVE_P2_temp5173_18, (__HIVE_P2_reserveArray(1, 5196), __HIVE_P2_ownArray([__HIVE_P2_get(m, "star", 5197)], 5196, "CONTROL_ARRAY")), 5196)), 5194));
+            (__HIVE_P2_temp5173_20 = t, __HIVE_P2_temp5173_21 = "argument", __HIVE_P2_set(__HIVE_P2_temp5173_20, __HIVE_P2_temp5173_21, (__HIVE_P2_temp5173_23 = this, __HIVE_P2_temp5173_24 = __HIVE_P2_get(__HIVE_P2_temp5173_23, "parseMaybeAssign", 5201), __HIVE_P2_invoke(__HIVE_P2_temp5173_24, __HIVE_P2_temp5173_23, (__HIVE_P2_reserveArray(1, 5201), __HIVE_P2_ownArray([e], 5201, "CONTROL_ARRAY")), 5201)), 5199));
+        }
+        return (__HIVE_P2_temp5173_25 = this, __HIVE_P2_temp5173_26 = __HIVE_P2_get(__HIVE_P2_temp5173_25, "finishNode", 5203), __HIVE_P2_invoke(__HIVE_P2_temp5173_26, __HIVE_P2_temp5173_25, (__HIVE_P2_reserveArray(2, 5203), __HIVE_P2_ownArray([t, "YieldExpression"], 5203, "CONTROL_ARRAY")), 5203));
+    }, 28, 1, 0, 5173)), 5171));
+    (__HIVE_P2_temp0_1389 = pe, __HIVE_P2_temp0_1390 = "parseAwait", __HIVE_P2_set(__HIVE_P2_temp0_1389, __HIVE_P2_temp0_1390, (__HIVE_P2_reserveFunction(5207), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5207_0, __HIVE_P2_temp5207_1, __HIVE_P2_temp5207_2, __HIVE_P2_temp5207_3, __HIVE_P2_temp5207_4, __HIVE_P2_temp5207_5, __HIVE_P2_temp5207_6, __HIVE_P2_temp5207_7, __HIVE_P2_temp5207_8, __HIVE_P2_temp5207_9, __HIVE_P2_temp5207_10, __HIVE_P2_temp5207_11, __HIVE_P2_temp5207_12, __HIVE_P2_temp5207_13;
+        if (!__HIVE_P2_get(this, "awaitPos", 5208)) {
+            (__HIVE_P2_temp5207_0 = this, __HIVE_P2_temp5207_1 = "awaitPos", __HIVE_P2_set(__HIVE_P2_temp5207_0, __HIVE_P2_temp5207_1, __HIVE_P2_get(this, "start", 5211), 5209));
+        }
+        var t = (__HIVE_P2_temp5207_3 = this, __HIVE_P2_temp5207_4 = __HIVE_P2_get(__HIVE_P2_temp5207_3, "startNode", 5212), __HIVE_P2_invoke(__HIVE_P2_temp5207_4, __HIVE_P2_temp5207_3, (__HIVE_P2_reserveArray(0, 5212), __HIVE_P2_ownArray([], 5212, "CONTROL_ARRAY")), 5212));
+        (__HIVE_P2_temp5207_5 = this, __HIVE_P2_temp5207_6 = __HIVE_P2_get(__HIVE_P2_temp5207_5, "next", 5214), __HIVE_P2_invoke(__HIVE_P2_temp5207_6, __HIVE_P2_temp5207_5, (__HIVE_P2_reserveArray(0, 5214), __HIVE_P2_ownArray([], 5214, "CONTROL_ARRAY")), 5214));
+        (__HIVE_P2_temp5207_7 = t, __HIVE_P2_temp5207_8 = "argument", __HIVE_P2_set(__HIVE_P2_temp5207_7, __HIVE_P2_temp5207_8, (__HIVE_P2_temp5207_10 = this, __HIVE_P2_temp5207_11 = __HIVE_P2_get(__HIVE_P2_temp5207_10, "parseMaybeUnary", 5218), __HIVE_P2_invoke(__HIVE_P2_temp5207_11, __HIVE_P2_temp5207_10, (__HIVE_P2_reserveArray(4, 5218), __HIVE_P2_ownArray([null, true, false, e], 5218, "CONTROL_ARRAY")), 5218)), 5216));
+        return (__HIVE_P2_temp5207_12 = this, __HIVE_P2_temp5207_13 = __HIVE_P2_get(__HIVE_P2_temp5207_12, "finishNode", 5220), __HIVE_P2_invoke(__HIVE_P2_temp5207_13, __HIVE_P2_temp5207_12, (__HIVE_P2_reserveArray(2, 5220), __HIVE_P2_ownArray([t, "AwaitExpression"], 5220, "CONTROL_ARRAY")), 5220));
+    }, 15, 1, 0, 5207)), 5205));
+    var le = __HIVE_P2_get(K, "prototype", 5222);
+    __HIVE_P2_set(le, "raise", (__HIVE_P2_reserveFunction(5224), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5225), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 5225, "CONTROL_ARRAY")), 5225);
+    }, 0, 0, 0, 5224)), 5226);
+    (__HIVE_P2_temp0_1392 = le, __HIVE_P2_temp0_1393 = "raiseRecoverable", __HIVE_P2_set(__HIVE_P2_temp0_1392, __HIVE_P2_temp0_1393, __HIVE_P2_get(le, "raise", 5230), 5228));
+    (__HIVE_P2_temp0_1395 = le, __HIVE_P2_temp0_1396 = "curPosition", __HIVE_P2_set(__HIVE_P2_temp0_1395, __HIVE_P2_temp0_1396, (__HIVE_P2_reserveFunction(5233), __HIVE_P2_registerFunction(function () {
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 5235), "locations", 5234)) {
+            return __HIVE_P2_construct(I, (__HIVE_P2_reserveArray(2, 5236), __HIVE_P2_ownArray([__HIVE_P2_get(this, "curLine", 5237), __HIVE_P2_binary("-", __HIVE_P2_get(this, "pos", 5239), __HIVE_P2_get(this, "lineStart", 5240), 5238)], 5236, "CONTROL_ARRAY")), 5236);
+        }
+    }, 0, 0, 0, 5233)), 5231));
+    var ue = __HIVE_P2_get(K, "prototype", 5241);
+    var fe = (__HIVE_P2_reserveFunction(5242), __HIVE_P2_registerFunction(function Scope(e) {
+        var __HIVE_P2_temp5242_0, __HIVE_P2_temp5242_1, __HIVE_P2_temp5242_2, __HIVE_P2_temp5242_3, __HIVE_P2_temp5242_4, __HIVE_P2_temp5242_5, __HIVE_P2_temp5242_6, __HIVE_P2_temp5242_7, __HIVE_P2_temp5242_8, __HIVE_P2_temp5242_9, __HIVE_P2_temp5242_10, __HIVE_P2_temp5242_11, __HIVE_P2_temp5242_12, __HIVE_P2_temp5242_13, __HIVE_P2_temp5242_14, __HIVE_P2_temp5242_15, __HIVE_P2_temp5242_16, __HIVE_P2_temp5242_17;
+        (__HIVE_P2_temp5242_0 = this, __HIVE_P2_temp5242_1 = "flags", __HIVE_P2_set(__HIVE_P2_temp5242_0, __HIVE_P2_temp5242_1, e, 5243));
+        (__HIVE_P2_temp5242_3 = this, __HIVE_P2_temp5242_4 = "var", __HIVE_P2_set(__HIVE_P2_temp5242_3, __HIVE_P2_temp5242_4, (__HIVE_P2_temp5242_6 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5242_6, 5247), __HIVE_P2_reserveArray(0, 5247, 0), __HIVE_P2_ownArray([], 5247, "ARRAY", __HIVE_P2_temp5242_6)), 5245));
+        (__HIVE_P2_temp5242_7 = this, __HIVE_P2_temp5242_8 = "lexical", __HIVE_P2_set(__HIVE_P2_temp5242_7, __HIVE_P2_temp5242_8, (__HIVE_P2_temp5242_10 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5242_10, 5250), __HIVE_P2_reserveArray(0, 5250, 0), __HIVE_P2_ownArray([], 5250, "ARRAY", __HIVE_P2_temp5242_10)), 5248));
+        (__HIVE_P2_temp5242_11 = this, __HIVE_P2_temp5242_12 = "functions", __HIVE_P2_set(__HIVE_P2_temp5242_11, __HIVE_P2_temp5242_12, (__HIVE_P2_temp5242_14 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5242_14, 5253), __HIVE_P2_reserveArray(0, 5253, 0), __HIVE_P2_ownArray([], 5253, "ARRAY", __HIVE_P2_temp5242_14)), 5251));
+        (__HIVE_P2_temp5242_15 = this, __HIVE_P2_temp5242_16 = "inClassFieldInit", __HIVE_P2_set(__HIVE_P2_temp5242_15, __HIVE_P2_temp5242_16, false, 5254));
+    }, 18, 1, 0, 5242));
+    (__HIVE_P2_temp0_1398 = ue, __HIVE_P2_temp0_1399 = "enterScope", __HIVE_P2_set(__HIVE_P2_temp0_1398, __HIVE_P2_temp0_1399, (__HIVE_P2_reserveFunction(5258), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5258_0, __HIVE_P2_temp5258_1;
+        (__HIVE_P2_temp5258_0 = __HIVE_P2_get(this, "scopeStack", 5262), __HIVE_P2_temp5258_1 = __HIVE_P2_get(__HIVE_P2_temp5258_0, "push", 5259), __HIVE_P2_invoke(__HIVE_P2_temp5258_1, __HIVE_P2_temp5258_0, (__HIVE_P2_reserveArray(1, 5259), __HIVE_P2_ownArray([__HIVE_P2_construct(fe, (__HIVE_P2_reserveArray(1, 5260), __HIVE_P2_ownArray([e], 5260, "CONTROL_ARRAY")), 5260)], 5259, "CONTROL_ARRAY")), 5259));
+    }, 2, 1, 0, 5258)), 5256));
+    (__HIVE_P2_temp0_1401 = ue, __HIVE_P2_temp0_1402 = "exitScope", __HIVE_P2_set(__HIVE_P2_temp0_1401, __HIVE_P2_temp0_1402, (__HIVE_P2_reserveFunction(5265), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp5265_0, __HIVE_P2_temp5265_1;
+        (__HIVE_P2_temp5265_0 = __HIVE_P2_get(this, "scopeStack", 5268), __HIVE_P2_temp5265_1 = __HIVE_P2_get(__HIVE_P2_temp5265_0, "pop", 5266), __HIVE_P2_invoke(__HIVE_P2_temp5265_1, __HIVE_P2_temp5265_0, (__HIVE_P2_reserveArray(0, 5266), __HIVE_P2_ownArray([], 5266, "CONTROL_ARRAY")), 5266));
+    }, 2, 0, 0, 5265)), 5263));
+    (__HIVE_P2_temp0_1404 = ue, __HIVE_P2_temp0_1405 = "treatFunctionsAsVarInScope", __HIVE_P2_set(__HIVE_P2_temp0_1404, __HIVE_P2_temp0_1405, (__HIVE_P2_reserveFunction(5271), __HIVE_P2_registerFunction(function (e) {
+        return __HIVE_P2_binary("&", __HIVE_P2_get(e, "flags", 5273), V, 5272) || !__HIVE_P2_get(this, "inModule", 5274) && __HIVE_P2_binary("&", __HIVE_P2_get(e, "flags", 5276), T, 5275);
+    }, 0, 1, 0, 5271)), 5269));
+    (__HIVE_P2_temp0_1407 = ue, __HIVE_P2_temp0_1408 = "declareName", __HIVE_P2_set(__HIVE_P2_temp0_1407, __HIVE_P2_temp0_1408, (__HIVE_P2_reserveFunction(5279), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp5279_0, __HIVE_P2_temp5279_1, __HIVE_P2_temp5279_2, __HIVE_P2_temp5279_3, __HIVE_P2_temp5279_4, __HIVE_P2_temp5279_5, __HIVE_P2_temp5279_6, __HIVE_P2_temp5279_7, __HIVE_P2_temp5279_8, __HIVE_P2_temp5279_9, __HIVE_P2_temp5279_10, __HIVE_P2_temp5279_11, __HIVE_P2_temp5279_12, __HIVE_P2_temp5279_13, __HIVE_P2_temp5279_14, __HIVE_P2_temp5279_15, __HIVE_P2_temp5279_16, __HIVE_P2_temp5279_17, __HIVE_P2_temp5279_18, __HIVE_P2_temp5279_19, __HIVE_P2_temp5279_20, __HIVE_P2_temp5279_21, __HIVE_P2_temp5279_22, __HIVE_P2_temp5279_23, __HIVE_P2_temp5279_24, __HIVE_P2_temp5279_25, __HIVE_P2_temp5279_26, __HIVE_P2_temp5279_27, __HIVE_P2_temp5279_28, __HIVE_P2_temp5279_29, __HIVE_P2_temp5279_30, __HIVE_P2_temp5279_31, __HIVE_P2_temp5279_32, __HIVE_P2_temp5279_33;
+        var s = false;
+        if (t === G) {
+            var r = (__HIVE_P2_temp5279_0 = this, __HIVE_P2_temp5279_1 = __HIVE_P2_get(__HIVE_P2_temp5279_0, "currentScope", 5280), __HIVE_P2_invoke(__HIVE_P2_temp5279_1, __HIVE_P2_temp5279_0, (__HIVE_P2_reserveArray(0, 5280), __HIVE_P2_ownArray([], 5280, "CONTROL_ARRAY")), 5280));
+            s = __HIVE_P2_binary(">", (__HIVE_P2_temp5279_2 = __HIVE_P2_get(r, "lexical", 5286), __HIVE_P2_temp5279_3 = __HIVE_P2_get(__HIVE_P2_temp5279_2, "indexOf", 5284), __HIVE_P2_invoke(__HIVE_P2_temp5279_3, __HIVE_P2_temp5279_2, (__HIVE_P2_reserveArray(1, 5284), __HIVE_P2_ownArray([e], 5284, "CONTROL_ARRAY")), 5284)), __HIVE_P2_unary("-", 1, 5287), 5283) || __HIVE_P2_binary(">", (__HIVE_P2_temp5279_4 = __HIVE_P2_get(r, "functions", 5291), __HIVE_P2_temp5279_5 = __HIVE_P2_get(__HIVE_P2_temp5279_4, "indexOf", 5289), __HIVE_P2_invoke(__HIVE_P2_temp5279_5, __HIVE_P2_temp5279_4, (__HIVE_P2_reserveArray(1, 5289), __HIVE_P2_ownArray([e], 5289, "CONTROL_ARRAY")), 5289)), __HIVE_P2_unary("-", 1, 5292), 5288) || __HIVE_P2_binary(">", (__HIVE_P2_temp5279_6 = __HIVE_P2_get(r, "var", 5296), __HIVE_P2_temp5279_7 = __HIVE_P2_get(__HIVE_P2_temp5279_6, "indexOf", 5294), __HIVE_P2_invoke(__HIVE_P2_temp5279_7, __HIVE_P2_temp5279_6, (__HIVE_P2_reserveArray(1, 5294), __HIVE_P2_ownArray([e], 5294, "CONTROL_ARRAY")), 5294)), __HIVE_P2_unary("-", 1, 5297), 5293);
+            (__HIVE_P2_temp5279_8 = __HIVE_P2_get(r, "lexical", 5300), __HIVE_P2_temp5279_9 = __HIVE_P2_get(__HIVE_P2_temp5279_8, "push", 5298), __HIVE_P2_invoke(__HIVE_P2_temp5279_9, __HIVE_P2_temp5279_8, (__HIVE_P2_reserveArray(1, 5298), __HIVE_P2_ownArray([e], 5298, "CONTROL_ARRAY")), 5298));
+            if (__HIVE_P2_get(this, "inModule", 5301) && __HIVE_P2_binary("&", __HIVE_P2_get(r, "flags", 5303), T, 5302)) {
+                __HIVE_P2_remove(__HIVE_P2_get(this, "undefinedExports", 5306), e, 5304);
+            }
+        }
+        else if (t === W) {
+            var a = (__HIVE_P2_temp5279_10 = this, __HIVE_P2_temp5279_11 = __HIVE_P2_get(__HIVE_P2_temp5279_10, "currentScope", 5307), __HIVE_P2_invoke(__HIVE_P2_temp5279_11, __HIVE_P2_temp5279_10, (__HIVE_P2_reserveArray(0, 5307), __HIVE_P2_ownArray([], 5307, "CONTROL_ARRAY")), 5307));
+            (__HIVE_P2_temp5279_12 = __HIVE_P2_get(a, "lexical", 5311), __HIVE_P2_temp5279_13 = __HIVE_P2_get(__HIVE_P2_temp5279_12, "push", 5309), __HIVE_P2_invoke(__HIVE_P2_temp5279_13, __HIVE_P2_temp5279_12, (__HIVE_P2_reserveArray(1, 5309), __HIVE_P2_ownArray([e], 5309, "CONTROL_ARRAY")), 5309));
+        }
+        else if (t === H) {
+            var n = (__HIVE_P2_temp5279_14 = this, __HIVE_P2_temp5279_15 = __HIVE_P2_get(__HIVE_P2_temp5279_14, "currentScope", 5312), __HIVE_P2_invoke(__HIVE_P2_temp5279_15, __HIVE_P2_temp5279_14, (__HIVE_P2_reserveArray(0, 5312), __HIVE_P2_ownArray([], 5312, "CONTROL_ARRAY")), 5312));
+            if (__HIVE_P2_get(this, "treatFunctionsAsVar", 5314)) {
+                s = __HIVE_P2_binary(">", (__HIVE_P2_temp5279_16 = __HIVE_P2_get(n, "lexical", 5319), __HIVE_P2_temp5279_17 = __HIVE_P2_get(__HIVE_P2_temp5279_16, "indexOf", 5317), __HIVE_P2_invoke(__HIVE_P2_temp5279_17, __HIVE_P2_temp5279_16, (__HIVE_P2_reserveArray(1, 5317), __HIVE_P2_ownArray([e], 5317, "CONTROL_ARRAY")), 5317)), __HIVE_P2_unary("-", 1, 5320), 5316);
+            }
+            else {
+                s = __HIVE_P2_binary(">", (__HIVE_P2_temp5279_18 = __HIVE_P2_get(n, "lexical", 5325), __HIVE_P2_temp5279_19 = __HIVE_P2_get(__HIVE_P2_temp5279_18, "indexOf", 5323), __HIVE_P2_invoke(__HIVE_P2_temp5279_19, __HIVE_P2_temp5279_18, (__HIVE_P2_reserveArray(1, 5323), __HIVE_P2_ownArray([e], 5323, "CONTROL_ARRAY")), 5323)), __HIVE_P2_unary("-", 1, 5326), 5322) || __HIVE_P2_binary(">", (__HIVE_P2_temp5279_20 = __HIVE_P2_get(n, "var", 5330), __HIVE_P2_temp5279_21 = __HIVE_P2_get(__HIVE_P2_temp5279_20, "indexOf", 5328), __HIVE_P2_invoke(__HIVE_P2_temp5279_21, __HIVE_P2_temp5279_20, (__HIVE_P2_reserveArray(1, 5328), __HIVE_P2_ownArray([e], 5328, "CONTROL_ARRAY")), 5328)), __HIVE_P2_unary("-", 1, 5331), 5327);
+            }
+            (__HIVE_P2_temp5279_22 = __HIVE_P2_get(n, "functions", 5334), __HIVE_P2_temp5279_23 = __HIVE_P2_get(__HIVE_P2_temp5279_22, "push", 5332), __HIVE_P2_invoke(__HIVE_P2_temp5279_23, __HIVE_P2_temp5279_22, (__HIVE_P2_reserveArray(1, 5332), __HIVE_P2_ownArray([e], 5332, "CONTROL_ARRAY")), 5332));
+        }
+        else {
+            for (var o = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5338), "length", 5337), 1, 5336); __HIVE_P2_binary(">=", o, 0, 5339); (__HIVE_P2_temp5279_24 = __HIVE_P2_numeric(o, 5340), __HIVE_P2_temp5279_25 = __HIVE_P2_temp5279_24 + -1, o = __HIVE_P2_temp5279_25, __HIVE_P2_temp5279_25)) {
+                __HIVE_P2_tick(5335);
+                var h = __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5342), o, 5341);
+                if (__HIVE_P2_binary(">", (__HIVE_P2_temp5279_26 = __HIVE_P2_get(h, "lexical", 5346), __HIVE_P2_temp5279_27 = __HIVE_P2_get(__HIVE_P2_temp5279_26, "indexOf", 5344), __HIVE_P2_invoke(__HIVE_P2_temp5279_27, __HIVE_P2_temp5279_26, (__HIVE_P2_reserveArray(1, 5344), __HIVE_P2_ownArray([e], 5344, "CONTROL_ARRAY")), 5344)), __HIVE_P2_unary("-", 1, 5347), 5343) && !(__HIVE_P2_binary("&", __HIVE_P2_get(h, "flags", 5349), O, 5348) && __HIVE_P2_get(__HIVE_P2_get(h, "lexical", 5351), 0, 5350) === e) || !(__HIVE_P2_temp5279_28 = this, __HIVE_P2_temp5279_29 = __HIVE_P2_get(__HIVE_P2_temp5279_28, "treatFunctionsAsVarInScope", 5352), __HIVE_P2_invoke(__HIVE_P2_temp5279_29, __HIVE_P2_temp5279_28, (__HIVE_P2_reserveArray(1, 5352), __HIVE_P2_ownArray([h], 5352, "CONTROL_ARRAY")), 5352)) && __HIVE_P2_binary(">", (__HIVE_P2_temp5279_30 = __HIVE_P2_get(h, "functions", 5357), __HIVE_P2_temp5279_31 = __HIVE_P2_get(__HIVE_P2_temp5279_30, "indexOf", 5355), __HIVE_P2_invoke(__HIVE_P2_temp5279_31, __HIVE_P2_temp5279_30, (__HIVE_P2_reserveArray(1, 5355), __HIVE_P2_ownArray([e], 5355, "CONTROL_ARRAY")), 5355)), __HIVE_P2_unary("-", 1, 5358), 5354)) {
+                    s = true;
+                    break;
+                }
+                (__HIVE_P2_temp5279_32 = __HIVE_P2_get(h, "var", 5362), __HIVE_P2_temp5279_33 = __HIVE_P2_get(__HIVE_P2_temp5279_32, "push", 5360), __HIVE_P2_invoke(__HIVE_P2_temp5279_33, __HIVE_P2_temp5279_32, (__HIVE_P2_reserveArray(1, 5360), __HIVE_P2_ownArray([e], 5360, "CONTROL_ARRAY")), 5360));
+                if (__HIVE_P2_get(this, "inModule", 5363) && __HIVE_P2_binary("&", __HIVE_P2_get(h, "flags", 5365), T, 5364)) {
+                    __HIVE_P2_remove(__HIVE_P2_get(this, "undefinedExports", 5368), e, 5366);
+                }
+                if (__HIVE_P2_binary("&", __HIVE_P2_get(h, "flags", 5370), U, 5369)) {
+                    break;
+                }
+            }
+        }
+        if (s) {
+            __HIVE_P2_syntaxRefusal(5371);
+        }
+    }, 40, 3, 0, 5279)), 5277));
+    (__HIVE_P2_temp0_1410 = ue, __HIVE_P2_temp0_1411 = "checkLocalExport", __HIVE_P2_set(__HIVE_P2_temp0_1410, __HIVE_P2_temp0_1411, (__HIVE_P2_reserveFunction(5374), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5374_0, __HIVE_P2_temp5374_1, __HIVE_P2_temp5374_2, __HIVE_P2_temp5374_3, __HIVE_P2_temp5374_4, __HIVE_P2_temp5374_5, __HIVE_P2_temp5374_6;
+        if ((__HIVE_P2_temp5374_0 = __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5380), 0, 5379), "lexical", 5378), __HIVE_P2_temp5374_1 = __HIVE_P2_get(__HIVE_P2_temp5374_0, "indexOf", 5375), __HIVE_P2_invoke(__HIVE_P2_temp5374_1, __HIVE_P2_temp5374_0, (__HIVE_P2_reserveArray(1, 5375), __HIVE_P2_ownArray([__HIVE_P2_get(e, "name", 5376)], 5375, "CONTROL_ARRAY")), 5375)) === __HIVE_P2_unary("-", 1, 5381) && (__HIVE_P2_temp5374_2 = __HIVE_P2_get(__HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5387), 0, 5386), "var", 5385), __HIVE_P2_temp5374_3 = __HIVE_P2_get(__HIVE_P2_temp5374_2, "indexOf", 5382), __HIVE_P2_invoke(__HIVE_P2_temp5374_3, __HIVE_P2_temp5374_2, (__HIVE_P2_reserveArray(1, 5382), __HIVE_P2_ownArray([__HIVE_P2_get(e, "name", 5383)], 5382, "CONTROL_ARRAY")), 5382)) === __HIVE_P2_unary("-", 1, 5388)) {
+            (__HIVE_P2_temp5374_4 = __HIVE_P2_get(this, "undefinedExports", 5391), __HIVE_P2_temp5374_5 = __HIVE_P2_get(e, "name", 5392), __HIVE_P2_set(__HIVE_P2_temp5374_4, __HIVE_P2_temp5374_5, e, 5389));
+        }
+    }, 7, 1, 0, 5374)), 5372));
+    (__HIVE_P2_temp0_1413 = ue, __HIVE_P2_temp0_1414 = "currentScope", __HIVE_P2_set(__HIVE_P2_temp0_1413, __HIVE_P2_temp0_1414, (__HIVE_P2_reserveFunction(5395), __HIVE_P2_registerFunction(function () {
+        return __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5397), __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5400), "length", 5399), 1, 5398), 5396);
+    }, 0, 0, 0, 5395)), 5393));
+    (__HIVE_P2_temp0_1416 = ue, __HIVE_P2_temp0_1417 = "currentVarScope", __HIVE_P2_set(__HIVE_P2_temp0_1416, __HIVE_P2_temp0_1417, (__HIVE_P2_reserveFunction(5403), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp5403_0, __HIVE_P2_temp5403_1;
+        for (var e = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5407), "length", 5406), 1, 5405);; (__HIVE_P2_temp5403_0 = __HIVE_P2_numeric(e, 5408), __HIVE_P2_temp5403_1 = __HIVE_P2_temp5403_0 + -1, e = __HIVE_P2_temp5403_1, __HIVE_P2_temp5403_0)) {
+            __HIVE_P2_tick(5404);
+            var t = __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5410), e, 5409);
+            if (__HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 5412), U, 5411)) {
+                return t;
+            }
+        }
+    }, 4, 0, 0, 5403)), 5401));
+    (__HIVE_P2_temp0_1419 = ue, __HIVE_P2_temp0_1420 = "currentThisScope", __HIVE_P2_set(__HIVE_P2_temp0_1419, __HIVE_P2_temp0_1420, (__HIVE_P2_reserveFunction(5415), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp5415_0, __HIVE_P2_temp5415_1;
+        for (var e = __HIVE_P2_binary("-", __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5419), "length", 5418), 1, 5417);; (__HIVE_P2_temp5415_0 = __HIVE_P2_numeric(e, 5420), __HIVE_P2_temp5415_1 = __HIVE_P2_temp5415_0 + -1, e = __HIVE_P2_temp5415_1, __HIVE_P2_temp5415_0)) {
+            __HIVE_P2_tick(5416);
+            var t = __HIVE_P2_get(__HIVE_P2_get(this, "scopeStack", 5422), e, 5421);
+            if (__HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 5424), U, 5423) && !(__HIVE_P2_binary("&", __HIVE_P2_get(t, "flags", 5426), D, 5425))) {
+                return t;
+            }
+        }
+    }, 4, 0, 0, 5415)), 5413));
+    var de = (__HIVE_P2_reserveFunction(5427), __HIVE_P2_registerFunction(function Node(e, t, i) {
+        var __HIVE_P2_temp5427_0, __HIVE_P2_temp5427_1, __HIVE_P2_temp5427_2, __HIVE_P2_temp5427_3, __HIVE_P2_temp5427_4, __HIVE_P2_temp5427_5, __HIVE_P2_temp5427_6, __HIVE_P2_temp5427_7, __HIVE_P2_temp5427_8, __HIVE_P2_temp5427_9, __HIVE_P2_temp5427_10, __HIVE_P2_temp5427_11, __HIVE_P2_temp5427_12, __HIVE_P2_temp5427_13, __HIVE_P2_temp5427_14, __HIVE_P2_temp5427_15, __HIVE_P2_temp5427_16, __HIVE_P2_temp5427_17, __HIVE_P2_temp5427_18, __HIVE_P2_temp5427_19, __HIVE_P2_temp5427_20;
+        (__HIVE_P2_temp5427_0 = this, __HIVE_P2_temp5427_1 = "type", __HIVE_P2_set(__HIVE_P2_temp5427_0, __HIVE_P2_temp5427_1, "", 5428));
+        (__HIVE_P2_temp5427_3 = this, __HIVE_P2_temp5427_4 = "start", __HIVE_P2_set(__HIVE_P2_temp5427_3, __HIVE_P2_temp5427_4, t, 5430));
+        (__HIVE_P2_temp5427_6 = this, __HIVE_P2_temp5427_7 = "end", __HIVE_P2_set(__HIVE_P2_temp5427_6, __HIVE_P2_temp5427_7, 0, 5432));
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "options", 5435), "locations", 5434)) {
+            (__HIVE_P2_temp5427_9 = this, __HIVE_P2_temp5427_10 = "loc", __HIVE_P2_set(__HIVE_P2_temp5427_9, __HIVE_P2_temp5427_10, __HIVE_P2_construct(A, (__HIVE_P2_reserveArray(2, 5438), __HIVE_P2_ownArray([e, i], 5438, "CONTROL_ARRAY")), 5438), 5436));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "options", 5440), "directSourceFile", 5439)) {
+            (__HIVE_P2_temp5427_12 = this, __HIVE_P2_temp5427_13 = "sourceFile", __HIVE_P2_set(__HIVE_P2_temp5427_12, __HIVE_P2_temp5427_13, __HIVE_P2_get(__HIVE_P2_get(e, "options", 5444), "directSourceFile", 5443), 5441));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "options", 5446), "ranges", 5445)) {
+            (__HIVE_P2_temp5427_15 = this, __HIVE_P2_temp5427_16 = "range", __HIVE_P2_set(__HIVE_P2_temp5427_15, __HIVE_P2_temp5427_16, (__HIVE_P2_temp5427_18 = 0, __HIVE_P2_temp5427_19 = t, __HIVE_P2_temp5427_18 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp5427_18, __HIVE_P2_temp5427_19, 5449), __HIVE_P2_temp5427_20 = 0, __HIVE_P2_temp5427_18 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp5427_18, __HIVE_P2_temp5427_20, 5449), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5427_18, 5449), __HIVE_P2_reserveArray(2, 5449, 2), __HIVE_P2_ownArray([__HIVE_P2_temp5427_19, __HIVE_P2_temp5427_20], 5449, "ARRAY", __HIVE_P2_temp5427_18)), 5447));
+        }
+    }, 21, 3, 0, 5427));
+    var me = __HIVE_P2_get(K, "prototype", 5450);
+    (__HIVE_P2_temp0_1422 = me, __HIVE_P2_temp0_1423 = "startNode", __HIVE_P2_set(__HIVE_P2_temp0_1422, __HIVE_P2_temp0_1423, (__HIVE_P2_reserveFunction(5453), __HIVE_P2_registerFunction(function () {
+        return __HIVE_P2_construct(de, (__HIVE_P2_reserveArray(3, 5454), __HIVE_P2_ownArray([this, __HIVE_P2_get(this, "start", 5455), __HIVE_P2_get(this, "startLoc", 5456)], 5454, "CONTROL_ARRAY")), 5454);
+    }, 0, 0, 0, 5453)), 5451));
+    (__HIVE_P2_temp0_1425 = me, __HIVE_P2_temp0_1426 = "startNodeAt", __HIVE_P2_set(__HIVE_P2_temp0_1425, __HIVE_P2_temp0_1426, (__HIVE_P2_reserveFunction(5459), __HIVE_P2_registerFunction(function (e, t) {
+        return __HIVE_P2_construct(de, (__HIVE_P2_reserveArray(3, 5460), __HIVE_P2_ownArray([this, e, t], 5460, "CONTROL_ARRAY")), 5460);
+    }, 0, 2, 0, 5459)), 5457));
+    function finishNodeAt(e, t, i, s) {
+        var __HIVE_P2_temp5461_0, __HIVE_P2_temp5461_1, __HIVE_P2_temp5461_2, __HIVE_P2_temp5461_3, __HIVE_P2_temp5461_4, __HIVE_P2_temp5461_5, __HIVE_P2_temp5461_6, __HIVE_P2_temp5461_7, __HIVE_P2_temp5461_8, __HIVE_P2_temp5461_9, __HIVE_P2_temp5461_10, __HIVE_P2_temp5461_11;
+        (__HIVE_P2_temp5461_0 = e, __HIVE_P2_temp5461_1 = "type", __HIVE_P2_set(__HIVE_P2_temp5461_0, __HIVE_P2_temp5461_1, t, 5462));
+        (__HIVE_P2_temp5461_3 = e, __HIVE_P2_temp5461_4 = "end", __HIVE_P2_set(__HIVE_P2_temp5461_3, __HIVE_P2_temp5461_4, i, 5464));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 5467), "locations", 5466)) {
+            (__HIVE_P2_temp5461_6 = __HIVE_P2_get(e, "loc", 5470), __HIVE_P2_temp5461_7 = "end", __HIVE_P2_set(__HIVE_P2_temp5461_6, __HIVE_P2_temp5461_7, s, 5468));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 5472), "ranges", 5471)) {
+            (__HIVE_P2_temp5461_9 = __HIVE_P2_get(e, "range", 5475), __HIVE_P2_temp5461_10 = 1, __HIVE_P2_set(__HIVE_P2_temp5461_9, __HIVE_P2_temp5461_10, i, 5473));
+        }
+        return e;
+    }
+    (__HIVE_P2_temp0_1428 = me, __HIVE_P2_temp0_1429 = "finishNode", __HIVE_P2_set(__HIVE_P2_temp0_1428, __HIVE_P2_temp0_1429, (__HIVE_P2_reserveFunction(5478), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp5478_0, __HIVE_P2_temp5478_1;
+        return (__HIVE_P2_temp5478_0 = finishNodeAt, __HIVE_P2_temp5478_1 = __HIVE_P2_get(__HIVE_P2_temp5478_0, "call", 5479), __HIVE_P2_invoke(__HIVE_P2_temp5478_1, __HIVE_P2_temp5478_0, (__HIVE_P2_reserveArray(5, 5479), __HIVE_P2_ownArray([this, e, t, __HIVE_P2_get(this, "lastTokEnd", 5480), __HIVE_P2_get(this, "lastTokEndLoc", 5481)], 5479, "CONTROL_ARRAY")), 5479));
+    }, 2, 2, 0, 5478)), 5476));
+    (__HIVE_P2_temp0_1431 = me, __HIVE_P2_temp0_1432 = "finishNodeAt", __HIVE_P2_set(__HIVE_P2_temp0_1431, __HIVE_P2_temp0_1432, (__HIVE_P2_reserveFunction(5485), __HIVE_P2_registerFunction(function (e, t, i, s) {
+        var __HIVE_P2_temp5485_0, __HIVE_P2_temp5485_1;
+        return (__HIVE_P2_temp5485_0 = finishNodeAt, __HIVE_P2_temp5485_1 = __HIVE_P2_get(__HIVE_P2_temp5485_0, "call", 5486), __HIVE_P2_invoke(__HIVE_P2_temp5485_1, __HIVE_P2_temp5485_0, (__HIVE_P2_reserveArray(5, 5486), __HIVE_P2_ownArray([this, e, t, i, s], 5486, "CONTROL_ARRAY")), 5486));
+    }, 2, 4, 0, 5485)), 5483));
+    (__HIVE_P2_temp0_1434 = me, __HIVE_P2_temp0_1435 = "copyNode", __HIVE_P2_set(__HIVE_P2_temp0_1434, __HIVE_P2_temp0_1435, (__HIVE_P2_reserveFunction(5490), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp5490_0, __HIVE_P2_temp5490_1, __HIVE_P2_temp5490_2, __HIVE_P2_temp5490_3, __HIVE_P2_temp5490_4, __HIVE_P2_temp5490_5;
+        var t = __HIVE_P2_construct(de, (__HIVE_P2_reserveArray(3, 5491), __HIVE_P2_ownArray([this, __HIVE_P2_get(e, "start", 5492), __HIVE_P2_get(this, "startLoc", 5493)], 5491, "CONTROL_ARRAY")), 5491);
+        {
+            __HIVE_P2_temp5490_0 = e;
+            __HIVE_P2_temp5490_1 = __HIVE_P2_copyKeys(__HIVE_P2_temp5490_0, 5494);
+            for (__HIVE_P2_temp5490_2 = 0; __HIVE_P2_temp5490_2 < __HIVE_P2_get(__HIVE_P2_temp5490_1, "length", 5494); __HIVE_P2_temp5490_2++) {
+                __HIVE_P2_tick(5494);
+                var i = __HIVE_P2_get(__HIVE_P2_temp5490_1, __HIVE_P2_temp5490_2, 5494);
+                (__HIVE_P2_temp5490_3 = t, __HIVE_P2_temp5490_4 = i, __HIVE_P2_set(__HIVE_P2_temp5490_3, __HIVE_P2_temp5490_4, __HIVE_P2_get(e, i, 5497), 5495));
+            }
+        }
+        return t;
+    }, 8, 1, 0, 5490)), 5488));
+    var ge = "Gara Garay Gukh Gurung_Khema Hrkt Katakana_Or_Hiragana Kawi Kirat_Rai Krai Nag_Mundari Nagm Ol_Onal Onao Sunu Sunuwar Todhri Todr Tulu_Tigalari Tutg Unknown Zzzz";
+    var ve = "ASCII ASCII_Hex_Digit AHex Alphabetic Alpha Any Assigned Bidi_Control Bidi_C Bidi_Mirrored Bidi_M Case_Ignorable CI Cased Changes_When_Casefolded CWCF Changes_When_Casemapped CWCM Changes_When_Lowercased CWL Changes_When_NFKC_Casefolded CWKCF Changes_When_Titlecased CWT Changes_When_Uppercased CWU Dash Default_Ignorable_Code_Point DI Deprecated Dep Diacritic Dia Emoji Emoji_Component Emoji_Modifier Emoji_Modifier_Base Emoji_Presentation Extender Ext Grapheme_Base Gr_Base Grapheme_Extend Gr_Ext Hex_Digit Hex IDS_Binary_Operator IDSB IDS_Trinary_Operator IDST ID_Continue IDC ID_Start IDS Ideographic Ideo Join_Control Join_C Logical_Order_Exception LOE Lowercase Lower Math Noncharacter_Code_Point NChar Pattern_Syntax Pat_Syn Pattern_White_Space Pat_WS Quotation_Mark QMark Radical Regional_Indicator RI Sentence_Terminal STerm Soft_Dotted SD Terminal_Punctuation Term Unified_Ideograph UIdeo Uppercase Upper Variation_Selector VS White_Space space XID_Continue XIDC XID_Start XIDS";
+    var xe = __HIVE_P2_binary("+", ve, " Extended_Pictographic", 5498);
+    var ye = xe;
+    var be = __HIVE_P2_binary("+", ye, " EBase EComp EMod EPres ExtPict", 5499);
+    var ke = be;
+    var _e = ke;
+    var Se = (__HIVE_P2_reserveObject(6, 5500), __HIVE_P2_ownObject({ 9: ve, 10: xe, 11: ye, 12: be, 13: ke, 14: _e }, 5500, 6, 11));
+    var Ce = "Basic_Emoji Emoji_Keycap_Sequence RGI_Emoji_Modifier_Sequence RGI_Emoji_Flag_Sequence RGI_Emoji_Tag_Sequence RGI_Emoji_ZWJ_Sequence RGI_Emoji";
+    var we = (__HIVE_P2_reserveObject(6, 5501), __HIVE_P2_ownObject({ 9: "", 10: "", 11: "", 12: "", 13: "", 14: Ce }, 5501, 6, 11));
+    var Ee = "Cased_Letter LC Close_Punctuation Pe Connector_Punctuation Pc Control Cc cntrl Currency_Symbol Sc Dash_Punctuation Pd Decimal_Number Nd digit Enclosing_Mark Me Final_Punctuation Pf Format Cf Initial_Punctuation Pi Letter L Letter_Number Nl Line_Separator Zl Lowercase_Letter Ll Mark M Combining_Mark Math_Symbol Sm Modifier_Letter Lm Modifier_Symbol Sk Nonspacing_Mark Mn Number N Open_Punctuation Ps Other C Other_Letter Lo Other_Number No Other_Punctuation Po Other_Symbol So Paragraph_Separator Zp Private_Use Co Punctuation P punct Separator Z Space_Separator Zs Spacing_Mark Mc Surrogate Cs Symbol S Titlecase_Letter Lt Unassigned Cn Uppercase_Letter Lu";
+    var Ie = "Adlam Adlm Ahom Anatolian_Hieroglyphs Hluw Arabic Arab Armenian Armn Avestan Avst Balinese Bali Bamum Bamu Bassa_Vah Bass Batak Batk Bengali Beng Bhaiksuki Bhks Bopomofo Bopo Brahmi Brah Braille Brai Buginese Bugi Buhid Buhd Canadian_Aboriginal Cans Carian Cari Caucasian_Albanian Aghb Chakma Cakm Cham Cham Cherokee Cher Common Zyyy Coptic Copt Qaac Cuneiform Xsux Cypriot Cprt Cyrillic Cyrl Deseret Dsrt Devanagari Deva Duployan Dupl Egyptian_Hieroglyphs Egyp Elbasan Elba Ethiopic Ethi Georgian Geor Glagolitic Glag Gothic Goth Grantha Gran Greek Grek Gujarati Gujr Gurmukhi Guru Han Hani Hangul Hang Hanunoo Hano Hatran Hatr Hebrew Hebr Hiragana Hira Imperial_Aramaic Armi Inherited Zinh Qaai Inscriptional_Pahlavi Phli Inscriptional_Parthian Prti Javanese Java Kaithi Kthi Kannada Knda Katakana Kana Kayah_Li Kali Kharoshthi Khar Khmer Khmr Khojki Khoj Khudawadi Sind Lao Laoo Latin Latn Lepcha Lepc Limbu Limb Linear_A Lina Linear_B Linb Lisu Lisu Lycian Lyci Lydian Lydi Mahajani Mahj Malayalam Mlym Mandaic Mand Manichaean Mani Marchen Marc Masaram_Gondi Gonm Meetei_Mayek Mtei Mende_Kikakui Mend Meroitic_Cursive Merc Meroitic_Hieroglyphs Mero Miao Plrd Modi Mongolian Mong Mro Mroo Multani Mult Myanmar Mymr Nabataean Nbat New_Tai_Lue Talu Newa Newa Nko Nkoo Nushu Nshu Ogham Ogam Ol_Chiki Olck Old_Hungarian Hung Old_Italic Ital Old_North_Arabian Narb Old_Permic Perm Old_Persian Xpeo Old_South_Arabian Sarb Old_Turkic Orkh Oriya Orya Osage Osge Osmanya Osma Pahawh_Hmong Hmng Palmyrene Palm Pau_Cin_Hau Pauc Phags_Pa Phag Phoenician Phnx Psalter_Pahlavi Phlp Rejang Rjng Runic Runr Samaritan Samr Saurashtra Saur Sharada Shrd Shavian Shaw Siddham Sidd SignWriting Sgnw Sinhala Sinh Sora_Sompeng Sora Soyombo Soyo Sundanese Sund Syloti_Nagri Sylo Syriac Syrc Tagalog Tglg Tagbanwa Tagb Tai_Le Tale Tai_Tham Lana Tai_Viet Tavt Takri Takr Tamil Taml Tangut Tang Telugu Telu Thaana Thaa Thai Thai Tibetan Tibt Tifinagh Tfng Tirhuta Tirh Ugaritic Ugar Vai Vaii Warang_Citi Wara Yi Yiii Zanabazar_Square Zanb";
+    var Ae = __HIVE_P2_binary("+", Ie, " Dogra Dogr Gunjala_Gondi Gong Hanifi_Rohingya Rohg Makasar Maka Medefaidrin Medf Old_Sogdian Sogo Sogdian Sogd", 5502);
+    var Pe = __HIVE_P2_binary("+", Ae, " Elymaic Elym Nandinagari Nand Nyiakeng_Puachue_Hmong Hmnp Wancho Wcho", 5503);
+    var Ne = __HIVE_P2_binary("+", Pe, " Chorasmian Chrs Diak Dives_Akuru Khitan_Small_Script Kits Yezi Yezidi", 5504);
+    var Te = __HIVE_P2_binary("+", Ne, " Cypro_Minoan Cpmn Old_Uyghur Ougr Tangsa Tnsa Toto Vithkuqi Vith", 5505);
+    var Ve = __HIVE_P2_binary("+", __HIVE_P2_binary("+", Te, " ", 5507), ge, 5506);
+    var Le = (__HIVE_P2_reserveObject(6, 5508), __HIVE_P2_ownObject({ 9: Ie, 10: Ae, 11: Pe, 12: Ne, 13: Te, 14: Ve }, 5508, 6, 11));
+    var Re = (__HIVE_P2_reserveObject(0, 5509), __HIVE_P2_ownObject({}, 5509, 0, 0));
+    function buildUnicodeData(e) {
+        var __HIVE_P2_temp5510_0, __HIVE_P2_temp5510_1, __HIVE_P2_temp5510_2, __HIVE_P2_temp5510_3, __HIVE_P2_temp5510_4, __HIVE_P2_temp5510_5, __HIVE_P2_temp5510_6, __HIVE_P2_temp5510_7, __HIVE_P2_temp5510_8, __HIVE_P2_temp5510_9, __HIVE_P2_temp5510_10, __HIVE_P2_temp5510_11, __HIVE_P2_temp5510_12, __HIVE_P2_temp5510_13, __HIVE_P2_temp5510_14;
+        var t = (__HIVE_P2_temp5510_0 = Re, __HIVE_P2_temp5510_1 = e, __HIVE_P2_set(__HIVE_P2_temp5510_0, __HIVE_P2_temp5510_1, (__HIVE_P2_reserveObject(3, 5513), __HIVE_P2_ownObject({ binary: __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 5514), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_binary("+", __HIVE_P2_get(Se, e, 5517), " ", 5516), Ee, 5515)], 5514, "CONTROL_ARRAY")), 5514), binaryOfStrings: __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 5518), __HIVE_P2_ownArray([__HIVE_P2_get(we, e, 5519)], 5518, "CONTROL_ARRAY")), 5518), nonBinary: (__HIVE_P2_reserveObject(2, 5520), __HIVE_P2_ownObject({ General_Category: __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 5521), __HIVE_P2_ownArray([Ee], 5521, "CONTROL_ARRAY")), 5521), Script: __HIVE_P2_invoke(wordsRegexp, void 0, (__HIVE_P2_reserveArray(1, 5522), __HIVE_P2_ownArray([__HIVE_P2_get(Le, e, 5523)], 5522, "CONTROL_ARRAY")), 5522) }, 5520, 2, 22)) }, 5513, 3, 30)), 5511));
+        (__HIVE_P2_temp5510_3 = __HIVE_P2_get(t, "nonBinary", 5526), __HIVE_P2_temp5510_4 = "Script_Extensions", __HIVE_P2_set(__HIVE_P2_temp5510_3, __HIVE_P2_temp5510_4, __HIVE_P2_get(__HIVE_P2_get(t, "nonBinary", 5528), "Script", 5527), 5524));
+        (__HIVE_P2_temp5510_6 = __HIVE_P2_get(t, "nonBinary", 5531), __HIVE_P2_temp5510_7 = "gc", __HIVE_P2_set(__HIVE_P2_temp5510_6, __HIVE_P2_temp5510_7, __HIVE_P2_get(__HIVE_P2_get(t, "nonBinary", 5533), "General_Category", 5532), 5529));
+        (__HIVE_P2_temp5510_9 = __HIVE_P2_get(t, "nonBinary", 5536), __HIVE_P2_temp5510_10 = "sc", __HIVE_P2_set(__HIVE_P2_temp5510_9, __HIVE_P2_temp5510_10, __HIVE_P2_get(__HIVE_P2_get(t, "nonBinary", 5538), "Script", 5537), 5534));
+        (__HIVE_P2_temp5510_12 = __HIVE_P2_get(t, "nonBinary", 5541), __HIVE_P2_temp5510_13 = "scx", __HIVE_P2_set(__HIVE_P2_temp5510_12, __HIVE_P2_temp5510_13, __HIVE_P2_get(__HIVE_P2_get(t, "nonBinary", 5543), "Script_Extensions", 5542), 5539));
+    }
+    for (var De = 0, Oe = (__HIVE_P2_temp0_1437 = 0, __HIVE_P2_temp0_1438 = 9, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1438, 5545), __HIVE_P2_temp0_1439 = 10, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1439, 5545), __HIVE_P2_temp0_1440 = 11, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1440, 5545), __HIVE_P2_temp0_1441 = 12, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1441, 5545), __HIVE_P2_temp0_1442 = 13, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1442, 5545), __HIVE_P2_temp0_1443 = 14, __HIVE_P2_temp0_1437 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp0_1437, __HIVE_P2_temp0_1443, 5545), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp0_1437, 5545), __HIVE_P2_reserveArray(6, 5545, 6), __HIVE_P2_ownArray([__HIVE_P2_temp0_1438, __HIVE_P2_temp0_1439, __HIVE_P2_temp0_1440, __HIVE_P2_temp0_1441, __HIVE_P2_temp0_1442, __HIVE_P2_temp0_1443], 5545, "ARRAY", __HIVE_P2_temp0_1437)); __HIVE_P2_binary("<", De, __HIVE_P2_get(Oe, "length", 5547), 5546); De = __HIVE_P2_binary("+", De, 1, 5548)) {
+        __HIVE_P2_tick(5544);
+        var Be = __HIVE_P2_get(Oe, De, 5549);
+        __HIVE_P2_invoke(buildUnicodeData, void 0, (__HIVE_P2_reserveArray(1, 5550), __HIVE_P2_ownArray([Be], 5550, "CONTROL_ARRAY")), 5550);
+    }
+    var Me = __HIVE_P2_get(K, "prototype", 5551);
+    var Fe = (__HIVE_P2_reserveFunction(5552), __HIVE_P2_registerFunction(function BranchID(e, t) {
+        var __HIVE_P2_temp5552_0, __HIVE_P2_temp5552_1, __HIVE_P2_temp5552_2, __HIVE_P2_temp5552_3, __HIVE_P2_temp5552_4, __HIVE_P2_temp5552_5;
+        (__HIVE_P2_temp5552_0 = this, __HIVE_P2_temp5552_1 = "parent", __HIVE_P2_set(__HIVE_P2_temp5552_0, __HIVE_P2_temp5552_1, e, 5553));
+        (__HIVE_P2_temp5552_3 = this, __HIVE_P2_temp5552_4 = "base", __HIVE_P2_set(__HIVE_P2_temp5552_3, __HIVE_P2_temp5552_4, t || this, 5555));
+    }, 6, 2, 0, 5552));
+    (__HIVE_P2_temp0_1444 = __HIVE_P2_get(Fe, "prototype", 5559), __HIVE_P2_temp0_1445 = "separatedFrom", __HIVE_P2_set(__HIVE_P2_temp0_1444, __HIVE_P2_temp0_1445, (__HIVE_P2_reserveFunction(5560), __HIVE_P2_registerFunction(function separatedFrom(e) {
+        for (var t = this; t; t = __HIVE_P2_get(t, "parent", 5563)) {
+            __HIVE_P2_tick(5561);
+            for (var i = e; i; i = __HIVE_P2_get(i, "parent", 5566)) {
+                __HIVE_P2_tick(5564);
+                if (__HIVE_P2_get(t, "base", 5567) === __HIVE_P2_get(i, "base", 5568) && t !== i) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }, 2, 1, 0, 5560)), 5557));
+    (__HIVE_P2_temp0_1447 = __HIVE_P2_get(Fe, "prototype", 5571), __HIVE_P2_temp0_1448 = "sibling", __HIVE_P2_set(__HIVE_P2_temp0_1447, __HIVE_P2_temp0_1448, (__HIVE_P2_reserveFunction(5572), __HIVE_P2_registerFunction(function sibling() {
+        return __HIVE_P2_construct(Fe, (__HIVE_P2_reserveArray(2, 5573), __HIVE_P2_ownArray([__HIVE_P2_get(this, "parent", 5574), __HIVE_P2_get(this, "base", 5575)], 5573, "CONTROL_ARRAY")), 5573);
+    }, 0, 0, 0, 5572)), 5569));
+    var Ue = (__HIVE_P2_reserveFunction(5576), __HIVE_P2_registerFunction(function RegExpValidationState(e) {
+        var __HIVE_P2_temp5576_0, __HIVE_P2_temp5576_1, __HIVE_P2_temp5576_2, __HIVE_P2_temp5576_3, __HIVE_P2_temp5576_4, __HIVE_P2_temp5576_5, __HIVE_P2_temp5576_6, __HIVE_P2_temp5576_7, __HIVE_P2_temp5576_8, __HIVE_P2_temp5576_9, __HIVE_P2_temp5576_10, __HIVE_P2_temp5576_11, __HIVE_P2_temp5576_12, __HIVE_P2_temp5576_13, __HIVE_P2_temp5576_14, __HIVE_P2_temp5576_15, __HIVE_P2_temp5576_16, __HIVE_P2_temp5576_17, __HIVE_P2_temp5576_18, __HIVE_P2_temp5576_19, __HIVE_P2_temp5576_20, __HIVE_P2_temp5576_21, __HIVE_P2_temp5576_22, __HIVE_P2_temp5576_23, __HIVE_P2_temp5576_24, __HIVE_P2_temp5576_25, __HIVE_P2_temp5576_26, __HIVE_P2_temp5576_27, __HIVE_P2_temp5576_28, __HIVE_P2_temp5576_29, __HIVE_P2_temp5576_30, __HIVE_P2_temp5576_31, __HIVE_P2_temp5576_32, __HIVE_P2_temp5576_33, __HIVE_P2_temp5576_34, __HIVE_P2_temp5576_35, __HIVE_P2_temp5576_36, __HIVE_P2_temp5576_37, __HIVE_P2_temp5576_38, __HIVE_P2_temp5576_39, __HIVE_P2_temp5576_40, __HIVE_P2_temp5576_41, __HIVE_P2_temp5576_42, __HIVE_P2_temp5576_43, __HIVE_P2_temp5576_44, __HIVE_P2_temp5576_45, __HIVE_P2_temp5576_46, __HIVE_P2_temp5576_47, __HIVE_P2_temp5576_48, __HIVE_P2_temp5576_49, __HIVE_P2_temp5576_50, __HIVE_P2_temp5576_51, __HIVE_P2_temp5576_52, __HIVE_P2_temp5576_53, __HIVE_P2_temp5576_54, __HIVE_P2_temp5576_55, __HIVE_P2_temp5576_56;
+        (__HIVE_P2_temp5576_0 = this, __HIVE_P2_temp5576_1 = "parser", __HIVE_P2_set(__HIVE_P2_temp5576_0, __HIVE_P2_temp5576_1, e, 5577));
+        (__HIVE_P2_temp5576_3 = this, __HIVE_P2_temp5576_4 = "validFlags", __HIVE_P2_set(__HIVE_P2_temp5576_3, __HIVE_P2_temp5576_4, __HIVE_P2_binary("+", __HIVE_P2_binary("+", __HIVE_P2_binary("+", __HIVE_P2_binary("+", "gim", (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(e, "options", 5587), "ecmaVersion", 5586), 6, 5585) ? "uy" : ""), 5584), (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(e, "options", 5590), "ecmaVersion", 5589), 9, 5588) ? "s" : ""), 5583), (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(e, "options", 5593), "ecmaVersion", 5592), 13, 5591) ? "d" : ""), 5582), (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(e, "options", 5596), "ecmaVersion", 5595), 15, 5594) ? "v" : ""), 5581), 5579));
+        (__HIVE_P2_temp5576_6 = this, __HIVE_P2_temp5576_7 = "unicodeProperties", __HIVE_P2_set(__HIVE_P2_temp5576_6, __HIVE_P2_temp5576_7, __HIVE_P2_get(Re, __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(e, "options", 5602), "ecmaVersion", 5601), 14, 5600) ? 14 : __HIVE_P2_get(__HIVE_P2_get(e, "options", 5604), "ecmaVersion", 5603), 5599), 5597));
+        (__HIVE_P2_temp5576_9 = this, __HIVE_P2_temp5576_10 = "source", __HIVE_P2_set(__HIVE_P2_temp5576_9, __HIVE_P2_temp5576_10, "", 5605));
+        (__HIVE_P2_temp5576_12 = this, __HIVE_P2_temp5576_13 = "flags", __HIVE_P2_set(__HIVE_P2_temp5576_12, __HIVE_P2_temp5576_13, "", 5607));
+        (__HIVE_P2_temp5576_15 = this, __HIVE_P2_temp5576_16 = "start", __HIVE_P2_set(__HIVE_P2_temp5576_15, __HIVE_P2_temp5576_16, 0, 5609));
+        (__HIVE_P2_temp5576_18 = this, __HIVE_P2_temp5576_19 = "switchU", __HIVE_P2_set(__HIVE_P2_temp5576_18, __HIVE_P2_temp5576_19, false, 5611));
+        (__HIVE_P2_temp5576_21 = this, __HIVE_P2_temp5576_22 = "switchV", __HIVE_P2_set(__HIVE_P2_temp5576_21, __HIVE_P2_temp5576_22, false, 5613));
+        (__HIVE_P2_temp5576_24 = this, __HIVE_P2_temp5576_25 = "switchN", __HIVE_P2_set(__HIVE_P2_temp5576_24, __HIVE_P2_temp5576_25, false, 5615));
+        (__HIVE_P2_temp5576_27 = this, __HIVE_P2_temp5576_28 = "pos", __HIVE_P2_set(__HIVE_P2_temp5576_27, __HIVE_P2_temp5576_28, 0, 5617));
+        (__HIVE_P2_temp5576_30 = this, __HIVE_P2_temp5576_31 = "lastIntValue", __HIVE_P2_set(__HIVE_P2_temp5576_30, __HIVE_P2_temp5576_31, 0, 5619));
+        (__HIVE_P2_temp5576_33 = this, __HIVE_P2_temp5576_34 = "lastStringValue", __HIVE_P2_set(__HIVE_P2_temp5576_33, __HIVE_P2_temp5576_34, "", 5621));
+        (__HIVE_P2_temp5576_36 = this, __HIVE_P2_temp5576_37 = "lastAssertionIsQuantifiable", __HIVE_P2_set(__HIVE_P2_temp5576_36, __HIVE_P2_temp5576_37, false, 5623));
+        (__HIVE_P2_temp5576_39 = this, __HIVE_P2_temp5576_40 = "numCapturingParens", __HIVE_P2_set(__HIVE_P2_temp5576_39, __HIVE_P2_temp5576_40, 0, 5625));
+        (__HIVE_P2_temp5576_42 = this, __HIVE_P2_temp5576_43 = "maxBackReference", __HIVE_P2_set(__HIVE_P2_temp5576_42, __HIVE_P2_temp5576_43, 0, 5627));
+        (__HIVE_P2_temp5576_45 = this, __HIVE_P2_temp5576_46 = "groupNames", __HIVE_P2_set(__HIVE_P2_temp5576_45, __HIVE_P2_temp5576_46, (__HIVE_P2_temp5576_48 = __HIVE_P2_Object, __HIVE_P2_temp5576_49 = __HIVE_P2_get(__HIVE_P2_temp5576_48, "create", 5631), __HIVE_P2_invoke(__HIVE_P2_temp5576_49, __HIVE_P2_temp5576_48, (__HIVE_P2_reserveArray(1, 5631), __HIVE_P2_ownArray([null], 5631, "CONTROL_ARRAY")), 5631)), 5629));
+        (__HIVE_P2_temp5576_50 = this, __HIVE_P2_temp5576_51 = "backReferenceNames", __HIVE_P2_set(__HIVE_P2_temp5576_50, __HIVE_P2_temp5576_51, (__HIVE_P2_temp5576_53 = 0, __HIVE_P2_checkArrayDepth(__HIVE_P2_temp5576_53, 5635), __HIVE_P2_reserveArray(0, 5635, 0), __HIVE_P2_ownArray([], 5635, "ARRAY", __HIVE_P2_temp5576_53)), 5633));
+        (__HIVE_P2_temp5576_54 = this, __HIVE_P2_temp5576_55 = "branchID", __HIVE_P2_set(__HIVE_P2_temp5576_54, __HIVE_P2_temp5576_55, null, 5636));
+    }, 57, 1, 0, 5576));
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5643), "reset", (__HIVE_P2_reserveFunction(5639), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5640), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5640, "CONTROL_ARRAY")), 5640);
+    }, 0, 0, 0, 5639)), 5641);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5649), "raise", (__HIVE_P2_reserveFunction(5645), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5646), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 5646, "CONTROL_ARRAY")), 5646);
+    }, 0, 0, 0, 5645)), 5647);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5655), "at", (__HIVE_P2_reserveFunction(5651), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5652), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5652, "CONTROL_ARRAY")), 5652);
+    }, 0, 0, 0, 5651)), 5653);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5661), "nextIndex", (__HIVE_P2_reserveFunction(5657), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5658), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5658, "CONTROL_ARRAY")), 5658);
+    }, 0, 0, 0, 5657)), 5659);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5667), "current", (__HIVE_P2_reserveFunction(5663), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5664), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5664, "CONTROL_ARRAY")), 5664);
+    }, 0, 0, 0, 5663)), 5665);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5673), "lookahead", (__HIVE_P2_reserveFunction(5669), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5670), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5670, "CONTROL_ARRAY")), 5670);
+    }, 0, 0, 0, 5669)), 5671);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5679), "advance", (__HIVE_P2_reserveFunction(5675), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5676), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5676, "CONTROL_ARRAY")), 5676);
+    }, 0, 0, 0, 5675)), 5677);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5685), "eat", (__HIVE_P2_reserveFunction(5681), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5682), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5682, "CONTROL_ARRAY")), 5682);
+    }, 0, 0, 0, 5681)), 5683);
+    __HIVE_P2_set(__HIVE_P2_get(Ue, "prototype", 5691), "eatChars", (__HIVE_P2_reserveFunction(5687), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5688), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5688, "CONTROL_ARRAY")), 5688);
+    }, 0, 0, 0, 5687)), 5689);
+    __HIVE_P2_set(Me, "validateRegExpFlags", (__HIVE_P2_reserveFunction(5693), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5694), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5694, "CONTROL_ARRAY")), 5694);
+    }, 0, 0, 0, 5693)), 5695);
+    function hasProp(e) {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5699), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5699, "CONTROL_ARRAY")), 5699);
+    }
+    __HIVE_P2_set(Me, "validateRegExpPattern", (__HIVE_P2_reserveFunction(5701), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5702), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5702, "CONTROL_ARRAY")), 5702);
+    }, 0, 0, 0, 5701)), 5703);
+    __HIVE_P2_set(Me, "regexp_pattern", (__HIVE_P2_reserveFunction(5706), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5707), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5707, "CONTROL_ARRAY")), 5707);
+    }, 0, 0, 0, 5706)), 5708);
+    __HIVE_P2_set(Me, "regexp_disjunction", (__HIVE_P2_reserveFunction(5711), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5712), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5712, "CONTROL_ARRAY")), 5712);
+    }, 0, 0, 0, 5711)), 5713);
+    __HIVE_P2_set(Me, "regexp_alternative", (__HIVE_P2_reserveFunction(5716), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5717), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5717, "CONTROL_ARRAY")), 5717);
+    }, 0, 0, 0, 5716)), 5718);
+    __HIVE_P2_set(Me, "regexp_eatTerm", (__HIVE_P2_reserveFunction(5721), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5722), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5722, "CONTROL_ARRAY")), 5722);
+    }, 0, 0, 0, 5721)), 5723);
+    __HIVE_P2_set(Me, "regexp_eatAssertion", (__HIVE_P2_reserveFunction(5726), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5727), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5727, "CONTROL_ARRAY")), 5727);
+    }, 0, 0, 0, 5726)), 5728);
+    __HIVE_P2_set(Me, "regexp_eatQuantifier", (__HIVE_P2_reserveFunction(5731), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5732), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5732, "CONTROL_ARRAY")), 5732);
+    }, 0, 0, 0, 5731)), 5733);
+    __HIVE_P2_set(Me, "regexp_eatQuantifierPrefix", (__HIVE_P2_reserveFunction(5736), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5737), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5737, "CONTROL_ARRAY")), 5737);
+    }, 0, 0, 0, 5736)), 5738);
+    __HIVE_P2_set(Me, "regexp_eatBracedQuantifier", (__HIVE_P2_reserveFunction(5741), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5742), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5742, "CONTROL_ARRAY")), 5742);
+    }, 0, 0, 0, 5741)), 5743);
+    __HIVE_P2_set(Me, "regexp_eatAtom", (__HIVE_P2_reserveFunction(5746), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5747), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5747, "CONTROL_ARRAY")), 5747);
+    }, 0, 0, 0, 5746)), 5748);
+    __HIVE_P2_set(Me, "regexp_eatReverseSolidusAtomEscape", (__HIVE_P2_reserveFunction(5751), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5752), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5752, "CONTROL_ARRAY")), 5752);
+    }, 0, 0, 0, 5751)), 5753);
+    __HIVE_P2_set(Me, "regexp_eatUncapturingGroup", (__HIVE_P2_reserveFunction(5756), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5757), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5757, "CONTROL_ARRAY")), 5757);
+    }, 0, 0, 0, 5756)), 5758);
+    __HIVE_P2_set(Me, "regexp_eatCapturingGroup", (__HIVE_P2_reserveFunction(5761), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5762), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5762, "CONTROL_ARRAY")), 5762);
+    }, 0, 0, 0, 5761)), 5763);
+    __HIVE_P2_set(Me, "regexp_eatModifiers", (__HIVE_P2_reserveFunction(5766), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5767), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5767, "CONTROL_ARRAY")), 5767);
+    }, 0, 0, 0, 5766)), 5768);
+    function isRegularExpressionModifier(e) {
+        return e === 105 || e === 109 || e === 115;
+    }
+    __HIVE_P2_set(Me, "regexp_eatExtendedAtom", (__HIVE_P2_reserveFunction(5772), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5773), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5773, "CONTROL_ARRAY")), 5773);
+    }, 0, 0, 0, 5772)), 5774);
+    __HIVE_P2_set(Me, "regexp_eatInvalidBracedQuantifier", (__HIVE_P2_reserveFunction(5777), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5778), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5778, "CONTROL_ARRAY")), 5778);
+    }, 0, 0, 0, 5777)), 5779);
+    __HIVE_P2_set(Me, "regexp_eatSyntaxCharacter", (__HIVE_P2_reserveFunction(5782), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5783), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5783, "CONTROL_ARRAY")), 5783);
+    }, 0, 0, 0, 5782)), 5784);
+    function isSyntaxCharacter(e) {
+        return e === 36 || __HIVE_P2_binary(">=", e, 40, 5787) && __HIVE_P2_binary("<=", e, 43, 5788) || e === 46 || e === 63 || __HIVE_P2_binary(">=", e, 91, 5789) && __HIVE_P2_binary("<=", e, 94, 5790) || __HIVE_P2_binary(">=", e, 123, 5791) && __HIVE_P2_binary("<=", e, 125, 5792);
+    }
+    __HIVE_P2_set(Me, "regexp_eatPatternCharacters", (__HIVE_P2_reserveFunction(5794), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5795), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5795, "CONTROL_ARRAY")), 5795);
+    }, 0, 0, 0, 5794)), 5796);
+    __HIVE_P2_set(Me, "regexp_eatExtendedPatternCharacter", (__HIVE_P2_reserveFunction(5799), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5800), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5800, "CONTROL_ARRAY")), 5800);
+    }, 0, 0, 0, 5799)), 5801);
+    __HIVE_P2_set(Me, "regexp_groupSpecifier", (__HIVE_P2_reserveFunction(5804), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5805), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5805, "CONTROL_ARRAY")), 5805);
+    }, 0, 0, 0, 5804)), 5806);
+    __HIVE_P2_set(Me, "regexp_eatGroupName", (__HIVE_P2_reserveFunction(5809), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5810), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5810, "CONTROL_ARRAY")), 5810);
+    }, 0, 0, 0, 5809)), 5811);
+    __HIVE_P2_set(Me, "regexp_eatRegExpIdentifierName", (__HIVE_P2_reserveFunction(5814), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5815), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5815, "CONTROL_ARRAY")), 5815);
+    }, 0, 0, 0, 5814)), 5816);
+    __HIVE_P2_set(Me, "regexp_eatRegExpIdentifierStart", (__HIVE_P2_reserveFunction(5819), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5820), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5820, "CONTROL_ARRAY")), 5820);
+    }, 0, 0, 0, 5819)), 5821);
+    function isRegExpIdentifierStart(e) {
+        return __HIVE_P2_invoke(isIdentifierStart, void 0, (__HIVE_P2_reserveArray(2, 5824), __HIVE_P2_ownArray([e, true], 5824, "CONTROL_ARRAY")), 5824) || e === 36 || e === 95;
+    }
+    __HIVE_P2_set(Me, "regexp_eatRegExpIdentifierPart", (__HIVE_P2_reserveFunction(5826), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5827), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5827, "CONTROL_ARRAY")), 5827);
+    }, 0, 0, 0, 5826)), 5828);
+    function isRegExpIdentifierPart(e) {
+        return __HIVE_P2_invoke(isIdentifierChar, void 0, (__HIVE_P2_reserveArray(2, 5831), __HIVE_P2_ownArray([e, true], 5831, "CONTROL_ARRAY")), 5831) || e === 36 || e === 95 || e === 8204 || e === 8205;
+    }
+    __HIVE_P2_set(Me, "regexp_eatAtomEscape", (__HIVE_P2_reserveFunction(5833), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5834), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5834, "CONTROL_ARRAY")), 5834);
+    }, 0, 0, 0, 5833)), 5835);
+    __HIVE_P2_set(Me, "regexp_eatBackReference", (__HIVE_P2_reserveFunction(5838), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5839), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5839, "CONTROL_ARRAY")), 5839);
+    }, 0, 0, 0, 5838)), 5840);
+    __HIVE_P2_set(Me, "regexp_eatKGroupName", (__HIVE_P2_reserveFunction(5843), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5844), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5844, "CONTROL_ARRAY")), 5844);
+    }, 0, 0, 0, 5843)), 5845);
+    __HIVE_P2_set(Me, "regexp_eatCharacterEscape", (__HIVE_P2_reserveFunction(5848), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5849), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5849, "CONTROL_ARRAY")), 5849);
+    }, 0, 0, 0, 5848)), 5850);
+    __HIVE_P2_set(Me, "regexp_eatCControlLetter", (__HIVE_P2_reserveFunction(5853), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5854), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5854, "CONTROL_ARRAY")), 5854);
+    }, 0, 0, 0, 5853)), 5855);
+    __HIVE_P2_set(Me, "regexp_eatZero", (__HIVE_P2_reserveFunction(5858), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5859), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5859, "CONTROL_ARRAY")), 5859);
+    }, 0, 0, 0, 5858)), 5860);
+    __HIVE_P2_set(Me, "regexp_eatControlEscape", (__HIVE_P2_reserveFunction(5863), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5864), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5864, "CONTROL_ARRAY")), 5864);
+    }, 0, 0, 0, 5863)), 5865);
+    __HIVE_P2_set(Me, "regexp_eatControlLetter", (__HIVE_P2_reserveFunction(5868), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5869), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5869, "CONTROL_ARRAY")), 5869);
+    }, 0, 0, 0, 5868)), 5870);
+    function isControlLetter(e) {
+        return __HIVE_P2_binary(">=", e, 65, 5873) && __HIVE_P2_binary("<=", e, 90, 5874) || __HIVE_P2_binary(">=", e, 97, 5875) && __HIVE_P2_binary("<=", e, 122, 5876);
+    }
+    __HIVE_P2_set(Me, "regexp_eatRegExpUnicodeEscapeSequence", (__HIVE_P2_reserveFunction(5878), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5879), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5879, "CONTROL_ARRAY")), 5879);
+    }, 0, 0, 0, 5878)), 5880);
+    function isValidUnicode(e) {
+        return __HIVE_P2_binary(">=", e, 0, 5883) && __HIVE_P2_binary("<=", e, 1114111, 5884);
+    }
+    __HIVE_P2_set(Me, "regexp_eatIdentityEscape", (__HIVE_P2_reserveFunction(5886), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5887), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5887, "CONTROL_ARRAY")), 5887);
+    }, 0, 0, 0, 5886)), 5888);
+    __HIVE_P2_set(Me, "regexp_eatDecimalEscape", (__HIVE_P2_reserveFunction(5891), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5892), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5892, "CONTROL_ARRAY")), 5892);
+    }, 0, 0, 0, 5891)), 5893);
+    var qe = 0;
+    var je = 1;
+    var Ge = 2;
+    __HIVE_P2_set(Me, "regexp_eatCharacterClassEscape", (__HIVE_P2_reserveFunction(5896), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5897), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5897, "CONTROL_ARRAY")), 5897);
+    }, 0, 0, 0, 5896)), 5898);
+    function isCharacterClassEscape(e) {
+        return e === 100 || e === 68 || e === 115 || e === 83 || e === 119 || e === 87;
+    }
+    __HIVE_P2_set(Me, "regexp_eatUnicodePropertyValueExpression", (__HIVE_P2_reserveFunction(5902), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5903), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5903, "CONTROL_ARRAY")), 5903);
+    }, 0, 0, 0, 5902)), 5904);
+    __HIVE_P2_set(Me, "regexp_validateUnicodePropertyNameAndValue", (__HIVE_P2_reserveFunction(5907), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5908), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5908, "CONTROL_ARRAY")), 5908);
+    }, 0, 0, 0, 5907)), 5909);
+    __HIVE_P2_set(Me, "regexp_validateUnicodePropertyNameOrValue", (__HIVE_P2_reserveFunction(5912), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5913), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5913, "CONTROL_ARRAY")), 5913);
+    }, 0, 0, 0, 5912)), 5914);
+    __HIVE_P2_set(Me, "regexp_eatUnicodePropertyName", (__HIVE_P2_reserveFunction(5917), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5918), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5918, "CONTROL_ARRAY")), 5918);
+    }, 0, 0, 0, 5917)), 5919);
+    function isUnicodePropertyNameCharacter(e) {
+        return __HIVE_P2_invoke(isControlLetter, void 0, (__HIVE_P2_reserveArray(1, 5922), __HIVE_P2_ownArray([e], 5922, "CONTROL_ARRAY")), 5922) || e === 95;
+    }
+    __HIVE_P2_set(Me, "regexp_eatUnicodePropertyValue", (__HIVE_P2_reserveFunction(5924), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5925), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5925, "CONTROL_ARRAY")), 5925);
+    }, 0, 0, 0, 5924)), 5926);
+    function isUnicodePropertyValueCharacter(e) {
+        return __HIVE_P2_invoke(isUnicodePropertyNameCharacter, void 0, (__HIVE_P2_reserveArray(1, 5929), __HIVE_P2_ownArray([e], 5929, "CONTROL_ARRAY")), 5929) || __HIVE_P2_invoke(isDecimalDigit, void 0, (__HIVE_P2_reserveArray(1, 5930), __HIVE_P2_ownArray([e], 5930, "CONTROL_ARRAY")), 5930);
+    }
+    __HIVE_P2_set(Me, "regexp_eatLoneUnicodePropertyNameOrValue", (__HIVE_P2_reserveFunction(5932), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5933), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5933, "CONTROL_ARRAY")), 5933);
+    }, 0, 0, 0, 5932)), 5934);
+    __HIVE_P2_set(Me, "regexp_eatCharacterClass", (__HIVE_P2_reserveFunction(5937), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5938), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5938, "CONTROL_ARRAY")), 5938);
+    }, 0, 0, 0, 5937)), 5939);
+    __HIVE_P2_set(Me, "regexp_classContents", (__HIVE_P2_reserveFunction(5942), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5943), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5943, "CONTROL_ARRAY")), 5943);
+    }, 0, 0, 0, 5942)), 5944);
+    __HIVE_P2_set(Me, "regexp_nonEmptyClassRanges", (__HIVE_P2_reserveFunction(5947), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5948), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5948, "CONTROL_ARRAY")), 5948);
+    }, 0, 0, 0, 5947)), 5949);
+    __HIVE_P2_set(Me, "regexp_eatClassAtom", (__HIVE_P2_reserveFunction(5952), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5953), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5953, "CONTROL_ARRAY")), 5953);
+    }, 0, 0, 0, 5952)), 5954);
+    __HIVE_P2_set(Me, "regexp_eatClassEscape", (__HIVE_P2_reserveFunction(5957), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5958), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5958, "CONTROL_ARRAY")), 5958);
+    }, 0, 0, 0, 5957)), 5959);
+    __HIVE_P2_set(Me, "regexp_classSetExpression", (__HIVE_P2_reserveFunction(5962), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5963), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5963, "CONTROL_ARRAY")), 5963);
+    }, 0, 0, 0, 5962)), 5964);
+    __HIVE_P2_set(Me, "regexp_eatClassSetRange", (__HIVE_P2_reserveFunction(5967), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5968), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5968, "CONTROL_ARRAY")), 5968);
+    }, 0, 0, 0, 5967)), 5969);
+    __HIVE_P2_set(Me, "regexp_eatClassSetOperand", (__HIVE_P2_reserveFunction(5972), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5973), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5973, "CONTROL_ARRAY")), 5973);
+    }, 0, 0, 0, 5972)), 5974);
+    __HIVE_P2_set(Me, "regexp_eatNestedClass", (__HIVE_P2_reserveFunction(5977), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5978), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5978, "CONTROL_ARRAY")), 5978);
+    }, 0, 0, 0, 5977)), 5979);
+    __HIVE_P2_set(Me, "regexp_eatClassStringDisjunction", (__HIVE_P2_reserveFunction(5982), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5983), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5983, "CONTROL_ARRAY")), 5983);
+    }, 0, 0, 0, 5982)), 5984);
+    __HIVE_P2_set(Me, "regexp_classStringDisjunctionContents", (__HIVE_P2_reserveFunction(5987), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5988), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5988, "CONTROL_ARRAY")), 5988);
+    }, 0, 0, 0, 5987)), 5989);
+    __HIVE_P2_set(Me, "regexp_classString", (__HIVE_P2_reserveFunction(5992), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5993), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5993, "CONTROL_ARRAY")), 5993);
+    }, 0, 0, 0, 5992)), 5994);
+    __HIVE_P2_set(Me, "regexp_eatClassSetCharacter", (__HIVE_P2_reserveFunction(5997), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 5998), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 5998, "CONTROL_ARRAY")), 5998);
+    }, 0, 0, 0, 5997)), 5999);
+    function isClassSetReservedDoublePunctuatorCharacter(e) {
+        return e === 33 || __HIVE_P2_binary(">=", e, 35, 6002) && __HIVE_P2_binary("<=", e, 38, 6003) || __HIVE_P2_binary(">=", e, 42, 6004) && __HIVE_P2_binary("<=", e, 44, 6005) || e === 46 || __HIVE_P2_binary(">=", e, 58, 6006) && __HIVE_P2_binary("<=", e, 64, 6007) || e === 94 || e === 96 || e === 126;
+    }
+    function isClassSetSyntaxCharacter(e) {
+        return e === 40 || e === 41 || e === 45 || e === 47 || __HIVE_P2_binary(">=", e, 91, 6009) && __HIVE_P2_binary("<=", e, 93, 6010) || __HIVE_P2_binary(">=", e, 123, 6011) && __HIVE_P2_binary("<=", e, 125, 6012);
+    }
+    __HIVE_P2_set(Me, "regexp_eatClassSetReservedPunctuator", (__HIVE_P2_reserveFunction(6014), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6015), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6015, "CONTROL_ARRAY")), 6015);
+    }, 0, 0, 0, 6014)), 6016);
+    function isClassSetReservedPunctuator(e) {
+        return e === 33 || e === 35 || e === 37 || e === 38 || e === 44 || e === 45 || __HIVE_P2_binary(">=", e, 58, 6019) && __HIVE_P2_binary("<=", e, 62, 6020) || e === 64 || e === 96 || e === 126;
+    }
+    __HIVE_P2_set(Me, "regexp_eatClassControlLetter", (__HIVE_P2_reserveFunction(6022), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6023), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6023, "CONTROL_ARRAY")), 6023);
+    }, 0, 0, 0, 6022)), 6024);
+    __HIVE_P2_set(Me, "regexp_eatHexEscapeSequence", (__HIVE_P2_reserveFunction(6027), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6028), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6028, "CONTROL_ARRAY")), 6028);
+    }, 0, 0, 0, 6027)), 6029);
+    __HIVE_P2_set(Me, "regexp_eatDecimalDigits", (__HIVE_P2_reserveFunction(6032), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6033), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6033, "CONTROL_ARRAY")), 6033);
+    }, 0, 0, 0, 6032)), 6034);
+    function isDecimalDigit(e) {
+        return __HIVE_P2_binary(">=", e, 48, 6037) && __HIVE_P2_binary("<=", e, 57, 6038);
+    }
+    __HIVE_P2_set(Me, "regexp_eatHexDigits", (__HIVE_P2_reserveFunction(6040), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6041), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6041, "CONTROL_ARRAY")), 6041);
+    }, 0, 0, 0, 6040)), 6042);
+    function isHexDigit(e) {
+        return __HIVE_P2_binary(">=", e, 48, 6045) && __HIVE_P2_binary("<=", e, 57, 6046) || __HIVE_P2_binary(">=", e, 65, 6047) && __HIVE_P2_binary("<=", e, 70, 6048) || __HIVE_P2_binary(">=", e, 97, 6049) && __HIVE_P2_binary("<=", e, 102, 6050);
+    }
+    function hexToInt(e) {
+        if (__HIVE_P2_binary(">=", e, 65, 6052) && __HIVE_P2_binary("<=", e, 70, 6053)) {
+            return __HIVE_P2_binary("+", 10, (__HIVE_P2_binary("-", e, 65, 6055)), 6054);
+        }
+        if (__HIVE_P2_binary(">=", e, 97, 6056) && __HIVE_P2_binary("<=", e, 102, 6057)) {
+            return __HIVE_P2_binary("+", 10, (__HIVE_P2_binary("-", e, 97, 6059)), 6058);
+        }
+        return __HIVE_P2_binary("-", e, 48, 6060);
+    }
+    __HIVE_P2_set(Me, "regexp_eatLegacyOctalEscapeSequence", (__HIVE_P2_reserveFunction(6062), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6063), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6063, "CONTROL_ARRAY")), 6063);
+    }, 0, 0, 0, 6062)), 6064);
+    __HIVE_P2_set(Me, "regexp_eatOctalDigit", (__HIVE_P2_reserveFunction(6067), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6068), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6068, "CONTROL_ARRAY")), 6068);
+    }, 0, 0, 0, 6067)), 6069);
+    function isOctalDigit(e) {
+        return __HIVE_P2_binary(">=", e, 48, 6072) && __HIVE_P2_binary("<=", e, 55, 6073);
+    }
+    __HIVE_P2_set(Me, "regexp_eatFixedHexDigits", (__HIVE_P2_reserveFunction(6075), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6076), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6076, "CONTROL_ARRAY")), 6076);
+    }, 0, 0, 0, 6075)), 6077);
+    var He = (__HIVE_P2_reserveFunction(6079), __HIVE_P2_registerFunction(function Token(e) {
+        var __HIVE_P2_temp6079_0, __HIVE_P2_temp6079_1, __HIVE_P2_temp6079_2, __HIVE_P2_temp6079_3, __HIVE_P2_temp6079_4, __HIVE_P2_temp6079_5, __HIVE_P2_temp6079_6, __HIVE_P2_temp6079_7, __HIVE_P2_temp6079_8, __HIVE_P2_temp6079_9, __HIVE_P2_temp6079_10, __HIVE_P2_temp6079_11, __HIVE_P2_temp6079_12, __HIVE_P2_temp6079_13, __HIVE_P2_temp6079_14, __HIVE_P2_temp6079_15, __HIVE_P2_temp6079_16, __HIVE_P2_temp6079_17, __HIVE_P2_temp6079_18, __HIVE_P2_temp6079_19, __HIVE_P2_temp6079_20;
+        (__HIVE_P2_temp6079_0 = this, __HIVE_P2_temp6079_1 = "type", __HIVE_P2_set(__HIVE_P2_temp6079_0, __HIVE_P2_temp6079_1, __HIVE_P2_get(e, "type", 6082), 6080));
+        (__HIVE_P2_temp6079_3 = this, __HIVE_P2_temp6079_4 = "value", __HIVE_P2_set(__HIVE_P2_temp6079_3, __HIVE_P2_temp6079_4, __HIVE_P2_get(e, "value", 6085), 6083));
+        (__HIVE_P2_temp6079_6 = this, __HIVE_P2_temp6079_7 = "start", __HIVE_P2_set(__HIVE_P2_temp6079_6, __HIVE_P2_temp6079_7, __HIVE_P2_get(e, "start", 6088), 6086));
+        (__HIVE_P2_temp6079_9 = this, __HIVE_P2_temp6079_10 = "end", __HIVE_P2_set(__HIVE_P2_temp6079_9, __HIVE_P2_temp6079_10, __HIVE_P2_get(e, "end", 6091), 6089));
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "options", 6093), "locations", 6092)) {
+            (__HIVE_P2_temp6079_12 = this, __HIVE_P2_temp6079_13 = "loc", __HIVE_P2_set(__HIVE_P2_temp6079_12, __HIVE_P2_temp6079_13, __HIVE_P2_construct(A, (__HIVE_P2_reserveArray(3, 6096), __HIVE_P2_ownArray([e, __HIVE_P2_get(e, "startLoc", 6097), __HIVE_P2_get(e, "endLoc", 6098)], 6096, "CONTROL_ARRAY")), 6096), 6094));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(e, "options", 6100), "ranges", 6099)) {
+            (__HIVE_P2_temp6079_15 = this, __HIVE_P2_temp6079_16 = "range", __HIVE_P2_set(__HIVE_P2_temp6079_15, __HIVE_P2_temp6079_16, (__HIVE_P2_temp6079_18 = 0, __HIVE_P2_temp6079_19 = __HIVE_P2_get(e, "start", 6104), __HIVE_P2_temp6079_18 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp6079_18, __HIVE_P2_temp6079_19, 6103), __HIVE_P2_temp6079_20 = __HIVE_P2_get(e, "end", 6105), __HIVE_P2_temp6079_18 = __HIVE_P2_maximumChildDepth(__HIVE_P2_temp6079_18, __HIVE_P2_temp6079_20, 6103), __HIVE_P2_checkArrayDepth(__HIVE_P2_temp6079_18, 6103), __HIVE_P2_reserveArray(2, 6103, 2), __HIVE_P2_ownArray([__HIVE_P2_temp6079_19, __HIVE_P2_temp6079_20], 6103, "ARRAY", __HIVE_P2_temp6079_18)), 6101));
+        }
+    }, 21, 1, 0, 6079));
+    var We = __HIVE_P2_get(K, "prototype", 6106);
+    (__HIVE_P2_temp0_1450 = We, __HIVE_P2_temp0_1451 = "next", __HIVE_P2_set(__HIVE_P2_temp0_1450, __HIVE_P2_temp0_1451, (__HIVE_P2_reserveFunction(6109), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6109_0, __HIVE_P2_temp6109_1, __HIVE_P2_temp6109_2, __HIVE_P2_temp6109_3, __HIVE_P2_temp6109_4, __HIVE_P2_temp6109_5, __HIVE_P2_temp6109_6, __HIVE_P2_temp6109_7, __HIVE_P2_temp6109_8, __HIVE_P2_temp6109_9, __HIVE_P2_temp6109_10, __HIVE_P2_temp6109_11, __HIVE_P2_temp6109_12, __HIVE_P2_temp6109_13, __HIVE_P2_temp6109_14, __HIVE_P2_temp6109_15;
+        if (!e && __HIVE_P2_get(__HIVE_P2_get(this, "type", 6111), "keyword", 6110) && __HIVE_P2_get(this, "containsEsc", 6112)) {
+            __HIVE_P2_syntaxRefusal(6113);
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6115), "onToken", 6114)) {
+            (__HIVE_P2_temp6109_0 = __HIVE_P2_get(this, "options", 6119), __HIVE_P2_temp6109_1 = __HIVE_P2_get(__HIVE_P2_temp6109_0, "onToken", 6116), __HIVE_P2_invoke(__HIVE_P2_temp6109_1, __HIVE_P2_temp6109_0, (__HIVE_P2_reserveArray(1, 6116), __HIVE_P2_ownArray([__HIVE_P2_construct(He, (__HIVE_P2_reserveArray(1, 6117), __HIVE_P2_ownArray([this], 6117, "CONTROL_ARRAY")), 6117)], 6116, "CONTROL_ARRAY")), 6116));
+        }
+        (__HIVE_P2_temp6109_2 = this, __HIVE_P2_temp6109_3 = "lastTokEnd", __HIVE_P2_set(__HIVE_P2_temp6109_2, __HIVE_P2_temp6109_3, __HIVE_P2_get(this, "end", 6122), 6120));
+        (__HIVE_P2_temp6109_5 = this, __HIVE_P2_temp6109_6 = "lastTokStart", __HIVE_P2_set(__HIVE_P2_temp6109_5, __HIVE_P2_temp6109_6, __HIVE_P2_get(this, "start", 6125), 6123));
+        (__HIVE_P2_temp6109_8 = this, __HIVE_P2_temp6109_9 = "lastTokEndLoc", __HIVE_P2_set(__HIVE_P2_temp6109_8, __HIVE_P2_temp6109_9, __HIVE_P2_get(this, "endLoc", 6128), 6126));
+        (__HIVE_P2_temp6109_11 = this, __HIVE_P2_temp6109_12 = "lastTokStartLoc", __HIVE_P2_set(__HIVE_P2_temp6109_11, __HIVE_P2_temp6109_12, __HIVE_P2_get(this, "startLoc", 6131), 6129));
+        (__HIVE_P2_temp6109_14 = this, __HIVE_P2_temp6109_15 = __HIVE_P2_get(__HIVE_P2_temp6109_14, "nextToken", 6132), __HIVE_P2_invoke(__HIVE_P2_temp6109_15, __HIVE_P2_temp6109_14, (__HIVE_P2_reserveArray(0, 6132), __HIVE_P2_ownArray([], 6132, "CONTROL_ARRAY")), 6132));
+    }, 16, 1, 0, 6109)), 6107));
+    (__HIVE_P2_temp0_1453 = We, __HIVE_P2_temp0_1454 = "getToken", __HIVE_P2_set(__HIVE_P2_temp0_1453, __HIVE_P2_temp0_1454, (__HIVE_P2_reserveFunction(6136), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6136_0, __HIVE_P2_temp6136_1;
+        (__HIVE_P2_temp6136_0 = this, __HIVE_P2_temp6136_1 = __HIVE_P2_get(__HIVE_P2_temp6136_0, "next", 6137), __HIVE_P2_invoke(__HIVE_P2_temp6136_1, __HIVE_P2_temp6136_0, (__HIVE_P2_reserveArray(0, 6137), __HIVE_P2_ownArray([], 6137, "CONTROL_ARRAY")), 6137));
+        return __HIVE_P2_construct(He, (__HIVE_P2_reserveArray(1, 6139), __HIVE_P2_ownArray([this], 6139, "CONTROL_ARRAY")), 6139);
+    }, 2, 0, 0, 6136)), 6134));
+    (__HIVE_P2_temp0_1456 = We, __HIVE_P2_temp0_1457 = "nextToken", __HIVE_P2_set(__HIVE_P2_temp0_1456, __HIVE_P2_temp0_1457, (__HIVE_P2_reserveFunction(6143), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6143_0, __HIVE_P2_temp6143_1, __HIVE_P2_temp6143_2, __HIVE_P2_temp6143_3, __HIVE_P2_temp6143_4, __HIVE_P2_temp6143_5, __HIVE_P2_temp6143_6, __HIVE_P2_temp6143_7, __HIVE_P2_temp6143_8, __HIVE_P2_temp6143_9, __HIVE_P2_temp6143_10, __HIVE_P2_temp6143_11, __HIVE_P2_temp6143_12, __HIVE_P2_temp6143_13, __HIVE_P2_temp6143_14, __HIVE_P2_temp6143_15, __HIVE_P2_temp6143_16, __HIVE_P2_temp6143_17, __HIVE_P2_temp6143_18, __HIVE_P2_temp6143_19;
+        var e = (__HIVE_P2_temp6143_0 = this, __HIVE_P2_temp6143_1 = __HIVE_P2_get(__HIVE_P2_temp6143_0, "curContext", 6144), __HIVE_P2_invoke(__HIVE_P2_temp6143_1, __HIVE_P2_temp6143_0, (__HIVE_P2_reserveArray(0, 6144), __HIVE_P2_ownArray([], 6144, "CONTROL_ARRAY")), 6144));
+        if (!e || !__HIVE_P2_get(e, "preserveSpace", 6146)) {
+            (__HIVE_P2_temp6143_2 = this, __HIVE_P2_temp6143_3 = __HIVE_P2_get(__HIVE_P2_temp6143_2, "skipSpace", 6147), __HIVE_P2_invoke(__HIVE_P2_temp6143_3, __HIVE_P2_temp6143_2, (__HIVE_P2_reserveArray(0, 6147), __HIVE_P2_ownArray([], 6147, "CONTROL_ARRAY")), 6147));
+        }
+        (__HIVE_P2_temp6143_4 = this, __HIVE_P2_temp6143_5 = "start", __HIVE_P2_set(__HIVE_P2_temp6143_4, __HIVE_P2_temp6143_5, __HIVE_P2_get(this, "pos", 6151), 6149));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6153), "locations", 6152)) {
+            (__HIVE_P2_temp6143_7 = this, __HIVE_P2_temp6143_8 = "startLoc", __HIVE_P2_set(__HIVE_P2_temp6143_7, __HIVE_P2_temp6143_8, (__HIVE_P2_temp6143_10 = this, __HIVE_P2_temp6143_11 = __HIVE_P2_get(__HIVE_P2_temp6143_10, "curPosition", 6156), __HIVE_P2_invoke(__HIVE_P2_temp6143_11, __HIVE_P2_temp6143_10, (__HIVE_P2_reserveArray(0, 6156), __HIVE_P2_ownArray([], 6156, "CONTROL_ARRAY")), 6156)), 6154));
+        }
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(this, "pos", 6159), __HIVE_P2_get(__HIVE_P2_get(this, "input", 6161), "length", 6160), 6158)) {
+            return (__HIVE_P2_temp6143_12 = this, __HIVE_P2_temp6143_13 = __HIVE_P2_get(__HIVE_P2_temp6143_12, "finishToken", 6162), __HIVE_P2_invoke(__HIVE_P2_temp6143_13, __HIVE_P2_temp6143_12, (__HIVE_P2_reserveArray(1, 6162), __HIVE_P2_ownArray([__HIVE_P2_get(m, "eof", 6163)], 6162, "CONTROL_ARRAY")), 6162));
+        }
+        if (__HIVE_P2_get(e, "override", 6165)) {
+            return (__HIVE_P2_temp6143_14 = e, __HIVE_P2_temp6143_15 = __HIVE_P2_get(__HIVE_P2_temp6143_14, "override", 6166), __HIVE_P2_invoke(__HIVE_P2_temp6143_15, __HIVE_P2_temp6143_14, (__HIVE_P2_reserveArray(1, 6166), __HIVE_P2_ownArray([this], 6166, "CONTROL_ARRAY")), 6166));
+        }
+        else {
+            (__HIVE_P2_temp6143_18 = this, __HIVE_P2_temp6143_19 = __HIVE_P2_get(__HIVE_P2_temp6143_18, "readToken", 6168), __HIVE_P2_invoke(__HIVE_P2_temp6143_19, __HIVE_P2_temp6143_18, (__HIVE_P2_reserveArray(1, 6168), __HIVE_P2_ownArray([(__HIVE_P2_temp6143_16 = this, __HIVE_P2_temp6143_17 = __HIVE_P2_get(__HIVE_P2_temp6143_16, "fullCharCodeAtPos", 6169), __HIVE_P2_invoke(__HIVE_P2_temp6143_17, __HIVE_P2_temp6143_16, (__HIVE_P2_reserveArray(0, 6169), __HIVE_P2_ownArray([], 6169, "CONTROL_ARRAY")), 6169))], 6168, "CONTROL_ARRAY")), 6168));
+        }
+    }, 21, 0, 0, 6143)), 6141));
+    (__HIVE_P2_temp0_1459 = We, __HIVE_P2_temp0_1460 = "readToken", __HIVE_P2_set(__HIVE_P2_temp0_1459, __HIVE_P2_temp0_1460, (__HIVE_P2_reserveFunction(6174), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6174_0, __HIVE_P2_temp6174_1, __HIVE_P2_temp6174_2, __HIVE_P2_temp6174_3;
+        if (__HIVE_P2_invoke(isIdentifierStart, void 0, (__HIVE_P2_reserveArray(2, 6175), __HIVE_P2_ownArray([e, __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6178), "ecmaVersion", 6177), 6, 6176)], 6175, "CONTROL_ARRAY")), 6175) || e === 92) {
+            return (__HIVE_P2_temp6174_0 = this, __HIVE_P2_temp6174_1 = __HIVE_P2_get(__HIVE_P2_temp6174_0, "readWord", 6179), __HIVE_P2_invoke(__HIVE_P2_temp6174_1, __HIVE_P2_temp6174_0, (__HIVE_P2_reserveArray(0, 6179), __HIVE_P2_ownArray([], 6179, "CONTROL_ARRAY")), 6179));
+        }
+        return (__HIVE_P2_temp6174_2 = this, __HIVE_P2_temp6174_3 = __HIVE_P2_get(__HIVE_P2_temp6174_2, "getTokenFromCode", 6181), __HIVE_P2_invoke(__HIVE_P2_temp6174_3, __HIVE_P2_temp6174_2, (__HIVE_P2_reserveArray(1, 6181), __HIVE_P2_ownArray([e], 6181, "CONTROL_ARRAY")), 6181));
+    }, 4, 1, 0, 6174)), 6172));
+    (__HIVE_P2_temp0_1462 = We, __HIVE_P2_temp0_1463 = "fullCharCodeAtPos", __HIVE_P2_set(__HIVE_P2_temp0_1462, __HIVE_P2_temp0_1463, (__HIVE_P2_reserveFunction(6185), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6185_0, __HIVE_P2_temp6185_1, __HIVE_P2_temp6185_2, __HIVE_P2_temp6185_3;
+        var e = (__HIVE_P2_temp6185_0 = __HIVE_P2_get(this, "input", 6189), __HIVE_P2_temp6185_1 = __HIVE_P2_get(__HIVE_P2_temp6185_0, "charCodeAt", 6186), __HIVE_P2_invoke(__HIVE_P2_temp6185_1, __HIVE_P2_temp6185_0, (__HIVE_P2_reserveArray(1, 6186), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 6187)], 6186, "CONTROL_ARRAY")), 6186));
+        if (__HIVE_P2_binary("<=", e, 55295, 6190) || __HIVE_P2_binary(">=", e, 56320, 6191)) {
+            return e;
+        }
+        var t = (__HIVE_P2_temp6185_2 = __HIVE_P2_get(this, "input", 6196), __HIVE_P2_temp6185_3 = __HIVE_P2_get(__HIVE_P2_temp6185_2, "charCodeAt", 6192), __HIVE_P2_invoke(__HIVE_P2_temp6185_3, __HIVE_P2_temp6185_2, (__HIVE_P2_reserveArray(1, 6192), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6194), 1, 6193)], 6192, "CONTROL_ARRAY")), 6192));
+        return __HIVE_P2_binary("<=", t, 56319, 6197) || __HIVE_P2_binary(">=", t, 57344, 6198) ? e : __HIVE_P2_binary("-", __HIVE_P2_binary("+", (__HIVE_P2_binary("<<", e, 10, 6201)), t, 6200), 56613888, 6199);
+    }, 6, 0, 0, 6185)), 6183));
+    (__HIVE_P2_temp0_1465 = We, __HIVE_P2_temp0_1466 = "skipBlockComment", __HIVE_P2_set(__HIVE_P2_temp0_1465, __HIVE_P2_temp0_1466, (__HIVE_P2_reserveFunction(6204), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6204_0, __HIVE_P2_temp6204_1, __HIVE_P2_temp6204_2, __HIVE_P2_temp6204_3, __HIVE_P2_temp6204_4, __HIVE_P2_temp6204_5, __HIVE_P2_temp6204_6, __HIVE_P2_temp6204_7, __HIVE_P2_temp6204_8, __HIVE_P2_temp6204_9, __HIVE_P2_temp6204_10, __HIVE_P2_temp6204_11, __HIVE_P2_temp6204_12, __HIVE_P2_temp6204_13, __HIVE_P2_temp6204_14, __HIVE_P2_temp6204_15, __HIVE_P2_temp6204_16, __HIVE_P2_temp6204_17, __HIVE_P2_temp6204_18;
+        var e = __HIVE_P2_get(__HIVE_P2_get(this, "options", 6206), "onComment", 6205) && (__HIVE_P2_temp6204_0 = this, __HIVE_P2_temp6204_1 = __HIVE_P2_get(__HIVE_P2_temp6204_0, "curPosition", 6207), __HIVE_P2_invoke(__HIVE_P2_temp6204_1, __HIVE_P2_temp6204_0, (__HIVE_P2_reserveArray(0, 6207), __HIVE_P2_ownArray([], 6207, "CONTROL_ARRAY")), 6207));
+        var t = __HIVE_P2_get(this, "pos", 6209), i = (__HIVE_P2_temp6204_5 = __HIVE_P2_get(this, "input", 6214), __HIVE_P2_temp6204_6 = __HIVE_P2_get(__HIVE_P2_temp6204_5, "indexOf", 6210), __HIVE_P2_invoke(__HIVE_P2_temp6204_6, __HIVE_P2_temp6204_5, (__HIVE_P2_reserveArray(2, 6210), __HIVE_P2_ownArray(["*/", (__HIVE_P2_temp6204_2 = this, __HIVE_P2_temp6204_3 = "pos", __HIVE_P2_temp6204_4 = __HIVE_P2_get(__HIVE_P2_temp6204_2, __HIVE_P2_temp6204_3, 6211), __HIVE_P2_set(__HIVE_P2_temp6204_2, __HIVE_P2_temp6204_3, __HIVE_P2_binary("+", __HIVE_P2_temp6204_4, 2, 6211), 6211))], 6210, "CONTROL_ARRAY")), 6210));
+        if (i === __HIVE_P2_unary("-", 1, 6215)) {
+            __HIVE_P2_syntaxRefusal(6216);
+        }
+        (__HIVE_P2_temp6204_7 = this, __HIVE_P2_temp6204_8 = "pos", __HIVE_P2_set(__HIVE_P2_temp6204_7, __HIVE_P2_temp6204_8, __HIVE_P2_binary("+", i, 2, 6219), 6217));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6221), "locations", 6220)) {
+            for (var s = void 0, r = t; __HIVE_P2_binary(">", (s = __HIVE_P2_invoke(nextLineBreak, void 0, (__HIVE_P2_reserveArray(3, 6225), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6226), r, __HIVE_P2_get(this, "pos", 6227)], 6225, "CONTROL_ARRAY")), 6225)), __HIVE_P2_unary("-", 1, 6228), 6223);) {
+                __HIVE_P2_tick(6222);
+                __HIVE_P2_increment(this, "curLine", 1, false, 6229);
+                r = (__HIVE_P2_temp6204_10 = this, __HIVE_P2_temp6204_11 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp6204_10, __HIVE_P2_temp6204_11, s, 6232));
+            }
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6235), "onComment", 6234)) {
+            (__HIVE_P2_temp6204_17 = __HIVE_P2_get(this, "options", 6245), __HIVE_P2_temp6204_18 = __HIVE_P2_get(__HIVE_P2_temp6204_17, "onComment", 6236), __HIVE_P2_invoke(__HIVE_P2_temp6204_18, __HIVE_P2_temp6204_17, (__HIVE_P2_reserveArray(6, 6236), __HIVE_P2_ownArray([true, (__HIVE_P2_temp6204_13 = __HIVE_P2_get(this, "input", 6240), __HIVE_P2_temp6204_14 = __HIVE_P2_get(__HIVE_P2_temp6204_13, "slice", 6237), __HIVE_P2_invoke(__HIVE_P2_temp6204_14, __HIVE_P2_temp6204_13, (__HIVE_P2_reserveArray(2, 6237), __HIVE_P2_ownArray([__HIVE_P2_binary("+", t, 2, 6238), i], 6237, "CONTROL_ARRAY")), 6237)), t, __HIVE_P2_get(this, "pos", 6241), e, (__HIVE_P2_temp6204_15 = this, __HIVE_P2_temp6204_16 = __HIVE_P2_get(__HIVE_P2_temp6204_15, "curPosition", 6242), __HIVE_P2_invoke(__HIVE_P2_temp6204_16, __HIVE_P2_temp6204_15, (__HIVE_P2_reserveArray(0, 6242), __HIVE_P2_ownArray([], 6242, "CONTROL_ARRAY")), 6242))], 6236, "CONTROL_ARRAY")), 6236));
+        }
+    }, 24, 0, 0, 6204)), 6202));
+    (__HIVE_P2_temp0_1468 = We, __HIVE_P2_temp0_1469 = "skipLineComment", __HIVE_P2_set(__HIVE_P2_temp0_1468, __HIVE_P2_temp0_1469, (__HIVE_P2_reserveFunction(6248), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6248_0, __HIVE_P2_temp6248_1, __HIVE_P2_temp6248_2, __HIVE_P2_temp6248_3, __HIVE_P2_temp6248_4, __HIVE_P2_temp6248_5, __HIVE_P2_temp6248_6, __HIVE_P2_temp6248_7, __HIVE_P2_temp6248_8, __HIVE_P2_temp6248_9, __HIVE_P2_temp6248_10, __HIVE_P2_temp6248_11, __HIVE_P2_temp6248_12, __HIVE_P2_temp6248_13, __HIVE_P2_temp6248_14;
+        var t = __HIVE_P2_get(this, "pos", 6249);
+        var i = __HIVE_P2_get(__HIVE_P2_get(this, "options", 6251), "onComment", 6250) && (__HIVE_P2_temp6248_0 = this, __HIVE_P2_temp6248_1 = __HIVE_P2_get(__HIVE_P2_temp6248_0, "curPosition", 6252), __HIVE_P2_invoke(__HIVE_P2_temp6248_1, __HIVE_P2_temp6248_0, (__HIVE_P2_reserveArray(0, 6252), __HIVE_P2_ownArray([], 6252, "CONTROL_ARRAY")), 6252));
+        var s = (__HIVE_P2_temp6248_5 = __HIVE_P2_get(this, "input", 6258), __HIVE_P2_temp6248_6 = __HIVE_P2_get(__HIVE_P2_temp6248_5, "charCodeAt", 6254), __HIVE_P2_invoke(__HIVE_P2_temp6248_6, __HIVE_P2_temp6248_5, (__HIVE_P2_reserveArray(1, 6254), __HIVE_P2_ownArray([(__HIVE_P2_temp6248_2 = this, __HIVE_P2_temp6248_3 = "pos", __HIVE_P2_temp6248_4 = __HIVE_P2_get(__HIVE_P2_temp6248_2, __HIVE_P2_temp6248_3, 6255), __HIVE_P2_set(__HIVE_P2_temp6248_2, __HIVE_P2_temp6248_3, __HIVE_P2_binary("+", __HIVE_P2_temp6248_4, e, 6255), 6255))], 6254, "CONTROL_ARRAY")), 6254));
+        while (__HIVE_P2_binary("<", __HIVE_P2_get(this, "pos", 6261), __HIVE_P2_get(__HIVE_P2_get(this, "input", 6263), "length", 6262), 6260) && !__HIVE_P2_invoke(isNewLine, void 0, (__HIVE_P2_reserveArray(1, 6264), __HIVE_P2_ownArray([s], 6264, "CONTROL_ARRAY")), 6264)) {
+            __HIVE_P2_tick(6259);
+            s = (__HIVE_P2_temp6248_7 = __HIVE_P2_get(this, "input", 6270), __HIVE_P2_temp6248_8 = __HIVE_P2_get(__HIVE_P2_temp6248_7, "charCodeAt", 6266), __HIVE_P2_invoke(__HIVE_P2_temp6248_8, __HIVE_P2_temp6248_7, (__HIVE_P2_reserveArray(1, 6266), __HIVE_P2_ownArray([__HIVE_P2_increment(this, "pos", 1, false, 6267)], 6266, "CONTROL_ARRAY")), 6266));
+        }
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6272), "onComment", 6271)) {
+            (__HIVE_P2_temp6248_13 = __HIVE_P2_get(this, "options", 6283), __HIVE_P2_temp6248_14 = __HIVE_P2_get(__HIVE_P2_temp6248_13, "onComment", 6273), __HIVE_P2_invoke(__HIVE_P2_temp6248_14, __HIVE_P2_temp6248_13, (__HIVE_P2_reserveArray(6, 6273), __HIVE_P2_ownArray([false, (__HIVE_P2_temp6248_9 = __HIVE_P2_get(this, "input", 6278), __HIVE_P2_temp6248_10 = __HIVE_P2_get(__HIVE_P2_temp6248_9, "slice", 6274), __HIVE_P2_invoke(__HIVE_P2_temp6248_10, __HIVE_P2_temp6248_9, (__HIVE_P2_reserveArray(2, 6274), __HIVE_P2_ownArray([__HIVE_P2_binary("+", t, e, 6275), __HIVE_P2_get(this, "pos", 6276)], 6274, "CONTROL_ARRAY")), 6274)), t, __HIVE_P2_get(this, "pos", 6279), i, (__HIVE_P2_temp6248_11 = this, __HIVE_P2_temp6248_12 = __HIVE_P2_get(__HIVE_P2_temp6248_11, "curPosition", 6280), __HIVE_P2_invoke(__HIVE_P2_temp6248_12, __HIVE_P2_temp6248_11, (__HIVE_P2_reserveArray(0, 6280), __HIVE_P2_ownArray([], 6280, "CONTROL_ARRAY")), 6280))], 6273, "CONTROL_ARRAY")), 6273));
+        }
+    }, 18, 1, 0, 6248)), 6246));
+    __HIVE_P2_set(We, "skipSpace", (__HIVE_P2_reserveFunction(6285), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6285_0, __HIVE_P2_temp6285_1, __HIVE_P2_temp6285_2;
+        var packed = __HIVE_P2_invoke(__scalarTrivia, void 0, (__HIVE_P2_reserveArray(5, 6286), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6287), __HIVE_P2_get(this, "pos", 6288), __HIVE_P2_get(this, "inModule", 6289), __HIVE_P2_get(this, "lastTokEnd", 6290), __HIVE_P2_get(__HIVE_P2_get(this, "options", 6292), "allowHashBang", 6291)], 6286, "CONTROL_ARRAY")), 6286);
+        (__HIVE_P2_temp6285_0 = this, __HIVE_P2_temp6285_1 = "pos", __HIVE_P2_set(__HIVE_P2_temp6285_0, __HIVE_P2_temp6285_1, __HIVE_P2_binary("/", (__HIVE_P2_binary("-", packed, __HIVE_P2_binary("%", packed, 2, 6297), 6296)), 2, 6295), 6293));
+    }, 4, 0, 0, 6285)), 6298);
+    (__HIVE_P2_temp0_1471 = We, __HIVE_P2_temp0_1472 = "finishToken", __HIVE_P2_set(__HIVE_P2_temp0_1471, __HIVE_P2_temp0_1472, (__HIVE_P2_reserveFunction(6302), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp6302_0, __HIVE_P2_temp6302_1, __HIVE_P2_temp6302_2, __HIVE_P2_temp6302_3, __HIVE_P2_temp6302_4, __HIVE_P2_temp6302_5, __HIVE_P2_temp6302_6, __HIVE_P2_temp6302_7, __HIVE_P2_temp6302_8, __HIVE_P2_temp6302_9, __HIVE_P2_temp6302_10, __HIVE_P2_temp6302_11, __HIVE_P2_temp6302_12, __HIVE_P2_temp6302_13, __HIVE_P2_temp6302_14, __HIVE_P2_temp6302_15;
+        (__HIVE_P2_temp6302_0 = this, __HIVE_P2_temp6302_1 = "end", __HIVE_P2_set(__HIVE_P2_temp6302_0, __HIVE_P2_temp6302_1, __HIVE_P2_get(this, "pos", 6305), 6303));
+        if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6307), "locations", 6306)) {
+            (__HIVE_P2_temp6302_3 = this, __HIVE_P2_temp6302_4 = "endLoc", __HIVE_P2_set(__HIVE_P2_temp6302_3, __HIVE_P2_temp6302_4, (__HIVE_P2_temp6302_6 = this, __HIVE_P2_temp6302_7 = __HIVE_P2_get(__HIVE_P2_temp6302_6, "curPosition", 6310), __HIVE_P2_invoke(__HIVE_P2_temp6302_7, __HIVE_P2_temp6302_6, (__HIVE_P2_reserveArray(0, 6310), __HIVE_P2_ownArray([], 6310, "CONTROL_ARRAY")), 6310)), 6308));
+        }
+        var i = __HIVE_P2_get(this, "type", 6312);
+        (__HIVE_P2_temp6302_8 = this, __HIVE_P2_temp6302_9 = "type", __HIVE_P2_set(__HIVE_P2_temp6302_8, __HIVE_P2_temp6302_9, e, 6313));
+        (__HIVE_P2_temp6302_11 = this, __HIVE_P2_temp6302_12 = "value", __HIVE_P2_set(__HIVE_P2_temp6302_11, __HIVE_P2_temp6302_12, t, 6315));
+        (__HIVE_P2_temp6302_14 = this, __HIVE_P2_temp6302_15 = __HIVE_P2_get(__HIVE_P2_temp6302_14, "updateContext", 6317), __HIVE_P2_invoke(__HIVE_P2_temp6302_15, __HIVE_P2_temp6302_14, (__HIVE_P2_reserveArray(1, 6317), __HIVE_P2_ownArray([i], 6317, "CONTROL_ARRAY")), 6317));
+    }, 17, 2, 0, 6302)), 6300));
+    (__HIVE_P2_temp0_1474 = We, __HIVE_P2_temp0_1475 = "readToken_dot", __HIVE_P2_set(__HIVE_P2_temp0_1474, __HIVE_P2_temp0_1475, (__HIVE_P2_reserveFunction(6321), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6321_0, __HIVE_P2_temp6321_1, __HIVE_P2_temp6321_2, __HIVE_P2_temp6321_3, __HIVE_P2_temp6321_4, __HIVE_P2_temp6321_5, __HIVE_P2_temp6321_6, __HIVE_P2_temp6321_7, __HIVE_P2_temp6321_8, __HIVE_P2_temp6321_9, __HIVE_P2_temp6321_10, __HIVE_P2_temp6321_11, __HIVE_P2_temp6321_12;
+        var e = (__HIVE_P2_temp6321_0 = __HIVE_P2_get(this, "input", 6326), __HIVE_P2_temp6321_1 = __HIVE_P2_get(__HIVE_P2_temp6321_0, "charCodeAt", 6322), __HIVE_P2_invoke(__HIVE_P2_temp6321_1, __HIVE_P2_temp6321_0, (__HIVE_P2_reserveArray(1, 6322), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6324), 1, 6323)], 6322, "CONTROL_ARRAY")), 6322));
+        if (__HIVE_P2_binary(">=", e, 48, 6327) && __HIVE_P2_binary("<=", e, 57, 6328)) {
+            return (__HIVE_P2_temp6321_2 = this, __HIVE_P2_temp6321_3 = __HIVE_P2_get(__HIVE_P2_temp6321_2, "readNumber", 6329), __HIVE_P2_invoke(__HIVE_P2_temp6321_3, __HIVE_P2_temp6321_2, (__HIVE_P2_reserveArray(1, 6329), __HIVE_P2_ownArray([true], 6329, "CONTROL_ARRAY")), 6329));
+        }
+        var t = (__HIVE_P2_temp6321_4 = __HIVE_P2_get(this, "input", 6335), __HIVE_P2_temp6321_5 = __HIVE_P2_get(__HIVE_P2_temp6321_4, "charCodeAt", 6331), __HIVE_P2_invoke(__HIVE_P2_temp6321_5, __HIVE_P2_temp6321_4, (__HIVE_P2_reserveArray(1, 6331), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6333), 2, 6332)], 6331, "CONTROL_ARRAY")), 6331));
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6338), "ecmaVersion", 6337), 6, 6336) && e === 46 && t === 46) {
+            (__HIVE_P2_temp6321_6 = this, __HIVE_P2_temp6321_7 = "pos", __HIVE_P2_temp6321_8 = __HIVE_P2_get(__HIVE_P2_temp6321_6, __HIVE_P2_temp6321_7, 6339), __HIVE_P2_set(__HIVE_P2_temp6321_6, __HIVE_P2_temp6321_7, __HIVE_P2_binary("+", __HIVE_P2_temp6321_8, 3, 6339), 6339));
+            return (__HIVE_P2_temp6321_9 = this, __HIVE_P2_temp6321_10 = __HIVE_P2_get(__HIVE_P2_temp6321_9, "finishToken", 6341), __HIVE_P2_invoke(__HIVE_P2_temp6321_10, __HIVE_P2_temp6321_9, (__HIVE_P2_reserveArray(1, 6341), __HIVE_P2_ownArray([__HIVE_P2_get(m, "ellipsis", 6342)], 6341, "CONTROL_ARRAY")), 6341));
+        }
+        else {
+            __HIVE_P2_increment(this, "pos", 1, false, 6344);
+            return (__HIVE_P2_temp6321_11 = this, __HIVE_P2_temp6321_12 = __HIVE_P2_get(__HIVE_P2_temp6321_11, "finishToken", 6346), __HIVE_P2_invoke(__HIVE_P2_temp6321_12, __HIVE_P2_temp6321_11, (__HIVE_P2_reserveArray(1, 6346), __HIVE_P2_ownArray([__HIVE_P2_get(m, "dot", 6347)], 6346, "CONTROL_ARRAY")), 6346));
+        }
+    }, 15, 0, 0, 6321)), 6319));
+    (__HIVE_P2_temp0_1477 = We, __HIVE_P2_temp0_1478 = "readToken_slash", __HIVE_P2_set(__HIVE_P2_temp0_1477, __HIVE_P2_temp0_1478, (__HIVE_P2_reserveFunction(6351), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6351_0, __HIVE_P2_temp6351_1, __HIVE_P2_temp6351_2, __HIVE_P2_temp6351_3, __HIVE_P2_temp6351_4, __HIVE_P2_temp6351_5, __HIVE_P2_temp6351_6, __HIVE_P2_temp6351_7;
+        var e = (__HIVE_P2_temp6351_0 = __HIVE_P2_get(this, "input", 6356), __HIVE_P2_temp6351_1 = __HIVE_P2_get(__HIVE_P2_temp6351_0, "charCodeAt", 6352), __HIVE_P2_invoke(__HIVE_P2_temp6351_1, __HIVE_P2_temp6351_0, (__HIVE_P2_reserveArray(1, 6352), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6354), 1, 6353)], 6352, "CONTROL_ARRAY")), 6352));
+        if (__HIVE_P2_get(this, "exprAllowed", 6357)) {
+            __HIVE_P2_increment(this, "pos", 1, false, 6358);
+            return (__HIVE_P2_temp6351_2 = this, __HIVE_P2_temp6351_3 = __HIVE_P2_get(__HIVE_P2_temp6351_2, "readRegexp", 6360), __HIVE_P2_invoke(__HIVE_P2_temp6351_3, __HIVE_P2_temp6351_2, (__HIVE_P2_reserveArray(0, 6360), __HIVE_P2_ownArray([], 6360, "CONTROL_ARRAY")), 6360));
+        }
+        if (e === 61) {
+            return (__HIVE_P2_temp6351_4 = this, __HIVE_P2_temp6351_5 = __HIVE_P2_get(__HIVE_P2_temp6351_4, "finishOp", 6362), __HIVE_P2_invoke(__HIVE_P2_temp6351_5, __HIVE_P2_temp6351_4, (__HIVE_P2_reserveArray(2, 6362), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6363), 2], 6362, "CONTROL_ARRAY")), 6362));
+        }
+        return (__HIVE_P2_temp6351_6 = this, __HIVE_P2_temp6351_7 = __HIVE_P2_get(__HIVE_P2_temp6351_6, "finishOp", 6365), __HIVE_P2_invoke(__HIVE_P2_temp6351_7, __HIVE_P2_temp6351_6, (__HIVE_P2_reserveArray(2, 6365), __HIVE_P2_ownArray([__HIVE_P2_get(m, "slash", 6366), 1], 6365, "CONTROL_ARRAY")), 6365));
+    }, 9, 0, 0, 6351)), 6349));
+    (__HIVE_P2_temp0_1480 = We, __HIVE_P2_temp0_1481 = "readToken_mult_modulo_exp", __HIVE_P2_set(__HIVE_P2_temp0_1480, __HIVE_P2_temp0_1481, (__HIVE_P2_reserveFunction(6370), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6370_0, __HIVE_P2_temp6370_1, __HIVE_P2_temp6370_2, __HIVE_P2_temp6370_3, __HIVE_P2_temp6370_4, __HIVE_P2_temp6370_5, __HIVE_P2_temp6370_6, __HIVE_P2_temp6370_7, __HIVE_P2_temp6370_8, __HIVE_P2_temp6370_9;
+        var t = (__HIVE_P2_temp6370_0 = __HIVE_P2_get(this, "input", 6375), __HIVE_P2_temp6370_1 = __HIVE_P2_get(__HIVE_P2_temp6370_0, "charCodeAt", 6371), __HIVE_P2_invoke(__HIVE_P2_temp6370_1, __HIVE_P2_temp6370_0, (__HIVE_P2_reserveArray(1, 6371), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6373), 1, 6372)], 6371, "CONTROL_ARRAY")), 6371));
+        var i = 1;
+        var s = e === 42 ? __HIVE_P2_get(m, "star", 6376) : __HIVE_P2_get(m, "modulo", 6377);
+        if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6380), "ecmaVersion", 6379), 7, 6378) && e === 42 && t === 42) {
+            (__HIVE_P2_temp6370_2 = __HIVE_P2_numeric(i, 6381), __HIVE_P2_temp6370_3 = __HIVE_P2_temp6370_2 + 1, i = __HIVE_P2_temp6370_3, __HIVE_P2_temp6370_3);
+            s = __HIVE_P2_get(m, "starstar", 6383);
+            t = (__HIVE_P2_temp6370_4 = __HIVE_P2_get(this, "input", 6389), __HIVE_P2_temp6370_5 = __HIVE_P2_get(__HIVE_P2_temp6370_4, "charCodeAt", 6385), __HIVE_P2_invoke(__HIVE_P2_temp6370_5, __HIVE_P2_temp6370_4, (__HIVE_P2_reserveArray(1, 6385), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6387), 2, 6386)], 6385, "CONTROL_ARRAY")), 6385));
+        }
+        if (t === 61) {
+            return (__HIVE_P2_temp6370_6 = this, __HIVE_P2_temp6370_7 = __HIVE_P2_get(__HIVE_P2_temp6370_6, "finishOp", 6390), __HIVE_P2_invoke(__HIVE_P2_temp6370_7, __HIVE_P2_temp6370_6, (__HIVE_P2_reserveArray(2, 6390), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6391), __HIVE_P2_binary("+", i, 1, 6392)], 6390, "CONTROL_ARRAY")), 6390));
+        }
+        return (__HIVE_P2_temp6370_8 = this, __HIVE_P2_temp6370_9 = __HIVE_P2_get(__HIVE_P2_temp6370_8, "finishOp", 6394), __HIVE_P2_invoke(__HIVE_P2_temp6370_9, __HIVE_P2_temp6370_8, (__HIVE_P2_reserveArray(2, 6394), __HIVE_P2_ownArray([s, i], 6394, "CONTROL_ARRAY")), 6394));
+    }, 13, 1, 0, 6370)), 6368));
+    (__HIVE_P2_temp0_1483 = We, __HIVE_P2_temp0_1484 = "readToken_pipe_amp", __HIVE_P2_set(__HIVE_P2_temp0_1483, __HIVE_P2_temp0_1484, (__HIVE_P2_reserveFunction(6398), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6398_0, __HIVE_P2_temp6398_1, __HIVE_P2_temp6398_2, __HIVE_P2_temp6398_3, __HIVE_P2_temp6398_4, __HIVE_P2_temp6398_5, __HIVE_P2_temp6398_6, __HIVE_P2_temp6398_7, __HIVE_P2_temp6398_8, __HIVE_P2_temp6398_9, __HIVE_P2_temp6398_10, __HIVE_P2_temp6398_11;
+        var t = (__HIVE_P2_temp6398_0 = __HIVE_P2_get(this, "input", 6403), __HIVE_P2_temp6398_1 = __HIVE_P2_get(__HIVE_P2_temp6398_0, "charCodeAt", 6399), __HIVE_P2_invoke(__HIVE_P2_temp6398_1, __HIVE_P2_temp6398_0, (__HIVE_P2_reserveArray(1, 6399), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6401), 1, 6400)], 6399, "CONTROL_ARRAY")), 6399));
+        if (t === e) {
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6406), "ecmaVersion", 6405), 12, 6404)) {
+                var i = (__HIVE_P2_temp6398_2 = __HIVE_P2_get(this, "input", 6411), __HIVE_P2_temp6398_3 = __HIVE_P2_get(__HIVE_P2_temp6398_2, "charCodeAt", 6407), __HIVE_P2_invoke(__HIVE_P2_temp6398_3, __HIVE_P2_temp6398_2, (__HIVE_P2_reserveArray(1, 6407), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6409), 2, 6408)], 6407, "CONTROL_ARRAY")), 6407));
+                if (i === 61) {
+                    return (__HIVE_P2_temp6398_4 = this, __HIVE_P2_temp6398_5 = __HIVE_P2_get(__HIVE_P2_temp6398_4, "finishOp", 6412), __HIVE_P2_invoke(__HIVE_P2_temp6398_5, __HIVE_P2_temp6398_4, (__HIVE_P2_reserveArray(2, 6412), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6413), 3], 6412, "CONTROL_ARRAY")), 6412));
+                }
+            }
+            return (__HIVE_P2_temp6398_6 = this, __HIVE_P2_temp6398_7 = __HIVE_P2_get(__HIVE_P2_temp6398_6, "finishOp", 6415), __HIVE_P2_invoke(__HIVE_P2_temp6398_7, __HIVE_P2_temp6398_6, (__HIVE_P2_reserveArray(2, 6415), __HIVE_P2_ownArray([e === 124 ? __HIVE_P2_get(m, "logicalOR", 6416) : __HIVE_P2_get(m, "logicalAND", 6417), 2], 6415, "CONTROL_ARRAY")), 6415));
+        }
+        if (t === 61) {
+            return (__HIVE_P2_temp6398_8 = this, __HIVE_P2_temp6398_9 = __HIVE_P2_get(__HIVE_P2_temp6398_8, "finishOp", 6419), __HIVE_P2_invoke(__HIVE_P2_temp6398_9, __HIVE_P2_temp6398_8, (__HIVE_P2_reserveArray(2, 6419), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6420), 2], 6419, "CONTROL_ARRAY")), 6419));
+        }
+        return (__HIVE_P2_temp6398_10 = this, __HIVE_P2_temp6398_11 = __HIVE_P2_get(__HIVE_P2_temp6398_10, "finishOp", 6422), __HIVE_P2_invoke(__HIVE_P2_temp6398_11, __HIVE_P2_temp6398_10, (__HIVE_P2_reserveArray(2, 6422), __HIVE_P2_ownArray([e === 124 ? __HIVE_P2_get(m, "bitwiseOR", 6423) : __HIVE_P2_get(m, "bitwiseAND", 6424), 1], 6422, "CONTROL_ARRAY")), 6422));
+    }, 14, 1, 0, 6398)), 6396));
+    (__HIVE_P2_temp0_1486 = We, __HIVE_P2_temp0_1487 = "readToken_caret", __HIVE_P2_set(__HIVE_P2_temp0_1486, __HIVE_P2_temp0_1487, (__HIVE_P2_reserveFunction(6428), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6428_0, __HIVE_P2_temp6428_1, __HIVE_P2_temp6428_2, __HIVE_P2_temp6428_3, __HIVE_P2_temp6428_4, __HIVE_P2_temp6428_5;
+        var e = (__HIVE_P2_temp6428_0 = __HIVE_P2_get(this, "input", 6433), __HIVE_P2_temp6428_1 = __HIVE_P2_get(__HIVE_P2_temp6428_0, "charCodeAt", 6429), __HIVE_P2_invoke(__HIVE_P2_temp6428_1, __HIVE_P2_temp6428_0, (__HIVE_P2_reserveArray(1, 6429), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6431), 1, 6430)], 6429, "CONTROL_ARRAY")), 6429));
+        if (e === 61) {
+            return (__HIVE_P2_temp6428_2 = this, __HIVE_P2_temp6428_3 = __HIVE_P2_get(__HIVE_P2_temp6428_2, "finishOp", 6434), __HIVE_P2_invoke(__HIVE_P2_temp6428_3, __HIVE_P2_temp6428_2, (__HIVE_P2_reserveArray(2, 6434), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6435), 2], 6434, "CONTROL_ARRAY")), 6434));
+        }
+        return (__HIVE_P2_temp6428_4 = this, __HIVE_P2_temp6428_5 = __HIVE_P2_get(__HIVE_P2_temp6428_4, "finishOp", 6437), __HIVE_P2_invoke(__HIVE_P2_temp6428_5, __HIVE_P2_temp6428_4, (__HIVE_P2_reserveArray(2, 6437), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bitwiseXOR", 6438), 1], 6437, "CONTROL_ARRAY")), 6437));
+    }, 7, 0, 0, 6428)), 6426));
+    (__HIVE_P2_temp0_1489 = We, __HIVE_P2_temp0_1490 = "readToken_plus_min", __HIVE_P2_set(__HIVE_P2_temp0_1489, __HIVE_P2_temp0_1490, (__HIVE_P2_reserveFunction(6442), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6442_0, __HIVE_P2_temp6442_1, __HIVE_P2_temp6442_2, __HIVE_P2_temp6442_3, __HIVE_P2_temp6442_4, __HIVE_P2_temp6442_5, __HIVE_P2_temp6442_6, __HIVE_P2_temp6442_7, __HIVE_P2_temp6442_8, __HIVE_P2_temp6442_9, __HIVE_P2_temp6442_10, __HIVE_P2_temp6442_11, __HIVE_P2_temp6442_12, __HIVE_P2_temp6442_13, __HIVE_P2_temp6442_14, __HIVE_P2_temp6442_15, __HIVE_P2_temp6442_16, __HIVE_P2_temp6442_17, __HIVE_P2_temp6442_18, __HIVE_P2_temp6442_19;
+        var t = (__HIVE_P2_temp6442_0 = __HIVE_P2_get(this, "input", 6447), __HIVE_P2_temp6442_1 = __HIVE_P2_get(__HIVE_P2_temp6442_0, "charCodeAt", 6443), __HIVE_P2_invoke(__HIVE_P2_temp6442_1, __HIVE_P2_temp6442_0, (__HIVE_P2_reserveArray(1, 6443), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6445), 1, 6444)], 6443, "CONTROL_ARRAY")), 6443));
+        if (t === e) {
+            if (t === 45 && !__HIVE_P2_get(this, "inModule", 6448) && (__HIVE_P2_temp6442_2 = __HIVE_P2_get(this, "input", 6453), __HIVE_P2_temp6442_3 = __HIVE_P2_get(__HIVE_P2_temp6442_2, "charCodeAt", 6449), __HIVE_P2_invoke(__HIVE_P2_temp6442_3, __HIVE_P2_temp6442_2, (__HIVE_P2_reserveArray(1, 6449), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6451), 2, 6450)], 6449, "CONTROL_ARRAY")), 6449)) === 62 && (__HIVE_P2_get(this, "lastTokEnd", 6454) === 0 || (__HIVE_P2_temp6442_6 = g, __HIVE_P2_temp6442_7 = __HIVE_P2_get(__HIVE_P2_temp6442_6, "test", 6455), __HIVE_P2_invoke(__HIVE_P2_temp6442_7, __HIVE_P2_temp6442_6, (__HIVE_P2_reserveArray(1, 6455), __HIVE_P2_ownArray([(__HIVE_P2_temp6442_4 = __HIVE_P2_get(this, "input", 6460), __HIVE_P2_temp6442_5 = __HIVE_P2_get(__HIVE_P2_temp6442_4, "slice", 6456), __HIVE_P2_invoke(__HIVE_P2_temp6442_5, __HIVE_P2_temp6442_4, (__HIVE_P2_reserveArray(2, 6456), __HIVE_P2_ownArray([__HIVE_P2_get(this, "lastTokEnd", 6457), __HIVE_P2_get(this, "pos", 6458)], 6456, "CONTROL_ARRAY")), 6456))], 6455, "CONTROL_ARRAY")), 6455)))) {
+                (__HIVE_P2_temp6442_8 = this, __HIVE_P2_temp6442_9 = __HIVE_P2_get(__HIVE_P2_temp6442_8, "skipLineComment", 6462), __HIVE_P2_invoke(__HIVE_P2_temp6442_9, __HIVE_P2_temp6442_8, (__HIVE_P2_reserveArray(1, 6462), __HIVE_P2_ownArray([3], 6462, "CONTROL_ARRAY")), 6462));
+                (__HIVE_P2_temp6442_10 = this, __HIVE_P2_temp6442_11 = __HIVE_P2_get(__HIVE_P2_temp6442_10, "skipSpace", 6464), __HIVE_P2_invoke(__HIVE_P2_temp6442_11, __HIVE_P2_temp6442_10, (__HIVE_P2_reserveArray(0, 6464), __HIVE_P2_ownArray([], 6464, "CONTROL_ARRAY")), 6464));
+                return (__HIVE_P2_temp6442_12 = this, __HIVE_P2_temp6442_13 = __HIVE_P2_get(__HIVE_P2_temp6442_12, "nextToken", 6466), __HIVE_P2_invoke(__HIVE_P2_temp6442_13, __HIVE_P2_temp6442_12, (__HIVE_P2_reserveArray(0, 6466), __HIVE_P2_ownArray([], 6466, "CONTROL_ARRAY")), 6466));
+            }
+            return (__HIVE_P2_temp6442_14 = this, __HIVE_P2_temp6442_15 = __HIVE_P2_get(__HIVE_P2_temp6442_14, "finishOp", 6468), __HIVE_P2_invoke(__HIVE_P2_temp6442_15, __HIVE_P2_temp6442_14, (__HIVE_P2_reserveArray(2, 6468), __HIVE_P2_ownArray([__HIVE_P2_get(m, "incDec", 6469), 2], 6468, "CONTROL_ARRAY")), 6468));
+        }
+        if (t === 61) {
+            return (__HIVE_P2_temp6442_16 = this, __HIVE_P2_temp6442_17 = __HIVE_P2_get(__HIVE_P2_temp6442_16, "finishOp", 6471), __HIVE_P2_invoke(__HIVE_P2_temp6442_17, __HIVE_P2_temp6442_16, (__HIVE_P2_reserveArray(2, 6471), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6472), 2], 6471, "CONTROL_ARRAY")), 6471));
+        }
+        return (__HIVE_P2_temp6442_18 = this, __HIVE_P2_temp6442_19 = __HIVE_P2_get(__HIVE_P2_temp6442_18, "finishOp", 6474), __HIVE_P2_invoke(__HIVE_P2_temp6442_19, __HIVE_P2_temp6442_18, (__HIVE_P2_reserveArray(2, 6474), __HIVE_P2_ownArray([__HIVE_P2_get(m, "plusMin", 6475), 1], 6474, "CONTROL_ARRAY")), 6474));
+    }, 21, 1, 0, 6442)), 6440));
+    (__HIVE_P2_temp0_1492 = We, __HIVE_P2_temp0_1493 = "readToken_lt_gt", __HIVE_P2_set(__HIVE_P2_temp0_1492, __HIVE_P2_temp0_1493, (__HIVE_P2_reserveFunction(6479), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6479_0, __HIVE_P2_temp6479_1, __HIVE_P2_temp6479_2, __HIVE_P2_temp6479_3, __HIVE_P2_temp6479_4, __HIVE_P2_temp6479_5, __HIVE_P2_temp6479_6, __HIVE_P2_temp6479_7, __HIVE_P2_temp6479_8, __HIVE_P2_temp6479_9, __HIVE_P2_temp6479_10, __HIVE_P2_temp6479_11, __HIVE_P2_temp6479_12, __HIVE_P2_temp6479_13, __HIVE_P2_temp6479_14, __HIVE_P2_temp6479_15, __HIVE_P2_temp6479_16, __HIVE_P2_temp6479_17, __HIVE_P2_temp6479_18, __HIVE_P2_temp6479_19, __HIVE_P2_temp6479_20, __HIVE_P2_temp6479_21;
+        var t = (__HIVE_P2_temp6479_0 = __HIVE_P2_get(this, "input", 6484), __HIVE_P2_temp6479_1 = __HIVE_P2_get(__HIVE_P2_temp6479_0, "charCodeAt", 6480), __HIVE_P2_invoke(__HIVE_P2_temp6479_1, __HIVE_P2_temp6479_0, (__HIVE_P2_reserveArray(1, 6480), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6482), 1, 6481)], 6480, "CONTROL_ARRAY")), 6480));
+        var i = 1;
+        if (t === e) {
+            i = e === 62 && (__HIVE_P2_temp6479_2 = __HIVE_P2_get(this, "input", 6490), __HIVE_P2_temp6479_3 = __HIVE_P2_get(__HIVE_P2_temp6479_2, "charCodeAt", 6486), __HIVE_P2_invoke(__HIVE_P2_temp6479_3, __HIVE_P2_temp6479_2, (__HIVE_P2_reserveArray(1, 6486), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6488), 2, 6487)], 6486, "CONTROL_ARRAY")), 6486)) === 62 ? 3 : 2;
+            if ((__HIVE_P2_temp6479_4 = __HIVE_P2_get(this, "input", 6495), __HIVE_P2_temp6479_5 = __HIVE_P2_get(__HIVE_P2_temp6479_4, "charCodeAt", 6491), __HIVE_P2_invoke(__HIVE_P2_temp6479_5, __HIVE_P2_temp6479_4, (__HIVE_P2_reserveArray(1, 6491), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6493), i, 6492)], 6491, "CONTROL_ARRAY")), 6491)) === 61) {
+                return (__HIVE_P2_temp6479_6 = this, __HIVE_P2_temp6479_7 = __HIVE_P2_get(__HIVE_P2_temp6479_6, "finishOp", 6496), __HIVE_P2_invoke(__HIVE_P2_temp6479_7, __HIVE_P2_temp6479_6, (__HIVE_P2_reserveArray(2, 6496), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6497), __HIVE_P2_binary("+", i, 1, 6498)], 6496, "CONTROL_ARRAY")), 6496));
+            }
+            return (__HIVE_P2_temp6479_8 = this, __HIVE_P2_temp6479_9 = __HIVE_P2_get(__HIVE_P2_temp6479_8, "finishOp", 6500), __HIVE_P2_invoke(__HIVE_P2_temp6479_9, __HIVE_P2_temp6479_8, (__HIVE_P2_reserveArray(2, 6500), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bitShift", 6501), i], 6500, "CONTROL_ARRAY")), 6500));
+        }
+        if (t === 33 && e === 60 && !__HIVE_P2_get(this, "inModule", 6503) && (__HIVE_P2_temp6479_10 = __HIVE_P2_get(this, "input", 6508), __HIVE_P2_temp6479_11 = __HIVE_P2_get(__HIVE_P2_temp6479_10, "charCodeAt", 6504), __HIVE_P2_invoke(__HIVE_P2_temp6479_11, __HIVE_P2_temp6479_10, (__HIVE_P2_reserveArray(1, 6504), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6506), 2, 6505)], 6504, "CONTROL_ARRAY")), 6504)) === 45 && (__HIVE_P2_temp6479_12 = __HIVE_P2_get(this, "input", 6513), __HIVE_P2_temp6479_13 = __HIVE_P2_get(__HIVE_P2_temp6479_12, "charCodeAt", 6509), __HIVE_P2_invoke(__HIVE_P2_temp6479_13, __HIVE_P2_temp6479_12, (__HIVE_P2_reserveArray(1, 6509), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6511), 3, 6510)], 6509, "CONTROL_ARRAY")), 6509)) === 45) {
+            (__HIVE_P2_temp6479_14 = this, __HIVE_P2_temp6479_15 = __HIVE_P2_get(__HIVE_P2_temp6479_14, "skipLineComment", 6514), __HIVE_P2_invoke(__HIVE_P2_temp6479_15, __HIVE_P2_temp6479_14, (__HIVE_P2_reserveArray(1, 6514), __HIVE_P2_ownArray([4], 6514, "CONTROL_ARRAY")), 6514));
+            (__HIVE_P2_temp6479_16 = this, __HIVE_P2_temp6479_17 = __HIVE_P2_get(__HIVE_P2_temp6479_16, "skipSpace", 6516), __HIVE_P2_invoke(__HIVE_P2_temp6479_17, __HIVE_P2_temp6479_16, (__HIVE_P2_reserveArray(0, 6516), __HIVE_P2_ownArray([], 6516, "CONTROL_ARRAY")), 6516));
+            return (__HIVE_P2_temp6479_18 = this, __HIVE_P2_temp6479_19 = __HIVE_P2_get(__HIVE_P2_temp6479_18, "nextToken", 6518), __HIVE_P2_invoke(__HIVE_P2_temp6479_19, __HIVE_P2_temp6479_18, (__HIVE_P2_reserveArray(0, 6518), __HIVE_P2_ownArray([], 6518, "CONTROL_ARRAY")), 6518));
+        }
+        if (t === 61) {
+            i = 2;
+        }
+        return (__HIVE_P2_temp6479_20 = this, __HIVE_P2_temp6479_21 = __HIVE_P2_get(__HIVE_P2_temp6479_20, "finishOp", 6521), __HIVE_P2_invoke(__HIVE_P2_temp6479_21, __HIVE_P2_temp6479_20, (__HIVE_P2_reserveArray(2, 6521), __HIVE_P2_ownArray([__HIVE_P2_get(m, "relational", 6522), i], 6521, "CONTROL_ARRAY")), 6521));
+    }, 24, 1, 0, 6479)), 6477));
+    (__HIVE_P2_temp0_1495 = We, __HIVE_P2_temp0_1496 = "readToken_eq_excl", __HIVE_P2_set(__HIVE_P2_temp0_1495, __HIVE_P2_temp0_1496, (__HIVE_P2_reserveFunction(6526), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6526_0, __HIVE_P2_temp6526_1, __HIVE_P2_temp6526_2, __HIVE_P2_temp6526_3, __HIVE_P2_temp6526_4, __HIVE_P2_temp6526_5, __HIVE_P2_temp6526_6, __HIVE_P2_temp6526_7, __HIVE_P2_temp6526_8, __HIVE_P2_temp6526_9, __HIVE_P2_temp6526_10, __HIVE_P2_temp6526_11, __HIVE_P2_temp6526_12;
+        var t = (__HIVE_P2_temp6526_0 = __HIVE_P2_get(this, "input", 6531), __HIVE_P2_temp6526_1 = __HIVE_P2_get(__HIVE_P2_temp6526_0, "charCodeAt", 6527), __HIVE_P2_invoke(__HIVE_P2_temp6526_1, __HIVE_P2_temp6526_0, (__HIVE_P2_reserveArray(1, 6527), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6529), 1, 6528)], 6527, "CONTROL_ARRAY")), 6527));
+        if (t === 61) {
+            return (__HIVE_P2_temp6526_4 = this, __HIVE_P2_temp6526_5 = __HIVE_P2_get(__HIVE_P2_temp6526_4, "finishOp", 6532), __HIVE_P2_invoke(__HIVE_P2_temp6526_5, __HIVE_P2_temp6526_4, (__HIVE_P2_reserveArray(2, 6532), __HIVE_P2_ownArray([__HIVE_P2_get(m, "equality", 6533), (__HIVE_P2_temp6526_2 = __HIVE_P2_get(this, "input", 6538), __HIVE_P2_temp6526_3 = __HIVE_P2_get(__HIVE_P2_temp6526_2, "charCodeAt", 6534), __HIVE_P2_invoke(__HIVE_P2_temp6526_3, __HIVE_P2_temp6526_2, (__HIVE_P2_reserveArray(1, 6534), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6536), 2, 6535)], 6534, "CONTROL_ARRAY")), 6534)) === 61 ? 3 : 2], 6532, "CONTROL_ARRAY")), 6532));
+        }
+        if (e === 61 && t === 62 && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6542), "ecmaVersion", 6541), 6, 6540)) {
+            (__HIVE_P2_temp6526_6 = this, __HIVE_P2_temp6526_7 = "pos", __HIVE_P2_temp6526_8 = __HIVE_P2_get(__HIVE_P2_temp6526_6, __HIVE_P2_temp6526_7, 6543), __HIVE_P2_set(__HIVE_P2_temp6526_6, __HIVE_P2_temp6526_7, __HIVE_P2_binary("+", __HIVE_P2_temp6526_8, 2, 6543), 6543));
+            return (__HIVE_P2_temp6526_9 = this, __HIVE_P2_temp6526_10 = __HIVE_P2_get(__HIVE_P2_temp6526_9, "finishToken", 6545), __HIVE_P2_invoke(__HIVE_P2_temp6526_10, __HIVE_P2_temp6526_9, (__HIVE_P2_reserveArray(1, 6545), __HIVE_P2_ownArray([__HIVE_P2_get(m, "arrow", 6546)], 6545, "CONTROL_ARRAY")), 6545));
+        }
+        return (__HIVE_P2_temp6526_11 = this, __HIVE_P2_temp6526_12 = __HIVE_P2_get(__HIVE_P2_temp6526_11, "finishOp", 6548), __HIVE_P2_invoke(__HIVE_P2_temp6526_12, __HIVE_P2_temp6526_11, (__HIVE_P2_reserveArray(2, 6548), __HIVE_P2_ownArray([e === 61 ? __HIVE_P2_get(m, "eq", 6549) : __HIVE_P2_get(m, "prefix", 6550), 1], 6548, "CONTROL_ARRAY")), 6548));
+    }, 14, 1, 0, 6526)), 6524));
+    (__HIVE_P2_temp0_1498 = We, __HIVE_P2_temp0_1499 = "readToken_question", __HIVE_P2_set(__HIVE_P2_temp0_1498, __HIVE_P2_temp0_1499, (__HIVE_P2_reserveFunction(6554), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6554_0, __HIVE_P2_temp6554_1, __HIVE_P2_temp6554_2, __HIVE_P2_temp6554_3, __HIVE_P2_temp6554_4, __HIVE_P2_temp6554_5, __HIVE_P2_temp6554_6, __HIVE_P2_temp6554_7, __HIVE_P2_temp6554_8, __HIVE_P2_temp6554_9, __HIVE_P2_temp6554_10, __HIVE_P2_temp6554_11, __HIVE_P2_temp6554_12, __HIVE_P2_temp6554_13;
+        var e = __HIVE_P2_get(__HIVE_P2_get(this, "options", 6556), "ecmaVersion", 6555);
+        if (__HIVE_P2_binary(">=", e, 11, 6557)) {
+            var t = (__HIVE_P2_temp6554_0 = __HIVE_P2_get(this, "input", 6562), __HIVE_P2_temp6554_1 = __HIVE_P2_get(__HIVE_P2_temp6554_0, "charCodeAt", 6558), __HIVE_P2_invoke(__HIVE_P2_temp6554_1, __HIVE_P2_temp6554_0, (__HIVE_P2_reserveArray(1, 6558), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6560), 1, 6559)], 6558, "CONTROL_ARRAY")), 6558));
+            if (t === 46) {
+                var i = (__HIVE_P2_temp6554_2 = __HIVE_P2_get(this, "input", 6567), __HIVE_P2_temp6554_3 = __HIVE_P2_get(__HIVE_P2_temp6554_2, "charCodeAt", 6563), __HIVE_P2_invoke(__HIVE_P2_temp6554_3, __HIVE_P2_temp6554_2, (__HIVE_P2_reserveArray(1, 6563), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6565), 2, 6564)], 6563, "CONTROL_ARRAY")), 6563));
+                if (__HIVE_P2_binary("<", i, 48, 6568) || __HIVE_P2_binary(">", i, 57, 6569)) {
+                    return (__HIVE_P2_temp6554_4 = this, __HIVE_P2_temp6554_5 = __HIVE_P2_get(__HIVE_P2_temp6554_4, "finishOp", 6570), __HIVE_P2_invoke(__HIVE_P2_temp6554_5, __HIVE_P2_temp6554_4, (__HIVE_P2_reserveArray(2, 6570), __HIVE_P2_ownArray([__HIVE_P2_get(m, "questionDot", 6571), 2], 6570, "CONTROL_ARRAY")), 6570));
+                }
+            }
+            if (t === 63) {
+                if (__HIVE_P2_binary(">=", e, 12, 6573)) {
+                    var s = (__HIVE_P2_temp6554_6 = __HIVE_P2_get(this, "input", 6578), __HIVE_P2_temp6554_7 = __HIVE_P2_get(__HIVE_P2_temp6554_6, "charCodeAt", 6574), __HIVE_P2_invoke(__HIVE_P2_temp6554_7, __HIVE_P2_temp6554_6, (__HIVE_P2_reserveArray(1, 6574), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6576), 2, 6575)], 6574, "CONTROL_ARRAY")), 6574));
+                    if (s === 61) {
+                        return (__HIVE_P2_temp6554_8 = this, __HIVE_P2_temp6554_9 = __HIVE_P2_get(__HIVE_P2_temp6554_8, "finishOp", 6579), __HIVE_P2_invoke(__HIVE_P2_temp6554_9, __HIVE_P2_temp6554_8, (__HIVE_P2_reserveArray(2, 6579), __HIVE_P2_ownArray([__HIVE_P2_get(m, "assign", 6580), 3], 6579, "CONTROL_ARRAY")), 6579));
+                    }
+                }
+                return (__HIVE_P2_temp6554_10 = this, __HIVE_P2_temp6554_11 = __HIVE_P2_get(__HIVE_P2_temp6554_10, "finishOp", 6582), __HIVE_P2_invoke(__HIVE_P2_temp6554_11, __HIVE_P2_temp6554_10, (__HIVE_P2_reserveArray(2, 6582), __HIVE_P2_ownArray([__HIVE_P2_get(m, "coalesce", 6583), 2], 6582, "CONTROL_ARRAY")), 6582));
+            }
+        }
+        return (__HIVE_P2_temp6554_12 = this, __HIVE_P2_temp6554_13 = __HIVE_P2_get(__HIVE_P2_temp6554_12, "finishOp", 6585), __HIVE_P2_invoke(__HIVE_P2_temp6554_13, __HIVE_P2_temp6554_12, (__HIVE_P2_reserveArray(2, 6585), __HIVE_P2_ownArray([__HIVE_P2_get(m, "question", 6586), 1], 6585, "CONTROL_ARRAY")), 6585));
+    }, 18, 0, 0, 6554)), 6552));
+    (__HIVE_P2_temp0_1501 = We, __HIVE_P2_temp0_1502 = "readToken_numberSign", __HIVE_P2_set(__HIVE_P2_temp0_1501, __HIVE_P2_temp0_1502, (__HIVE_P2_reserveFunction(6590), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6590_0, __HIVE_P2_temp6590_1, __HIVE_P2_temp6590_2, __HIVE_P2_temp6590_3, __HIVE_P2_temp6590_4, __HIVE_P2_temp6590_5;
+        var e = __HIVE_P2_get(__HIVE_P2_get(this, "options", 6592), "ecmaVersion", 6591);
+        var t = 35;
+        if (__HIVE_P2_binary(">=", e, 13, 6593)) {
+            __HIVE_P2_increment(this, "pos", 1, false, 6594);
+            t = (__HIVE_P2_temp6590_0 = this, __HIVE_P2_temp6590_1 = __HIVE_P2_get(__HIVE_P2_temp6590_0, "fullCharCodeAtPos", 6597), __HIVE_P2_invoke(__HIVE_P2_temp6590_1, __HIVE_P2_temp6590_0, (__HIVE_P2_reserveArray(0, 6597), __HIVE_P2_ownArray([], 6597, "CONTROL_ARRAY")), 6597));
+            if (__HIVE_P2_invoke(isIdentifierStart, void 0, (__HIVE_P2_reserveArray(2, 6599), __HIVE_P2_ownArray([t, true], 6599, "CONTROL_ARRAY")), 6599) || t === 92) {
+                return (__HIVE_P2_temp6590_4 = this, __HIVE_P2_temp6590_5 = __HIVE_P2_get(__HIVE_P2_temp6590_4, "finishToken", 6600), __HIVE_P2_invoke(__HIVE_P2_temp6590_5, __HIVE_P2_temp6590_4, (__HIVE_P2_reserveArray(2, 6600), __HIVE_P2_ownArray([__HIVE_P2_get(m, "privateId", 6601), (__HIVE_P2_temp6590_2 = this, __HIVE_P2_temp6590_3 = __HIVE_P2_get(__HIVE_P2_temp6590_2, "readWord1", 6602), __HIVE_P2_invoke(__HIVE_P2_temp6590_3, __HIVE_P2_temp6590_2, (__HIVE_P2_reserveArray(0, 6602), __HIVE_P2_ownArray([], 6602, "CONTROL_ARRAY")), 6602))], 6600, "CONTROL_ARRAY")), 6600));
+            }
+        }
+        __HIVE_P2_syntaxRefusal(6605);
+    }, 8, 0, 0, 6590)), 6588));
+    (__HIVE_P2_temp0_1504 = We, __HIVE_P2_temp0_1505 = "getTokenFromCode", __HIVE_P2_set(__HIVE_P2_temp0_1504, __HIVE_P2_temp0_1505, (__HIVE_P2_reserveFunction(6608), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6608_0, __HIVE_P2_temp6608_1, __HIVE_P2_temp6608_2, __HIVE_P2_temp6608_3, __HIVE_P2_temp6608_4, __HIVE_P2_temp6608_5, __HIVE_P2_temp6608_6, __HIVE_P2_temp6608_7, __HIVE_P2_temp6608_8, __HIVE_P2_temp6608_9, __HIVE_P2_temp6608_10, __HIVE_P2_temp6608_11, __HIVE_P2_temp6608_12, __HIVE_P2_temp6608_13, __HIVE_P2_temp6608_14, __HIVE_P2_temp6608_15, __HIVE_P2_temp6608_16, __HIVE_P2_temp6608_17, __HIVE_P2_temp6608_18, __HIVE_P2_temp6608_19, __HIVE_P2_temp6608_20, __HIVE_P2_temp6608_21, __HIVE_P2_temp6608_22, __HIVE_P2_temp6608_23, __HIVE_P2_temp6608_24, __HIVE_P2_temp6608_25, __HIVE_P2_temp6608_26, __HIVE_P2_temp6608_27, __HIVE_P2_temp6608_28, __HIVE_P2_temp6608_29, __HIVE_P2_temp6608_30, __HIVE_P2_temp6608_31, __HIVE_P2_temp6608_32, __HIVE_P2_temp6608_33, __HIVE_P2_temp6608_34, __HIVE_P2_temp6608_35, __HIVE_P2_temp6608_36, __HIVE_P2_temp6608_37, __HIVE_P2_temp6608_38, __HIVE_P2_temp6608_39, __HIVE_P2_temp6608_40, __HIVE_P2_temp6608_41, __HIVE_P2_temp6608_42, __HIVE_P2_temp6608_43, __HIVE_P2_temp6608_44, __HIVE_P2_temp6608_45, __HIVE_P2_temp6608_46, __HIVE_P2_temp6608_47, __HIVE_P2_temp6608_48, __HIVE_P2_temp6608_49, __HIVE_P2_temp6608_50, __HIVE_P2_temp6608_51, __HIVE_P2_temp6608_52, __HIVE_P2_temp6608_53;
+        switch (e) {
+            case 46: return (__HIVE_P2_temp6608_0 = this, __HIVE_P2_temp6608_1 = __HIVE_P2_get(__HIVE_P2_temp6608_0, "readToken_dot", 6609), __HIVE_P2_invoke(__HIVE_P2_temp6608_1, __HIVE_P2_temp6608_0, (__HIVE_P2_reserveArray(0, 6609), __HIVE_P2_ownArray([], 6609, "CONTROL_ARRAY")), 6609));
+            case 40:
+                __HIVE_P2_increment(this, "pos", 1, false, 6611);
+                return (__HIVE_P2_temp6608_2 = this, __HIVE_P2_temp6608_3 = __HIVE_P2_get(__HIVE_P2_temp6608_2, "finishToken", 6613), __HIVE_P2_invoke(__HIVE_P2_temp6608_3, __HIVE_P2_temp6608_2, (__HIVE_P2_reserveArray(1, 6613), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenL", 6614)], 6613, "CONTROL_ARRAY")), 6613));
+            case 41:
+                __HIVE_P2_increment(this, "pos", 1, false, 6616);
+                return (__HIVE_P2_temp6608_4 = this, __HIVE_P2_temp6608_5 = __HIVE_P2_get(__HIVE_P2_temp6608_4, "finishToken", 6618), __HIVE_P2_invoke(__HIVE_P2_temp6608_5, __HIVE_P2_temp6608_4, (__HIVE_P2_reserveArray(1, 6618), __HIVE_P2_ownArray([__HIVE_P2_get(m, "parenR", 6619)], 6618, "CONTROL_ARRAY")), 6618));
+            case 59:
+                __HIVE_P2_increment(this, "pos", 1, false, 6621);
+                return (__HIVE_P2_temp6608_6 = this, __HIVE_P2_temp6608_7 = __HIVE_P2_get(__HIVE_P2_temp6608_6, "finishToken", 6623), __HIVE_P2_invoke(__HIVE_P2_temp6608_7, __HIVE_P2_temp6608_6, (__HIVE_P2_reserveArray(1, 6623), __HIVE_P2_ownArray([__HIVE_P2_get(m, "semi", 6624)], 6623, "CONTROL_ARRAY")), 6623));
+            case 44:
+                __HIVE_P2_increment(this, "pos", 1, false, 6626);
+                return (__HIVE_P2_temp6608_8 = this, __HIVE_P2_temp6608_9 = __HIVE_P2_get(__HIVE_P2_temp6608_8, "finishToken", 6628), __HIVE_P2_invoke(__HIVE_P2_temp6608_9, __HIVE_P2_temp6608_8, (__HIVE_P2_reserveArray(1, 6628), __HIVE_P2_ownArray([__HIVE_P2_get(m, "comma", 6629)], 6628, "CONTROL_ARRAY")), 6628));
+            case 91:
+                __HIVE_P2_increment(this, "pos", 1, false, 6631);
+                return (__HIVE_P2_temp6608_10 = this, __HIVE_P2_temp6608_11 = __HIVE_P2_get(__HIVE_P2_temp6608_10, "finishToken", 6633), __HIVE_P2_invoke(__HIVE_P2_temp6608_11, __HIVE_P2_temp6608_10, (__HIVE_P2_reserveArray(1, 6633), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketL", 6634)], 6633, "CONTROL_ARRAY")), 6633));
+            case 93:
+                __HIVE_P2_increment(this, "pos", 1, false, 6636);
+                return (__HIVE_P2_temp6608_12 = this, __HIVE_P2_temp6608_13 = __HIVE_P2_get(__HIVE_P2_temp6608_12, "finishToken", 6638), __HIVE_P2_invoke(__HIVE_P2_temp6608_13, __HIVE_P2_temp6608_12, (__HIVE_P2_reserveArray(1, 6638), __HIVE_P2_ownArray([__HIVE_P2_get(m, "bracketR", 6639)], 6638, "CONTROL_ARRAY")), 6638));
+            case 123:
+                __HIVE_P2_increment(this, "pos", 1, false, 6641);
+                return (__HIVE_P2_temp6608_14 = this, __HIVE_P2_temp6608_15 = __HIVE_P2_get(__HIVE_P2_temp6608_14, "finishToken", 6643), __HIVE_P2_invoke(__HIVE_P2_temp6608_15, __HIVE_P2_temp6608_14, (__HIVE_P2_reserveArray(1, 6643), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceL", 6644)], 6643, "CONTROL_ARRAY")), 6643));
+            case 125:
+                __HIVE_P2_increment(this, "pos", 1, false, 6646);
+                return (__HIVE_P2_temp6608_16 = this, __HIVE_P2_temp6608_17 = __HIVE_P2_get(__HIVE_P2_temp6608_16, "finishToken", 6648), __HIVE_P2_invoke(__HIVE_P2_temp6608_17, __HIVE_P2_temp6608_16, (__HIVE_P2_reserveArray(1, 6648), __HIVE_P2_ownArray([__HIVE_P2_get(m, "braceR", 6649)], 6648, "CONTROL_ARRAY")), 6648));
+            case 58:
+                __HIVE_P2_increment(this, "pos", 1, false, 6651);
+                return (__HIVE_P2_temp6608_18 = this, __HIVE_P2_temp6608_19 = __HIVE_P2_get(__HIVE_P2_temp6608_18, "finishToken", 6653), __HIVE_P2_invoke(__HIVE_P2_temp6608_19, __HIVE_P2_temp6608_18, (__HIVE_P2_reserveArray(1, 6653), __HIVE_P2_ownArray([__HIVE_P2_get(m, "colon", 6654)], 6653, "CONTROL_ARRAY")), 6653));
+            case 96:
+                if (__HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6658), "ecmaVersion", 6657), 6, 6656)) {
+                    break;
+                }
+                __HIVE_P2_increment(this, "pos", 1, false, 6659);
+                return (__HIVE_P2_temp6608_20 = this, __HIVE_P2_temp6608_21 = __HIVE_P2_get(__HIVE_P2_temp6608_20, "finishToken", 6661), __HIVE_P2_invoke(__HIVE_P2_temp6608_21, __HIVE_P2_temp6608_20, (__HIVE_P2_reserveArray(1, 6661), __HIVE_P2_ownArray([__HIVE_P2_get(m, "backQuote", 6662)], 6661, "CONTROL_ARRAY")), 6661));
+            case 48:
+                var t = (__HIVE_P2_temp6608_22 = __HIVE_P2_get(this, "input", 6668), __HIVE_P2_temp6608_23 = __HIVE_P2_get(__HIVE_P2_temp6608_22, "charCodeAt", 6664), __HIVE_P2_invoke(__HIVE_P2_temp6608_23, __HIVE_P2_temp6608_22, (__HIVE_P2_reserveArray(1, 6664), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6666), 1, 6665)], 6664, "CONTROL_ARRAY")), 6664));
+                if (t === 120 || t === 88) {
+                    return (__HIVE_P2_temp6608_24 = this, __HIVE_P2_temp6608_25 = __HIVE_P2_get(__HIVE_P2_temp6608_24, "readRadixNumber", 6669), __HIVE_P2_invoke(__HIVE_P2_temp6608_25, __HIVE_P2_temp6608_24, (__HIVE_P2_reserveArray(1, 6669), __HIVE_P2_ownArray([16], 6669, "CONTROL_ARRAY")), 6669));
+                }
+                if (__HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6673), "ecmaVersion", 6672), 6, 6671)) {
+                    if (t === 111 || t === 79) {
+                        return (__HIVE_P2_temp6608_26 = this, __HIVE_P2_temp6608_27 = __HIVE_P2_get(__HIVE_P2_temp6608_26, "readRadixNumber", 6674), __HIVE_P2_invoke(__HIVE_P2_temp6608_27, __HIVE_P2_temp6608_26, (__HIVE_P2_reserveArray(1, 6674), __HIVE_P2_ownArray([8], 6674, "CONTROL_ARRAY")), 6674));
+                    }
+                    if (t === 98 || t === 66) {
+                        return (__HIVE_P2_temp6608_28 = this, __HIVE_P2_temp6608_29 = __HIVE_P2_get(__HIVE_P2_temp6608_28, "readRadixNumber", 6676), __HIVE_P2_invoke(__HIVE_P2_temp6608_29, __HIVE_P2_temp6608_28, (__HIVE_P2_reserveArray(1, 6676), __HIVE_P2_ownArray([2], 6676, "CONTROL_ARRAY")), 6676));
+                    }
+                }
+            case 49:
+            case 50:
+            case 51:
+            case 52:
+            case 53:
+            case 54:
+            case 55:
+            case 56:
+            case 57: return (__HIVE_P2_temp6608_30 = this, __HIVE_P2_temp6608_31 = __HIVE_P2_get(__HIVE_P2_temp6608_30, "readNumber", 6678), __HIVE_P2_invoke(__HIVE_P2_temp6608_31, __HIVE_P2_temp6608_30, (__HIVE_P2_reserveArray(1, 6678), __HIVE_P2_ownArray([false], 6678, "CONTROL_ARRAY")), 6678));
+            case 34:
+            case 39: return (__HIVE_P2_temp6608_32 = this, __HIVE_P2_temp6608_33 = __HIVE_P2_get(__HIVE_P2_temp6608_32, "readString", 6680), __HIVE_P2_invoke(__HIVE_P2_temp6608_33, __HIVE_P2_temp6608_32, (__HIVE_P2_reserveArray(1, 6680), __HIVE_P2_ownArray([e], 6680, "CONTROL_ARRAY")), 6680));
+            case 47: return (__HIVE_P2_temp6608_34 = this, __HIVE_P2_temp6608_35 = __HIVE_P2_get(__HIVE_P2_temp6608_34, "readToken_slash", 6682), __HIVE_P2_invoke(__HIVE_P2_temp6608_35, __HIVE_P2_temp6608_34, (__HIVE_P2_reserveArray(0, 6682), __HIVE_P2_ownArray([], 6682, "CONTROL_ARRAY")), 6682));
+            case 37:
+            case 42: return (__HIVE_P2_temp6608_36 = this, __HIVE_P2_temp6608_37 = __HIVE_P2_get(__HIVE_P2_temp6608_36, "readToken_mult_modulo_exp", 6684), __HIVE_P2_invoke(__HIVE_P2_temp6608_37, __HIVE_P2_temp6608_36, (__HIVE_P2_reserveArray(1, 6684), __HIVE_P2_ownArray([e], 6684, "CONTROL_ARRAY")), 6684));
+            case 124:
+            case 38: return (__HIVE_P2_temp6608_38 = this, __HIVE_P2_temp6608_39 = __HIVE_P2_get(__HIVE_P2_temp6608_38, "readToken_pipe_amp", 6686), __HIVE_P2_invoke(__HIVE_P2_temp6608_39, __HIVE_P2_temp6608_38, (__HIVE_P2_reserveArray(1, 6686), __HIVE_P2_ownArray([e], 6686, "CONTROL_ARRAY")), 6686));
+            case 94: return (__HIVE_P2_temp6608_40 = this, __HIVE_P2_temp6608_41 = __HIVE_P2_get(__HIVE_P2_temp6608_40, "readToken_caret", 6688), __HIVE_P2_invoke(__HIVE_P2_temp6608_41, __HIVE_P2_temp6608_40, (__HIVE_P2_reserveArray(0, 6688), __HIVE_P2_ownArray([], 6688, "CONTROL_ARRAY")), 6688));
+            case 43:
+            case 45: return (__HIVE_P2_temp6608_42 = this, __HIVE_P2_temp6608_43 = __HIVE_P2_get(__HIVE_P2_temp6608_42, "readToken_plus_min", 6690), __HIVE_P2_invoke(__HIVE_P2_temp6608_43, __HIVE_P2_temp6608_42, (__HIVE_P2_reserveArray(1, 6690), __HIVE_P2_ownArray([e], 6690, "CONTROL_ARRAY")), 6690));
+            case 60:
+            case 62: return (__HIVE_P2_temp6608_44 = this, __HIVE_P2_temp6608_45 = __HIVE_P2_get(__HIVE_P2_temp6608_44, "readToken_lt_gt", 6692), __HIVE_P2_invoke(__HIVE_P2_temp6608_45, __HIVE_P2_temp6608_44, (__HIVE_P2_reserveArray(1, 6692), __HIVE_P2_ownArray([e], 6692, "CONTROL_ARRAY")), 6692));
+            case 61:
+            case 33: return (__HIVE_P2_temp6608_46 = this, __HIVE_P2_temp6608_47 = __HIVE_P2_get(__HIVE_P2_temp6608_46, "readToken_eq_excl", 6694), __HIVE_P2_invoke(__HIVE_P2_temp6608_47, __HIVE_P2_temp6608_46, (__HIVE_P2_reserveArray(1, 6694), __HIVE_P2_ownArray([e], 6694, "CONTROL_ARRAY")), 6694));
+            case 63: return (__HIVE_P2_temp6608_48 = this, __HIVE_P2_temp6608_49 = __HIVE_P2_get(__HIVE_P2_temp6608_48, "readToken_question", 6696), __HIVE_P2_invoke(__HIVE_P2_temp6608_49, __HIVE_P2_temp6608_48, (__HIVE_P2_reserveArray(0, 6696), __HIVE_P2_ownArray([], 6696, "CONTROL_ARRAY")), 6696));
+            case 126: return (__HIVE_P2_temp6608_50 = this, __HIVE_P2_temp6608_51 = __HIVE_P2_get(__HIVE_P2_temp6608_50, "finishOp", 6698), __HIVE_P2_invoke(__HIVE_P2_temp6608_51, __HIVE_P2_temp6608_50, (__HIVE_P2_reserveArray(2, 6698), __HIVE_P2_ownArray([__HIVE_P2_get(m, "prefix", 6699), 1], 6698, "CONTROL_ARRAY")), 6698));
+            case 35: return (__HIVE_P2_temp6608_52 = this, __HIVE_P2_temp6608_53 = __HIVE_P2_get(__HIVE_P2_temp6608_52, "readToken_numberSign", 6701), __HIVE_P2_invoke(__HIVE_P2_temp6608_53, __HIVE_P2_temp6608_52, (__HIVE_P2_reserveArray(0, 6701), __HIVE_P2_ownArray([], 6701, "CONTROL_ARRAY")), 6701));
+        }
+        __HIVE_P2_syntaxRefusal(6703);
+    }, 55, 1, 0, 6608)), 6606));
+    (__HIVE_P2_temp0_1507 = We, __HIVE_P2_temp0_1508 = "finishOp", __HIVE_P2_set(__HIVE_P2_temp0_1507, __HIVE_P2_temp0_1508, (__HIVE_P2_reserveFunction(6706), __HIVE_P2_registerFunction(function (e, t) {
+        var __HIVE_P2_temp6706_0, __HIVE_P2_temp6706_1, __HIVE_P2_temp6706_2, __HIVE_P2_temp6706_3, __HIVE_P2_temp6706_4, __HIVE_P2_temp6706_5, __HIVE_P2_temp6706_6;
+        var i = (__HIVE_P2_temp6706_0 = __HIVE_P2_get(this, "input", 6712), __HIVE_P2_temp6706_1 = __HIVE_P2_get(__HIVE_P2_temp6706_0, "slice", 6707), __HIVE_P2_invoke(__HIVE_P2_temp6706_1, __HIVE_P2_temp6706_0, (__HIVE_P2_reserveArray(2, 6707), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 6708), __HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 6710), t, 6709)], 6707, "CONTROL_ARRAY")), 6707));
+        (__HIVE_P2_temp6706_2 = this, __HIVE_P2_temp6706_3 = "pos", __HIVE_P2_temp6706_4 = __HIVE_P2_get(__HIVE_P2_temp6706_2, __HIVE_P2_temp6706_3, 6713), __HIVE_P2_set(__HIVE_P2_temp6706_2, __HIVE_P2_temp6706_3, __HIVE_P2_binary("+", __HIVE_P2_temp6706_4, t, 6713), 6713));
+        return (__HIVE_P2_temp6706_5 = this, __HIVE_P2_temp6706_6 = __HIVE_P2_get(__HIVE_P2_temp6706_5, "finishToken", 6715), __HIVE_P2_invoke(__HIVE_P2_temp6706_6, __HIVE_P2_temp6706_5, (__HIVE_P2_reserveArray(2, 6715), __HIVE_P2_ownArray([e, i], 6715, "CONTROL_ARRAY")), 6715));
+    }, 8, 2, 0, 6706)), 6704));
+    __HIVE_P2_set(We, "readRegexp", (__HIVE_P2_reserveFunction(6718), __HIVE_P2_registerFunction(function () {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6719), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6719, "CONTROL_ARRAY")), 6719);
+    }, 0, 0, 0, 6718)), 6720);
+    (__HIVE_P2_temp0_1510 = We, __HIVE_P2_temp0_1511 = "readInt", __HIVE_P2_set(__HIVE_P2_temp0_1510, __HIVE_P2_temp0_1511, (__HIVE_P2_reserveFunction(6724), __HIVE_P2_registerFunction(function (e, t, i) {
+        var __HIVE_P2_temp6724_0, __HIVE_P2_temp6724_1, __HIVE_P2_temp6724_2, __HIVE_P2_temp6724_3, __HIVE_P2_temp6724_4, __HIVE_P2_temp6724_5;
+        var s = __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6727), "ecmaVersion", 6726), 12, 6725) && t === undefined;
+        var r = i && (__HIVE_P2_temp6724_0 = __HIVE_P2_get(this, "input", 6731), __HIVE_P2_temp6724_1 = __HIVE_P2_get(__HIVE_P2_temp6724_0, "charCodeAt", 6728), __HIVE_P2_invoke(__HIVE_P2_temp6724_1, __HIVE_P2_temp6724_0, (__HIVE_P2_reserveArray(1, 6728), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 6729)], 6728, "CONTROL_ARRAY")), 6728)) === 48;
+        var a = __HIVE_P2_get(this, "pos", 6732), n = 0, o = 0;
+        for (var h = 0, p = __HIVE_P2_binary("==", t, null, 6734) ? Infinity : t; __HIVE_P2_binary("<", h, p, 6735); (__HIVE_P2_temp6724_2 = __HIVE_P2_numeric(h, 6736), __HIVE_P2_temp6724_3 = __HIVE_P2_temp6724_2 + 1, h = __HIVE_P2_temp6724_3, __HIVE_P2_temp6724_3), __HIVE_P2_increment(this, "pos", 1, false, 6737)) {
+            __HIVE_P2_tick(6733);
+            var c = (__HIVE_P2_temp6724_4 = __HIVE_P2_get(this, "input", 6742), __HIVE_P2_temp6724_5 = __HIVE_P2_get(__HIVE_P2_temp6724_4, "charCodeAt", 6739), __HIVE_P2_invoke(__HIVE_P2_temp6724_5, __HIVE_P2_temp6724_4, (__HIVE_P2_reserveArray(1, 6739), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 6740)], 6739, "CONTROL_ARRAY")), 6739)), l = void 0;
+            if (s && c === 95) {
+                if (r) {
+                    __HIVE_P2_syntaxRefusal(6743);
+                }
+                if (o === 95) {
+                    __HIVE_P2_syntaxRefusal(6744);
+                }
+                if (h === 0) {
+                    __HIVE_P2_syntaxRefusal(6745);
+                }
+                o = c;
+                continue;
+            }
+            if (__HIVE_P2_binary(">=", c, 97, 6747)) {
+                l = __HIVE_P2_binary("+", __HIVE_P2_binary("-", c, 97, 6750), 10, 6749);
+            }
+            else if (__HIVE_P2_binary(">=", c, 65, 6751)) {
+                l = __HIVE_P2_binary("+", __HIVE_P2_binary("-", c, 65, 6754), 10, 6753);
+            }
+            else if (__HIVE_P2_binary(">=", c, 48, 6755) && __HIVE_P2_binary("<=", c, 57, 6756)) {
+                l = __HIVE_P2_binary("-", c, 48, 6758);
+            }
+            else {
+                l = Infinity;
+            }
+            if (__HIVE_P2_binary(">=", l, e, 6760)) {
+                break;
+            }
+            o = c;
+            n = __HIVE_P2_binary("+", __HIVE_P2_binary("*", n, e, 6764), l, 6763);
+        }
+        if (s && o === 95) {
+            __HIVE_P2_syntaxRefusal(6765);
+        }
+        if (__HIVE_P2_get(this, "pos", 6766) === a || __HIVE_P2_binary("!=", t, null, 6767) && __HIVE_P2_binary("-", __HIVE_P2_get(this, "pos", 6769), a, 6768) !== t) {
+            return null;
+        }
+        return n;
+    }, 15, 3, 0, 6724)), 6722));
+    function stringToNumber(e, t) {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6772), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6772, "CONTROL_ARRAY")), 6772);
+    }
+    function stringToBigInt(e) {
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6775), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6775, "CONTROL_ARRAY")), 6775);
+    }
+    __HIVE_P2_set(We, "readRadixNumber", (__HIVE_P2_reserveFunction(6777), __HIVE_P2_registerFunction(function (radix) {
+        var __HIVE_P2_temp6777_0, __HIVE_P2_temp6777_1, __HIVE_P2_temp6777_2, __HIVE_P2_temp6777_3, __HIVE_P2_temp6777_4, __HIVE_P2_temp6777_5, __HIVE_P2_temp6777_6;
+        var start = __HIVE_P2_get(this, "pos", 6778);
+        (__HIVE_P2_temp6777_0 = this, __HIVE_P2_temp6777_1 = "pos", __HIVE_P2_temp6777_2 = __HIVE_P2_get(__HIVE_P2_temp6777_0, __HIVE_P2_temp6777_1, 6779), __HIVE_P2_set(__HIVE_P2_temp6777_0, __HIVE_P2_temp6777_1, __HIVE_P2_binary("+", __HIVE_P2_temp6777_2, 2, 6779), 6779));
+        var digitsStart = __HIVE_P2_get(this, "pos", 6781), value = (__HIVE_P2_temp6777_3 = this, __HIVE_P2_temp6777_4 = __HIVE_P2_get(__HIVE_P2_temp6777_3, "readInt", 6782), __HIVE_P2_invoke(__HIVE_P2_temp6777_4, __HIVE_P2_temp6777_3, (__HIVE_P2_reserveArray(1, 6782), __HIVE_P2_ownArray([radix], 6782, "CONTROL_ARRAY")), 6782));
+        if (value === null)
+            __HIVE_P2_syntaxRefusal(6784);
+        var next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6785), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6786), __HIVE_P2_get(this, "pos", 6787)], 6785, "CONTROL_ARRAY")), 6785);
+        if (next === 110)
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6788), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6788, "CONTROL_ARRAY")), 6788);
+        if (__HIVE_P2_binary(">=", next, 128, 6789) && !__HIVE_P2_invoke(__scalarSpace, void 0, (__HIVE_P2_reserveArray(1, 6790), __HIVE_P2_ownArray([next], 6790, "CONTROL_ARRAY")), 6790) && !__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 6791), __HIVE_P2_ownArray([next], 6791, "CONTROL_ARRAY")), 6791))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6792), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6792, "CONTROL_ARRAY")), 6792);
+        if (__HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 6793), __HIVE_P2_ownArray([next], 6793, "CONTROL_ARRAY")), 6793) || next === 92)
+            __HIVE_P2_syntaxRefusal(6794);
+        if (__HIVE_P2_binary(">", __HIVE_P2_binary("-", __HIVE_P2_get(this, "pos", 6797), digitsStart, 6796), 1024, 6795))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6798), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6798, "CONTROL_ARRAY")), 6798);
+        return (__HIVE_P2_temp6777_5 = this, __HIVE_P2_temp6777_6 = __HIVE_P2_get(__HIVE_P2_temp6777_5, "finishToken", 6799), __HIVE_P2_invoke(__HIVE_P2_temp6777_6, __HIVE_P2_temp6777_5, (__HIVE_P2_reserveArray(2, 6799), __HIVE_P2_ownArray([__HIVE_P2_get(m, "num", 6800), value], 6799, "CONTROL_ARRAY")), 6799));
+    }, 11, 1, 0, 6777)), 6802);
+    __HIVE_P2_set(We, "readNumber", (__HIVE_P2_reserveFunction(6805), __HIVE_P2_registerFunction(function (startsWithDot) {
+        var __HIVE_P2_temp6805_0, __HIVE_P2_temp6805_1, __HIVE_P2_temp6805_2, __HIVE_P2_temp6805_3, __HIVE_P2_temp6805_4, __HIVE_P2_temp6805_5, __HIVE_P2_temp6805_6, __HIVE_P2_temp6805_7, __HIVE_P2_temp6805_8, __HIVE_P2_temp6805_9;
+        var start = __HIVE_P2_get(this, "pos", 6806);
+        if (!startsWithDot && (__HIVE_P2_temp6805_0 = this, __HIVE_P2_temp6805_1 = __HIVE_P2_get(__HIVE_P2_temp6805_0, "readInt", 6807), __HIVE_P2_invoke(__HIVE_P2_temp6805_1, __HIVE_P2_temp6805_0, (__HIVE_P2_reserveArray(3, 6807), __HIVE_P2_ownArray([10, undefined, true], 6807, "CONTROL_ARRAY")), 6807)) === null) {
+            __HIVE_P2_syntaxRefusal(6809);
+        }
+        var legacyOctal = __HIVE_P2_binary(">=", __HIVE_P2_binary("-", __HIVE_P2_get(this, "pos", 6812), start, 6811), 2, 6810) && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6813), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6814), start], 6813, "CONTROL_ARRAY")), 6813) === 48;
+        if (legacyOctal && __HIVE_P2_get(this, "strict", 6815))
+            __HIVE_P2_syntaxRefusal(6816);
+        var next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6817), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6818), __HIVE_P2_get(this, "pos", 6819)], 6817, "CONTROL_ARRAY")), 6817);
+        if (!legacyOctal && !startsWithDot && next === 110)
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6820), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6820, "CONTROL_ARRAY")), 6820);
+        if (legacyOctal) {
+            for (var i = start; __HIVE_P2_binary("<", i, __HIVE_P2_get(this, "pos", 6823), 6822); (__HIVE_P2_temp6805_2 = __HIVE_P2_numeric(i, 6824), __HIVE_P2_temp6805_3 = __HIVE_P2_temp6805_2 + 1, i = __HIVE_P2_temp6805_3, __HIVE_P2_temp6805_2)) {
+                __HIVE_P2_tick(6821);
+                __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 6825), __HIVE_P2_ownArray([], 6825, "CONTROL_ARRAY")), 6825);
+                var digit = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6826), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6827), i], 6826, "CONTROL_ARRAY")), 6826);
+                if (digit === 56 || digit === 57)
+                    legacyOctal = false;
+            }
+        }
+        if (next === 46 && !legacyOctal) {
+            __HIVE_P2_increment(this, "pos", 1, true, 6829);
+            (__HIVE_P2_temp6805_4 = this, __HIVE_P2_temp6805_5 = __HIVE_P2_get(__HIVE_P2_temp6805_4, "readInt", 6831), __HIVE_P2_invoke(__HIVE_P2_temp6805_5, __HIVE_P2_temp6805_4, (__HIVE_P2_reserveArray(1, 6831), __HIVE_P2_ownArray([10], 6831, "CONTROL_ARRAY")), 6831));
+            next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6834), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6835), __HIVE_P2_get(this, "pos", 6836)], 6834, "CONTROL_ARRAY")), 6834);
+        }
+        if ((next === 69 || next === 101) && !legacyOctal) {
+            next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6838), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6839), __HIVE_P2_increment(this, "pos", 1, false, 6840)], 6838, "CONTROL_ARRAY")), 6838);
+            if (next === 43 || next === 45)
+                __HIVE_P2_increment(this, "pos", 1, true, 6842);
+            if ((__HIVE_P2_temp6805_6 = this, __HIVE_P2_temp6805_7 = __HIVE_P2_get(__HIVE_P2_temp6805_6, "readInt", 6844), __HIVE_P2_invoke(__HIVE_P2_temp6805_7, __HIVE_P2_temp6805_6, (__HIVE_P2_reserveArray(1, 6844), __HIVE_P2_ownArray([10], 6844, "CONTROL_ARRAY")), 6844)) === null)
+                __HIVE_P2_syntaxRefusal(6846);
+        }
+        var trailing = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6847), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6848), __HIVE_P2_get(this, "pos", 6849)], 6847, "CONTROL_ARRAY")), 6847);
+        if (__HIVE_P2_binary(">=", trailing, 128, 6850) && !__HIVE_P2_invoke(__scalarSpace, void 0, (__HIVE_P2_reserveArray(1, 6851), __HIVE_P2_ownArray([trailing], 6851, "CONTROL_ARRAY")), 6851) && !__HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 6852), __HIVE_P2_ownArray([trailing], 6852, "CONTROL_ARRAY")), 6852))
+            __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6853), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 6853, "CONTROL_ARRAY")), 6853);
+        if (__HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 6854), __HIVE_P2_ownArray([trailing], 6854, "CONTROL_ARRAY")), 6854) || trailing === 92)
+            __HIVE_P2_syntaxRefusal(6855);
+        var spelling = __HIVE_P2_invoke(__scalarNumericSpelling, void 0, (__HIVE_P2_reserveArray(3, 6856), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6857), start, __HIVE_P2_get(this, "pos", 6858)], 6856, "CONTROL_ARRAY")), 6856);
+        return (__HIVE_P2_temp6805_8 = this, __HIVE_P2_temp6805_9 = __HIVE_P2_get(__HIVE_P2_temp6805_8, "finishToken", 6859), __HIVE_P2_invoke(__HIVE_P2_temp6805_9, __HIVE_P2_temp6805_8, (__HIVE_P2_reserveArray(2, 6859), __HIVE_P2_ownArray([__HIVE_P2_get(m, "num", 6860), __HIVE_P2_invoke(__number, void 0, (__HIVE_P2_reserveArray(2, 6861), __HIVE_P2_ownArray([spelling, legacyOctal ? 8 : 10], 6861, "CONTROL_ARRAY")), 6861)], 6859, "CONTROL_ARRAY")), 6859));
+    }, 17, 1, 0, 6805)), 6863);
+    __HIVE_P2_set(We, "readCodePoint", (__HIVE_P2_reserveFunction(6866), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6866_0, __HIVE_P2_temp6866_1, __HIVE_P2_temp6866_2, __HIVE_P2_temp6866_3;
+        var start = __HIVE_P2_get(this, "pos", 6867), value = 0, digits = 0;
+        if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6868), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6869), __HIVE_P2_get(this, "pos", 6870)], 6868, "CONTROL_ARRAY")), 6868) === 123) {
+            __HIVE_P2_increment(this, "pos", 1, true, 6871);
+            start = __HIVE_P2_get(this, "pos", 6874);
+            while (__HIVE_P2_binary("<", __HIVE_P2_get(this, "pos", 6877), __HIVE_P2_get(__HIVE_P2_get(this, "input", 6879), "length", 6878), 6876) && __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6880), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6881), __HIVE_P2_get(this, "pos", 6882)], 6880, "CONTROL_ARRAY")), 6880) !== 125) {
+                __HIVE_P2_tick(6875);
+                __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 6883), __HIVE_P2_ownArray([], 6883, "CONTROL_ARRAY")), 6883);
+                var digit = __HIVE_P2_invoke(__scalarHex, void 0, (__HIVE_P2_reserveArray(1, 6884), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6885), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6886), __HIVE_P2_get(this, "pos", 6887)], 6885, "CONTROL_ARRAY")), 6885)], 6884, "CONTROL_ARRAY")), 6884);
+                if (__HIVE_P2_binary("<", digit, 0, 6888))
+                    __HIVE_P2_invalidTemplate(this, 6889);
+                value = __HIVE_P2_binary("+", __HIVE_P2_binary("*", value, 16, 6892), digit, 6891);
+                (__HIVE_P2_temp6866_0 = __HIVE_P2_numeric(digits, 6893), __HIVE_P2_temp6866_1 = __HIVE_P2_temp6866_0 + 1, digits = __HIVE_P2_temp6866_1, __HIVE_P2_temp6866_0);
+                __HIVE_P2_increment(this, "pos", 1, true, 6894);
+            }
+            if (digits === 0 || __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6896), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6897), __HIVE_P2_get(this, "pos", 6898)], 6896, "CONTROL_ARRAY")), 6896) !== 125) {
+                __HIVE_P2_invalidTemplate(this, 6899);
+            }
+            __HIVE_P2_increment(this, "pos", 1, true, 6900);
+            if (__HIVE_P2_binary(">", value, 1114111, 6902))
+                __HIVE_P2_invalidTemplate(this, 6903);
+            return value;
+        }
+        for (var i = 0; __HIVE_P2_binary("<", i, 4, 6905); (__HIVE_P2_temp6866_2 = __HIVE_P2_numeric(i, 6906), __HIVE_P2_temp6866_3 = __HIVE_P2_temp6866_2 + 1, i = __HIVE_P2_temp6866_3, __HIVE_P2_temp6866_2)) {
+            __HIVE_P2_tick(6904);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 6907), __HIVE_P2_ownArray([], 6907, "CONTROL_ARRAY")), 6907);
+            var digit = __HIVE_P2_invoke(__scalarHex, void 0, (__HIVE_P2_reserveArray(1, 6908), __HIVE_P2_ownArray([__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 6909), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 6910), __HIVE_P2_get(this, "pos", 6911)], 6909, "CONTROL_ARRAY")), 6909)], 6908, "CONTROL_ARRAY")), 6908);
+            if (__HIVE_P2_binary("<", digit, 0, 6912))
+                __HIVE_P2_invalidTemplate(this, 6913);
+            value = __HIVE_P2_binary("+", __HIVE_P2_binary("*", value, 16, 6916), digit, 6915);
+            __HIVE_P2_increment(this, "pos", 1, true, 6917);
+        }
+        return value;
+    }, 10, 0, 0, 6866)), 6919);
+    (__HIVE_P2_temp0_1513 = We, __HIVE_P2_temp0_1514 = "readString", __HIVE_P2_set(__HIVE_P2_temp0_1513, __HIVE_P2_temp0_1514, (__HIVE_P2_reserveFunction(6923), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp6923_0, __HIVE_P2_temp6923_1, __HIVE_P2_temp6923_2, __HIVE_P2_temp6923_3, __HIVE_P2_temp6923_4, __HIVE_P2_temp6923_5, __HIVE_P2_temp6923_6, __HIVE_P2_temp6923_7, __HIVE_P2_temp6923_8, __HIVE_P2_temp6923_9, __HIVE_P2_temp6923_10, __HIVE_P2_temp6923_11, __HIVE_P2_temp6923_12;
+        var t = "", i = __HIVE_P2_increment(this, "pos", 1, false, 6924);
+        for (;;) {
+            __HIVE_P2_tick(6926);
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(this, "pos", 6928), __HIVE_P2_get(__HIVE_P2_get(this, "input", 6930), "length", 6929), 6927)) {
+                __HIVE_P2_syntaxRefusal(6931);
+            }
+            var s = (__HIVE_P2_temp6923_0 = __HIVE_P2_get(this, "input", 6935), __HIVE_P2_temp6923_1 = __HIVE_P2_get(__HIVE_P2_temp6923_0, "charCodeAt", 6932), __HIVE_P2_invoke(__HIVE_P2_temp6923_1, __HIVE_P2_temp6923_0, (__HIVE_P2_reserveArray(1, 6932), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 6933)], 6932, "CONTROL_ARRAY")), 6932));
+            if (s === e) {
+                break;
+            }
+            if (s === 92) {
+                t = __HIVE_P2_binary("+", t, (__HIVE_P2_temp6923_2 = __HIVE_P2_get(this, "input", 6940), __HIVE_P2_temp6923_3 = __HIVE_P2_get(__HIVE_P2_temp6923_2, "slice", 6937), __HIVE_P2_invoke(__HIVE_P2_temp6923_3, __HIVE_P2_temp6923_2, (__HIVE_P2_reserveArray(2, 6937), __HIVE_P2_ownArray([i, __HIVE_P2_get(this, "pos", 6938)], 6937, "CONTROL_ARRAY")), 6937)), 6936);
+                t = __HIVE_P2_binary("+", t, (__HIVE_P2_temp6923_4 = this, __HIVE_P2_temp6923_5 = __HIVE_P2_get(__HIVE_P2_temp6923_4, "readEscapedChar", 6942), __HIVE_P2_invoke(__HIVE_P2_temp6923_5, __HIVE_P2_temp6923_4, (__HIVE_P2_reserveArray(1, 6942), __HIVE_P2_ownArray([false], 6942, "CONTROL_ARRAY")), 6942)), 6941);
+                i = __HIVE_P2_get(this, "pos", 6945);
+            }
+            else if (s === 8232 || s === 8233) {
+                if (__HIVE_P2_binary("<", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6948), "ecmaVersion", 6947), 10, 6946)) {
+                    __HIVE_P2_syntaxRefusal(6949);
+                }
+                __HIVE_P2_increment(this, "pos", 1, false, 6950);
+                if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 6953), "locations", 6952)) {
+                    __HIVE_P2_increment(this, "curLine", 1, true, 6954);
+                    (__HIVE_P2_temp6923_6 = this, __HIVE_P2_temp6923_7 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp6923_6, __HIVE_P2_temp6923_7, __HIVE_P2_get(this, "pos", 6958), 6956));
+                }
+            }
+            else {
+                if (__HIVE_P2_invoke(isNewLine, void 0, (__HIVE_P2_reserveArray(1, 6959), __HIVE_P2_ownArray([s], 6959, "CONTROL_ARRAY")), 6959)) {
+                    __HIVE_P2_syntaxRefusal(6960);
+                }
+                __HIVE_P2_increment(this, "pos", 1, false, 6961);
+            }
+        }
+        t = __HIVE_P2_binary("+", t, (__HIVE_P2_temp6923_9 = __HIVE_P2_get(this, "input", 6968), __HIVE_P2_temp6923_10 = __HIVE_P2_get(__HIVE_P2_temp6923_9, "slice", 6964), __HIVE_P2_invoke(__HIVE_P2_temp6923_10, __HIVE_P2_temp6923_9, (__HIVE_P2_reserveArray(2, 6964), __HIVE_P2_ownArray([i, __HIVE_P2_increment(this, "pos", 1, true, 6965)], 6964, "CONTROL_ARRAY")), 6964)), 6963);
+        return (__HIVE_P2_temp6923_11 = this, __HIVE_P2_temp6923_12 = __HIVE_P2_get(__HIVE_P2_temp6923_11, "finishToken", 6969), __HIVE_P2_invoke(__HIVE_P2_temp6923_12, __HIVE_P2_temp6923_11, (__HIVE_P2_reserveArray(2, 6969), __HIVE_P2_ownArray([__HIVE_P2_get(m, "string", 6970), t], 6969, "CONTROL_ARRAY")), 6969));
+    }, 16, 1, 0, 6923)), 6921));
+    var ze = (__HIVE_P2_reserveObject(0, 6972), __HIVE_P2_ownObject({}, 6972, 0, 0));
+    (__HIVE_P2_temp0_1516 = We, __HIVE_P2_temp0_1517 = "tryReadTemplateToken", __HIVE_P2_set(__HIVE_P2_temp0_1516, __HIVE_P2_temp0_1517, (__HIVE_P2_reserveFunction(6975), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6975_0, __HIVE_P2_temp6975_1, __HIVE_P2_temp6975_2, __HIVE_P2_temp6975_3, __HIVE_P2_temp6975_4, __HIVE_P2_temp6975_5, __HIVE_P2_temp6975_6, __HIVE_P2_temp6975_7, __HIVE_P2_temp6975_8, __HIVE_P2_temp6975_9;
+        (__HIVE_P2_temp6975_0 = this, __HIVE_P2_temp6975_1 = "inTemplateElement", __HIVE_P2_set(__HIVE_P2_temp6975_0, __HIVE_P2_temp6975_1, true, 6976));
+        try {
+            (__HIVE_P2_temp6975_3 = this, __HIVE_P2_temp6975_4 = __HIVE_P2_get(__HIVE_P2_temp6975_3, "readTmplToken", 6978), __HIVE_P2_invoke(__HIVE_P2_temp6975_4, __HIVE_P2_temp6975_3, (__HIVE_P2_reserveArray(0, 6978), __HIVE_P2_ownArray([], 6978, "CONTROL_ARRAY")), 6978));
+        }
+        catch (e) {
+            if (e === ze) {
+                (__HIVE_P2_temp6975_5 = this, __HIVE_P2_temp6975_6 = __HIVE_P2_get(__HIVE_P2_temp6975_5, "readInvalidTemplateToken", 6980), __HIVE_P2_invoke(__HIVE_P2_temp6975_6, __HIVE_P2_temp6975_5, (__HIVE_P2_reserveArray(0, 6980), __HIVE_P2_ownArray([], 6980, "CONTROL_ARRAY")), 6980));
+            }
+            else {
+                throw e;
+            }
+        }
+        (__HIVE_P2_temp6975_7 = this, __HIVE_P2_temp6975_8 = "inTemplateElement", __HIVE_P2_set(__HIVE_P2_temp6975_7, __HIVE_P2_temp6975_8, false, 6982));
+    }, 11, 0, 0, 6975)), 6973));
+    __HIVE_P2_set(We, "invalidStringToken", (__HIVE_P2_reserveFunction(6985), __HIVE_P2_registerFunction(function () {
+        if (__HIVE_P2_get(this, "inTemplateElement", 6986) && __HIVE_P2_binary(">=", __HIVE_P2_get(__HIVE_P2_get(this, "options", 6989), "ecmaVersion", 6988), 9, 6987)) {
+            throw ze;
+        }
+        __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 6990), __HIVE_P2_ownArray(["SYNTAX_REFUSED"], 6990, "CONTROL_ARRAY")), 6990);
+    }, 0, 0, 0, 6985)), 6991);
+    (__HIVE_P2_temp0_1519 = We, __HIVE_P2_temp0_1520 = "readTmplToken", __HIVE_P2_set(__HIVE_P2_temp0_1519, __HIVE_P2_temp0_1520, (__HIVE_P2_reserveFunction(6995), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp6995_0, __HIVE_P2_temp6995_1, __HIVE_P2_temp6995_2, __HIVE_P2_temp6995_3, __HIVE_P2_temp6995_4, __HIVE_P2_temp6995_5, __HIVE_P2_temp6995_6, __HIVE_P2_temp6995_7, __HIVE_P2_temp6995_8, __HIVE_P2_temp6995_9, __HIVE_P2_temp6995_10, __HIVE_P2_temp6995_11, __HIVE_P2_temp6995_12, __HIVE_P2_temp6995_13, __HIVE_P2_temp6995_14, __HIVE_P2_temp6995_15, __HIVE_P2_temp6995_16, __HIVE_P2_temp6995_17, __HIVE_P2_temp6995_18, __HIVE_P2_temp6995_19, __HIVE_P2_temp6995_20, __HIVE_P2_temp6995_21, __HIVE_P2_temp6995_22, __HIVE_P2_temp6995_23, __HIVE_P2_temp6995_24, __HIVE_P2_temp6995_25, __HIVE_P2_temp6995_26, __HIVE_P2_temp6995_27;
+        var e = "", t = __HIVE_P2_get(this, "pos", 6996);
+        for (;;) {
+            __HIVE_P2_tick(6997);
+            if (__HIVE_P2_binary(">=", __HIVE_P2_get(this, "pos", 6999), __HIVE_P2_get(__HIVE_P2_get(this, "input", 7001), "length", 7000), 6998)) {
+                __HIVE_P2_syntaxRefusal(7002);
+            }
+            var i = (__HIVE_P2_temp6995_0 = __HIVE_P2_get(this, "input", 7006), __HIVE_P2_temp6995_1 = __HIVE_P2_get(__HIVE_P2_temp6995_0, "charCodeAt", 7003), __HIVE_P2_invoke(__HIVE_P2_temp6995_1, __HIVE_P2_temp6995_0, (__HIVE_P2_reserveArray(1, 7003), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 7004)], 7003, "CONTROL_ARRAY")), 7003));
+            if (i === 96 || i === 36 && (__HIVE_P2_temp6995_2 = __HIVE_P2_get(this, "input", 7011), __HIVE_P2_temp6995_3 = __HIVE_P2_get(__HIVE_P2_temp6995_2, "charCodeAt", 7007), __HIVE_P2_invoke(__HIVE_P2_temp6995_3, __HIVE_P2_temp6995_2, (__HIVE_P2_reserveArray(1, 7007), __HIVE_P2_ownArray([__HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 7009), 1, 7008)], 7007, "CONTROL_ARRAY")), 7007)) === 123) {
+                if (__HIVE_P2_get(this, "pos", 7012) === __HIVE_P2_get(this, "start", 7013) && (__HIVE_P2_get(this, "type", 7014) === __HIVE_P2_get(m, "template", 7015) || __HIVE_P2_get(this, "type", 7016) === __HIVE_P2_get(m, "invalidTemplate", 7017))) {
+                    if (i === 36) {
+                        (__HIVE_P2_temp6995_4 = this, __HIVE_P2_temp6995_5 = "pos", __HIVE_P2_temp6995_6 = __HIVE_P2_get(__HIVE_P2_temp6995_4, __HIVE_P2_temp6995_5, 7018), __HIVE_P2_set(__HIVE_P2_temp6995_4, __HIVE_P2_temp6995_5, __HIVE_P2_binary("+", __HIVE_P2_temp6995_6, 2, 7018), 7018));
+                        return (__HIVE_P2_temp6995_7 = this, __HIVE_P2_temp6995_8 = __HIVE_P2_get(__HIVE_P2_temp6995_7, "finishToken", 7020), __HIVE_P2_invoke(__HIVE_P2_temp6995_8, __HIVE_P2_temp6995_7, (__HIVE_P2_reserveArray(1, 7020), __HIVE_P2_ownArray([__HIVE_P2_get(m, "dollarBraceL", 7021)], 7020, "CONTROL_ARRAY")), 7020));
+                    }
+                    else {
+                        __HIVE_P2_increment(this, "pos", 1, false, 7023);
+                        return (__HIVE_P2_temp6995_9 = this, __HIVE_P2_temp6995_10 = __HIVE_P2_get(__HIVE_P2_temp6995_9, "finishToken", 7025), __HIVE_P2_invoke(__HIVE_P2_temp6995_10, __HIVE_P2_temp6995_9, (__HIVE_P2_reserveArray(1, 7025), __HIVE_P2_ownArray([__HIVE_P2_get(m, "backQuote", 7026)], 7025, "CONTROL_ARRAY")), 7025));
+                    }
+                }
+                e = __HIVE_P2_binary("+", e, (__HIVE_P2_temp6995_11 = __HIVE_P2_get(this, "input", 7032), __HIVE_P2_temp6995_12 = __HIVE_P2_get(__HIVE_P2_temp6995_11, "slice", 7029), __HIVE_P2_invoke(__HIVE_P2_temp6995_12, __HIVE_P2_temp6995_11, (__HIVE_P2_reserveArray(2, 7029), __HIVE_P2_ownArray([t, __HIVE_P2_get(this, "pos", 7030)], 7029, "CONTROL_ARRAY")), 7029)), 7028);
+                return (__HIVE_P2_temp6995_13 = this, __HIVE_P2_temp6995_14 = __HIVE_P2_get(__HIVE_P2_temp6995_13, "finishToken", 7033), __HIVE_P2_invoke(__HIVE_P2_temp6995_14, __HIVE_P2_temp6995_13, (__HIVE_P2_reserveArray(2, 7033), __HIVE_P2_ownArray([__HIVE_P2_get(m, "template", 7034), e], 7033, "CONTROL_ARRAY")), 7033));
+            }
+            if (i === 92) {
+                e = __HIVE_P2_binary("+", e, (__HIVE_P2_temp6995_15 = __HIVE_P2_get(this, "input", 7040), __HIVE_P2_temp6995_16 = __HIVE_P2_get(__HIVE_P2_temp6995_15, "slice", 7037), __HIVE_P2_invoke(__HIVE_P2_temp6995_16, __HIVE_P2_temp6995_15, (__HIVE_P2_reserveArray(2, 7037), __HIVE_P2_ownArray([t, __HIVE_P2_get(this, "pos", 7038)], 7037, "CONTROL_ARRAY")), 7037)), 7036);
+                e = __HIVE_P2_binary("+", e, (__HIVE_P2_temp6995_17 = this, __HIVE_P2_temp6995_18 = __HIVE_P2_get(__HIVE_P2_temp6995_17, "readEscapedChar", 7042), __HIVE_P2_invoke(__HIVE_P2_temp6995_18, __HIVE_P2_temp6995_17, (__HIVE_P2_reserveArray(1, 7042), __HIVE_P2_ownArray([true], 7042, "CONTROL_ARRAY")), 7042)), 7041);
+                t = __HIVE_P2_get(this, "pos", 7045);
+            }
+            else if (__HIVE_P2_invoke(isNewLine, void 0, (__HIVE_P2_reserveArray(1, 7046), __HIVE_P2_ownArray([i], 7046, "CONTROL_ARRAY")), 7046)) {
+                e = __HIVE_P2_binary("+", e, (__HIVE_P2_temp6995_19 = __HIVE_P2_get(this, "input", 7051), __HIVE_P2_temp6995_20 = __HIVE_P2_get(__HIVE_P2_temp6995_19, "slice", 7048), __HIVE_P2_invoke(__HIVE_P2_temp6995_20, __HIVE_P2_temp6995_19, (__HIVE_P2_reserveArray(2, 7048), __HIVE_P2_ownArray([t, __HIVE_P2_get(this, "pos", 7049)], 7048, "CONTROL_ARRAY")), 7048)), 7047);
+                __HIVE_P2_increment(this, "pos", 1, false, 7052);
+                switch (i) {
+                    case 13: if ((__HIVE_P2_temp6995_21 = __HIVE_P2_get(this, "input", 7057), __HIVE_P2_temp6995_22 = __HIVE_P2_get(__HIVE_P2_temp6995_21, "charCodeAt", 7054), __HIVE_P2_invoke(__HIVE_P2_temp6995_22, __HIVE_P2_temp6995_21, (__HIVE_P2_reserveArray(1, 7054), __HIVE_P2_ownArray([__HIVE_P2_get(this, "pos", 7055)], 7054, "CONTROL_ARRAY")), 7054)) === 10) {
+                        __HIVE_P2_increment(this, "pos", 1, false, 7058);
+                    }
+                    case 10:
+                        e = __HIVE_P2_binary("+", e, "\n", 7060);
+                        break;
+                    default:
+                        e = __HIVE_P2_binary("+", e, (__HIVE_P2_temp6995_23 = __HIVE_P2_String, __HIVE_P2_temp6995_24 = __HIVE_P2_get(__HIVE_P2_temp6995_23, "fromCharCode", 7062), __HIVE_P2_invoke(__HIVE_P2_temp6995_24, __HIVE_P2_temp6995_23, (__HIVE_P2_reserveArray(1, 7062), __HIVE_P2_ownArray([i], 7062, "CONTROL_ARRAY")), 7062)), 7061);
+                        break;
+                }
+                if (__HIVE_P2_get(__HIVE_P2_get(this, "options", 7065), "locations", 7064)) {
+                    __HIVE_P2_increment(this, "curLine", 1, false, 7066);
+                    (__HIVE_P2_temp6995_25 = this, __HIVE_P2_temp6995_26 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp6995_25, __HIVE_P2_temp6995_26, __HIVE_P2_get(this, "pos", 7070), 7068));
+                }
+                t = __HIVE_P2_get(this, "pos", 7072);
+            }
+            else {
+                __HIVE_P2_increment(this, "pos", 1, false, 7073);
+            }
+        }
+    }, 31, 0, 0, 6995)), 6993));
+    (__HIVE_P2_temp0_1522 = We, __HIVE_P2_temp0_1523 = "readInvalidTemplateToken", __HIVE_P2_set(__HIVE_P2_temp0_1522, __HIVE_P2_temp0_1523, (__HIVE_P2_reserveFunction(7077), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp7077_0, __HIVE_P2_temp7077_1, __HIVE_P2_temp7077_2, __HIVE_P2_temp7077_3, __HIVE_P2_temp7077_4, __HIVE_P2_temp7077_5, __HIVE_P2_temp7077_6;
+        for (; __HIVE_P2_binary("<", __HIVE_P2_get(this, "pos", 7080), __HIVE_P2_get(__HIVE_P2_get(this, "input", 7082), "length", 7081), 7079); __HIVE_P2_increment(this, "pos", 1, true, 7083)) {
+            __HIVE_P2_tick(7078);
+            switch (__HIVE_P2_get(__HIVE_P2_get(this, "input", 7086), __HIVE_P2_get(this, "pos", 7087), 7085)) {
+                case "\\":
+                    __HIVE_P2_increment(this, "pos", 1, false, 7088);
+                    break;
+                case "$": if (__HIVE_P2_get(__HIVE_P2_get(this, "input", 7091), __HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 7093), 1, 7092), 7090) !== "{") {
+                    break;
+                }
+                case "`": return (__HIVE_P2_temp7077_2 = this, __HIVE_P2_temp7077_3 = __HIVE_P2_get(__HIVE_P2_temp7077_2, "finishToken", 7094), __HIVE_P2_invoke(__HIVE_P2_temp7077_3, __HIVE_P2_temp7077_2, (__HIVE_P2_reserveArray(2, 7094), __HIVE_P2_ownArray([__HIVE_P2_get(m, "invalidTemplate", 7095), (__HIVE_P2_temp7077_0 = __HIVE_P2_get(this, "input", 7100), __HIVE_P2_temp7077_1 = __HIVE_P2_get(__HIVE_P2_temp7077_0, "slice", 7096), __HIVE_P2_invoke(__HIVE_P2_temp7077_1, __HIVE_P2_temp7077_0, (__HIVE_P2_reserveArray(2, 7096), __HIVE_P2_ownArray([__HIVE_P2_get(this, "start", 7097), __HIVE_P2_get(this, "pos", 7098)], 7096, "CONTROL_ARRAY")), 7096))], 7094, "CONTROL_ARRAY")), 7094));
+                case "\r": if (__HIVE_P2_get(__HIVE_P2_get(this, "input", 7103), __HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 7105), 1, 7104), 7102) === "\n") {
+                    __HIVE_P2_increment(this, "pos", 1, false, 7106);
+                }
+                case "\n":
+                case "\u2028":
+                case "\u2029":
+                    __HIVE_P2_increment(this, "curLine", 1, false, 7108);
+                    (__HIVE_P2_temp7077_4 = this, __HIVE_P2_temp7077_5 = "lineStart", __HIVE_P2_set(__HIVE_P2_temp7077_4, __HIVE_P2_temp7077_5, __HIVE_P2_binary("+", __HIVE_P2_get(this, "pos", 7113), 1, 7112), 7110));
+                    break;
+            }
+        }
+        __HIVE_P2_syntaxRefusal(7114);
+    }, 7, 0, 0, 7077)), 7075));
+    __HIVE_P2_set(We, "readEscapedChar", (__HIVE_P2_reserveFunction(7116), __HIVE_P2_registerFunction(function (inTemplate) {
+        var __HIVE_P2_temp7116_0, __HIVE_P2_temp7116_1, __HIVE_P2_temp7116_2, __HIVE_P2_temp7116_3, __HIVE_P2_temp7116_4, __HIVE_P2_temp7116_5;
+        var c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7117), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7118), __HIVE_P2_increment(this, "pos", 1, false, 7119)], 7117, "CONTROL_ARRAY")), 7117);
+        __HIVE_P2_increment(this, "pos", 1, true, 7121);
+        switch (c) {
+            case 110: return "\n";
+            case 114: return "\r";
+            case 116: return "\t";
+            case 98: return "\b";
+            case 118: return "\v";
+            case 102: return "\f";
+            case 120: return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7123), __HIVE_P2_ownArray([(__HIVE_P2_temp7116_0 = this, __HIVE_P2_temp7116_1 = __HIVE_P2_get(__HIVE_P2_temp7116_0, "readHexChar", 7124), __HIVE_P2_invoke(__HIVE_P2_temp7116_1, __HIVE_P2_temp7116_0, (__HIVE_P2_reserveArray(1, 7124), __HIVE_P2_ownArray([2], 7124, "CONTROL_ARRAY")), 7124))], 7123, "CONTROL_ARRAY")), 7123);
+            case 117: return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7126), __HIVE_P2_ownArray([(__HIVE_P2_temp7116_2 = this, __HIVE_P2_temp7116_3 = __HIVE_P2_get(__HIVE_P2_temp7116_2, "readCodePoint", 7127), __HIVE_P2_invoke(__HIVE_P2_temp7116_3, __HIVE_P2_temp7116_2, (__HIVE_P2_reserveArray(0, 7127), __HIVE_P2_ownArray([], 7127, "CONTROL_ARRAY")), 7127))], 7126, "CONTROL_ARRAY")), 7126);
+            case 13:
+                if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7129), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7130), __HIVE_P2_get(this, "pos", 7131)], 7129, "CONTROL_ARRAY")), 7129) === 10)
+                    __HIVE_P2_increment(this, "pos", 1, true, 7132);
+                return "";
+            case 10:
+            case 8232:
+            case 8233: return "";
+            case 56:
+            case 57:
+                if (__HIVE_P2_get(this, "strict", 7134) || inTemplate) {
+                    __HIVE_P2_invalidTemplate(this, 7135);
+                }
+                return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7136), __HIVE_P2_ownArray([c], 7136, "CONTROL_ARRAY")), 7136);
+        }
+        if (c !== c)
+            __HIVE_P2_invalidTemplate(this, 7137);
+        if (__HIVE_P2_binary(">=", c, 48, 7138) && __HIVE_P2_binary("<=", c, 55, 7139)) {
+            var value = __HIVE_P2_binary("-", c, 48, 7140), digits = 1;
+            while (__HIVE_P2_binary("<", digits, 3, 7142)) {
+                __HIVE_P2_tick(7141);
+                __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 7143), __HIVE_P2_ownArray([], 7143, "CONTROL_ARRAY")), 7143);
+                var next = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7144), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7145), __HIVE_P2_get(this, "pos", 7146)], 7144, "CONTROL_ARRAY")), 7144);
+                if (__HIVE_P2_binary("<", next, 48, 7147) || __HIVE_P2_binary(">", next, 55, 7148) || next !== next)
+                    break;
+                var candidate = __HIVE_P2_binary("-", __HIVE_P2_binary("+", __HIVE_P2_binary("*", value, 8, 7151), next, 7150), 48, 7149);
+                if (__HIVE_P2_binary(">", candidate, 255, 7152))
+                    break;
+                value = candidate;
+                (__HIVE_P2_temp7116_4 = __HIVE_P2_numeric(digits, 7154), __HIVE_P2_temp7116_5 = __HIVE_P2_temp7116_4 + 1, digits = __HIVE_P2_temp7116_5, __HIVE_P2_temp7116_4);
+                __HIVE_P2_increment(this, "pos", 1, true, 7155);
+            }
+            var following = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7157), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7158), __HIVE_P2_get(this, "pos", 7159)], 7157, "CONTROL_ARRAY")), 7157);
+            if ((digits !== 1 || c !== 48 || following === 56 || following === 57) && (__HIVE_P2_get(this, "strict", 7160) || inTemplate)) {
+                __HIVE_P2_invalidTemplate(this, 7161);
+            }
+            return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7162), __HIVE_P2_ownArray([value], 7162, "CONTROL_ARRAY")), 7162);
+        }
+        return __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7163), __HIVE_P2_ownArray([c], 7163, "CONTROL_ARRAY")), 7163);
+    }, 12, 1, 0, 7116)), 7164);
+    (__HIVE_P2_temp0_1525 = We, __HIVE_P2_temp0_1526 = "readHexChar", __HIVE_P2_set(__HIVE_P2_temp0_1525, __HIVE_P2_temp0_1526, (__HIVE_P2_reserveFunction(7168), __HIVE_P2_registerFunction(function (e) {
+        var __HIVE_P2_temp7168_0, __HIVE_P2_temp7168_1;
+        var t = __HIVE_P2_get(this, "pos", 7169);
+        var i = (__HIVE_P2_temp7168_0 = this, __HIVE_P2_temp7168_1 = __HIVE_P2_get(__HIVE_P2_temp7168_0, "readInt", 7170), __HIVE_P2_invoke(__HIVE_P2_temp7168_1, __HIVE_P2_temp7168_0, (__HIVE_P2_reserveArray(2, 7170), __HIVE_P2_ownArray([16, e], 7170, "CONTROL_ARRAY")), 7170));
+        if (i === null) {
+            __HIVE_P2_invalidTemplate(this, 7172);
+        }
+        return i;
+    }, 4, 1, 0, 7168)), 7166));
+    __HIVE_P2_set(We, "readWord1", (__HIVE_P2_reserveFunction(7174), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp7174_0, __HIVE_P2_temp7174_1, __HIVE_P2_temp7174_2, __HIVE_P2_temp7174_3, __HIVE_P2_temp7174_4, __HIVE_P2_temp7174_5, __HIVE_P2_temp7174_6, __HIVE_P2_temp7174_7;
+        (__HIVE_P2_temp7174_0 = this, __HIVE_P2_temp7174_1 = "containsEsc", __HIVE_P2_set(__HIVE_P2_temp7174_0, __HIVE_P2_temp7174_1, false, 7175));
+        var word = "", first = true, chunk = __HIVE_P2_get(this, "pos", 7177);
+        while (__HIVE_P2_binary("<", __HIVE_P2_get(this, "pos", 7180), __HIVE_P2_get(__HIVE_P2_get(this, "input", 7182), "length", 7181), 7179)) {
+            __HIVE_P2_tick(7178);
+            __HIVE_P2_invoke(__tick, void 0, (__HIVE_P2_reserveArray(0, 7183), __HIVE_P2_ownArray([], 7183, "CONTROL_ARRAY")), 7183);
+            var c = __HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7184), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7185), __HIVE_P2_get(this, "pos", 7186)], 7184, "CONTROL_ARRAY")), 7184);
+            if (__HIVE_P2_invoke(__scalarSpace, void 0, (__HIVE_P2_reserveArray(1, 7187), __HIVE_P2_ownArray([c], 7187, "CONTROL_ARRAY")), 7187) || __HIVE_P2_invoke(__scalarLine, void 0, (__HIVE_P2_reserveArray(1, 7188), __HIVE_P2_ownArray([c], 7188, "CONTROL_ARRAY")), 7188))
+                break;
+            if (__HIVE_P2_binary(">=", c, 128, 7189))
+                __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 7190), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 7190, "CONTROL_ARRAY")), 7190);
+            if (c === 92) {
+                (__HIVE_P2_temp7174_3 = this, __HIVE_P2_temp7174_4 = "containsEsc", __HIVE_P2_set(__HIVE_P2_temp7174_3, __HIVE_P2_temp7174_4, true, 7191));
+                word = __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 7194), __HIVE_P2_ownArray([word, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 7195), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7196), chunk, __HIVE_P2_get(this, "pos", 7197)], 7195, "CONTROL_ARRAY")), 7195)], 7194, "CONTROL_ARRAY")), 7194);
+                var escapeStart = __HIVE_P2_get(this, "pos", 7198);
+                if (__HIVE_P2_invoke(__char, void 0, (__HIVE_P2_reserveArray(2, 7199), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7200), __HIVE_P2_increment(this, "pos", 1, false, 7201)], 7199, "CONTROL_ARRAY")), 7199) !== 117) {
+                    __HIVE_P2_invalidTemplate(this, 7203);
+                }
+                __HIVE_P2_increment(this, "pos", 1, true, 7204);
+                var point = (__HIVE_P2_temp7174_6 = this, __HIVE_P2_temp7174_7 = __HIVE_P2_get(__HIVE_P2_temp7174_6, "readCodePoint", 7206), __HIVE_P2_invoke(__HIVE_P2_temp7174_7, __HIVE_P2_temp7174_6, (__HIVE_P2_reserveArray(0, 7206), __HIVE_P2_ownArray([], 7206, "CONTROL_ARRAY")), 7206));
+                if (__HIVE_P2_binary(">", point, 127, 7208))
+                    __HIVE_P2_invoke(__refuse, void 0, (__HIVE_P2_reserveArray(1, 7209), __HIVE_P2_ownArray(["UNSUPPORTED_BOUNDED_SYNTAX"], 7209, "CONTROL_ARRAY")), 7209);
+                if (!(first ? __HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 7210), __HIVE_P2_ownArray([point], 7210, "CONTROL_ARRAY")), 7210) : __HIVE_P2_invoke(__scalarContinue, void 0, (__HIVE_P2_reserveArray(1, 7211), __HIVE_P2_ownArray([point], 7211, "CONTROL_ARRAY")), 7211))) {
+                    __HIVE_P2_invalidTemplate(this, 7212);
+                }
+                word = __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 7214), __HIVE_P2_ownArray([word, __HIVE_P2_invoke(__codePoint, void 0, (__HIVE_P2_reserveArray(1, 7215), __HIVE_P2_ownArray([point], 7215, "CONTROL_ARRAY")), 7215)], 7214, "CONTROL_ARRAY")), 7214);
+                chunk = __HIVE_P2_get(this, "pos", 7217);
+            }
+            else {
+                if (!(first ? __HIVE_P2_invoke(__scalarStart, void 0, (__HIVE_P2_reserveArray(1, 7218), __HIVE_P2_ownArray([c], 7218, "CONTROL_ARRAY")), 7218) : __HIVE_P2_invoke(__scalarContinue, void 0, (__HIVE_P2_reserveArray(1, 7219), __HIVE_P2_ownArray([c], 7219, "CONTROL_ARRAY")), 7219)))
+                    break;
+                __HIVE_P2_increment(this, "pos", 1, true, 7220);
+            }
+            first = false;
+        }
+        return __HIVE_P2_invoke(__concat, void 0, (__HIVE_P2_reserveArray(2, 7223), __HIVE_P2_ownArray([word, __HIVE_P2_invoke(__slice, void 0, (__HIVE_P2_reserveArray(3, 7224), __HIVE_P2_ownArray([__HIVE_P2_get(this, "input", 7225), chunk, __HIVE_P2_get(this, "pos", 7226)], 7224, "CONTROL_ARRAY")), 7224)], 7223, "CONTROL_ARRAY")), 7223);
+    }, 14, 0, 0, 7174)), 7227);
+    (__HIVE_P2_temp0_1528 = We, __HIVE_P2_temp0_1529 = "readWord", __HIVE_P2_set(__HIVE_P2_temp0_1528, __HIVE_P2_temp0_1529, (__HIVE_P2_reserveFunction(7231), __HIVE_P2_registerFunction(function () {
+        var __HIVE_P2_temp7231_0, __HIVE_P2_temp7231_1, __HIVE_P2_temp7231_2, __HIVE_P2_temp7231_3, __HIVE_P2_temp7231_4, __HIVE_P2_temp7231_5;
+        var e = (__HIVE_P2_temp7231_0 = this, __HIVE_P2_temp7231_1 = __HIVE_P2_get(__HIVE_P2_temp7231_0, "readWord1", 7232), __HIVE_P2_invoke(__HIVE_P2_temp7231_1, __HIVE_P2_temp7231_0, (__HIVE_P2_reserveArray(0, 7232), __HIVE_P2_ownArray([], 7232, "CONTROL_ARRAY")), 7232));
+        var t = __HIVE_P2_get(m, "name", 7234);
+        if ((__HIVE_P2_temp7231_2 = __HIVE_P2_get(this, "keywords", 7237), __HIVE_P2_temp7231_3 = __HIVE_P2_get(__HIVE_P2_temp7231_2, "test", 7235), __HIVE_P2_invoke(__HIVE_P2_temp7231_3, __HIVE_P2_temp7231_2, (__HIVE_P2_reserveArray(1, 7235), __HIVE_P2_ownArray([e], 7235, "CONTROL_ARRAY")), 7235))) {
+            t = __HIVE_P2_get(d, e, 7239);
+        }
+        return (__HIVE_P2_temp7231_4 = this, __HIVE_P2_temp7231_5 = __HIVE_P2_get(__HIVE_P2_temp7231_4, "finishToken", 7240), __HIVE_P2_invoke(__HIVE_P2_temp7231_5, __HIVE_P2_temp7231_4, (__HIVE_P2_reserveArray(2, 7240), __HIVE_P2_ownArray([t, e], 7240, "CONTROL_ARRAY")), 7240));
+    }, 8, 0, 0, 7231)), 7229));
+    var Ke = "8.14.0";
+    function parse(e, t) {
+        var __HIVE_P2_temp7243_0, __HIVE_P2_temp7243_1;
+        return (__HIVE_P2_temp7243_0 = K, __HIVE_P2_temp7243_1 = __HIVE_P2_get(__HIVE_P2_temp7243_0, "parse", 7244), __HIVE_P2_invoke(__HIVE_P2_temp7243_1, __HIVE_P2_temp7243_0, (__HIVE_P2_reserveArray(2, 7244), __HIVE_P2_ownArray([e, t], 7244, "CONTROL_ARRAY")), 7244));
+    }
+    function parseExpressionAt(e, t, i) {
+        var __HIVE_P2_temp7246_0, __HIVE_P2_temp7246_1;
+        return (__HIVE_P2_temp7246_0 = K, __HIVE_P2_temp7246_1 = __HIVE_P2_get(__HIVE_P2_temp7246_0, "parseExpressionAt", 7247), __HIVE_P2_invoke(__HIVE_P2_temp7246_1, __HIVE_P2_temp7246_0, (__HIVE_P2_reserveArray(3, 7247), __HIVE_P2_ownArray([e, t, i], 7247, "CONTROL_ARRAY")), 7247));
+    }
+    function tokenizer(e, t) {
+        var __HIVE_P2_temp7249_0, __HIVE_P2_temp7249_1;
+        return (__HIVE_P2_temp7249_0 = K, __HIVE_P2_temp7249_1 = __HIVE_P2_get(__HIVE_P2_temp7249_0, "tokenizer", 7250), __HIVE_P2_invoke(__HIVE_P2_temp7249_1, __HIVE_P2_temp7249_0, (__HIVE_P2_reserveArray(2, 7250), __HIVE_P2_ownArray([e, t], 7250, "CONTROL_ARRAY")), 7250));
+    }
+    __HIVE_P2_Parser = K;
+    __HIVE_P2_NodeConstructor = de;
+    __HIVE_P2_templateSentinel = ze;
+}
+__HIVE_P2_registerFunction(__char,0,2,0,-1);
+__HIVE_P2_registerFunction(__slice,0,3,0,-1);
+__HIVE_P2_registerFunction(__concat,0,2,0,-1);
+__HIVE_P2_registerFunction(__codePoint,0,1,0,-1);
+__HIVE_P2_registerFunction(__tick,0,0,0,-1);
+__HIVE_P2_registerFunction(__refuse,0,1,0,-1);
+__HIVE_P2_registerFunction(__number,0,2,0,-1);
+__HIVE_P2_registerFunction(__HIVE_P2_initialize,1632,0,50,0);
+__HIVE_P2_invoke(__HIVE_P2_initialize,undefined,__HIVE_P2_emptyArguments(),0);

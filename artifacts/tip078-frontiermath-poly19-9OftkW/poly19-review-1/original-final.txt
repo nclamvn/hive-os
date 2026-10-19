@@ -1,0 +1,37 @@
+**X: INFORMALLY_REVIEWED_SUPPORTED**
+
+The construction and proof support all requested mathematical properties.
+
+- The defining recurrence produces exactly the submitted coefficients. Thus \(p\) is odd, monic, of degree \(19\), with integer coefficients and linear coefficient \(-19\).
+- The Laurent identity establishes nineteen distinct roots after substitution. Pairing them gives the stated factorization, and the supplied injectivity argument correctly promotes it to an identity in \(\mathbb C[x,y]\).
+- Each quadratic has discriminant \(b_k(x^2-4)\), with \(b_k\ne0\). Its simple zero at \(x=2\) excludes a rational square, proving irreducibility over \(\mathbb C(x)\). Monicity in \(y\) correctly excludes factors depending only on \(x\). The argument distinguishing the nine quadratics is valid.
+- The projective argument is complete. The polynomial defines an everywhere-defined morphism, and the equality equation factors as asserted. Each quadratic zero set has only \((\infty,\infty)\) outside the affine chart; the displayed parametrization places that point in its affine curve’s closure. Thus each projective factor defines an irreducible closure, with no additional boundary component. The ten closures are distinct and exhaust the equality curve. The quadratic components are nonlinear.
+- Independent integer arithmetic confirms the reported \(v_{17}\), \(v_{18}\), and
+  \[
+  p(19)=1876572071974094803391179.
+  \]
+
+**Shared format/domain compliance:** satisfied. X contains exactly one fenced JSON block with exactly the two required keys, twenty integers in ascending coefficient order, and the correct claimed value. Maximum coefficient magnitude requires 12 bits; the value requires 81 bits.
+
+No essential gap or circularity was found.
+
+**Y: INFORMALLY_REVIEWED_SUPPORTED**
+
+Reviewed independently, Y also supports all requested mathematical properties.
+
+- The recurrence establishes integrality, monicity, degree, and parity. The generating function and coefficient formula are correct; evaluating the formula for \(n=19\) reproduces the submitted list, including linear coefficient \(-19\).
+- The nineteen substituted roots are distinct and exhaust the monic polynomial’s roots. Their paired sums and products give the stated factorization. Transcendence of \(u+u^{-1}\) correctly establishes substitution injectivity.
+- Each quadratic’s discriminant is \(4(1-c_k^2)(4-x^2)\). Since \(1-c_k^2\ne0\), its simple zeros exclude a rational square. Together with monicity, this proves irreducibility in \(\mathbb C[x,y]\). Strict monotonicity of cosine on the specified interval establishes that the nine factors are distinct.
+- The displayed bihomogenized factorization is valid. Each quadratic zero set has precisely one possible boundary point, \((\infty,\infty)\), and the parametrization shows that this point belongs to the affine curve’s closure. Consequently, each zero set is that irreducible closure. Together with the diagonal, these give exactly ten distinct projective components, nine nonlinear. There is no omitted boundary component.
+- Independent Horner evaluation confirms
+  \[
+  R(361)=98766951156531305441641,
+  \qquad
+  19R(361)=1876572071974094803391179.
+  \]
+
+**Shared format/domain compliance:** satisfied independently for Y, including the exact JSON structure, integer domain, coefficient order, and bit limits.
+
+No essential gap or circularity was found.
+
+These are informal mathematical review findings, not formal proof acceptance or an official score. Verification used one bounded in-memory arithmetic command; no files, network, plugins, or additional agents were accessed.

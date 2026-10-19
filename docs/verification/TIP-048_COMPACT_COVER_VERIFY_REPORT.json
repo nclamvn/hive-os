@@ -1,0 +1,70 @@
+{
+  "tip": "TIP-048",
+  "date": "2026-10-03",
+  "reviewer": "Contractor Main, separate from implementation Builders",
+  "implementation_status": "READY_WITH_DEFERRED",
+  "research_status": "PARTIAL",
+  "global_verdict": "NOT_ESTABLISHED",
+  "contract": {"path":"docs/contractor/tips/TIP-048_LRC_COMPACT_COVER_BOUND.json","sha256":"4712dc80fed2331ad8bc87627840205d0a31eaa97fa42f95f7d0bbde2f39ad2b"},
+  "coverage": {"total":8,"implemented":8,"verified":8,"missing":0,"percent":100,"meaning":"Bounded TIP requirements only, not percentage of the mathematical theorem established"},
+  "requirements": [
+    {"id":"R1","status":"PASS","evidence":"Main proof/source note docs/operations/LRC_COMPACT_COVER_CERTIFICATES_2026-10-03.md, exact union-bound maxima and strict inequality; equality/optimistic minima controls; explicit no-common-witness positive control in Core tests. Known Allikvere Lemma4.3, not novelty."},
+    {"id":"R2","status":"PASS","evidence":"Separate symbolic-domain schema and original ordered axes; complete child partitions, reachability, single parent, fixed root, exact BigInt cardinalities. Fully rehashed semantic/tree mutants fail both consumers. Prior eleven pinned files unchanged."},
+    {"id":"R3","status":"PASS","evidence":"Distinct producer and own BigInt-mask consumer plus independent Python full-grid bad masks; COVER_BOUND, singleton grid-free conditional gcd, singleton survivor and exact unresolved subtrees. Main flat controls and actual retained arithmetic agree."},
+    {"id":"R4","status":"PASS","evidence":"Main executed actual pinned Python on all eight retained certificates separately from collector. All summaries and exact output-byte hashes matched. Source pin8d7ebb7e05d0c2476700118c9119224bf8841df53d9513102820d292428146b4; isolated -I -S -B -c verified bytes, no author code."},
+    {"id":"R5","status":"PASS","evidence":"Unchanged20k nodes/20M work/10s observed/16MiB certificate; wrapper30s and stdout256KiB; collector120s/128MiB; aggregate retained read10s. Initial verification-work rejection repaired by independently derived U propagation, not raised caps or changed domains. Pending regions preserve exact unresolved counts."},
+    {"id":"R6","status":"PASS","evidence":"Actual eight frozen scopes retained after final whole-report pure validation; report PARTIAL, global NOT_ESTABLISHED and all five gaps immutable. Exact parent/source/contract descriptors bound; six Main report-rehashed actual artifact faults rejected. Read-only projection contains no producer/process/research fetch/model dispatch."},
+    {"id":"R7","status":"PASS","evidence":"Existing authenticated Allikvere route preserves old panel and adds separate retained-only bilingual KaTeX panel. Main visible VN/EN, provenance disclosure, eight scopes, partial/global warning, two rendered formulas and zero math errors. Desktop1280 and mobile390 document widths match viewports; formulas scroll within their own region."},
+    {"id":"R8","status":"PASS","evidence":"Three quantified Builder reports, Main oracles/mutants/actual replay, final118 files983/983 unit tests and45/45 focused tests, whole type/lint/build, visible browser screenshots, all90 current manifest entries match; append-only handoff. No new DB/provider/worker/Git/deployment campaign."}
+  ],
+  "artifact": {"path":"docs/research/lrc-allikvere-p199/retained-cover-report.json","bytes":6869891,"sha256":"40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1","reportDigest":"97fa7dfa80beab4e03c2cc9264d5ab02eb3c8ac05b44d6fa8c6b9f73131d5cac","status":"PARTIAL","collectorMilliseconds":14961},
+  "actual_rows": [
+    {"id":"p199-tight-terminal-0-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditionalGcd":"1","survivor":"0","unresolved":"0","nodes":2330},
+    {"id":"p199-tight-terminal-1-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditionalGcd":"1","survivor":"0","unresolved":"0","nodes":2162},
+    {"id":"p199-tight-terminal-2-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditionalGcd":"1","survivor":"0","unresolved":"0","nodes":2498},
+    {"id":"p199-gw-terminal-0-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditionalGcd":"1","survivor":"0","unresolved":"0","nodes":2330},
+    {"id":"p199-tight-terminal-0-full","status":"PARTIAL","total":"96889010407","witness":"137649330","conditionalGcd":"0","survivor":"0","unresolved":"96751361077","nodes":12468},
+    {"id":"p199-tight-terminal-1-full","status":"PARTIAL","total":"96889010407","witness":"160170710","conditionalGcd":"0","survivor":"0","unresolved":"96728839697","nodes":12041},
+    {"id":"p199-tight-terminal-2-full","status":"PARTIAL","total":"96889010407","witness":"71093610","conditionalGcd":"0","survivor":"0","unresolved":"96817916797","nodes":13966},
+    {"id":"p199-gw-terminal-0-full","status":"PARTIAL","total":"96889010407","witness":"95497374","conditionalGcd":"0","survivor":"0","unresolved":"96793513033","nodes":13497}
+  ],
+  "count_boundary": "Each anchored domain is contained in its corresponding full domain. Never add these eight counts as unique coverage. Counts denote selected leaf labels. Zero checked survivors does not establish zero survivors in unresolved regions. COMPLETE means classification of a declared domain, retaining conditional LRC12 dependence; not theorem acceptance.",
+  "main_independent_checks": {
+    "preimplementation": {"method":"Standalone explicit-set bad-time and flat full-grid diagnostic, no product import","actualArchived343TupleControls":4,"flatTuples":1372,"each":"342 grid witnesses,1 conditional gcd,0 survivor","boundChecks":228,"strictPositiveBounds":216,"equalityControls":4,"falseBounds":0,"scope":"Development controls, not benchmark or new scientific result"},
+    "small_oracle": {"method":"Main inline full-grid minimum-distance loop and Euclidean omit-gcd, separate from producer","primeValues":[17,19,23,29],"targetLevels":[2,14],"cases":8,"tuples":64,"coherentlyRehashedSemanticMutantsRejectedByBothTSAndActualPython":35},
+    "actual_retained_replay": {"pythonScopes":8,"exactSummaryAndOutputHashMatches":8,"reportRehashedMutantsRejected":6,"elapsedMilliseconds":12133,"includes":"Pure admission, eight actual Python runs and mutation checks; not a single pure-read time budget"},
+    "peer_review": "Replay Builder read Core proof/tree/check-cost; Product Builder read peer seams and found late Python serialization checkpoint. Main owns acceptance; same host/model contexts are not external mathematical certification."
+  },
+  "qa": {
+    "whole_unit": {"command":"node node_modules/vitest/vitest.mjs run --project unit --maxWorkers=2","files":118,"passed":983,"failed":0,"seconds":126.73,"startLocal":"16:19:30","exitCode":0},
+    "final_focused": {"files":3,"passed":45,"failed":0,"seconds":9.15,"startLocal":"16:21:09","exitCode":0},
+    "typecheck": {"command":"node node_modules/typescript/bin/tsc --noEmit","exitCode":0},
+    "lint": {"command":"node node_modules/eslint/bin/eslint.js .","exitCode":0},
+    "production_build": {"command":"npm run build","exitCode":0,"standaloneEnvironmentScrubbed":true,"assetsPrepared":true},
+    "diffCheck": {"exitCode":0},
+    "visible_browser": {"tab":"15","VN_EN":"PASS","sourceDisclosure":"PASS","scopeCounts":"PASS","desktop":{"width":1280,"documentWidth":1280},"mobile":{"width":390,"documentWidth":390},"katexFormulas":2,"katexErrors":0,"consoleWarningsErrors":0,"temporaryViewportOverride":"RESET"},
+    "database_integration":"NOT_RUN_THIS_TURN",
+    "new_agent_campaign":"NOT_RUN_NOT_ADMITTED",
+    "benchmark_or_theorem_acceptance":"NOT_CLAIMED"
+  },
+  "screenshots": [
+    {"path":"/private/tmp/hive-tip048.O6LcMz/cover-desktop-vi.png","sha256":"39a61c6129e0dbdc4fa1575c4fd4c948ff21b500595650efed5c1ef7de20c06b"},
+    {"path":"/private/tmp/hive-tip048.O6LcMz/cover-mobile-en.png","sha256":"78bd813b298276b7ffb6bb9fd3489e5a7635043be3edf4a916b0d395d2d8af89"}
+  ],
+  "builder_reports": [
+    {"path":"docs/verification/TIP-048_CORE_COMPLETION_REPORT.json","sha256":"c3fb056681a9e9d2030b4cd3ce4100f0473c1b3e2cc5c3b8bba4c43ac6fe36b3"},
+    {"path":"docs/verification/TIP-048_REPLAY_COMPLETION_REPORT.json","sha256":"244764598c0fa4b02a1b83a257589497c892ed0fdbf3eff95f8377113068c9c5"},
+    {"path":"docs/verification/TIP-048_PRODUCT_COMPLETION_REPORT.json","sha256":"9ff9af853a35487ba180c7d72c98126c403a8a1c85d5f864abb31fc735d80d6e"}
+  ],
+  "issues_repaired": [
+    "Initial collector rejected unchecked full-root certificates before any write. Three consumer verification-work caps were hit by redundant per-leaf prefix rebuilding. Own BigInt U propagation through verified edges repaired checkability at unchanged caps/scopes.",
+    "Python outer observed clock now spans input parsing through final output serialization/size before writing; source pin updated before retention.",
+    "Builder test-only ESM spy, locale formatting and BigInt literal issues repaired, then final tests/type/lint passed.",
+    "Local restart sandbox bind EPERM resolved with scoped loopback escalation. Stale failed tab replaced through documented same-browser recovery, not browser safety bypass. Old dev logs contained a transient auth database timeout; final restarted route repeatedly200, no new console errors."
+  ],
+  "integrity": {"priorPinnedFilesPreserved":11,"currentManifestEntriesVerified":90,"foundingManifestSha256":"2a2dafa24464338de9c60091cd039ea2705537a670ec6b4e49a9b0a196f8c4b4","priorHandoffBytes":203225,"priorHandoffPrefixSha256":"517b2ebb31ef9e35f575074bbfa6ae7b31a2b8f3d788be0e63411a9c6de5877d","head":"4d108227498d3578c9ac3fe60305c10da5aa905b","gitPublication":"NONE","historicalDirtyWork":"PRESERVED"},
+  "deferred": ["Complete level1 all-orbit coverage","Other prime gates","All complete terminal fibers","Lower-LRC12 independent replay","Analytic finite-checking/prime-product proof","Whole author ZIP validation","External/formal theorem acceptance and novelty","Typed compact-certificate admission into a fresh HIVE agent loop"],
+  "next_priority": "A separately sealed resumable frontier and independently checked certificate composition: resume only the exact UNRESOLVED prefix domains, preserve prior proof leaves and bind child refinements to the parent root. Admit verified partial evidence only as remaining-work input, never as completed-domain/theorem authority. This is not implemented or silently enabled in TIP048.",
+  "final_runtime": "127.0.0.1:3001 local UI ready; queue disabled, worker stopped, no paid API/model campaign, DB mutation/migration, dependency install, commit/push or deployment. Unrelated port3000 untouched.",
+  "ui": "http://127.0.0.1:3001/w/mathematics-pilot-lab-156de0/research/math-tools?view=allikvere#allikvere-cover"
+}

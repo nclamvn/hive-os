@@ -1,0 +1,145 @@
+"use client";
+import Link from "next/link";
+import {useEffect,useRef,useState,type FormEvent} from "react";
+import {evaluateLeanResearchAction} from "@/app/actions/lean-research";
+import {Button} from "@/components/ui/button";
+import {MathText} from "./math-text";
+import {isCurrentLeanSubmission,updateLeanWorkbench,type LeanWorkbenchInputs} from "./lean-workbench-state";
+import {deleteLeanDraft,leanDraftKey,readLeanDraft,saveLeanDraft,type LeanDraft} from "./lean-workbench-draft";
+import type {LeanManualObservation} from "@/modules/research-sandbox/lean-manual-bridge";
+import type {Json} from "@/modules/research-sandbox/research-core-v3";
+
+const inputClass="text-body text-ink border-line w-full min-w-0 rounded-md border bg-surface px-3 py-3 outline-none focus:border-line-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+const mathClass="math-proof-body text-body text-ink mt-3 max-w-full overflow-x-auto focus-visible:outline focus-visible:outline-2 [&_.math-tex-inline]:max-w-none! [&_.math-tex-inline]:overflow-visible! [&_.math-tex-block]:max-w-none! [&_.math-tex-block]:overflow-visible!";
+function WorkbenchField({name,label,value,onEdit,rows,maxLength,required=false}:{name:"statement"|"domainInput"|"solver"|"critic"|"repair";label:string;value:string;onEdit:(name:keyof LeanWorkbenchInputs,value:string)=>void;rows:number;maxLength:number;required?:boolean}){
+  return <label className="text-body text-ink block min-w-0 font-medium" htmlFor={`lean-${name}`}>{label}<textarea id={`lean-${name}`} name={name} value={value} onChange={event=>onEdit(name,event.target.value)} rows={rows} maxLength={maxLength} required={required} className={`${inputClass} mt-2 resize-y font-normal ${name==="statement"?"":"font-mono text-sm"}`}/></label>;
+}
+const blank:LeanWorkbenchInputs={statement:"",adapterId:"NONE",domainInput:"",solver:"",critic:"",repair:""};
+export function LeanResearchWorkbench({workspaceSlug,draftScope,locale,adapters}:{workspaceSlug:string;draftScope:{userId:string;workspaceId:string};locale:string;adapters:{id:string;inputSchema:Json;candidateSchema:Json}[]}){
+  const vi=locale==="vi",t=(a:string,b:string)=>vi?a:b;
+  const [input,setInput]=useState<LeanWorkbenchInputs>(blank),[observation,setObservation]=useState<LeanManualObservation|null>(null),[pending,setPending]=useState(false),[message,setMessage]=useState("");
+  const [showCritic,setShowCritic]=useState(false),[showRepair,setShowRepair]=useState(false);
+  const [savedDraft,setSavedDraft]=useState<LeanDraft|null>(null),[savedInput,setSavedInput]=useState(JSON.stringify(blank)),[draftMessage,setDraftMessage]=useState("");
+  const [showImport,setShowImport]=useState(false);
+  const draftKey=leanDraftKey(draftScope.userId,draftScope.workspaceId);
+  const dirty=JSON.stringify(input)!==savedInput;
+  useEffect(()=>{
+    // Inspect browser-only storage after hydration; never restore inputs implicitly.
+    const frame=window.requestAnimationFrame(()=>{
+      const loaded=readLeanDraft(()=>window.sessionStorage,draftKey);
+      setSavedDraft(loaded.draft);
+      if(loaded.error)setDraftMessage(vi?"Không đọc được bản nháp: bộ nhớ bị chặn, dữ liệu không hợp lệ hoặc đã hết hạn. Bạn vẫn có thể nhập và tải bằng chứng.":"Draft unavailable: storage is blocked, invalid or expired. You can still enter data and download evidence.");
+    });
+    return ()=>window.cancelAnimationFrame(frame);
+  },[draftKey,vi]);
+  useEffect(()=>{
+    if(!dirty)return;
+    const warn=(event:BeforeUnloadEvent)=>{event.preventDefault();event.returnValue="";};
+    window.addEventListener("beforeunload",warn);
+    return ()=>window.removeEventListener("beforeunload",warn);
+  },[dirty]);
+  function saveDraft(){
+    const savedAt=Date.now();
+    if(!saveLeanDraft(()=>window.sessionStorage,draftKey,input,savedAt)){setDraftMessage(t("Không lưu được bản nháp (bộ nhớ đầy hoặc bị chặn). Đầu vào vẫn ở đây; hãy sao chép trước khi rời trang.","Draft not saved (storage full or blocked). Inputs are still here; copy them before leaving."));return;}
+    setSavedDraft({version:1,savedAt,input});setSavedInput(JSON.stringify(input));
+    setDraftMessage(t("Đã lưu đầu vào cho tài khoản và không gian này trong phiên tab. Không lưu kết quả kiểm chứng.","Inputs saved for this account and workspace in this tab session. Verification results are not saved."));
+  }
+  function restoreDraft(){
+    // Re-read to enforce expiry even when the tab has remained open overnight.
+    const current=readLeanDraft(()=>window.sessionStorage,draftKey);
+    if(!current.draft){setSavedDraft(null);setDraftMessage(t("Bản nháp không còn khả dụng. Không có đầu vào nào bị thay đổi.","Draft no longer available. Your current inputs have not changed."));return;}
+    if(dirty&&!window.confirm(t("Thay đầu vào chưa lưu bằng bản nháp đã lưu?","Replace unsaved inputs with the saved draft?")))return;
+    revision.current++;setInput(current.draft.input);setSavedInput(JSON.stringify(current.draft.input));setObservation(null);setMessage("");
+    setShowImport(Boolean(current.draft.input.solver));setShowCritic(Boolean(current.draft.input.critic));setShowRepair(Boolean(current.draft.input.repair));
+    setDraftMessage(t("Đã khôi phục riêng đầu vào. Chưa chạy kiểm chứng hay gọi mô hình; hãy kiểm tra lại khi sẵn sàng.","Inputs restored only. No verification or model call has run; check again when ready."));
+  }
+  function removeDraft(){
+    if(!deleteLeanDraft(()=>window.sessionStorage,draftKey)){setDraftMessage(t("Không xóa được bản nháp vì trình duyệt chặn bộ nhớ.","Could not delete the draft because browser storage is blocked."));return;}
+    setSavedDraft(null);setSavedInput(JSON.stringify(blank));setDraftMessage(t("Đã xóa bản nháp đã lưu. Đầu vào đang nhập vẫn được giữ trên trang.","Saved draft deleted. Current inputs remain on the page."));
+  }
+  const revision=useRef(0),inFlight=useRef(false);
+  const adapter=adapters.find(a=>a.id===input.adapterId);
+  function edit(key:keyof LeanWorkbenchInputs,value:string){
+    revision.current++;setInput(current=>updateLeanWorkbench(current,key,value));setObservation(null);setMessage("");
+    if(["statement","adapterId","domainInput","solver"].includes(key)){setShowCritic(false);setShowRepair(false);}
+    if(key==="critic")setShowRepair(false);
+  }
+  async function submit(event:FormEvent<HTMLFormElement>){
+    event.preventDefault();if(inFlight.current)return;inFlight.current=true;setPending(true);setMessage("");
+    const submitted=revision.current;
+    try{
+      const reply=await evaluateLeanResearchAction(workspaceSlug,input);
+      if(!isCurrentLeanSubmission(submitted,revision.current))return;
+      if(!reply.ok){setObservation(null);setMessage(reply.code==="UNAVAILABLE"?t("Không thể truy cập. Đăng nhập lại bằng thành viên có quyền nghiên cứu trong workspace này.","Unavailable. Sign in again as a member with research permission in this workspace."):t("Đầu vào bị từ chối. Kiểm tra JSON, kích thước và định dạng chứng chỉ; không gửi thông tin đăng nhập.","Input refused. Check JSON, size and certificate format; do not include credentials."));return;}
+      setObservation(reply.observation);
+      const next=reply.observation.awaiting;
+      setShowCritic(next?.role==="CRITIC"||reply.observation.importedRoles.includes("CRITIC"));
+      setShowRepair(next?.role==="REPAIR"||reply.observation.importedRoles.includes("REPAIR"));
+    }catch{if(isCurrentLeanSubmission(submitted,revision.current))setMessage(t("Không nhận được phản hồi. Giữ lại đầu vào và thử kiểm tra lại; chưa có lệnh gọi LLM nào.","No response received. Keep the inputs and check again; no LLM was dispatched."));}
+    finally{inFlight.current=false;setPending(false);}
+  }
+  async function copy(text:string,kind:"PROMPT"|"EVIDENCE"="PROMPT"){try{await navigator.clipboard.writeText(text);setMessage(kind==="EVIDENCE"?t("Đã sao chép JSON bằng chứng nguyên bản. Tự lưu file nếu cần giữ sau phiên này.","Original evidence JSON copied. Save it yourself to retain it after this session."):t("Đã sao chép prompt. Tự gửi tới mô hình bạn chọn; chương trình không gọi LLM.","Prompt copied. Send it to your chosen model yourself; this program does not call an LLM."));}catch{setMessage(t("Trình duyệt không cho sao chép. Mở văn bản bên dưới và chọn để sao chép thủ công.","Clipboard unavailable. Open the text below and select it to copy manually."));}}
+  function download(){if(!observation)return;const blob=new Blob([JSON.stringify(observation,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="hive-lean-manual-evidence.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);setMessage(t("Đã gửi yêu cầu tải tới trình duyệt. Nếu không thấy file, mở hoặc sao chép JSON bên dưới.","Download requested from the browser. If no file appears, read or copy the JSON below."));}
+  const labels:{[K in keyof LeanWorkbenchInputs]:string}={statement:t("Bài toán và mục tiêu chính xác","Problem and exact goal"),adapterId:t("Công cụ kiểm chứng","Verification tool"),domainInput:t("Đầu vào toán học cho công cụ (JSON)","Mathematical tool input (JSON)"),solver:t("Đầu ra gốc của solver (JSON)","Original solver output (JSON)"),critic:t("Đầu ra phản biện có mục tiêu (JSON)","Focused critic output (JSON)"),repair:t("Đầu ra sửa của solver (JSON)","Solver repair output (JSON)")};
+  const field=(key:"statement"|"domainInput"|"solver"|"critic"|"repair",rows:number,maxLength:number,required=false)=><WorkbenchField name={key} label={labels[key]} value={input[key]} onEdit={edit} rows={rows} maxLength={maxLength} required={required}/>;
+  const statuses={EXACT_SCOPE_VERIFIED:t("Chứng chỉ đúng trong phạm vi đã kiểm","Certificate verified within checked scope"),EXACT_PREDICATE_REFUTED:t("Mệnh đề chính xác đã bị bác bỏ","Exact predicate refuted"),UNVERIFIED_ARGUMENT:t("Đã giữ bản giải; chứng minh chưa được xác nhận","Draft retained; argument not verified"),UNRESOLVED:t("Còn khoảng trống cần xử lý","Specific gaps remain"),PRIMARY_FAILED:t("Đầu ra solver chưa hợp lệ","Primary output not usable")};
+  return <div className="mx-auto w-full max-w-5xl min-w-0 pb-10">
+    <Link href={`/w/${workspaceSlug}/research`} className="text-meta text-ink-muted mb-5 inline-flex min-h-11 items-center underline underline-offset-4">{t("Trở lại nghiên cứu","Back to research")}</Link>
+    <div className="border-line mb-7 border-b pb-5">
+      <h2 className="text-section-title text-ink-strong">{t("Bắt đầu từ đề bài của bạn","Start with your question")}</h2>
+      <p className="text-body text-ink-muted mt-3 max-w-[76ch]">{t("Viết mục tiêu để chuẩn bị prompt, rồi tự gửi tới mô hình bạn chọn và nhập câu trả lời để rà soát. Chỉ yêu cầu phản biện khi có khoảng trống cụ thể.","Describe your goal to prepare a prompt, send it to your chosen model yourself, then import the response for review. Request criticism only for a concrete gap.")}</p>
+      <p className="text-meta text-ink-muted mt-2 max-w-[76ch]">{t("Chế độ thủ công · Không gọi LLM/API hoặc lưu job vào database. Nguồn và danh tính mô hình của đầu ra nhập chưa được xác thực độc lập.","Manual mode · No LLM/API calls or database jobs. Source and model identity of imported outputs are not independently authenticated.")}</p>
+    </div>
+    {savedDraft?<aside aria-label={t("Bản nháp có sẵn","Available draft")} className="border-line mb-6 rounded-md border bg-surface-subtle p-4">
+      <p className="text-body text-ink">{t("Có bản nháp đầu vào trong phiên tab này. Khôi phục không khôi phục trạng thái đã kiểm chứng.","An input draft is available in this tab session. Restoring it does not restore verified status.")}</p>
+      <div className="mt-3 flex flex-wrap gap-3"><Button variant="secondary" onClick={restoreDraft} disabled={pending}>{t("Khôi phục đầu vào","Restore inputs")}</Button><Button variant="secondary" onClick={removeDraft}>{t("Xóa bản nháp đã lưu","Delete saved draft")}</Button></div>
+    </aside>:null}
+    <form onSubmit={submit} className="space-y-6 min-w-0">
+      {field("statement",4,12000,true)}
+      <p className="text-meta text-ink-muted max-w-[76ch]">{t("Nêu giả thiết, điều muốn chứng minh hoặc tìm, và điều bạn đã thử. Chưa cần cấu hình công cụ hay nhập dữ liệu kỹ thuật.","Include the assumptions, what you want to prove or find, and what you have tried. No tool setup or technical data is needed to begin.")}</p>
+      <details open={showImport} onToggle={event=>setShowImport(event.currentTarget.open)} className="border-line rounded-md border p-4">
+        <summary className="text-body text-ink cursor-pointer font-medium">{t("Đã có câu trả lời? Nhập đầu ra mô hình","Already have a response? Import model output")}</summary>
+        <div className="mt-4 space-y-3">
+          <p className="text-meta text-ink-muted max-w-[76ch]">{t("Dán JSON nguyên bản theo prompt của chương trình; không chuyển lời giải thành chứng minh đã xác nhận. Khi nhập, nút bên dưới sẽ kiểm tra dữ liệu thay vì chuẩn bị prompt.","Paste the original JSON requested by the program's prompt; an argument is not a verified proof. After import, the button below checks the data instead of preparing a prompt.")}</p>
+          {field("solver",8,32768)}
+          <details className="text-meta text-ink-muted"><summary className="cursor-pointer">{t("Định dạng đầu ra solver","Solver output format")}</summary><pre tabIndex={0} className="mt-2 overflow-x-auto bg-surface-subtle p-3">{'{"argument":"...","certificate":null,"gaps":[]}\nGap: {"id":"step1","kind":"MISSING_LEMMA","claimStep":"...","issue":"..."}\n'+t("Chứng chỉ là chuỗi JSON theo adapter. Lập luận và khoảng trống là dữ liệu chưa xác nhận.","A certificate is a JSON string matching the adapter. Argument and gaps remain unverified data.")}</pre></details>
+        </div>
+      </details>
+      <details className="border-line border-y py-4">
+        <summary className="text-body text-ink cursor-pointer font-medium">{t("Nâng cao: công cụ kiểm chứng chính xác","Advanced: exact verification tools")}</summary>
+        <div className="mt-4 space-y-4">
+          <label htmlFor="lean-adapter" className="text-body text-ink block font-medium">{labels.adapterId}<select id="lean-adapter" value={input.adapterId} onChange={event=>edit("adapterId",event.target.value)} className={`${inputClass} mt-2`}>
+            <option value="NONE">{t("Không có công cụ: chỉ giữ lập luận chưa xác nhận","No tool: retain unverified argument")}</option>
+            <option value="INTEGER_WITNESS">{t("Chứng chỉ số nguyên / vét hộp hữu hạn","Integer witness / finite-box exhaustion")}</option>
+            <option value="FINITE_GRAPH">{t("Chứng chỉ đồ thị hữu hạn","Finite graph certificate")}</option>
+            <option value="POLYNOMIAL_IDENTITY">{t("Đẳng thức đa thức","Polynomial identity")}</option>
+            <option value="RATIONAL_INTERVAL_FLOOR">{t("Khoảng và phần nguyên hữu tỉ","Rational interval and floor")}</option>
+          </select></label>
+          {input.adapterId!=="NONE"?field("domainInput",5,8192,true):null}
+          <p className="text-meta text-ink-muted max-w-[76ch]">{t("Công cụ chỉ kiểm predicate từ JSON này, không xác nhận nó diễn đạt đúng bài toán bằng lời. Không chứng minh định lý tổng quát, tính mới hay nguồn thực thi đã được nghiệm thu.","The tool checks the predicate defined by this JSON, not its semantic alignment with your prose. It does not establish a global theorem, novelty or independently approved runtime sources.")}</p>
+          {adapter?<details><summary className="text-meta text-ink-muted cursor-pointer">{t("Schema công cụ đã chọn (không tự điền lời giải)","Selected tool schemas (never autofill an answer)")}</summary><p className="text-meta text-ink-muted mt-2">{t("Đầu vào JSON theo schema này; đặt chứng chỉ theo schema thứ hai trong chuỗi certificate của solver.","Use the first schema for tool input; encode the second schema as the solver certificate JSON string.")}</p><h3 className="text-meta text-ink mt-3">{t("Schema đầu vào","Input schema")}</h3><pre tabIndex={0} className="text-meta max-h-80 overflow-auto bg-surface-subtle p-3">{JSON.stringify(adapter.inputSchema,null,2)}</pre><h3 className="text-meta text-ink mt-3">{t("Schema chứng chỉ","Certificate schema")}</h3><pre tabIndex={0} className="text-meta max-h-80 overflow-auto bg-surface-subtle p-3">{JSON.stringify(adapter.candidateSchema,null,2)}</pre></details>:null}
+        </div>
+      </details>
+      {showCritic?<div className="border-line border-t pt-5">{field("critic",6,8192)}<p className="text-meta text-ink-muted mt-2">{t("Chỉ dùng prompt mà lõi yêu cầu bên dưới. NO_CHANGE không buộc viết lại và không xác nhận chứng minh.","Use the core-requested prompt below. NO_CHANGE never forces rewriting or verifies the proof.")}</p></div>:null}
+      {showRepair?<div className="border-line border-t pt-5">{field("repair",7,32768)}<p className="text-meta text-ink-muted mt-2">{t("Bản sửa không thể xóa nghĩa vụ cũ bằng thay metadata; chứng chỉ thay đổi sẽ được kiểm lại.","Repair metadata cannot erase earlier obligations; changed certificates are rechecked.")}</p></div>:null}
+      <Button type="submit" variant="primary" disabled={pending} className="w-full sm:w-auto">{pending?t("Đang xử lý dữ liệu nhập…","Processing imported data…"):input.solver.trim()?t("Kiểm tra đầu ra đã nhập","Check imported outputs"):t("Chuẩn bị prompt solver","Prepare solver prompt")}</Button>
+    </form>
+    <div className="border-line mt-6 border-t pt-4">
+      <div className="flex flex-wrap items-center gap-3"><Button variant="secondary" onClick={saveDraft}>{t("Lưu bản nháp trong tab","Save draft in this tab")}</Button><span className="text-meta text-ink-muted">{dirty?t("Có thay đổi chưa lưu","Unsaved changes"):t("Không có thay đổi đầu vào chưa lưu","No unsaved input changes")}</span></div>
+      <p className="text-meta text-ink-muted mt-2 max-w-[76ch]">{t("Chỉ lưu khi bạn bấm: đầu vào tối đa 24 giờ trong phiên tab, riêng tài khoản và không gian này; không gửi lên máy chủ. Khi đóng tab hoặc hết hạn, không còn bản nháp. Tải bằng chứng riêng để giữ kết quả kiểm chứng. Lưu trước khi chuyển trang.","Saved only when you click: inputs for up to 24 hours in this tab session, scoped to your account and workspace; nothing is sent to the server. Closing the tab or expiry ends the draft. Download evidence separately to retain verification results. Save before navigating away.")}</p>
+      <p role="status" aria-live="polite" className="text-meta text-ink-muted mt-2">{draftMessage}</p>
+    </div>
+    <p role="status" aria-live="polite" className="text-meta text-ink-muted mt-4 min-h-6">{message}</p>
+    {observation?<section aria-labelledby="lean-outcome" className="border-line mt-6 min-w-0 border-t pt-6">
+      <h2 id="lean-outcome" className="text-section-title text-ink-strong">{observation.awaiting?.role==="SOLVER"?t("Prompt solver đã sẵn sàng; chưa có đầu ra nhập","Solver prompt ready; no output imported yet"):statuses[observation.result.status]}</h2>
+      <p className="text-meta text-ink-muted mt-2">{t("Đầu ra đã nhập","Imported outputs")}: {observation.importedRoles.length} · {t("Lần kiểm công cụ","Tool checks")}: {observation.result.checks} · {t("Lệnh gọi LLM","LLM requests")}: 0 · {t("Token","Tokens")}: {t("Chưa biết","Unknown")}</p>
+      {observation.result.primary?<div className="mt-5"><h3 className="text-body text-ink font-semibold">{t("Bản solver đầu tiên (giữ nguyên)","First solver draft (retained)")}</h3><div tabIndex={0} role="region" aria-label={t("Lập luận toán học đầu tiên","Primary mathematical argument")} className={mathClass}><MathText text={observation.result.primary.draft.argument}/></div></div>:null}
+      {observation.result.selected&&observation.result.primary&&(observation.result.selected.draft.argument!==observation.result.primary.draft.argument||observation.result.selected.draft.certificate!==observation.result.primary.draft.certificate)?<div className="mt-5"><h3 className="text-body text-ink font-semibold">{t("Bản sửa được giữ","Retained revision")}</h3><div tabIndex={0} role="region" aria-label={t("Lập luận toán học sửa","Revised mathematical argument")} className={mathClass}><MathText text={observation.result.selected.draft.argument}/></div></div>:null}
+      {observation.checkedProblem?<details className="border-line mt-5 border-y py-4" open><summary className="text-body text-ink cursor-pointer font-semibold">{t("Predicate và phạm vi công cụ — tách biệt bài toán bằng lời","Tool predicate and scope — separate from prose problem")}</summary><p className="text-meta text-ink-muted mt-2">{t("Chỉ kiểm chứng toán học cục bộ. Tương thích ngữ nghĩa với bài toán bằng lời: chưa xác nhận. Thẩm quyền nguồn: chưa xác nhận.","Local mathematical checking only. Semantic alignment with your prose: not established. Source authority: not established.")}</p><pre tabIndex={0} className="text-meta mt-3 max-h-80 overflow-auto bg-surface-subtle p-3">{JSON.stringify({problem:observation.checkedProblem,checkedScope:observation.result.selected?.receipt?.checkedScope??null,scientificDisposition:observation.result.selected?.receipt?.scientificDisposition??null},null,2)}</pre></details>:null}
+      {observation.result.remainingGaps.length?<div className="mt-5"><h3 className="text-body text-ink font-semibold">{t("Khoảng trống còn nguyên nghĩa vụ","Remaining obligations")}</h3><ul className="mt-3 space-y-3">{observation.result.remainingGaps.map(gap=><li key={gap.id} className="border-line border-l-2 pl-4"><p className="text-meta text-ink-muted">{gap.id}</p><div tabIndex={0} role="region" aria-label={`${t("Nghĩa vụ toán học","Mathematical obligation")} ${gap.id}`} className={mathClass}><MathText text={gap.claimStep}/></div><div tabIndex={0} role="region" aria-label={`${t("Khoảng trống toán học","Mathematical gap")} ${gap.id}`} className={mathClass}><MathText text={gap.issue}/></div></li>)}</ul></div>:null}
+      {observation.awaiting?<div className="border-line mt-5 border-t pt-5"><h3 className="text-body text-ink font-semibold">{observation.awaiting.role==="SOLVER"?t("Bắt đầu từ một solver","Start with one solver"):observation.awaiting.role==="CRITIC"?t("Cần phản biện đúng khoảng trống","Focused criticism needed"):t("Cần một bản sửa có mục tiêu","A targeted repair is needed")}</h3><p className="text-meta text-ink-muted mt-2">{t("Đây là prompt đang chờ bạn gửi ra ngoài, không phải lệnh gọi mô hình đã thực hiện. Nhập câu trả lời gốc vào ô tương ứng rồi kiểm tra lại.","This prompt awaits your manual external submission; no model was dispatched. Import the original response in the matching field, then check again.")}</p><Button onClick={()=>copy(observation.awaiting!.prompt)} className="mt-3">{t("Sao chép prompt tiếp theo","Copy next prompt")}</Button><details className="mt-3"><summary className="text-meta text-ink-muted cursor-pointer">{t("Đọc prompt nguyên bản","Read original prompt")}</summary><textarea readOnly aria-label={t("Prompt tiếp theo","Next prompt")} value={observation.awaiting.prompt} rows={8} className={`${inputClass} mt-2 font-mono text-sm`}/></details></div>:null}
+      {observation.failures.length?<div className="mt-5"><h3 className="text-body text-ink font-semibold">{t("Quan sát chưa đạt (không xóa bản đầu)","Unsuccessful observations (primary retained)")}</h3><ul className="text-meta text-ink-muted mt-2 list-disc pl-5">{observation.failures.map((failure,index)=><li key={index} className="break-words">{failure}</li>)}</ul></div>:null}
+      <div className="border-line mt-6 border-t pt-5"><Button onClick={download}>{t("Tải bằng chứng JSON","Download evidence JSON")}</Button><p className="text-meta text-ink-muted mt-2">{t("Gồm đầu ra gốc và các quan sát. File tải về không phải job lưu bền vững, nguồn được cấp phép hay chứng nhận thành tích LLM.","Includes original outputs and observations. This download is not a durable job, source grant or certified LLM achievement.")}</p><details className="mt-4"><summary className="text-body text-ink cursor-pointer font-medium">{t("Đọc hoặc sao chép bằng chứng JSON","Read or copy evidence JSON")}</summary><Button onClick={()=>copy(JSON.stringify(observation,null,2),"EVIDENCE")} className="mt-3">{t("Sao chép JSON bằng chứng","Copy evidence JSON")}</Button><textarea readOnly aria-label={t("JSON bằng chứng nguyên bản","Original evidence JSON")} value={JSON.stringify(observation,null,2)} rows={14} className={`${inputClass} mt-3 font-mono text-sm`}/></details></div>
+    </section>:null}
+  </div>;
+}

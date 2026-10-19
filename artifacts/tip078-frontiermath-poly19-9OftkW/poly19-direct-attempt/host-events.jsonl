@@ -1,0 +1,8 @@
+{"kind": "request-reserved", "wall": "2026-10-06T01:52:47.963379+00:00", "elapsed": 0.0008410419686697423, "ordinal": 1}
+{"kind": "spawned", "wall": "2026-10-06T01:52:47.966279+00:00", "elapsed": 0.0037590829888358712, "pid": 45921}
+{"kind": "tool-start", "wall": "2026-10-06T01:53:03.786627+00:00", "elapsed": 15.824090874986723, "toolId": "item_1", "toolCount": 1}
+{"kind": "tool-end", "wall": "2026-10-06T01:53:03.786716+00:00", "elapsed": 15.824170082982164, "toolId": "item_1", "observedSeconds": 8.937501115724444e-05}
+{"kind": "tool-start", "wall": "2026-10-06T01:53:19.256689+00:00", "elapsed": 31.29414633300621, "toolId": "item_2", "toolCount": 2}
+{"kind": "tool-end", "wall": "2026-10-06T01:53:19.256779+00:00", "elapsed": 31.29422820796026, "toolId": "item_2", "observedSeconds": 9.058299474418163e-05}
+{"kind": "tool-start", "wall": "2026-10-06T01:53:54.114976+00:00", "elapsed": 66.1524216249818, "toolId": "item_4", "toolCount": 3}
+{"kind": "tool-end", "wall": "2026-10-06T01:53:54.115060+00:00", "elapsed": 66.15249854198191, "toolId": "item_4", "observedSeconds": 8.566700853407383e-05}

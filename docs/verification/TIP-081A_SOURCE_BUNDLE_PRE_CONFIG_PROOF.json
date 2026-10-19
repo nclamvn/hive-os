@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "purpose": "READ_ONLY_EVIDENCE_STUDIO",
+  "sourcePins": {
+    "src/modules/research-evidence-studio/annotations.ts": "4b0520a8190e9e91b131d12cb7a169788a0dfdc1d15e7caa4da553b570febb87",
+    "src/modules/research-evidence-studio/presentation.ts": "f36265393b01e8d8bf1271ede5fc094c38cc49d18e959679088a47881c26fe29",
+    "src/modules/research-evidence-studio/reader.ts": "751b2609c2abd39ac2967a5b2ca0eaeea4bf2fce2ce7b6ed9db5dfa1e7c8cfe5",
+    "src/components/research/evidence-studio-panel.tsx": "fe27b66c7102e128b0ad7dd1e2cd0904c2ec0457cdfc99fc55b7f4e6256251fa",
+    "src/components/research/evidence-studio-math.tsx": "da07ea45f9ab1359dea7a827be68cdd1d4ab245d004f1c69ffeb1357d590c12e",
+    "src/app/w/[workspaceSlug]/research/evidence-studio/page.tsx": "183c7fe1ce75af884ffd9d0d876e884b22a7b44554b0bfa0a7baa32bc0c94d0e",
+    "src/i18n/evidence-studio-copy.ts": "f56ba4ad5d4a62ae312742b23dff6817e01e2b4a9aba8cec6376f76094bc1b79",
+    "tests/unit/evidence-studio.test.ts": "2e46846e95c7e803a3bf152c35be4544e07be4b27d57850f9d5e30a9febe8048",
+    "vitest-tip081.config.ts": "f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13",
+    "scripts/test/build-tip081.mjs": "2c77b1468f580efca85c7f9dc4f53aad84ce7299b456d9328ed8ac9a6e09133c",
+    "scripts/test/start-tip081-standalone.mjs": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+    "scripts/test/playwright-tip081.config.ts": "d27dc33b715b29355e4d13cc7a17b378b03ff5d12acbb50a1ffd1261994bed9d",
+    "tests/unit/evidence-studio-harness.test.ts": "ca7bc9507438f7264e65ba0cc3d86fb3ae71bb4c6688401f8dd68d0c3ac51928",
+    "tests/unit/evidence-studio-source-boundary.test.ts": "808a443d119e429e7d0ff2bdd176597cccfba9410b9f1136b13fe9c91c047c75",
+    "tests/integration/evidence-studio.test.ts": "fd3fb15acc60dbbcc518b727a8cb3f3646e20eed663493316713d61153caa52e",
+    "tests/e2e/evidence-studio.spec.ts": "a8818cc632a389347ef418b16bc60881436b93769be6a912aca9644d313831f8",
+    "scripts/test/compiler-tip081-overlay.mjs": "72c817ec09656d09f6c0be9db988733c0e0f08d93d42d35054f2278e87563cf4",
+    "scripts/test/probe-tip081-compiler.mjs": "e678756adb42870191fa7c3dff9ef18c68fa68adc397214523a93fdb131f8a22",
+    "tests/unit/evidence-studio-compiler.test.ts": "a24dc4a44562ec112fc38a5ce2d80f446ff11829ecaa4948b89c191b785353b4",
+    "scripts/test/probe-tip081-packaging.mjs": "ceecc54f764a04179cdce2c956b192759ce021c2145e7261b9c42c8e69f82711",
+    "tests/unit/evidence-studio-packaging.test.ts": "55b290eefdad44d1ef1e5632631752ddadf6426ae4bd5d8c279b7e0b6c640408",
+    "scripts/test/runtime-tip081-package.mjs": "6f1bd4d98dab1ee5fa5b7a0d8fb7f67e23fb824f1b509ec4f354eddc41687ac7",
+    "tests/unit/evidence-studio-runtime-package.test.ts": "2a4358b65bcc79ae786b28bb98f72dc79f57ede46c6e54fc67e6c377dd272739"
+  },
+  "supportPins": {
+    "scripts/operations/higherpower-core-check.ts": "fb2f8cc44564f86c4bb8982ee28efbdcb914505ec8ccb77e8a22354b122945cd",
+    "scripts/operations/higherpower-core-replay.ts": "6c9b2c41bcdf3016f6271385d1a3689a9ff759ed14beb2d6c2f63ea1e14ac7e7"
+  },
+  "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW.md",
+  "reviewDigest": "2c9e42bc2818f0da10e36f1e81160f7d557410a24b82b3b9d7d9844406a358d3",
+  "assetPins": {
+    "docs/research/lrc-allikvere-p199/retained-report.json": "82092f2b32be89999bc834d426be71aea5fa408f9865a53a795b765b3e2deb20",
+    "docs/research/lrc-allikvere-p199/retained-cover-report.json": "40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "docs/research/lrc-allikvere-p199/retained-frontier-report.json": "a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268",
+    "docs/research/lrc-allikvere-p199/retained-unit-report.json": "78519d5c7113a63bf79ed6ab8352adcf221937a6b13bfa0647251ce5478d99d4",
+    "docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json": "8f0d79ea33d484bcbd9e966096e91b0af4f7081fe46b4e3fb554f38bd2108962",
+    "docs/research/lrc-allikvere-p199/author-kill-logs.json": "70a19806e1baa7b32dad0ada99a7d122ecd494f1a8c58352e0a2498d8b70f5b2",
+    "docs/research/lrc-allikvere-p199/provenance.json": "f72aa3f932e7baee063e35bee7a4ece0f849bd084590107713ca2da95a2694f5",
+    "docs/research/lrc-allikvere-p199/author-root-readme.json": "a0157df9b2701b3537d5d5c56b7407a2d81caa950347bb8bcb2e11fec2413fe6",
+    "docs/research/lrc-allikvere-v2/retained-properness-bridge.json": "caabe317e7bd8692e00a39e57f349255557701d568489613ade4f25a4b7f5d02",
+    "docs/research/lrc-allikvere-v2/retained-prefix-kz-audit.json": "e17d97fa1d4a8f05e899e06cfb2da24fb439376fe25b6783eb9c10da650ab8f6",
+    "docs/research/lrc-allikvere-v2/retained-shape-geometry-audit.json": "b29cd15b4520e74943e12c194765155a1238857ae39c2ab473119e9309c808fd",
+    "docs/research/lrc-allikvere-v2/retained-prime-criterion-audit.json": "3387eca4befe5d67845278c3120e65b098764a742af26f6e615b6da2512bf693",
+    "docs/research/lrc-allikvere-v2/retained-p83-covering-number.json": "540adb5504a3c3b1ed9e277c304ccc20027711a0bbd29dd3d8f765c91cdd9d06",
+    "docs/research/lrc-allikvere-v2/retained-p83-generation.json": "72d26052dd11ddc2c46ca5d08676975cefe398f701580a00e6499076ca2a08ef",
+    "docs/research/lrc-allikvere-v2/retained-p83-cascade.json": "0872e1bd95533fea3cfbdd2eab2834607283739c5796ef4c82e5636a57affbb1",
+    "docs/research/lrc-allikvere-v2/retained-p83-terminal.json": "f5e85bcad566519149f4a5267672b08bbb0f0064882a4585215d2280f4ab3230"
+  },
+  "predecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_ASSETS.json",
+    "bundleDigest": "fcd598472933a5e58ea7bc2c278bd4446a42f9f04eb9c4c3dde9f72c2dae04c2",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_ASSETS.md",
+    "reviewDigest": "25896a74eb72402d04c40d4c40481d7669f6e83080b1559b28f33280d1b508f8"
+  },
+  "compilerPredecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_COMPILER_REPAIR.json",
+    "bundleDigest": "dc43327bcee144bfe693298385b29950bdb12954cf234ef6b98b872f83ca7ab6",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_COMPILER_REPAIR.md",
+    "reviewDigest": "d0af89722f727d199effbdb1fbe18bcb2f1b4f1c43ce1e8ec83338a0efa4f5a3"
+  },
+  "compilerOverlay": {
+    "version": 1,
+    "purpose": "COMPILER_IDENTITY_REPAIR_ONLY",
+    "file": "next.config.mjs",
+    "originalDigest": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+    "digest": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+    "delta": "webpack.resolveLoader.symlinks=false"
+  },
+  "build3Predecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_BUILD3.json",
+    "bundleDigest": "62dd8afc9a72017c94ec23cdd3b7d1fe531b201a227c574538ca6ffc143b826b",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_BUILD3.md",
+    "reviewDigest": "39268bf475413677b5705dbdc78a39c4b066347e9de22b740132de27abc9f419"
+  },
+  "build4Predecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_BUILD4.json",
+    "bundleDigest": "e6ce100b7a0ad52c3f238a5c420fd136856c02b92eb0e6793240b768cff5981e",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_BUILD4.md",
+    "reviewDigest": "55a88cd30795c5984c6a0431002d2e9b49d73a5593c10a7f73ec51baf3a70eef"
+  },
+  "packagingPredecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_PACKAGING_REPAIR.json",
+    "bundleDigest": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_PACKAGING_REPAIR.md",
+    "reviewDigest": "520676331fbda143db96ab06c1e75cf3337710b6bd24d57cd16df4577ba8e0bb"
+  },
+  "twoStagePredecessor": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE_PRE_TWO_STAGE.json",
+    "bundleDigest": "e730b4b949965b1b5aa1459167c3246c46728a7a209c102ba5c73006383e12f2",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW_PRE_TWO_STAGE.md",
+    "reviewDigest": "f4bb2a633f14fb157a25e6eb246316c5d229472c176802bbd0eecbc5919a0d32"
+  }
+}

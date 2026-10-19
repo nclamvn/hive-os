@@ -1,0 +1,7 @@
+{
+  "kind": "COHORT_CLOSED",
+  "atMonotonic": 342599.686744791,
+  "requestsConsumed": 8,
+  "slotsReserved": 8,
+  "modelResultScope": "PUBLIC_SAMPLE_EXTERNAL_OBSERVATIONAL"
+}

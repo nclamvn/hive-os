@@ -12,17 +12,20 @@ export async function getTruthOperationsProjection(ctx: WorkspaceContext) {
         status: { in: ["APPROVED", "EXPLORING"] },
       },
       orderBy: { updatedAt: "desc" },
+      take: 100,
       select: { id: true, referenceCode: true, title: true, status: true },
     }),
     getDb().evidenceSource.findMany({
       where: { workspaceId: ctx.workspace.id },
       orderBy: { createdAt: "desc" },
+      take: 100,
       include: {
         mission: { select: { referenceCode: true, title: true } },
         snapshots: {
           orderBy: { createdAt: "desc" },
+          take: 100,
           include: {
-            spans: { orderBy: { createdAt: "desc" } },
+            spans: { orderBy: { createdAt: "desc" }, take: 100 },
           },
         },
       },
@@ -30,12 +33,15 @@ export async function getTruthOperationsProjection(ctx: WorkspaceContext) {
     getDb().claim.findMany({
       where: { workspaceId: ctx.workspace.id },
       orderBy: { updatedAt: "desc" },
+      take: 100,
       include: {
         mission: { select: { referenceCode: true, title: true } },
         versions: {
           orderBy: { versionNumber: "desc" },
+          take: 100,
           include: {
             evidence: {
+              take: 100,
               include: {
                 evidenceSpan: {
                   include: {
@@ -48,8 +54,8 @@ export async function getTruthOperationsProjection(ctx: WorkspaceContext) {
             },
           },
         },
-        disputes: { orderBy: { createdAt: "desc" } },
-        honestNulls: { orderBy: { createdAt: "desc" } },
+        disputes: { orderBy: { createdAt: "desc" }, take: 100 },
+        honestNulls: { orderBy: { createdAt: "desc" }, take: 100 },
       },
     }),
     getDb().provenanceEdge.count({

@@ -1,0 +1,105 @@
+**C03. The proposed existence statement is false.**
+
+We prove that the assumed inequality necessarily holds for all \(x,y\), regardless of their order. The key is to show that any function \(g:\mathbb R\to\mathbb R\) satisfying the hypothesis obeys
+\[
+g(1/3)\le \frac{2g(0)+g(1)}3.
+\tag{1}
+\]
+
+Fix an odd positive multiple \(N\) of \(3\). Construct a finite-state Markov chain starting at \(1/3\), with state set
+\[
+S_N=\{-3,-2\}\cup\{i/N:-N\le i\le N\}.
+\]
+Declare \(-3,-2,0,1\) absorbing. At every other state, use the following transitions:
+
+- From \(i/N\), where \(-N+2\le i\le N-1\) and \(i\ne0\), move to \((i-2)/N\) with probability \(1/3\), and to \((i+1)/N\) with probability \(2/3\).
+- From \(-1\), move to \(-3\) with probability \(1/3\), and to \(0\) with probability \(2/3\).
+- From \((-N+1)/N\), move to \(-2\) with probability \(1/3\), and to \((-N+3)/(2N)\) with probability \(2/3\).
+
+The exceptional destination is a grid point because \(N\) is odd. These rules cover every nonabsorbing state.
+
+For every transition, its two destinations \(L<R\) satisfy
+\[
+\text{current state}=\frac{L+2R}{3}.
+\]
+For the exceptional transitions, this follows from
+\[
+\frac{-3+2\cdot0}{3}=-1,\qquad
+\frac{-2+2(-N+3)/(2N)}3=\frac{-N+1}{N}.
+\]
+Thus the expected numerical state is preserved, while the hypothesis gives
+\[
+g(\text{current state})\le \frac{g(L)+2g(R)}3.
+\tag{2}
+\]
+
+Absorption occurs almost surely. Indeed, choosing the right destination at each step strictly increases the state until absorption. Since the state set is finite, this takes at most \(|S_N|\) steps. Consequently, from every nonabsorbing state, the probability of absorption within \(|S_N|\) steps is at least
+\[
+(2/3)^{|S_N|}>0.
+\]
+Applying this bound successively shows that the probability of remaining unabsorbed tends to zero.
+
+Let \(X_n\) denote the state after \(n\) steps and \(T\) its eventual absorbing state. Iterating (2) gives
+\[
+g(1/3)\le \mathbb E[g(X_n)],
+\qquad
+\mathbb E[X_n]=1/3.
+\]
+For fixed \(N\), both \(X_n\) and \(g(X_n)\) are bounded, because \(S_N\) is finite. Passing to the limit therefore yields
+\[
+g(1/3)\le \mathbb E[g(T)],
+\qquad
+\mathbb E[T]=1/3.
+\tag{3}
+\]
+
+Write
+\[
+p_0=\Pr(T=0),\quad p_1=\Pr(T=1),\quad
+q_2=\Pr(T=-2),\quad q_3=\Pr(T=-3).
+\]
+Then (3) becomes
+\[
+g(1/3)\le p_0g(0)+p_1g(1)+q_2g(-2)+q_3g(-3),
+\tag{4}
+\]
+and
+\[
+\frac13=p_1-2q_2-3q_3.
+\tag{5}
+\]
+
+We now bound the negative terminal mass. The only transition from a positive state to a negative state is
+\[
+1/N\longrightarrow -1/N.
+\]
+Once the chain is negative, it remains nonpositive: the exceptional right destination is nonpositive because \(N\ge3\).
+
+Consider the same chain started at \(-1/N\). Its terminal state can only be \(0,-2,-3\), and preservation of expectation gives
+\[
+2\Pr(T=-2)+3\Pr(T=-3)=\frac1N.
+\]
+Its probability of negative absorption is consequently at most \(1/(2N)\). In the original chain, any first entry into the negative states occurs at \(-1/N\); conditional on that entry, subsequent transitions follow precisely this chain. Hence
+\[
+q_2+q_3\le \frac1{2N}.
+\tag{6}
+\]
+
+Let \(N\to\infty\) through odd multiples of \(3\). Equations (5)–(6) and the sum of the four probabilities imply
+\[
+q_2,q_3\to0,\qquad p_1\to\frac13,\qquad p_0\to\frac23.
+\]
+Taking the limit in (4) proves (1). This limit involves only four fixed values of \(g\), so no continuity or other regularity assumption is needed.
+
+Finally, suppose \(u>v\) and define
+\[
+g(t)=f\bigl(v+(u-v)t\bigr).
+\]
+The affine map is increasing, so \(g\) satisfies the given hypothesis. Applying (1) gives
+\[
+f\left(\frac{u+2v}{3}\right)
+=g(1/3)
+\le\frac{2g(0)+g(1)}3
+=\frac{f(u)+2f(v)}3.
+\]
+For \(u\le v\), this inequality is already assumed. Therefore it holds for every pair \(u,v\), and a strict violation is impossible. \(\square\)

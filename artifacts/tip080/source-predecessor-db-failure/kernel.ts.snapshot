@@ -1,0 +1,130 @@
+import {z} from "zod";
+import {Prisma} from "@prisma/client";
+import {executeDurableCommand,type StableCommandOutcome} from "@/modules/command-runtime";
+import {organizationIdForWorkspace,requireWorkspaceAuthorization} from "@/modules/authorization";
+import type {WorkspaceContext} from "@/modules/identity-workspace";
+import {withOrganizationTenant} from "@/server/tenant-context";
+import {BridgeRefusal,digest,hashBytes,id,sha,task,limits,roles,reduce,originalText,prompt,assertExportBytesSafe,type Role,type Binding,type Kind} from "./contracts";
+import {available,assertEnvironment,loadBundle,requireLiveApproval,type Bundle} from "./source";
+import {commandPrefix,observedTopic,lockRoot,loadCut,makeEvent,admittedTexts,putOriginal,putArtifact,readOriginal,readArtifact,type Cut} from "./ledger";
+import {checkPermutationFinal} from "./checker";
+
+export {available};
+const inputSchema=z.object({runId:id,expectedSequence:z.number().int().min(1).max(64),expectedDigest:sha});
+export type CutInput=z.infer<typeof inputSchema>;
+export interface BridgeView {binding:Binding;events:Cut["events"];state:Cut["state"];failed:Cut["failed"];sourceBundle:Bundle["manifest"];originals:{role:Role;digest:string;bytes:number;accepted:boolean;text:string|null;base64:string}[];currentPrompt:{role:Role;text:string;digest:string}|null;liveReady:boolean;expired:boolean;checker:Cut["state"]["checker"]}
+function stable(outcome:StableCommandOutcome) {
+  if(outcome.status!=="SUCCEEDED")throw new BridgeRefusal("AUTHORITY");
+  const event=outcome.outcome.event as unknown as Cut["events"][number];
+  if(!event||!id.safeParse(event.runId).success||!sha.safeParse(event.eventDigest).success||!Number.isInteger(event.sequence))throw new BridgeRefusal("INTEGRITY");
+  return {status:"SUCCEEDED" as const,runId:event.runId,sequence:event.sequence,eventDigest:event.eventDigest};
+}
+function outbox(runId:string,eventDigest:string,sequence:number){return [{topic:observedTopic,aggregateType:"PermutationBridge",aggregateId:runId,payload:{runId,eventDigest,sequence}}];}
+async function cutFor(ctx:WorkspaceContext,runId:string,capability:"research.read"|"research.request"|"research.review"="research.read") {
+  assertEnvironment();id.parse(runId);await requireWorkspaceAuthorization(ctx,capability);const org=await organizationIdForWorkspace(ctx.workspace.id);
+  return withOrganizationTenant(org,ctx.user.id,async tx=>{const root=await lockRoot(tx,org,runId,true);
+    if(root.workspaceId!==ctx.workspace.id||root.actorUserId!==ctx.user.id)throw new BridgeRefusal("AUTHORITY");
+    const cut=await loadCut(tx,root);await requireWorkspaceAuthorization(ctx,capability,cut.binding.missionId);return cut;});
+}
+function exactCut(cut:Cut,input:CutInput){if(cut.events.length!==input.expectedSequence||cut.events.at(-1)?.eventDigest!==input.expectedDigest)throw new BridgeRefusal("INTEGRITY");}
+function deadline(cut:Cut){if(cut.state.deadlineAt&&Date.now()>=Date.parse(cut.state.deadlineAt))throw new BridgeRefusal("RESOURCE");}
+async function currentSource(cut:Cut){const bundle=await loadBundle();if(bundle.digest!==cut.binding.sourceDigest)throw new BridgeRefusal("SOURCE");return bundle;}
+export async function createDraft(ctx:WorkspaceContext,raw:{missionId:string;idempotencyKey:string}) {
+  assertEnvironment();const input=z.object({missionId:z.string().min(1).max(200),idempotencyKey:z.string().min(1).max(200)}).strict().parse(raw);
+  await requireWorkspaceAuthorization(ctx,"research.request",input.missionId);const bundle=await loadBundle();
+  return stable(await executeDurableCommand(ctx,{commandType:commandPrefix+"DRAFT",idempotencyKey:input.idempotencyKey,requiredCapability:"research.request",missionId:input.missionId,
+    payload:{missionId:input.missionId,taskDigest:digest(task),sourceDigest:bundle.digest,provenance:"CODEX_ASSISTED"}},async(tx,command)=>{
+      const mission=await tx.mission.findFirst({where:{id:input.missionId,workspaceId:command.workspaceId}});if(!mission)throw new BridgeRefusal("AUTHORITY");
+      const binding:Binding={runId:command.commandId,organizationId:command.organizationId,workspaceId:command.workspaceId,actorUserId:command.actorUserId,missionId:input.missionId,sourceDigest:bundle.digest,taskDigest:digest(task),provenance:"CODEX_ASSISTED"};
+      const event=makeEvent(binding,[],command.commandId,"DRAFT",{sourceBundle:bundle.manifest,sourcePreflightReadBytes:bundle.readBytes,limits,upstreamAuthentication:"OPERATOR_IMPORT_NOT_CRYPTOGRAPHICALLY_AUTHENTICATED"});
+      return {outcome:{event:event as unknown as Prisma.InputJsonObject},outbox:outbox(binding.runId,event.eventDigest,event.sequence)};
+    }));
+}
+async function mutate(ctx:WorkspaceContext,raw:CutInput,kind:Kind,role:Role|undefined,extra:Prisma.InputJsonObject,detail:(cut:Cut)=>Promise<Record<string,unknown>>) {
+  const input=inputSchema.strict().parse(raw),capability=kind==="REVOKED"?"research.review":"research.request";
+  const before=await cutFor(ctx,input.runId,capability);await currentSource(before);
+  if(kind!=="REVOKED"){await requireLiveApproval(before.binding);deadline(before);}
+  // Workspace/task one-shot key cannot be reset by rewriting host approval.
+  const key=kind==="START"?`080:ONE_START:${before.binding.organizationId}:${before.binding.workspaceId}:${task.id}`:`080:${input.runId}:${kind}:${input.expectedSequence}`;
+  const prior=await withOrganizationTenant(before.binding.organizationId,ctx.user.id,tx=>tx.commandRecord.findUnique({where:{organizationId_idempotencyKey:{organizationId:before.binding.organizationId,idempotencyKey:key}}}));
+  if(prior) {
+    if(prior.actorUserId!==ctx.user.id||prior.workspaceId!==ctx.workspace.id||prior.commandType!==commandPrefix+kind||(prior.payload as Record<string,unknown>).runId!==input.runId)throw new BridgeRefusal("AUTHORITY");
+    // The shared command runtime checks the complete payload hash. Only an
+    // existing exact request may replay after its ledger cut has advanced.
+  } else {
+    exactCut(before,input);
+    if(kind==="START"||kind==="REVOKED")reduce(before.state,{kind,at:new Date().toISOString(),detail:{}});
+    else if(kind==="ROLE_RESERVED")reduce(before.state,{kind,at:new Date().toISOString(),detail:{role,promptDigest:"0".repeat(64)}});
+    else if(kind==="IMPORT_RETAINED") {const stage=before.state.stages.at(-1);if(before.state.status!=="RUNNING"||!stage||stage.role!==role||stage.original)throw new BridgeRefusal("INTEGRITY");}
+    else if(kind==="CHECKED") {const stage=before.state.stages.at(-1);if(stage?.role!=="FINAL"||!stage.original?.accepted||before.state.checker)throw new BridgeRefusal("INTEGRITY");}
+  }
+  return stable(await executeDurableCommand(ctx,{commandType:commandPrefix+kind,idempotencyKey:key,requiredCapability:capability,missionId:before.binding.missionId,
+    payload:{...input,...extra,...role?{role}:{},missionId:before.binding.missionId,sourceDigest:before.binding.sourceDigest,taskDigest:before.binding.taskDigest,provenance:"CODEX_ASSISTED"}},async(tx,command)=>{
+      const root=await lockRoot(tx,command.organizationId,input.runId),cut=await loadCut(tx,root,{commandId:command.commandId,kind});
+      if(root.actorUserId!==command.actorUserId||root.workspaceId!==command.workspaceId)throw new BridgeRefusal("AUTHORITY");exactCut(cut,input);await currentSource(cut);
+      await requireWorkspaceAuthorization(ctx,capability,cut.binding.missionId);
+      if(kind!=="REVOKED"){await requireLiveApproval(cut.binding);deadline(cut);}
+      const held=await detail(cut);await requireWorkspaceAuthorization(ctx,capability,cut.binding.missionId);await currentSource(cut);
+      if(kind!=="REVOKED")await requireLiveApproval(cut.binding);
+      deadline(kind==="REVOKED"?{...cut,state:{...cut.state,deadlineAt:null}}:cut);
+      const event=makeEvent(cut.binding,cut.events,command.commandId,kind,held);reduce(cut.state,event);
+      return {outcome:{event:event as unknown as Prisma.InputJsonObject},outbox:outbox(cut.binding.runId,event.eventDigest,event.sequence)};
+    }));
+}
+export async function startBridge(ctx:WorkspaceContext,input:CutInput){return mutate(ctx,input,"START",undefined,{},async cut=>({approval:await requireLiveApproval(cut.binding)}));}
+export async function reserveBridgeRole(ctx:WorkspaceContext,raw:CutInput&{role:Role}) {
+  const {role,...input}=inputSchema.extend({role:z.enum(roles)}).strict().parse(raw);
+  return mutate(ctx,input,"ROLE_RESERVED",role,{},async cut=>{
+    const prior=await admittedTexts(cut);let text=prompt(role,cut.binding,role==="POSTREVIEW"?prior.filter(p=>p.role==="FINAL"):prior);
+    if(role==="POSTREVIEW")text+=`\n\nRetained arithmetic-only checker evidence (not proof validation):\n${JSON.stringify(cut.state.checker)}`;
+    const bytes=Buffer.from(text,"utf8");if(bytes.length>limits.promptBytes)throw new BridgeRefusal("RESOURCE");
+    reduce(cut.state,{kind:"ROLE_RESERVED",at:new Date().toISOString(),detail:{role,promptDigest:hashBytes(bytes)}});
+    const artifact=await putArtifact(cut.binding,`PROMPT-${role}`,bytes,limits.promptBytes);
+    return {role,promptDigest:artifact.digest,prompt:artifact};
+  });
+}
+export async function importBridgeRole(ctx:WorkspaceContext,raw:CutInput&{role:Role;bytes:Uint8Array;freshContextAttested:true;model:string|null;thread:string|null}) {
+  const {bytes,role,model,thread,...input}=inputSchema.extend({role:z.enum(roles),bytes:z.instanceof(Uint8Array).refine(b=>b.length>0&&b.length<=limits.originalBytes),freshContextAttested:z.literal(true),model:z.string().max(160).nullable(),thread:z.string().max(200).nullable()}).strict().parse(raw);
+  const snapshot=Uint8Array.from(bytes),importDigest=hashBytes(snapshot);const {freshContextAttested,...cutInput}=input;
+  for(const value of [model,thread])if(value!==null){assertExportBytesSafe(Buffer.from(value,"utf8"));if(/[\u0000-\u001f\u007f]/.test(value))throw new BridgeRefusal("INPUT");}
+  return mutate(ctx,cutInput,"IMPORT_RETAINED",role,{importDigest,declaredModel:model,declaredThread:thread,freshContextAttested},async cut=>{
+    const last=cut.state.stages.at(-1);if(last?.role!==role||last.original||cut.state.status!=="RUNNING")throw new BridgeRefusal("INTEGRITY");
+    const artifact=await putOriginal(cut.binding,role,snapshot);let accepted=true;
+    try{originalText(snapshot);if(thread!==null&&cut.state.stages.slice(0,-1).some(s=>s.original?.thread===thread))accepted=false;}catch{accepted=false;}
+    return {role,original:{...artifact,accepted,model,thread,freshContextAttested}};
+  });
+}
+export async function checkBridgeFinal(ctx:WorkspaceContext,input:CutInput) {
+  return mutate(ctx,input,"CHECKED",undefined,{},async cut=>{
+    const final=cut.state.stages.at(-1);if(final?.role!=="FINAL"||!final.original?.accepted||cut.state.checker)throw new BridgeRefusal("INTEGRITY");
+    const bytes=await readOriginal(cut.binding,"FINAL",final.original),result=await checkPermutationFinal(bytes,{runId:cut.binding.runId,finalDigest:final.original.digest,sourceBundleDigest:cut.binding.sourceDigest,taskDigest:cut.binding.taskDigest});
+    return {result};
+  });
+}
+export async function revokeBridge(ctx:WorkspaceContext,input:CutInput){return mutate(ctx,input,"REVOKED",undefined,{},async()=>({reason:"Explicit authenticated operator revocation"}));}
+export async function getBridgeView(ctx:WorkspaceContext,runId:string):Promise<BridgeView> {
+  const cut=await cutFor(ctx,runId);await currentSource(cut);const originals:BridgeView["originals"]=[];
+  for(const stage of cut.state.stages){if(!stage.original)continue;const bytes=await readOriginal(cut.binding,stage.role,stage.original);originals.push({role:stage.role,digest:stage.original.digest,bytes:bytes.length,accepted:stage.original.accepted,text:stage.original.accepted?originalText(bytes):null,base64:Buffer.from(bytes).toString("base64")});}
+  let currentPrompt:BridgeView["currentPrompt"]=null;const last=cut.state.stages.at(-1);
+  if(last&&!last.original){const e=cut.events.find(e=>e.kind==="ROLE_RESERVED"&&e.detail.role===last.role),ref=e?.detail.prompt as {key:string;digest:string;bytes:number};
+    if(!ref||ref.digest!==last.promptDigest)throw new BridgeRefusal("INTEGRITY");const bytes=await readArtifact(cut.binding,`PROMPT-${last.role}`,ref,limits.promptBytes);
+    currentPrompt={role:last.role,text:new TextDecoder("utf-8",{fatal:true,ignoreBOM:true}).decode(bytes),digest:ref.digest};}
+  let liveReady=false;try{await requireLiveApproval(cut.binding);liveReady=true;}catch{/* Draft authority is not live authority. */}
+  return {binding:cut.binding,events:cut.events,state:cut.state,failed:cut.failed,sourceBundle:cut.source,originals,currentPrompt,liveReady,expired:!!cut.state.deadlineAt&&Date.now()>=Date.parse(cut.state.deadlineAt),checker:cut.state.checker};
+}
+export async function listBridgeDrafts(ctx:WorkspaceContext,missionId:string) {
+  assertEnvironment();await requireWorkspaceAuthorization(ctx,"research.read",missionId);const org=await organizationIdForWorkspace(ctx.workspace.id);
+  return withOrganizationTenant(org,ctx.user.id,async tx=>{const rows=await tx.commandRecord.findMany({where:{organizationId:org,workspaceId:ctx.workspace.id,actorUserId:ctx.user.id,commandType:commandPrefix+"DRAFT",status:"SUCCEEDED",payload:{path:["missionId"],equals:missionId}},orderBy:[{createdAt:"desc"},{id:"desc"}],take:10});
+    const views=[];for(const row of rows){const held=await lockRoot(tx,org,row.id,true),cut=await loadCut(tx,held);views.push({runId:row.id,status:cut.state.status,sequence:cut.events.length,eventDigest:cut.events.at(-1)!.eventDigest});}return views;});
+}
+export async function exportBridge(ctx:WorkspaceContext,runId:string) {
+  const view=await getBridgeView(ctx,runId),prompts=[];
+  // Retention is not permission to disclose unsafe imported credentials. Scan
+  // raw retained bytes too: rejected originals have no admitted text projection.
+  for(const original of view.originals)assertExportBytesSafe(Buffer.from(original.base64,"base64"));
+  for(const event of view.events){if(event.kind!=="ROLE_RESERVED")continue;const role=z.enum(roles).parse(event.detail.role),ref=event.detail.prompt as {key:string;digest:string;bytes:number};
+    const bytes=await readArtifact(view.binding,`PROMPT-${role}`,ref,limits.promptBytes);prompts.push({role,digest:ref.digest,bytes:bytes.length,base64:Buffer.from(bytes).toString("base64")});}
+  const body=JSON.stringify({schema:"hive-os.permutation-bridge.v1",...view,prompts,task,limits,
+    caveats:{upstream:"Received operator import, not cryptographic Codex authentication",tools:"UNKNOWN",usage:"UNKNOWN",actualBackend:"UNKNOWN",proof:"NON_FORMAL",officialScore:"NOT_ESTABLISHED",immutability:"Reviewed service/hash-chain integrity; database administrator and host owner trusted, not protection against coordinated datastore rewrite"}},null,2)+"\n";
+  if(Buffer.byteLength(body)>limits.exportBytes)throw new BridgeRefusal("RESOURCE");assertExportBytesSafe(Buffer.from(body,"utf8"));return body;
+}

@@ -233,6 +233,27 @@ describe("obligations, gates, progress", () => {
     expect(progress).toMatchObject({ closedWeight: 5, totalWeight: 5, basisPoints: 10000 });
   });
 
+  it("MK-18A exposes the latest accountable obligation activity", async () => {
+    const ctx = await asOwner(await createUser("obligation-operator"));
+    const m = await scaffoldApproved(ctx);
+    const obligation = await getDb().runtimeObligation.findFirstOrThrow({
+      where: { missionId: m.id },
+    });
+
+    await updateObligationStatus(ctx, obligation.id, "IN_PROGRESS", "started");
+    const detail = await getMissionDetail(ctx, m.id);
+
+    expect(detail.obligationActivity).toHaveLength(1);
+    expect(detail.obligationActivity[0]).toMatchObject({
+      obligationId: obligation.id,
+      latest: {
+        eventType: "obligation.started",
+      },
+    });
+    expect(detail.obligationActivity[0]?.latest?.actorName).toBeTruthy();
+    expect(detail.obligationActivity[0]?.latest?.occurredAt).toBeInstanceOf(Date);
+  });
+
   it("MK-20 required-obligation waiver requires an approved Decision", async () => {
     const ctx = await asOwner(await createUser("o"));
     const m = await scaffoldApproved(ctx);

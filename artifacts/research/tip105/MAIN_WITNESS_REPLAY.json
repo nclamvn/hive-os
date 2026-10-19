@@ -1,0 +1,11 @@
+{
+  "command": "python3 -B artifacts/research/tip105/k6_structured.py eval 49/186 43/186 23/186 26/186 1/31 0",
+  "agreement": true,
+  "area": "20/93",
+  "area_affine": "20/93",
+  "global_optimality": "NOT_ESTABLISHED",
+  "offsets": ["49/186", "43/186", "23/186", "13/93", "1/31", "0"],
+  "status": "EXACT_FINITE_UPPER_BOUND",
+  "wall_seconds_tool": 0.000008459,
+  "note": "Tool-reported wall_seconds retained as displayed; process startup timing is not a precision mathematical performance claim."
+}

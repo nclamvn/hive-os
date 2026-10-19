@@ -15,7 +15,6 @@ import { getDb } from "@/server/db";
 
 import {
   hashSkillContract,
-  isSkillCompatible,
   type SkillContractInput,
   type SkillIdentityInput,
   validateSkillContract,
@@ -317,11 +316,13 @@ export async function listSkills(ctx: WorkspaceContext) {
   requireSkillCapability(ctx, "skills.read");
   return getDb().skill.findMany({
     where: { workspaceId: ctx.workspace.id },
-    orderBy: { skillKey: "asc" },
+    orderBy: [{ skillKey: "asc" }, { id: "asc" }],
+    take: 100,
     include: {
       activeVersion: true,
       versions: {
         orderBy: { createdAt: "asc" },
+        take: 100,
         select: { id: true, semanticVersion: true },
       },
       _count: { select: { versions: true } },
@@ -339,7 +340,7 @@ export async function getSkillRegistryEntry(
     where: { id: skillId, workspaceId: ctx.workspace.id },
     include: {
       activeVersion: true,
-      versions: { orderBy: { createdAt: "asc" } },
+      versions: { orderBy: { createdAt: "asc" }, take: 100 },
     },
   });
 }
@@ -362,20 +363,17 @@ export async function discoverCompatibleSkills(
       "Required capabilities are invalid or duplicated",
     );
   }
-  const skills = await getDb().skill.findMany({
-    where: { workspaceId: ctx.workspace.id, status: "ACTIVE" },
-    orderBy: { skillKey: "asc" },
-    include: { activeVersion: true },
-  });
-  return skills.filter((skill) =>
-    isSkillCompatible(
-      {
-        capabilities: skill.activeVersion.capabilities,
-        assuranceCompatibility:
-          skill.activeVersion.assuranceCompatibility,
+  return getDb().skill.findMany({
+    where: {
+      workspaceId: ctx.workspace.id,
+      status: "ACTIVE",
+      activeVersion: {
+        capabilities: { hasEvery: required },
+        assuranceCompatibility: { has: input.assuranceProfile },
       },
-      required,
-      input.assuranceProfile,
-    ),
-  );
+    },
+    orderBy: [{ skillKey: "asc" }, { id: "asc" }],
+    include: { activeVersion: true },
+    take: 100,
+  });
 }

@@ -221,38 +221,32 @@ export async function transitionMission(
         return;
 
       case "execution": {
-        const [
-          tipCount,
-          unreadyTipCount,
-          openMaterialDeviationCount,
-          awaitingReportCount,
-        ] = await Promise.all([
-          tx.executionTip.count({
-            where: { workspaceId: ctx.workspace.id, missionId: mission.id },
-          }),
-          tx.executionTip.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId: mission.id,
-              status: { not: "DONE" },
-            },
-          }),
-          tx.executionDeviation.count({
+        const tipCount = await tx.executionTip.count({
+          where: { workspaceId: ctx.workspace.id, missionId: mission.id },
+        });
+        const unreadyTipCount = await tx.executionTip.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            status: { not: "DONE" },
+          },
+        });
+        const openMaterialDeviationCount =
+          await tx.executionDeviation.count({
             where: {
               workspaceId: ctx.workspace.id,
               missionId: mission.id,
               status: "OPEN",
               materiality: "MATERIAL",
             },
-          }),
-          tx.agentRun.count({
-            where: {
-              workspaceId: ctx.workspace.id,
-              missionId: mission.id,
-              status: "AWAITING_REPORT",
-            },
-          }),
-        ]);
+          });
+        const awaitingReportCount = await tx.agentRun.count({
+          where: {
+            workspaceId: ctx.workspace.id,
+            missionId: mission.id,
+            status: "AWAITING_REPORT",
+          },
+        });
         if (
           tipCount === 0 ||
           unreadyTipCount > 0 ||
@@ -503,7 +497,8 @@ export async function listMissions(ctx: WorkspaceContext) {
   requireMissionCapability(ctx, "missions.read");
   return getDb().mission.findMany({
     where: { workspaceId: ctx.workspace.id },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 100,
   });
 }
 
@@ -531,24 +526,105 @@ export async function getMissionDetail(
       getDb().runtimeObligation.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
         include: { contractObligation: true },
+        orderBy: { id: "asc" },
+        take: 100,
       }),
       getDb().runtimeGate.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
         include: {
           contractGate: true,
-          runs: { orderBy: { createdAt: "desc" } },
+          runs: {
+            orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+            take: 100,
+          },
         },
+        orderBy: { id: "asc" },
+        take: 100,
       }),
       getDb().decision.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        take: 100,
       }),
       getDb().escalation.findMany({
         where: { missionId, workspaceId: ctx.workspace.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        take: 100,
       }),
     ]);
-  return { mission, contract, obligations, gates, decisions, escalations };
+  const obligationIds = obligations.map((obligation) => obligation.id);
+  const obligationEvents = obligationIds.length
+    ? await getDb().$queryRaw<
+        Array<{
+          id: string;
+          entityId: string;
+          eventType: string;
+          actorUserId: string | null;
+          createdAt: Date;
+        }>
+      >(Prisma.sql`
+        SELECT DISTINCT ON (entity_id)
+          id,
+          entity_id AS "entityId",
+          event_type AS "eventType",
+          actor_user_id AS "actorUserId",
+          created_at AS "createdAt"
+        FROM audit_event
+        WHERE workspace_id = ${ctx.workspace.id}
+          AND entity_type = 'RuntimeObligation'
+          AND entity_id IN (${Prisma.join(obligationIds)})
+        ORDER BY entity_id, created_at DESC, id DESC
+        LIMIT 100
+      `)
+    : [];
+  const actorIds = [
+    ...new Set(
+      obligationEvents.flatMap((event) =>
+        event.actorUserId ? [event.actorUserId] : [],
+      ),
+    ),
+  ];
+  const actors = actorIds.length
+    ? await getDb().user.findMany({
+        where: { id: { in: actorIds } },
+        take: actorIds.length,
+        select: { id: true, name: true },
+      })
+    : [];
+  const actorNames = new Map(actors.map((actor) => [actor.id, actor.name]));
+  const latestByObligation = new Map<
+    string,
+    {
+      eventType: string;
+      actorName: string | null;
+      occurredAt: Date;
+    }
+  >();
+  for (const event of obligationEvents) {
+    if (!latestByObligation.has(event.entityId)) {
+      latestByObligation.set(event.entityId, {
+        eventType: event.eventType,
+        actorName: event.actorUserId
+          ? (actorNames.get(event.actorUserId) ?? null)
+          : null,
+        occurredAt: event.createdAt,
+      });
+    }
+  }
+  const obligationActivity = obligations.map((obligation) => ({
+    obligationId: obligation.id,
+    latest: latestByObligation.get(obligation.id) ?? null,
+  }));
+
+  return {
+    mission,
+    contract,
+    obligations,
+    gates,
+    decisions,
+    escalations,
+    obligationActivity,
+  };
 }
 
 /**

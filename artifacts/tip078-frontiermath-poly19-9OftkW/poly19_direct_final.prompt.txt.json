@@ -1,0 +1,21 @@
+{
+  "task": "POLY19",
+  "arm": "DIRECT",
+  "stage": "FINAL",
+  "registrationSha256": "8df6e773c3c3ff4a934c8f0219cb73776336d54d23142ca90b7cf23a2c19af49",
+  "inputPins": {
+    "common-policy.txt": "456c9108c3131a1b629c287b5bda854f037d11335a0848c2fe92d5d17131e897",
+    "direct-policy.txt": "378bea06fd39d58df164749ed6623b1773ac49f3acff5357e4b95e666301f9dd",
+    "poly19.txt": "017dad58a80e611fc8c863088235a5f2ff07b62685e79293d512892fa07f1f16",
+    "/private/tmp/hiveos-tip078-poly19-9OftkW/poly19-direct-attempt/original-final.txt": "1ef41d5b00eb78bad590cc41dda6caabbaedcb22bba88a4194dc71ec33e5273d",
+    "/private/tmp/hiveos-tip078-poly19-9OftkW/poly19-direct-critic/original-final.txt": "96781bd5a3c72d3d2610bb022ae984ada7f801fd96f68f38cd6f8a972b425d01"
+  },
+  "literalStage": "Use only the same-arm original attempt and criticism below. Produce your final complete proof or explicitly identify remaining essential gaps. This last completed revision is the immutable submission; no later repair is permitted.",
+  "promptBytes": 10884,
+  "requestPosition": 3,
+  "remainingSeconds": 449.8532561250031,
+  "remainingTools": 8,
+  "remainingToolSeconds": 119.9996316669858,
+  "remainingTraceBytes": 509653,
+  "promptSha256": "4af0b34ebf02e4f0c371992876c21b10c794795812585d8ee824ffee0a75c56b"
+}

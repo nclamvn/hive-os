@@ -74,7 +74,8 @@ export async function listApprovedReleaseProjections(
       mission: { status: "RELEASED" },
       manifest: { isNot: null },
     },
-    orderBy: { approvedAt: "desc" },
+    orderBy: [{ approvedAt: "desc" }, { id: "asc" }],
+    take: 100,
     select: {
       id: true,
       approvedAt: true,

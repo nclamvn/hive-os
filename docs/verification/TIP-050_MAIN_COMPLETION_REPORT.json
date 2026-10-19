@@ -1,0 +1,83 @@
+{
+  "tip": "TIP-050",
+  "date": "2026-10-03",
+  "role": "Main Contractor",
+  "status": "READY_WITH_DEFERRED",
+  "requirementsImplementedAndVerified": 6,
+  "requirementsTotal": 6,
+  "verificationReport": {
+    "path": "docs/verification/TIP-050_UNIT_ACTION_UNION_VERIFY_REPORT.json",
+    "sha256": "8943f0f97a636e532dc31daaf629ac6c69cede7b681c49b1f30b8a8976b8ced5"
+  },
+  "builderCompletions": [
+    {
+      "path": "docs/verification/TIP-050_CORE_COMPLETION_REPORT.json",
+      "sha256": "516dcdcd7322681a0318c2a364e119195f2602cbf8aaf6e44588c12f72b61bf3",
+      "finalTests": 22
+    },
+    {
+      "path": "docs/verification/TIP-050_REPLAY_COMPLETION_REPORT.json",
+      "sha256": "3d4ecb788291a89b75281e273827a82237a13a278ee0dc81d93a319393e02c4e",
+      "finalTests": 22
+    },
+    {
+      "path": "docs/verification/TIP-050_PRODUCT_COMPLETION_REPORT.json",
+      "sha256": "22228f7c608138a2d34ea8ec3caa0d71d4490464d8931737833baa9adf77f0a2",
+      "finalTests": 21
+    }
+  ],
+  "mainOwnedWork": [
+    "Frozen deterministic contract and algebraic transport/exact-union proof note",
+    "One actual default collector; separate standalone pinned Python and Map/explicit-set/fixed-point/full-digest controls",
+    "Two Main fully coherent report faults; final124files1094tests/type/lint/build acceptance",
+    "Visible bilingual responsive UI, expandable digests and post-build local server recovery",
+    "Immutable source/manifest checks and append-only handoff"
+  ],
+  "proofNote": {
+    "path": "docs/operations/LRC_UNIT_ACTION_UNION_2026-10-03.md",
+    "sha256": "e088ca327084fbd4c239b7d3577e6991fc7e8e47f79cc79cc41c09e093bfd181"
+  },
+  "skillInfluence": "Vibecode Kit separated Core/Replay/Product construction from Main acceptance; Main wrote contracts/docs and independent diagnostics, not product implementation. Frontend-design preserved HIVE tokens/scope-first restrained layout. Installed Next server/client guide kept arithmetic and retained projection server-only.",
+  "researchStatus": "PARTIAL",
+  "globalVerdict": "NOT_ESTABLISHED",
+  "actualProgress": "No new witness search. Six verified same-coordinate unit actions reused88041 source proof leaves; exact independent union added4776921555 ordered row-domain assignments summed across four distinct parents. All four remain PARTIAL with more than98% unresolved each; no unique global count, novelty or14/15 theorem claim.",
+  "qa": {
+    "finalUnit": {
+      "status": "PASS",
+      "files": 124,
+      "passed": 1094,
+      "failed": 0,
+      "durationSeconds": 408.68,
+      "startLocal": "17:39:13",
+      "command": "npm run test:unit -- --maxWorkers=2"
+    },
+    "newCases": 65,
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "productionBuild": "PASS",
+    "diffCheck": "PASS",
+    "dbIntegration": "NOT_RUN_THIS_TURN"
+  },
+  "deviationsAndFailures": [
+    "Initial whole1092PASS/2staticFAIL458.94s. Main authorized only old selector expectation repairs in TIP047/TIP048 tests; arithmetic had passed. Final full1094PASS408.68s.",
+    "Initial Replay zero-budget provenance loop counted only clock; final five fresh execution-pin tests plus clock passed and all22 ran together in final suite.",
+    "Main diagnostic typos/compact-plan field misunderstanding corrected without evidence or product mutation.",
+    "Old tab16 became connection-error dataURL after shutdown; browser policy blocked reload/cleanup. New same-browser tab17 delivered actual UI. No security or URL policy bypass."
+  ],
+  "nextPriority": "Separately seal canonical orbit representatives on the exact invariant remaining set and independently verify lift-back coverage; isolate fixed divisible-by7 vectors under declared dependencies. Then integrate typed compact evidence into a fresh HIVE model cycle. Avoid blind cap escalation. Verified admission caching/event-loop isolation is an important separate operational follow-up.",
+  "nextRoutingLemma": {
+    "authority": false,
+    "meaning": "Known elementary group action x=d-r, x->a*x inF7*. One fixed point, all other orbits size6; first nonzero labelled coordinate can be normalized to1. Main343-point slices per parent and49392 composition checks passed. Not a deployed quotient solver or new coverage."
+  },
+  "openObligations": [
+    "All level1 orbit completeness",
+    "Other primes",
+    "Full terminal coverage",
+    "Lower LRC12 replay",
+    "Analytic/prime-product proof",
+    "Typed new HIVE model evidence admission",
+    "Full14/15 theorem, novelty/formal/external acceptance",
+    "Verified read-performance optimization"
+  ],
+  "publication": "No commit, push or deploy requested/performed this turn. HEAD4d108227498d3578c9ac3fe60305c10da5aa905b unchanged; preserve unrelated dirty work. No paid API, DB mutation/migration, install or new model campaign. Server3001 restored localhost-only with queueOFF/workerSTOPPED; tab17 retained, temporary viewport reset. Actual UI read9–12s, not instantaneous."
+}

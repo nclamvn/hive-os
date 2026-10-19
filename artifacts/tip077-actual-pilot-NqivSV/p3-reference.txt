@@ -1,0 +1,3 @@
+GRADER-ONLY REFERENCE — acquired after all six submissions were sealed.
+Source: https://www.imo-official.org/assets/documents/problems/2024/IMO2024SL.pdf#page=54
+C7 (IMO P3), printed pages52–54: finitely many recurrent values lead to eventual small/large alternation. Periodicity is established through a return-time argument, or bounded relative frequency counts in a deterministic finite state. Submitted alternatives need their own justified bounds and transition rule; analogy is not proof.

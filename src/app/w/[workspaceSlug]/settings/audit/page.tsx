@@ -9,6 +9,8 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Panel, SectionHeader } from "@/components/ui/panel";
 import { SettingsNav } from "@/components/settings/settings-nav";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { settingsCopy } from "@/i18n/settings-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +21,8 @@ export default async function AuditSettingsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = settingsCopy[locale];
   const role = data.ctx.membership.role;
 
   let events: AuditView[] = [];
@@ -33,18 +37,19 @@ export default async function AuditSettingsPage({
   return (
     <WorkspaceShell
       data={data}
-      title="Audit"
+      title={copy.audit.pageTitle}
       subtitle={data.ctx.workspace.name}
     >
       <SettingsNav
         slug={workspaceSlug}
         active="audit"
         showAudit={hasCapability(role, "audit.read")}
+        copy={copy.nav}
       />
       <Panel>
         <div className="p-[var(--shell-card-padding)] pb-3">
           <SectionHeader
-            title="Audit events"
+            title={copy.audit.events}
             action={
               hasCapability(role, "audit.read") ? (
                 <a
@@ -52,7 +57,7 @@ export default async function AuditSettingsPage({
                   download
                   className="text-meta text-navy-700 border-line hover:border-line-strong inline-flex rounded-md border px-2.5 py-1.5 font-medium"
                 >
-                  Download ledger
+                  {copy.audit.download}
                 </a>
               ) : null
             }
@@ -61,20 +66,25 @@ export default async function AuditSettingsPage({
         {denied ? (
           <div className="border-t border-line">
             <EmptyState
-              title="You do not have access to the audit log"
-              hint="Audit visibility is limited to Owners and Admins."
+              title={copy.audit.denied}
+              hint={copy.audit.deniedHint}
             />
           </div>
         ) : events.length === 0 ? (
           <div className="border-t border-line">
-            <EmptyState title="No audit events yet" />
+            <EmptyState title={copy.audit.empty} />
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[680px] border-collapse">
               <thead>
                 <tr className="border-t border-line">
-                  {["Time (UTC)", "Event", "Entity", "Actor"].map((c) => (
+                  {[
+                    copy.audit.time,
+                    copy.audit.event,
+                    copy.audit.entity,
+                    copy.audit.actor,
+                  ].map((c) => (
                     <th
                       key={c}
                       scope="col"
@@ -98,7 +108,9 @@ export default async function AuditSettingsPage({
                       {e.entityType}
                     </td>
                     <td className="text-meta text-ink-muted tabular px-5 py-3">
-                      {e.actorUserId ? e.actorUserId.slice(0, 8) : "system"}
+                      {e.actorUserId
+                        ? e.actorUserId.slice(0, 8)
+                        : copy.audit.system}
                     </td>
                   </tr>
                 ))}

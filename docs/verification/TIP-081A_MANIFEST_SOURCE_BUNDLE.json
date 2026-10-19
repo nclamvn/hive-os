@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "purpose": "TIP081_DATA_ONLY_MANIFEST_SOURCE_EXTENSION",
+  "date": "2026-10-07",
+  "base": {
+    "bundlePath": "docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+    "bundleDigest": "844f824ecdd755205e748ec562b487caf4aca1f02302af28f6bc35add528ac0f",
+    "reviewReport": "docs/verification/TIP-081A_SOURCE_REVIEW.md",
+    "reviewDigest": "4151805883669bead2087e956b445c9e2bd66d87cf2685897ef037d88eb78772"
+  },
+  "sourcePins": {
+    "scripts/test/runtime-tip081-manifest.mjs": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+    "scripts/test/verify-tip081-manifest.mjs": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+    "tests/unit/evidence-studio-manifest.test.ts": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+    "tests/unit/evidence-studio-manifest-verifier.test.ts": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+  },
+  "reviewReport": "docs/verification/TIP-081A_MANIFEST_SOURCE_REVIEW.md",
+  "reviewDigest": "c4e2b44d2204b921b8d8c06d5f555db0e8344811e88381f5ecfb939d50c9f40e",
+  "toolPins": {
+    "node_modules/next/dist/compiled/acorn/acorn.js": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+    "node_modules/next/dist/compiled/acorn/package.json": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+    "node_modules/next/dist/build/utils.js": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+  },
+  "scope": "SOURCE_CONTRACT_ONLY_SUPPLIED_INVENTORY",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "materializationAllowed": false,
+  "executionAllowed": false,
+  "legacyBundleChanged": false,
+  "newApplicationBuilds": 0
+}

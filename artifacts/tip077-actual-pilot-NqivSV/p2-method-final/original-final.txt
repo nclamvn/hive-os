@@ -1,0 +1,55 @@
+## Answer
+
+The only pair is \(\boxed{(a,b)=(1,1)}\). It works with \(g=2\) and \(N=1\).
+
+## Proof
+
+Suppose positive integers \(a,b,g,N\) satisfy
+\[
+\gcd(a^n+b,b^n+a)=g
+\qquad\text{for every integer }n\ge N.
+\]
+Set \(m=ab+1\). Then \(m\ge2\), and
+\[
+\gcd(a,m)=\gcd(b,m)=1,
+\]
+since any common divisor of \(a\) and \(m\), or of \(b\) and \(m\), divides \(m-ab=1\). By Bézout’s identity, both \(a\) and \(b\) have multiplicative inverses modulo \(m\).
+
+There exists a positive integer \(T\) such that
+\[
+a^T\equiv b^T\equiv1\pmod m.
+\]
+Indeed, the \(m^2+1\) ordered pairs
+\[
+(a^j\bmod m,\ b^j\bmod m),\qquad 0\le j\le m^2,
+\]
+take at most \(m^2\) values. By the pigeonhole principle, two coincide, at indices \(r>s\). Cancelling the invertible powers \(a^s,b^s\) yields the desired congruences with \(T=r-s>0\).
+
+Choose a positive integer \(k\) large enough that \(kT-1\ge N\). Since \(ab\equiv-1\pmod m\),
+\[
+a(a^{kT-1}+b)=a^{kT}+ab\equiv1-1=0\pmod m.
+\]
+Cancelling \(a\) gives \(m\mid a^{kT-1}+b\). Similarly,
+\[
+b(b^{kT-1}+a)\equiv0\pmod m,
+\]
+so \(m\mid b^{kT-1}+a\). Therefore
+\[
+m\mid\gcd(a^{kT-1}+b,b^{kT-1}+a)=g.
+\]
+
+The next exponent \(kT\) also lies beyond the threshold. Hence \(g\), and consequently \(m\), divides both \(a^{kT}+b\) and \(b^{kT}+a\). Reducing modulo \(m\) gives
+\[
+b\equiv-1\pmod m,\qquad a\equiv-1\pmod m.
+\]
+Thus \(ab\equiv1\pmod m\). But \(m=ab+1\) also gives \(ab\equiv-1\pmod m\). It follows that \(m\mid2\). Since \(m\ge2\), we have \(m=2\), so \(ab=1\). Positivity forces \(a=b=1\).
+
+Conversely, when \(a=b=1\),
+\[
+\gcd(1^n+1,1^n+1)=2
+\]
+for every positive integer \(n\). This proves sufficiency.
+
+## Scope and gaps
+
+The proof covers all positive integer pairs and every possible threshold \(N\). There are no remaining gaps; no computational evidence is used.

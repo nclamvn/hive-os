@@ -73,18 +73,32 @@ export async function listWorkspacesForUser(
 ): Promise<WorkspaceMembershipSummary[]> {
   const memberships = await getDb().membership.findMany({
     where: { userId, status: "ACTIVE", workspace: { status: "ACTIVE" } },
-    include: { workspace: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    take: 100,
   });
-  return memberships.map((m) => ({
-    role: m.role,
-    workspace: {
-      id: m.workspace.id,
-      slug: m.workspace.slug,
-      name: m.workspace.name,
-      status: m.workspace.status,
-    },
-  }));
+  const workspaces = memberships.length
+    ? await getDb().workspace.findMany({
+        where: { id: { in: memberships.map((membership) => membership.workspaceId) } },
+        take: memberships.length,
+      })
+    : [];
+  const workspaceById = new Map(
+    workspaces.map((workspace) => [workspace.id, workspace]),
+  );
+  return memberships.flatMap((membership) => {
+    const workspace = workspaceById.get(membership.workspaceId);
+    return workspace
+      ? [{
+          role: membership.role,
+          workspace: {
+            id: workspace.id,
+            slug: workspace.slug,
+            name: workspace.name,
+            status: workspace.status,
+          },
+        }]
+      : [];
+  });
 }
 
 /**

@@ -1,0 +1,84 @@
+**C06.** The preceding solution is correct, including its numerical estimates. Two steps deserve fuller justification: why nonnegative sums reach every residue in the auxiliary lemma, and why its bound remains valid after dividing by the gcd. Here is a complete proof incorporating those details.
+
+Represent the students by a directed graph on \(n=120\) vertices. Then \(f^m(X)\) is precisely the set of vertices reachable from \(X\) by walks of length \(m\).
+
+For each strongly connected component containing a directed cycle, define its period as the gcd of its directed cycle lengths. Let \(L\) be the lcm of these periods, with \(L=1\) if there are none.
+
+A component of size \(s\) has period at most \(s\), since it contains a cycle of length at most \(s\). Hence the sum of the component periods is at most \(120\). If \(q_1,\ldots,q_r\) are the maximal prime powers in \(L\), then
+\[
+\sum_i q_i\le120.
+\]
+Indeed, splitting each period into its prime-power factors does not increase its sum, by \(a+b\le ab\) for \(a,b\ge2\); retaining only the largest power of each prime can only decrease the sum.
+
+For integers \(q\ge2\), the inequality \(q\le2^{q/2}\) holds except at \(q=3\). At most one \(q_i\) equals \(3\), so
+\[
+L\le \frac{3}{2^{3/2}}\,2^{60}<2^{61}.
+\tag{1}
+\]
+
+**Auxiliary lemma.** If positive integers at most \(B\) have gcd \(d\), every multiple of \(d\) at least \(B^2\) is a nonnegative integer combination of them.
+
+Divide the generators by \(d\), and let \(a\) be their minimum. Their nonnegative sums modulo \(a\) form a subgroup: any subset of a finite group containing \(0\) and closed under addition contains the additive inverse of each of its elements, by repeated addition. Because the normalized generators have gcd \(1\), this subgroup is all of \(\mathbb Z/a\mathbb Z\).
+
+A shortest sequence of additions reaching any residue has no repeated intermediate residue, and therefore uses at most \(a-1\) additions. Its ordinary sum is at most
+\[
+C=(a-1)\frac Bd\le\left(\frac Bd\right)^2.
+\]
+Every integer at least \(C\) can thus be represented by choosing the representative of its residue and adding copies of \(a\). If \(N\ge B^2\) is divisible by \(d\), then
+\[
+\frac Nd\ge\frac{B^2}{d}\ge\left(\frac Bd\right)^2\ge C.
+\]
+Multiplying a representation of \(N/d\) by \(d\) proves the lemma.
+
+**Walk-length claim.** In a strongly connected component of size \(s\) and period \(d\), all walks between fixed vertices have the same length modulo \(d\), and every integer in that residue at least \(4s^2+2s\) occurs.
+
+Fix a vertex \(r\). Choose shortest paths \(r\to x\) and \(x\to r\), of lengths \(p_x,q_x\le s-1\). Consider the positive lengths among
+\[
+p_x+q_x,\qquad p_x+1+q_y\quad(x\to y).
+\]
+They are lengths of closed walks at \(r\), all at most \(2s\).
+
+Their gcd is \(d\). Indeed, every closed walk decomposes into directed cycles, so \(d\) divides these lengths. Conversely, their gcd \(h\) divides
+\[
+(p_x+1+q_y)-(p_y+q_y)=p_x+1-p_y;
+\]
+this remains valid when \(p_y+q_y=0\), since every integer divides \(0\). Summing along a directed cycle shows that \(h\) divides its length. Thus \(h=d\).
+
+The lemma with \(B=2s\) shows that every multiple of \(d\) at least \(4s^2\) is the length of a closed walk at \(r\). Attach shortest paths \(u\to r\) and \(r\to v\), whose combined length \(b\) is at most \(2s-2\). Every integer congruent to \(b\pmod d\) and at least \(4s^2+2s\) is therefore a walk length from \(u\) to \(v\).
+
+Finally, append a fixed \(v\to u\) path to any two \(u\to v\) walks. The resulting closed walks have lengths divisible by \(d\), so the original lengths differ by a multiple of \(d\). This proves the claim.
+
+Set
+\[
+T=4n^2+2n=57{,}840,\qquad K=n(T+L)+n.
+\]
+For all vertices \(u,v\) and all \(m\ge K\), we have
+\[
+u\overset{m}{\longrightarrow}v
+\quad\Longleftrightarrow\quad
+u\overset{m+L}{\longrightarrow}v,
+\tag{2}
+\]
+where the notation means that a walk of the specified length exists.
+
+To prove this, a walk visits at most \(n\) strongly connected components, never returning to one after leaving it. It has at most \(n-1\) edges between components. Consequently, any walk of length at least \(K\) has an internal segment in some component of length at least \(T+L\). That component contains a cycle, and its period divides \(L\). The walk-length claim allows replacement of this segment by one with the same endpoints and length increased or decreased by \(L\): both replacement lengths are at least \(T\) and have the required residue. Applying increase to a length-\(m\) walk, and decrease to a length-\((m+L)\) walk, proves (2).
+
+Thus, for every subset \(X\),
+\[
+f^{m+L}(X)=f^m(X)\qquad(m\ge K).
+\]
+Its forward orbit contains at most \(K+L\) distinct sets. By (1),
+\[
+K+L
+=6{,}940{,}920+121L
+<6{,}940{,}920+121\cdot2^{61}
+<2^{68}<2^{70}.
+\]
+The penultimate inequality follows because
+\(2^{68}-121\cdot2^{61}=7\cdot2^{61}>6{,}940{,}920\).
+
+For any admissible sequence \(A_1,\ldots,A_t\), every \(A_j\) lies in the forward orbit of \(A_1\), by the condition for \(i=1\). Their distinctness gives
+\[
+\boxed{M(f)\le2^{70}}.
+\]
+There are no unresolved gaps.

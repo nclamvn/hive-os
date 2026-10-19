@@ -1,0 +1,7108 @@
+{
+  "status": "COMPLETE_FINITE",
+  "seconds": 0.19436583400238305,
+  "result": {
+    "claim_tested": "unique bad vertex irreducible if every weight>=2 (UNPROVED)",
+    "generated_cases": 187,
+    "complete_count": 160,
+    "refused_count": 27,
+    "complete_box_points": 7438,
+    "counterexamples": [],
+    "complete_cases": [
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 20,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          4,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          4,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          4,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          4,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          4,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          4,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          2,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          3,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          4,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          4,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          4,
+          4,
+          4
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "complete_box_points": 8,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 540,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 540,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 540,
+        "irreducible_vertices": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 540,
+        "irreducible_vertices": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 26,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "complete_box_points": 10,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 138,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 138,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 138,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 138,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 138,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 32,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 32,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          2,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 16,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          2,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          4,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 594,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 216,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 324,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 128,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 44,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 44,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 56,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 60,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 324,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 128,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 344,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 176,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 32,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 28,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 44,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 44,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 32,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 20,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 56,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 60,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 28,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 24,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 28,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "complete_box_points": 12,
+        "irreducible_vertices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "bad_vertex_irreducible": true
+      }
+    ],
+    "refused_cases": [
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          2,
+          3
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          2,
+          3,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      },
+      {
+        "weights": [
+          2,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "reason": "NOT_POSITIVE_DEFINITE"
+      }
+    ]
+  }
+}

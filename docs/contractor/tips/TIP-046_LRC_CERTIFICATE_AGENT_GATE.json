@@ -1,0 +1,31 @@
+{
+  "id": "TIP-046",
+  "title": "Independent finite-grid LRC branch and leaf certificate gate",
+  "priority": "P1",
+  "date": "2026-10-03",
+  "depends_on": ["existing immutable math pilot root/attempt/review workflow", "local LRC research audit"],
+  "context": {"working_directory": "/Users/os/hiveos", "head": "4d108227498d3578c9ac3fe60305c10da5aa905b", "mode": "local product implementation, no production or Git publication"},
+  "task": "Build a small independent certificate checker for exact witnesses and full finite Cartesian branch coverage; retain checked evidence in the actual solver-to-peer-review agent path.",
+  "decision_log": [
+    "The Owner's explicit request approves this bounded extension of the existing agent architecture; no additional blueprint ceremony is needed.",
+    "Use root solver/review rather than ES-specific controlled cycles, source corpus or portfolio. This is a bounded three-role agent loop, not an indefinite LRC campaign scheduler.",
+    "New typed finite scopes opt in prospectively. Historical records/hashes remain unchanged and cannot acquire synthetic evidence.",
+    "Finite-grid classifications never prove the unrestricted LRC or refute it. Written SHIFT/CRT universal lemma acceptance and all-prime Allikvere replay are future separately scoped obligations.",
+    "No schema migration or dependency installation planned: reuse JSON contracts and append-only immutable ledgers.",
+    "Vibecode Kit separates certificate construction, independent replay and product integration; Contractor reviews and verifies, does not write product code."
+  ],
+  "requirements": [
+    {"id": "R1", "criterion": "Strict sealed finite LRC scope: N total runners, k=N-1 positive distinct residue-speed axes, fixed modulus; sorted disjoint axes; bounded Cartesian product. Typed scope cannot be narrowed by model output."},
+    {"id": "R2", "criterion": "A small flat tree certificate checker verifies root domain, unique/reachable acyclic nodes, exact disjoint exhaustive child partitions and legal arithmetic at every leaf. GRID witness uses N*min(j*u mod M, M-j*u mod M)>=M; equality is accepted."},
+    {"id": "R3", "criterion": "SHIFT/CRT witness derivation leaves are exact finite witness constructions, not unverified induction. Singleton NO_GRID leaves exhaust the fixed M grid and never mean no continuous-time solution. Unknown/partial leaves never authorize agent dispatch."},
+    {"id": "R4", "criterion": "A separately implemented pinned Python checker consumes expected sealed scope plus certificate, independently checks branch coverage/leaf arithmetic, returns strict bounded counts. Drift, unavailable process, timeout, output overflow and disagreement fail closed."},
+    {"id": "R5", "criterion": "Trusted tool runs before solver; case/scope/certificate digests and checked evidence retained with immutable attempt. Both fresh AI reviewers receive the same checked summary; root-bound ledger validation rejects omission/tampering/downgrade. No automatic theorem or human acceptance."},
+    {"id": "R6", "criterion": "Visible bilingual retained-only UI shows finite scope, branch coverage, witness/grid-exclusion/unresolved counts, replay status and digests. New finite-case opt-in controls; historical cases explicitly lack the new evidence. No tool spawned on GET."},
+    {"id": "R7", "criterion": "Negative tests include missing/overlapping/duplicate/unreachable/cyclic branches, scope shrinkage, invalid rational/grid witness, equality mutant, wrong SHIFT/CRT, forged counts/digests, source drift, timeout/partial and historical compatibility. Real worker composition and guarded isolated DB lifecycle tests."},
+    {"id": "R8", "criterion": "Contractor independently runs tests, typecheck/lint/build and visible local E2E where available; quantitative completion/verify report and deferred limits. Preserve unrelated dirty work, no paid API, commit/push or deployment."}
+  ],
+  "scope_limits": {"total_runners_max": 15, "modulus_max": 128, "cartesian_tuples_max": 10000, "nodes_max": 20000, "certificate_bytes_max": 2097152, "python_timeout_ms": 10000, "python_stdout_max": 262144},
+  "initial_presets": ["N=6, M=42, five axes r+7j with r=1..5 and j=0..5 (7776 tuples, prior diagnostic development control)", "N=6, M=14, singleton speeds 1..5 (finite-grid exclusion control)", "N=14, M=28, singleton speeds 1..13 (not Allikvere coverage)", "N=15, M=30, singleton speeds 1..14 (not Allikvere coverage)"],
+  "not_included": ["Allikvere complete 111-prime or newer 71-prime regeneration", "unbounded theorem proof", "lower-case LRC induction assumption admission", "novelty certification", "model-generated code execution", "generic portfolio scheduler for LRC", "paid API, remote release or Git delivery"],
+  "acceptance": "R1-R8 must be evidenced; any missing live E2E/build/integration gate must be reported as deferred, not silently PASS."
+}

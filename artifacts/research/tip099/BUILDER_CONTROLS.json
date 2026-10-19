@@ -1,0 +1,50 @@
+{
+  "scope": "DEVELOPMENT_SMALL_CONTROLS_ONLY",
+  "tests": 17,
+  "failures": [],
+  "errors": [],
+  "native_runs": [
+    {
+      "control": "cellcap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=CELL_LIMIT planes=0 active=1 retired=0 bytes=1871\n",
+      "stderr": ""
+    },
+    {
+      "control": "overflow",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=INT128_OVERFLOW planes=3 active=8 retired=0 bytes=8417\n",
+      "stderr": "planes=1 active=2 retired=0 vertices=28 seconds=0.00068875\nplanes=2 active=4 retired=0 vertices=46 seconds=0.00237217\nplanes=3 active=8 retired=0 vertices=73 seconds=0.00469746\n"
+    },
+    {
+      "control": "coefficientcap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=NORMAL_COEFFICIENT_LIMIT planes=0 active=0 retired=0 bytes=625\n",
+      "stderr": ""
+    },
+    {
+      "control": "cube",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=0 active=1 retired=0 bytes=1467\n",
+      "stderr": ""
+    },
+    {
+      "control": "degenerate",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=2 active=4 retired=0 bytes=1791\n",
+      "stderr": "planes=1 active=2 retired=0 vertices=16 seconds=0.000107375\nplanes=2 active=4 retired=0 vertices=18 seconds=0.00033675\n"
+    },
+    {
+      "control": "repeated",
+      "returncode": 0,
+      "stdout": "status=COMPLETE_COVER reason=ALL_PLANES_PROCESSED planes=4 active=3 retired=0 bytes=2548\n",
+      "stderr": "planes=1 active=2 retired=0 vertices=24 seconds=0.000543208\nplanes=2 active=2 retired=0 vertices=24 seconds=0.00055625\nplanes=3 active=3 retired=0 vertices=32 seconds=0.000995125\nplanes=4 active=3 retired=0 vertices=32 seconds=0.00100458\n"
+    },
+    {
+      "control": "timecap",
+      "returncode": 3,
+      "stdout": "status=PARTIAL_COVER reason=TIME_LIMIT planes=0 active=1 retired=0 bytes=1484\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+X; **INFORMALLY_REVIEWED_SUPPORTED**
+
+**Essential-step audit:** The proof faithfully assumes constancy for every exponent beyond an arbitrary threshold \(N\).
+
+- Every common divisor of \(a\) or \(b\) with \(m=ab+1\) divides \(1\), so all modular cancellations are justified.
+- The pigeonhole argument produces a simultaneous positive period: equal residue pairs at distinct indices, followed by cancellation of invertible powers, give \(a^t\equiv b^t\equiv1\pmod m\).
+- Choosing \(k\) with \(kt-1\ge N\) places both consecutive exponents within the hypothesis. At the first exponent, the displayed identities and invertibility establish that \(m\) divides both expressions, hence \(m\mid g\).
+- At the next exponent, constancy makes \(g\) divide both expressions. Therefore \(m\mid b+1\) and \(m\mid a+1\). Their positivity justifies both inequalities, which force \(a\le1\) and \(b\le1\).
+- Positivity yields \(a=b=1\), and the converse explicitly verifies every positive exponent with \(g=2,N=1\).
+
+**Defect/reference comparison:** No essential defect or circularity found. Equality and cases with either variable equal to \(1\) are covered. No reference solution was supplied or used.
+
+**Remaining uncertainty:** No unresolved mathematical gap identified in this informal review.
+
+Y; **INFORMALLY_REVIEWED_SUPPORTED**
+
+**Essential-step audit:** The eventual-constancy quantifier is used correctly for an arbitrary \(N\).
+
+- The coprimality argument establishes both modular inverses.
+- The finite residue-pair argument and cancellation establish a common positive period \(T\); it does not assume the conclusion.
+- The chosen \(k\) ensures both \(kT-1\) and \(kT\) satisfy the threshold. Unit cancellation at the first exponent gives divisibility of both expressions by \(m\), so \(m\mid g\).
+- Constancy at the next exponent transfers divisibility by \(m\) to both new expressions, giving \(a\equiv b\equiv-1\pmod m\).
+- Multiplication gives \(ab\equiv1\pmod m\), while the definition of \(m\) gives \(ab\equiv-1\pmod m\). Thus \(m\mid2\). Since \(m\ge2\), necessarily \(m=2\), hence \(ab=1\) and positivity forces \(a=b=1\).
+- The converse verifies the asserted pair for every positive exponent. The boundary \(m=2\) is valid: the two congruences coincide modulo \(2\).
+
+**Defect/reference comparison:** No essential defect found. Every blocking implication is justified, and the argument is universal rather than sample-based. No reference solution was supplied or used.
+
+**Remaining uncertainty:** No unresolved mathematical gap identified in this informal review.

@@ -1,0 +1,100 @@
+## Answer
+
+The original attempt is sound. I found no essential gap or counterexample to its implications. In particular, the counter lemma’s invariant and its large-gap argument are valid, including ties.
+
+The following is an independent audit of the attempt, not a replacement final submission.
+
+## Proof (independent audit)
+
+**1. The counting identity has the correct indexing.**
+
+For each \(i\in\{N,\ldots,n-1\}\), the recurrence gives
+\[
+a_{i+1}=C_i(a_i).
+\]
+Thus \(a_{i+1}=k\) exactly when position \(i\) is the \(k\)-th occurrence of its value. Each distinct value contributes exactly once to \(H_t(k)\), at its \(k\)-th occurrence. Consequently,
+\[
+C_n(k)-C_N(k)=H_{n-1}(k)-H_{N-1}(k).
+\]
+This also holds at \(n=N\), when both differences vanish. There is no off-by-one error.
+
+For \(k>K\), the initial segment contains no \(k\), and \(N-1<k\), so both initial terms vanish. Hence (2), and the resulting monotonicity in \(k>K\), are justified.
+
+**2. The bound on occurrences of large values is valid.**
+
+If \(C_n(k)\) first reaches \(k\), then \(n>N\), \(a_n=k\), and \(C_{n-1}(k)=k-1\). Since \(n-1\ge N\), the previously established monotonicity applies and gives
+\[
+C_{n-1}(x)\le k-1\qquad(x\ge k).
+\]
+Only the \(k-1\) positive values below \(k\) can therefore have count at least \(k\). This contradicts
+\[
+H_{n-1}(k)=C_n(k)=k.
+\]
+The first-reaching argument is legitimate because occurrence counts increase by at most one per position. Applying it to \(K+1\) and then using monotonicity proves (4).
+
+**3. The identification \(R=\{1,\ldots,r\}\) is noncircular.**
+
+The argument establishing \(R\ne\varnothing\) covers both possibilities for the number of distinct values. In the infinite-distinct-values case, infinitely many first occurrences lie after \(N\), and each has a distinct successor position containing \(1\).
+
+A uniform \(L\) for values outside \(R\) exists because values above \(K\) already have uniformly bounded counts, while there are only finitely many values at most \(K\).
+
+For any fixed \(k>L\), outsiders cannot contribute to \(H_{n-1}(k)\). All \(r\) members of \(R\) eventually do contribute, so
+\[
+C_\infty(k)=r.
+\]
+Thus every \(k>L\) has a \(j\)-th occurrence for each \(1\le j\le r\). Its successor is \(j\), and these successor positions are distinct as \(k\) varies. This proves that every such \(j\) occurs infinitely often. Cardinality then gives the claimed description of \(R\).
+
+**4. Eventual alternation and the counter recurrence are correctly derived.**
+
+After the finitely occurring values \(r+1,\ldots,L\) disappear:
+
+- A value at most \(r\) has current count greater than \(L\), so its successor exceeds \(L\).
+- A value greater than \(L\) has current count at most \(r\), by (7), and at least \(1\), because it occurs at the current position.
+
+Hence the eventual alternation is valid.
+
+For the counter indexing, \(c_i(m+1)\) counts through the intervening high-value position. That position contributes nothing to any counter \(i\le r\). Therefore
+\[
+c_i(m+1)=c_i(m)+\mathbf1_{\{i=b_m\}}.
+\]
+Applying (7) at the position containing \(h_m\) uses the counts immediately after \(b_m\), which are precisely \(c_i(m+1)\). This proves (11). Every counter diverges because its labelled value belongs to \(R\).
+
+**5. The sorted-counter invariant handles ties correctly.**
+
+If the selected counter has old value \(v\), let
+\[
+q=\#\{i:c_i\ge v+1\}.
+\]
+Since the counters are integers, the old sorted entry \(s_{q+1}\) equals \(v\). Raising the selected counter to \(v+1\) changes only that sorted entry, and the new rank count is \(b'=q+1\). Thus
+\[
+s'=s+e_{b'}.
+\]
+This remains true when several counters equal \(v\) or \(v+1\); sorting concerns their numerical values, so no tie-breaking convention is needed.
+
+It follows exactly that
+\[
+c'-s'+e_{b'}=c-s+e_b.
+\]
+Consequently, the claimed uniform bound \(|c_i-s_i|\le D\) follows from the invariant.
+
+**6. The large-gap implication is valid, with one detail worth making explicit.**
+
+When \(s_k-s_{k+1}>2D\), all counters labelled \(1,\ldots,k\) strictly exceed all counters labelled \(k+1,\ldots,r\).
+
+If the current index belongs to the first group, incrementing its counter preserves this strict separation. Its updated rank count is at most \(k\), so the next index also belongs to that group. Repetition freezes every counter in the second group, contradicting their divergence.
+
+This argument requires persistence of the **labelled separation**, not persistence of the inequality \(s_k-s_{k+1}>2D\). The original wording is correct, but explicitly distinguishing these would make the argument easier to audit.
+
+Therefore the selected counter belongs to the lower group whenever the gap exceeds \(2D\). Its old value is at most \(s_{k+1}\); incrementing it cannot raise \(s_k\), while no order statistic can decrease. Hence the gap cannot increase. Combined with the general one-step increase bound, this proves (17).
+
+**7. The finite-state conclusion follows from a proved uniform bound.**
+
+Summing the bounded sorted gaps bounds the entire counter range. The normalized counters therefore take values in a finite set. The next normalized state is uniquely determined by the present state, since both incrementing and rank comparison are unchanged by adding a common constant.
+
+A repeated state yields a periodic tail by determinism. This establishes eventual periodicity without relying on simulation.
+
+## Scope and gaps
+
+No essential gap remains. The proof covers arbitrary positive initial values and every positive \(N\), including \(N=1\), \(r=1\), empty intermediate ranges, and counter ties. When \(r=1\), the empty gap sum correctly gives range zero.
+
+The only suggested improvements are explanatory: explicitly justify the lower bound \(C_t(a_t)\ge1\), and clarify that the trapping argument preserves labelled separation. Neither requires a mathematical repair.

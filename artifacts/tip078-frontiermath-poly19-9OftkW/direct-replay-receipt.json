@@ -1,0 +1,9 @@
+{
+  "candidateSha256": "ea4237d1e2071f9114f572e1c37a98290aa43f1d868863bb66d58dbe49732fac",
+  "outcome": "RETURNED",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0694794169976376,
+  "stdoutSha256": "46ebdae67aef5351a1fd96b841ac77f08a881cf681e30a2874ee65b7a5957399",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "mathematicalAcceptance": "ONLY_VERIFIER_SCOPED_RESULT_NOT_MODEL_VOTE"
+}

@@ -1,0 +1,159 @@
+**C01. The supremum is \(\boxed{1}\), and \(q=1\) is admissible.**
+
+Throughout the upper-bound proof, constants depend only on \(p,M\); they can be chosen uniformly for the two domains.
+
+First consider smooth initial data. Split the vorticity as
+\[
+\omega^\nu=\rho+g,
+\]
+where, with the solution’s velocity fixed, both components solve
+\[
+\partial_t h+u^\nu\cdot\nabla h=\nu\Delta h,
+\qquad \rho(0)=\mu_0^\nu,\quad g(0)=f_0^\nu.
+\]
+Positivity and the incompressible transport–diffusion maximum principle give
+\[
+\rho\ge0,\qquad \|\rho(t)\|_1\le2M,\qquad
+\|g(t)\|_1+\|g(t)\|_p\le M.
+\tag{1}
+\]
+
+Use the inhomogeneous \(H^{-1}\) norm. The energy inequality implies
+\[
+\|\omega^\nu(t)\|_{H^{-1}}
+\le \|u^\nu(t)\|_2\le M.
+\]
+Moreover,
+\[
+\|g(t)\|_{H^{-1}}\le C_p(\|g(t)\|_1+\|g(t)\|_p).
+\]
+For \(1<p<2\), this follows by duality from \(H^1\hookrightarrow L^{p'}\); for \(p\ge2\), interpolate \(L^1,L^p\) to control \(L^2\). Thus
+\[
+\|\rho(t)\|_{H^{-1}}\le C.
+\tag{2}
+\]
+
+The kernel \(K\) of \((1-\Delta)^{-1}\) is positive on either domain and, for sufficiently small \(r\), satisfies
+\[
+K(z)\ge c\log(1/r)\qquad\text{when }|z|\le2r.
+\]
+Indeed, its heat-kernel representation is
+\[
+K(z)=\int_0^\infty e^{-s}H_s(z)\,ds;
+\]
+integrating over \(4r^2\le s\le s_0\), where \(H_s(z)\ge c/s\), gives the bound. Consequently, positivity and (2) yield
+\[
+\iint_{|x-y|\le2r}\rho(x)\rho(y)\,dx\,dy
+\le \frac{C}{\log(1/r)}.
+\tag{3}
+\]
+
+Let \(\eta_r\) be a nonnegative smooth mollifier supported in a radius-\(r\) ball. Since \(\eta_r*\widetilde\eta_r\) is supported in the radius-\(2r\) ball and bounded by \(Cr^{-2}\), (3) implies
+\[
+\|\rho*\eta_r\|_2^2\le\frac{C}{r^2\log(1/r)}.
+\]
+The translation estimate gives
+\[
+\|\rho-\rho*\eta_r\|_2^2\le Cr^2\|\nabla\rho\|_2^2.
+\]
+Writing \(y=\|\rho\|_2^2\), \(z=\|\nabla\rho\|_2^2\), we obtain
+\[
+y\le\frac{C}{r^2\log(1/r)}+Cr^2z.
+\tag{4}
+\]
+For sufficiently large \(y\), choose \(r^2=A/(y\log y)\). Taking \(A\) sufficiently large and then fixing a sufficiently large threshold \(Y\), the first term in (4) is at most \(y/2\). Hence
+\[
+z\ge c y^2\log y\qquad(y>Y).
+\tag{5}
+\]
+
+The component energy identity is \(y'=-2\nu z\). If \(y(t)>Y\), monotonicity ensures (5) holds throughout \([0,t]\), so
+\[
+c\nu t
+\le\int_{y(t)}^{y(0)}\frac{ds}{s^2\log s}
+\le\int_{y(t)}^\infty\frac{ds}{s^2\log s}
+\le\frac1{y(t)\log y(t)}.
+\]
+Inverting this inequality, and including the case \(y(t)\le Y\), gives
+\[
+\|\rho(t)\|_2^2
+\le C\left(1+\frac1{\nu t\log(1/(\nu t))}\right),
+\qquad 0<t\le1.
+\tag{6}
+\]
+
+For the signed component, \(L^p\) contraction and the component energy identity yield
+\[
+\|g(t)\|_2^2\le
+\begin{cases}
+C\bigl(1+(\nu t)^{-(2/p-1)}\bigr),&1<p<2,\\
+C,&p\ge2.
+\end{cases}
+\tag{7}
+\]
+To verify the first case, use
+\[
+\|g\|_2\le
+C\|\nabla g\|_2^{1-p/2}\|g\|_p^{p/2}+C\|g\|_p.
+\]
+Above a fixed threshold, this gives
+\(\|\nabla g\|_2^2\ge c(\|g\|_2^2)^{2/(2-p)}\); integration proves (7). The second case follows from interpolation between \(L^1,L^p\).
+
+Since \(\|\omega^\nu\|_2^2\le2\|\rho\|_2^2+2\|g\|_2^2\), integration over \([1/2,1]\) gives
+\[
+D_\nu\le \frac{C}{\log(1/\nu)}+C\nu^\beta
+\le\frac{C'}{\log(1/\nu)},
+\qquad \beta=\min\{1,2-2/p\}>0.
+\tag{8}
+\]
+
+These estimates extend to the stated energy-class solutions. Convolve the initial velocity and both vorticity components with the same nonnegative mollifier. This preserves the decomposition and bounds, and the velocities converge strongly in \(L^2\). The corresponding smooth two-dimensional solutions converge to the given solution for fixed \(\nu\): the difference energy estimate follows from
+\[
+\left|\int w\cdot\nabla v\cdot w\right|
+\le\frac{\nu}{2}\|\nabla w\|_2^2
++C_\nu(1+\|\nabla v\|_2^2)\|w\|_2^2,
+\]
+and Gronwall, proving energy-class uniqueness and stability. Weak lower semicontinuity transfers (8). Thus \(q=1\) is admissible.
+
+For sharpness, work on \(\mathbb R^2\). Choose a nonnegative smooth radial \(\phi\), supported in the unit disk, with integral one. Set
+\[
+a_\nu=\frac b{\sqrt{\log(1/\nu)}},\qquad
+\omega_0^\nu(x)=a_\nu\left[\nu^{-1}\phi(x/\sqrt\nu)-\phi(x)\right].
+\]
+Use the decomposition
+\[
+\mu_0^\nu=a_\nu\nu^{-1}\phi(x/\sqrt\nu)\,dx,
+\qquad f_0^\nu=-a_\nu\phi.
+\]
+The total circulation vanishes. The associated swirl velocity is
+\[
+u_0^\nu(x)=\frac{x^\perp}{|x|^2}
+\int_0^{|x|}s\,\omega_0^\nu(s)\,ds.
+\]
+For \(r\le\sqrt\nu\), its magnitude is bounded by \(Ca_\nu r/\nu\); for \(\sqrt\nu<r<1\), by \(Ca_\nu/r\); and for \(r\ge1\), it vanishes. Therefore
+\[
+\|u_0^\nu\|_2^2
+\le Ca_\nu^2(1+\log(1/\nu))\le Cb^2.
+\]
+All other required bounds are at most \(C_pb\). Choosing \(b>0\) sufficiently small satisfies any fixed \(p,M\).
+
+Radial vorticity has zero advection by its swirl velocity. Its exact evolution is therefore
+\[
+\omega^\nu(t,x)=a_\nu\left[
+\nu^{-1}(e^{t\Delta}\phi)(x/\sqrt\nu)
+-e^{\nu t\Delta}\phi(x)\right].
+\]
+The associated smooth, finite-energy velocity solves Navier–Stokes and satisfies the energy identity.
+
+Let \(m=\|e^\Delta\phi\|_2>0\). Heat contraction and scaling imply, uniformly for \(t\in[1/2,1]\),
+\[
+\|\omega^\nu(t)\|_2
+\ge a_\nu(\nu^{-1/2}m-\|\phi\|_2)
+\ge\tfrac12a_\nu m\nu^{-1/2}
+\]
+for small \(\nu\). Thus
+\[
+D_\nu\ge\frac{m^2a_\nu^2}{8}
+=\frac{m^2b^2}{8\log(1/\nu)}.
+\]
+For every \(q>1\), this makes \(D_\nu[\log(1/\nu)]^q\to\infty\), contradicting admissibility. Hence the supremum is exactly \(1\).

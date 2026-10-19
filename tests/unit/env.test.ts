@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { parseEnv } from "@/server/env";
+import { databasePoolConfig } from "@/server/db";
 
 const validBase = {
   NODE_ENV: "test",
@@ -14,6 +15,61 @@ describe("environment schema", () => {
     expect(env.STORAGE_DRIVER).toBe("local");
     expect(env.STORAGE_LOCAL_ROOT).toBe(".storage");
     expect(env.DEMO_FIXTURES_ENABLED).toBe(false);
+    expect(env.DB_POOL_MAX).toBe(10);
+    expect(env.DB_STATEMENT_TIMEOUT_MS).toBe(30_000);
+    expect(env.DB_SLOW_QUERY_MS).toBe(1_000);
+    expect(env.RESEARCH_WORKER_ENABLED).toBe(false);
+    expect(env.MATH_PILOT_QUEUE_ENABLED).toBe(false);
+    expect(env.RESEARCH_CODEX_LOCAL_ENABLED).toBe(false);
+    expect(env.RUNTIME_COMPONENT).toBe("web");
+  });
+
+  it("TIP-024D accepts a research-only production worker without web or mail secrets", () => {
+    const env = parseEnv({
+      RUNTIME_COMPONENT: "research-worker",
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "staging",
+      DATABASE_URL: "postgresql://worker:pass@database.example.com:5432/hiveos",
+      RESEARCH_WORKER_ENABLED: "true",
+      RESEARCH_OPENAI_ENABLED: "true",
+      RESEARCH_WORKER_ORGANIZATION_ID: "962e9399-d7ed-4410-a72e-37001e1fa28c",
+      RESEARCH_WORKER_ACTOR_USER_ID: "svc_research_worker",
+      OPENAI_API_KEY: "provider-secret",
+    });
+
+    expect(env.RUNTIME_COMPONENT).toBe("research-worker");
+    expect(env.STORAGE_DRIVER).toBe("local");
+    expect(env.BETTER_AUTH_SECRET).toBeUndefined();
+    expect(env.AUTH_THROTTLE_SECRET).toBeUndefined();
+    expect(env.SMTP_PASSWORD).toBeUndefined();
+  });
+
+  it("TIP-026 permits the math queue only in an explicitly enabled local environment", () => {
+    expect(parseEnv({ ...validBase, MATH_PILOT_QUEUE_ENABLED: "true" }).MATH_PILOT_QUEUE_ENABLED).toBe(true);
+    expect(() => parseEnv({
+      ...validBase,
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "staging",
+      MATH_PILOT_QUEUE_ENABLED: "true",
+    })).toThrow(/MATH_PILOT_QUEUE_ENABLED/);
+  });
+
+  it("keeps the Codex subscription bridge local-only", () => {
+    expect(parseEnv({ ...validBase, RESEARCH_CODEX_LOCAL_ENABLED: "true" }).RESEARCH_CODEX_LOCAL_ENABLED).toBe(true);
+    expect(() => parseEnv({ ...validBase, NODE_ENV: "production", DEPLOYMENT_ENV: "staging", RESEARCH_CODEX_LOCAL_ENABLED: "true" }))
+      .toThrow(/RESEARCH_CODEX_LOCAL_ENABLED/);
+  });
+
+  it("TIP-024C fails closed when a worker adapter lacks credentials or a pinned runtime registry", () => {
+    expect(() => parseEnv({
+      ...validBase,
+      RESEARCH_WORKER_ENABLED: "true",
+      RESEARCH_OPENAI_ENABLED: "true",
+    })).toThrow(/RESEARCH_WORKER_ORGANIZATION_ID[\s\S]*RESEARCH_WORKER_ACTOR_USER_ID[\s\S]*OPENAI_API_KEY/);
+    expect(() => parseEnv({
+      ...validBase,
+      SANDBOX_DOCKER_ENABLED: "true",
+    })).toThrow(/SANDBOX_RUNTIME_REGISTRY_JSON/);
   });
 
   it("rejects a missing DATABASE_URL and names the variable", () => {
@@ -51,9 +107,74 @@ describe("environment schema", () => {
       S3_ACCESS_KEY_ID: "key",
       S3_SECRET_ACCESS_KEY: "secret",
       S3_FORCE_PATH_STYLE: "true",
+      S3_SERVER_SIDE_ENCRYPTION: "AES256",
     });
     expect(env.STORAGE_DRIVER).toBe("s3");
     expect(env.S3_FORCE_PATH_STYLE).toBe(true);
+  });
+
+  it("PRC-02 requires an explicit safe production deployment contract", () => {
+    expect(() =>
+      parseEnv({
+        ...validBase,
+        NODE_ENV: "production",
+      }),
+    ).toThrowError(/DEPLOYMENT_ENV/);
+    expect(() =>
+      parseEnv({
+        ...validBase,
+        NODE_ENV: "production",
+        DEPLOYMENT_ENV: "staging",
+      }),
+    ).toThrowError(/STORAGE_DRIVER/);
+  });
+
+  it("accepts a complete provider-neutral production contract", () => {
+    const env = parseEnv({
+      ...validBase,
+      NODE_ENV: "production",
+      DEPLOYMENT_ENV: "production",
+      STORAGE_DRIVER: "s3",
+      S3_REGION: "us-east-1",
+      S3_BUCKET: "hiveos-production",
+      S3_ACCESS_KEY_ID: "key",
+      S3_SECRET_ACCESS_KEY: "secret",
+      S3_SERVER_SIDE_ENCRYPTION: "AES256",
+      AUTH_THROTTLE_SECRET: "throttle-secret-at-least-16",
+      BETTER_AUTH_URL: "https://app.example.com",
+      MAIL_DRIVER: "smtp",
+      SMTP_HOST: "smtp.example.com",
+      MAIL_FROM: "HIVE OS <noreply@example.com>",
+      MAIL_BASE_URL: "https://app.example.com",
+    });
+    expect(env.DEPLOYMENT_ENV).toBe("production");
+    expect(env.STORAGE_DRIVER).toBe("s3");
+  });
+
+  it("PRC-06 rejects unsafe database pool and timeout values", () => {
+    expect(() =>
+      parseEnv({ ...validBase, DB_POOL_MAX: "0" }),
+    ).toThrowError(/DB_POOL_MAX/);
+    expect(() =>
+      parseEnv({ ...validBase, DB_STATEMENT_TIMEOUT_MS: "999999" }),
+    ).toThrowError(/DB_STATEMENT_TIMEOUT_MS/);
+  });
+
+  it("PRC-06 applies validated database pool and timeout values", () => {
+    const env = parseEnv({
+      ...validBase,
+      DB_POOL_MAX: "12",
+      DB_CONNECTION_TIMEOUT_MS: "2500",
+      DB_IDLE_TIMEOUT_MS: "45000",
+      DB_STATEMENT_TIMEOUT_MS: "20000",
+      DB_SLOW_QUERY_MS: "750",
+    });
+    expect(databasePoolConfig(env)).toMatchObject({
+      max: 12,
+      connectionTimeoutMillis: 2500,
+      idleTimeoutMillis: 45000,
+      statement_timeout: 20000,
+    });
   });
 
   it("forbids demo fixtures in production", () => {

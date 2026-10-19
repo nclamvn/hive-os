@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "purpose": "TIP081_READ_ONLY_PRODUCT_INVENTORY_SOURCE_EXTENSION",
+  "date": "2026-10-07",
+  "base": {
+    "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+    "digest": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+  },
+  "sourcePins": {
+    "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+    "scripts/test/verify-tip081-inventory.mjs": "32e5123f82d280a5f1088d5f3a54482a281524dd58a9e9d1705474efd51b0446",
+    "tests/unit/evidence-studio-inventory.test.ts": "ab254765a82022b49795f3314399bf8125a3ca382fb863c4c5bbaa6f25a9ff13",
+    "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72"
+  },
+  "reviewReport": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+  "reviewDigest": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+  "scope": "FIXED_FAILED_BUILD4_READ_ONLY_INVENTORY",
+  "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+  "graphAccounting": "OPEN_GRAPH_ACCOUNTING_INTEGRATION",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "materializationAllowed": false,
+  "executionAllowed": false,
+  "legacyBundleChanged": false,
+  "newApplicationBuilds": 0,
+  "predecessorSourcePins": {
+    "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+    "scripts/test/verify-tip081-inventory.mjs": "4e816e3857f039272a4bd6727b78d06a57250b25c1ad461145adac8339cd80bb",
+    "tests/unit/evidence-studio-inventory.test.ts": "2beec825ba1b701ff1ffec520815b978497ae2ebe73181752d1599c3379b537e",
+    "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72"
+  }
+}

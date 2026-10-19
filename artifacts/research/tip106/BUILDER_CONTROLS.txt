@@ -1,0 +1,17 @@
+test_K6_wall_inventory (__main__.TIP106Controls.test_K6_wall_inventory) ... ok
+test_actual_walk_output_has_open_frontier (__main__.TIP106Controls.test_actual_walk_output_has_open_frontier) ... ok
+test_binary_tree_count_and_leaves (__main__.TIP106Controls.test_binary_tree_count_and_leaves) ... ok
+test_codimension1_KKT_solver (__main__.TIP106Controls.test_codimension1_KKT_solver) ... ok
+test_create_only_output_contract (__main__.TIP106Controls.test_create_only_output_contract) ... ok
+test_disconnected_bound_arithmetic (__main__.TIP106Controls.test_disconnected_bound_arithmetic) ... ok
+test_endpoint_gap_exclusions (__main__.TIP106Controls.test_endpoint_gap_exclusions) ... ok
+test_exact_symbolic_stationary_recovery (__main__.TIP106Controls.test_exact_symbolic_stationary_recovery) ... ok
+test_exact_unique_and_singular_systems (__main__.TIP106Controls.test_exact_unique_and_singular_systems) ... ok
+test_generic_inventory_reproduces_K5 (__main__.TIP106Controls.test_generic_inventory_reproduces_K5) ... ok
+test_hierarchical_seed_determinism_and_gauge (__main__.TIP106Controls.test_hierarchical_seed_determinism_and_gauge) ... ok
+test_prefix_pilot_remains_partial (__main__.TIP106Controls.test_prefix_pilot_remains_partial) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.086s
+
+OK

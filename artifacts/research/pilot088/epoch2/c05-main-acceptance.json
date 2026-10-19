@@ -1,0 +1,14 @@
+{
+  "case_id": "C05",
+  "status": "SUPPORTED_ORDINARY_MATHEMATICAL_REVIEW",
+  "anonymous_mapping": {"U": "B", "V": "A"},
+  "initial_scores": {"A": 6, "B": 6},
+  "final_scores": {"A": 6, "B": 6},
+  "transport_complete": true,
+  "main_proof_review": "Both proofs bound nonsquare perfect powers by x^(1/3) log_2(x), hence only o(M) bad square gaps among M-1. Infinitely many clean gaps remain. A_n=m+o(m) is constant on each clean block of length2m+1, which covers every residue modulo A_n for large m. Ceil/residue choice includes left square/excludes next square and disjoint blocks give distinct n. All assertions include1 correctly. Finite smoke corroborates construction only, not infinitude.",
+  "critic_effect": "No essential repair; original B draft already complete.",
+  "shared_assessor": "assessment-c05/assessor.response.txt",
+  "formal_or_human_external_certification": false,
+  "remaining_five_dispatch": "RELEASED_BY_MAIN_WITHIN_OWNER_APPROVED_EPOCH2",
+  "limits": "Same six frozen cases; at most30 remaining math calls; no retries or answer feedback; deadline10:19UTC."
+}

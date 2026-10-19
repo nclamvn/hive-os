@@ -1,0 +1,10 @@
+{
+  "frozenBeforeFirstInference": true,
+  "registrationSha256": "d9e7b814880214f16772063e36de307d36ccd49c13ec5cdd2b35787723300ffa",
+  "run-session.py": "e49981f1bc0684f89852692b8b6bd63cd62e14c4bbbd1c76db8908ad34bd04cf",
+  "prepare-prompt.py": "3a7002f1f912e76293e2b4f52b44c303a16b8cd531433a93186f7062f2613601",
+  "p1-direct-attempt-promptSha256": "b76304084b8bbf07833fce074ba5e8383b5a34daa6248b9ce2d16569184d99e9",
+  "review": "Main read full initial sources and final focused deltas; independent peer cancellation finding fixed before effect; Builder fake transport and SIGINT/SIGTERM/startup cancellation controls passed",
+  "diagnosticModelCalls": 0,
+  "limits": "Observed event checks are reactive; not complete filesystem isolation/data-I/O attestation or proof server inference stopped. All actual effects/unknowns must remain disclosed. Main debits cross-session counts/time/trace/data and global ordinals. No unsafe sandbox/config/API-key fallback."
+}

@@ -1,0 +1,28 @@
+{
+  "review": "# TIP-081A — Product inventory source review\n2026-10-07. SAME081 Phase A / D8step3. Read-only acquisition prerequisite.\n\n## Review scope and disposition\nMain read both producer and independently authored verifier, both test files, and\nthe post-review deltas. Independent reviewer reread all four files and final\ndeltas without executing tools, product acquisition, or repository mutations.\nDisposition: no source safety blocker to bounded checks and one guarded actual\nfixed-root feasibility probe. This is not runtime acceptance or graph closure.\n\nReviewed source pins:\n- scripts/test/acquire-tip081-inventory.mjs: 5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31\n- scripts/test/verify-tip081-inventory.mjs: 4e816e3857f039272a4bd6727b78d06a57250b25c1ad461145adac8339cd80bb\n- tests/unit/evidence-studio-inventory.test.ts: 2beec825ba1b701ff1ffec520815b978497ae2ebe73181752d1599c3379b537e\n- tests/unit/evidence-studio-inventory-verifier.test.ts: cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72\n\n## Findings resolved before execution\nIndependent obligation reconstruction now deduplicates conservative OPEN ids\nexactly; IV19 groups the duplicate middleware-key case into its existing control.\nFilesystem diagnostics validate virtual path/category before any operation,\nretain the safe requested path, and suppress raw OS error text. I2-04 asserts it.\nThese were source-review refinements, not failed executions or additional named\ntests. First-cut bytes are preserved with check evidence.\n\n## Safety and independence\nFixed failedbuild4 root plus sparse installed declarations/seeds only. No failed\nstandalone, recursive dependency walk, target/helper/native evaluation, NFT run,\nresolver execution, writes, network, application build, or mathematical work.\nProducer metadata/read counters distinguish parsed declaration reads from payload\nacquisition. Incremental catalogue reservations precede growth; original/copy\ncoexistence and verifier buffer/receipt reservations are counted.\nVerifier independently reconstructs filesystem universe, declarations, references,\nentries, provenance, identities and byte hashes. Strict JSON/path/canonical and\nno-follow readers are shared assumptions, not an independent filesystem broker.\n\n## Open gates\nExact seed/raw union is not transitive completeness. Unknown declarations remain\nOPEN. Frozen graph APIs lack caller-inclusive pre-growth accounting, so actual\ngraph analysis is UNRUN. Same-UID hostile ancestor replacement is not ruled out\nby check/recheck APIs. No full I1–I6, T2–T5, deployability, or accepted epoch claim.\nActual result and preservation audit belong to the separate completion/evidence.\n",
+  "bundle": {
+    "version": 1,
+    "purpose": "TIP081_READ_ONLY_PRODUCT_INVENTORY_SOURCE_EXTENSION",
+    "date": "2026-10-07",
+    "base": {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "digest": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    "sourcePins": {
+      "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+      "scripts/test/verify-tip081-inventory.mjs": "4e816e3857f039272a4bd6727b78d06a57250b25c1ad461145adac8339cd80bb",
+      "tests/unit/evidence-studio-inventory.test.ts": "2beec825ba1b701ff1ffec520815b978497ae2ebe73181752d1599c3379b537e",
+      "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72"
+    },
+    "reviewReport": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+    "reviewDigest": "3153dd1f7ee1f7b3c2011d29ad4c96715bcf8724774e6588097d562074801de6",
+    "scope": "FIXED_FAILED_BUILD4_READ_ONLY_INVENTORY",
+    "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+    "graphAccounting": "OPEN_GRAPH_ACCOUNTING_INTEGRATION",
+    "fullRuntimeClosure": "NOT_ACCEPTED",
+    "materializationAllowed": false,
+    "executionAllowed": false,
+    "legacyBundleChanged": false,
+    "newApplicationBuilds": 0
+  }
+}

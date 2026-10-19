@@ -1,0 +1,9 @@
+{
+  "purpose": "P2_REVIEWED_THIRD_INERT_DERIVATION",
+  "status": 0,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "{\"purpose\":\"TIP081_P2_INERT_DIAGNOSTIC_CAPTURE\",\"importedCandidate\":false,\"parserAdmission\":\"ALLOCATION_COVERAGE_OPEN\",\"sourceRows\":7268,\"openRows\":0,\"unmatchedRows\":0,\"candidateBytes\":929113,\"candidateSha256\":\"c040b7a2632281b0c62cd0cb3d0a2deafedc73ea16241a9221c31b7c9328d799\",\"inventoryBytes\":5700732,\"inventorySha256\":\"e29cf400b12ec0523dc1e587d3b45171251e2855e98d26d1b9e818b86d83be97\",\"staticBytes\":376054,\"workspaceBytes\":2732736}\n",
+  "stderr": "",
+  "milliseconds": 1750.165917
+}

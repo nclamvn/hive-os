@@ -1,0 +1,28 @@
+{
+  "id": "TIP-048",
+  "date": "2026-10-03",
+  "title": "Independently checkable compact cover-bound trees",
+  "depends_on": ["TIP-047"],
+  "priority": "P1",
+  "task": "Implement the known Allikvere Lemma4.3 union-bound prune as a separate symbolic-domain certificate. Independently replay bounded complete/partial trees and retain exact quantified progress on four widened anchored shards and four full terminal roots, without claiming a complete theorem or admitting incomplete evidence into an agent.",
+  "decisions": [
+    "Owner continuation authorizes the proposed bounded local upgrade. Existing certificate versions, retained artifacts, cases and research grades remain immutable. No new architecture, billing, provider calls, DB schema, Git publication or deployment.",
+    "Vibecode Kit separates primary Builder, independent Python Builder, product Builder and Main acceptance. No further human checkpoint for this reversible scoped implementation; complete research acceptance is a separate gate.",
+    "The pruning inequality is known Lemma4.3, not mathematical novelty. Its conclusion is forall completion exists grid witness, not one common witness across the branch. Exact arithmetic must be independently reconstructed.",
+    "Preregister actual domains before execution: four author level2 parents in existing tight0,tight1,tight2,gw0 order. ANCHORED fixes exactly first5 archived terminal digits and allows all0..6 in last8 (7^8 each); FULL allows all13 digits (7^13 each). Do not expand/change prefixes, ordering or limits in response to results.",
+    "Actual complete closure is not assumed. A sound tree with unresolved leaves is PARTIAL; report classified and unresolved cardinalities honestly. Full branch partition validation is not full mathematical classification. No model dispatch from a PARTIAL certificate.",
+    "Global Allikvere verdict stays NOT_ESTABLISHED and all five TIP047 proof obligations remain open even if all four terminal fibers eventually close. Lower LRC12 gcd dependency remains declared/unreplayed."
+  ],
+  "requirements": [
+    {"id":"R1","criterion":"Write proof and source reference for U=folded grid times not bad for assigned coordinates; b_i=max legal digit |U intersect B_i,d|. Strict |U|>sum b_i certifies every completion has a grid witness. Equality and existential-per-axis shortcuts must not prune."},
+    {"id":"R2","criterion":"New strict independent symbolic-domain version for ordered13 axes and prime/parent/target/source/root/lower dependency, decimal BigInt cardinalities up to7^13. Preserve TIP046/047 APIs/artifacts. Prefix-only exact partitions cover all legal choices, unique reachable acyclic single-parent nodes; assigned coordinates/axis restrictions cannot drift."},
+    {"id":"R3","criterion":"Separate producer and consumer: COVER_BOUND leaves reconstruct arithmetic and strict bound, singleton conditional OMIT_GCD exact proper criterion, singleton SURVIVOR exhausts all grid/gcd tests, UNRESOLVED exact symbolic subtree. Counts include selected leaf semantics and no continuous-time exclusion inference. No Cartesian tuple enumeration for cover-bound verification."},
+    {"id":"R4","criterion":"Independent standard-library Python reconstructs bad-time sets and coverage/partitions/counts without importing TS producer or author code. Actual pinned verified bytes executed with isolated flags; strict output/source/root/scope binding; fail closed on invalid proofs and resource failure. Valid partial status is independently matched, never silently COMPLETE."},
+    {"id":"R5","criterion":"Fixed limits per generation/check:20k nodes,20M logical work,10s observed time,16MiB certificate; new collector aggregate120s/128MiB for exactly8 domains. Wrapper own30s observed total and bounded256KiB stdout, pure validation aggregate10s for report. Tighter limits only; unresolved regions explicit after limits; never exceed reserved child slots. No hard CPU/externally signed execution attestation claim."},
+    {"id":"R6","criterion":"Explicit local CLI retains exact8 source-bound scopes with complete/partial evidence and actual independent replay. Pure retained projection can display validated PARTIAL, cannot admit it as theorem/agent success. Domain descriptors/summaries/five gaps/report digest strictly bound. Retained read never launches process, research fetch, producer or model."},
+    {"id":"R7","criterion":"Add restrained bilingual KaTeX retained panel to existing Allikvere view showing anchored7^8 vs full7^13, classified/unresolved/conditional counts, coverage status and provenance, no auto dispatch, no rewrite of old report. Source attribution and global warning visible; no horizontal overflow."},
+    {"id":"R8","criterion":"Quantified Builder completions and Main independent small-domain flat oracles, fully rehashed semantic mutants, focused/full unit, whole type/lint/build, visible browser proof; append-only handoff and current manifest, founding intact. No dependency installs/pnpm auto-repair, migrations, live DB/model/provider campaign, Git changes or deployment."}
+  ],
+  "source": {"paper":"https://arxiv.org/html/2609.02604v2","section":"4.3, Lemma4.3","record":"https://zenodo.org/records/22066772","wholeArchiveVerified":false,"authorEvidence":"Existing TIP047 pinned inert bytes only"},
+  "acceptance": "R1-R8 bounded implementation acceptance may be READY_WITH_DEFERRED with actual research coverage PARTIAL. It must not relabel incomplete terminal classification or global proof as PASS. Future agent admission requires a distinct validated complete envelope and authority."
+}

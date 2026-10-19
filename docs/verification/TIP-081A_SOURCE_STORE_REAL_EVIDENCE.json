@@ -1,0 +1,635 @@
+{
+  "purpose": "TIP081_SOURCE_STORE_REAL_VALIDATION_EVIDENCE",
+  "date": "2026-10-07",
+  "family": "SAME081D8",
+  "status": "REAL_LARGEST_SOURCE_LEASE_INDEPENDENTLY_VERIFIED_GRAPH_OPEN",
+  "approval": "Direct Owner duyệt, one actual fixed-root workflow<=120s/64MiB",
+  "attempts": 1,
+  "actualReruns": 0,
+  "requirements": {
+    "passed": 4,
+    "total": 4,
+    "coveragePercent": 100,
+    "items": [
+      {
+        "id": "R1",
+        "status": "PASS",
+        "evidence": "Authentic fixed-root creation450files/171dirs/182entries/57raw/20exact/62OPEN, body40543842B,278JS; full currentmetadata retained"
+      },
+      {
+        "id": "R2",
+        "status": "PASS",
+        "evidence": "Largest JS13448165B; fatalUTF8/private text13437236units; independentDFA/hash/currentFS receipt; exactlogical53217937B under67108864B"
+      },
+      {
+        "id": "R3",
+        "status": "PASS",
+        "evidence": "Exact typedclosed/retiredauthorityrefusals andcleanup;46pinsMATCHbefore/after actualandofflineaudit"
+      },
+      {
+        "id": "R4",
+        "status": "PASS_WITH_CONTEXTUAL_SCHEMA",
+        "evidence": "Complete7indexedpackets, gzip/raw/hash audit; all6seals valid. Source receipt seal reconstruction requires restoring descriptor-bound source hash; not generic strip-digest"
+      }
+    ]
+  },
+  "capture": {
+    "path": "docs/verification/TIP-081A_SOURCE_STORE_REAL_CAPTURE.json",
+    "size": 109858,
+    "digest": "729389f5143efacc5ae1119b8edeb1e203e19bbd73aee0d4761d07da2fb59b3b",
+    "packets": 7,
+    "gzipBytes": 80631,
+    "outerBytes": 911699,
+    "encodedCharacters": 107508,
+    "completeMetadata": true,
+    "compressedDigest": "c325dc0cb9c46cc4871112d7be2bd2df1a737012a9e1bbf823c2e6ac4e710b7c",
+    "uncompressedDigest": "8c17a04a65c857678db0c8794bfa6a0cf032b36fec63166bf9e3f2a4b7e1c780"
+  },
+  "audit": {
+    "purpose": "TIP081_SOURCE_STORE_REAL_OFFLINE_CAPTURE_AUDIT",
+    "status": "PASS",
+    "archive": {
+      "size": 109858,
+      "digest": "729389f5143efacc5ae1119b8edeb1e203e19bbd73aee0d4761d07da2fb59b3b"
+    },
+    "packetCount": 7,
+    "compressedDigest": "c325dc0cb9c46cc4871112d7be2bd2df1a737012a9e1bbf823c2e6ac4e710b7c",
+    "uncompressedDigest": "8c17a04a65c857678db0c8794bfa6a0cf032b36fec63166bf9e3f2a4b7e1c780",
+    "completeMetadata": true,
+    "files": 450,
+    "directories": 171,
+    "entries": 182,
+    "rawInventories": 57,
+    "exactInputs": 20,
+    "openObligations": 62,
+    "creationBodyBytes": 40543842,
+    "javascriptFiles": 278,
+    "selected": {
+      "path": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js",
+      "source": "project",
+      "sourcePath": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js",
+      "size": 13448165,
+      "digest": "cdfcbab3074c79d19dd96a0d90687b4c7317858a845c0ea042cd23868928c443",
+      "device": 16777232,
+      "inode": 71422085,
+      "mode": 33188,
+      "nlink": 1,
+      "uid": 501,
+      "mtimeMs": 1791277600365.776,
+      "ctimeMs": 1791277600365.776,
+      "provenance": [
+        "APP_ROUTE:/w/[workspaceSlug]/research/math-tools/page",
+        "TREE:.next-tip080/server"
+      ]
+    },
+    "storeView": {
+      "version": 1,
+      "purpose": "TIP081_VERIFIED_METADATA_SOURCE_STORE",
+      "ownership": "PRIVATE_METADATA_ONLY",
+      "mode": "FAILED_BUILD4_FEASIBILITY",
+      "profile": {
+        "runtime": "node",
+        "mode": "production",
+        "nodeVersion": "v24.14.1",
+        "platform": "darwin",
+        "arch": "arm64",
+        "distDir": ".next-tip080"
+      },
+      "epoch": {
+        "kind": "FAILED_BUILD4_FEASIBILITY",
+        "id": "QGsthQ",
+        "digest": "413352ddb9af4a349c311cbdb1868b4da3e31be625677614cff21d3bf5d1f628"
+      },
+      "inventoryDigest": "161bf90b7c528f05f3f5a469cb9bab83c30f67d78c6e0ab6b62f4c53be51dc33",
+      "snapshotDigest": "156b98221c20b134c0e18423611fb105e418322a620495d647e1bfd07891bc13",
+      "creationReceiptDigest": "6158cac068d5a26e0a9d30818004992d451a222c86d23e6f923ac68d7ff90dbb",
+      "fileCount": 450,
+      "directoryCount": 171,
+      "entryCount": 182,
+      "retainedPayloadBytes": 0,
+      "accounting": {
+        "metadataBytes": 833883,
+        "canonicalScratchBytes": 2501649,
+        "controlBytes": 9296600,
+        "chunkTransientBytes": 131072,
+        "decoderTransientBytes": 132096,
+        "baseBytes": 12895300,
+        "limit": 67108864,
+        "entryLimit": 20000
+      },
+      "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+      "fullRuntimeClosure": "NOT_ACCEPTED",
+      "execution": false,
+      "materialization": false,
+      "digest": "d1cd169ce4f6c1de6572578701926461106c596104807f5411f95b78e81b806f"
+    },
+    "descriptor": {
+      "version": 1,
+      "purpose": "TIP081_PRIVATE_SOURCE_LEASE",
+      "storeDigest": "d1cd169ce4f6c1de6572578701926461106c596104807f5411f95b78e81b806f",
+      "inventoryDigest": "161bf90b7c528f05f3f5a469cb9bab83c30f67d78c6e0ab6b62f4c53be51dc33",
+      "snapshotDigest": "156b98221c20b134c0e18423611fb105e418322a620495d647e1bfd07891bc13",
+      "creationReceiptDigest": "6158cac068d5a26e0a9d30818004992d451a222c86d23e6f923ac68d7ff90dbb",
+      "path": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js",
+      "source": "project",
+      "sourcePath": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js",
+      "size": 13448165,
+      "digest": "cdfcbab3074c79d19dd96a0d90687b4c7317858a845c0ea042cd23868928c443",
+      "identity": {
+        "device": 16777232,
+        "inode": 71422085,
+        "mode": 33188,
+        "nlink": 1,
+        "size": 13448165,
+        "uid": 501,
+        "mtimeMs": 1791277600365.776,
+        "ctimeMs": 1791277600365.776,
+        "type": "file"
+      },
+      "utf16Units": 13437236,
+      "decodedBytes": 26874472,
+      "textCodeUnits": 13437236,
+      "accounting": {
+        "metadataBytes": 833883,
+        "canonicalScratchBytes": 2501649,
+        "controlBytes": 9296600,
+        "chunkTransientBytes": 131072,
+        "decoderTransientBytes": 132096,
+        "baseBytes": 12895300,
+        "limit": 67108864,
+        "entryLimit": 20000,
+        "sourceBufferBytes": 13448165,
+        "worstDecodedBytes": 26896330,
+        "decodedBytes": 26874472,
+        "reservedBytes": 53239795,
+        "exactReservedBytes": 53217937
+      },
+      "scope": "CURRENT_SELECTED_SOURCE_ONLY",
+      "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+      "fullRuntimeClosure": "NOT_ACCEPTED",
+      "execution": false,
+      "materialization": false,
+      "descriptorDigest": "d42a74d97d48e736c3010cad73704e7bcb71048b8cd4c83513a199bdcbfe8d60"
+    },
+    "sourceReceipt": {
+      "version": 1,
+      "purpose": "TIP081_INDEPENDENT_SOURCE_LEASE_VERIFICATION",
+      "status": "VERIFIED_SOURCE_LEASE",
+      "scope": "CREATION_UNIVERSE_AND_FRESH_SELECTED_SOURCE",
+      "storeDigest": "d1cd169ce4f6c1de6572578701926461106c596104807f5411f95b78e81b806f",
+      "inventoryDigest": "161bf90b7c528f05f3f5a469cb9bab83c30f67d78c6e0ab6b62f4c53be51dc33",
+      "snapshotDigest": "156b98221c20b134c0e18423611fb105e418322a620495d647e1bfd07891bc13",
+      "creationReceiptDigest": "6158cac068d5a26e0a9d30818004992d451a222c86d23e6f923ac68d7ff90dbb",
+      "descriptorDigest": "d42a74d97d48e736c3010cad73704e7bcb71048b8cd4c83513a199bdcbfe8d60",
+      "profile": {
+        "runtime": "node",
+        "mode": "production",
+        "nodeVersion": "v24.14.1",
+        "platform": "darwin",
+        "arch": "arm64",
+        "distDir": ".next-tip080"
+      },
+      "epoch": {
+        "kind": "FAILED_BUILD4_FEASIBILITY",
+        "id": "QGsthQ",
+        "digest": "413352ddb9af4a349c311cbdb1868b4da3e31be625677614cff21d3bf5d1f628"
+      },
+      "creationFiles": 450,
+      "creationDirectories": 171,
+      "creationEntries": 182,
+      "creationBodyBytes": 40543842,
+      "path": ".next-tip080/server/app/w/[workspaceSlug]/research/math-tools/page.js",
+      "size": 13448165,
+      "digest": "dda83cdcfb3b187f142c866f8acc78d02f48b4898657ed6305d475082dbb7efe",
+      "utf16Units": 13437236,
+      "decodedBytes": 26874472,
+      "accounting": {
+        "metadataBytes": 833883,
+        "canonicalScratchBytes": 2501649,
+        "controlBytes": 9296600,
+        "chunkTransientBytes": 131072,
+        "decoderTransientBytes": 132096,
+        "baseBytes": 12895300,
+        "limit": 67108864,
+        "entryLimit": 20000,
+        "sourceBufferBytes": 13448165,
+        "worstDecodedBytes": 26896330,
+        "decodedBytes": 26874472,
+        "reservedBytes": 53239795,
+        "exactReservedBytes": 53217937
+      },
+      "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+      "fullRuntimeClosure": "NOT_ACCEPTED",
+      "execution": false,
+      "materialization": false,
+      "sharedAssumptions": [
+        "Private metadata-only constructor and opaque lease/chunk authorities",
+        "Strict path/root guards and bounded no-follow FD hash reader",
+        "Trusted controlled-consumer lifetime and literal logical stage conventions"
+      ],
+      "limitations": [
+        "Creation-universe proof is historical; only selected source freshly checked",
+        "No GC, RSS, arbitrary caller alias or host-intrinsics protection",
+        "Check/recheck paths are not atomic same-UID openat isolation",
+        "Parser, AST, graph and runtime remain open"
+      ]
+    },
+    "creationReceiptDigest": "6158cac068d5a26e0a9d30818004992d451a222c86d23e6f923ac68d7ff90dbb",
+    "allSixReceiptDigests": [
+      "161bf90b7c528f05f3f5a469cb9bab83c30f67d78c6e0ab6b62f4c53be51dc33",
+      "156b98221c20b134c0e18423611fb105e418322a620495d647e1bfd07891bc13",
+      "6158cac068d5a26e0a9d30818004992d451a222c86d23e6f923ac68d7ff90dbb",
+      "d1cd169ce4f6c1de6572578701926461106c596104807f5411f95b78e81b806f",
+      "d42a74d97d48e736c3010cad73704e7bcb71048b8cd4c83513a199bdcbfe8d60",
+      "dda83cdcfb3b187f142c866f8acc78d02f48b4898657ed6305d475082dbb7efe"
+    ],
+    "accounting": {
+      "metadataBytes": 833883,
+      "canonicalScratchBytes": 2501649,
+      "controlBytes": 9296600,
+      "chunkTransientBytes": 131072,
+      "decoderTransientBytes": 132096,
+      "baseBytes": 12895300,
+      "limit": 67108864,
+      "entryLimit": 20000,
+      "sourceBufferBytes": 13448165,
+      "worstDecodedBytes": 26896330,
+      "decodedBytes": 26874472,
+      "reservedBytes": 53239795,
+      "exactReservedBytes": 53217937
+    },
+    "headroomBytes": 13890927,
+    "accountedMiB": 50.75257968902588,
+    "effectMilliseconds": 965.5187500000001,
+    "childMilliseconds": 909.181583,
+    "stageTiming": {
+      "creationMilliseconds": 726.5424999999999,
+      "leaseMilliseconds": 16.031834000000003,
+      "independentMilliseconds": 100.76245799999992,
+      "cleanupMilliseconds": 0.10962500000005093
+    },
+    "cleanup": {
+      "close": {
+        "status": "SOURCE_LEASE_CLOSED"
+      },
+      "closedAuthorityRefused": true,
+      "retire": {
+        "status": "SOURCE_STORE_RETIRED"
+      },
+      "retiredAuthorityRefused": true
+    },
+    "parentMilliseconds": 54732.439792,
+    "predecessorPins": [
+      {
+        "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json",
+        "status": "MATCH",
+        "expected": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+        "actual": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+      },
+      {
+        "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json",
+        "status": "MATCH",
+        "expected": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+        "actual": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+      },
+      {
+        "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json",
+        "status": "MATCH",
+        "expected": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+        "actual": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+      },
+      {
+        "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs",
+        "status": "MATCH",
+        "expected": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+        "actual": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+      },
+      {
+        "path": "scripts/test/start-tip081-standalone.mjs",
+        "status": "MATCH",
+        "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+        "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+      },
+      {
+        "path": "node_modules/next/dist/build/utils.js",
+        "status": "MATCH",
+        "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+        "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+      },
+      {
+        "path": "node_modules/next/dist/build/collect-build-traces.js",
+        "status": "MATCH",
+        "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+        "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+      },
+      {
+        "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+        "status": "MATCH",
+        "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+        "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+      },
+      {
+        "path": "next.config.ts",
+        "status": "MATCH",
+        "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+        "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+      },
+      {
+        "path": "package.json",
+        "status": "MATCH",
+        "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+        "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+      },
+      {
+        "path": "package-lock.json",
+        "status": "MATCH",
+        "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+        "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+      },
+      {
+        "path": "tsconfig.json",
+        "status": "MATCH",
+        "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+        "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+        "status": "MATCH",
+        "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+        "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/package.json",
+        "status": "MATCH",
+        "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+        "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+      },
+      {
+        "path": "scripts/test/acquire-tip081-inventory.mjs",
+        "status": "MATCH",
+        "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+        "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806"
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory.mjs",
+        "status": "MATCH",
+        "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+        "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5"
+      },
+      {
+        "path": "tests/unit/evidence-studio-inventory.test.ts",
+        "status": "MATCH",
+        "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+        "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503"
+      },
+      {
+        "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+        "status": "MATCH",
+        "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+        "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64"
+      },
+      {
+        "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+        "status": "MATCH",
+        "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+        "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+      },
+      {
+        "path": "scripts/test/runtime-tip081-manifest.mjs",
+        "status": "MATCH",
+        "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+        "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+      },
+      {
+        "path": "scripts/test/verify-tip081-manifest.mjs",
+        "status": "MATCH",
+        "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+        "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+      },
+      {
+        "path": "node_modules/next/package.json",
+        "status": "MATCH",
+        "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+        "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79"
+      },
+      {
+        "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+        "status": "MATCH",
+        "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+        "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951"
+      },
+      {
+        "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+        "status": "MATCH",
+        "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+        "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4"
+      },
+      {
+        "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+        "status": "MATCH",
+        "expected": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+        "actual": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+      },
+      {
+        "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+        "status": "MATCH",
+        "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+        "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014"
+      },
+      {
+        "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+        "status": "MATCH",
+        "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+        "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c"
+      },
+      {
+        "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+        "status": "MATCH",
+        "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+        "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0"
+      },
+      {
+        "path": "node_modules/next/dist/server/require.js",
+        "status": "MATCH",
+        "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+        "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875"
+      },
+      {
+        "path": "node_modules/next/dist/build/index.js",
+        "status": "MATCH",
+        "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+        "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539"
+      },
+      {
+        "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+        "status": "MATCH",
+        "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+        "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d"
+      },
+      {
+        "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+        "status": "MATCH",
+        "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+        "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+      },
+      {
+        "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+        "status": "MATCH",
+        "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+        "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b"
+      },
+      {
+        "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+        "status": "MATCH",
+        "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+        "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c"
+      },
+      {
+        "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+        "status": "MATCH",
+        "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+        "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3"
+      },
+      {
+        "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+        "status": "MATCH",
+        "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+        "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13"
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+        "status": "MATCH",
+        "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+        "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1"
+      },
+      {
+        "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+        "status": "MATCH",
+        "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+        "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4"
+      },
+      {
+        "path": "tests/unit/evidence-studio-manifest.test.ts",
+        "status": "MATCH",
+        "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+        "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+      },
+      {
+        "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+        "status": "MATCH",
+        "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+        "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+      },
+      {
+        "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+        "status": "MATCH",
+        "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+        "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0"
+      },
+      {
+        "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+        "status": "MATCH",
+        "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+        "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41"
+      },
+      {
+        "path": "scripts/test/store-tip081-inventory-source.mjs",
+        "status": "MATCH",
+        "expected": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+        "actual": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+      },
+      {
+        "path": "tests/unit/evidence-studio-source-store.test.ts",
+        "status": "MATCH",
+        "expected": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a",
+        "actual": "7c6ebcff039499cfbfc52edf9043670c955b98941fe625aca1bc7edd0f88f62a"
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory-source.mjs",
+        "status": "MATCH",
+        "expected": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+        "actual": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+      },
+      {
+        "path": "tests/unit/evidence-studio-source-store-verifier.test.ts",
+        "status": "MATCH",
+        "expected": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02",
+        "actual": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02"
+      }
+    ],
+    "actualReruns": 0,
+    "parser": false,
+    "graph": false,
+    "runtimeClosure": "NOT_ACCEPTED",
+    "milliseconds": 37.5215
+  },
+  "contextualReceipt": {
+    "field": "receipt.digest is receipt seal, not source hash",
+    "sourceHash": "descriptor.digest",
+    "sealRecipe": "SHA256(canonical({...receipt,digest:descriptor.digest}))",
+    "requiredBindings": "Descriptor seal plus selected record/snapshot/epoch, path/size/identity/store/inventory/snapshot/creationReceipt/profile/accounting/UTF16 matched first",
+    "selfContained": false,
+    "productRepair": false
+  },
+  "priorTechnicalHealth": {
+    "tests": "402/402 in14files",
+    "focusedControls": 29,
+    "lint": "4newfilesPASS",
+    "type": "wholeTSCnoEmitPASS",
+    "freshThisTurn": false,
+    "reason": "No source changes; reuse preserved scoped source-store acceptance. No applicationbuild."
+  },
+  "preEffectReview": {
+    "status": "CLEAR",
+    "finalDriverDigest": "89aa0821070db70835b5bd510608f0a3ca235b8cfee7c56c8f45eb05ac2f8a1a",
+    "reviewer": "studio081_independent_review",
+    "attemptsAllowed": 1
+  },
+  "failuresPreserved": [
+    {
+      "file": "TIP-081A_SOURCE_STORE_REAL_AUDIT_FIRST_FAILURE.json",
+      "failure": "Offline syntax-only pins-variablecollision",
+      "actualReruns": 0
+    },
+    {
+      "file": "TIP-081A_SOURCE_STORE_REAL_AUDIT_DIGEST_FAILURE.json",
+      "failure": "Generic strip-digest audit mismatched frozen context-bound receipt wire",
+      "actualReruns": 0
+    }
+  ],
+  "budget": {
+    "ceilingMilliseconds": 900000,
+    "previousCumulativeUpperMilliseconds": 714484.1619170001,
+    "cumulativeUpperMilliseconds": 771254.1296670001,
+    "remainingMilliseconds": 128745.87033299985,
+    "parentAndCaptureMilliseconds": 54732.439792,
+    "actualChildEnvelopeMilliseconds": 965.5187500000001,
+    "actualChildInternalMilliseconds": 909.181583,
+    "offlineAuditMilliseconds": 37.5215,
+    "conservativeOfflineFailureAllowanceMilliseconds": 2000,
+    "noReset": true,
+    "actualAttempts": 1
+  },
+  "unresolved": {
+    "parserASTTraversalResolution": "NOT_IMPLEMENTED_UNRUN",
+    "callerWholeGraph": "OPEN",
+    "fullRuntimeClosure": "NOT_ACCEPTED",
+    "existingOpenObligations": 62,
+    "previousTruncatedGraphPlan": "NOT_RETAINED_REPLAYABLE",
+    "GC_RSS_AtomicFilesystem": "NOT_CERTIFIED"
+  },
+  "effects": {
+    "realSourceStoreAndOneLease": 1,
+    "applicationBuilds": 0,
+    "server": false,
+    "browser": false,
+    "API": false,
+    "DB": false,
+    "model": false,
+    "Git": false,
+    "math": false,
+    "materialization": false,
+    "publication": false
+  },
+  "nextProposalOnly": "Design bounded AST/source-consumer integration and explicit sourceHash/receiptHash wire, preserve this sealed evidence; no new parser/probe/build grant."
+}

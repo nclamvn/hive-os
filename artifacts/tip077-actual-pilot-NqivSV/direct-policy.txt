@@ -1,0 +1,4 @@
+Choose whatever solving, checking and revision strategy you think strongest
+within the same allowance. You may use your own planning and adversarial review.
+No method-specific constraints are imposed. Do not deliberately save resources
+if further useful solving or checking work fits your remaining allowance.

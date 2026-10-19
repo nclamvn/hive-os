@@ -2,16 +2,20 @@
 
 import {
   Activity,
+  ArrowRight,
   Archive,
   Braces,
   CheckCircle2,
   CircleDot,
   ClipboardCheck,
+  FilePenLine,
   FileSearch,
+  FolderOpen,
   GitBranch,
   Inbox,
   ListChecks,
   Network,
+  Plus,
   Search,
   ShieldCheck,
   Sparkles,
@@ -31,6 +35,11 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { ProvenanceRail } from "@/components/ui/provenance-rail";
+import { usePreferences } from "@/components/preferences/preferences-provider";
+import { getMissionNextAction } from "@/components/mission/mission-next-action";
+import type { Locale } from "@/i18n/config";
+import { enumLabel } from "@/i18n/format";
 import type { ControlRoomProjection } from "@/server/control-room";
 
 type Lens = "architecture" | "operations" | "audit";
@@ -59,221 +68,422 @@ interface SystemPlane {
 
 function createPlanes(
   counts: ControlRoomProjection["counts"],
+  locale: Locale,
 ): SystemPlane[] {
   return [
     {
       id: "mission",
-      name: "Mission",
-      purpose: "Turn intent into an approved, inspectable contract.",
+      name: ct(locale, "Mission", "Nhiệm vụ"),
+      purpose: ct(
+        locale,
+        "Turn intent into an approved, inspectable contract.",
+        "Biến ý định thành hợp đồng có thể kiểm tra và phê duyệt.",
+      ),
       nodes: [
         {
           id: "mission-intake",
           code: "MSN-00",
-          title: "Mission intake",
-          description: "Captures a bounded objective before governed work begins.",
+          title: ct(locale, "Mission intake", "Tiếp nhận nhiệm vụ"),
+          description: ct(
+            locale,
+            "Captures a bounded objective before governed work begins.",
+            "Ghi nhận mục tiêu hữu hạn trước khi công việc được quản trị bắt đầu.",
+          ),
           authority: "Mission Kernel",
-          writes: "Mission and initial contract",
-          cannot: "Approve its own contract",
+          writes: ct(
+            locale,
+            "Mission and initial contract",
+            "Nhiệm vụ và hợp đồng ban đầu",
+          ),
+          cannot: ct(
+            locale,
+            "Approve its own contract",
+            "Tự phê duyệt hợp đồng",
+          ),
           state: "available",
           metric: String(counts.missions),
-          metricLabel: "missions",
+          metricLabel: ct(locale, "missions", "nhiệm vụ"),
           icon: <Inbox aria-hidden="true" />,
         },
         {
           id: "mission-contract",
           code: "MCT-01",
-          title: "Mission contracts",
-          description: "Versions scope, success definitions, requirements and assurance.",
+          title: ct(locale, "Mission contracts", "Hợp đồng nhiệm vụ"),
+          description: ct(
+            locale,
+            "Versions scope, success definitions, requirements and assurance.",
+            "Quản lý phiên bản phạm vi, định nghĩa thành công, yêu cầu và bảo chứng.",
+          ),
           authority: "Mission Kernel",
-          writes: "Immutable approved contract definitions",
-          cannot: "Change approved content silently",
+          writes: ct(
+            locale,
+            "Immutable approved contract definitions",
+            "Định nghĩa hợp đồng đã duyệt bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Change approved content silently",
+            "Âm thầm thay đổi nội dung đã duyệt",
+          ),
           state: "available",
           metric: String(counts.approvedMissions),
-          metricLabel: "approved",
+          metricLabel: ct(locale, "approved", "đã duyệt"),
           icon: <ClipboardCheck aria-hidden="true" />,
         },
         {
           id: "mission-obligations",
           code: "OBL-02",
-          title: "Obligations",
-          description: "Derives real progress from weighted contract obligations.",
+          title: ct(locale, "Obligations", "Nghĩa vụ"),
+          description: ct(
+            locale,
+            "Derives real progress from weighted contract obligations.",
+            "Dẫn xuất tiến độ thực từ nghĩa vụ hợp đồng có trọng số.",
+          ),
           authority: "Mission Kernel",
-          writes: "Runtime obligation state",
-          cannot: "Invent progress",
+          writes: ct(
+            locale,
+            "Runtime obligation state",
+            "Trạng thái nghĩa vụ runtime",
+          ),
+          cannot: ct(locale, "Invent progress", "Bịa đặt tiến độ"),
           state: "available",
           metric: String(counts.obligations),
-          metricLabel: "obligations",
+          metricLabel: ct(locale, "obligations", "nghĩa vụ"),
           icon: <ListChecks aria-hidden="true" />,
         },
         {
           id: "mission-decisions",
           code: "DEC-03",
-          title: "Decisions",
-          description: "Records material owner choices and governed exceptions.",
-          authority: "Human command through Mission Kernel",
-          writes: "Decision ledger",
-          cannot: "Resolve without an authorized actor",
+          title: ct(locale, "Decisions", "Quyết định"),
+          description: ct(
+            locale,
+            "Records material owner choices and governed exceptions.",
+            "Ghi nhận lựa chọn trọng yếu của chủ sở hữu và ngoại lệ được quản trị.",
+          ),
+          authority: ct(
+            locale,
+            "Human command through Mission Kernel",
+            "Con người ra lệnh qua Mission Kernel",
+          ),
+          writes: ct(locale, "Decision ledger", "Sổ cái quyết định"),
+          cannot: ct(
+            locale,
+            "Resolve without an authorized actor",
+            "Xử lý khi thiếu người có thẩm quyền",
+          ),
           state: counts.decisionsRequired > 0 ? "attention" : "available",
           metric: String(counts.decisionsRequired),
-          metricLabel: "required",
+          metricLabel: ct(locale, "required", "cần xử lý"),
           icon: <CircleDot aria-hidden="true" />,
         },
       ],
     },
     {
       id: "truth",
-      name: "Truth",
-      purpose: "Preserve evidence before interpretation and retain every conflict.",
+      name: ct(locale, "Truth", "Sự thật"),
+      purpose: ct(
+        locale,
+        "Preserve evidence before interpretation and retain every conflict.",
+        "Giữ bằng chứng trước diễn giải và lưu mọi xung đột.",
+      ),
       nodes: [
         {
           id: "truth-sources",
           code: "SRC-10",
-          title: "Evidence sources",
-          description: "Identifies source independence and corroboration eligibility.",
+          title: ct(locale, "Evidence sources", "Nguồn bằng chứng"),
+          description: ct(
+            locale,
+            "Identifies source independence and corroboration eligibility.",
+            "Xác định tính độc lập và điều kiện đối chứng của nguồn.",
+          ),
           authority: "Truth Kernel",
-          writes: "Workspace-scoped source registry",
-          cannot: "Corroborate by source count alone",
+          writes: ct(
+            locale,
+            "Workspace-scoped source registry",
+            "Danh mục nguồn theo workspace",
+          ),
+          cannot: ct(
+            locale,
+            "Corroborate by source count alone",
+            "Đối chứng chỉ bằng số lượng nguồn",
+          ),
           state: "available",
           metric: String(counts.evidenceSources),
-          metricLabel: "sources",
+          metricLabel: ct(locale, "sources", "nguồn"),
           icon: <FileSearch aria-hidden="true" />,
         },
         {
           id: "truth-snapshots",
           code: "SNP-11",
-          title: "Snapshots and spans",
-          description: "Binds exact text spans to immutable captured content.",
-          authority: "Truth Kernel and database triggers",
-          writes: "Append-only snapshot and span ledger",
-          cannot: "Rewrite captured evidence",
+          title: ct(locale, "Snapshots and spans", "Snapshot và đoạn trích"),
+          description: ct(
+            locale,
+            "Binds exact text spans to immutable captured content.",
+            "Gắn đoạn văn chính xác với nội dung thu thập bất biến.",
+          ),
+          authority: ct(
+            locale,
+            "Truth Kernel and database triggers",
+            "Truth Kernel và trigger cơ sở dữ liệu",
+          ),
+          writes: ct(
+            locale,
+            "Append-only snapshot and span ledger",
+            "Sổ cái snapshot và đoạn trích chỉ ghi nối tiếp",
+          ),
+          cannot: ct(
+            locale,
+            "Rewrite captured evidence",
+            "Viết lại bằng chứng đã thu thập",
+          ),
           state: "available",
           metric: `${counts.snapshots} · ${counts.evidenceSpans}`,
-          metricLabel: "snapshots · spans",
+          metricLabel: ct(locale, "snapshots · spans", "snapshot · đoạn trích"),
           icon: <Archive aria-hidden="true" />,
         },
         {
           id: "truth-claims",
           code: "CLM-12",
-          title: "Claims and disputes",
-          description: "Projects claim state from retained assertion and evidence ledgers.",
-          authority: "Deterministic Truth Kernel rules",
-          writes: "Claim versions, disputes and honest-null records",
-          cannot: "Silently choose a winner",
+          title: ct(locale, "Claims and disputes", "Luận điểm và tranh chấp"),
+          description: ct(
+            locale,
+            "Projects claim state from retained assertion and evidence ledgers.",
+            "Chiếu trạng thái luận điểm từ sổ cái khẳng định và bằng chứng được lưu giữ.",
+          ),
+          authority: ct(
+            locale,
+            "Deterministic Truth Kernel rules",
+            "Quy tắc Truth Kernel tất định",
+          ),
+          writes: ct(
+            locale,
+            "Claim versions, disputes and honest-null records",
+            "Phiên bản luận điểm, tranh chấp và bản ghi honest-null",
+          ),
+          cannot: ct(
+            locale,
+            "Silently choose a winner",
+            "Âm thầm chọn bên thắng",
+          ),
           state: counts.disputes > 0 ? "attention" : "available",
           metric: `${counts.claims} · ${counts.disputes}`,
-          metricLabel: "claims · disputes",
+          metricLabel: ct(
+            locale,
+            "claims · disputes",
+            "luận điểm · tranh chấp",
+          ),
           icon: <Braces aria-hidden="true" />,
         },
         {
           id: "truth-lineage",
           code: "LIN-13",
-          title: "Provenance",
-          description: "Connects evidence spans to every derived claim version.",
-          authority: "Append-only provenance ledger",
-          writes: "Typed lineage edges",
-          cannot: "Expose restricted fields in public projections",
+          title: ct(locale, "Provenance", "Nguồn gốc"),
+          description: ct(
+            locale,
+            "Connects evidence spans to every derived claim version.",
+            "Nối đoạn bằng chứng với mọi phiên bản luận điểm dẫn xuất.",
+          ),
+          authority: ct(
+            locale,
+            "Append-only provenance ledger",
+            "Sổ cái nguồn gốc chỉ ghi nối tiếp",
+          ),
+          writes: ct(
+            locale,
+            "Typed lineage edges",
+            "Liên kết dòng nguồn gốc có kiểu",
+          ),
+          cannot: ct(
+            locale,
+            "Expose restricted fields in public projections",
+            "Lộ trường hạn chế trong bản chiếu công khai",
+          ),
           state: "available",
           metric: String(counts.provenanceEdges),
-          metricLabel: "edges",
+          metricLabel: ct(locale, "edges", "liên kết"),
           icon: <GitBranch aria-hidden="true" />,
         },
       ],
     },
     {
       id: "execution",
-      name: "Execution",
-      purpose: "Carry immutable instructions out and governed reports back in.",
+      name: ct(locale, "Execution", "Thực thi"),
+      purpose: ct(
+        locale,
+        "Carry immutable instructions out and governed reports back in.",
+        "Đưa chỉ dẫn bất biến ra ngoài và nhận báo cáo được quản trị trở lại.",
+      ),
       nodes: [
         {
           id: "skill-registry",
           code: "SKL-20",
-          title: "Skill registry",
-          description: "Registers immutable capability contracts and activates versions explicitly.",
+          title: ct(locale, "Skill registry", "Danh mục kỹ năng"),
+          description: ct(
+            locale,
+            "Registers immutable capability contracts and activates versions explicitly.",
+            "Đăng ký hợp đồng năng lực bất biến và kích hoạt phiên bản tường minh.",
+          ),
           authority: "Deterministic Skill Registry",
-          writes: "Skill versions and the governed active-version pointer",
-          cannot: "Execute a skill or mutate Mission and Truth state",
+          writes: ct(
+            locale,
+            "Skill versions and the governed active-version pointer",
+            "Phiên bản kỹ năng và con trỏ phiên bản hoạt động được quản trị",
+          ),
+          cannot: ct(
+            locale,
+            "Execute a skill or mutate Mission and Truth state",
+            "Thực thi kỹ năng hoặc sửa trạng thái Mission và Truth",
+          ),
           state: "available",
           metric: `${counts.activeSkills} · ${counts.skillVersions}`,
-          metricLabel: "active · versions",
+          metricLabel: ct(locale, "active · versions", "hoạt động · phiên bản"),
           icon: <Sparkles aria-hidden="true" />,
         },
         {
           id: "execution-runs",
           code: "RUN-21",
-          title: "Manual bridge",
-          description: "Retains provider-attributed attempts and appends every retry.",
+          title: ct(locale, "Manual bridge", "Cầu nối thủ công"),
+          description: ct(
+            locale,
+            "Retains provider-attributed attempts and appends every retry.",
+            "Lưu lần thử có quy thuộc nhà cung cấp và ghi nối tiếp mọi lần thử lại.",
+          ),
           authority: "Execution Fabric with an authorized human operator",
-          writes: "Skill runs, agent attempts and strict Completion Reports",
-          cannot: "Treat a provider claim as independent verification",
+          writes: ct(
+            locale,
+            "Skill runs, agent attempts and strict Completion Reports",
+            "Lượt kỹ năng, lần thử agent và Báo cáo hoàn thành nghiêm ngặt",
+          ),
+          cannot: ct(
+            locale,
+            "Treat a provider claim as independent verification",
+            "Coi tuyên bố nhà cung cấp là kiểm chứng độc lập",
+          ),
           state:
             counts.awaitingReports > 0 || counts.openExecutionDeviations > 0
               ? "attention"
               : "available",
           metric: `${counts.awaitingReports} · ${counts.completionReports}`,
-          metricLabel: "awaiting · reports",
+          metricLabel: ct(locale, "awaiting · reports", "đang chờ · báo cáo"),
           icon: <Activity aria-hidden="true" />,
         },
         {
           id: "execution-artifacts",
           code: "ART-22",
-          title: "Execution artifacts",
-          description: "SHA-256-addresses instructions and imported reports.",
+          title: ct(locale, "Execution artifacts", "Artifact thực thi"),
+          description: ct(
+            locale,
+            "SHA-256-addresses instructions and imported reports.",
+            "Định địa chỉ SHA-256 cho chỉ dẫn và báo cáo nhập vào.",
+          ),
           authority: "Append-only Execution Fabric ledger",
-          writes: "Immutable instruction and report artifacts",
-          cannot: "Overwrite an artifact or a prior run",
+          writes: ct(
+            locale,
+            "Immutable instruction and report artifacts",
+            "Artifact chỉ dẫn và báo cáo bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Overwrite an artifact or a prior run",
+            "Ghi đè artifact hoặc lượt chạy trước",
+          ),
           state: "available",
           metric: String(counts.executionArtifacts),
-          metricLabel: "immutable artifacts",
+          metricLabel: ct(locale, "immutable artifacts", "artifact bất biến"),
           icon: <Archive aria-hidden="true" />,
         },
       ],
     },
     {
       id: "assurance",
-      name: "Assurance",
-      purpose: "Separate technical validity from permission to release.",
+      name: ct(locale, "Assurance", "Bảo chứng"),
+      purpose: ct(
+        locale,
+        "Separate technical validity from permission to release.",
+        "Tách tính hợp lệ kỹ thuật khỏi quyền phát hành.",
+      ),
       nodes: [
         {
           id: "assurance-gates",
           code: "GAT-30",
-          title: "Mission gates",
-          description: "Retains PASS, FAIL and INCOMPLETE as distinct results.",
+          title: ct(locale, "Mission gates", "Cổng nhiệm vụ"),
+          description: ct(
+            locale,
+            "Retains PASS, FAIL and INCOMPLETE as distinct results.",
+            "Giữ PASS, FAIL và INCOMPLETE là các kết quả riêng biệt.",
+          ),
           authority: "Mission Kernel",
-          writes: "Append-only gate runs",
-          cannot: "Treat INCOMPLETE as PASS",
+          writes: ct(
+            locale,
+            "Append-only gate runs",
+            "Lượt cổng chỉ ghi nối tiếp",
+          ),
+          cannot: ct(
+            locale,
+            "Treat INCOMPLETE as PASS",
+            "Coi INCOMPLETE là PASS",
+          ),
           state: "available",
           metric: `${counts.passedGates} · ${counts.runtimeGates}`,
-          metricLabel: "passed · total",
+          metricLabel: ct(locale, "passed · total", "đạt · tổng"),
           icon: <CheckCircle2 aria-hidden="true" />,
         },
         {
           id: "verification",
           code: "VER-31",
-          title: "Verification",
-          description: "Binds exact coverage, required scenarios, technical health and corruption tests.",
+          title: ct(locale, "Verification", "Kiểm chứng"),
+          description: ct(
+            locale,
+            "Binds exact coverage, required scenarios, technical health and corruption tests.",
+            "Gắn độ phủ chính xác, kịch bản bắt buộc, sức khỏe kỹ thuật và kiểm tra sai hỏng.",
+          ),
           authority: "Deterministic Verification Governance Kernel",
-          writes: "Immutable Verify Reports and verifier independence records",
-          cannot: "Convert deferred or incomplete evidence into a pass",
+          writes: ct(
+            locale,
+            "Immutable Verify Reports and verifier independence records",
+            "Báo cáo kiểm chứng bất biến và hồ sơ độc lập của người kiểm chứng",
+          ),
+          cannot: ct(
+            locale,
+            "Convert deferred or incomplete evidence into a pass",
+            "Biến bằng chứng hoãn lại hoặc chưa hoàn tất thành đạt",
+          ),
           state:
             counts.activeVerificationRuns > 0 ||
             counts.notReadyVerificationReports > 0
               ? "attention"
               : "available",
           metric: `${counts.verificationReports} · ${counts.verificationScenarios}`,
-          metricLabel: "reports · scenarios",
+          metricLabel: ct(locale, "reports · scenarios", "báo cáo · kịch bản"),
           icon: <ShieldCheck aria-hidden="true" />,
         },
         {
           id: "release-governance",
           code: "RLS-32",
-          title: "Release governance",
-          description: "Freezes exact claims, artifacts, methods, limits and human approvals.",
+          title: ct(locale, "Release governance", "Quản trị phát hành"),
+          description: ct(
+            locale,
+            "Freezes exact claims, artifacts, methods, limits and human approvals.",
+            "Đóng băng luận điểm, artifact, phương pháp, giới hạn và phê duyệt của con người.",
+          ),
           authority: "Verification Governance Kernel and authorized approvers",
-          writes: "Evidence ceilings, sign-offs and immutable release manifests",
-          cannot: "Expose a public projection before governed release",
+          writes: ct(
+            locale,
+            "Evidence ceilings, sign-offs and immutable release manifests",
+            "Trần bằng chứng, phê duyệt và manifest phát hành bất biến",
+          ),
+          cannot: ct(
+            locale,
+            "Expose a public projection before governed release",
+            "Công khai bản chiếu trước phát hành được quản trị",
+          ),
           state: "available",
           metric: `${counts.governedReleases} · ${counts.releaseManifests}`,
-          metricLabel: "releases · manifests",
+          metricLabel: ct(
+            locale,
+            "releases · manifests",
+            "phát hành · manifest",
+          ),
           icon: <Network aria-hidden="true" />,
         },
       ],
@@ -285,18 +495,33 @@ export function ControlRoom({
   projection,
   basePath,
   initialCommandOpen = false,
+  initialCommandQuery = "",
 }: {
   projection: ControlRoomProjection;
   basePath: string;
   initialCommandOpen?: boolean;
+  initialCommandQuery?: string;
 }) {
-  const planes = useMemo(() => createPlanes(projection.counts), [projection.counts]);
+  const { t, locale } = usePreferences();
+  const planes = useMemo(
+    () => createPlanes(projection.counts, locale),
+    [locale, projection.counts],
+  );
   const nodes = useMemo(() => planes.flatMap((plane) => plane.nodes), [planes]);
-  const [lens, setLens] = useState<Lens>("architecture");
+  const [lens, setLens] = useState<Lens>("operations");
   const [selectedId, setSelectedId] = useState("mission-contract");
   const [commandOpen, setCommandOpen] = useState(initialCommandOpen);
   const commandTriggerRef = useRef<HTMLButtonElement>(null);
   const selected = nodes.find((node) => node.id === selectedId) ?? nodes[0];
+  const activePlane = selectedId.startsWith("mission")
+    ? 0
+    : selectedId.startsWith("truth")
+      ? 1
+      : selectedId.startsWith("skill") || selectedId.startsWith("execution")
+        ? 2
+        : selectedId.startsWith("release")
+          ? 4
+          : 3;
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -311,40 +536,48 @@ export function ControlRoom({
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
-      <section className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:items-end min-[900px]:justify-between">
-        <div className="min-w-0">
-          <p className="text-eyebrow text-navy-700">Governed system map</p>
-          <h2 className="text-ink-strong mt-1 max-w-4xl text-[clamp(1.65rem,3.4vw,2.55rem)] leading-[1.08] font-semibold tracking-[-0.035em]">
-            From intent to accountable truth.
-          </h2>
-          <p className="text-body text-ink-muted mt-2 max-w-3xl">
-            One operating view for mission state, evidence authority and the boundaries that models cannot cross.
-          </p>
+      <section className="instrument-panel control-work-header overflow-hidden">
+        <div className="flex flex-col gap-5 p-5 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between min-[900px]:px-7 min-[900px]:py-6">
+          <div className="min-w-0">
+            <p className="text-eyebrow text-ink-muted">
+              {t("control.eyebrow")}
+            </p>
+            <h2 className="text-page-title text-ink-strong mt-2 max-w-4xl">
+              {t("control.thesis")}
+            </h2>
+            <p className="text-body text-ink-muted mt-2 max-w-3xl">
+              {t("control.hint")}
+            </p>
+          </div>
+          <button
+            ref={commandTriggerRef}
+            type="button"
+            onClick={() => setCommandOpen(true)}
+            className="border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink flex h-10 min-w-0 w-full items-center gap-2 rounded-md border px-3 transition-colors min-[600px]:w-auto"
+            aria-haspopup="dialog"
+          >
+            <Search className="size-4 shrink-0" aria-hidden="true" />
+            <span className="text-body min-w-0 flex-1 truncate whitespace-nowrap text-left">
+              {t("common.findGovernedObjects")}
+            </span>
+            <kbd className="text-meta border-line bg-surface-subtle shrink-0 rounded border px-1.5 py-0.5">
+              ⌘K
+            </kbd>
+          </button>
         </div>
-        <button
-          ref={commandTriggerRef}
-          type="button"
-          onClick={() => setCommandOpen(true)}
-          className="border-line bg-surface text-ink-muted hover:border-line-strong hover:text-ink flex h-10 min-w-0 w-full items-center gap-2 rounded-md border px-3 transition-colors min-[600px]:w-auto"
-          aria-haspopup="dialog"
-        >
-          <Search className="size-4 shrink-0" aria-hidden="true" />
-          <span className="text-body min-w-0 flex-1 truncate whitespace-nowrap text-left">
-            Find governed objects
-          </span>
-          <kbd className="text-meta border-line bg-surface-subtle shrink-0 rounded border px-1.5 py-0.5">
-            ⌘K
-          </kbd>
-        </button>
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           role="tablist"
-          aria-label="Control Room lens"
+          aria-label={ct(
+            locale,
+            "Control Room lens",
+            "Góc nhìn Phòng điều hành",
+          )}
           className="border-line bg-surface inline-flex rounded-md border p-1"
         >
-          {(["architecture", "operations", "audit"] as const).map((item) => (
+          {(["operations", "audit", "architecture"] as const).map((item) => (
             <button
               key={item}
               type="button"
@@ -360,21 +593,22 @@ export function ControlRoom({
                   : "text-ink-muted hover:bg-surface-subtle hover:text-ink"
               }`}
             >
-              {item}
+              {t(`control.${item}`)}
             </button>
           ))}
         </div>
-        <p className="text-meta text-ink-muted">
-          Counts are workspace-scoped authoritative records
-        </p>
+        <p className="text-meta text-ink-muted">{t("control.countsNote")}</p>
       </div>
 
       {lens === "architecture" ? (
-        <ArchitectureLens
-          planes={planes}
-          selected={selected}
-          onSelect={setSelectedId}
-        />
+        <div className="space-y-3">
+          <ProvenanceRail active={activePlane} />
+          <ArchitectureLens
+            planes={planes}
+            selected={selected}
+            onSelect={setSelectedId}
+          />
+        </div>
       ) : null}
       {lens === "operations" ? (
         <OperationsLens projection={projection} basePath={basePath} />
@@ -387,6 +621,7 @@ export function ControlRoom({
           missions={projection.recentMissions}
           objects={projection.finderObjects}
           basePath={basePath}
+          initialQuery={initialCommandQuery}
           onClose={() => setCommandOpen(false)}
           onSelectNode={(id) => {
             setSelectedId(id);
@@ -409,6 +644,7 @@ function ArchitectureLens({
   selected: SystemNode;
   onSelect: (id: string) => void;
 }) {
+  const { locale } = usePreferences();
   return (
     <Panel className="overflow-hidden">
       <div
@@ -427,12 +663,18 @@ function ArchitectureLens({
               >
                 <div>
                   <p className="text-meta text-ink-muted tabular">
-                    PLANE {String(index).padStart(2, "0")}
+                    {ct(locale, "PLANE", "LỚP")}{" "}
+                    {String(index).padStart(2, "0")}
                   </p>
-                  <h3 id={`plane-${plane.id}`} className="text-section-title text-ink-strong mt-0.5">
+                  <h3
+                    id={`plane-${plane.id}`}
+                    className="text-section-title text-ink-strong mt-0.5"
+                  >
                     {plane.name}
                   </h3>
-                  <p className="text-meta text-ink-muted mt-1">{plane.purpose}</p>
+                  <p className="text-meta text-ink-muted mt-1">
+                    {plane.purpose}
+                  </p>
                 </div>
                 <div className="grid min-w-0 grid-cols-1 gap-2 min-[600px]:grid-cols-2">
                   {plane.nodes.map((node) => (
@@ -477,33 +719,55 @@ function SystemNodeButton({
       </span>
       <span className="mt-2 flex items-center gap-2">
         <span className="text-navy-700 [&>svg]:size-4">{node.icon}</span>
-        <span className="text-body text-ink-strong font-semibold">{node.title}</span>
+        <span className="text-body text-ink-strong font-semibold">
+          {node.title}
+        </span>
       </span>
-      <span className="text-meta text-ink-muted mt-1.5 block">{node.description}</span>
+      <span className="text-meta text-ink-muted mt-1.5 block">
+        {node.description}
+      </span>
       <span className="border-line mt-3 flex items-end justify-between gap-2 border-t pt-2">
         <span className="text-meta text-ink-muted">{node.metricLabel}</span>
-        <span className="text-body text-ink tabular font-semibold">{node.metric}</span>
+        <span className="text-body text-ink tabular font-semibold">
+          {node.metric}
+        </span>
       </span>
     </button>
   );
 }
 
 function NodeState({ state }: { state: NodeState }) {
+  const { locale } = usePreferences();
   const tone =
-    state === "attention" ? "warning" : state === "planned" ? "neutral" : "success";
-  return <StatusBadge tone={tone}>{state}</StatusBadge>;
+    state === "attention"
+      ? "warning"
+      : state === "planned"
+        ? "neutral"
+        : "success";
+  return (
+    <StatusBadge tone={tone}>
+      {state === "attention"
+        ? ct(locale, "attention", "cần chú ý")
+        : state === "planned"
+          ? ct(locale, "planned", "dự kiến")
+          : ct(locale, "available", "sẵn sàng")}
+    </StatusBadge>
+  );
 }
 
 function NodeInspector({ node }: { node: SystemNode }) {
+  const { locale } = usePreferences();
   return (
     <aside
-      aria-label="Context inspector"
+      aria-label={ct(locale, "Context inspector", "Bộ kiểm tra ngữ cảnh")}
       aria-live="polite"
       className="border-line bg-surface-subtle border-t p-5 min-[1180px]:border-t-0 min-[1180px]:border-l"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-eyebrow text-ink-muted">Context inspector</p>
+          <p className="text-eyebrow text-ink-muted">
+            {ct(locale, "Context inspector", "Bộ kiểm tra ngữ cảnh")}
+          </p>
           <p className="text-meta text-navy-700 tabular mt-4">{node.code}</p>
           <h3 className="text-page-title text-ink-strong mt-1">{node.title}</h3>
         </div>
@@ -512,20 +776,34 @@ function NodeInspector({ node }: { node: SystemNode }) {
       <p className="text-body text-ink-muted mt-3">{node.description}</p>
 
       <dl className="border-line mt-5 divide-y border-y">
-        <InspectorRow label="Authority" value={node.authority} />
-        <InspectorRow label="Writes" value={node.writes} />
-        <InspectorRow label="Cannot" value={node.cannot} />
+        <InspectorRow
+          label={ct(locale, "Authority", "Thẩm quyền")}
+          value={node.authority}
+        />
+        <InspectorRow label={ct(locale, "Writes", "Ghi")} value={node.writes} />
+        <InspectorRow
+          label={ct(locale, "Cannot", "Không thể")}
+          value={node.cannot}
+        />
       </dl>
 
       <div className="border-line bg-surface mt-5 rounded-md border p-4">
-        <p className="text-eyebrow text-ink-muted">Current projection</p>
-        <p className="text-ink-strong tabular mt-2 text-2xl font-semibold">{node.metric}</p>
+        <p className="text-eyebrow text-ink-muted">
+          {ct(locale, "Current projection", "Bản chiếu hiện tại")}
+        </p>
+        <p className="text-ink-strong tabular mt-2 text-2xl font-semibold">
+          {node.metric}
+        </p>
         <p className="text-meta text-ink-muted mt-1">{node.metricLabel}</p>
       </div>
 
       {node.state === "planned" ? (
         <p className="text-meta text-ink-muted mt-4">
-          This boundary is visible for architectural continuity. It performs no work in the current build.
+          {ct(
+            locale,
+            "This boundary is visible for architectural continuity. It performs no work in the current build.",
+            "Ranh giới này được hiển thị để bảo toàn tính liên tục kiến trúc. Nó không thực hiện công việc trong bản dựng hiện tại.",
+          )}
         </p>
       ) : null}
     </aside>
@@ -548,13 +826,31 @@ function OperationsLens({
   projection: ControlRoomProjection;
   basePath: string;
 }) {
+  const { locale } = usePreferences();
+  const featuredMission = projection.recentMissions[0] ?? null;
+  const remainingMissions = projection.recentMissions.slice(1);
   const metrics = [
-    ["Missions", projection.counts.missions],
-    ["Exploring", projection.counts.exploringMissions],
-    ["Execution TIPs", projection.counts.executionTips],
-    ["Reports waiting", projection.counts.awaitingReports],
-    ["Verify Reports", projection.counts.verificationReports],
-    ["Governed releases", projection.counts.governedReleases],
+    [ct(locale, "Missions", "Nhiệm vụ"), projection.counts.missions],
+    [
+      ct(locale, "Exploring", "Đang khảo sát"),
+      projection.counts.exploringMissions,
+    ],
+    [
+      ct(locale, "Execution TIPs", "TIP thực thi"),
+      projection.counts.executionTips,
+    ],
+    [
+      ct(locale, "Reports waiting", "Báo cáo đang chờ"),
+      projection.counts.awaitingReports,
+    ],
+    [
+      ct(locale, "Verify Reports", "Báo cáo kiểm chứng"),
+      projection.counts.verificationReports,
+    ],
+    [
+      ct(locale, "Governed releases", "Bản phát hành được quản trị"),
+      projection.counts.governedReleases,
+    ],
   ] as const;
 
   return (
@@ -562,73 +858,363 @@ function OperationsLens({
       id="control-operations"
       role="tabpanel"
       aria-labelledby="lens-operations"
-      className="grid grid-cols-1 gap-5 min-[1100px]:grid-cols-[minmax(0,1fr)_340px]"
+      className="grid grid-cols-1 gap-5 min-[1120px]:grid-cols-[minmax(0,1fr)_330px]"
     >
       <div className="min-w-0 space-y-5">
-        <section className="grid grid-cols-2 gap-3 min-[700px]:grid-cols-3 min-[1180px]:grid-cols-6" aria-label="Operational counts">
-          {metrics.map(([label, value]) => (
-            <Panel key={label} className="p-4">
-              <p className="text-meta text-ink-muted">{label}</p>
-              <p className="text-page-title text-ink-strong tabular mt-2">{value}</p>
-            </Panel>
-          ))}
-        </section>
+        {featuredMission ? (
+          <ResumeMissionPanel
+            mission={featuredMission}
+            basePath={basePath}
+            commands={projection.commands}
+          />
+        ) : (
+          <NoMissionStart
+            basePath={basePath}
+            canCreate={projection.commands.missionsCreate}
+          />
+        )}
 
-        <ManualBridgePanel execution={projection.execution} />
-        <VerificationPanel
-          verification={projection.verification}
-          counts={projection.counts}
-        />
+        {remainingMissions.length ? (
+          <MissionWorkList
+            missions={remainingMissions}
+            basePath={basePath}
+            canResearch={projection.commands.researchRequest}
+          />
+        ) : null}
 
-        <Panel>
-          <div className="border-line border-b px-5 py-4">
-            <h3 className="text-section-title text-ink-strong">Recent missions</h3>
-            <p className="text-meta text-ink-muted mt-0.5">Ordered by authoritative update time</p>
+        <Panel className="overflow-hidden">
+          <div className="border-line flex items-center justify-between gap-3 border-b px-5 py-3">
+            <div>
+              <h3 className="text-body text-ink-strong font-semibold">
+                {ct(locale, "Workspace pulse", "Nhịp công việc")}
+              </h3>
+              <p className="text-meta text-ink-muted mt-0.5">
+                {ct(
+                  locale,
+                  "A compact operational summary",
+                  "Tóm tắt vận hành ngắn gọn",
+                )}
+              </p>
+            </div>
+            <Link
+              href={basePath}
+              className="text-meta text-ink inline-flex items-center gap-1 font-medium"
+            >
+              {ct(locale, "View all missions", "Xem tất cả nhiệm vụ")}
+              <ArrowRight className="size-3.5" aria-hidden="true" />
+            </Link>
           </div>
-          {projection.recentMissions.length === 0 ? (
-            <EmptyState title="No missions in this workspace" hint="Create a mission from the Dashboard." />
-          ) : (
-            <ul>
-              {projection.recentMissions.map((mission) => (
-                <li key={mission.id} className="border-line flex flex-col gap-2 border-b px-5 py-3 last:border-b-0 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between">
-                  <span className="min-w-0">
-                    <Link href={`${basePath}/missions/${mission.id}`} className="text-body text-ink-strong block truncate font-semibold hover:underline">
-                      {mission.title}
-                    </Link>
-                    <span className="text-meta text-ink-muted tabular">
-                      {mission.referenceCode} · {mission.assuranceProfile.toLowerCase()}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <StatusBadge tone="neutral">{mission.status.toLowerCase()}</StatusBadge>
-                    <span className="text-meta text-ink-muted tabular">{mission.updatedAt.slice(0, 10)}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <section
+            className="control-work-metrics"
+            aria-label={ct(locale, "Operational counts", "Số liệu vận hành")}
+          >
+            {metrics.map(([label, value]) => (
+              <div key={label}>
+                <p className="text-meta text-ink-muted">{label}</p>
+                <p className="text-section-title text-ink-strong tabular mt-1">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </section>
         </Panel>
+
+        <details className="control-advanced border-line bg-surface overflow-hidden rounded-lg border">
+          <summary className="text-body text-ink-strong flex min-h-14 cursor-pointer items-center justify-between gap-4 px-5 font-semibold">
+            <span>
+              {ct(
+                locale,
+                "Execution and assurance details",
+                "Chi tiết thực thi và kiểm chứng",
+              )}
+            </span>
+            <span className="text-meta text-ink-muted font-normal">
+              {ct(locale, "Open when needed", "Mở khi cần")}
+            </span>
+          </summary>
+          <div className="border-line space-y-5 border-t p-4 min-[760px]:p-5">
+            <ManualBridgePanel execution={projection.execution} />
+            <VerificationPanel
+              verification={projection.verification}
+              counts={projection.counts}
+            />
+          </div>
+        </details>
       </div>
 
-      <Panel className="self-start">
+      <Panel className="control-attention-panel self-start overflow-hidden">
         <div className="border-line border-b px-5 py-4">
-          <h3 className="text-section-title text-ink-strong">Attention signals</h3>
-          <p className="text-meta text-ink-muted mt-0.5">Derived from governed unresolved records</p>
+          <h3 className="text-section-title text-ink-strong">
+            {ct(locale, "Attention signals", "Tín hiệu cần chú ý")}
+          </h3>
+          <p className="text-meta text-ink-muted mt-0.5">
+            {ct(
+              locale,
+              "Derived from governed unresolved records",
+              "Dẫn xuất từ hồ sơ được quản trị chưa xử lý",
+            )}
+          </p>
         </div>
         {projection.signals.length === 0 ? (
-          <EmptyState title="No unresolved signals" hint="No decision, dispute, escalation or review is currently due." />
+          <EmptyState
+            title={ct(
+              locale,
+              "No unresolved signals",
+              "Không có tín hiệu chưa xử lý",
+            )}
+            hint={ct(
+              locale,
+              "No decision, dispute, escalation or review is currently due.",
+              "Hiện không có quyết định, tranh chấp, chuyển cấp hoặc rà soát đến hạn.",
+            )}
+          />
         ) : (
           <ul>
             {projection.signals.map((signal) => (
-              <li key={signal.key} className="border-line flex items-center justify-between gap-3 border-b px-5 py-3 last:border-b-0">
-                <span className="text-body text-ink">{signal.label}</span>
-                <StatusBadge tone={signal.tone}>{String(signal.count)}</StatusBadge>
+              <li
+                key={signal.key}
+                className="border-line flex items-center justify-between gap-3 border-b px-5 py-3 last:border-b-0"
+              >
+                <span className="text-body text-ink">
+                  {signalLabel(locale, signal.key, signal.label)}
+                </span>
+                <StatusBadge tone={signal.tone}>
+                  {String(signal.count)}
+                </StatusBadge>
               </li>
             ))}
           </ul>
         )}
       </Panel>
     </div>
+  );
+}
+
+function ResumeMissionPanel({
+  mission,
+  basePath,
+  commands,
+}: {
+  mission: ControlRoomProjection["recentMissions"][number];
+  basePath: string;
+  commands: ControlRoomProjection["commands"];
+}) {
+  const { locale } = usePreferences();
+  const action = getMissionNextAction({
+    basePath,
+    locale,
+    missionId: mission.id,
+    status: mission.status,
+    capabilities: { canResearch: commands.researchRequest },
+  });
+  const phases = missionPhaseLabels(locale);
+
+  return (
+    <Panel className="control-resume overflow-hidden">
+      <div className="control-resume-grid">
+        <div className="min-w-0 p-5 min-[760px]:p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-eyebrow text-ink-muted">
+              {ct(locale, "Recommended next move", "Việc nên làm tiếp theo")}
+            </p>
+            <StatusBadge tone="success">
+              {enumLabel(locale, mission.status)}
+            </StatusBadge>
+          </div>
+          <p className="text-meta text-ink-muted tabular mt-4">
+            {mission.referenceCode} ·{" "}
+            {enumLabel(locale, mission.assuranceProfile)}
+          </p>
+          <h3 className="text-page-title text-ink-strong mt-2 max-w-3xl">
+            {mission.title}
+          </h3>
+          <div className="control-next-copy mt-5">
+            <p className="text-meta text-ink-muted">
+              {ct(locale, "You are here", "Bạn đang ở đây")}
+            </p>
+            <p className="text-body text-ink-strong mt-1 font-semibold">
+              {action.phaseLabel}
+            </p>
+            <p className="text-body text-ink-muted mt-1 max-w-2xl">
+              {action.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="control-resume-actions border-line bg-surface-subtle flex flex-col justify-center border-t p-5 min-[760px]:border-t-0 min-[760px]:border-l min-[760px]:p-6">
+          <Link href={action.href} className="control-primary-action">
+            <span>{action.label}</span>
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <div className="mt-4 grid gap-1">
+            <Link href={`${basePath}/missions/${mission.id}`}>
+              <FolderOpen aria-hidden="true" />
+              {ct(locale, "Open mission dossier", "Mở hồ sơ nhiệm vụ")}
+            </Link>
+            {commands.authoringWrite ? (
+              <Link href={`${basePath}/authoring?missionId=${mission.id}`}>
+                <FilePenLine aria-hidden="true" />
+                {ct(locale, "Draft the dossier", "Soạn thảo đề án")}
+              </Link>
+            ) : null}
+            {commands.truthWrite ? (
+              <Link href={`${basePath}/evidence`}>
+                <FileSearch aria-hidden="true" />
+                {ct(locale, "Add evidence", "Bổ sung bằng chứng")}
+              </Link>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <ol
+        className="control-mission-rail"
+        aria-label={ct(locale, "Mission progress", "Tiến trình nhiệm vụ")}
+      >
+        {phases.map((label, index) => {
+          const activeIndex = Math.min(action.phase, phases.length - 1);
+          const state =
+            index < activeIndex
+              ? "done"
+              : index === activeIndex
+                ? "active"
+                : "upcoming";
+          return (
+            <li key={label} data-state={state}>
+              <span aria-hidden="true" />
+              <p>{label}</p>
+            </li>
+          );
+        })}
+      </ol>
+    </Panel>
+  );
+}
+
+function MissionWorkList({
+  missions,
+  basePath,
+  canResearch,
+}: {
+  missions: ControlRoomProjection["recentMissions"];
+  basePath: string;
+  canResearch: boolean;
+}) {
+  const { locale } = usePreferences();
+  return (
+    <Panel className="overflow-hidden">
+      <div className="border-line border-b px-5 py-4">
+        <h3 className="text-section-title text-ink-strong">
+          {ct(locale, "Other active missions", "Nhiệm vụ đang hoạt động khác")}
+        </h3>
+        <p className="text-meta text-ink-muted mt-0.5">
+          {ct(
+            locale,
+            "Open the next step without searching through modules.",
+            "Mở ngay bước tiếp theo mà không phải dò tìm trong các phân hệ.",
+          )}
+        </p>
+      </div>
+      <ul>
+        {missions.map((mission) => {
+          const action = getMissionNextAction({
+            basePath,
+            locale,
+            missionId: mission.id,
+            status: mission.status,
+            capabilities: { canResearch },
+          });
+          return (
+            <li key={mission.id} className="control-work-row">
+              <div className="min-w-0">
+                <p className="text-meta text-ink-muted tabular">
+                  {mission.referenceCode} · {enumLabel(locale, mission.status)}
+                </p>
+                <p className="text-body text-ink-strong mt-1 truncate font-semibold">
+                  {mission.title}
+                </p>
+              </div>
+              <Link href={action.href}>
+                {action.label}
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </Panel>
+  );
+}
+
+function NoMissionStart({
+  basePath,
+  canCreate,
+}: {
+  basePath: string;
+  canCreate: boolean;
+}) {
+  const { locale } = usePreferences();
+  return (
+    <Panel className="control-no-mission p-6 min-[760px]:p-8">
+      <p className="text-eyebrow text-ink-muted">
+        {ct(locale, "Start here", "Bắt đầu tại đây")}
+      </p>
+      <h3 className="text-page-title text-ink-strong mt-2">
+        {ct(locale, "Define the first mission", "Xác định nhiệm vụ đầu tiên")}
+      </h3>
+      <p className="text-body text-ink-muted mt-2 max-w-2xl">
+        {ct(
+          locale,
+          "Describe the outcome, scope and success criteria. HIVE OS will keep the next steps visible from there.",
+          "Mô tả kết quả, phạm vi và tiêu chí thành công. Từ đó HIVE OS sẽ luôn hiển thị bước tiếp theo.",
+        )}
+      </p>
+      {canCreate ? (
+        <Link
+          href={`${basePath}/missions/new`}
+          className="control-primary-action mt-5 w-fit"
+        >
+          <Plus aria-hidden="true" />
+          {ct(locale, "Create a mission", "Tạo nhiệm vụ")}
+        </Link>
+      ) : (
+        <p className="text-meta text-ink-muted mt-4">
+          {ct(
+            locale,
+            "You have read-only access.",
+            "Bạn đang có quyền chỉ đọc.",
+          )}
+        </p>
+      )}
+    </Panel>
+  );
+}
+
+function missionPhaseLabels(locale: Locale) {
+  return [
+    ct(locale, "Define", "Xác định"),
+    ct(locale, "Approve", "Phê duyệt"),
+    ct(locale, "Research", "Nghiên cứu"),
+    ct(locale, "Execute", "Thực thi"),
+    ct(locale, "Verify and release", "Kiểm chứng và phát hành"),
+  ];
+}
+
+function signalLabel(locale: Locale, key: string, fallback: string) {
+  if (locale === "en") return fallback;
+  return (
+    (
+      {
+        decisions: "Quyết định đang chờ chủ sở hữu",
+        disputes: "Luận điểm đang có tranh chấp",
+        escalations: "Chuyển cấp chưa được xử lý",
+        reviews: "Luận điểm đến hạn rà soát",
+        "execution-reports": "Lượt thực thi đang chờ báo cáo hoàn thành",
+        "execution-deviations": "Sai lệch thực thi cần rà soát",
+        "verification-runs": "Lượt kiểm chứng đang chờ báo cáo",
+        "verification-not-ready": "Báo cáo kiểm chứng chưa sẵn sàng",
+      } as Record<string, string>
+    )[key] ?? fallback
   );
 }
 
@@ -639,24 +1225,50 @@ function VerificationPanel({
   verification: ControlRoomProjection["verification"];
   counts: ControlRoomProjection["counts"];
 }) {
+  const { locale } = usePreferences();
   const sequence = [
-    ["01", "Requirement coverage", `${counts.verificationScenarios} governed scenarios`],
-    ["02", "Scenario results", `${counts.verificationReports} immutable reports`],
-    ["03", "Technical health", `${counts.notReadyVerificationReports} not ready`],
-    ["04", "Release ceiling", `${counts.releaseManifests} frozen manifests`],
+    [
+      "01",
+      ct(locale, "Requirement coverage", "Độ phủ yêu cầu"),
+      `${counts.verificationScenarios} ${ct(locale, "governed scenarios", "kịch bản được quản trị")}`,
+    ],
+    [
+      "02",
+      ct(locale, "Scenario results", "Kết quả kịch bản"),
+      `${counts.verificationReports} ${ct(locale, "immutable reports", "báo cáo bất biến")}`,
+    ],
+    [
+      "03",
+      ct(locale, "Technical health", "Sức khỏe kỹ thuật"),
+      `${counts.notReadyVerificationReports} ${ct(locale, "not ready", "chưa sẵn sàng")}`,
+    ],
+    [
+      "04",
+      ct(locale, "Release ceiling", "Trần phát hành"),
+      `${counts.releaseManifests} ${ct(locale, "frozen manifests", "manifest đã đóng băng")}`,
+    ],
   ] as const;
 
   return (
     <Panel className="overflow-hidden">
       <div className="border-line flex flex-col gap-3 border-b px-5 py-4 min-[700px]:flex-row min-[700px]:items-start min-[700px]:justify-between">
         <div>
-          <p className="text-eyebrow text-navy-700">Independent assurance corridor</p>
+          <p className="text-eyebrow text-navy-700">
+            {ct(
+              locale,
+              "Independent assurance corridor",
+              "Hành lang bảo chứng độc lập",
+            )}
+          </p>
           <h3 className="text-section-title text-ink-strong mt-1">
-            Verify before release
+            {ct(locale, "Verify before release", "Kiểm chứng trước phát hành")}
           </h3>
           <p className="text-meta text-ink-muted mt-1 max-w-2xl">
-            A provider result becomes release-eligible only after exact coverage,
-            independent review, corruption checks and an explicit evidence ceiling.
+            {ct(
+              locale,
+              "A provider result becomes release-eligible only after exact coverage, independent review, corruption checks and an explicit evidence ceiling.",
+              "Kết quả nhà cung cấp chỉ đủ điều kiện phát hành sau độ phủ chính xác, rà soát độc lập, kiểm tra sai hỏng và trần bằng chứng tường minh.",
+            )}
           </p>
         </div>
         <StatusBadge
@@ -667,23 +1279,31 @@ function VerificationPanel({
               : "success"
           }
         >
-          governed
+          {ct(locale, "governed", "được quản trị")}
         </StatusBadge>
       </div>
 
       <ol
-        aria-label="Verification governance sequence"
+        aria-label={ct(
+          locale,
+          "Verification governance sequence",
+          "Trình tự quản trị kiểm chứng",
+        )}
         className="border-line bg-surface-subtle grid grid-cols-1 border-b min-[720px]:grid-cols-4"
       >
         {sequence.map(([code, label, detail], index) => (
           <li
             key={code}
             className={`relative px-5 py-4 ${
-              index > 0 ? "border-line border-t min-[720px]:border-t-0 min-[720px]:border-l" : ""
+              index > 0
+                ? "border-line border-t min-[720px]:border-t-0 min-[720px]:border-l"
+                : ""
             }`}
           >
             <p className="text-meta text-navy-700 tabular">{code}</p>
-            <p className="text-body text-ink-strong mt-1 font-semibold">{label}</p>
+            <p className="text-body text-ink-strong mt-1 font-semibold">
+              {label}
+            </p>
             <p className="text-meta text-ink-muted mt-0.5">{detail}</p>
           </li>
         ))}
@@ -695,13 +1315,21 @@ function VerificationPanel({
             id="recent-verify-reports"
             className="text-body text-ink-strong font-semibold"
           >
-            Recent Verify Reports
+            {ct(locale, "Recent Verify Reports", "Báo cáo kiểm chứng gần đây")}
           </h4>
         </div>
         {verification.recentReports.length === 0 ? (
           <EmptyState
-            title="No Verify Reports yet"
-            hint="Reports appear only after a governed verifier run is completed."
+            title={ct(
+              locale,
+              "No Verify Reports yet",
+              "Chưa có Báo cáo kiểm chứng",
+            )}
+            hint={ct(
+              locale,
+              "Reports appear only after a governed verifier run is completed.",
+              "Báo cáo chỉ xuất hiện sau khi hoàn tất lượt kiểm chứng được quản trị.",
+            )}
           />
         ) : (
           <ul>
@@ -715,7 +1343,8 @@ function VerificationPanel({
                     {report.missionTitle}
                   </span>
                   <span className="text-meta text-ink-muted tabular block">
-                    {report.missionReferenceCode} · {report.independenceStatus.toLowerCase().replaceAll("_", " ")}
+                    {report.missionReferenceCode} ·{" "}
+                    {enumLabel(locale, report.independenceStatus)}
                     {" · "}
                     {report.contentHash.slice(0, 12)}
                   </span>
@@ -730,16 +1359,19 @@ function VerificationPanel({
                           : "success"
                     }
                   >
-                    {report.overallStatus.toLowerCase().replaceAll("_", " ")}
+                    {enumLabel(locale, report.overallStatus)}
                   </StatusBadge>
                   <StatusBadge
                     tone={
-                      report.corruptionResults.every((result) => result === "PASS")
+                      report.corruptionResults.every(
+                        (result) => result === "PASS",
+                      )
                         ? "success"
                         : "warning"
                     }
                   >
-                    {report.corruptionResults.length} corruption
+                    {report.corruptionResults.length}{" "}
+                    {ct(locale, "corruption", "kiểm tra sai hỏng")}
                   </StatusBadge>
                 </span>
               </li>
@@ -756,11 +1388,14 @@ function ManualBridgePanel({
 }: {
   execution: ControlRoomProjection["execution"];
 }) {
+  const { locale } = usePreferences();
   return (
     <Panel className="overflow-hidden">
       <div className="border-line flex flex-col gap-3 border-b px-5 py-4 min-[700px]:flex-row min-[700px]:items-start min-[700px]:justify-between">
         <div>
-          <p className="text-eyebrow text-navy-700">Execution handoff</p>
+          <p className="text-eyebrow text-navy-700">
+            {ct(locale, "Execution handoff", "Bàn giao thực thi")}
+          </p>
           <h3 className="text-section-title text-ink-strong mt-1">
             Manual Provider Bridge
           </h3>
@@ -768,31 +1403,72 @@ function ManualBridgePanel({
             {execution.disclaimer}
           </p>
         </div>
-        <StatusBadge tone="success">{execution.mode.toLowerCase().replace("_", " ")}</StatusBadge>
+        <StatusBadge tone="success">
+          {execution.mode.toLowerCase().replace("_", " ")}
+        </StatusBadge>
       </div>
 
       <div
-        aria-label="Manual Bridge sequence"
+        aria-label={ct(
+          locale,
+          "Manual Bridge sequence",
+          "Trình tự Manual Bridge",
+        )}
         className="border-line bg-surface-subtle grid grid-cols-1 border-b min-[720px]:grid-cols-[1fr_auto_1fr_auto_1fr]"
       >
-        <BridgeStep code="01" label="Instruction" detail="Immutable SHA-256 artifact" />
+        <BridgeStep
+          code="01"
+          label={ct(locale, "Instruction", "Chỉ dẫn")}
+          detail={ct(
+            locale,
+            "Immutable SHA-256 artifact",
+            "Artifact SHA-256 bất biến",
+          )}
+        />
         <BridgeArrow />
-        <BridgeStep code="02" label="External operator" detail="Provider and model attributed" />
+        <BridgeStep
+          code="02"
+          label={ct(locale, "External operator", "Người vận hành bên ngoài")}
+          detail={ct(
+            locale,
+            "Provider and model attributed",
+            "Có quy thuộc nhà cung cấp và mô hình",
+          )}
+        />
         <BridgeArrow />
-        <BridgeStep code="03" label="Completion Report" detail="Strict schema import" />
+        <BridgeStep
+          code="03"
+          label={ct(locale, "Completion Report", "Báo cáo hoàn thành")}
+          detail={ct(
+            locale,
+            "Strict schema import",
+            "Nhập theo schema nghiêm ngặt",
+          )}
+        />
       </div>
 
       <div className="grid grid-cols-1 min-[900px]:grid-cols-[minmax(0,1fr)_320px]">
         <section aria-labelledby="recent-execution-tips">
           <div className="border-line border-b px-5 py-3">
-            <h4 id="recent-execution-tips" className="text-body text-ink-strong font-semibold">
-              Recent execution TIPs
+            <h4
+              id="recent-execution-tips"
+              className="text-body text-ink-strong font-semibold"
+            >
+              {ct(locale, "Recent execution TIPs", "TIP thực thi gần đây")}
             </h4>
           </div>
           {execution.recentTips.length === 0 ? (
             <EmptyState
-              title="No execution TIPs yet"
-              hint="Execution starts only after a Mission enters exploration."
+              title={ct(
+                locale,
+                "No execution TIPs yet",
+                "Chưa có TIP thực thi",
+              )}
+              hint={ct(
+                locale,
+                "Execution starts only after a Mission enters exploration.",
+                "Thực thi chỉ bắt đầu sau khi nhiệm vụ vào giai đoạn khảo sát.",
+              )}
             />
           ) : (
             <ul>
@@ -808,8 +1484,8 @@ function ManualBridgePanel({
                     <span className="text-meta text-ink-muted tabular">
                       {tip.missionReferenceCode} · {tip.code}
                       {tip.latestAttempt
-                        ? ` · attempt ${tip.latestAttempt} · ${tip.latestRole?.toLowerCase()}`
-                        : " · not issued"}
+                        ? ` · ${ct(locale, "attempt", "lần thử")} ${tip.latestAttempt} · ${enumLabel(locale, tip.latestRole ?? "")}`
+                        : ` · ${ct(locale, "not issued", "chưa phát hành")}`}
                     </span>
                   </span>
                   <StatusBadge
@@ -823,7 +1499,7 @@ function ManualBridgePanel({
                           : "neutral"
                     }
                   >
-                    {tip.status.toLowerCase().replace("_", " ")}
+                    {enumLabel(locale, tip.status)}
                   </StatusBadge>
                 </li>
               ))}
@@ -836,14 +1512,25 @@ function ManualBridgePanel({
           className="border-line border-t min-[900px]:border-t-0 min-[900px]:border-l"
         >
           <div className="border-line border-b px-5 py-3">
-            <h4 id="execution-deviations" className="text-body text-ink-strong font-semibold">
-              Deviation gate
+            <h4
+              id="execution-deviations"
+              className="text-body text-ink-strong font-semibold"
+            >
+              {ct(locale, "Deviation gate", "Cổng sai lệch")}
             </h4>
           </div>
           {execution.openDeviations.length === 0 ? (
             <EmptyState
-              title="No open deviations"
-              hint="Dependent TIPs are not deviation-blocked."
+              title={ct(
+                locale,
+                "No open deviations",
+                "Không có sai lệch đang mở",
+              )}
+              hint={ct(
+                locale,
+                "Dependent TIPs are not deviation-blocked.",
+                "TIP phụ thuộc không bị chặn bởi sai lệch.",
+              )}
             />
           ) : (
             <ul>
@@ -863,7 +1550,7 @@ function ManualBridgePanel({
                           : "warning"
                       }
                     >
-                      {deviation.materiality.toLowerCase()}
+                      {enumLabel(locale, deviation.materiality)}
                     </StatusBadge>
                   </span>
                   <span className="text-meta text-ink-muted tabular mt-1 block">
@@ -909,6 +1596,7 @@ function BridgeArrow() {
 }
 
 function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
+  const { locale } = usePreferences();
   return (
     <Panel
       id="control-audit"
@@ -917,27 +1605,60 @@ function AuditLens({ audit }: { audit: ControlRoomProjection["audit"] }) {
       className="overflow-hidden"
     >
       <div className="border-line border-b px-5 py-4">
-        <h3 className="text-section-title text-ink-strong">Governed event ledger</h3>
-        <p className="text-meta text-ink-muted mt-0.5">Recent immutable events visible to your role</p>
+        <h3 className="text-section-title text-ink-strong">
+          {ct(locale, "Governed event ledger", "Sổ cái sự kiện được quản trị")}
+        </h3>
+        <p className="text-meta text-ink-muted mt-0.5">
+          {ct(
+            locale,
+            "Recent immutable events visible to your role",
+            "Sự kiện bất biến gần đây mà vai trò của bạn được phép xem",
+          )}
+        </p>
       </div>
       {!audit.allowed ? (
-        <EmptyState title="Audit access is restricted" hint="Only workspace owners and administrators can read the audit ledger." />
+        <EmptyState
+          title={ct(
+            locale,
+            "Audit access is restricted",
+            "Quyền truy cập kiểm toán bị hạn chế",
+          )}
+          hint={ct(
+            locale,
+            "Only workspace owners and administrators can read the audit ledger.",
+            "Chỉ chủ sở hữu và quản trị viên workspace có thể đọc sổ cái kiểm toán.",
+          )}
+        />
       ) : audit.events.length === 0 ? (
-        <EmptyState title="No governed events recorded" />
+        <EmptyState
+          title={ct(
+            locale,
+            "No governed events recorded",
+            "Chưa ghi nhận sự kiện được quản trị",
+          )}
+        />
       ) : (
         <ul>
           {audit.events.map((event) => (
-            <li key={event.id} className="border-line grid grid-cols-1 gap-1 border-b px-5 py-3 last:border-b-0 min-[700px]:grid-cols-[minmax(0,1fr)_180px_110px] min-[700px]:items-center min-[700px]:gap-4">
+            <li
+              key={event.id}
+              className="border-line grid grid-cols-1 gap-1 border-b px-5 py-3 last:border-b-0 min-[700px]:grid-cols-[minmax(0,1fr)_180px_110px] min-[700px]:items-center min-[700px]:gap-4"
+            >
               <span className="min-w-0">
                 <span className="text-body text-ink block font-medium">
-                  {humanize(event.eventType)}
+                  {enumLabel(locale, event.eventType)}
                 </span>
                 <span className="text-meta text-ink-muted tabular block truncate">
                   {event.entityType} · {event.entityId}
                 </span>
               </span>
-              <span className="text-meta text-ink-muted">{event.eventType}</span>
-              <time className="text-meta text-ink-muted tabular" dateTime={event.createdAt}>
+              <span className="text-meta text-ink-muted">
+                {event.eventType}
+              </span>
+              <time
+                className="text-meta text-ink-muted tabular"
+                dateTime={event.createdAt}
+              >
                 {event.createdAt.slice(0, 10)}
               </time>
             </li>
@@ -953,6 +1674,7 @@ function CommandDialog({
   missions,
   objects,
   basePath,
+  initialQuery,
   onClose,
   onSelectNode,
   returnFocusRef,
@@ -961,19 +1683,25 @@ function CommandDialog({
   missions: ControlRoomProjection["recentMissions"];
   objects: ControlRoomProjection["finderObjects"];
   basePath: string;
+  initialQuery: string;
   onClose: () => void;
   onSelectNode: (id: string) => void;
   returnFocusRef: RefObject<HTMLButtonElement | null>;
 }) {
-  const [query, setQuery] = useState("");
+  const { locale } = usePreferences();
+  const [query, setQuery] = useState(initialQuery);
   const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const normalized = query.trim().toLowerCase();
   const filteredNodes = nodes.filter((node) =>
-    `${node.code} ${node.title} ${node.description}`.toLowerCase().includes(normalized),
+    `${node.code} ${node.title} ${node.description}`
+      .toLowerCase()
+      .includes(normalized),
   );
   const filteredMissions = missions.filter((mission) =>
-    `${mission.referenceCode} ${mission.title}`.toLowerCase().includes(normalized),
+    `${mission.referenceCode} ${mission.title}`
+      .toLowerCase()
+      .includes(normalized),
   );
   const filteredObjects = objects.filter((object) =>
     `${object.kind} ${object.code} ${object.title} ${object.description} ${object.status}`
@@ -1021,19 +1749,32 @@ function CommandDialog({
         type="button"
         className="absolute inset-0 bg-navy-900/25"
         onClick={onClose}
-        aria-label="Close object finder"
+        aria-label={ct(
+          locale,
+          "Close object finder",
+          "Đóng trình tìm đối tượng",
+        )}
         tabIndex={-1}
       />
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Find governed objects"
+        aria-label={ct(
+          locale,
+          "Find governed objects",
+          "Tìm đối tượng được quản trị",
+        )}
         className="border-line bg-surface relative z-10 flex max-h-[75vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border shadow-panel"
       >
         <div className="border-line flex min-w-0 items-center gap-3 border-b px-4">
-          <Search className="text-ink-muted size-5 shrink-0" aria-hidden="true" />
-          <label htmlFor="control-search" className="sr-only">Find governed objects</label>
+          <Search
+            className="text-ink-muted size-5 shrink-0"
+            aria-hidden="true"
+          />
+          <label htmlFor="control-search" className="sr-only">
+            {ct(locale, "Find governed objects", "Tìm đối tượng được quản trị")}
+          </label>
           <div className="relative h-14 min-w-0 flex-1">
             <input
               ref={inputRef}
@@ -1051,12 +1792,25 @@ function CommandDialog({
                   data-testid="control-search-placeholder"
                   className="block min-w-0 truncate whitespace-nowrap"
                 >
-                  Search modules, missions or governed records
+                  {ct(
+                    locale,
+                    "Search modules, missions or governed records",
+                    "Tìm mô-đun, nhiệm vụ hoặc hồ sơ được quản trị",
+                  )}
                 </span>
               </span>
             ) : null}
           </div>
-          <button type="button" onClick={onClose} aria-label="Close object finder" className="text-ink-muted hover:bg-surface-subtle flex size-9 shrink-0 items-center justify-center rounded-md">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={ct(
+              locale,
+              "Close object finder",
+              "Đóng trình tìm đối tượng",
+            )}
+            className="text-ink-muted hover:bg-surface-subtle flex size-9 shrink-0 items-center justify-center rounded-md"
+          >
             <X className="size-4" aria-hidden="true" />
           </button>
         </div>
@@ -1064,11 +1818,19 @@ function CommandDialog({
           {filteredNodes.length === 0 &&
           filteredMissions.length === 0 &&
           filteredObjects.length === 0 ? (
-            <EmptyState title="No matching governed objects" />
+            <EmptyState
+              title={ct(
+                locale,
+                "No matching governed objects",
+                "Không có đối tượng phù hợp",
+              )}
+            />
           ) : (
             <>
               {filteredNodes.length > 0 ? (
-                <SearchGroup title="System map">
+                <SearchGroup
+                  title={ct(locale, "System map", "Bản đồ hệ thống")}
+                >
                   {filteredNodes.map((node) => (
                     <button
                       key={node.id}
@@ -1076,10 +1838,16 @@ function CommandDialog({
                       onClick={() => onSelectNode(node.id)}
                       className="hover:bg-surface-subtle flex w-full items-center gap-3 rounded-md px-3 py-2 text-left"
                     >
-                      <span className="text-navy-700 [&>svg]:size-4">{node.icon}</span>
+                      <span className="text-navy-700 [&>svg]:size-4">
+                        {node.icon}
+                      </span>
                       <span className="min-w-0 flex-1">
-                        <span className="text-body text-ink block font-medium">{node.title}</span>
-                        <span className="text-meta text-ink-muted tabular">{node.code}</span>
+                        <span className="text-body text-ink block font-medium">
+                          {node.title}
+                        </span>
+                        <span className="text-meta text-ink-muted tabular">
+                          {node.code}
+                        </span>
                       </span>
                       <NodeState state={node.state} />
                     </button>
@@ -1087,7 +1855,9 @@ function CommandDialog({
                 </SearchGroup>
               ) : null}
               {filteredMissions.length > 0 ? (
-                <SearchGroup title="Recent missions">
+                <SearchGroup
+                  title={ct(locale, "Recent missions", "Nhiệm vụ gần đây")}
+                >
                   {filteredMissions.map((mission) => (
                     <Link
                       key={mission.id}
@@ -1095,17 +1865,26 @@ function CommandDialog({
                       onClick={onClose}
                       className="hover:bg-surface-subtle flex items-center gap-3 rounded-md px-3 py-2"
                     >
-                      <CircleDot className="text-navy-700 size-4" aria-hidden="true" />
+                      <CircleDot
+                        className="text-navy-700 size-4"
+                        aria-hidden="true"
+                      />
                       <span className="min-w-0 flex-1">
-                        <span className="text-body text-ink block truncate font-medium">{mission.title}</span>
-                        <span className="text-meta text-ink-muted tabular">{mission.referenceCode}</span>
+                        <span className="text-body text-ink block truncate font-medium">
+                          {mission.title}
+                        </span>
+                        <span className="text-meta text-ink-muted tabular">
+                          {mission.referenceCode}
+                        </span>
                       </span>
                     </Link>
                   ))}
                 </SearchGroup>
               ) : null}
               {filteredObjects.length > 0 ? (
-                <SearchGroup title="Governed records">
+                <SearchGroup
+                  title={ct(locale, "Governed records", "Hồ sơ được quản trị")}
+                >
                   {filteredObjects.map((object) => (
                     <Link
                       key={`${object.kind}-${object.id}`}
@@ -1113,13 +1892,17 @@ function CommandDialog({
                       onClick={onClose}
                       className="hover:bg-surface-subtle flex items-center gap-3 rounded-md px-3 py-2"
                     >
-                      <CircleDot className="text-navy-700 size-4 shrink-0" aria-hidden="true" />
+                      <CircleDot
+                        className="text-navy-700 size-4 shrink-0"
+                        aria-hidden="true"
+                      />
                       <span className="min-w-0 flex-1">
                         <span className="text-body text-ink block truncate font-medium">
                           {object.title}
                         </span>
                         <span className="text-meta text-ink-muted tabular block truncate">
-                          {humanize(object.kind)} · {object.code} · {humanize(object.status)}
+                          {enumLabel(locale, object.kind)} · {object.code} ·{" "}
+                          {enumLabel(locale, object.status)}
                         </span>
                       </span>
                     </Link>
@@ -1134,7 +1917,13 @@ function CommandDialog({
   );
 }
 
-function SearchGroup({ title, children }: { title: string; children: ReactNode }) {
+function SearchGroup({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <section className="mb-2 last:mb-0">
       <h3 className="text-eyebrow text-ink-muted px-3 py-2">{title}</h3>
@@ -1143,11 +1932,8 @@ function SearchGroup({ title, children }: { title: string; children: ReactNode }
   );
 }
 
-function humanize(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[._]/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+function ct(locale: Locale, en: string, vi: string): string {
+  return locale === "vi" ? vi : en;
 }
 
 // Keeps tab activation keyboard-operable when focus is moved with arrow keys.
@@ -1157,13 +1943,16 @@ export function activateLensFromArrow(
 ) {
   if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
   const order: Lens[] = ["architecture", "operations", "audit"];
-  const current = order.indexOf(event.currentTarget.id.replace("lens-", "") as Lens);
+  const current = order.indexOf(
+    event.currentTarget.id.replace("lens-", "") as Lens,
+  );
   const delta = event.key === "ArrowRight" ? 1 : -1;
   const next = (current + delta + order.length) % order.length;
   event.preventDefault();
   setLens(order[next]);
-  const tabs = event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
-    '[role="tab"]',
-  );
+  const tabs =
+    event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+      '[role="tab"]',
+    );
   tabs?.[next]?.focus();
 }

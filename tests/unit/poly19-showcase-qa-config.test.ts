@@ -1,0 +1,41 @@
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import path from "node:path";
+import { runInNewContext } from "node:vm";
+import { describe,expect,it,vi,afterEach } from "vitest";
+afterEach(()=>{vi.unstubAllEnvs();vi.resetModules();});
+describe("TIP079 fixed QA packaging metadata only",()=>{
+  it("preserves ordinary defaultprofile and existing076profile",async()=>{vi.stubEnv("HIVE_BUILD_PROFILE","");const ordinary=(await import("../../next.config")).default;expect(ordinary.distDir).toBe(".next");expect(ordinary.outputFileTracingExcludes).toBeUndefined();vi.resetModules();vi.stubEnv("HIVE_BUILD_PROFILE","TIP076_QA");expect((await import("../../next.config")).default.distDir).toBe(".next-build");});
+  it("079usesfixedinprojectroot and EXACT13existingexclusions",async()=>{vi.stubEnv("HIVE_BUILD_PROFILE","TIP079_QA");const config=(await import("../../next.config")).default;expect(config.distDir).toBe(".next-build");const patterns=config.outputFileTracingExcludes!["/*"];expect(patterns).toHaveLength(13);expect(patterns.every(x=>x.startsWith("./scripts/operations/")&&x.endsWith(".py")&&!x.includes("*"))).toBe(true);});
+  it("launcher pins localhost port/origins and never starts a worker",()=>{const source=readFileSync("scripts/test/start-tip079-standalone.mjs","utf8");expect(source).toContain('HOSTNAME:"127.0.0.1"');expect(source).toContain('PORT:"3002"');expect(source).toContain('http://127.0.0.1:3002');expect(source).toContain('MAIL_BASE_URL:qaUrl');expect(source).not.toContain('research-showcase-worker');});
+  it("helper admits exactreviewinventoryandallNFTbeforepackage",()=>{const source=readFileSync("scripts/test/build-tip079.mjs","utf8");expect(source).toContain('m.purpose!=="ENGINEERING_ONLY_POLY19_SHOWCASE"');expect(source).toContain('Object.keys(m.sourcePins).length!==expected.length');expect(source.indexOf('for(const file of inventories)')).toBeLessThan(source.indexOf('for(const [file,b] of [...copies'));expect(source).toContain('constants.O_NOFOLLOW|constants.O_NONBLOCK');expect(source).toContain('file==="next.config.ts"');expect(source).toContain('file==="scripts/operations/provision-poly19-showcase-qa.ts"');expect(source).toContain('"scripts/test/playwright-tip079.config.ts"');expect(source).not.toContain('scripts/**/*.');});
+  it("fixed079build uses documentedwebpack and exactOwnerapproved600secondceiling",()=>{const source=readFileSync("scripts/test/build-tip079.mjs","utf8");expect(source).toContain('["node_modules/next/dist/bin/next","build","--webpack"]');expect(source).toContain('HIVE_BUILD_PROFILE:"TIP079_QA"');expect(source).toContain('timeout:600000');expect(source).not.toContain('timeout:240000');expect(source).not.toContain('"--debug-build-paths');});
+  it.each(["","TIP076_QA"])("preserves ordinary/076PostCSS defaults for profile %s",async profile=>{vi.stubEnv("HIVE_BUILD_PROFILE",profile);const config=(await import("../../postcss.config.mjs")).default;expect(config.plugins["@tailwindcss/postcss"]).toEqual({});});
+  it("079Tailwind candidatebase is EXACTrepositorysrc, with unchangedglobalCSS",async()=>{vi.stubEnv("HIVE_BUILD_PROFILE","TIP079_QA");const config=(await import("../../postcss.config.mjs")).default;expect(config.plugins["@tailwindcss/postcss"]).toEqual({base:path.resolve("src")});expect(createHash("sha256").update(readFileSync("src/app/globals.css")).digest("hex")).toBe("1849de86bdafda40f8edf662161f07185298658dc043b017d9be3b5172de2d4e");});
+  it("packager adds ONLYexactPostCSSandglobalCSSpaths, noCSSglob",()=>{const source=readFileSync("scripts/test/build-tip079.mjs","utf8");expect(source).toContain('file==="postcss.config.mjs"');expect(source).toContain('file==="src/app/globals.css"');expect(source).not.toContain('(ts|tsx|css)');expect(source).not.toContain('src/**/*.css');
+    const inventory=readFileSync("src/modules/research-showcase/source.ts","utf8").match(/export const showcaseSourcePaths = \[([\s\S]*?)\] as const;/)![1];
+    const paths=JSON.parse(`[${inventory.replace(/,\s*$/,"")}]`) as string[];expect(paths).toHaveLength(66);expect(paths.filter(file=>file.endsWith(".css")||file==="postcss.config.mjs")).toEqual(["postcss.config.mjs","src/app/globals.css"]);});
+  // Evaluate ONLY the trusted pure diagnostic function, never the helper's
+  // top-level build/FS/packaging code or an actual Tailwind candidate scan.
+  it.each([
+    [{status:0,signal:null},"CHILD_SUCCEEDED",null],
+    [{status:1,signal:null},"CHILD_FAILED",null],
+    [{status:143,signal:null,error:{code:"ETIMEDOUT"}},"TIMED_OUT","ETIMEDOUT"],
+    [{status:null,signal:"SIGTERM"},"SIGNAL_TERMINATED",null],
+    [{status:null,signal:null,error:{code:"ENOENT"}},"SPAWN_ERROR","ENOENT"],
+    [{status:null,signal:null},"UNKNOWN",null],
+    [{status:0,signal:null,error:{code:"ETIMEDOUT"}},"TIMED_OUT","ETIMEDOUT"],
+  ])("retains structured child outcome %j without inventingbuildacceptance",(result,status,errorCode)=>{const source=readFileSync("scripts/test/build-tip079.mjs","utf8"),fn=source.match(/function buildDiagnostic\(result,durationMilliseconds\) \{[\s\S]*?\n\}/)![0];
+    const classify=runInNewContext(`(${fn})`) as (r:unknown,ms:number)=>{status:string;errorCode:string|null;limitMilliseconds:number;durationMilliseconds:number;signal:string|null};
+    const diagnostic=classify(result,1234.5678);expect(diagnostic.status).toBe(status);expect(diagnostic.errorCode).toBe(errorCode);expect(diagnostic.limitMilliseconds).toBe(600000);expect(diagnostic.durationMilliseconds).toBe(1234.568);expect(JSON.stringify(diagnostic).length).toBeLessThan(512);});
+  it("diagnosticrefuses rawunboundederrordetails and neverexit0onerror",()=>{const source=readFileSync("scripts/test/build-tip079.mjs","utf8"),fn=source.match(/function buildDiagnostic\(result,durationMilliseconds\) \{[\s\S]*?\n\}/)![0];const classify=runInNewContext(`(${fn})`) as (r:unknown,ms:number)=>Record<string,unknown>;
+    const diagnostic=classify({status:null,signal:null,error:{code:"private path "+"X".repeat(1000),message:"neverprintsecret"}},Number.NaN);expect(diagnostic.errorCode).toBe("UNKNOWN");expect(diagnostic.durationMilliseconds).toBeNull();expect(JSON.stringify(diagnostic)).not.toContain("neverprintsecret");expect(source).toContain('process.exit(r.status===0?1:r.status??1)');});
+  it("isolatedbrowserconfig selects only ours, no setup/build/server and explicit databaseguards",()=>{const source=readFileSync("scripts/test/playwright-tip079.config.ts","utf8");expect(source).toContain('testMatch:"poly19-showcase.spec.ts"');expect(source).toContain('workers:1,retries:0');expect(source).toContain('process.env.HIVE_E2E_BASE_URL!==origin');expect(source).toContain('["DATABASE_URL","DATABASE_MIGRATION_URL"]');expect(source).toContain('db.pathname!=="/hiveos_test"');expect(source).not.toMatch(/(?:globalSetup|webServer)\s*:/);expect(source).toContain('artifacts/tip079/playwright');});
+  it("fixedCLI acquires its ownsingleton onlyafterenv/source/arguments and conditionallyawaits disposal",()=>{const source=readFileSync("scripts/workers/research-showcase-worker.ts","utf8");
+    expect(source).toContain('let db:ReturnType<typeof getDb>|null=null');expect(source.indexOf('db=getDb()')).toBeGreaterThan(source.indexOf('assertShowcaseEnvironment();await loadShowcaseBundle()'));
+    expect(source.indexOf('db=getDb()')).toBeGreaterThan(source.indexOf('const organizationId='));expect(source).toMatch(/finally\s*\{[\s\S]*?if\(db\)await db\.\$disconnect\(\);/);
+    expect(source).toContain('process.exitCode=2');expect(source).not.toContain('process.exit(0)');expect(source).not.toContain('finally {getDb()');});
+  it("engineeringE2Echild preserves30sbound and emits only bounded numeric/status diagnostics",()=>{const source=readFileSync("tests/e2e/poly19-showcase.spec.ts","utf8");
+    expect(source).toContain('Math.min(30000,');expect(source).toContain('TIP079_ENGINEERING_CHILD_V1');expect(source).toContain('observedOutputBytes:bytes');expect(source).toContain('durationMilliseconds:Number(');
+    expect(source).toContain('stop("TIMEOUT")');expect(source).toContain('stop("OUTPUT_LIMIT")');expect(source).not.toContain('console.log(headers)');expect(source).not.toContain('chunk.toString');});
+});

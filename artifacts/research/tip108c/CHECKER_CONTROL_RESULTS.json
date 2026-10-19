@@ -1,0 +1,42 @@
+{
+  "schema": "TIP108C_CHECKER_CONTROLS_V1",
+  "scope": "CONTROL_ONLY_NOT_WHOLE_CERTIFICATE",
+  "invocations": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 artifacts/research/tip108c/test_independent_checker.py",
+      "tests_run": 9,
+      "passed": true,
+      "elapsed_seconds_internal": 0.01381433301139623,
+      "elapsed_seconds_tool_process": 0.010754334,
+      "charged_seconds_conservative": 0.2,
+      "profile_calls": 128,
+      "profile_seconds": 0.004132916015805677,
+      "profile_scope": "Sparse zero-span primitive, not sufficient worst-bit qualifier"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 artifacts/research/tip108c/test_independent_checker.py",
+      "tests_run": 11,
+      "passed": true,
+      "elapsed_seconds_internal": 0.030932459019823,
+      "elapsed_seconds_tool_process": 0.027257375,
+      "charged_seconds_conservative": 0.2,
+      "profile_calls": 128,
+      "profile_seconds": 0.004133417009143159,
+      "high_bit_profile_calls": 128,
+      "high_bit_profile_H": 17451448556060672,
+      "high_bit_profile_cuts": 54,
+      "high_bit_profile_seconds": 0.01549341599456966,
+      "high_bit_profile_max_call_seconds": 0.00020041599054820836,
+      "linear_32768_high_bit_calls_seconds": 3.9663144946098328,
+      "projection_is_NOT_leaf_count_or_completion_guarantee": true
+    }
+  ],
+  "math_invocations": 2,
+  "failed_math_invocations": 0,
+  "charged_seconds_conservative_total": 0.4,
+  "checker_allocation_seconds": 25,
+  "checker_remaining_seconds_conservative": 24.6,
+  "whole_checker_executions": 0,
+  "whole_generation_executions_by_checker": 0,
+  "admission": "READY_FOR_MAIN_BOUNDED_ATTEMPT_DECISION_ONLY"
+}

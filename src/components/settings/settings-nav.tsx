@@ -1,36 +1,44 @@
 import Link from "next/link";
 
+import type { SettingsCopy } from "@/i18n/settings-copy";
+
 type Tab = "policy" | "workspace" | "members" | "audit";
 
 export function SettingsNav({
   slug,
   active,
   showAudit,
+  copy,
 }: {
   slug: string;
   active: Tab;
   showAudit: boolean;
+  copy: SettingsCopy["nav"];
 }) {
   const tabs: { key: Tab; label: string; href: string }[] = [
-    { key: "policy", label: "Operating policy", href: `/w/${slug}/settings` },
+    { key: "policy", label: copy.policy, href: `/w/${slug}/settings` },
     {
       key: "workspace",
-      label: "Workspace",
+      label: copy.workspace,
       href: `/w/${slug}/settings/workspace`,
     },
-    { key: "members", label: "Members", href: `/w/${slug}/settings/members` },
+    {
+      key: "members",
+      label: copy.members,
+      href: `/w/${slug}/settings/members`,
+    },
   ];
   if (showAudit) {
     tabs.push({
       key: "audit",
-      label: "Audit",
+      label: copy.audit,
       href: `/w/${slug}/settings/audit`,
     });
   }
 
   return (
     <nav
-      aria-label="Settings"
+      aria-label={copy.label}
       className="border-line flex w-full min-w-0 max-w-full gap-1 overflow-x-auto border-b"
     >
       {tabs.map((tab) => (

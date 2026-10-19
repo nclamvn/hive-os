@@ -1,0 +1,74 @@
+{
+  "tip": "TIP-046",
+  "role": "independent replay Builder",
+  "status": "DONE",
+  "scope": "R4 and independent-checker/schema-negative portion of R7 only",
+  "files_changed": [
+    "scripts/operations/replay-lrc-certificates.py",
+    "src/modules/research-sandbox/math-lrc-replay.ts",
+    "tests/unit/math-lrc-replay.test.ts",
+    "docs/verification/TIP-046_REPLAY_COMPLETION_REPORT.json"
+  ],
+  "implementation": {
+    "independent_program": "Python stdlib, strict expected scope/root/certificate input, no producer import or stored outcomes",
+    "tree_checks": "Unique reachable acyclic single-parent nodes; full root domain; ordered disjoint exhaustive Cartesian partitions",
+    "leaf_checks": "Integer exact GRID equality accepted; Fraction SHIFT on declared grid; independently reconstructed CRT by modular inverses; singleton NO_GRID exhausts all declared grid indices",
+    "partial": "UNRESOLVED yields PARTIAL, never PASS; invalid input exits nonzero; host admission requires both complete summaries equal",
+    "execution": "Exact already-hashed source bytes executed by python3 -I -S -B -c, shell false, environment allowlist, remaining absolute 10-second timeout, SIGKILL, 256 KiB output cap",
+    "retention": "Strict root/scope/certificate/summary/source/output/evidence digest envelope; pure retained validator does not read files or spawn subprocesses",
+    "runtime_boundary": "NODE_ENV development/test only; explicit nonlocal DEPLOYMENT_ENV denied",
+    "deadline": "Observed monotonic deadline covers source read, generation, replay, parse, hashing, pure validation and final post-validation checkpoint"
+  },
+  "verification": {
+    "unit_command": "node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-replay.test.ts --maxWorkers=1",
+    "unit_passed": 9,
+    "unit_failed": 0,
+    "actual_python_execution": true,
+    "fresh_7776_scope": {
+      "totalTuples": 7776,
+      "coveredTuples": 7776,
+      "witnessTuples": 7407,
+      "gridExcludedTuples": 369,
+      "unresolvedTuples": 0,
+      "nodeCount": 4957,
+      "leafCount": 2479,
+      "agreement": "Python tree replay and separate flat TypeScript enumeration agree",
+      "finite_only": true
+    },
+    "negative_controls": [
+      "Missing/duplicate/unreachable/cyclic/multiple-parent branches",
+      "Partition overlap, scope shrinkage, reordered partitions",
+      "Invalid GRID boundary, SHIFT grid alignment, CRT coprimality/order/residue witness",
+      "False singleton NO_GRID and incomplete UNRESOLVED",
+      "Expected root mismatch, digest mismatch, unknown fields, booleans, duplicate JSON keys",
+      "Fully rehashed summary/source/output/certificate tampering",
+      "Source drift and unavailable/timeout/overflow injected process faults",
+      "Malformed independent output and production/staging dispatch",
+      "No subprocess during retained validation"
+    ],
+    "typecheck": "Fresh repository tsc --noEmit exit 0; concurrent builders may subsequently change other files",
+    "targeted_lint": "Fresh two owned TypeScript files exit 0",
+    "integration": "NOT RUN by this Builder",
+    "browser_e2e": "NOT RUN by this Builder",
+    "production_build": "NOT RUN by this Builder"
+  },
+  "source_pin": "280ec187a51e5873e6890b9c764d183513d1822d0f2d568fae3c16447bd6b099",
+  "failure_history": [
+    "Initial ESM namespace spies were nonconfigurable; test harness corrected to module-factory mocks",
+    "One follow-up test inherited mocked execFile; harness reset to actual implementations before each test",
+    "Initial tsc exposed required NODE_ENV child environment and a mock ChildProcess cast; fixed without widening runtime scope",
+    "Primary Builder separately corrected a BigInt literal in its owned file"
+  ],
+  "limitations": [
+    "PASS is complete finite-grid classification, not continuous-time LRC truth/refutation",
+    "No Allikvere all-prime regeneration, induction premise acceptance, formal or novelty certification",
+    "Producer currently emits GRID/NO_GRID leaves; SHIFT/CRT verification exists with independent positive and negative controls",
+    "Source/output hashes are local trusted collector evidence, not interpreter attestation or external signatures",
+    "Process deadline is hard for the child; synchronous TypeScript checks use observed checkpoints, not arbitrary JS hard preemption",
+    "No DB, worker, API, Git, deployment or historical record mutation by this Builder"
+  ],
+  "deviations": [
+    "Execute verified source bytes directly instead of reopening a checked path, avoiding a source-path TOCTOU",
+    "Keep Python output compact and store exact-output digest with a deterministic retained byte-consistency check"
+  ]
+}

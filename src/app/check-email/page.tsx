@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { AuthCard } from "@/components/auth/auth-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { authCopy } from "@/i18n/auth-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,23 +13,26 @@ export default async function CheckEmailPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
+  const copy = authCopy[await getLocale()];
   const intent = params.intent === "signup" ? "signup" : "reset";
   const title =
-    intent === "signup" ? "Confirm your email" : "Check your email";
+    intent === "signup"
+      ? copy.checkEmail.signupTitle
+      : copy.checkEmail.resetTitle;
   const hint =
     intent === "signup"
-      ? "We've sent a confirmation link to finish creating your account. Open it to verify your email, then sign in. The link expires in 1 hour."
-      : "If an account exists for that email, a password-reset link is on its way. The link expires in 30 minutes.";
+      ? copy.checkEmail.signupHint
+      : copy.checkEmail.resetHint;
   return (
     <AuthCard
       title={title}
       footer={
         <Link href="/sign-in" className="text-blue-600 font-medium underline">
-          Back to sign in
+          {copy.common.backToSignIn}
         </Link>
       }
     >
-      <EmptyState title="Check your inbox" hint={hint} />
+      <EmptyState title={copy.checkEmail.inbox} hint={hint} />
     </AuthCard>
   );
 }

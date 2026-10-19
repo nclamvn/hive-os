@@ -1,0 +1,147 @@
+{
+  "candidates": {
+    "X": {
+      "scores": [
+        {
+          "item": 1,
+          "score": 2,
+          "reason": "Phân biệt diện tích do người dùng cung cấp với các điều kiện chưa xác nhận; không tự điền hiện trường.",
+          "quote": "Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí."
+        },
+        {
+          "item": 2,
+          "score": 1,
+          "reason": "Nêu đủ các nhóm đầu vào thiếu và hệ quả chung đối với phương án, nhưng chưa gắn người cung cấp/xác nhận với từng nhóm AOI, địa hình/tán và độ chính xác. Phân vai theo cổng ở phần plan mới giải quyết một phần yêu cầu provider-and-consequence.",
+          "quote": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. | chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử"
+        },
+        {
+          "item": 3,
+          "score": 2,
+          "reason": "Lựa chọn RGB/LiDAR có điều kiện theo sản phẩm và nêu rõ giới hạn quan sát mặt đất của cả hai.",
+          "quote": "Với ảnh trực giao và bề mặt tán nhìn thấy, xem xét UAV chụp ảnh RGB, xử lý bằng SfM. Với địa hình dưới tán hoặc cấu trúc đứng, ưu tiên thử UAV LiDAR, có thể bổ sung RGB. Đây là đề xuất có điều kiện: RGB không mặc nhiên thấy đất dưới tán; LiDAR cũng phải chứng minh đủ quan sát đất."
+        },
+        {
+          "item": 4,
+          "score": 2,
+          "reason": "Có thử nghiệm đại diện trước mở rộng và điều kiện không mở rộng khi thử không đạt; các tiêu chí sẽ được thống nhất trước thử nghiệm.",
+          "quote": "chọn vùng thử đại diện các điều kiện rừng và địa hình → thu nhận thử, xử lý và đối chiếu thực địa → quyết định mở rộng | Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt."
+        },
+        {
+          "item": 5,
+          "score": 2,
+          "reason": "Kiểm chứng độc lập, ngưỡng thỏa thuận trước và xử lý thiếu bằng chứng đều rõ, không bịa ngưỡng đạt.",
+          "quote": "Trước thử nghiệm, thống nhất đối tượng đo, sai số cho phép, cách lấy mẫu và điều kiện loại/thu lại dữ liệu. Tách điểm kiểm chứng khỏi điểm dùng hiệu chỉnh | Không dùng độ khớp nội bộ thay cho kiểm chứng độc lập."
+        },
+        {
+          "item": 6,
+          "score": 2,
+          "reason": "Tiến độ theo cổng và phụ thuộc đầu vào, quyền bay, thời tiết, nguồn lực, kết quả thử; không đặt số ngày giả định.",
+          "quote": "Tiến độ theo cổng, chưa gán số ngày | Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử."
+        },
+        {
+          "item": 7,
+          "score": 1,
+          "reason": "Có khung tổng, căn cứ khối lượng/báo giá và cảnh báo cộng trùng, nhưng mới yêu cầu chung khối lượng nhân đơn giá, chưa nêu đơn vị tính cho các khoản. Vì vậy chưa đạt đầy đủ mô hình đơn vị/khối lượng không chồng lặp theo rubric; không trừ điểm vì chưa có số tiền.",
+          "quote": "Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu."
+        },
+        {
+          "item": 8,
+          "score": 2,
+          "reason": "Gắn nguồn với luận điểm về luồng xử lý và CRS/kiểm chứng trong đúng phạm vi gói; không tuyên bố tuân thủ hay quyền bay từ nguồn nước ngoài.",
+          "quote": "Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] | Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] | Chỉ sử dụng bản tóm tắt trong gói nguồn; không đọc thêm hoặc xác minh web trong lượt này."
+        },
+        {
+          "item": 9,
+          "score": 2,
+          "reason": "Có phạm vi sản phẩm có điều kiện, bước bàn giao, thành phần lưu truy vết và trạng thái sơ bộ rõ. Đánh giá ở cấp đề xuất, không đòi hỏi định dạng bàn giao đã được chốt.",
+          "quote": "Danh mục sản phẩm chỉ chốt sau thử nghiệm | Giữ dữ liệu gốc, nhật ký, cấu hình xử lý và phiên bản sản phẩm để truy vết. | nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. | Đây chưa là thiết kế bay hay chào giá được duyệt."
+        },
+        {
+          "item": 10,
+          "score": 2,
+          "reason": "Yêu cầu trước mắt là làm rõ mục tiêu/đầu vào và khảo sát khả thi, không lẫn với quyết định triển khai toàn bộ.",
+          "quote": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. | Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây"
+        }
+      ],
+      "total": 18,
+      "criticalErrors": []
+    },
+    "Y": {
+      "scores": [
+        {
+          "item": 1,
+          "score": 2,
+          "reason": "Nêu rõ chỉ diện tích được xác nhận và không suy diễn AOI hoặc điều kiện hiện trường.",
+          "quote": "Đầu vào xác nhận duy nhất là diện tích 1.000 ha; chưa đủ để chọn cảm biến, chốt lịch hoặc giá. | Ranh giới 1.000 ha chưa xác định"
+        },
+        {
+          "item": 2,
+          "score": 1,
+          "reason": "Danh mục dữ liệu thiếu và hệ quả chung đầy đủ, nhưng các vai trò đề xuất chưa chỉ định ai cung cấp/xác nhận từng nhóm AOI, địa hình/tán và độ chính xác. Chưa đáp ứng đầy đủ provider-and-consequence.",
+          "quote": "Cần bổ sung: AOI/địa điểm; địa hình, tán rừng; mục đích sử dụng và độ chính xác; CRS/khống chế; tiếp cận, quyền bay; thiết bị, nhân lực, báo giá và lịch. | Vai trò đề xuất: chủ nhiệm duyệt; phụ trách bay/an toàn; đo kiểm; xử lý/kiểm soát chất lượng."
+        },
+        {
+          "item": 3,
+          "score": 2,
+          "reason": "Cảm biến phụ thuộc mục tiêu; phân biệt rõ bề mặt tán từ RGB với địa hình và yêu cầu thử quan sát đất đối với LiDAR.",
+          "quote": "RGB/SfM nếu ưu tiên ảnh trực giao và bề mặt tán; không coi bề mặt dựng từ ảnh là địa hình dưới tán kín. Cân nhắc UAV LiDAR khi cần cấu trúc đứng hoặc địa hình, nhưng phải thử khả năng ghi nhận mặt đất tại hiện trường."
+        },
+        {
+          "item": 4,
+          "score": 1,
+          "reason": "Có vùng thử và quyết định tiếp tục/điều chỉnh/dừng trước triển khai, nhưng chưa gắn rõ kết quả thử không đạt tiêu chí với bắt buộc dừng hoặc lập lại phương án. Câu không nghiệm thu vùng thiếu bằng chứng là điều kiện nghiệm thu, chưa phải tiêu chí cổng mở rộng rõ ràng.",
+          "quote": "Thử nghiệm, đánh giá chất lượng/nguồn lực; trình quyết định tiếp tục, điều chỉnh hoặc dừng. | Tiến độ: đủ đầu vào → khảo sát/hoàn tất điều kiện bay → thử nghiệm → duyệt phương án → thu nhận → xử lý/kiểm chứng → bàn giao. | Không nghiệm thu vùng thiếu bằng chứng."
+        },
+        {
+          "item": 5,
+          "score": 2,
+          "reason": "Ngưỡng và cách kiểm được chốt trước, tham chiếu độc lập, kiểm riêng sản phẩm và từ chối nghiệm thu thiếu bằng chứng; không đặt ngưỡng giả.",
+          "quote": "Chốt ngưỡng và cách kiểm trước thu nhận. Điểm kiểm tra không dùng hiệu chỉnh | đối chiếu tọa độ/độ cao với tham chiếu độc lập, báo sai số và phân bố mẫu. | Chiều cao/crown cần kiểm riêng bằng mẫu thực địa; point cloud đạt không tự chứng minh mọi sản phẩm đạt."
+        },
+        {
+          "item": 6,
+          "score": 2,
+          "reason": "Có trình tự phụ thuộc, tác nhân chi phối lịch và không bịa thời lượng.",
+          "quote": "Tiến độ: đủ đầu vào → khảo sát/hoàn tất điều kiện bay → thử nghiệm → duyệt phương án → thu nhận → xử lý/kiểm chứng → bàn giao. Chưa chốt số ngày; lịch phụ thuộc tiếp cận, thời tiết, thủ tục và năng suất thử nghiệm."
+        },
+        {
+          "item": 7,
+          "score": 2,
+          "reason": "Khung chi phí nêu đơn vị nguồn lực, căn cứ khối lượng/đơn giá và quy tắc chống tính trùng cụ thể. Chưa điền số lượng hoặc giá là phù hợp với đầu vào thiếu của đề xuất sơ bộ.",
+          "quote": "Mỗi khoản = khối lượng × đơn giá, ghi đơn vị và căn cứ. Ngày công, ngày thuê thiết bị, đi lại/lưu trú và khối lượng xử lý lấy từ phương án, tuyến tiếp cận và thử nghiệm; đơn giá từ báo giá còn hiệu lực hoặc chi phí nội bộ xác nhận. Tránh tính trùng thuê máy/người vận hành; thiết bị sở hữu tính chi phí phân bổ phù hợp."
+        },
+        {
+          "item": 8,
+          "score": 2,
+          "reason": "Trích dẫn gắn với đúng phạm vi nguồn được cấp, và giới hạn áp dụng USGS được nói rõ.",
+          "quote": "S3 yêu cầu kiểm chứng độ chính xác đứng tuyệt đối/tương đối, báo cáo trước phân loại/sản phẩm dẫn xuất.[@S3] | S3 chỉ tham khảo phương pháp, không chứng nhận tuân thủ toàn bộ 3DEP hay cấp quyền bay.[@S3] | Chỉ dùng tóm tắt nguồn được cấp, không đọc toàn văn hay duyệt web"
+        },
+        {
+          "item": 9,
+          "score": 2,
+          "reason": "Bộ bàn giao, metadata, kiểm chứng, vùng thiếu và phiên bản xử lý được nêu; xác định rõ đây chưa phải thiết kế hay báo giá được duyệt.",
+          "quote": "Bộ bàn giao dự kiến gồm dữ liệu gốc, dữ liệu xử lý, sản phẩm đã thống nhất, metadata, báo cáo kiểm chứng và vùng thiếu dữ liệu. | Tạo sản phẩm, ghi vùng bất định và lưu phiên bản xử lý. | Đề xuất này hỗ trợ quyết định bước tiếp, không phải thiết kế bay hay chào giá được duyệt."
+        },
+        {
+          "item": 10,
+          "score": 2,
+          "reason": "Kiến nghị trước mắt cụ thể, đi cùng danh mục đầu vào cần bổ sung; không yêu cầu phê duyệt toàn bộ chiến dịch ở trạng thái hiện tại.",
+          "quote": "Kiến nghị cho phép chuẩn bị yêu cầu và phương án thử nghiệm, chưa triển khai toàn diện tích. | Phạm vi sản phẩm phải được chủ nhiệm chọn"
+        }
+      ],
+      "total": 18,
+      "criticalErrors": []
+    }
+  },
+  "comparison": {
+    "result": "no_clear_advantage",
+    "absolutePointDifference": 0,
+    "reason": "Hai bản cùng đạt 18/20, không phát hiện lỗi nghiêm trọng theo rubric. X rõ hơn về điều kiện không mở rộng khi thử không đạt; Y cụ thể hơn về đơn vị nguồn lực và chống tính trùng chi phí. Chênh lệch nhỏ hơn 3/20 nên không có ưu thế rõ ràng trong phép thử cặp này."
+  },
+  "limitations": [
+    "Đây là phán đoán mô hình theo rubric cố định trên hai đề xuất sơ bộ ngắn, không phải chứng nhận khảo sát hay kết quả đã kiểm chứng hiện trường.",
+    "Chỉ đọc JUDGE_RUBRIC.md và ba tệp được phép: COMMON_INPUT.md, CANDIDATE_X.json, CANDIDATE_Y.json; không tiếp cận danh tính nhánh, lịch sử, web hay tác nhân khác.",
+    "Nguồn được đánh giá về tính nhất quán với gói tóm tắt chung, không được kiểm tra toàn văn độc lập; gói tự nêu bản ghi nguồn chưa bất biến.",
+    "Không trừ điểm vì thiếu giá, số ngày hoặc ngưỡng định lượng mà đầu vào không cung cấp; không suy luận chất lượng thực địa hay phương pháp tạo bản từ cách diễn đạt."
+  ]
+}

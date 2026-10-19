@@ -19,23 +19,32 @@ model SchemaBootstrap {
 }
 
 // ---------------------------------------------------------------------------
-// Authentication-owned models (Better Auth core).
-// Field names match Better Auth's expected schema; columns are snake_cased.
-// Better Auth owns reads/writes for these; HIVE OS never fabricates rows here.
+// Identity-root models. Better Auth owns HUMAN users, accounts, sessions and
+// verification records. HIVE OS may provision credentialless SERVICE users
+// through the audited operator script only; database guards prevent those
+// principals from receiving credentials, sessions or administrative roles.
 // ---------------------------------------------------------------------------
 
-model User {
-  id            String   @id
-  name          String
-  email         String   @unique
-  emailVerified Boolean  @default(false) @map("email_verified")
-  image         String?
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+enum PrincipalType {
+  HUMAN
+  SERVICE
+}
 
-  sessions    Session[]
-  accounts    Account[]
-  memberships Membership[]
+model User {
+  id            String        @id
+  name          String
+  email         String        @unique
+  emailVerified Boolean       @default(false) @map("email_verified")
+  principalType PrincipalType @default(HUMAN) @map("principal_type")
+  image         String?
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  sessions                Session[]
+  accounts                Account[]
+  memberships             Membership[]
+  organizationMemberships OrganizationMembership[]
+  scopedGrants            ScopedGrant[]            @relation("ScopedGrantUser")
 
   @@map("user")
 }
@@ -133,7 +142,238 @@ enum PublicReleasePolicy {
   GOVERNED_PUBLIC
 }
 
-model Workspace {
+enum OrgUnitType {
+  ROOT
+  SUBSIDIARY
+  BUSINESS_UNIT
+  DEPARTMENT
+  TEAM
+}
+
+enum EnterpriseRole {
+  ORG_OWNER
+  ORG_ADMIN
+  PORTFOLIO_LEAD
+  MISSION_OWNER
+  CONTRIBUTOR
+  BUILDER
+  VERIFIER
+  RELEASE_APPROVER
+  AUDITOR
+  VIEWER
+}
+
+enum GrantEffect {
+  ALLOW
+  DENY
+}
+
+enum GrantSubjectType {
+  USER
+  GROUP
+}
+
+enum GrantScopeType {
+  ORGANIZATION
+  ORG_UNIT
+  WORKSPACE
+  MISSION
+}
+
+enum GrantStatus {
+  ACTIVE
+  REVOKED
+}
+
+enum WorkItemType {
+  MISSION
+  RUNTIME_OBLIGATION
+  DECISION
+  ESCALATION
+  EXECUTION_TIP
+  VERIFICATION_REPORT
+}
+
+enum AccountabilityRole {
+  ACCOUNTABLE
+  RESPONSIBLE
+  REVIEWER
+  APPROVER
+  OBSERVER
+}
+
+enum WorkAssignmentStatus {
+  ACTIVE
+  ENDED
+}
+
+enum WorkflowDefinitionStatus {
+  ACTIVE
+  RETIRED
+}
+
+enum ApprovalWorkflowType {
+  CONTRACT
+  VERIFICATION
+  RELEASE
+  EXCEPTION
+  CUSTOM
+}
+
+enum WorkflowApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum WorkflowApprovalDecision {
+  APPROVED
+  REJECTED
+}
+
+enum CommandStatus {
+  PROCESSING
+  SUCCEEDED
+  FAILED
+}
+
+enum OutboxStatus {
+  PENDING
+  DISPATCHED
+}
+
+enum DurableJobStatus {
+  READY
+  RUNNING
+  SUCCEEDED
+  DEAD_LETTER
+  CANCELLED
+}
+
+enum JobEventType {
+  CLAIMED
+  SUCCEEDED
+  RETRY_SCHEDULED
+  DEAD_LETTERED
+  REQUEUED
+  CANCELLED
+}
+
+enum ProjectionStatus {
+  READY
+  REBUILDING
+  FAILED
+}
+
+enum LegalHoldStatus {
+  ACTIVE
+  RELEASED
+}
+
+enum LegalHoldScope {
+  WORKSPACE
+  MISSION
+}
+
+enum LifecycleDispositionStatus {
+  CANDIDATE
+  BLOCKED
+  APPROVED
+  EXECUTED
+  CANCELLED
+}
+
+enum DossierExportStatus {
+  READY
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum AuthoringDocumentType {
+  RESEARCH_PROPOSAL
+  TECHNICAL_PROPOSAL
+  CLIENT_PROPOSAL
+  COURSE_DOSSIER
+  RESEARCH_PAPER
+  OTHER
+}
+
+enum AuthoringDocumentStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ResearchRunStatus {
+  QUEUED
+  RUNNING
+  AWAITING_REVIEW
+  APPROVED
+  REJECTED
+  FAILED
+  CANCELLED
+}
+
+enum ResearchProvenance {
+  VERIFIED_PRIMARY
+  CLAIM
+  FLAGGED
+}
+
+enum ResearchFindingKind {
+  SUPPORTING
+  CONFLICTING
+  CONTEXT
+  HONEST_NULL
+}
+
+enum ResearchDecision {
+  ACCEPTED
+  REJECTED
+  FLAGGED
+}
+
+enum MathPilotCaseType {
+  CALIBRATION_PROOF
+  CALIBRATION_COUNTEREXAMPLE
+  BENCHMARK_PROOF
+  BENCHMARK_EXACT
+  OPEN
+}
+
+enum MathPilotConclusion {
+  SUPPORTED_ARGUMENT
+  VALID_COUNTEREXAMPLE
+  PARTIAL
+  INCONCLUSIVE
+}
+
+enum ComputationKind {
+  LATEX_BUILD
+  CAS
+  JUPYTER
+}
+
+enum ComputationRunStatus {
+  QUEUED
+  RUNNING
+  AWAITING_REVIEW
+  APPROVED
+  REJECTED
+  FAILED
+  CANCELLED
+}
+
+enum SandboxNetworkPolicy {
+  DENY_ALL
+  ALLOWLIST
+}
+
+model Organization {
   id          String          @id @default(uuid())
   slug        String          @unique
   name        String
@@ -142,6 +382,737 @@ model Workspace {
   createdAt   DateTime        @default(now()) @map("created_at")
   updatedAt   DateTime        @updatedAt @map("updated_at")
   version     Int             @default(1)
+
+  memberships            OrganizationMembership[]
+  units                  OrgUnit[]
+  portfolios             Portfolio[]
+  groups                 OrganizationGroup[]
+  workspaces             Workspace[]
+  orgUnitClosures        OrgUnitClosure[]
+  policy                 OrganizationPolicy?
+  scopedGrants           ScopedGrant[]
+  workflowAssignments    WorkflowAssignment[]
+  slaPolicies            SlaPolicy[]
+  approvalChains         ApprovalChainDefinition[]
+  approvalSteps          ApprovalChainStep[]
+  approvalRequests       WorkflowApprovalRequest[]
+  approvalActions        WorkflowApprovalAction[]
+  commands               CommandRecord[]
+  outboxEvents           OutboxEvent[]
+  durableJobs            DurableJob[]
+  jobEvents              DurableJobEvent[]
+  workspaceProjections   WorkspaceOperationalProjection[]
+  portfolioProjections   PortfolioOperationalProjection[]
+  legalHolds             LegalHold[]
+  lifecycleDispositions  LifecycleDisposition[]
+  dossierExports         DossierExport[]
+  dossierExportParts     DossierExportPart[]
+  missionSourceRevisions MissionSourceRevision[]
+  authoringDocuments     AuthoringDocument[]
+  authoringRevisions     AuthoringRevision[]
+  researchRuns           ResearchRun[]
+  researchSources        ResearchSourceSnapshot[]
+  researchFindings       ResearchFinding[]
+  researchDecisions      ResearchFindingDecision[]
+  computationRuns        ComputationRun[]
+  mathPilotCases         MathPilotCase[]
+  mathPilotAssessments   MathPilotAssessment[]
+  mathResearchCycles     MathResearchCycle[]
+  researchCampaigns      ResearchCampaign[]
+  researchShowcases      ResearchShowcaseRun[]
+
+  @@map("organization")
+}
+
+model OrganizationMembership {
+  id             String           @id @default(uuid())
+  organizationId String           @map("organization_id")
+  userId         String           @map("user_id")
+  role           Role             @default(MEMBER)
+  status         MembershipStatus @default(ACTIVE)
+  createdById    String           @map("created_by_id")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+  version        Int              @default(1)
+
+  organization                Organization                  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user                        User                          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  groupMemberships            OrganizationGroupMembership[]
+  grantsIssued                ScopedGrant[]                 @relation("GrantIssuer")
+  grantsRevoked               ScopedGrant[]                 @relation("GrantRevoker")
+  policiesUpdated             OrganizationPolicy[]          @relation("OrganizationPolicyUpdater")
+  workflowAssignmentsReceived WorkflowAssignment[]          @relation("WorkflowAssignmentAssignee")
+  workflowAssignmentsCreated  WorkflowAssignment[]          @relation("WorkflowAssignmentCreator")
+  workflowAssignmentsEnded    WorkflowAssignment[]          @relation("WorkflowAssignmentEnder")
+  slaPoliciesCreated          SlaPolicy[]                   @relation("SlaPolicyCreator")
+  approvalChainsCreated       ApprovalChainDefinition[]     @relation("ApprovalChainCreator")
+  approvalRequestsCreated     WorkflowApprovalRequest[]     @relation("ApprovalRequestCreator")
+  approvalActions             WorkflowApprovalAction[]      @relation("ApprovalActionActor")
+  commandsIssued              CommandRecord[]               @relation("CommandActor")
+  jobDispositions             DurableJobEvent[]             @relation("JobEventActor")
+  legalHoldsPlaced            LegalHold[]                   @relation("LegalHoldPlacer")
+  legalHoldsReleased          LegalHold[]                   @relation("LegalHoldReleaser")
+  lifecycleCandidatesCreated  LifecycleDisposition[]        @relation("LifecycleCandidateCreator")
+  lifecycleCandidatesApproved LifecycleDisposition[]        @relation("LifecycleCandidateApprover")
+  lifecycleCandidatesExecuted LifecycleDisposition[]        @relation("LifecycleCandidateExecutor")
+  dossierExportsRequested     DossierExport[]               @relation("DossierExportRequester")
+
+  @@unique([organizationId, userId])
+  @@unique([organizationId, id])
+  @@index([userId, status])
+  @@index([organizationId, role, status])
+  @@map("organization_membership")
+}
+
+model OrgUnit {
+  id             String          @id @default(uuid())
+  organizationId String          @map("organization_id")
+  parentId       String?         @map("parent_id")
+  unitKey        String          @map("unit_key")
+  name           String
+  type           OrgUnitType
+  status         WorkspaceStatus @default(ACTIVE)
+  createdById    String          @map("created_by_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  version        Int             @default(1)
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  parent       OrgUnit?         @relation("OrgUnitTree", fields: [organizationId, parentId], references: [organizationId, id], onDelete: Restrict)
+  children     OrgUnit[]        @relation("OrgUnitTree")
+  workspaces   Workspace[]
+  portfolios   Portfolio[]
+  ancestors    OrgUnitClosure[] @relation("OrgUnitAncestor")
+  descendants  OrgUnitClosure[] @relation("OrgUnitDescendant")
+  scopedGrants ScopedGrant[]
+
+  @@unique([organizationId, unitKey])
+  @@unique([organizationId, id])
+  @@index([organizationId, parentId, status])
+  @@map("org_unit")
+}
+
+model OrgUnitClosure {
+  organizationId String @map("organization_id")
+  ancestorId     String @map("ancestor_id")
+  descendantId   String @map("descendant_id")
+  depth          Int
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ancestor     OrgUnit      @relation("OrgUnitAncestor", fields: [organizationId, ancestorId], references: [organizationId, id], onDelete: Cascade)
+  descendant   OrgUnit      @relation("OrgUnitDescendant", fields: [organizationId, descendantId], references: [organizationId, id], onDelete: Cascade)
+
+  @@id([organizationId, ancestorId, descendantId])
+  @@index([organizationId, descendantId, depth])
+  @@index([organizationId, ancestorId, depth])
+  @@map("org_unit_closure")
+}
+
+model Portfolio {
+  id             String          @id @default(uuid())
+  organizationId String          @map("organization_id")
+  orgUnitId      String          @map("org_unit_id")
+  portfolioKey   String          @map("portfolio_key")
+  name           String
+  status         WorkspaceStatus @default(ACTIVE)
+  createdById    String          @map("created_by_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  version        Int             @default(1)
+
+  organization                    Organization                     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  orgUnit                         OrgUnit                          @relation(fields: [organizationId, orgUnitId], references: [organizationId, id], onDelete: Restrict)
+  workspaces                      Workspace[]
+  operationalProjection           PortfolioOperationalProjection?
+  workspaceOperationalProjections WorkspaceOperationalProjection[]
+
+  @@unique([organizationId, portfolioKey])
+  @@unique([organizationId, id])
+  @@index([organizationId, orgUnitId, status])
+  @@map("portfolio")
+}
+
+model OrganizationGroup {
+  id             String           @id @default(uuid())
+  organizationId String           @map("organization_id")
+  groupKey       String           @map("group_key")
+  name           String
+  status         MembershipStatus @default(ACTIVE)
+  createdById    String           @map("created_by_id")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+  version        Int              @default(1)
+
+  organization Organization                  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  memberships  OrganizationGroupMembership[]
+  scopedGrants ScopedGrant[]                 @relation("ScopedGrantGroup")
+
+  @@unique([organizationId, groupKey])
+  @@unique([organizationId, id])
+  @@index([organizationId, status])
+  @@map("organization_group")
+}
+
+model OrganizationGroupMembership {
+  id                       String   @id @default(uuid())
+  organizationId           String   @map("organization_id")
+  groupId                  String   @map("group_id")
+  organizationMembershipId String   @map("organization_membership_id")
+  createdById              String   @map("created_by_id")
+  createdAt                DateTime @default(now()) @map("created_at")
+
+  organizationMembership OrganizationMembership @relation(fields: [organizationId, organizationMembershipId], references: [organizationId, id], onDelete: Cascade)
+  group                  OrganizationGroup      @relation(fields: [organizationId, groupId], references: [organizationId, id], onDelete: Cascade)
+
+  @@unique([organizationId, groupId, organizationMembershipId])
+  @@index([organizationId, organizationMembershipId])
+  @@map("organization_group_membership")
+}
+
+model OrganizationPolicy {
+  organizationId                    String   @id @map("organization_id")
+  requireIndependentVerification    Boolean  @default(true) @map("require_independent_verification")
+  requireIndependentReleaseApproval Boolean  @default(true) @map("require_independent_release_approval")
+  preventSelfApproval               Boolean  @default(true) @map("prevent_self_approval")
+  maxDelegationDepth                Int      @default(8) @map("max_delegation_depth")
+  updatedByOrganizationMembershipId String?  @map("updated_by_organization_membership_id")
+  createdAt                         DateTime @default(now()) @map("created_at")
+  updatedAt                         DateTime @updatedAt @map("updated_at")
+  version                           Int      @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  updatedBy    OrganizationMembership? @relation("OrganizationPolicyUpdater", fields: [organizationId, updatedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@map("organization_policy")
+}
+
+model ScopedGrant {
+  id                                String           @id @default(uuid())
+  organizationId                    String           @map("organization_id")
+  subjectType                       GrantSubjectType @map("subject_type")
+  subjectUserId                     String?          @map("subject_user_id")
+  subjectGroupId                    String?          @map("subject_group_id")
+  role                              EnterpriseRole
+  effect                            GrantEffect      @default(ALLOW)
+  scopeType                         GrantScopeType   @map("scope_type")
+  orgUnitId                         String?          @map("org_unit_id")
+  workspaceId                       String?          @map("workspace_id")
+  missionId                         String?          @map("mission_id")
+  delegatedFromGrantId              String?          @map("delegated_from_grant_id")
+  grantedByOrganizationMembershipId String           @map("granted_by_organization_membership_id")
+  reason                            String
+  validFrom                         DateTime         @default(now()) @map("valid_from")
+  validUntil                        DateTime?        @map("valid_until")
+  status                            GrantStatus      @default(ACTIVE)
+  revokedAt                         DateTime?        @map("revoked_at")
+  revokedByOrganizationMembershipId String?          @map("revoked_by_organization_membership_id")
+  createdAt                         DateTime         @default(now()) @map("created_at")
+  updatedAt                         DateTime         @updatedAt @map("updated_at")
+  version                           Int              @default(1)
+
+  organization  Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  subjectUser   User?                   @relation("ScopedGrantUser", fields: [subjectUserId], references: [id], onDelete: Restrict)
+  subjectGroup  OrganizationGroup?      @relation("ScopedGrantGroup", fields: [organizationId, subjectGroupId], references: [organizationId, id], onDelete: Restrict)
+  orgUnit       OrgUnit?                @relation(fields: [organizationId, orgUnitId], references: [organizationId, id], onDelete: Restrict)
+  workspace     Workspace?              @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission       Mission?                @relation(fields: [missionId], references: [id], onDelete: Restrict)
+  delegatedFrom ScopedGrant?            @relation("GrantDelegation", fields: [organizationId, delegatedFromGrantId], references: [organizationId, id], onDelete: Restrict)
+  delegations   ScopedGrant[]           @relation("GrantDelegation")
+  grantedBy     OrganizationMembership  @relation("GrantIssuer", fields: [organizationId, grantedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  revokedBy     OrganizationMembership? @relation("GrantRevoker", fields: [organizationId, revokedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, subjectUserId, status, validFrom, validUntil])
+  @@index([organizationId, subjectGroupId, status, validFrom, validUntil])
+  @@index([organizationId, scopeType, orgUnitId, workspaceId, missionId])
+  @@index([organizationId, delegatedFromGrantId])
+  @@map("scoped_grant")
+}
+
+model SlaPolicy {
+  id                                String                   @id @default(uuid())
+  organizationId                    String                   @map("organization_id")
+  workspaceId                       String?                  @map("workspace_id")
+  policyKey                         String                   @map("policy_key")
+  name                              String
+  targetType                        WorkItemType             @map("target_type")
+  assuranceProfile                  AssuranceProfile?        @map("assurance_profile")
+  dueAfterMinutes                   Int                      @map("due_after_minutes")
+  warningBeforeMinutes              Int                      @map("warning_before_minutes")
+  escalateAfterMinutes              Int                      @map("escalate_after_minutes")
+  escalationSeverity                EscalationSeverity       @map("escalation_severity")
+  status                            WorkflowDefinitionStatus @default(ACTIVE)
+  createdByOrganizationMembershipId String                   @map("created_by_organization_membership_id")
+  createdAt                         DateTime                 @default(now()) @map("created_at")
+  updatedAt                         DateTime                 @updatedAt @map("updated_at")
+  version                           Int                      @default(1)
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?             @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  createdBy    OrganizationMembership @relation("SlaPolicyCreator", fields: [organizationId, createdByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  assignments  WorkflowAssignment[]
+
+  @@unique([organizationId, id])
+  @@unique([organizationId, policyKey, version])
+  @@index([organizationId, workspaceId, targetType, assuranceProfile, status])
+  @@map("sla_policy")
+}
+
+model WorkflowAssignment {
+  id                                 String               @id @default(uuid())
+  organizationId                     String               @map("organization_id")
+  workspaceId                        String               @map("workspace_id")
+  missionId                          String               @map("mission_id")
+  targetType                         WorkItemType         @map("target_type")
+  targetId                           String               @map("target_id")
+  accountabilityRole                 AccountabilityRole   @map("accountability_role")
+  assigneeOrganizationMembershipId   String               @map("assignee_organization_membership_id")
+  assignedByOrganizationMembershipId String               @map("assigned_by_organization_membership_id")
+  reason                             String
+  dueAt                              DateTime?            @map("due_at")
+  slaPolicyId                        String?              @map("sla_policy_id")
+  slaPolicyVersion                   Int?                 @map("sla_policy_version")
+  validFrom                          DateTime             @default(now()) @map("valid_from")
+  validUntil                         DateTime?            @map("valid_until")
+  status                             WorkAssignmentStatus @default(ACTIVE)
+  endedAt                            DateTime?            @map("ended_at")
+  endedByOrganizationMembershipId    String?              @map("ended_by_organization_membership_id")
+  createdAt                          DateTime             @default(now()) @map("created_at")
+  updatedAt                          DateTime             @updatedAt @map("updated_at")
+  version                            Int                  @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                 @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  assignee     OrganizationMembership  @relation("WorkflowAssignmentAssignee", fields: [organizationId, assigneeOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  assignedBy   OrganizationMembership  @relation("WorkflowAssignmentCreator", fields: [organizationId, assignedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  endedBy      OrganizationMembership? @relation("WorkflowAssignmentEnder", fields: [organizationId, endedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  slaPolicy    SlaPolicy?              @relation(fields: [organizationId, slaPolicyId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, missionId, targetType, targetId, status])
+  @@index([organizationId, assigneeOrganizationMembershipId, status, dueAt, id])
+  @@map("workflow_assignment")
+}
+
+model ApprovalChainDefinition {
+  id                                String                   @id @default(uuid())
+  organizationId                    String                   @map("organization_id")
+  workspaceId                       String?                  @map("workspace_id")
+  chainKey                          String                   @map("chain_key")
+  name                              String
+  workflowType                      ApprovalWorkflowType     @map("workflow_type")
+  status                            WorkflowDefinitionStatus @default(ACTIVE)
+  createdByOrganizationMembershipId String                   @map("created_by_organization_membership_id")
+  createdAt                         DateTime                 @default(now()) @map("created_at")
+  updatedAt                         DateTime                 @updatedAt @map("updated_at")
+  version                           Int                      @default(1)
+
+  organization Organization              @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?                @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  createdBy    OrganizationMembership    @relation("ApprovalChainCreator", fields: [organizationId, createdByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  steps        ApprovalChainStep[]
+  requests     WorkflowApprovalRequest[]
+
+  @@unique([organizationId, id])
+  @@unique([organizationId, chainKey, version])
+  @@index([organizationId, workspaceId, workflowType, status])
+  @@map("approval_chain_definition")
+}
+
+model ApprovalChainStep {
+  id                             String   @id @default(uuid())
+  organizationId                 String   @map("organization_id")
+  chainDefinitionId              String   @map("chain_definition_id")
+  sequence                       Int
+  name                           String
+  requiredCapability             String   @map("required_capability")
+  minimumApprovals               Int      @default(1) @map("minimum_approvals")
+  requireIndependentFromPrevious Boolean  @default(false) @map("require_independent_from_previous")
+  createdAt                      DateTime @default(now()) @map("created_at")
+
+  organization    Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  chainDefinition ApprovalChainDefinition  @relation(fields: [organizationId, chainDefinitionId], references: [organizationId, id], onDelete: Restrict)
+  actions         WorkflowApprovalAction[]
+
+  @@unique([organizationId, id])
+  @@unique([chainDefinitionId, sequence])
+  @@index([organizationId, chainDefinitionId, sequence])
+  @@map("approval_chain_step")
+}
+
+model WorkflowApprovalRequest {
+  id                                  String                 @id @default(uuid())
+  organizationId                      String                 @map("organization_id")
+  workspaceId                         String                 @map("workspace_id")
+  missionId                           String                 @map("mission_id")
+  chainDefinitionId                   String                 @map("chain_definition_id")
+  targetType                          WorkItemType           @map("target_type")
+  targetId                            String                 @map("target_id")
+  status                              WorkflowApprovalStatus @default(PENDING)
+  currentStepSequence                 Int                    @default(1) @map("current_step_sequence")
+  requestedByOrganizationMembershipId String                 @map("requested_by_organization_membership_id")
+  requestedAt                         DateTime               @default(now()) @map("requested_at")
+  completedAt                         DateTime?              @map("completed_at")
+  version                             Int                    @default(1)
+
+  organization    Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace       Workspace                @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission         Mission                  @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  chainDefinition ApprovalChainDefinition  @relation(fields: [organizationId, chainDefinitionId], references: [organizationId, id], onDelete: Restrict)
+  requestedBy     OrganizationMembership   @relation("ApprovalRequestCreator", fields: [organizationId, requestedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  actions         WorkflowApprovalAction[]
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, status, requestedAt, id])
+  @@index([organizationId, missionId, targetType, targetId])
+  @@map("workflow_approval_request")
+}
+
+model WorkflowApprovalAction {
+  id                            String                   @id @default(uuid())
+  organizationId                String                   @map("organization_id")
+  workspaceId                   String                   @map("workspace_id")
+  requestId                     String                   @map("request_id")
+  stepId                        String                   @map("step_id")
+  decision                      WorkflowApprovalDecision
+  rationale                     String
+  actorOrganizationMembershipId String                   @map("actor_organization_membership_id")
+  createdAt                     DateTime                 @default(now()) @map("created_at")
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  request      WorkflowApprovalRequest @relation(fields: [organizationId, requestId], references: [organizationId, id], onDelete: Restrict)
+  step         ApprovalChainStep       @relation(fields: [organizationId, stepId], references: [organizationId, id], onDelete: Restrict)
+  actor        OrganizationMembership  @relation("ApprovalActionActor", fields: [organizationId, actorOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([requestId, stepId, actorOrganizationMembershipId])
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, requestId, createdAt])
+  @@map("workflow_approval_action")
+}
+
+model CommandRecord {
+  id                            String        @id @default(uuid())
+  organizationId                String        @map("organization_id")
+  workspaceId                   String?       @map("workspace_id")
+  idempotencyKey                String        @map("idempotency_key")
+  commandType                   String        @map("command_type")
+  actorUserId                   String        @map("actor_user_id")
+  actorOrganizationMembershipId String        @map("actor_organization_membership_id")
+  correlationId                 String        @map("correlation_id")
+  expectedVersion               Int?          @map("expected_version")
+  issuedAt                      DateTime      @map("issued_at")
+  payload                       Json
+  payloadHash                   String        @map("payload_hash")
+  status                        CommandStatus @default(PROCESSING)
+  outcome                       Json?
+  errorCode                     String?       @map("error_code")
+  errorMessage                  String?       @map("error_message")
+  completedAt                   DateTime?     @map("completed_at")
+  createdAt                     DateTime      @default(now()) @map("created_at")
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?             @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  actor        OrganizationMembership @relation("CommandActor", fields: [organizationId, actorOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  outboxEvents OutboxEvent[]
+  mathResearchCycles MathResearchCycle[]
+  researchCampaigns ResearchCampaign[]
+  researchShowcases ResearchShowcaseRun[]
+
+  @@unique([organizationId, id])
+  @@unique([organizationId, idempotencyKey])
+  @@index([organizationId, workspaceId, createdAt, id])
+  @@index([organizationId, correlationId])
+  @@map("command_record")
+}
+
+model OutboxEvent {
+  id             String       @id @default(uuid())
+  organizationId String       @map("organization_id")
+  workspaceId    String?      @map("workspace_id")
+  commandId      String       @map("command_id")
+  topic          String
+  aggregateType  String       @map("aggregate_type")
+  aggregateId    String       @map("aggregate_id")
+  payload        Json
+  status         OutboxStatus @default(PENDING)
+  availableAt    DateTime     @default(now()) @map("available_at")
+  dispatchedAt   DateTime?    @map("dispatched_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  version        Int          @default(1)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  command      CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+  job          DurableJob?
+
+  @@unique([organizationId, id])
+  @@index([organizationId, status, availableAt, id])
+  @@map("outbox_event")
+}
+
+model DurableJob {
+  id               String           @id @default(uuid())
+  organizationId   String           @map("organization_id")
+  workspaceId      String?          @map("workspace_id")
+  outboxEventId    String?          @map("outbox_event_id")
+  jobType          String           @map("job_type")
+  payload          Json
+  status           DurableJobStatus @default(READY)
+  priority         Int              @default(100)
+  attempts         Int              @default(0)
+  maxAttempts      Int              @default(5) @map("max_attempts")
+  availableAt      DateTime         @default(now()) @map("available_at")
+  lockedBy         String?          @map("locked_by")
+  leaseExpiresAt   DateTime?        @map("lease_expires_at")
+  lastErrorCode    String?          @map("last_error_code")
+  lastErrorMessage String?          @map("last_error_message")
+  result           Json?
+  completedAt      DateTime?        @map("completed_at")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  version          Int              @default(1)
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?        @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  outboxEvent  OutboxEvent?      @relation(fields: [organizationId, outboxEventId], references: [organizationId, id], onDelete: Restrict)
+  events       DurableJobEvent[]
+  mathPilotAgentReview MathPilotAgentReview?
+  mathPilotNumericVerification MathPilotNumericVerification?
+  mathPilotFormalAttempts MathPilotFormalAttempt[]
+  mathPilotFormalReplay MathPilotFormalReplay?
+  mathResearchCycleEvents MathResearchCycleEvent[]
+  researchCampaignEvents ResearchCampaignEvent[]
+  researchShowcaseEvents ResearchShowcaseEvent[]
+
+  @@unique([organizationId, id])
+  @@unique([organizationId, outboxEventId])
+  @@index([organizationId, status, availableAt, priority, id])
+  @@index([organizationId, status, leaseExpiresAt, id])
+  @@map("durable_job")
+}
+
+model DurableJobEvent {
+  id                            String       @id @default(uuid())
+  organizationId                String       @map("organization_id")
+  workspaceId                   String?      @map("workspace_id")
+  jobId                         String       @map("job_id")
+  eventType                     JobEventType @map("event_type")
+  attemptNumber                 Int          @map("attempt_number")
+  workerId                      String?      @map("worker_id")
+  actorOrganizationMembershipId String?      @map("actor_organization_membership_id")
+  reason                        String?
+  detail                        Json?
+  createdAt                     DateTime     @default(now()) @map("created_at")
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace?              @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  job          DurableJob              @relation(fields: [organizationId, jobId], references: [organizationId, id], onDelete: Restrict)
+  actor        OrganizationMembership? @relation("JobEventActor", fields: [organizationId, actorOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, jobId, createdAt, id])
+  @@map("durable_job_event")
+}
+
+model WorkspaceOperationalProjection {
+  organizationId    String           @map("organization_id")
+  workspaceId       String           @map("workspace_id")
+  portfolioId       String?          @map("portfolio_id")
+  counts            Json             @default("{}")
+  status            ProjectionStatus @default(READY)
+  sourceWatermarkAt DateTime?        @map("source_watermark_at")
+  refreshedAt       DateTime?        @map("refreshed_at")
+  lastJobId         String?          @map("last_job_id")
+  version           Int              @default(1)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  portfolio    Portfolio?   @relation(fields: [organizationId, portfolioId], references: [organizationId, id], onDelete: Restrict)
+
+  @@id([organizationId, workspaceId])
+  @@index([organizationId, portfolioId, status])
+  @@map("workspace_operational_projection")
+}
+
+model PortfolioOperationalProjection {
+  organizationId    String           @map("organization_id")
+  portfolioId       String           @map("portfolio_id")
+  counts            Json             @default("{}")
+  status            ProjectionStatus @default(READY)
+  sourceWatermarkAt DateTime?        @map("source_watermark_at")
+  refreshedAt       DateTime?        @map("refreshed_at")
+  lastJobId         String?          @map("last_job_id")
+  version           Int              @default(1)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  portfolio    Portfolio    @relation(fields: [organizationId, portfolioId], references: [organizationId, id], onDelete: Restrict)
+
+  @@id([organizationId, portfolioId])
+  @@index([organizationId, status, refreshedAt])
+  @@map("portfolio_operational_projection")
+}
+
+model LegalHold {
+  id                                 String          @id @default(uuid())
+  organizationId                     String          @map("organization_id")
+  workspaceId                        String          @map("workspace_id")
+  missionId                          String?         @map("mission_id")
+  scope                              LegalHoldScope
+  reason                             String
+  status                             LegalHoldStatus @default(ACTIVE)
+  placedByOrganizationMembershipId   String          @map("placed_by_organization_membership_id")
+  releasedByOrganizationMembershipId String?         @map("released_by_organization_membership_id")
+  placedAt                           DateTime        @default(now()) @map("placed_at")
+  releasedAt                         DateTime?       @map("released_at")
+  releaseReason                      String?         @map("release_reason")
+  version                            Int             @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission?                @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  placedBy     OrganizationMembership  @relation("LegalHoldPlacer", fields: [organizationId, placedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  releasedBy   OrganizationMembership? @relation("LegalHoldReleaser", fields: [organizationId, releasedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, status, placedAt, id])
+  @@index([organizationId, missionId, status])
+  @@map("legal_hold")
+}
+
+model LifecycleDisposition {
+  id                                  String                     @id @default(uuid())
+  organizationId                      String                     @map("organization_id")
+  workspaceId                         String                     @map("workspace_id")
+  missionId                           String                     @map("mission_id")
+  snapshotId                          String                     @map("snapshot_id")
+  storageReference                    String                     @map("storage_reference")
+  contentHash                         String                     @map("content_hash")
+  policyVersion                       Int                        @map("policy_version")
+  eligibleAt                          DateTime                   @map("eligible_at")
+  status                              LifecycleDispositionStatus @default(CANDIDATE)
+  blockedReason                       String?                    @map("blocked_reason")
+  requestedByOrganizationMembershipId String                     @map("requested_by_organization_membership_id")
+  approvedByOrganizationMembershipId  String?                    @map("approved_by_organization_membership_id")
+  executedByOrganizationMembershipId  String?                    @map("executed_by_organization_membership_id")
+  requestReason                       String                     @map("request_reason")
+  approvalReason                      String?                    @map("approval_reason")
+  executionReason                     String?                    @map("execution_reason")
+  createdAt                           DateTime                   @default(now()) @map("created_at")
+  approvedAt                          DateTime?                  @map("approved_at")
+  executedAt                          DateTime?                  @map("executed_at")
+  version                             Int                        @default(1)
+
+  organization Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace               @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                 @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  snapshot     Snapshot                @relation(fields: [snapshotId], references: [id], onDelete: Restrict)
+  requestedBy  OrganizationMembership  @relation("LifecycleCandidateCreator", fields: [organizationId, requestedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  approvedBy   OrganizationMembership? @relation("LifecycleCandidateApprover", fields: [organizationId, approvedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  executedBy   OrganizationMembership? @relation("LifecycleCandidateExecutor", fields: [organizationId, executedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@unique([snapshotId])
+  @@index([organizationId, workspaceId, status, eligibleAt, id])
+  @@index([organizationId, missionId, status])
+  @@map("lifecycle_disposition")
+}
+
+model DossierExport {
+  id                                  String              @id @default(uuid())
+  organizationId                      String              @map("organization_id")
+  workspaceId                         String              @map("workspace_id")
+  missionId                           String              @map("mission_id")
+  requestedByOrganizationMembershipId String              @map("requested_by_organization_membership_id")
+  commandId                           String              @unique @map("command_id")
+  jobId                               String?             @unique @map("job_id")
+  status                              DossierExportStatus @default(READY)
+  snapshotAt                          DateTime            @map("snapshot_at")
+  missionVersion                      Int                 @map("mission_version")
+  sourceRevision                      BigInt              @default(0) @map("source_revision")
+  nextSection                         Int                 @default(0) @map("next_section")
+  nextCursor                          String?             @map("next_cursor")
+  partCount                           Int                 @default(0) @map("part_count")
+  rowCount                            Int                 @default(0) @map("row_count")
+  totalBytes                          BigInt              @default(0) @map("total_bytes")
+  manifestStorageKey                  String?             @map("manifest_storage_key")
+  manifestHash                        String?             @map("manifest_hash")
+  failureCode                         String?             @map("failure_code")
+  failureMessage                      String?             @map("failure_message")
+  createdAt                           DateTime            @default(now()) @map("created_at")
+  startedAt                           DateTime?           @map("started_at")
+  completedAt                         DateTime?           @map("completed_at")
+  version                             Int                 @default(1)
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace              @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy  OrganizationMembership @relation("DossierExportRequester", fields: [organizationId, requestedByOrganizationMembershipId], references: [organizationId, id], onDelete: Restrict)
+  parts        DossierExportPart[]
+
+  @@unique([organizationId, id])
+  @@index([organizationId, workspaceId, status, createdAt, id])
+  @@index([organizationId, missionId, createdAt, id])
+  @@map("dossier_export")
+}
+
+/// Monotonic consistency fence for every mission-scoped dossier source mutation.
+model MissionSourceRevision {
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  missionId      String   @map("mission_id")
+  revision       BigInt   @default(0)
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission      @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+
+  @@id([workspaceId, missionId])
+  @@unique([organizationId, workspaceId, missionId])
+  @@index([organizationId, workspaceId])
+  @@map("mission_source_revision")
+}
+
+model DossierExportPart {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  exportId       String   @map("export_id")
+  sequence       Int
+  section        String
+  firstRowId     String?  @map("first_row_id")
+  lastRowId      String?  @map("last_row_id")
+  rowCount       Int      @map("row_count")
+  storageKey     String   @map("storage_key")
+  contentHash    String   @map("content_hash")
+  sizeBytes      Int      @map("size_bytes")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace     @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  export       DossierExport @relation(fields: [organizationId, exportId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([exportId, sequence])
+  @@unique([organizationId, storageKey])
+  @@unique([organizationId, id])
+  @@index([organizationId, exportId, sequence])
+  @@map("dossier_export_part")
+}
+
+model Workspace {
+  id             String          @id @default(uuid())
+  organizationId String          @map("organization_id")
+  orgUnitId      String          @map("org_unit_id")
+  portfolioId    String?         @map("portfolio_id")
+  slug           String          @unique
+  name           String
+  status         WorkspaceStatus @default(ACTIVE)
+  createdById    String          @map("created_by_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  version        Int             @default(1)
 
   memberships                Membership[]
   invitations                Invitation[]
@@ -166,7 +1137,41 @@ model Workspace {
   governedReleases           GovernedRelease[]
   releaseManifests           ReleaseManifest[]
   policy                     WorkspacePolicy?
+  organization               Organization                    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  orgUnit                    OrgUnit                         @relation(fields: [organizationId, orgUnitId], references: [organizationId, id], onDelete: Restrict)
+  portfolio                  Portfolio?                      @relation(fields: [organizationId, portfolioId], references: [organizationId, id], onDelete: Restrict)
+  scopedGrants               ScopedGrant[]
+  workflowAssignments        WorkflowAssignment[]
+  slaPolicies                SlaPolicy[]
+  approvalChains             ApprovalChainDefinition[]
+  approvalRequests           WorkflowApprovalRequest[]
+  approvalActions            WorkflowApprovalAction[]
+  commands                   CommandRecord[]
+  outboxEvents               OutboxEvent[]
+  durableJobs                DurableJob[]
+  jobEvents                  DurableJobEvent[]
+  operationalProjection      WorkspaceOperationalProjection?
+  legalHolds                 LegalHold[]
+  lifecycleDispositions      LifecycleDisposition[]
+  dossierExports             DossierExport[]
+  dossierExportParts         DossierExportPart[]
+  missionSourceRevisions     MissionSourceRevision[]
+  authoringDocuments         AuthoringDocument[]
+  authoringRevisions         AuthoringRevision[]
+  researchRuns               ResearchRun[]
+  researchSources            ResearchSourceSnapshot[]
+  researchFindings           ResearchFinding[]
+  researchDecisions          ResearchFindingDecision[]
+  computationRuns            ComputationRun[]
+  mathPilotCases             MathPilotCase[]
+  mathPilotAssessments       MathPilotAssessment[]
+  mathResearchCycles         MathResearchCycle[]
+  researchCampaigns          ResearchCampaign[]
+  researchShowcases          ResearchShowcaseRun[]
 
+  @@unique([organizationId, id])
+  @@index([organizationId, orgUnitId, status])
+  @@index([organizationId, portfolioId, status])
   @@map("workspace")
 }
 
@@ -203,9 +1208,19 @@ model Membership {
   updatedAt   DateTime         @updatedAt @map("updated_at")
   version     Int              @default(1)
 
-  workspace         Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  issuedInvitations Invitation[] @relation("InvitationInvitedBy")
+  workspace             Workspace                 @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user                  User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issuedInvitations     Invitation[]              @relation("InvitationInvitedBy")
+  performedAgentRuns    AgentRun[]                @relation("AgentRunPerformer")
+  authoredDocuments     AuthoringDocument[]       @relation("AuthoringDocumentCreator")
+  authoredRevisions     AuthoringRevision[]       @relation("AuthoringRevisionCreator")
+  requestedResearch     ResearchRun[]             @relation("ResearchRunRequester")
+  reviewedResearch      ResearchRun[]             @relation("ResearchRunReviewer")
+  researchDecisions     ResearchFindingDecision[] @relation("ResearchDecisionReviewer")
+  requestedComputations ComputationRun[]          @relation("ComputationRunRequester")
+  reviewedComputations  ComputationRun[]          @relation("ComputationRunReviewer")
+  mathPilotAssessments  MathPilotAssessment[]     @relation("MathPilotAssessmentReviewer")
+  formalAlignmentAttestations MathPilotFormalAlignment[] @relation("MathPilotFormalAlignmentReviewer")
 
   @@unique([workspaceId, userId])
   @@index([userId])
@@ -416,6 +1431,7 @@ model Mission {
   gates                      RuntimeGate[]
   decisions                  Decision[]
   escalations                Escalation[]
+  scopedGrants               ScopedGrant[]
   evidenceSources            EvidenceSource[]
   claims                     Claim[]
   executionTips              ExecutionTip[]
@@ -432,9 +1448,28 @@ model Mission {
   evidenceCeilingAssessments EvidenceCeilingAssessment[]
   governedReleases           GovernedRelease[]
   releaseManifests           ReleaseManifest[]
+  workflowAssignments        WorkflowAssignment[]
+  workflowApprovalRequests   WorkflowApprovalRequest[]
+  legalHolds                 LegalHold[]
+  lifecycleDispositions      LifecycleDisposition[]
+  dossierExports             DossierExport[]
+  sourceRevision             MissionSourceRevision?
+  authoringDocuments         AuthoringDocument[]
+  authoringRevisions         AuthoringRevision[]
+  researchRuns               ResearchRun[]
+  researchSources            ResearchSourceSnapshot[]
+  researchFindings           ResearchFinding[]
+  researchDecisions          ResearchFindingDecision[]
+  computationRuns            ComputationRun[]
+  mathPilotCases             MathPilotCase[]
+  mathPilotAssessments       MathPilotAssessment[]
+  mathResearchCycles         MathResearchCycle[]
+  researchCampaigns          ResearchCampaign[]
+  researchShowcases          ResearchShowcaseRun[]
 
   @@unique([workspaceId, referenceCode])
   @@unique([workspaceId, idempotencyKey])
+  @@unique([workspaceId, id])
   @@index([workspaceId, status])
   @@map("mission")
 }
@@ -750,8 +1785,9 @@ model Snapshot {
   createdByMembershipId String   @map("created_by_membership_id")
   createdAt             DateTime @default(now()) @map("created_at")
 
-  evidenceSource EvidenceSource @relation(fields: [evidenceSourceId], references: [id], onDelete: Restrict)
-  spans          EvidenceSpan[]
+  evidenceSource       EvidenceSource        @relation(fields: [evidenceSourceId], references: [id], onDelete: Restrict)
+  spans                EvidenceSpan[]
+  lifecycleDisposition LifecycleDisposition?
 
   @@unique([evidenceSourceId, contentHash])
   @@index([workspaceId, missionId])
@@ -1122,23 +2158,24 @@ model SkillRun {
 
 /// Each row is a retained provider attempt. Retry creates another row.
 model AgentRun {
-  id                    String         @id @default(uuid())
-  workspaceId           String         @map("workspace_id")
-  missionId             String         @map("mission_id")
-  skillRunId            String         @map("skill_run_id")
-  attemptNumber         Int            @map("attempt_number")
-  executionRole         ExecutionRole  @map("execution_role")
-  providerName          String         @map("provider_name")
-  modelName             String         @map("model_name")
-  providerMode          String         @default("MANUAL_BRIDGE") @map("provider_mode")
-  status                AgentRunStatus @default(AWAITING_REPORT)
-  inputArtifactId       String         @map("input_artifact_id")
-  outputArtifactId      String?        @unique @map("output_artifact_id")
-  previousRunId         String?        @map("previous_run_id")
-  createdByMembershipId String         @map("created_by_membership_id")
-  startedAt             DateTime       @default(now()) @map("started_at")
-  completedAt           DateTime?      @map("completed_at")
-  version               Int            @default(1)
+  id                      String         @id @default(uuid())
+  workspaceId             String         @map("workspace_id")
+  missionId               String         @map("mission_id")
+  skillRunId              String         @map("skill_run_id")
+  attemptNumber           Int            @map("attempt_number")
+  executionRole           ExecutionRole  @map("execution_role")
+  providerName            String         @map("provider_name")
+  modelName               String         @map("model_name")
+  providerMode            String         @default("MANUAL_BRIDGE") @map("provider_mode")
+  status                  AgentRunStatus @default(AWAITING_REPORT)
+  inputArtifactId         String         @map("input_artifact_id")
+  outputArtifactId        String?        @unique @map("output_artifact_id")
+  previousRunId           String?        @map("previous_run_id")
+  createdByMembershipId   String         @map("created_by_membership_id")
+  performedByMembershipId String?        @map("performed_by_membership_id")
+  startedAt               DateTime       @default(now()) @map("started_at")
+  completedAt             DateTime?      @map("completed_at")
+  version                 Int            @default(1)
 
   workspace            Workspace             @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   mission              Mission               @relation(fields: [missionId], references: [id], onDelete: Cascade)
@@ -1147,12 +2184,14 @@ model AgentRun {
   outputArtifact       ExecutionArtifact?    @relation("RunOutputArtifact", fields: [outputArtifactId], references: [id], onDelete: Restrict)
   previousRun          AgentRun?             @relation("RunRetryChain", fields: [previousRunId], references: [id], onDelete: Restrict)
   retries              AgentRun[]            @relation("RunRetryChain")
+  performedBy          Membership?           @relation("AgentRunPerformer", fields: [performedByMembershipId], references: [id], onDelete: Restrict)
   completionReport     CompletionReport?
   resourceUsageRecords ResourceUsageRecord[]
   verifierFor          VerificationRun?
 
   @@unique([skillRunId, attemptNumber])
   @@index([workspaceId, missionId, status])
+  @@index([workspaceId, missionId, performedByMembershipId])
   @@map("agent_run")
 }
 
@@ -1529,6 +2568,628 @@ model ReleaseManifest {
 
   @@index([workspaceId, missionId])
   @@map("release_manifest")
+}
+
+// ---------------------------------------------------------------------------
+// Governed Authoring. The mutable document row selects an immutable revision;
+// revision content is strict-schema JSON and content-hashed before retention.
+// ---------------------------------------------------------------------------
+
+model AuthoringDocument {
+  id                    String                  @id @default(uuid())
+  organizationId        String                  @map("organization_id")
+  workspaceId           String                  @map("workspace_id")
+  missionId             String                  @map("mission_id")
+  documentKey           String                  @map("document_key")
+  title                 String
+  documentType          AuthoringDocumentType   @map("document_type")
+  status                AuthoringDocumentStatus @default(DRAFT)
+  currentRevisionNumber Int                     @default(1) @map("current_revision_number")
+  createdByMembershipId String                  @map("created_by_membership_id")
+  createdAt             DateTime                @default(now()) @map("created_at")
+  updatedAt             DateTime                @updatedAt @map("updated_at")
+  version               Int                     @default(1)
+
+  organization    Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace       Workspace           @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission         Mission             @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  createdBy       Membership          @relation("AuthoringDocumentCreator", fields: [createdByMembershipId], references: [id], onDelete: Restrict)
+  revisions       AuthoringRevision[]
+  researchRuns    ResearchRun[]
+  computationRuns ComputationRun[]
+
+  @@unique([workspaceId, documentKey])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status])
+  @@index([workspaceId, missionId, updatedAt])
+  @@map("authoring_document")
+}
+
+/// Append-only retained authoring state. UPDATE and DELETE are rejected by a
+/// database trigger; a change always creates the next numbered revision.
+model AuthoringRevision {
+  id                     String   @id @default(uuid())
+  organizationId         String   @map("organization_id")
+  workspaceId            String   @map("workspace_id")
+  missionId              String   @map("mission_id")
+  documentId             String   @map("document_id")
+  revisionNumber         Int      @map("revision_number")
+  title                  String
+  abstract               String
+  sections               Json
+  citations              Json
+  computationalArtifacts Json     @default("[]") @map("computational_artifacts")
+  researchImports        Json     @default("[]") @map("research_imports")
+  qualityReport          Json     @map("quality_report")
+  contentHash            String   @map("content_hash")
+  changeSummary          String   @map("change_summary")
+  createdByMembershipId  String   @map("created_by_membership_id")
+  createdAt              DateTime @default(now()) @map("created_at")
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace         @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission           @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document     AuthoringDocument @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  createdBy    Membership        @relation("AuthoringRevisionCreator", fields: [createdByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([documentId, revisionNumber])
+  @@unique([documentId, contentHash])
+  @@index([organizationId, workspaceId, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("authoring_revision")
+}
+
+// ---------------------------------------------------------------------------
+// TIP-024B — Governed Research Agent and Computational Sandbox.
+// Workers are provider-neutral adapters. Captured sources, findings, review
+// decisions and completed output manifests are retained as immutable records.
+// ---------------------------------------------------------------------------
+
+model ResearchRun {
+  id                      String            @id @default(uuid())
+  organizationId          String            @map("organization_id")
+  workspaceId             String            @map("workspace_id")
+  missionId               String            @map("mission_id")
+  documentId              String?           @map("document_id")
+  question                String
+  scope                   String
+  sourcePolicy            Json              @map("source_policy")
+  queryPlan               Json              @map("query_plan")
+  providerName            String            @map("provider_name")
+  modelName               String            @map("model_name")
+  status                  ResearchRunStatus @default(QUEUED)
+  commandId               String            @unique @map("command_id")
+  jobId                   String?           @unique @map("job_id")
+  requestedByMembershipId String            @map("requested_by_membership_id")
+  reviewedByMembershipId  String?           @map("reviewed_by_membership_id")
+  reviewRationale         String?           @map("review_rationale")
+  approvedDigest          String?           @map("approved_digest")
+  providerUsage           Json?             @map("provider_usage")
+  mathModelAttempt        Json?             @map("math_model_attempt")
+  mathModelAttemptDigest  String?           @map("math_model_attempt_digest")
+  providerDispatchAttemptedAt DateTime?      @map("provider_dispatch_attempted_at")
+  failureCode             String?           @map("failure_code")
+  startedAt               DateTime?         @map("started_at")
+  completedAt             DateTime?         @map("completed_at")
+  reviewedAt              DateTime?         @map("reviewed_at")
+  createdAt               DateTime          @default(now()) @map("created_at")
+  updatedAt               DateTime          @updatedAt @map("updated_at")
+  version                 Int               @default(1)
+
+  organization             Organization              @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace                Workspace                 @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission                  Mission                   @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document                 AuthoringDocument?        @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy              Membership                @relation("ResearchRunRequester", fields: [requestedByMembershipId], references: [id], onDelete: Restrict)
+  reviewedBy               Membership?               @relation("ResearchRunReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+  sources                  ResearchSourceSnapshot[]
+  findings                 ResearchFinding[]
+  computations             ComputationRun[]
+  researchFindingDecisions ResearchFindingDecision[]
+  mathPilotCase             MathPilotCase?
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("research_run")
+}
+
+/// Immutable source body captured by a research worker. A digest mismatch or
+/// an invalid exact excerpt causes the entire worker result to fail closed.
+model ResearchSourceSnapshot {
+  id             String             @id @default(uuid())
+  organizationId String             @map("organization_id")
+  workspaceId    String             @map("workspace_id")
+  missionId      String             @map("mission_id")
+  researchRunId  String             @map("research_run_id")
+  canonicalUri   String             @map("canonical_uri")
+  title          String
+  publisher      String
+  mediaType      String             @map("media_type")
+  content        String
+  contentDigest  String             @map("content_digest")
+  provenance     ResearchProvenance
+  capturedAt     DateTime           @map("captured_at")
+  createdAt      DateTime           @default(now()) @map("created_at")
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace         @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission           @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun       @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  findings     ResearchFinding[]
+
+  @@unique([researchRunId, canonicalUri, contentDigest])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, researchRunId, capturedAt])
+  @@map("research_source_snapshot")
+}
+
+/// Immutable claim-sized result bound to an exact span in a captured source.
+model ResearchFinding {
+  id             String              @id @default(uuid())
+  organizationId String              @map("organization_id")
+  workspaceId    String              @map("workspace_id")
+  missionId      String              @map("mission_id")
+  researchRunId  String              @map("research_run_id")
+  sourceId       String?             @map("source_id")
+  findingKey     String              @map("finding_key")
+  kind           ResearchFindingKind
+  claim          String
+  exactExcerpt   String              @map("exact_excerpt")
+  startOffset    Int?                @map("start_offset")
+  endOffset      Int?                @map("end_offset")
+  confidence     Decimal             @db.Decimal(5, 4)
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  organization Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace                @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission                  @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun              @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  source       ResearchSourceSnapshot?  @relation(fields: [workspaceId, sourceId], references: [workspaceId, id], onDelete: Restrict)
+  decision     ResearchFindingDecision?
+
+  @@unique([researchRunId, findingKey])
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, researchRunId, kind])
+  @@map("research_finding")
+}
+
+/// One immutable human decision per finding. The research agent cannot create
+/// this row and the requester cannot review their own run.
+model ResearchFindingDecision {
+  id                     String           @id @default(uuid())
+  organizationId         String           @map("organization_id")
+  workspaceId            String           @map("workspace_id")
+  missionId              String           @map("mission_id")
+  researchRunId          String           @map("research_run_id")
+  findingId              String           @unique @map("finding_id")
+  decision               ResearchDecision
+  rationale              String
+  reviewedByMembershipId String           @map("reviewed_by_membership_id")
+  createdAt              DateTime         @default(now()) @map("created_at")
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace       @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission         @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun     @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  finding      ResearchFinding @relation(fields: [workspaceId, findingId], references: [workspaceId, id], onDelete: Restrict)
+  reviewedBy   Membership      @relation("ResearchDecisionReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, findingId])
+  @@index([organizationId, workspaceId, researchRunId, createdAt])
+  @@map("research_finding_decision")
+}
+
+model ComputationRun {
+  id                      String               @id @default(uuid())
+  organizationId          String               @map("organization_id")
+  workspaceId             String               @map("workspace_id")
+  missionId               String               @map("mission_id")
+  documentId              String?              @map("document_id")
+  researchRunId           String?              @map("research_run_id")
+  kind                    ComputationKind
+  runtimeId               String               @map("runtime_id")
+  runtimeVersion          String               @map("runtime_version")
+  entrypoint              String
+  networkPolicy           SandboxNetworkPolicy @default(DENY_ALL) @map("network_policy")
+  networkAllowlist        Json                 @default("[]") @map("network_allowlist")
+  resourceLimits          Json                 @map("resource_limits")
+  inputReference          String               @map("input_reference")
+  inputDigest             String               @map("input_digest")
+  status                  ComputationRunStatus @default(QUEUED)
+  commandId               String               @unique @map("command_id")
+  jobId                   String?              @unique @map("job_id")
+  outputReference         String?              @map("output_reference")
+  outputDigest            String?              @map("output_digest")
+  outputMediaType         String?              @map("output_media_type")
+  outputBytes             Int?                 @map("output_bytes")
+  requestedByMembershipId String               @map("requested_by_membership_id")
+  reviewedByMembershipId  String?              @map("reviewed_by_membership_id")
+  reviewRationale         String?              @map("review_rationale")
+  failureCode             String?              @map("failure_code")
+  startedAt               DateTime?            @map("started_at")
+  completedAt             DateTime?            @map("completed_at")
+  reviewedAt              DateTime?            @map("reviewed_at")
+  createdAt               DateTime             @default(now()) @map("created_at")
+  updatedAt               DateTime             @updatedAt @map("updated_at")
+  version                 Int                  @default(1)
+
+  organization Organization       @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace          @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission            @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  document     AuthoringDocument? @relation(fields: [workspaceId, documentId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun?       @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  requestedBy  Membership         @relation("ComputationRunRequester", fields: [requestedByMembershipId], references: [id], onDelete: Restrict)
+  reviewedBy   Membership?        @relation("ComputationRunReviewer", fields: [reviewedByMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, status, createdAt])
+  @@index([workspaceId, missionId, createdAt])
+  @@map("computation_run")
+}
+
+/// The math protocol is frozen when its ResearchRun is queued. Calibration
+/// answers are deliberately absent: the worker receives only the public brief.
+model MathPilotCase {
+  id             String            @id @default(uuid())
+  organizationId String            @map("organization_id")
+  workspaceId    String            @map("workspace_id")
+  missionId      String            @map("mission_id")
+  researchRunId  String            @unique @map("research_run_id")
+  caseType       MathPilotCaseType @map("case_type")
+  contract       Json
+  contractDigest String            @map("contract_digest")
+  createdAt      DateTime          @default(now()) @map("created_at")
+
+  organization Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace           @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission             @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  researchRun  ResearchRun         @relation(fields: [workspaceId, researchRunId], references: [workspaceId, id], onDelete: Restrict)
+  assessment   MathPilotAssessment?
+  agentReview  MathPilotAgentReview?
+  numericVerification MathPilotNumericVerification?
+  formalAttempts MathPilotFormalAttempt[]
+  researchCycles MathResearchCycle[]
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, researchRunId])
+  @@index([organizationId, workspaceId, missionId, caseType, createdAt])
+  @@map("math_pilot_case")
+}
+
+/// Append-only AI peer review. This is not a human attestation or a formal
+/// theorem certificate, and it never overwrites MathPilotAssessment.
+model MathPilotAgentReview {
+  id             String              @id @default(uuid())
+  organizationId String              @map("organization_id")
+  workspaceId    String              @map("workspace_id")
+  missionId      String              @map("mission_id")
+  caseId         String              @unique @map("case_id")
+  conclusion     MathPilotConclusion
+  disposition    String
+  contractDigest String              @map("contract_digest")
+  attemptDigest  String              @map("attempt_digest")
+  researchDigest String              @map("research_digest")
+  ledger         Json
+  ledgerDigest   String              @map("ledger_digest")
+  jobId          String              @unique @map("job_id")
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_agent_review")
+}
+
+/// Append-only, case-bound numerical addendum. It never changes the original
+/// model attempt, peer review, or mathematical conclusion.
+model MathPilotNumericVerification {
+  id                String   @id @default(uuid())
+  organizationId    String   @map("organization_id")
+  workspaceId       String   @map("workspace_id")
+  missionId         String   @map("mission_id")
+  caseId            String   @unique @map("case_id")
+  contractDigest    String   @map("contract_digest")
+  attemptDigest     String   @map("attempt_digest")
+  researchDigest    String   @map("research_digest")
+  claimedAnswer     String   @map("claimed_answer")
+  certificate       Json
+  certificateDigest String   @map("certificate_digest")
+  jobId             String   @unique @map("job_id")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_numeric_verification")
+}
+
+/// Append-only exploratory Lean checks. A compiler result is never a theorem
+/// status: semantic alignment and stronger proof replay remain separate gates.
+model MathPilotFormalAttempt {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  missionId      String   @map("mission_id")
+  caseId         String   @map("case_id")
+  contractDigest String   @map("contract_digest")
+  attemptDigest  String   @map("attempt_digest")
+  researchDigest String   @map("research_digest")
+  target         Json
+  targetDigest   String   @map("target_digest")
+  proofTactics   String   @map("proof_tactics")
+  proofSourceDigest String @map("proof_source_digest")
+  modelName      String   @map("model_name")
+  modelThreadId  String   @map("model_thread_id")
+  modelUsage     Json     @map("model_usage")
+  repairTrace    Json     @default("[]") @map("repair_trace")
+  check          Json
+  checkDigest    String   @map("check_digest")
+  jobId          String   @unique @map("job_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  case MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  job  DurableJob   @relation(fields: [jobId], references: [id], onDelete: Restrict)
+  replay MathPilotFormalReplay?
+  alignment MathPilotFormalAlignment?
+
+  @@unique([workspaceId, id])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@index([workspaceId, caseId, createdAt])
+  @@map("math_pilot_formal_attempt")
+}
+
+/// Separate append-only kernel replay over the retained exact formal source.
+/// It does not certify the informal-to-formal semantic mapping.
+model MathPilotFormalReplay {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  caseId             String   @map("case_id")
+  formalAttemptId    String   @unique @map("formal_attempt_id")
+  contractDigest     String   @map("contract_digest")
+  targetDigest       String   @map("target_digest")
+  sourceDigest       String   @map("source_digest")
+  primaryCheckDigest String   @map("primary_check_digest")
+  result             Json
+  resultDigest       String   @map("result_digest")
+  jobId              String   @unique @map("job_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  formalAttempt MathPilotFormalAttempt @relation(fields: [workspaceId, formalAttemptId], references: [workspaceId, id], onDelete: Restrict)
+  job           DurableJob            @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, formalAttemptId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_formal_replay")
+}
+
+/// Authenticated local operator assessment of the natural-to-formal map.
+/// It is not an independent expert publication certificate or a theorem state.
+model MathPilotFormalAlignment {
+  id                   String   @id @default(uuid())
+  organizationId       String   @map("organization_id")
+  workspaceId          String   @map("workspace_id")
+  missionId            String   @map("mission_id")
+  caseId               String   @map("case_id")
+  formalAttemptId      String   @unique @map("formal_attempt_id")
+  contractDigest       String   @map("contract_digest")
+  targetDigest         String   @map("target_digest")
+  sourceDigest         String   @map("source_digest")
+  replayDigest         String   @map("replay_digest")
+  reviewerMembershipId String   @map("reviewer_membership_id")
+  report               Json
+  reportDigest         String   @map("report_digest")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  formalAttempt MathPilotFormalAttempt @relation(fields: [workspaceId, formalAttemptId], references: [workspaceId, id], onDelete: Restrict)
+  reviewer      Membership             @relation("MathPilotFormalAlignmentReviewer", fields: [reviewerMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, formalAttemptId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_formal_alignment")
+}
+
+/// Mutable resource accounting; all model call intents and outputs are
+/// separately retained in an append-only, digest-chained event ledger.
+model MathResearchCycle {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  rootCaseId         String   @map("root_case_id")
+  rootContractDigest String   @map("root_contract_digest")
+  rootAttemptDigest  String   @map("root_attempt_digest")
+  rootReviewDigest   String   @map("root_review_digest")
+  commandId          String   @map("command_id")
+  status             String   @default("QUEUED")
+  stopReason         String?  @map("stop_reason")
+  maxRounds          Int      @map("max_rounds")
+  maxCalls           Int      @map("max_calls")
+  maxObservedTokens  Int      @map("max_observed_tokens")
+  callsStarted       Int      @default(0) @map("calls_started")
+  observedTokens     Int      @default(0) @map("observed_tokens")
+  completedRounds    Int      @default(0) @map("completed_rounds")
+  deadlineAt         DateTime @map("deadline_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  events             MathResearchCycleEvent[]
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace Workspace @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission Mission @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  rootCase MathPilotCase @relation(fields: [workspaceId, rootCaseId], references: [workspaceId, id], onDelete: Restrict)
+  command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@index([workspaceId, rootCaseId, createdAt], map: "math_research_cycle_workspace_root_created_idx")
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_research_cycle")
+}
+
+/// AI evidence only. Events may be inserted, but never updated or removed.
+model MathResearchCycleEvent {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  workspaceId    String   @map("workspace_id")
+  cycleId        String   @map("cycle_id")
+  sequence       Int
+  round          Int
+  phase          String
+  payload        Json
+  previousDigest String?  @map("previous_digest")
+  digest         String
+  jobId          String   @map("job_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  cycle MathResearchCycle @relation(fields: [workspaceId, cycleId], references: [workspaceId, id], onDelete: Restrict)
+  job DurableJob @relation(fields: [jobId], references: [id], onDelete: Restrict)
+
+  @@unique([cycleId, sequence])
+  @@index([organizationId, workspaceId, cycleId, sequence])
+  @@map("math_research_cycle_event")
+}
+
+/// One independent, append-only classification. This is a human assessment,
+/// not a formal proof certificate or an automatic theorem claim.
+model ResearchCampaign {
+  id                 String   @id @default(uuid())
+  organizationId     String   @map("organization_id")
+  workspaceId        String   @map("workspace_id")
+  missionId          String   @map("mission_id")
+  commandId          String   @map("command_id")
+  version            Int      @default(1)
+  contract           Json
+  contractDigest     String   @map("contract_digest")
+  envelope           Json
+  envelopeDigest     String   @map("envelope_digest")
+  sourceBundleDigest String   @map("source_bundle_digest")
+  authorityEpoch     String   @map("authority_epoch")
+  status             String   @default("QUEUED")
+  state              Json
+  stateDigest        String   @map("state_digest")
+  sequence           Int      @default(0)
+  tailDigest         String?  @map("tail_digest")
+  revokedAt          DateTime? @map("revoked_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace Workspace @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission Mission @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+  events ResearchCampaignEvent[]
+  @@unique([organizationId, workspaceId, id])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("research_campaign")
+}
+
+model ResearchCampaignEvent {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  campaignId String @map("campaign_id")
+  sequence Int
+  eventType String @map("event_type")
+  actionKey String @map("action_key")
+  payload Json
+  previousDigest String? @map("previous_digest")
+  digest String
+  jobId String? @map("job_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  campaign ResearchCampaign @relation(fields: [organizationId, workspaceId, campaignId], references: [organizationId, workspaceId, id], onDelete: Restrict)
+  job DurableJob? @relation(fields: [organizationId, jobId], references: [organizationId, id], onDelete: Restrict)
+  @@unique([campaignId, sequence])
+  @@unique([campaignId, actionKey])
+  @@index([organizationId, workspaceId, campaignId, sequence])
+  @@map("research_campaign_event")
+}
+
+/// Fixed local Poly19 demonstration, separate from controlled v3 campaigns.
+model ResearchShowcaseRun {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  missionId String @map("mission_id")
+  commandId String @map("command_id")
+  actorUserId String @map("actor_user_id")
+  provenance String
+  taskDigest String @map("task_digest")
+  sourceBundleDigest String @map("source_bundle_digest")
+  authorityEpoch String @map("authority_epoch")
+  version Int @default(1)
+  status String @default("QUEUED")
+  state Json
+  stateDigest String @map("state_digest")
+  sequence Int @default(0)
+  tailDigest String? @map("tail_digest")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  organization Organization @relation(fields:[organizationId],references:[id],onDelete:Restrict)
+  workspace Workspace @relation(fields:[organizationId,workspaceId],references:[organizationId,id],onDelete:Restrict)
+  mission Mission @relation(fields:[workspaceId,missionId],references:[workspaceId,id],onDelete:Restrict)
+  command CommandRecord @relation(fields:[organizationId,commandId],references:[organizationId,id],onDelete:Restrict)
+  events ResearchShowcaseEvent[]
+  @@unique([organizationId,workspaceId,id])
+  @@index([organizationId,workspaceId,missionId,createdAt])
+  @@map("research_showcase_run")
+}
+
+model ResearchShowcaseEvent {
+  id String @id @default(uuid())
+  organizationId String @map("organization_id")
+  workspaceId String @map("workspace_id")
+  runId String @map("run_id")
+  sequence Int
+  eventType String @map("event_type")
+  actionKey String @map("action_key")
+  payload Json
+  previousDigest String? @map("previous_digest")
+  digest String
+  jobId String? @map("job_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  run ResearchShowcaseRun @relation(fields:[organizationId,workspaceId,runId],references:[organizationId,workspaceId,id],onDelete:Restrict)
+  job DurableJob? @relation(fields:[organizationId,jobId],references:[organizationId,id],onDelete:Restrict)
+  @@unique([runId,sequence])
+  @@unique([runId,actionKey])
+  @@index([organizationId,workspaceId,runId,sequence])
+  @@map("research_showcase_event")
+}
+
+model MathPilotAssessment {
+  id                     String              @id @default(uuid())
+  organizationId         String              @map("organization_id")
+  workspaceId            String              @map("workspace_id")
+  missionId              String              @map("mission_id")
+  caseId                 String              @unique @map("case_id")
+  conclusion             MathPilotConclusion
+  rationale              String
+  verificationNotes      String              @map("verification_notes")
+  reviewChecklist        Json?                @map("review_checklist")
+  reviewChecklistDigest  String?              @map("review_checklist_digest")
+  researchDigest         String              @map("research_digest")
+  reviewerMembershipId   String              @map("reviewer_membership_id")
+  createdAt              DateTime            @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  workspace    Workspace    @relation(fields: [organizationId, workspaceId], references: [organizationId, id], onDelete: Restrict)
+  mission      Mission      @relation(fields: [workspaceId, missionId], references: [workspaceId, id], onDelete: Restrict)
+  case         MathPilotCase @relation(fields: [workspaceId, caseId], references: [workspaceId, id], onDelete: Restrict)
+  reviewer     Membership    @relation("MathPilotAssessmentReviewer", fields: [reviewerMembershipId], references: [id], onDelete: Restrict)
+
+  @@unique([workspaceId, id])
+  @@unique([workspaceId, caseId])
+  @@index([organizationId, workspaceId, missionId, createdAt])
+  @@map("math_pilot_assessment")
 }
 
 // ---------------------------------------------------------------------------

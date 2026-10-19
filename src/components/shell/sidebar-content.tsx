@@ -1,14 +1,38 @@
+"use client";
+
 import type { ReactNode } from "react";
-import { Hexagon, Plus, UserRound } from "lucide-react";
+import {
+  ChevronDown,
+  Hexagon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  UserRound,
+  Settings2,
+} from "lucide-react";
+
+import { usePreferences } from "@/components/preferences/preferences-provider";
 
 import { NAV_ITEMS } from "./navigation";
 import { NavItemLink } from "./nav-item-link";
 
 const NOT_IMPLEMENTED = "Not implemented in the current build stage";
+const GROUPS = ["command", "truth", "assurance", "system"] as const;
+
+export function sidebarWorkspaceBase(homeHref: string): string | null {
+  return homeHref.match(/^\/w\/[^/?#]+/)?.[0] ?? null;
+}
 
 export interface SidebarAccount {
   name: string;
   email: string;
+}
+
+export interface SidebarEnterpriseScope {
+  organization: string;
+  unit: string;
+  portfolio: string | null;
+  workspace: string;
 }
 
 export interface SidebarContentProps {
@@ -18,153 +42,300 @@ export interface SidebarContentProps {
   onNavigate?: () => void;
   /** Real authenticated identity; when absent a truthful signed-out state shows. */
   account?: SidebarAccount | null;
-  /** Rendered under the brand (workspace switcher). */
-  brandSlot?: ReactNode;
-  /** Rendered in the account footer (sign-out control). */
+  /** Rendered inside the account disclosure (sign-out control). */
   footerSlot?: ReactNode;
-  /** Base path for the primary "New mission" affordance. */
+  /** Workspace base path, shared by module links and the new-mission action. */
   homeHref?: string;
+  /** Desktop-only control for the persistent full/icon rail state. */
+  onToggleCollapsed?: () => void;
+  /** Current authorized enterprise scope for the organizational navigator. */
+  enterpriseScope?: SidebarEnterpriseScope;
+  researcherMode?: boolean;
 }
 
 export function SidebarContent({
   iconOnly = false,
   onNavigate,
   account,
-  brandSlot,
   footerSlot,
   homeHref = "#mission-composer",
+  onToggleCollapsed,
+  enterpriseScope,
+  researcherMode = false,
 }: SidebarContentProps) {
+  const { locale, t } = usePreferences();
+  const workspaceBase = sidebarWorkspaceBase(homeHref);
+  const primaryLabel = workspaceBase
+    ? researcherMode ? (locale === "vi" ? "Soạn ghi chú" : "Write a note") : t("common.newMission")
+    : locale === "vi" ? "Chọn không gian làm việc" : "Choose a workspace";
   return (
     <div className="flex h-full flex-col">
       {/* Brand */}
       <div
-        className={`flex items-center gap-2 border-b border-line px-4 ${iconOnly ? "justify-center" : ""}`}
+        className={`flex items-center border-b border-line px-3 ${
+          iconOnly ? "justify-center" : "gap-2"
+        }`}
         style={{ height: "var(--shell-header)" }}
       >
-        <Hexagon className="text-navy-800 size-5 shrink-0" aria-hidden="true" />
+        {!iconOnly || !onToggleCollapsed ? (
+          <Hexagon
+            className="text-ink-strong size-5 shrink-0"
+            aria-hidden="true"
+          />
+        ) : null}
         {iconOnly ? (
           <span className="sr-only">HIVE OS</span>
         ) : (
-          <span className="text-section-title text-ink-strong tracking-tight">
+          <span className="text-section-title text-ink-strong flex-1 tracking-tight">
             HIVE OS
           </span>
         )}
+        {onToggleCollapsed ? (
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            aria-label={
+              iconOnly
+                ? t("common.expandSidebar")
+                : t("common.collapseSidebar")
+            }
+            title={
+              iconOnly
+                ? t("common.expandSidebar")
+                : t("common.collapseSidebar")
+            }
+            className="text-ink-muted hover:bg-surface-subtle hover:text-ink flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
+          >
+            {iconOnly ? (
+              <PanelLeftOpen className="size-4" aria-hidden="true" />
+            ) : (
+              <PanelLeftClose className="size-4" aria-hidden="true" />
+            )}
+          </button>
+        ) : null}
       </div>
-
-      {!iconOnly && brandSlot ? (
-        <div className="border-b border-line px-3 py-3">{brandSlot}</div>
-      ) : null}
 
       <div className="flex-1 overflow-y-auto px-3 py-4">
         {/* Primary action */}
         <a
-          href={homeHref}
+          href={workspaceBase ? researcherMode ? `${workspaceBase}/research#new-research` : `${workspaceBase}/missions/new` : "/"}
           onClick={onNavigate}
-          aria-label="New mission"
-          title="New mission"
-          className={`text-body bg-navy-800 hover:bg-navy-900 flex h-10 items-center gap-2 rounded-md font-medium text-white transition-colors ${
+          aria-label={primaryLabel}
+          title={iconOnly ? primaryLabel : undefined}
+          className={`text-body text-ink-strong hover:text-ink group flex h-10 items-center gap-2 rounded-md font-medium transition-[color,transform] duration-150 hover:translate-x-0.5 ${
             iconOnly ? "justify-center px-0" : "px-3"
           }`}
         >
-          <Plus className="size-4 shrink-0" aria-hidden="true" />
-          {!iconOnly && <span>New mission</span>}
+          <Plus
+            className="text-ink-muted size-4 shrink-0 transition-[color,transform] duration-150 group-hover:scale-110 group-hover:text-current"
+            aria-hidden="true"
+          />
+          {!iconOnly && <span>{primaryLabel}</span>}
         </a>
 
-        {/* Navigation */}
-        <nav aria-label="Primary" className="mt-4">
-          <ul className="flex flex-col gap-0.5">
-            {NAV_ITEMS.map((item) => {
-              const Icon = item.icon;
-              const title = item.implemented
-                ? item.label
-                : `${item.label} · ${NOT_IMPLEMENTED}`;
-              const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium ${
-                iconOnly ? "justify-center px-0" : "px-3"
-              }`;
-
-              if (item.implemented) {
-                const wsBase = homeHref.startsWith("/w/") ? homeHref : "/";
-                const href =
-                  item.segment && wsBase !== "/"
-                    ? `${wsBase}/${item.segment}`
-                    : wsBase;
-                return (
-                  <li key={item.label}>
-                    <NavItemLink
-                      href={href}
-                      label={item.label}
-                      title={title}
-                      onNavigate={onNavigate}
-                      iconOnly={iconOnly}
-                    >
-                      <Icon className="size-[18px] shrink-0" aria-hidden="true" />
-                      {iconOnly ? (
-                        <span className="sr-only">{item.label}</span>
-                      ) : (
-                          <span>{item.label}</span>
-                      )}
-                    </NavItemLink>
-                  </li>
-                );
-              }
-
-              return (
-                <li key={item.label}>
-                  <button
-                    type="button"
-                    aria-disabled="true"
-                    aria-label={title}
-                    title={title}
-                    onClick={(e) => e.preventDefault()}
-                    className={`${rowClass} text-ink-muted hover:bg-surface-subtle w-full cursor-not-allowed text-left`}
+        {enterpriseScope && !iconOnly ? (
+          <section
+            className="mt-4 border-y border-line py-3"
+            aria-label={t("common.workspace")}
+          >
+            <p className="text-eyebrow text-ink-muted px-3">
+              {t("common.workspace")}
+            </p>
+            <ol className="mt-2">
+              {[
+                ["ORG", enterpriseScope.organization],
+                ["UNIT", enterpriseScope.unit],
+                [
+                  "PORT",
+                  enterpriseScope.portfolio ??
+                    (locale === "vi" ? "Chưa gán danh mục" : "No portfolio"),
+                ],
+                ["WORK", enterpriseScope.workspace],
+              ].map(([code, value], index) => (
+                <li
+                  key={code}
+                  className={`relative flex min-w-0 items-center gap-2 px-3 py-1.5 ${
+                    index === 3 ? "text-ink-strong" : "text-ink-muted"
+                  }`}
+                >
+                  <span
+                    className="tabular text-[8px] text-ink-muted"
+                    aria-hidden="true"
                   >
-                    <Icon
-                      className="text-ink-faint size-[18px] shrink-0"
-                      aria-hidden="true"
-                    />
-                    {iconOnly ? (
-                      <span className="sr-only">{item.label}</span>
-                    ) : (
-                      <span className="flex-1">{item.label}</span>
-                    )}
-                    {!iconOnly && (
-                      <span className="text-meta text-ink-muted" aria-hidden="true">
-                        Planned
-                      </span>
-                    )}
-                  </button>
+                    {code}
+                  </span>
+                  <span className="truncate text-[11px] font-medium">
+                    {value}
+                  </span>
                 </li>
-              );
-            })}
-          </ul>
+              ))}
+            </ol>
+          </section>
+        ) : null}
+
+        {/* Navigation / compact module switcher on the enterprise surface. */}
+        <nav aria-label={t("common.primaryNavigation")} className="mt-4">
+          <div
+            className={`flex flex-col ${enterpriseScope ? "gap-1" : "gap-4"}`}
+          >
+            {(researcherMode || enterpriseScope ? (["command"] as const) : GROUPS).map((group) => (
+              <div key={group}>
+                {!iconOnly ? (
+                  <p className="text-eyebrow text-ink-muted mb-1.5 px-3">
+                    {researcherMode ? (locale === "vi" ? "Nghiên cứu" : "Research") : enterpriseScope
+                      ? t("common.navigation")
+                      : t(`nav.${group}`)}
+                  </p>
+                ) : null}
+                <ul className="flex flex-col gap-0.5">
+                  {NAV_ITEMS.filter((item) =>
+                    researcherMode ? ["research", "authoring"].includes(item.segment) : enterpriseScope
+                      ? [
+                          "",
+                          "missions",
+                          "authoring",
+                          "research",
+                          "evidence",
+                          "execution",
+                          "verification",
+                          "reports",
+                          "settings",
+                        ].includes(item.segment)
+                      : item.group === group,
+                  ).map(
+                    (item) => {
+                      const Icon = item.icon;
+                      const label = researcherMode ? item.segment === "research" ? (locale === "vi" ? "Bàn nghiên cứu" : "Research desk") : (locale === "vi" ? "Tài liệu tham khảo" : "References") : t(item.labelKey);
+                      const title = item.implemented
+                        ? label
+                        : `${label} · ${NOT_IMPLEMENTED}`;
+                      const rowClass = `text-body flex h-9 items-center gap-3 rounded-md font-medium transition-[color,transform] duration-150 ${
+                        iconOnly ? "justify-center px-0" : "px-3"
+                      }`;
+
+                      if (item.implemented) {
+                        const wsBase = workspaceBase ?? "/";
+                        const href =
+                          researcherMode && item.segment === "authoring" && wsBase !== "/"
+                            ? `${wsBase}/research#research-references`
+                            : item.segment && wsBase !== "/"
+                            ? `${wsBase}/${item.segment}`
+                            : wsBase;
+                        return (
+                          <li key={item.label}>
+                            <NavItemLink
+                              href={href}
+                              label={label}
+                              title={title}
+                              onNavigate={onNavigate}
+                              iconOnly={iconOnly}
+                            >
+                              <Icon
+                                className="size-[18px] shrink-0"
+                                aria-hidden="true"
+                              />
+                              {iconOnly ? (
+                                <span className="sr-only">{label}</span>
+                              ) : (
+                                <span>{label}</span>
+                              )}
+                            </NavItemLink>
+                          </li>
+                        );
+                      }
+
+                      return (
+                        <li key={item.label}>
+                          <button
+                            type="button"
+                            aria-disabled="true"
+                            aria-label={title}
+                            title={title}
+                            onClick={(e) => e.preventDefault()}
+                            className={`${rowClass} text-ink-muted w-full cursor-not-allowed text-left opacity-65`}
+                          >
+                            <Icon
+                              className="text-ink-faint size-[18px] shrink-0"
+                              aria-hidden="true"
+                            />
+                            {iconOnly ? (
+                              <span className="sr-only">{label}</span>
+                            ) : (
+                              <span className="flex-1">{label}</span>
+                            )}
+                            {!iconOnly && (
+                              <span
+                                className="text-meta text-ink-muted"
+                                aria-hidden="true"
+                              >
+                                Planned
+                              </span>
+                            )}
+                          </button>
+                        </li>
+                      );
+                    },
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
         </nav>
+        {researcherMode && workspaceBase ? <a href={`${workspaceBase}/research?advanced=1`} onClick={onNavigate}
+          aria-label={locale === "vi" ? "Vận hành hệ thống" : "System operation"}
+          title={iconOnly ? (locale === "vi" ? "Vận hành hệ thống" : "System operation") : undefined}
+          className={`text-meta text-ink-muted mt-8 flex min-h-10 items-center gap-3 rounded-md ${iconOnly ? "justify-center" : "px-3"}`}>
+          <Settings2 className="size-4 shrink-0" aria-hidden="true" />
+          {iconOnly ? <span className="sr-only">{locale === "vi" ? "Vận hành hệ thống" : "System operation"}</span> : <span>{locale === "vi" ? "Vận hành hệ thống" : "System operation"}</span>}
+        </a> : null}
       </div>
 
-      {/* Account footer — real identity when authenticated. */}
+      {/* Account footer — administrative actions stay behind one disclosure. */}
       <div className="border-t border-line p-3">
-        <div
-          className={`flex items-center gap-2 rounded-md px-2 py-2 ${iconOnly ? "justify-center" : ""}`}
-        >
-          <span
-            className="border-line text-ink-faint flex size-8 shrink-0 items-center justify-center rounded-full border"
-            aria-hidden="true"
-          >
-            <UserRound className="size-4" />
-          </span>
-          {!iconOnly && (
-            <span className="min-w-0 flex-1">
-              <span className="text-body text-ink block truncate font-medium">
-                {account ? account.name : "Not signed in"}
+        {iconOnly ? (
+          <details className="group relative">
+            <summary
+              className="text-ink-muted hover:bg-surface-subtle flex h-10 cursor-pointer list-none items-center justify-center rounded-md [&::-webkit-details-marker]:hidden"
+              title={account ? `${account.name} · ${account.email}` : t("common.accountSecurity")}
+              aria-label={t("common.accountSecurity")}
+            >
+              <UserRound className="size-[18px]" aria-hidden="true" />
+            </summary>
+            <div className="border-line bg-surface shadow-panel absolute bottom-0 left-full z-40 ml-3 w-64 rounded-panel border p-3">
+              {account ? <div className="border-line mb-2 min-w-0 border-b pb-2">
+                <p className="text-body text-ink break-words font-medium">{account.name}</p>
+                <p className="text-meta text-ink-muted break-all">{account.email}</p>
+              </div> : null}
+              {footerSlot}
+            </div>
+          </details>
+        ) : (
+          <details className="group">
+            <summary className="hover:bg-surface-subtle flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-2 transition-colors [&::-webkit-details-marker]:hidden">
+              <span
+                className="border-line text-ink-faint flex size-8 shrink-0 items-center justify-center rounded-full border"
+                aria-hidden="true"
+              >
+                <UserRound className="size-4" />
               </span>
-              <span className="text-meta text-ink-muted block truncate">
-                {account ? account.email : "Sign-in arrives in a later stage"}
+              <span className="min-w-0 flex-1">
+                <span className="text-body text-ink block truncate font-medium">
+                  {account ? account.name : "Not signed in"}
+                </span>
+                <span className="text-meta text-ink-muted block truncate">
+                  {account ? account.email : "Account unavailable"}
+                </span>
               </span>
-            </span>
-          )}
-        </div>
-        {!iconOnly && footerSlot ? (
-          <div className="mt-1">{footerSlot}</div>
-        ) : null}
+              <ChevronDown
+                className="text-ink-faint size-4 shrink-0 transition-transform group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+            {footerSlot ? (
+              <div className="border-line mt-1 border-t pt-2">{footerSlot}</div>
+            ) : null}
+          </details>
+        )}
       </div>
     </div>
   );

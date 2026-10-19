@@ -1,0 +1,16 @@
+{
+  "task": "P3",
+  "arm": "METHOD",
+  "stage": "ATTEMPT",
+  "registrationSha256": "d9e7b814880214f16772063e36de307d36ccd49c13ec5cdd2b35787723300ffa",
+  "inputPins": {
+    "common-policy.txt": "f146ce27428abe86ea6621b34e6caef87603735b68583b08a3ab23e85cc6a23a",
+    "method-policy.txt": "a92cb408de6a12c374ccf509c1dbf59048a799ee430749c2617ee8bd771b3a30",
+    "p3.txt": "a23d36985266b723a5be63dbbd55e2a0e5704e7d6365806c99e6def41e54b2a6"
+  },
+  "literalStage": "Produce your original proof attempt under the policy and remaining allowance. No external artifacts are provided. State essential unresolved gaps honestly.",
+  "promptBytes": 3085,
+  "requestPosition": 1,
+  "remainingSeconds": 600.0,
+  "promptSha256": "ffc46e5cb702eb4b30fb9827eb5eeb56fc0ecddc0fbad2519c8a10909b85c0de"
+}

@@ -1,0 +1,22 @@
+{
+  "case_id": "C03",
+  "review_type": "ordinary_mathematical_review_by_Main_not_formal_or_external_human",
+  "status": "B_FALSE_STATEMENT_REFUTATION_SUPPORTED_A_MISSING",
+  "A_initial": {"score": null, "supported": null, "reason": "A1 timed out with no completed answer."},
+  "A_final": {"score": null, "supported": null, "reason": "Later A stages not dispatched."},
+  "B_initial": {"behavior_score": 3, "evidence_score": 3, "fully_supported": true},
+  "B_final": {"behavior_score": 3, "evidence_score": 3, "fully_supported": true},
+  "checks": [
+    "For every odd positive multiple N of 3, all stated destinations lie in the finite state set; the exceptional grid index (-N+3)/2 is integral.",
+    "The transition barycenters are exactly (L+2R)/3 with L<R, hence use only the permitted one-sided hypothesis.",
+    "Repeated right moves strictly increase each nonabsorbing state and force absorption in a uniformly bounded number of moves for that fixed N. Iterating a positive absorption probability proves almost-sure absorption.",
+    "On each fixed finite state space both the numerical states and all real-valued g values are bounded. Bounded convergence therefore justifies terminal numerical expectation and the terminal g inequality without continuity or optional stopping gaps.",
+    "Positive-to-negative crossing occurs only from 1/N to -1/N. All later negative transitions remain nonpositive, including the exceptional transition since N>=3.",
+    "Starting at -1/N, terminal mean -1/N gives 2q2+3q3=1/N. By the first-entry Markov property, original negative terminal mass is at most 1/(2N).",
+    "Only four fixed finite terminal g values appear as N tends to infinity. Vanishing negative mass and preserved mean give p1->1/3, p0->2/3, proving g(1/3)<=(2g(0)+g(1))/3 without any regularity assumption.",
+    "The increasing affine transformation for u>v yields precisely the reversed-order inequality alleged to fail. Thus no such function exists."
+  ],
+  "critic_effect": "B2 checks delicate points but finds no essential defect; the complete alternative proof is already present in B1.",
+  "timing_caveat": "B1 completed at approximately236 seconds, close to the same240-second cap that censored A1. A single near-threshold delivery difference is not causal evidence of superior mathematics or critic effect.",
+  "novelty": "No novelty claim. This is an alternative proof of an existing public benchmark statement."
+}

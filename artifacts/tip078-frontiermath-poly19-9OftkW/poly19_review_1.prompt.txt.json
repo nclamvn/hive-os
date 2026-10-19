@@ -1,0 +1,27 @@
+{
+  "study": "FRONTIERMATH_POLY19_078",
+  "registrationSha256": "8df6e773c3c3ff4a934c8f0219cb73776336d54d23142ca90b7cf23a2c19af49",
+  "bothOriginalSeals": {
+    "DIRECT": {
+      "ordinal": 3,
+      "originalSha256": "647e7febb6bc5298c40223ae40196efd97c49ff8d5d6c091d2132aa9a12c6591",
+      "receiptSha256": "a7cb0afe84f1bd41d30553d8f04cd31258a744526efa537e5f70b36c3e6e694f",
+      "bytes": 5161
+    },
+    "METHOD": {
+      "ordinal": 6,
+      "originalSha256": "5b98df4e62f42d2cc8f728539864fccd36735795ee033049b52f8b8f49aa49b7",
+      "receiptSha256": "01a69ee0efaaeb431dbb464d5ed313e4250b55486abeab7e705c530883dd0a12",
+      "bytes": 6264
+    }
+  },
+  "mapping": {
+    "X": "METHOD",
+    "Y": "DIRECT"
+  },
+  "reviewer": 1,
+  "bridgeSha256": null,
+  "priorGraderExposure": false,
+  "promptSha256": "0a499c4ec1caa54223d7a8af3f2a8a7bc6047de2c5a521830fa5aa9ca5f2ab10",
+  "promptBytes": 14343
+}

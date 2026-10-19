@@ -15,6 +15,15 @@ export interface StoredObjectMetadata {
 export interface PutObjectOptions {
   contentType?: string;
 }
+export interface GetObjectOptions {
+  /** Host intake bound. Omitted preserves legacy whole-object reads. */
+  maxBytes?:number;
+}
+export function boundedObjectReadLimit(options?:GetObjectOptions) {
+  const value=options?.maxBytes;
+  if(value!==undefined && (!Number.isSafeInteger(value) || value<1 || value>64*1024*1024)) throw new Error("Invalid bounded object read limit");
+  return value;
+}
 
 export interface ObjectStorage {
   /** Stable identifier of the backing adapter, e.g. "local" or "s3". */
@@ -27,7 +36,7 @@ export interface ObjectStorage {
   ): Promise<StoredObjectMetadata>;
 
   /** Returns null when the object does not exist. */
-  get(key: string): Promise<Uint8Array | null>;
+  get(key: string,options?:GetObjectOptions): Promise<Uint8Array | null>;
 
   head(key: string): Promise<StoredObjectMetadata | null>;
 

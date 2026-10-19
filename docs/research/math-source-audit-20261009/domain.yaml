@@ -1,0 +1,33 @@
+domain: math-source-audit-20261009
+entity_label: "Eight selected source records, not mathematical results"
+schema:
+  type_field: null
+  fields:
+    - reported_manuscripts
+    - reported_families
+    - reported_results
+    - model_access
+    - compute_equivalent_hours
+    - attempted_problems
+    - formalized_top_line_percent
+    - withdrawn_manuscripts
+    - revised_manuscripts
+    - statement
+    - benchmark_kind
+    - independent_mathematical_acceptance
+rollup_field: benchmark_kind
+universe:
+  estimate: 8
+  basis: "Exactly eight selected source records in this audit; not all repositories or all theorems."
+refresh_days:
+  default: 7
+alias_map: {}
+ambiguous_clusters: []
+domain_gates:
+  no_inferred_fields:
+    - reported_manuscripts
+    - reported_families
+    - reported_results
+    - attempted_problems
+    - formalized_top_line_percent
+    - withdrawn_manuscripts

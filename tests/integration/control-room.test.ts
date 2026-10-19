@@ -55,6 +55,13 @@ describe("Control Room projection", () => {
     const projectionB = await getControlRoomProjection(ctxB);
 
     expect(projectionA.counts.missions).toBe(1);
+    expect(projectionA.commands).toEqual({
+      authoringWrite: true,
+      missionsCreate: true,
+      researchRequest: true,
+      truthWrite: true,
+      verificationOperate: true,
+    });
     expect(projectionA.recentMissions).toHaveLength(1);
     expect(projectionA.counts.skills).toBe(1);
     expect(projectionA.counts.activeSkills).toBe(1);
@@ -88,12 +95,16 @@ describe("Control Room projection", () => {
       role: "VIEWER",
     });
     await acceptInvitation(viewerUser, invitation.rawToken);
-    const viewer = await contextForMembership(
-      viewerUser,
-      owner.workspace.id,
-    );
+    const viewer = await contextForMembership(viewerUser, owner.workspace.id);
 
     const projection = await getControlRoomProjection(viewer);
+    expect(projection.commands).toEqual({
+      authoringWrite: false,
+      missionsCreate: false,
+      researchRequest: false,
+      truthWrite: false,
+      verificationOperate: false,
+    });
     expect(projection.audit.allowed).toBe(false);
     expect(projection.audit.events).toEqual([]);
     await expect(exportAuditLedger(viewer)).rejects.toMatchObject({

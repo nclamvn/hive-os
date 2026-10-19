@@ -12,6 +12,8 @@ import { SettingsNav } from "@/components/settings/settings-nav";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { Panel } from "@/components/ui/panel";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { settingsCopy, settingsValueLabel } from "@/i18n/settings-copy";
+import { getLocale } from "@/i18n/server";
 import {
   getWorkspacePolicy,
   hasCapability,
@@ -22,13 +24,6 @@ import { getDb } from "@/server/db";
 
 export const dynamic = "force-dynamic";
 
-function humanize(value: string) {
-  return value
-    .toLowerCase()
-    .replaceAll("_", " ")
-    .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
-}
-
 export default async function SettingsPage({
   params,
 }: {
@@ -36,6 +31,8 @@ export default async function SettingsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = settingsCopy[locale];
   const role = data.ctx.membership.role;
   const [policy, members, auditCount] = await Promise.all([
     getWorkspacePolicy(data.ctx),
@@ -47,79 +44,78 @@ export default async function SettingsPage({
   const policyCells = [
     {
       icon: Users,
-      label: "Identity",
-      value: `${activeMembers.length} active · ${humanize(role)}`,
-      status: "enforced",
+      label: copy.policy.cells.identity,
+      value: `${activeMembers.length} ${copy.policy.cells.active} · ${settingsValueLabel(locale, role)}`,
+      status: copy.policy.cells.enforced,
     },
     {
       icon: KeyRound,
-      label: "Provider",
+      label: copy.policy.cells.provider,
       value:
         policy.providerPolicyMode === "OPEN_MANUAL"
-          ? "Open manual bridge"
-          : `${policy.allowedProviders.length} allowlisted`,
-      status: "kernel gate",
+          ? copy.policy.cells.openManual
+          : `${policy.allowedProviders.length} ${copy.policy.cells.allowlisted}`,
+      status: copy.policy.cells.kernelGate,
     },
     {
       icon: Database,
-      label: "Storage",
-      value: "Workspace database",
-      status: "local",
+      label: copy.policy.cells.storage,
+      value: copy.policy.cells.workspaceDatabase,
+      status: copy.policy.cells.local,
     },
     {
       icon: SlidersHorizontal,
-      label: "Assurance",
-      value: humanize(policy.defaultAssuranceProfile),
-      status: "draft default",
+      label: copy.policy.cells.assurance,
+      value: settingsValueLabel(locale, policy.defaultAssuranceProfile),
+      status: copy.policy.cells.draftDefault,
     },
     {
       icon: Archive,
-      label: "Retention",
+      label: copy.policy.cells.retention,
       value: `${Math.min(
         policy.artifactRetentionDays,
         policy.evidenceRetentionDays,
         policy.auditRetentionDays,
-      )}+ days`,
-      status: "minimum",
+      )}+ ${copy.policy.cells.days}`,
+      status: copy.policy.cells.minimum,
     },
     {
       icon: ShieldCheck,
-      label: "Release",
-      value: humanize(policy.publicReleasePolicy),
-      status: "kernel gate",
+      label: copy.policy.cells.release,
+      value: settingsValueLabel(locale, policy.publicReleasePolicy),
+      status: copy.policy.cells.kernelGate,
     },
   ];
 
   return (
     <WorkspaceShell
       data={data}
-      title="Settings"
-      subtitle="Workspace authority, operating guardrails and retained accountability."
+      title={copy.policy.pageTitle}
+      subtitle={copy.policy.pageSubtitle}
     >
       <SettingsNav
         slug={workspaceSlug}
         active="policy"
         showAudit={hasCapability(role, "audit.read")}
+        copy={copy.nav}
       />
 
       <div className="space-y-5">
         <Panel className="overflow-hidden">
           <div className="p-[var(--shell-card-padding)]">
-            <p className="text-eyebrow text-navy-700">
-              Workspace control plane
-            </p>
+            <p className="text-eyebrow text-navy-700">{copy.policy.eyebrow}</p>
             <div className="mt-1 flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-3xl">
                 <h2 className="text-page-title text-ink-strong">
-                  Define what this workspace may do before work begins.
+                  {copy.policy.title}
                 </h2>
                 <p className="text-body text-ink-muted mt-2">
-                  Defaults accelerate drafting. Provider and release ceilings
-                  remain enforced by deterministic kernels, and every policy
-                  change is attributed in the audit ledger.
+                  {copy.policy.description}
                 </p>
               </div>
-              <StatusBadge tone="info">version {policy.version}</StatusBadge>
+              <StatusBadge tone="info">
+                {copy.policy.version} {policy.version}
+              </StatusBadge>
             </div>
           </div>
           <dl className="border-line grid border-t min-[760px]:grid-cols-3 min-[1180px]:grid-cols-6">
@@ -145,48 +141,56 @@ export default async function SettingsPage({
           <Panel className="p-[var(--shell-card-padding)]">
             <div className="mb-5">
               <h2 className="text-section-title text-ink-strong">
-                Effective operating policy
+                {copy.policy.effectiveTitle}
               </h2>
               <p className="text-meta text-ink-muted mt-1">
-                Storage is fixed to the local workspace database. External
-                credentials remain outside HIVE OS policy records.
+                {copy.policy.effectiveDescription}
               </p>
             </div>
             <PolicyForm
               slug={workspaceSlug}
               canUpdate={hasCapability(role, "workspace.update")}
               policy={policy}
+              locale={locale}
+              copy={copy.policy.form}
             />
           </Panel>
 
-          <aside className="space-y-4" aria-label="Settings accountability">
+          <aside
+            className="space-y-4"
+            aria-label={copy.policy.accountabilityLabel}
+          >
             <Panel className="p-5">
-              <p className="text-eyebrow text-navy-700">Authority</p>
+              <p className="text-eyebrow text-navy-700">
+                {copy.policy.authority}
+              </p>
               <p className="text-section-title text-ink-strong mt-2">
-                {humanize(role)}
+                {settingsValueLabel(locale, role)}
               </p>
               <p className="text-meta text-ink-muted mt-2">
-                Owners and Admins may update operating policy. Release and
-                membership restrictions remain capability-specific.
+                {copy.policy.authorityDescription}
               </p>
             </Panel>
             <Panel className="p-5">
-              <p className="text-eyebrow text-navy-700">Audit continuity</p>
+              <p className="text-eyebrow text-navy-700">
+                {copy.policy.auditContinuity}
+              </p>
               <p className="text-page-title text-ink-strong mt-2 tabular">
                 {auditCount}
               </p>
               <p className="text-meta text-ink-muted mt-1">
-                append-only workspace events retained
+                {copy.policy.auditRetained}
               </p>
             </Panel>
             <Panel className="p-5">
-              <p className="text-eyebrow text-navy-700">Secret boundary</p>
+              <p className="text-eyebrow text-navy-700">
+                {copy.policy.secretBoundary}
+              </p>
               <p className="text-body text-ink-strong mt-2 font-semibold">
-                Identifiers, never credentials
+                {copy.policy.identifiersOnly}
               </p>
               <p className="text-meta text-ink-muted mt-2">
-                Provider policy accepts names and model identifiers only. API
-                keys and tokens do not belong in settings, prompts or artifacts.
+                {copy.policy.secretDescription}
               </p>
             </Panel>
           </aside>

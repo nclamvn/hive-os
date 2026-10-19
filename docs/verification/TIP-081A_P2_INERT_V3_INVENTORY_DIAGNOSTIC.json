@@ -1,0 +1,14 @@
+{
+  "purpose": "P2_INERT_OUTPUT_INVENTORY_DIAGNOSTIC",
+  "rows": 7268,
+  "open": 0,
+  "unmatched": 0,
+  "hookSites": 10339,
+  "emittedEffects": 17732,
+  "emittedUnknown": 0,
+  "firstUnknown": [],
+  "rules": 30,
+  "staticBytes": 376054,
+  "workspaceBytes": 2732736,
+  "milliseconds": 22.013792000000002
+}

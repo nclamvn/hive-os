@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store/
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,6 +16,8 @@
 
 # next.js
 /.next/
+# Reusable QA/build outputs and legacy generated Next folders, never evidence.
+/.next-*/
 /out/
 
 # production
@@ -43,9 +46,16 @@ yarn-error.log*
 /test-results/
 /playwright-report/
 
+# Unrun Santa Fe pilot source cache: preserve local originals and digest receipts,
+# keep incidental conference attendee data and generated previews out of Git.
+/artifacts/qa/holdout-operator-20261014/sources/
+/artifacts/qa/holdout-operator-20261014/source-previews/
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+__pycache__/
+*.py[cod]
 next-env.d.ts

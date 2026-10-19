@@ -4,6 +4,8 @@ import { type FormEvent, useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { formatAuthCopy } from "@/i18n/auth-copy";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { FormError } from "./auth-card";
 import { FormStatus, PasswordField } from "./auth-fields";
 
@@ -17,6 +19,7 @@ export function SecuritySettings({
   email: string;
   emailVerified: boolean;
 }) {
+  const copy = useAuthCopy();
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -32,11 +35,13 @@ export function SecuritySettings({
     const next = String(data.get("next") ?? "");
     const confirm = String(data.get("confirm") ?? "");
     if (next.length < MIN || next.length > MAX) {
-      setError(`New password must be between ${MIN} and ${MAX} characters.`);
+      setError(
+        formatAuthCopy(copy.security.rangeError, { min: MIN, max: MAX }),
+      );
       return;
     }
     if (next !== confirm) {
-      setError("New passwords do not match.");
+      setError(copy.security.mismatch);
       return;
     }
     setBusy(true);
@@ -47,23 +52,26 @@ export function SecuritySettings({
     });
     setBusy(false);
     if (changeError) {
-      setError("Could not change password. Check your current password.");
+      setError(copy.security.changeFailed);
       return;
     }
     form.reset();
-    setStatus("Password changed. Other sessions were signed out.");
+    setStatus(copy.security.changed);
   }
 
   async function revokeOthers() {
     setError(null);
     setStatus(null);
     await authClient.revokeOtherSessions().catch(() => undefined);
-    setStatus("Other sessions were signed out.");
+    setStatus(copy.security.revoked);
   }
 
   async function resendVerification() {
     await authClient
-      .sendVerificationEmail({ email, callbackURL: "/verify-email" })
+      .sendVerificationEmail({
+        email,
+        callbackURL: "/verify-email?status=complete",
+      })
       .catch(() => undefined);
     setResent(true);
   }
@@ -71,17 +79,18 @@ export function SecuritySettings({
   return (
     <div className="flex flex-col gap-6">
       <section aria-labelledby="email-status">
-        <h2 id="email-status" className="text-section-title text-ink-strong mb-1">
-          Email
+        <h2
+          id="email-status"
+          className="text-section-title text-ink-strong mb-1"
+        >
+          {copy.security.email}
         </h2>
         <p className="text-body text-ink-muted">
-          {emailVerified
-            ? "Your email address is verified."
-            : "Your email address is not verified yet."}
+          {emailVerified ? copy.security.verified : copy.security.unverified}
         </p>
         {!emailVerified &&
           (resent ? (
-            <FormStatus>A new verification link is on its way.</FormStatus>
+            <FormStatus>{copy.security.resent}</FormStatus>
           ) : (
             <Button
               type="button"
@@ -89,7 +98,7 @@ export function SecuritySettings({
               onClick={resendVerification}
               className="mt-2"
             >
-              Resend verification email
+              {copy.security.resend}
             </Button>
           ))}
       </section>
@@ -99,42 +108,50 @@ export function SecuritySettings({
           id="change-password"
           className="text-section-title text-ink-strong mb-2"
         >
-          Change password
+          {copy.security.changePassword}
         </h2>
         {error ? <FormError message={error} /> : null}
         {status ? <FormStatus>{status}</FormStatus> : null}
         <form onSubmit={changePassword} noValidate>
           <PasswordField
             id="current"
-            label="Current password"
+            label={copy.security.currentPassword}
             autoComplete="current-password"
           />
           <PasswordField
             id="next"
-            label="New password"
+            label={copy.security.newPassword}
             autoComplete="new-password"
-            requirementText={`Use ${MIN}–${MAX} characters.`}
+            requirementText={formatAuthCopy(copy.common.passwordRange, {
+              min: MIN,
+              max: MAX,
+            })}
           />
           <PasswordField
             id="confirm"
-            label="Confirm new password"
+            label={copy.security.confirmPassword}
             autoComplete="new-password"
           />
-          <Button type="submit" variant="primary" disabled={busy} className="mt-2">
-            {busy ? "Updating…" : "Update password"}
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={busy}
+            className="mt-2"
+          >
+            {busy ? copy.security.busy : copy.security.submit}
           </Button>
         </form>
       </section>
 
       <section aria-labelledby="sessions">
         <h2 id="sessions" className="text-section-title text-ink-strong mb-2">
-          Sessions
+          {copy.security.sessions}
         </h2>
         <p className="text-body text-ink-muted mb-2">
-          Sign out everywhere except this device.
+          {copy.security.sessionsHint}
         </p>
         <Button type="button" variant="secondary" onClick={revokeOthers}>
-          Revoke other sessions
+          {copy.security.revoke}
         </Button>
       </section>
     </div>

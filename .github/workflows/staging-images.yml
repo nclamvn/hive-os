@@ -1,0 +1,115 @@
+name: staging-images
+
+on:
+  # Product handoff: Git push runs quality checks, not a cloud release.
+  # Invoke explicitly only after the deployment target is approved.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: staging-images
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record bounded OIDC claims
+        shell: bash
+        run: |
+          response="$(curl --fail --silent --show-error \
+            --header "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com")"
+          token="$(jq --raw-output '.value' <<<"${response}")"
+          payload="$(cut --delimiter=. --fields=2 <<<"${token}")"
+          python -c 'import base64,json,sys; p=sys.stdin.read().strip(); p += "=" * (-len(p) % 4); d=json.loads(base64.urlsafe_b64decode(p)); print(json.dumps({k:d.get(k) for k in ("aud","sub","repository","ref","repository_owner_id","repository_id")}, sort_keys=True))' <<<"${payload}"
+
+      - name: Configure short-lived AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::217358003879:role/hiveos-staging-github-build
+          aws-region: ap-southeast-1
+
+      - name: Log in to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Detect existing immutable images
+        id: images
+        shell: bash
+        run: |
+          set -euo pipefail
+          for image in migrator app worker; do
+            repository="hiveos-staging-${image}"
+            if aws ecr describe-images \
+              --repository-name "${repository}" \
+              --image-ids "imageTag=${GITHUB_SHA}" \
+              >/dev/null 2>&1; then
+              echo "${image}_exists=true" >> "${GITHUB_OUTPUT}"
+            else
+              echo "${image}_exists=false" >> "${GITHUB_OUTPUT}"
+            fi
+          done
+
+      - name: Build and publish migration image
+        if: steps.images.outputs.migrator_exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrator
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-migrator:${{ github.sha }}
+
+      - name: Build and publish runtime image
+        if: steps.images.outputs.app_exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: runner
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-app:${{ github.sha }}
+
+      - name: Build and publish research worker image
+        if: steps.images.outputs.worker_exists != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: worker
+          platforms: linux/amd64
+          push: true
+          build-args: VCS_REF=${{ github.sha }}
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/hiveos-staging-worker:${{ github.sha }}
+
+      - name: Promote immutable images to staging
+        shell: bash
+        run: |
+          set -euo pipefail
+          for image in migrator app worker; do
+            repository="hiveos-staging-${image}"
+            manifest="$(aws ecr batch-get-image \
+              --repository-name "${repository}" \
+              --image-ids "imageTag=${GITHUB_SHA}" \
+              --query 'images[0].imageManifest' \
+              --output text)"
+            test -n "${manifest}"
+            test "${manifest}" != "None"
+            aws ecr put-image \
+              --repository-name "${repository}" \
+              --image-tag staging \
+              --image-manifest "${manifest}" \
+              >/dev/null
+          done

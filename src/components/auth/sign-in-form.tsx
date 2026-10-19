@@ -3,13 +3,20 @@
 import { type FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field, FormError } from "./auth-card";
 import { FormStatus } from "./auth-fields";
 
-export function SignInForm() {
+export function SignInForm({
+  demoCredentials,
+}: {
+  demoCredentials?: { email: string; password: string };
+}) {
+  const copy = useAuthCopy();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
@@ -30,13 +37,12 @@ export function SignInForm() {
     setBusy(false);
     if (signInError) {
       const unverified =
-        signInError.status === 403 ||
-        /verif/i.test(signInError.message ?? "");
+        signInError.status === 403 || /verif/i.test(signInError.message ?? "");
       if (unverified) {
         setUnverifiedEmail(email);
         return;
       }
-      setError(signInError.message ?? "Unable to sign in");
+      setError(copy.signIn.unable);
       return;
     }
     router.push("/");
@@ -48,7 +54,7 @@ export function SignInForm() {
     await authClient
       .sendVerificationEmail({
         email: unverifiedEmail,
-        callbackURL: "/verify-email",
+        callbackURL: "/verify-email?status=complete",
       })
       .catch(() => undefined);
     setResent(true);
@@ -57,14 +63,9 @@ export function SignInForm() {
   if (unverifiedEmail) {
     return (
       <div>
-        <FormStatus>
-          Your email isn&apos;t verified yet. Check your inbox for the
-          confirmation link to finish signing in.
-        </FormStatus>
+        <FormStatus>{copy.signIn.unverified}</FormStatus>
         {resent ? (
-          <FormStatus>
-            If this account still needs verification, a new link is on its way.
-          </FormStatus>
+          <FormStatus>{copy.signIn.resent}</FormStatus>
         ) : (
           <Button
             type="button"
@@ -72,7 +73,7 @@ export function SignInForm() {
             onClick={resend}
             className="w-full"
           >
-            Resend verification email
+            {copy.signIn.resend}
           </Button>
         )}
       </div>
@@ -80,25 +81,44 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form onSubmit={onSubmit} noValidate className="signin-form">
       <FormError message={error} />
-      <Field id="email" label="Email" type="email" autoComplete="email" />
+      {demoCredentials ? (
+        <div className="signin-demo-note" role="note">
+          <span className="signin-demo-pulse" aria-hidden="true" />
+          {copy.signIn.localDemo}
+        </div>
+      ) : null}
+      <Field
+        id="email"
+        label={copy.common.email}
+        type="email"
+        autoComplete="email"
+        defaultValue={demoCredentials?.email}
+      />
       <Field
         id="password"
-        label="Password"
+        label={copy.common.password}
         type="password"
         autoComplete="current-password"
+        defaultValue={demoCredentials?.password}
       />
       <div className="mb-1 text-right">
         <Link
           href="/forgot-password"
-          className="text-meta text-blue-600 font-medium underline"
+          className="signin-text-link text-meta"
         >
-          Forgot password?
+          {copy.signIn.forgotPassword}
         </Link>
       </div>
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Signing in…" : "Sign in"}
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="signin-submit mt-3 w-full"
+      >
+        {busy ? copy.signIn.busy : copy.signIn.submit}
+        {!busy ? <ArrowRight className="size-4" aria-hidden="true" /> : null}
       </Button>
     </form>
   );

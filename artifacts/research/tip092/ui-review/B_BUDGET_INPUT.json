@@ -1,0 +1,20 @@
+{
+  "kind": "RATIONAL_EXPRESSION",
+  "expression": {
+    "op": "MUL",
+    "left": {"op":"Q","numerator":"4","denominator":"1"},
+    "right": {
+      "op": "ADD",
+      "left": {
+        "op": "ADD",
+        "left": {"op":"Q","numerator":"3","denominator":"100"},
+        "right": {"op":"Q","numerator":"3","denominator":"100"}
+      },
+      "right": {
+        "op": "ADD",
+        "left": {"op":"Q","numerator":"1","denominator":"256"},
+        "right": {"op":"Q","numerator":"1","denominator":"4096"}
+      }
+    }
+  }
+}

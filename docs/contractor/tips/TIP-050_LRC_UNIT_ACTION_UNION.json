@@ -1,0 +1,49 @@
+{
+  "id":"TIP-050",
+  "date":"2026-10-03",
+  "title":"Certificate-backed kernel-unit transport with exact union accounting",
+  "depends_on":["TIP-048","TIP-049"],
+  "priority":"P1",
+  "task":"Reuse already replayed grid-witness regions under the six units fixing the level2 p199 parent, reconstruct exact per-parent union and complement independently, retain a separate honest partial checkpoint and visible UI.",
+  "sources":{
+    "basePath":"docs/research/lrc-allikvere-p199/retained-cover-report.json",
+    "baseRawSha256":"40ad2047e804b4ea741d55869eb79c25f089de3951175bc612426bcd9b9772a1",
+    "baseReportDigest":"97fa7dfa80beab4e03c2cc9264d5ab02eb3c8ac05b44d6fa8c6b9f73131d5cac",
+    "frontierPath":"docs/research/lrc-allikvere-p199/retained-frontier-report.json",
+    "frontierRawSha256":"a609fcf1fdd6c7d225568d1d830b6a09d069a8657fec7f5bc422f4d588865268",
+    "frontierReportDigest":"e1f1825b817e21b1672e64e025a1c4790d4e1518b94a9e1ab866cb757604f420"
+  },
+  "decisions":[
+    "Owner continuation approves this scoped local method upgrade; no new interview/architectural approval ceremony because schemas/data from prior TIPs stay immutable, no DB/provider/worker/deployment changes or paid calls. Vibecode Kit separates Builders and Main verification.",
+    "Frozen four FULL parents tight0,tight1,tight2,gw0, original thirteen ordered coordinates. Derive all COVER_BOUND leaves from each verified048 FULL certificate and its two049 child certificates; lift child prefixes with the longer compatible target prefix. Exclude anchors047/GCD/SURVIVOR/UNRESOLVED labels. No caller-chosen proved subset or new search.",
+    "For H398,M2786 use exactly t0,2,3,4,5,6 and s1,797,1195,1593,1991,2389. Verify units, modulo398 fixing, same-coordinate digit bijections d'=(1-t)d+t*r mod7 and folded-time permutation. Grid-good transports by one common time permutation, not coordinate-specific times.",
+    "Map each proven prefix cylinder to its exact transformed prefix. Encode ordered digits as base7 ordinal, prefix as half-open interval. Compute canonical sorted disjoint union, merging overlapping AND adjacent intervals; complement in[0,7^13). TypeScript interval merge and independent Python endpoint sweep must agree. Never infer factor6 coverage; fixed points/overlaps can occur.",
+    "Persist compact plan/evidence/summary, complete union/complement digests and bounded examples, not a huge expanded prefix list. Both validators reconstruct entire union/complement from pinned proven source nodes. Exact remaining set is specified by source evidence+action+encoding+algorithm, not merely example intervals.",
+    "SCAN exposed read-only transport counts before BUILD. This is not blind benchmark, mathematical novelty or a model capability score. No subsequent outcome-driven source selection, resource tuning or favorable-input replacement. Known unit-orbit background in Allikvere Remark2.3; special method is proof reuse.",
+    "New view=allikvere-unit on same authenticated dev/test-only route renders only new retained panel to avoid stacked old arithmetic checks; old allikvere/ES views/anchors unchanged and linked. No crossrequest cache, arbitrary execution, Python, producer, external fetch or model on GET.",
+    "Global NOT_ESTABLISHED, five old gaps, unreplayed lowerLRC12, wholeZIP unverified and partial research remain. New exact union does not claim global14/15 theorem, external/formal certification or HIVE LLM campaign."
+  ],
+  "limits":{
+    "oldCertificateCaps":"Unchanged TIP048 and TIP049; validate old sources under their own budgets",
+    "sourceLeavesTotal":120000,
+    "candidateIntervalsTotal":1500000,
+    "unionIntervalsTotal":1500000,
+    "newMethodWork":50000000,
+    "pureAdmissionMs":60000,
+    "independentWrapperMs":90000,
+    "independentStdoutBytes":1048576,
+    "inputBytes":83886080,
+    "retainedReportBytes":1048576,
+    "collectorMs":120000,
+    "examplesPerRow":8
+  },
+  "requirements":[
+    {"id":"R1","criterion":"Externally source/contract-bound strict deterministic action plan and complete proven-node extraction, original axis labels/source/premise preserved. Refuse changed sources/unit set/parent identity/proof-label promotion or child narrowing."},
+    {"id":"R2","criterion":"Derive algebraic action and grid-time permutation, exact interval union/complement counts and digests under bounded work. Identity preserves original coverage; union≥original and≤7^13, complement+union=7^13. Compute overlap/raw transport separately; complete only if complement0."},
+    {"id":"R3","criterion":"Actual isolated Python independently validates pinned048/049 certificates/composition and049 report/receipt binding, derives transport and signed endpoint union/complement. Strict JSON/no external code, literal source/program pins and aggregate deadlines; exact canonical summaries/output match."},
+    {"id":"R4","criterion":"Explicit bounded derive-transport-replay-union-stop collector retains only NEW unit report after final admission, pins source raw bytes, fails closed on invalid/late evidence. Pure GET reconstructs full arithmetic without any producer/process/research/model dispatch."},
+    {"id":"R5","criterion":"Restrained bilingual LaTeX UI with four original/exact union/delta/remaining rows, source units/overlap/digests/examples and explicit ordered-configuration/global limitations. New view avoids old redundant panel checks, old views preserved. Desktop/mobile no overflow."},
+    {"id":"R6","criterion":"Independent Main source/transport/cardinality controls, actual replay, coherent summary/receipt mutations, overlap/fixed-point/adjacency/missing-range/time-action tests, full unit/type/lint/build and visible UI evidence. Quantified completions, immutable source/manifest and append-only handoff checks."}
+  ],
+  "acceptance":"READY_WITH_DEFERRED software can coexist with PARTIAL research; no promise of favorable gain. Defer new HIVE model evidence admission, full closure/theorem/novelty/formal/external acceptance and verified read caching."
+}

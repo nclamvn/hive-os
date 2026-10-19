@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+import { useAuthCopy } from "@/i18n/use-core-copy";
 import { Field } from "./auth-card";
 import { FormStatus } from "./auth-fields";
 
@@ -12,6 +13,7 @@ import { FormStatus } from "./auth-fields";
  * different entered email is never confirmed or denied.
  */
 export function VerifyEmailResendForm() {
+  const copy = useAuthCopy();
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
 
@@ -20,26 +22,34 @@ export function VerifyEmailResendForm() {
     setBusy(true);
     const email = String(new FormData(event.currentTarget).get("email") ?? "");
     await authClient
-      .sendVerificationEmail({ email, callbackURL: "/verify-email" })
+      .sendVerificationEmail({
+        email,
+        callbackURL: "/verify-email?status=complete",
+      })
       .catch(() => undefined);
     setBusy(false);
     setSubmitted(true);
   }
 
   if (submitted) {
-    return (
-      <FormStatus>
-        If that email needs verification, a new link is on its way. It expires in
-        1 hour.
-      </FormStatus>
-    );
+    return <FormStatus>{copy.verifyEmail.resendOutcome}</FormStatus>;
   }
 
   return (
     <form onSubmit={onSubmit} noValidate>
-      <Field id="email" label="Email" type="email" autoComplete="email" />
-      <Button type="submit" variant="primary" disabled={busy} className="mt-2 w-full">
-        {busy ? "Sending…" : "Resend verification"}
+      <Field
+        id="email"
+        label={copy.common.email}
+        type="email"
+        autoComplete="email"
+      />
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={busy}
+        className="mt-2 w-full"
+      >
+        {busy ? copy.verifyEmail.busy : copy.verifyEmail.resend}
       </Button>
     </form>
   );

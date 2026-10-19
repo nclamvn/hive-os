@@ -1,0 +1,220 @@
+You are one solver in an authorized bounded mathematics comparison, in a fresh
+task-only context. Use only the supplied problem and explicitly supplied same-arm
+originals. Do not read files, project/history, reference solutions, credentials,
+environment files or the other arm. No web, network, MCP, plugin, additional model
+or agent calls, installs or filesystem writes. Tools are optional: only in-memory
+Python/arithmetic shell computations, with no network/filesystem access, are allowed.
+The ENTIRE arm has three requests ATTEMPT -> CRITIC -> FINAL and 600seconds,
+including operator transfer/review/revision. At most12 commands, each <=30seconds,
+<=120seconds aggregate across all three requests. Failed work consumes allowance.
+Task data <=2MiB, retained trace <=512KiB, final message <=32KiB UTF-8.
+The operator supplies remaining allowance, never a refreshed arm deadline.
+Provide a rigorous self-contained proof, all blocking lemmas and applicability,
+or identify essential gaps honestly. Finite samples do not prove universal claims.
+Use English and readable LaTeX math. Do not cite remembered official solutions
+instead of proof. No task-specific solution or checker-family hint is provided.
+Final output: exactly one fenced json coefficient/value block requested by the
+problem, then Proof, then Scope and remaining gaps. Submit in the final message.
+
+
+Choose whatever solving, checking and revision strategy you think strongest
+within the shared allowance. You may plan and adversarially review your work.
+No method-specific checklist is imposed. Do not deliberately save resources
+when further useful solving/checking fits your remaining allowance.
+
+
+Construct a polynomial p of degree 19 such that the curve
+X = {(x,y): p(x)=p(y)} in P^1 x P^1 has at least three irreducible
+components over C, not all linear. Require p to be odd, monic, with real
+coefficients and linear coefficient -19. Calculate p(19).
+
+Shared evaluation constraint, ADDITIONAL to the original real-coefficient task:
+choose an integer-coefficient construction. Supply exactly one fenced json
+block containing exactly two keys: "coefficients" (20 integers in ascending
+order, from constant through degree19, each at most256bits) and "claimed_value"
+(integer, at most512bits). Supply a self-contained mathematical proof separately.
+An unsupported coefficient domain or certificate is not automatically an
+incorrect answer to the original problem. Do not substitute a scalar-only answer.
+This is a public sample, not an unpublished or official scored benchmark.
+
+
+Use only the same-arm original attempt and criticism below. Produce your final complete proof or explicitly identify remaining essential gaps. This last completed revision is the immutable submission; no later repair is permitted.
+
+OPERATOR RESOURCE NOTICE: This is request position 3 (FINAL) in the fixed three-request pipeline. Remaining operator time ceiling for this request is 449.853 seconds. Remaining cumulative computational commands 8, command elapsed 120 seconds (each<=30s), retained trace 509653 bytes. This does not refresh the arm or cohort deadline. Work only within the same sealed policy and remaining allowance.
+
+SAME-ARM ORIGINAL ATTEMPT:
+
+```json
+{
+  "coefficients": [0, -19, 0, 285, 0, -1254, 0, 2508, 0, -2717, 0, 1729, 0, -665, 0, 152, 0, -19, 0, 1],
+  "claimed_value": 1876572071974094803391179
+}
+```
+
+## Proof
+
+Define polynomials by
+\[
+D_0(x)=2,\qquad D_1(x)=x,\qquad
+D_n(x)=xD_{n-1}(x)-D_{n-2}(x)\quad(n\ge2).
+\]
+Take \(p=D_{19}\). The recurrence gives integer coefficients, and induction shows that \(D_n\) is monic of degree \(n\) for \(n\ge1\), with
+\[
+D_n(-x)=(-1)^nD_n(x).
+\]
+In particular, \(p\) is odd and monic.
+
+To calculate its coefficients, the recurrence gives the formal generating function
+\[
+\sum_{n\ge0}D_n(x)t^n=\frac{2-xt}{1-xt+t^2}.
+\]
+Expanding the denominator geometrically and collecting coefficients gives, for \(n\ge1\),
+\[
+D_n(x)=
+\sum_{j=0}^{\lfloor n/2\rfloor}
+(-1)^j
+\left[
+\binom{n-j}{j}+\binom{n-j-1}{j-1}
+\right]x^{n-2j},
+\]
+where a binomial coefficient with lower index \(-1\) is zero. Thus
+\[
+\begin{aligned}
+p(x)={}&x^{19}-19x^{17}+152x^{15}-665x^{13}
+ +1729x^{11}\\
+&-2717x^9+2508x^7-1254x^5+285x^3-19x.
+\end{aligned}
+\]
+This verifies the supplied coefficients and the required linear coefficient.
+
+We next prove an exact factorization of the equality curve. The recurrence implies the Laurent-polynomial identity
+\[
+D_n(u+u^{-1})=u^n+u^{-n}.
+\]
+Indeed, it holds for \(n=0,1\), and multiplication by \(u+u^{-1}\), followed by subtraction of the preceding term, proves the induction step.
+
+Let
+\[
+\zeta=e^{2\pi i/19},\qquad
+c_k=\frac{\zeta^k+\zeta^{-k}}2
+=\cos\frac{2\pi k}{19}\quad(1\le k\le9).
+\]
+We claim
+\[
+p(y)-p(x)=(y-x)\prod_{k=1}^{9}Q_k(x,y),
+\]
+where
+\[
+Q_k(x,y)=x^2+y^2-2c_kxy-4(1-c_k^2).
+\]
+
+To prove this universally, take \(u\) transcendental over \(\mathbb C\), set \(x=u+u^{-1}\), and work over \(\mathbb C(u)\). The nineteen elements
+\[
+y_j=\zeta^j u+\zeta^{-j}u^{-1},
+\qquad 0\le j\le18,
+\]
+are distinct: their coefficients of \(u\) are distinct. Moreover,
+\[
+p(y_j)=(\zeta^j u)^{19}+(\zeta^j u)^{-19}
+=u^{19}+u^{-19}=p(x).
+\]
+Consequently the monic degree-19 polynomial \(p(y)-p(x)\) is
+\[
+\prod_{j=0}^{18}(y-y_j).
+\]
+Here \(y_0=x\). Pairing indices \(k\) and \(19-k\) gives
+\[
+y_k+y_{19-k}=2c_kx,\qquad
+y_ky_{19-k}=x^2-4(1-c_k^2),
+\]
+so each paired product is \(Q_k(x,y)\). Finally, \(u+u^{-1}\) is transcendental over \(\mathbb C\): otherwise \(u\), which satisfies
+\[
+u^2-xu+1=0,
+\]
+would be algebraic over \(\mathbb C\). Thus substitution \(x=u+u^{-1}\) is injective on \(\mathbb C[x,y]\), proving the claimed polynomial identity.
+
+Each \(Q_k\) is irreducible over \(\mathbb C\). Viewed as a monic quadratic in \(y\), its discriminant is
+\[
+\Delta_k(x)=4(1-c_k^2)(4-x^2).
+\]
+Since \(0<2\pi k/19<\pi\), we have \(c_k\ne\pm1\). Therefore \(\Delta_k\) has simple zeros at \(x=2\) and \(x=-2\). A square of a rational function has even order at every zero and pole, so \(\Delta_k\) is not a square in \(\mathbb C(x)\). The quadratic is therefore irreducible over \(\mathbb C(x)\). It is also irreducible in \(\mathbb C[x,y]\): any factor depending only on \(x\) would divide its leading coefficient \(1\), while any other factorization would persist over \(\mathbb C(x)\).
+
+The numbers \(c_1,\ldots,c_9\) are distinct, because cosine is strictly decreasing on \((0,\pi)\). Hence these are nine distinct irreducible quadratic factors, alongside the diagonal factor \(y-x\).
+
+For completeness, this factorization gives components in the specified projective surface. In coordinates
+\[
+x=[X:Z],\qquad y=[Y:W],
+\]
+the bihomogenized quadratic factors are
+\[
+X^2W^2+Y^2Z^2-2c_kXYZW
+-4(1-c_k^2)Z^2W^2.
+\]
+Their only boundary point is \((\infty,\infty)\). This point belongs to the closure of each affine curve, as seen by letting \(u\to\infty\) in
+\[
+x=u+u^{-1},\qquad y=\zeta^ku+\zeta^{-k}u^{-1}.
+\]
+Thus their projective zero sets are precisely their irreducible closures. Bihomogenizing the factorization proves that the projective equality curve has exactly ten irreducible components: the diagonal and these nine closures. The latter have affine degree two and projective bidegree \((2,2)\), so they are not linear.
+
+Finally, write \(p(x)=xR(x^2)\), where
+\[
+R(t)=t^9-19t^8+152t^7-665t^6+1729t^5
+-2717t^4+2508t^3-1254t^2+285t-19.
+\]
+Horner evaluation gives
+\[
+R(361)=98766951156531305441641.
+\]
+Therefore
+\[
+\boxed{p(19)=19R(361)=1876572071974094803391179}.
+\]
+
+## Scope and remaining gaps
+
+All requirements are satisfied, with integer coefficients and ten irreducible components over \(\mathbb C\). The coefficient magnitudes use at most 12 bits, and the claimed value uses 81 bits. There are no unresolved gaps.
+
+SAME-ARM ORIGINAL CRITIC:
+
+The attempt is correct. I found no blocking mathematical gap, and the supplied coefficients and claimed value check out independently.
+
+- **Construction and arithmetic.** Computing \(D_{19}\) directly from the recurrence reproduces all 20 supplied coefficients. Horner evaluation independently gives
+  \[
+  p(19)=1876572071974094803391179.
+  \]
+  The recurrence establishes integer coefficients, degree \(19\), monicity, and oddness. The displayed expansion establishes the linear coefficient \(-19\). The largest coefficient magnitude requires 12 bits, and the value requires 81 bits, within both limits.
+
+- **Factorization.** The Laurent identity follows by induction. The nineteen proposed roots are distinct because, for different indices, their difference is a nonzero Laurent polynomial in the transcendental variable \(u\). They exhaust the roots of the monic degree-\(19\) polynomial in \(y\). The paired-root computation is correct:
+  \[
+  y_k+y_{19-k}=2c_kx,\qquad
+  y_ky_{19-k}=x^2-4(1-c_k^2).
+  \]
+  Transcendence of \(u+u^{-1}\) makes the substitution injective, so the resulting factorization is a polynomial identity, rather than evidence from particular values.
+
+- **Irreducibility and distinctness.** Each discriminant is correctly calculated as
+  \[
+  4(1-c_k^2)(4-x^2).
+  \]
+  For every \(1\le k\le9\), the angle lies strictly between \(0\) and \(\pi\), so the constant factor is nonzero. The simple zeros at \(x=\pm2\) exclude a rational square. In characteristic zero, the quadratic discriminant criterion therefore proves irreducibility over \(\mathbb C(x)\). Monicity in \(y\) excludes any nonconstant factor depending only on \(x\), completing the argument over \(\mathbb C[x,y]\). Strict decrease of cosine makes the nine factors distinct; their degree excludes association with \(y-x\). The special fibers at \(x=\pm2\) do not undermine global irreducibility.
+
+- **Projective boundary and component count.** The projective argument is valid. A useful clarification for the final submission would be to define
+  \[
+  P(X,Z)=Z^{19}p(X/Z).
+  \]
+  The polynomial induces the everywhere-defined morphism
+  \[
+  [X:Z]\longmapsto[P(X,Z):Z^{19}],
+  \]
+  because \(P(X,0)=X^{19}\). Thus the projective equality curve has equation
+  \[
+  P(Y,W)Z^{19}-P(X,Z)W^{19}=0.
+  \]
+  There are no points with exactly one coordinate infinite: substituting \(Z=0,\ W\ne0\), or \(W=0,\ Z\ne0\), makes this expression nonzero. The only boundary point is \((\infty,\infty)\).
+
+  Each homogenized quadratic likewise has only that boundary point, and the supplied parametrization approaches it. Consequently its zero set is exactly its irreducible affine curve’s closure. Homogenizing the factorization introduces no extra factor: the bidegrees sum to
+  \[
+  (1,1)+9(2,2)=(19,19).
+  \]
+  The ten distinct closures remain distinct even though they meet at infinity. The quadratic components are not affine lines.
+
+The only recommended revision is the explicit projective-morphism equation above, which clarifies the meaning of equality at infinity. It repairs no actual defect. There are no unresolved essential gaps.

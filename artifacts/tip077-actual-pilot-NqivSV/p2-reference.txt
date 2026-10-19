@@ -1,0 +1,3 @@
+GRADER-ONLY REFERENCE — acquired after all six submissions were sealed.
+Source: https://www.imo-official.org/assets/documents/problems/2024/IMO2024SL.pdf#page=104
+N4 (IMO P2), printed page102: only (1,1), with g=2. The official argument bounds g by twice gcd(a,b), then uses modular exponents to eliminate every other pair. Audit the submitted implications independently; agreement with the answer is insufficient.

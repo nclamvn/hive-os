@@ -1,0 +1,25 @@
+{
+  "case_id": "C02",
+  "review_type": "ordinary_mathematical_review_and_small_exact_construction_check_by_Main",
+  "status": "B_PARTIAL_A_MISSING",
+  "reference_answer": "31",
+  "A_initial": {"score": null, "supported": null, "reason": "A1 timed out with no completed answer; later A stages not dispatched."},
+  "A_final": {"score": null, "supported": null, "reason": "No completed final."},
+  "B_initial": {"answer_score": 0, "support_score": 2, "fully_supported": false, "honest_gap": true},
+  "B_final": {"answer_score": 0, "support_score": 2, "fully_supported": false, "honest_gap": true},
+  "checks": [
+    "Projection onto two positions is injective, proving only the bound M<=36.",
+    "The five linear forms over F5 have pairwise independent coefficient vectors.",
+    "Removing the five diagonal tuples and replacing each by two tuples whose entry-5 supports partition four coordinates produces size30.",
+    "The ten replacement supports are exactly all unordered position pairs, so two different supports intersect in at most one position.",
+    "No proof of an optimal size31 construction or an upper bound31 appears. The final explicitly identifies this gap and does not assert a false optimum."
+  ],
+  "independent_construction_replay": {
+    "size": 30,
+    "pairs_checked": 435,
+    "violations": 0,
+    "wall_seconds": 0.00023491698084399104,
+    "scope": "Exact verification of the supplied finite size30 construction, not a proof of the universal optimum."
+  },
+  "critic_effect": "B2 validates B1 and restates the acknowledged essential gap; no mathematical improvement in the final."
+}

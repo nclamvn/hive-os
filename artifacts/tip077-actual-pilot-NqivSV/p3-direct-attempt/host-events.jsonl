@@ -1,0 +1,6 @@
+{"kind": "request-reserved", "wall": "2026-10-05T16:14:17.388968+00:00", "elapsed": 0.0007091250154189765, "ordinal": 13}
+{"kind": "spawned", "wall": "2026-10-05T16:14:17.391281+00:00", "elapsed": 0.0030405839788727462, "pid": 5792}
+{"kind": "tool-start", "wall": "2026-10-05T16:14:38.289878+00:00", "elapsed": 20.901567499968223, "toolId": "item_1", "toolCount": 1}
+{"kind": "tool-end", "wall": "2026-10-05T16:14:38.290016+00:00", "elapsed": 20.90169466700172, "toolId": "item_1", "observedSeconds": 0.00013895903248339891}
+{"kind": "tool-start", "wall": "2026-10-05T16:17:42.701060+00:00", "elapsed": 205.31228391698096, "toolId": "item_3", "toolCount": 2}
+{"kind": "tool-end", "wall": "2026-10-05T16:17:43.356151+00:00", "elapsed": 205.9673772919923, "toolId": "item_3", "observedSeconds": 0.6550895420368761}

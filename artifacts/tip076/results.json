@@ -1,0 +1,202 @@
+{
+  "config": {
+    "argv": [
+      "/usr/local/bin/node",
+      "/Users/os/hiveos/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=playwright.tip076.config.ts"
+    ],
+    "configFile": "/Users/os/hiveos/playwright.tip076.config.ts",
+    "rootDir": "/Users/os/hiveos/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/os/hiveos/artifacts/tip076/playwright",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/os/hiveos/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "research-campaign-v3.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/tip076/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": {
+      "command": "PORT=3116 node scripts/test/start-tip076-standalone.mjs",
+      "url": "http://localhost:3116/api/health",
+      "reuseExistingServer": false,
+      "timeout": 30000,
+      "env": {
+        "NODE_ENV": "test",
+        "DATABASE_URL": "postgresql://hiveos_app:hiveos_app@localhost:5433/hiveos_test",
+        "DATABASE_MIGRATION_URL": "postgresql://hiveos:hiveos@localhost:5433/hiveos_test",
+        "BETTER_AUTH_SECRET": "hiveos-e2e-secret-not-for-production-use",
+        "BETTER_AUTH_URL": "http://localhost:3116",
+        "AUTH_ALLOW_SELF_SIGNUP": "true",
+        "AUTH_RATE_LIMIT_ENABLED": "false",
+        "STORAGE_DRIVER": "local",
+        "STORAGE_LOCAL_ROOT": ".storage-test",
+        "DEMO_FIXTURES_ENABLED": "false",
+        "MATH_PILOT_QUEUE_ENABLED": "true",
+        "HIVE_E2E_BASE_URL": "http://localhost:3116",
+        "HIVE_TIP076_STORAGE_ROOT": "/private/tmp/hiveos-tip076-ui-storage-7xhyef"
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "research-campaign-v3.spec.ts",
+      "file": "research-campaign-v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TIP076D actual owned commands, worker checks and independent retained grades",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [
+                {
+                  "type": "isolated-QA observation",
+                  "description": "{\"email\":\"e2e-8b617286-869e-4cfe-8507-1c5c44cf4bd9@test.local\",\"dashboardUrl\":\"http://localhost:3116/w/tip076-campaign-engineering-eb1f36\",\"missionId\":\"689c232a-e651-4efd-b342-fba6a3b2cc7b\"}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6342,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Retain exact catalog control LINEAR_FIVE",
+                      "duration": 1045
+                    },
+                    {
+                      "title": "Retain exact catalog control TRIANGLE_CYCLE",
+                      "duration": 853
+                    },
+                    {
+                      "title": "Retain exact catalog control BINOMIAL_IDENTITY",
+                      "duration": 886
+                    },
+                    {
+                      "title": "Retain exact catalog control RATIONAL_NEGATIVE_FLOOR",
+                      "duration": 885
+                    }
+                  ],
+                  "startTime": "2026-10-05T14:38:38.005Z",
+                  "annotations": [
+                    {
+                      "type": "isolated-QA observation",
+                      "description": "{\"email\":\"e2e-8b617286-869e-4cfe-8507-1c5c44cf4bd9@test.local\",\"dashboardUrl\":\"http://localhost:3116/w/tip076-campaign-engineering-eb1f36\",\"missionId\":\"689c232a-e651-4efd-b342-fba6a3b2cc7b\"}"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6626a455039de0ecfd41-adf53aae99600929064d",
+          "file": "research-campaign-v3.spec.ts",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "TIP076D existing math pilot remains accessible across locale/theme/mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4122,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T14:38:44.626Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6626a455039de0ecfd41-e970d6395b0a36691810",
+          "file": "research-campaign-v3.spec.ts",
+          "line": 69,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T14:38:36.519Z",
+    "duration": 12311.838000000002,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

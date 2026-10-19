@@ -1,0 +1,423 @@
+{
+  "tip": "TIP-050",
+  "date": "2026-10-03",
+  "verifier": "Main Contractor; independent implementations and exact arithmetic, not external/formal certification",
+  "implementationStatus": "READY_WITH_DEFERRED",
+  "researchStatus": "PARTIAL",
+  "globalVerdict": "NOT_ESTABLISHED",
+  "contractSha256": "93acc34e6cd0ca009fc9e6a7ab65df0ec801b0cf956874c355ee861967a255e9",
+  "requirements": {
+    "R1": "PASS: externally pinned complete 88041 COVER_BOUND source leaves from four FULL base parents and eight children; original labels and longer compatible prefix lift; deterministic sealed plan forbids favorable subset.",
+    "R2": "PASS: same-coordinate six-unit bijections with a common time permutation, exact overlap/adjacency union and full complement; count conservation and fixed-point controls. No general factor-six inference.",
+    "R3": "PASS: actual isolated literal three-source Python independently replays sixteen old certificates/composition and outer receipt, derives all actions and signed endpoint sweep. Exact summary/stdout match; fail-closed mutations.",
+    "R4": "PASS: one explicit bounded Main collector retained a new fully admitted artifact; pure projection reconstructs complete arithmetic without generation, subprocess, research fetch or model. Instrumented Product actual positive process count1 then retained count0.",
+    "R5": "PASS: separate retained-only bilingual view with two LaTeX formulas, four exact rows, full digests/bounded examples and explicit five gaps; desktop/mobile no horizontal document overflow. Old views/panels preserved.",
+    "R6": "PASS: separate Main Map-tree/explicit-set/digest/fixed-point diagnostics, actual standalone Python and rehashed report faults; final whole regression/type/lint/build/browser and immutable preservation checks. External/global acceptance deferred."
+  },
+  "actualCollector": {
+    "command": "NODE_ENV=development node --import tsx scripts/operations/allikvere-unit-audit.ts --write",
+    "elapsedMs": 37806,
+    "checkpointPath": "docs/research/lrc-allikvere-p199/retained-unit-report.json",
+    "bytes": 16493,
+    "rawSha256": "78519d5c7113a63bf79ed6ab8352adcf221937a6b13bfa0647251ce5478d99d4",
+    "contentDigest": "b155a25e6a6579ff2c5c74ed2d08285c60b0e7cad6142cd3cc25e36cc7cc0357",
+    "planDigest": "4265dd104bdbe2ec8b5e348503b80f82f8abc037412e914357642d6c8bddf221",
+    "loopKind": "LOCAL_COMPUTATIONAL_PROOF_REUSE",
+    "isHiveModelCampaign": false,
+    "sourceLeaves": 88041,
+    "candidateIntervals": 528246,
+    "deltaSum": "4776921555",
+    "rows": [
+      {
+        "parent": "tight0",
+        "original": "260155553",
+        "union": "1560933318",
+        "delta": "1300777765",
+        "remaining": "95328077089",
+        "unionAndComplementIntervals": 72,
+        "status": "PARTIAL"
+      },
+      {
+        "parent": "tight1",
+        "original": "316139670",
+        "union": "1896838020",
+        "delta": "1580698350",
+        "remaining": "94992172387",
+        "unionAndComplementIntervals": 79,
+        "status": "PARTIAL"
+      },
+      {
+        "parent": "tight2",
+        "original": "160043457",
+        "union": "960260742",
+        "delta": "800217285",
+        "remaining": "95928749665",
+        "unionAndComplementIntervals": 83,
+        "status": "PARTIAL"
+      },
+      {
+        "parent": "gw0",
+        "original": "219045631",
+        "union": "1314273786",
+        "delta": "1095228155",
+        "remaining": "95574736621",
+        "unionAndComplementIntervals": 58,
+        "status": "PARTIAL"
+      }
+    ],
+    "countMeaning": "Summed ordered row-domain assignments, not globally unique velocities, orbit classes, new mathematics or global completion. Overlap0 was reconstructed for these inputs, not assumed. Every row retains more than98% unresolved."
+  },
+  "mainIndependentControls": {
+    "standaloneReplay": {
+      "actualStandalonePython": true,
+      "sourceCertificates": 16,
+      "exactSummaryMatched": true,
+      "exactOutputDigestMatched": true,
+      "elapsedMs": 7623,
+      "outputDigest": "c9ff403a88767f3f1a0170738891697354fc679de179285c0eaba5269a0d479b"
+    },
+    "prefixTree": {
+      "rows": [
+        {
+          "parentId": "p199-tight-terminal-0-full",
+          "sourceLeaves": 21569,
+          "candidates": 129414,
+          "union": "1560933318",
+          "remaining": "95328077089",
+          "delta": "1300777765",
+          "disjointTrieLeaves": 129414
+        },
+        {
+          "parentId": "p199-tight-terminal-1-full",
+          "sourceLeaves": 20658,
+          "candidates": 123948,
+          "union": "1896838020",
+          "remaining": "94992172387",
+          "delta": "1580698350",
+          "disjointTrieLeaves": 123948
+        },
+        {
+          "parentId": "p199-tight-terminal-2-full",
+          "sourceLeaves": 23385,
+          "candidates": 140310,
+          "union": "960260742",
+          "remaining": "95928749665",
+          "delta": "800217285",
+          "disjointTrieLeaves": 140310
+        },
+        {
+          "parentId": "p199-gw-terminal-0-full",
+          "sourceLeaves": 22429,
+          "candidates": 134574,
+          "union": "1314273786",
+          "remaining": "95574736621",
+          "delta": "1095228155",
+          "disjointTrieLeaves": 134574
+        }
+      ],
+      "badPredicateComparisons": 3044496,
+      "algorithm": "Independent Map prefix tree, no production imports",
+      "scope": "diagnostic only; source arithmetic requires actual replay"
+    },
+    "smallSetOracle": {
+      "cases": 53,
+      "explicitBlockMembershipChecks": 2597,
+      "fixedPointControl": "one image not six",
+      "allSevenAxisControl": "root once, overlapping six images",
+      "ancestorDescendantAndMissingBlockControls": true,
+      "productionMathHelpersAgainstExplicitSpeedAction": true
+    },
+    "fixedPoint": {
+      "missingFixedPointBlockControl": true,
+      "hole": {
+        "start": "17795940687",
+        "end": "19773267430"
+      },
+      "fixedPointDiagnostics": [
+        {
+          "parent": "p199-tight-terminal-0-full",
+          "digits": [
+            4,
+            2,
+            6,
+            0,
+            1,
+            2,
+            3,
+            1,
+            5,
+            3,
+            0,
+            5,
+            2
+          ],
+          "allSpeedsDivisibleBy7": true,
+          "gridWitness": null
+        },
+        {
+          "parent": "p199-tight-terminal-1-full",
+          "digits": [
+            4,
+            2,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            3,
+            0,
+            5,
+            2
+          ],
+          "allSpeedsDivisibleBy7": true,
+          "gridWitness": null
+        },
+        {
+          "parent": "p199-tight-terminal-2-full",
+          "digits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "allSpeedsDivisibleBy7": true,
+          "gridWitness": null
+        },
+        {
+          "parent": "p199-gw-terminal-0-full",
+          "digits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            3
+          ],
+          "allSpeedsDivisibleBy7": true,
+          "gridWitness": null
+        }
+      ],
+      "note": "Grid nonwitness not continuous-time counterexample; conditional gcd label remains unpromoted"
+    },
+    "fullDigests": {
+      "algorithm": "Independent prefix-tree DFS, canonical consecutive cells and full complement",
+      "rows": [
+        {
+          "parent": "p199-tight-terminal-0-full",
+          "unionIntervals": 72,
+          "complementIntervals": 72,
+          "unionDigestMatched": true,
+          "complementDigestMatched": true,
+          "examplesMatched": true,
+          "fixedPointRemainsUncovered": true
+        },
+        {
+          "parent": "p199-tight-terminal-1-full",
+          "unionIntervals": 79,
+          "complementIntervals": 79,
+          "unionDigestMatched": true,
+          "complementDigestMatched": true,
+          "examplesMatched": true,
+          "fixedPointRemainsUncovered": true
+        },
+        {
+          "parent": "p199-tight-terminal-2-full",
+          "unionIntervals": 83,
+          "complementIntervals": 83,
+          "unionDigestMatched": true,
+          "complementDigestMatched": true,
+          "examplesMatched": true,
+          "fixedPointRemainsUncovered": true
+        },
+        {
+          "parent": "p199-gw-terminal-0-full",
+          "unionIntervals": 58,
+          "complementIntervals": 58,
+          "unionDigestMatched": true,
+          "complementDigestMatched": true,
+          "examplesMatched": true,
+          "fixedPointRemainsUncovered": true
+        }
+      ]
+    },
+    "coherentlyRehashedReportFaults": [
+      {
+        "defect": "cardinality",
+        "rejected": true,
+        "elapsedMs": 7865,
+        "coherentlyRehashed": true
+      },
+      {
+        "defect": "unionDigest",
+        "rejected": true,
+        "elapsedMs": 8453,
+        "coherentlyRehashed": true
+      }
+    ],
+    "primaryReference": "https://arxiv.org/html/2609.02604v2",
+    "referenceMeaning": "Known unit-orbit background in Remark2.3; local lift specialization/proof reuse is not novelty acceptance.",
+    "nextRoutingDiagnostic": {
+      "coverageAuthority": false,
+      "groupCompositionChecks": 49392,
+      "closedThreeAxisPointsPerParent": 343,
+      "orbitsPerSlice": 58,
+      "fixedOrbits": 1,
+      "freeOrbits": 57,
+      "remainingOrbitsPerParent": [
+        "15888012849",
+        "15832028732",
+        "15988124945",
+        "15929122771"
+      ],
+      "note": "Elementary known group action; canonical first-nonzero normalization is a future routing lemma, not deployed quotient search, new coverage, novelty or global theorem."
+    },
+    "extraStaticRepairs": {
+      "tests/unit/math-lrc-allikvere-report.test.ts": {
+        "before": "0c2f52a2d483e92a66f69a122f86a8670b9106f303ed862db97b6f337c240d55",
+        "after": "927b045848eb19ff214ca0ce34a9b92a95c7c704e2f6e7acf07391b02d589ba4"
+      },
+      "tests/unit/math-lrc-cover-report.test.ts": {
+        "before": "b3ebf954c3dd5a3a6e7022db40e97b58cf76d613243cc8d8df37b7e600de4970",
+        "after": "3d223ca33b83b67e3f48fe970d9a1c622d37c1653a57367fbd21379bdb722f95"
+      }
+    }
+  },
+  "preservation": {
+    "priorPinnedFiles": 24,
+    "currentManifestEntries": 92,
+    "foundingManifestUnchanged": true,
+    "handoffPriorBytes": 215934,
+    "handoffPriorPrefixSha256": "64d2a53bbbdef7396d4216c8cb3422b9be1728423e83c516ec887341c53b034e",
+    "head": "4d108227498d3578c9ac3fe60305c10da5aa905b",
+    "gitPublication": false,
+    "paidApiCalls": 0,
+    "databaseMutations": 0,
+    "dependencyInstall": false,
+    "deployment": false,
+    "queueEnabled": false,
+    "worker": "STOPPED"
+  },
+  "disclosedFailuresAndLimits": [
+    "Replay preliminary zero-budget provenance loop only established clock rejection; replaced by five fresh nonzero tests plus clock, targeted6/6. Main full regression runs the final22-case file together.",
+    "Core policy/resource unit fixtures mock old frontier admission after actual pinned positive fixture; Replay/Main use actual Python and Main separate arithmetic, not external/expert/formal independence.",
+    "Main inline fixed-point diagnostic return14 typo corrected and successfully rerun without product/evidence mutations. Initial browser short navigation wait exceeded while server computed; later visible admitted page verified.",
+    "Unsupported browser heading-level option was ambiguous; known DOM selector replaced it. Narrow viewport screenshot clipped visible panel; full-page1366x2233 captures actual default content. Temporary viewport reset.",
+    "Exactly three old TIP049 test selector expectations changed mechanically under Main approval; old semantics/caps/artifacts/panels preserved.",
+    "Observed synchronous JavaScript deadlines are cooperative, not hard CPU preemption. Unsigned hashes/receipts trust local storage/collector/interpreter; no external attestation.",
+    "Pre-BUILD transport counts were exposed. Not blind/held-out benchmark, LLM capability or novelty. Whole ZIP unverified and lowerLRC12 premise unreplayed.",
+    "Five old global gaps remain: all level1 orbits, other primes, full terminal closure, lowerLRC12, analytic prime-product bound. No14/15 theorem acceptance.",
+    "New HIVE typed model-cycle integration, formal/external review and verified read caching remain separate. No model campaign, DB change, paid provider or Git publication this turn.",
+    "Initial full124-file regression1092PASS/2staticFAIL458.94s. Main authorized narrowly mechanical TIP047/TIP048 selector updates; mathematical admission had passed. Full frozen regression rerun, no production/cap changes.",
+    "Old stacked-view server history contained17:21 auth/pool timeouts; subsequent new-view reads200 and fresh post-build admission succeeded. Verified caching/event-loop isolation remains deferred operational work.",
+    "Old tab16 became a connection-error data URL after shutdown and reload/cleanup was policy-blocked. New same-browser tab17 admitted the real local view; no safety/URL policy bypass.",
+    "Next-routing inline diagnostic initially expected scope inside compact plan and failed before checks; corrected to pinned base row with no product/evidence writes."
+  ],
+  "qa": {
+    "unit": {
+      "status": "PASS",
+      "files": 124,
+      "passed": 1094,
+      "failed": 0,
+      "durationSeconds": 408.68,
+      "startLocal": "17:39:13",
+      "command": "npm run test:unit -- --maxWorkers=2"
+    },
+    "initialUnit": {
+      "status": "FAIL_STATIC_EXPECTATIONS_ONLY",
+      "files": 124,
+      "passed": 1092,
+      "failed": 2,
+      "durationSeconds": 458.94
+    },
+    "newFocusedCases": {
+      "core": 22,
+      "replay": 22,
+      "product": 21,
+      "total": 65
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "productionBuild": {
+      "status": "PASS",
+      "exitCode": 0,
+      "compiledSeconds": 5.3,
+      "typeSeconds": 24.4,
+      "standaloneEnvScrubbed": true,
+      "standaloneAssetsPrepared": true
+    },
+    "diffCheck": "PASS",
+    "dbIntegration": "NOT_RUN_THIS_TURN",
+    "browser": {
+      "desktop": {
+        "width": 1280,
+        "height": 960,
+        "documentWidth": 1280
+      },
+      "mobile": {
+        "width": 390,
+        "height": 844,
+        "documentWidth": 390,
+        "languages": [
+          "EN",
+          "VN"
+        ]
+      },
+      "newPanelFormulas": 2,
+      "mathErrors": 0,
+      "rows": 4,
+      "consoleErrorsObserved": 0,
+      "detailsExpandedAndDigestsMatched": true,
+      "viewportReset": true,
+      "userFacingTab": "17",
+      "url": "http://127.0.0.1:3001/w/mathematics-pilot-lab-156de0/research/math-tools?view=allikvere-unit#allikvere-unit",
+      "postBuildHttpStatus": 200,
+      "readSecondsObserved": [
+        10.8,
+        9.1,
+        10.4,
+        11.7
+      ],
+      "screenshot": "/private/tmp/hive-tip050.qtN11A/post-build-ui.png",
+      "screenshotSha256": "2ceb9139527cc2b54ecc91465573a573304f0a1673d67b205cff1705ddd8f12e",
+      "screenshotDimensions": [
+        1280,
+        2254
+      ],
+      "mobileScreenshot": "/private/tmp/hive-tip050.qtN11A/mobile-en.png",
+      "mobileScreenshotSha256": "8fdc39b3cbf3d8ae05b3cfc4509ce7afce879f9124efb21e34b2ea76d0fb5676",
+      "performanceDeferred": "Content-hash-bound admission caching or verified worker isolation; never bypass checks."
+    }
+  },
+  "builderCompletions": [
+    {
+      "path": "docs/verification/TIP-050_CORE_COMPLETION_REPORT.json",
+      "sha256": "516dcdcd7322681a0318c2a364e119195f2602cbf8aaf6e44588c12f72b61bf3"
+    },
+    {
+      "path": "docs/verification/TIP-050_REPLAY_COMPLETION_REPORT.json",
+      "sha256": "3d4ecb788291a89b75281e273827a82237a13a278ee0dc81d93a319393e02c4e"
+    },
+    {
+      "path": "docs/verification/TIP-050_PRODUCT_COMPLETION_REPORT.json",
+      "sha256": "22228f7c608138a2d34ea8ec3caa0d71d4490464d8931737833baa9adf77f0a2"
+    }
+  ]
+}

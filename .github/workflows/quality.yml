@@ -66,10 +66,13 @@ jobs:
         run: npm run test:unit
 
       - name: Integration tests
-        run: npm run test:integration
+        run: npm run test:integration:strict
 
       - name: Build
         run: npm run build
+
+      - name: Production startup contract
+        run: npm run test:prod-startup
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

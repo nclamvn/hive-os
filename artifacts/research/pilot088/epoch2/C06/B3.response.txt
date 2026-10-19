@@ -1,0 +1,105 @@
+**C06.** We prove the stronger bound \(M(f)<2^{68}\).
+
+Represent the students by the vertices of a directed graph, with an edge \(u\to v\) if \(u\) loves \(v\). Then \(f^m(A)\) is exactly the set of endpoints of walks of length \(m\) starting at vertices in \(A\).
+
+We first establish an elementary lemma.
+
+**Lemma.** If positive integers \(b_1,\ldots,b_r\), all at most \(L\), have gcd \(d\), then every multiple of \(d\) at least \(L^2\) is a nonnegative integer combination of the \(b_i\).
+
+**Proof.** Divide by \(d\), obtaining integers of gcd \(1\), with minimum \(a\) and maximum \(B\le L/d\). Their nonnegative sums modulo \(a\) form an additive submonoid of a finite group, hence a subgroup. Since the integers have gcd \(1\), this subgroup is all of \(\mathbb Z/a\mathbb Z\).
+
+For each residue, a shortest sequence of additions reaching it has at most \(a-1\) terms: otherwise two partial residues repeat, and the intervening terms can be removed. Thus each residue has a representative sum at most \((a-1)B\le B^2\). Every integer at least \(B^2\) is consequently representable, by adding copies of \(a\) to the representative of its residue.
+
+If \(x\ge L^2\) is divisible by \(d\), then
+\[
+\frac{x}{d}\ge\frac{L^2}{d}\ge\left(\frac Ld\right)^2\ge B^2,
+\]
+so rescaling proves the lemma. \(\square\)
+
+Consider a strongly connected component containing a directed cycle. Let its size be \(s\), and let \(g\) be the gcd of its directed cycle lengths. We show that, for any vertices \(u,v\) in this component, the possible walk lengths from \(u\) to \(v\), once sufficiently large, are exactly one residue class modulo \(g\).
+
+Fix a vertex \(r\). For each vertex \(v\), choose paths \(r\to v\) and \(v\to r\), of lengths \(a_v,b_v\le s-1\), taking \(a_r=b_r=0\). The numbers
+\[
+a_v+b_v,\qquad a_u+1+b_v\quad\text{for each edge }u\to v
+\]
+are lengths of closed walks at \(r\). Discard zero lengths. The remaining numbers are positive, at most \(2s-1\), and have gcd \(g\).
+
+Indeed, every closed walk decomposes into directed cycles, so \(g\) divides all these numbers. Conversely, if their gcd is \(d\), then for every edge \(u\to v\),
+\[
+d\mid(a_u+1+b_v)-(a_v+b_v)=a_u+1-a_v.
+\]
+This remains valid when the second length is zero. Summing around any directed cycle shows that \(d\) divides its length. Hence \(d=g\).
+
+By the lemma and concatenation of these closed walks, every multiple of \(g\) at least \((2s-1)^2\) is a closed-walk length at \(r\).
+
+Choose the walk \(u\to r\to v\), of length \(h\le2s-2\). Every walk from \(u\) to \(v\) has length congruent to \(h\pmod g\): append the same fixed walk \(v\to u\) to both walks and compare their closed-walk lengths. Conversely, every length \(m\equiv h\pmod g\) with
+\[
+m\ge (2s-1)^2+2s-2
+\]
+is realized by inserting a suitable closed walk at \(r\).
+
+Thus the uniform threshold
+\[
+T=57\,840
+\]
+works for every cyclic component, since \(s\le120\) and
+\[
+(2s-1)^2+2s-2\le239^2+238=57\,359<T.
+\]
+
+Let \(g_1,\ldots,g_q\) be the periods of all components containing cycles, and set
+\[
+P=\operatorname{lcm}(g_1,\ldots,g_q),
+\]
+with \(P=1\) if there are none. Each \(g_i\) is at most its component’s size, since it divides a simple cycle length. Therefore
+\[
+\sum_i g_i\le120.
+\]
+
+For every positive integer \(d\ne3\),
+\[
+d\le2^{d/2}.
+\]
+This holds directly for \(1,2,4\), and follows inductively for \(d\ge4\), using \((d+1)/d\le5/4<\sqrt2\).
+
+The product of the \(g_i\) is divisible by \(P\). Repeated entries equal to \(3\) can be discarded without changing their lcm. If none remains, the product bound gives \(P\le2^{60}\). If one remains, the other retained entries sum to at most \(117\), so
+\[
+P\le3\cdot2^{117/2}<2^{61}.
+\]
+In particular, always \(P\le2^{61}\).
+
+Set
+\[
+N=120(T+P).
+\]
+We claim that, for all vertices \(u,v\) and all \(m\ge N\),
+\[
+\text{a length-\(m\) walk from \(u\) to \(v\) exists}
+\iff
+\text{a length-\(m+P\) walk exists}.
+\]
+
+A walk cannot return to a strongly connected component after leaving it. It therefore consists of at most \(120\) internal segments, separated by at most \(119\) edges. Any walk of length at least \(N\) has an internal segment of length at least \(T+P\); otherwise its length would be at most
+\[
+120(T+P-1)+119=N-1.
+\]
+Such a segment lies in a component containing a cycle. By the residue-class result, its length can be increased or decreased by \(P\), preserving its endpoints: \(P\) is divisible by that component’s period, and both resulting lengths remain at least \(T\).
+
+Starting with a length-\(m\) walk, increase such a segment by \(P\). Starting with a length-\(m+P\) walk, decrease such a segment by \(P\). This proves the claim.
+
+Consequently, for every subset \(A\),
+\[
+f^{m+P}(A)=f^m(A)\qquad(m\ge N).
+\]
+Its forward orbit contains at most \(N+P\) distinct subsets.
+
+In any selection satisfying the problem’s condition, every \(A_j\) belongs to the forward orbit of \(A_1\). Hence
+\[
+\begin{aligned}
+M(f)&\le N+P\\
+&=6\,940\,800+121P\\
+&\le6\,940\,800+121\cdot2^{61}\\
+&<128\cdot2^{61}=2^{68}<2^{70}.
+\end{aligned}
+\]
+Therefore \(\boxed{M(f)\le2^{70}}\). \(\square\)

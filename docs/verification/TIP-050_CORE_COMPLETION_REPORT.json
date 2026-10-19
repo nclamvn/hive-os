@@ -1,0 +1,54 @@
+{
+  "tipId": "TIP-050",
+  "role": "Core Builder",
+  "status": "DONE_WITH_DEFERRED_ACCEPTANCE",
+  "contractDigest": "93acc34e6cd0ca009fc9e6a7ab65df0ec801b0cf956874c355ee861967a255e9",
+  "filesCreated": [
+    {"path": "src/modules/research-sandbox/math-lrc-unit-action.ts", "lines": 229, "sha256": "0ca60b3ab73a753017cc2038c26a81bb4787a0c8c6bd9fe534deac045fc3f02c", "purpose": "Pinned complete witness-leaf extraction, same-coordinate kernel-unit transport and bounded exact BigInt interval union/complement admission"},
+    {"path": "tests/unit/math-lrc-unit-action.test.ts", "lines": 165, "sha256": "fd368925477894b78cf5b860a32661535239f9ed88dc8853386bf030a5eb5c7f", "purpose": "Twenty-two focused source, action, interval, plan-mutation, purity and resource cases"},
+    {"path": "docs/verification/TIP-050_CORE_COMPLETION_REPORT.json", "purpose": "This scoped completion, quantitative QA and trust-boundary record"}
+  ],
+  "filesModified": [],
+  "requirementCoverage": [
+    {"id": "R1", "status": "PASS_OWN_FOCUSED", "details": "Actual old source/outer receipt admission before deterministic selection; externally pinned canonical source reports; complete ordered COVER_BOUND extraction from four048 FULL parents and eight049 child certificates only; exact longer-compatible prefix lift, canonical original-node hashes and parent/job/source selection bindings; strict plan excludes caller prefixes and coordinate-specific times"},
+    {"id": "R2", "status": "PASS_OWN_FOCUSED", "details": "Exactly six units fix398; exact modulo2786 same-coordinate identities, seven-digit bijections and one folded-grid permutation are checked. Every source cylinder directly transformed (no pre-union shortcut), exact base7 ordinal intervals merged including overlap and adjacency, whole-universe complement/digests reconstructed; identity/coverage/conservation/raw-overlap counts enforced without factor-six gate"},
+    {"id": "R3", "status": "DELEGATED_REPLAY_BUILDER", "details": "Independent endpoint-sweep wire and full ordered reference/digest formulas shared; this report does not claim Python execution"},
+    {"id": "R4", "status": "DELEGATED_PRODUCT_BUILDER", "details": "Exports exact resource/source pins and bounded pure admission; no collector or retained write performed by Core Builder"},
+    {"id": "R5", "status": "DELEGATED_PRODUCT_BUILDER", "details": "Four-row exact original/union/delta/remaining/raw-overlap/digest/example summary exported; samples never grant authority"},
+    {"id": "R6", "status": "PARTIAL_OWN_QA_MAIN_ACCEPTANCE_DEFERRED", "details": "Own22 focused cases, zero-error/warning lint and whole-repository zero-error type checkpoint pass; independent actual replay/collector, full final suite/build, UI and manifests belong to Main"}
+  ],
+  "testResults": {
+    "command": "node node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-unit-action.test.ts",
+    "filesPassed": 1,
+    "testsPassed": 22,
+    "testsFailed": 0,
+    "durationSeconds": 25.75,
+    "testSeconds": 25.45,
+    "lintCommand": "node node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-unit-action.ts tests/unit/math-lrc-unit-action.test.ts",
+    "lintExitCode": 0,
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "wholeTypeCommand": "node node_modules/typescript/bin/tsc --noEmit",
+    "wholeTypeExitCode": 0,
+    "actualSourceAdmission": "BeforeAll and explicit positive case invoke original old report/certificate/receipt admission. Positive new arithmetic reconstructs all528246 candidates and full union/complement, with zero producer/process/fetch calls and exactly one old frontier admission.",
+    "fixtureIsolation": "Other policy/resource cases explicitly mock OLD frontier admission to the already loaded pinned fixture, isolating the new selection/transport/union method; no independent execution or mocked old proof check is claimed. Actual label-promotion control restores the original old validator.",
+    "controls": "Base7 boundary/root/singleton intervals; fixed-point and frozen action arrays; all folded-time images and33432 sampled signed-distance equalities; M34 thirteen-coordinate individually-exists/common-time-empty methodological trap; duplicate/contained/overlap/adjacent intervals; omitted complement ranges; eleven plan-rehashed defects; arbitrary source subset and per-coordinate times; source pins; zero/tighter/raised work-time limits; observed expiry;80MiB complete input refused before old admission.",
+    "earlierRuns": "Initial21/21 passed25.25s;22/22 passed25.63s after byte guard. Final exact frozen source/test rerun22/22 passed25.75s. Initial unused test import warning resolved by positive method assertion; no arithmetic failures."
+  },
+  "expectedRowsFromActualPureUnitAdmission": [
+    {"parent": "tight0", "sourceLeaves": 21569, "candidates": 129414, "unionWitnessTuples": "1560933318", "deltaWitnessTuples": "1300777765", "unionIntervals": 72, "complementIntervals": 72},
+    {"parent": "tight1", "sourceLeaves": 20658, "candidates": 123948, "unionWitnessTuples": "1896838020", "deltaWitnessTuples": "1580698350", "unionIntervals": 79, "complementIntervals": 79},
+    {"parent": "tight2", "sourceLeaves": 23385, "candidates": 140310, "unionWitnessTuples": "960260742", "deltaWitnessTuples": "800217285", "unionIntervals": 83, "complementIntervals": 83},
+    {"parent": "gw0", "sourceLeaves": 22429, "candidates": 134574, "unionWitnessTuples": "1314273786", "deltaWitnessTuples": "1095228155", "unionIntervals": 58, "complementIntervals": 58}
+  ],
+  "researchDisclosure": "Read-only metadata counts were exposed during SCAN before BUILD. This is not blind benchmark, LLM capability score, novelty or external/formal certification. Counts are ordered row-domain assignments, not globally unique velocities or unit-orbit classes. Actual current overlap zero does not justify multiplying future counts by six. All parents remain PARTIAL; five old obligations and lower-LRC12 dependency remain.",
+  "resourceBoundary": "Old source admission uses unchanged thirty-second and per-certificate caps. New method has sixty-second cooperative observed clock, fifty-million logical work budget,120000 source leaves,1500000 candidate/union intervals and80MiB full serialized input. Final output serialization is included in observed deadline. No hard JS CPU-preemption claim; invalid or exhausted admission returns null.",
+  "issuesDiscovered": [
+    {"severity": "TRUST_BOUNDARY", "issue": "Local unsigned historical receipts are not external execution attestations", "resolution": "Actual pure arithmetic replay and source-content pins are rerun; new actual isolated Python and trusted collector remain separate Main gates"},
+    {"severity": "IMPLEMENTATION_CONTROL", "issue": "Nested exported action arrays need runtime immutability, not only readonly TypeScript", "resolution": "Both t/s arrays deeply frozen and tested; fixed wire unchanged"}
+  ],
+  "deviationsFromSpec": [],
+  "deferred": ["New independent Python source execution and Main actual collector/retention acceptance", "Visible bilingual UI and final full unit/lint/build/manifest checks", "Fresh HIVE model-cycle typed evidence admission", "Remaining full-domain closure, all-level1/other-prime/lower-LRC12/analytic coverage, full14/15 theorem, novelty/formal/external acceptance and verified content-hash caching"],
+  "suggestionsForMain": ["Keep source extraction complete and direct as frozen; do not adopt the SCAN-only compact source-prefix optimization in this TIP", "Treat union/complement digests as full reconstructions, bounded examples as display only", "Freeze existing source files and never transport conditional GCD or unresolved labels into grid-witness authority"],
+  "sideEffects": "Only three owned new files written. No old module/artifact modification, package manager, installation, Git, DB, model/provider/API, worker, author-code execution, collector, retained write or deployment."
+}

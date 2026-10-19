@@ -1,0 +1,71 @@
+{
+  "driver": "import{readFileSync,statSync}from'node:fs';import{createHash}from'node:crypto';import{performance}from'node:perf_hooks';const start=performance.now();const files=['scripts/test/store-tip081-inventory-source.mjs','scripts/test/verify-tip081-inventory-source.mjs','scripts/test/runtime-tip081-manifest.mjs','scripts/test/codec-tip081-source-v2.mjs','scripts/test/admit-tip081-source-v2.mjs','node_modules/next/dist/compiled/acorn/acorn.js','node_modules/next/dist/compiled/acorn/package.json','vitest-tip081.config.ts','tsconfig.json','next.config.ts','tests/unit/evidence-studio-source-v2.test.ts'];let sum=0;for(const p of files){const s=statSync(p);if(!s.isFile()||s.size>1048576||s.size>8388608-sum)throw Error('CAPTURE_BOUND_REFUSED');sum+=s.size}const rows=files.map(path=>{const b=readFileSync(path);return{path,bytes:b.length,hash:createHash('sha256').update(b).digest('hex')}});console.log(JSON.stringify({phase:'P1_FROZEN_BEFORE',rows,totalBytes:sum,milliseconds:performance.now()-start,parserImported:false,actualRootRead:false}));",
+  "snapshot": {
+    "phase": "P1_FROZEN_BEFORE",
+    "rows": [
+      {
+        "path": "scripts/test/store-tip081-inventory-source.mjs",
+        "bytes": 15214,
+        "hash": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory-source.mjs",
+        "bytes": 22118,
+        "hash": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+      },
+      {
+        "path": "scripts/test/runtime-tip081-manifest.mjs",
+        "bytes": 28909,
+        "hash": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+      },
+      {
+        "path": "scripts/test/codec-tip081-source-v2.mjs",
+        "bytes": 12768,
+        "hash": "dc8cafe0f8c3951c56cf1955eeebfb7e994ca386b244b9422cda1e56b31c81ae"
+      },
+      {
+        "path": "scripts/test/admit-tip081-source-v2.mjs",
+        "bytes": 9330,
+        "hash": "3128824b9e1ff8133585ee5a9d5768d0ff6e6ad6d81d53c040f8ebd8ed880a1e"
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+        "bytes": 121634,
+        "hash": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/package.json",
+        "bytes": 51,
+        "hash": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+      },
+      {
+        "path": "vitest-tip081.config.ts",
+        "bytes": 594,
+        "hash": "f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13"
+      },
+      {
+        "path": "tsconfig.json",
+        "bytes": 862,
+        "hash": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+      },
+      {
+        "path": "next.config.ts",
+        "bytes": 1831,
+        "hash": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+      },
+      {
+        "path": "tests/unit/evidence-studio-source-v2.test.ts",
+        "bytes": 17700,
+        "hash": "22c6262baffd22e7a7e21fe9f74cbc83c967a5c0aab52e2a9bdca7f25c870e1b"
+      }
+    ],
+    "totalBytes": 231011,
+    "milliseconds": 2.3525840000000002,
+    "parserImported": false,
+    "actualRootRead": false
+  },
+  "startCumulative": 782840.4011670001,
+  "captureAllowance": 1000,
+  "cumulativeUpper": 783842.753751,
+  "remaining": 116157.24624899996
+}

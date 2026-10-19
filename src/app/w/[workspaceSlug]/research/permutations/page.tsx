@@ -1,0 +1,35 @@
+import {randomUUID} from "node:crypto";
+import Link from "next/link";
+import {notFound} from "next/navigation";
+import {WorkspaceShell} from "@/components/shell/workspace-shell";
+import {Button} from "@/components/ui/button";
+import {PermutationBridgePanel} from "@/components/research/permutation-bridge-panel";
+import {loadWorkspacePage} from "@/server/auth/workspace-page";
+import {getTranslator} from "@/i18n/server";
+import {getPermutationBridgeCopy} from "@/i18n/permutation-bridge-copy";
+import {hasCapability} from "@/modules/identity-workspace";
+import {available,getBridgeView,listBridgeDrafts,roles,type BridgeView} from "@/modules/permutation-bridge";
+import {createPermutationDraftAction,startPermutationBridgeAction,reservePermutationRoleAction,importPermutationRoleAction,checkPermutationFinalAction,revokePermutationBridgeAction} from "@/app/actions/permutation-bridge";
+export const dynamic="force-dynamic";
+
+function CutFields({view,slug}:{view:BridgeView;slug:string}) {const last=view.events.at(-1)!;return <><input type="hidden" name="slug" value={slug}/><input type="hidden" name="missionId" value={view.binding.missionId}/><input type="hidden" name="runId" value={view.binding.runId}/><input type="hidden" name="expectedSequence" value={last.sequence}/><input type="hidden" name="expectedDigest" value={last.eventDigest}/></>;}
+export default async function PermutationPage({params,searchParams}:{params:Promise<{workspaceSlug:string}>;searchParams:Promise<{missionId?:string;runId?:string;action?:string}>}) {
+  const [{workspaceSlug},q]=await Promise.all([params,searchParams]),data=await loadWorkspacePage(workspaceSlug),{locale}=await getTranslator(),c=getPermutationBridgeCopy(locale);
+  if(!hasCapability(data.ctx.membership.role,"research.read"))notFound();
+  const enabled=available(),missionId=typeof q.missionId==="string"&&/^[a-f0-9-]{36}$/.test(q.missionId)?q.missionId:undefined;
+  let view:BridgeView|null=null,invalid=false,drafts:Awaited<ReturnType<typeof listBridgeDrafts>>=[];
+  if(enabled&&missionId)try {drafts=await listBridgeDrafts(data.ctx,missionId);const selected=q.runId?drafts.find(d=>d.runId===q.runId):drafts[0];if(q.runId&&!selected)throw new Error("BRIDGE_SELECTION_REFUSED");if(selected){view=await getBridgeView(data.ctx,selected.runId);if(view.binding.missionId!==missionId)throw new Error("BRIDGE_MISSION_REFUSED");}}catch{invalid=true;view=null;}
+  const write=hasCapability(data.ctx.membership.role,"research.request"),review=hasCapability(data.ctx.membership.role,"research.review"),base=`/w/${workspaceSlug}/research/permutations`;
+  const ready=!!view&&view.liveReady&&!view.expired&&view.state.status==="RUNNING",lastStage=view?.state.stages.at(-1),nextRole=view?roles[view.state.stages.length]:undefined;
+  const controls=<>
+    {q.action==="refused"?<p role="alert" className="text-meta text-ink max-w-[75ch]">{c.refused}</p>:null}
+    {!missionId?<form method="get" className="mt-3 flex flex-wrap items-end gap-3"><label className="text-meta text-ink">{c.mission}<input name="missionId" required pattern="[a-f0-9-]{36}" className="border-line bg-surface text-body text-ink mt-2 block max-w-full rounded-sm border p-2"/></label><Button type="submit">{c.select}</Button></form>:null}
+    {drafts.length?<nav aria-label={c.runs} className="flex flex-wrap gap-2">{drafts.map(d=><Link key={d.runId} href={`${base}?${new URLSearchParams({missionId:missionId!,runId:d.runId})}#permutation-bridge`} aria-current={view?.binding.runId===d.runId?"page":undefined} className="border-line text-meta text-ink min-h-10 max-w-full break-all rounded-sm border px-3 py-2 focus-visible:outline focus-visible:outline-2">{d.runId.slice(0,8)} · {d.status}</Link>)}</nav>:null}
+    {enabled&&missionId&&write&&!invalid?<form action={createPermutationDraftAction} className="mt-4"><input type="hidden" name="slug" value={workspaceSlug}/><input type="hidden" name="missionId" value={missionId}/><input type="hidden" name="idempotencyKey" value={`permutation:${randomUUID()}`}/><Button type="submit" variant="secondary">{c.create}</Button></form>:null}
+    {view&&write&&view.state.status==="DRAFT"?<form action={startPermutationBridgeAction} className="mt-4"><CutFields view={view} slug={workspaceSlug}/><Button type="submit" disabled={!view.liveReady}>{c.start}</Button><p className="text-meta text-ink-muted mt-3 max-w-[75ch]">{c.startHint}</p></form>:null}
+    {ready&&view&&write?lastStage&&!lastStage.original?<form action={importPermutationRoleAction} className="border-line mt-5 max-w-[75ch] border-t pt-4"><CutFields view={view} slug={workspaceSlug}/><input type="hidden" name="role" value={lastStage.role}/><label className="text-meta text-ink block">{c.file}<input name="original" type="file" accept=".txt,text/plain" required className="text-meta mt-2 block w-full max-w-full"/></label><div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2"><label className="text-meta text-ink">{c.model}<input name="model" maxLength={160} autoComplete="off" className="border-line bg-surface text-body text-ink mt-2 w-full min-w-0 rounded-sm border p-2"/></label><label className="text-meta text-ink">{c.thread}<input name="thread" maxLength={200} autoComplete="off" className="border-line bg-surface text-body text-ink mt-2 w-full min-w-0 rounded-sm border p-2"/></label></div><label className="text-meta text-ink mt-4 flex items-start gap-2"><input name="freshContextAttested" value="yes" type="checkbox" required className="mt-1 size-4 shrink-0"/>{c.fresh}</label><Button type="submit" className="mt-4">{c.import}: {c[lastStage.role]}</Button></form>:lastStage?.role==="FINAL"&&!view.checker?<form action={checkPermutationFinalAction} className="mt-5"><CutFields view={view} slug={workspaceSlug}/><p className="text-meta text-ink-muted mb-3 max-w-[75ch]">{c.requiresCheck}</p><Button type="submit">{c.check}</Button></form>:nextRole?<form action={reservePermutationRoleAction} className="mt-5"><CutFields view={view} slug={workspaceSlug}/><input type="hidden" name="role" value={nextRole}/><Button type="submit">{c.reserve}: {c[nextRole]}</Button></form>:null:null}
+    {view&&review&&!["COMPLETED","REVOKED"].includes(view.state.status)?<form action={revokePermutationBridgeAction} className="mt-4"><CutFields view={view} slug={workspaceSlug}/><Button type="submit" variant="secondary">{c.revoke}</Button></form>:null}
+    {view&&["REVOKED","STOPPED"].includes(view.state.status)?<p className="text-meta text-ink-muted mt-3 max-w-[75ch]">{c.stopped}</p>:null}
+  </>;
+  return <WorkspaceShell data={data} title={c.title} subtitle={c.subtitle}><div className="mx-auto w-full max-w-6xl min-w-0 pb-8"><Link className="text-meta text-ink mb-5 inline-flex min-h-10 items-center focus-visible:outline focus-visible:outline-2" href={`/w/${workspaceSlug}/research`}>{c.back}</Link><div data-permutation-run-id={view?.binding.runId??""}><PermutationBridgePanel locale={locale} view={view} controls={controls} unavailable={!enabled} invalid={invalid} exportBase={view?`/api/w/${workspaceSlug}/research/permutations/${view.binding.runId}/export`:undefined}/></div></div></WorkspaceShell>;
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "hive-os.enterprise-scale-rejected-run.v1",
+  "classification": "LOCAL_REJECTED_NON_SLO",
+  "date": "2026-08-04",
+  "gate": "SOAK-01",
+  "severity": "P0",
+  "disposition": "REJECTED_RERUN_REQUIRED",
+  "reason": "A 1006-second interval gap meant wall-clock duration was not continuous active soak.",
+  "observations": {
+    "wallClockDurationSeconds": 3676.1,
+    "operations": 777855,
+    "operationErrors": 0,
+    "retainedIntervalSamples": 263,
+    "maximumIntervalGapSeconds": 1006,
+    "maximumOperationLatencyMs": 999312.21
+  },
+  "rootCauseClassification": "INFERRED_HOST_SLEEP_OR_SUSPEND",
+  "correctiveAction": "Added a <=30-second continuity gate, >=90% expected sample gate and macOS caffeinate power guard; reran the full 3600-second certification.",
+  "evidenceNote": "This summary was retained from the parsed first report before the canonical report path was replaced by the successful rerun. It cannot establish certification."
+}

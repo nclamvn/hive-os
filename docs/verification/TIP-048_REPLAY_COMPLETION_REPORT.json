@@ -1,0 +1,96 @@
+{
+  "tip": "TIP-048",
+  "date": "2026-10-03",
+  "role": "Independent replay Builder /root/lrc_replay_builder",
+  "status": "DONE",
+  "scope": "Independent Python checker, local bounded execution wrapper, pure retained integrity validator and focused tests only. Overall TIP acceptance, final retained default-cap eight-domain report, UI and full QA belong to Contractor.",
+  "contract": {
+    "path": "docs/contractor/tips/TIP-048_LRC_COMPACT_COVER_BOUND.json",
+    "sha256": "4712dc80fed2331ad8bc87627840205d0a31eaa97fa42f95f7d0bbde2f39ad2b"
+  },
+  "created": [
+    "scripts/operations/replay-lrc-cover-bound.py",
+    "src/modules/research-sandbox/math-lrc-cover-replay.ts",
+    "tests/unit/math-lrc-cover-replay.test.ts",
+    "docs/verification/TIP-048_REPLAY_COMPLETION_REPORT.json"
+  ],
+  "modified_existing_files": [],
+  "source_fingerprints": {
+    "scripts/operations/replay-lrc-cover-bound.py": "8d7ebb7e05d0c2476700118c9119224bf8841df53d9513102820d292428146b4",
+    "src/modules/research-sandbox/math-lrc-cover-replay.ts": "1d5be090d468b74d2b88295d3dc81ec40755a409e6ecc23c1eef3d8db6372ef0",
+    "tests/unit/math-lrc-cover-replay.test.ts": "b3f27585336203beb08e2e0c3ce62809eaa301ff89266c8f15ebf025874d200a"
+  },
+  "implemented": {
+    "R4": "Independent standard-library Python reconstructs full-grid exact bad predicates, folds to j=1..floor(M/2), propagates uncovered times only along exactly verified prefix partitions and reconstructs all maxima, singleton grid/gcd checks, survivors and symbolic decimal cardinalities. No TS producer or author executable import. Missing/overlapping/reused/cyclic/unreachable branches, root/source/domain drift, false proof fields and malformed input fail closed. Honest PARTIAL remains PARTIAL.",
+    "R5": "Checker source bytes pinned and executed directly through python3 -I -S -B -c with shell false and environment allowlist. Python internal20M logical-work /10s observed bound,20k nodes and16MiB certificate; outer clock additionally covers stdin read, parsing, final output serialization/size checkpoint before stdout write. Child timeout at most10s and stdout256KiB. Wrapper observed30s including source read, generation, primary/independent replay, hashes and final admission. Pure validator supports tighter remaining-time budget at most10s. Source/resource/mismatch failures throw or reject, never promote partial evidence.",
+    "R1_R2_R3_review": "Read-only proof/tree/schema review plus independent feasibility calculations supplied to Contractor; core implementation is separate Builder-owned. No previous certificate versions or artifacts widened.",
+    "R6_seam": "Strict COMPLETE/PARTIAL evidence envelope and pure retained validator bind expected scope/root, recomputed primary summary, exact Python summary/output bytes, pinned source and evidence digest. PARTIAL validity is read-only integrity admission, not an agent/theorem success gate.",
+    "R8_slice": "Nine focused tests use actual isolated Python, two-tuple flat oracle, source/process fault injection and eleven coherently rehashed semantic/tree mutants rejected by both TS consumer and Python checker. Whole typecheck and targeted lint passed; Contractor owns final full regression/build/browser acceptance."
+  },
+  "proof_review": {
+    "primary_source": "https://arxiv.org/html/2609.02604v2",
+    "reference": "Section4.3, Lemma4.3",
+    "derivation": "With T the folded grid, B_i,d the exact strict bad-time set and U=T minus already assigned bad sets, each completion covers at most sum_i max_d |U intersect B_i,d| of U. If |U| strictly exceeds that sum, every completion leaves some uncovered time, hence has a grid witness. The witness may depend on the completion. Equality never suffices.",
+    "quantifier_counterexample": "Actual tight-terminal-0 first-five digits [4,2,6,0,1], j=2: all fixed coordinates good and some good digit exists for every remaining coordinate, but the archived completion has coordinate6 bad and has no grid witness at any j. Intersection of per-axis unions of good choices is only existential-completion evidence and cannot close a full branch.",
+    "resource_review": "Initial Core consumer rebuilt every prefix at each leaf and could exceed20M verification work even for a20M-bounded producer. Reported to Contractor/Core with recommendation to propagate independently derived U only along verified child edges, retaining exact bounds and fixed limits. Contractor approved and Core Builder implemented this induction-equivalent optimization; no Core edits by this Builder. The fresh eight-domain diagnostic below uses the repaired Core and final Python source pin. Final default-cap report verification is Contractor-owned."
+  },
+  "tests": {
+    "focused": {
+      "command": "node ./node_modules/vitest/vitest.mjs run --project unit tests/unit/math-lrc-cover-replay.test.ts --maxWorkers=1",
+      "files": 1,
+      "passed": 9,
+      "failed": 0,
+      "start_local": "16:19:01",
+      "duration_seconds": 1.39,
+      "test_seconds": 1.21,
+      "status": "PASS"
+    },
+    "scenarios": [
+      "Source SHA pin and exact witness-boundary equality accepted; strict prune equality rejected",
+      "Two-tuple flat grid/gcd oracle agrees with actual independent Python counts",
+      "Eight fully rehashed missing/duplicate/unreachable/reordered/reused/cyclic/root/prefix tree defects rejected by TS and Python",
+      "False uncovered/maxBad fields rejected by TS and Python",
+      "Whole96,889,010,407 symbolic unresolved root replays PARTIAL without enumeration",
+      "Singleton survivor exhausts grid and all omit-one gcd checks; false survivor rejected",
+      "Exact archived witness-free point satisfies conditional gcd7; fake gcd2 and gcd on grid-witness point rejected",
+      "Root/source/prime/level/lower dependency drift, unknown and duplicate JSON fields rejected",
+      "Fresh PARTIAL wrapper evidence pure-validates but rehashed count/status/pin/output promotion fails",
+      "Pure read validator invokes no subprocess and rejects zero/excess timeout budget",
+      "Actual wrapper executes exact pinned source bytes with isolated flags, shell false and fixed output bound",
+      "Work/time/output generation limits retain unresolved prefixes; cap increases rejected before subprocess",
+      "Source drift, TIMEOUT/MAXBUFFER/ENOENT faults, malformed output and production/staging deny fail closed"
+    ],
+    "typecheck": {"command": "node ./node_modules/typescript/bin/tsc --noEmit --pretty false", "exit_code": 0},
+    "targeted_lint": {"command": "node ./node_modules/eslint/bin/eslint.js src/modules/research-sandbox/math-lrc-cover-replay.ts tests/unit/math-lrc-cover-replay.test.ts", "exit_code": 0},
+    "diff_check": {"exit_code": 0},
+    "full_unit_build_browser": "Contractor-owned, not claimed here"
+  },
+  "actual_eight_domain_nonwriting_diagnostic": {
+    "execution": "Fresh Core certificates, actual pinned Python, strict wrapper comparisons and pure validation on preregistered descriptors; no report written",
+    "duration_seconds": 3.571,
+    "anchored_limits": "Default20k nodes/20M work/10s/16MiB",
+    "full_limits": "Explicitly tighter diagnostic maxNodes1000; not the Contractor default-cap retained report",
+    "rows": [
+      {"id":"p199-tight-terminal-0-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditional_gcd":"1","survivor":"0","unresolved":"0","nodes":2330,"pure_valid":true},
+      {"id":"p199-tight-terminal-1-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditional_gcd":"1","survivor":"0","unresolved":"0","nodes":2162,"pure_valid":true},
+      {"id":"p199-tight-terminal-2-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditional_gcd":"1","survivor":"0","unresolved":"0","nodes":2498,"pure_valid":true},
+      {"id":"p199-gw-terminal-0-anchored","status":"COMPLETE","total":"5764801","witness":"5764800","conditional_gcd":"1","survivor":"0","unresolved":"0","nodes":2330,"pure_valid":true},
+      {"id":"p199-tight-terminal-0-full","status":"PARTIAL","total":"96889010407","witness":"7210203","conditional_gcd":"0","survivor":"0","unresolved":"96881800204","nodes":995,"pure_valid":true},
+      {"id":"p199-tight-terminal-1-full","status":"PARTIAL","total":"96889010407","witness":"10235463","conditional_gcd":"0","survivor":"0","unresolved":"96878774944","nodes":995,"pure_valid":true},
+      {"id":"p199-tight-terminal-2-full","status":"PARTIAL","total":"96889010407","witness":"1915998","conditional_gcd":"0","survivor":"0","unresolved":"96887094409","nodes":995,"pure_valid":true},
+      {"id":"p199-gw-terminal-0-full","status":"PARTIAL","total":"96889010407","witness":"2504243","conditional_gcd":"0","survivor":"0","unresolved":"96886506164","nodes":995,"pure_valid":true}
+    ]
+  },
+  "issues": [
+    {"severity":"BOUNDARY","description":"Hashes and unsigned retained Python receipts rely on trusted local collector/storage. Pure validation reconstructs arithmetic/integrity but is not authentic external process attestation."},
+    {"severity":"BOUNDARY","description":"Observed checkpoints/timeouts are not hard synchronous JS CPU preemption. Independent implementations use distinct arithmetic/mask representations but this is not formal theorem verification."}
+  ],
+  "deviations": [],
+  "deferred": [
+    "Full four terminal7^13 closure; incomplete regions remain PARTIAL",
+    "All-orbit level1, other primes, full terminal domain, lower LRC12 and analytic product-bound proof",
+    "Whole ZIP verification, formal/external acceptance, novelty, fifteen-runner proof",
+    "Agent admission and autonomous campaigns; no new provider/model/DB/Git/deployment actions"
+  ],
+  "global_verdict": "NOT_ESTABLISHED"
+}

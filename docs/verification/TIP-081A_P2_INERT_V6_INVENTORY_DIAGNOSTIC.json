@@ -1,0 +1,161 @@
+{
+  "purpose": "P2_V6_INERT_OUTPUT_INVENTORY_DIAGNOSTIC",
+  "rows": 7274,
+  "open": 0,
+  "unmatched": 0,
+  "hookSites": 10349,
+  "emittedEffects": 17744,
+  "emittedUnknown": 0,
+  "rules": 31,
+  "staticBytes": 377040,
+  "workspaceBytes": 2757504,
+  "workspaceSegmentBytes": 10688,
+  "changedWorkspace": [
+    {
+      "name": "__HIVE_P2_registerFunction",
+      "start": 8943,
+      "end": 11420,
+      "locals": 5,
+      "parameters": 6,
+      "bytes": 240
+    },
+    {
+      "name": "__HIVE_P2_get",
+      "start": 13434,
+      "end": 15784,
+      "locals": 9,
+      "parameters": 2,
+      "bytes": 240
+    }
+  ],
+  "staticArrayAudit": [
+    {
+      "name": "ce",
+      "declarationStart": 63534,
+      "declarationEnd": 63539,
+      "attachmentStart": 64520,
+      "attachmentEnd": 64522,
+      "method": "parseNew",
+      "property": "arguments",
+      "prototypeReceiver": "pe",
+      "referenceCount": 2,
+      "disposition": "OWNER_LOCAL_FRESH_EMPTY_LIST",
+      "ruleId": "R31"
+    },
+    {
+      "name": "te",
+      "declarationStart": 24456,
+      "declarationEnd": 24461,
+      "attachmentStart": 38219,
+      "attachmentEnd": 38221,
+      "method": "parseImport",
+      "property": "specifiers",
+      "prototypeReceiver": "$",
+      "referenceCount": 2,
+      "disposition": "OWNER_LOCAL_FRESH_EMPTY_LIST",
+      "ruleId": "R31"
+    },
+    {
+      "name": "t",
+      "declarationStart": 95,
+      "declarationEnd": 914,
+      "references": [
+        {
+          "start": 5409,
+          "end": 5410,
+          "functionName": "isIdentifierChar"
+        }
+      ],
+      "disposition": "ONLY_WHOLE_REPLACED_UNICODE_HELPERS",
+      "ruleId": "R19"
+    },
+    {
+      "name": "i",
+      "declarationStart": 919,
+      "declarationEnd": 2487,
+      "references": [
+        {
+          "start": 5114,
+          "end": 5115,
+          "functionName": "isIdentifierStart"
+        },
+        {
+          "start": 5389,
+          "end": 5390,
+          "functionName": "isIdentifierChar"
+        }
+      ],
+      "disposition": "ONLY_WHOLE_REPLACED_UNICODE_HELPERS",
+      "ruleId": "R19"
+    }
+  ],
+  "ownerLists": [
+    {
+      "id": 2556,
+      "sourceOrigin": "ACORN",
+      "sourceUtf16Start": 38219,
+      "sourceUtf16End": 38221,
+      "originalUtf16Start": 38219,
+      "originalUtf16End": 38221,
+      "originalUtf8Start": 40288,
+      "originalUtf8End": 40290,
+      "originalKind": "Identifier",
+      "operation": "owner-local-empty-ast-list",
+      "hook": "reserveArray/ownArray",
+      "details": "te -> fresh empty parseImport.specifiers; module alias not retained by owner AST",
+      "ruleId": "R31",
+      "profileId": "P2_ECMA15_SCRIPT_MODULE_PRIVATE_FIXED19",
+      "generated": [
+        {
+          "hook": "checkArrayDepth",
+          "start": 487886,
+          "end": 487920
+        },
+        {
+          "hook": "reserveArray",
+          "start": 487922,
+          "end": 487956
+        },
+        {
+          "hook": "ownArray",
+          "start": 487958,
+          "end": 487998
+        }
+      ]
+    },
+    {
+      "id": 4459,
+      "sourceOrigin": "ACORN",
+      "sourceUtf16Start": 64520,
+      "sourceUtf16End": 64522,
+      "originalUtf16Start": 64520,
+      "originalUtf16End": 64522,
+      "originalUtf8Start": 66589,
+      "originalUtf8End": 66591,
+      "originalKind": "Identifier",
+      "operation": "owner-local-empty-ast-list",
+      "hook": "reserveArray/ownArray",
+      "details": "ce -> fresh empty parseNew.arguments; module alias not retained by owner AST",
+      "ruleId": "R31",
+      "profileId": "P2_ECMA15_SCRIPT_MODULE_PRIVATE_FIXED19",
+      "generated": [
+        {
+          "hook": "checkArrayDepth",
+          "start": 682650,
+          "end": 682684
+        },
+        {
+          "hook": "reserveArray",
+          "start": 682686,
+          "end": 682720
+        },
+        {
+          "hook": "ownArray",
+          "start": 682722,
+          "end": 682762
+        }
+      ]
+    }
+  ],
+  "milliseconds": 17.070292000000002
+}

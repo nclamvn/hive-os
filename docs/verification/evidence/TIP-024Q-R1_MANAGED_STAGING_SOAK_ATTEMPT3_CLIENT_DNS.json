@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "classification": "MANAGED_STAGING_BOUNDED_NON_SLO",
+  "executionPlane": "OPERATOR_MAC_CLIENT",
+  "baseUrl": "https://d366nm3yse819q.cloudfront.net",
+  "revision": "5c73448a5897339f359764b425581f181a32b582",
+  "startedAt": "2026-08-05T04:50:17.603Z",
+  "finishedAt": "2026-08-05T05:26:14.190Z",
+  "requestedDurationSeconds": 1800,
+  "elapsedSeconds": 2156.587,
+  "concurrency": 1,
+  "paceMs": 1000,
+  "requests": 865,
+  "requestsPerSecond": 0.4,
+  "maxCompletionGapMs": 167000.88,
+  "totalTransportErrors": 10,
+  "total5xx": 0,
+  "transportErrorKinds": {
+    "TypeError:ENOTFOUND": 9,
+    "AbortError": 1
+  },
+  "allCompletedResponsesWere200": true,
+  "disposition": "INVALID_AS_ACCEPTANCE_EVIDENCE_CLIENT_DNS_AND_SLEEP_GAP",
+  "passed": false
+}

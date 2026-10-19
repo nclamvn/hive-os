@@ -1,0 +1,31 @@
+{
+  "purpose": "P2_CHECK_RELEASE_CAPTURE_AND_FRESH_DISK_PINS",
+  "helper": {
+    "path": "/Users/os/hiveos/scripts/test/release-private-grammar-tip081-p2.mjs",
+    "bytes": 12274,
+    "sha256": "fccebb1681effa4ea9747122283a291d0a4d2b5ae45b0bb0393c0d108db98770"
+  },
+  "status": 0,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "{\"purpose\":\"TIP081_P2_SYNTHETIC_CHECK_RELEASE_CAPTURE\",\"importedCandidate\":false,\"fullP2Accepted\":false,\"checks\":\"UNRUN\",\"candidateBytes\":931985,\"candidateSha256\":\"114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef\",\"inventoryBytes\":5710072,\"inventorySha256\":\"41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9\",\"profileBytes\":2491,\"profileSha256\":\"9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8\",\"allSpanOffsetsPreserved\":true}\n",
+  "stderr": "",
+  "pins": [
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.candidate.mjs",
+      "bytes": 931985,
+      "sha256": "114334cd56f1edd181acf27e89fda40d6fca9c96e6f1a311532f346f43ae62ef"
+    },
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.inventory.json",
+      "bytes": 5710072,
+      "sha256": "41cfffe1f86a1499a490345ca059a54ace1f33d75bf77f8c8093fe19db3843e9"
+    },
+    {
+      "path": "/Users/os/hiveos/scripts/test/generated/private-grammar-tip081-p2.checked.profile.json",
+      "bytes": 2491,
+      "sha256": "9bc54a3542094a08a3d45fbf5b66c2feb8ffde72de4ca6efedfeac57ed6f47b8"
+    }
+  ],
+  "milliseconds": 136.94370800000002
+}

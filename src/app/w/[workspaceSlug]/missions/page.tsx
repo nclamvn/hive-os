@@ -1,10 +1,14 @@
 import Link from "next/link";
 
-import { ActiveMissions, type MissionRow } from "@/components/dashboard/active-missions";
+import {
+  ActiveMissions,
+  type MissionRow,
+} from "@/components/dashboard/active-missions";
 import { WorkspaceShell } from "@/components/shell/workspace-shell";
 import { hasCapability } from "@/modules/identity-workspace";
 import { listMissions } from "@/modules/mission-kernel";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { getTranslator } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +19,7 @@ export default async function MissionsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const { t } = await getTranslator();
   const basePath = `/w/${workspaceSlug}`;
 
   const missions = await listMissions(data.ctx);
@@ -29,14 +34,18 @@ export default async function MissionsPage({
   const canCreate = hasCapability(data.ctx.membership.role, "missions.create");
 
   return (
-    <WorkspaceShell data={data} title="Missions" subtitle={data.ctx.workspace.name}>
+    <WorkspaceShell
+      data={data}
+      title={t("mission.list.title")}
+      subtitle={data.ctx.workspace.name}
+    >
       {canCreate ? (
         <div className="flex justify-end">
           <Link
             href={`${basePath}/missions/new`}
             className="text-body bg-navy-800 hover:bg-navy-900 inline-flex h-10 items-center rounded-md px-4 font-medium text-white"
           >
-            New mission
+            {t("mission.new.title")}
           </Link>
         </div>
       ) : null}

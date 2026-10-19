@@ -10,6 +10,8 @@ import {
 
 import {
   assertValidObjectKey,
+  boundedObjectReadLimit,
+  type GetObjectOptions,
   type ObjectStorage,
   type PutObjectOptions,
   type StoredObjectMetadata,
@@ -23,6 +25,10 @@ export interface S3StorageConfig {
   /** Custom endpoint for S3-compatible providers (MinIO, R2, ...). */
   endpoint?: string;
   forcePathStyle?: boolean;
+  serverSideEncryption: "AES256" | "aws:kms";
+  kmsKeyId?: string;
+  /** Deterministic test seam; production always constructs the real client. */
+  client?: Pick<S3Client, "send">;
 }
 
 /**
@@ -32,8 +38,10 @@ export interface S3StorageConfig {
  */
 export class S3ObjectStorage implements ObjectStorage {
   readonly driver = "s3";
-  private readonly client: S3Client;
+  private readonly client: Pick<S3Client, "send">;
   private readonly bucket: string;
+  private readonly serverSideEncryption: "AES256" | "aws:kms";
+  private readonly kmsKeyId: string | undefined;
 
   constructor(config: S3StorageConfig) {
     const clientConfig: S3ClientConfig = {
@@ -45,8 +53,10 @@ export class S3ObjectStorage implements ObjectStorage {
       forcePathStyle: config.forcePathStyle ?? false,
     };
     if (config.endpoint) clientConfig.endpoint = config.endpoint;
-    this.client = new S3Client(clientConfig);
+    this.client = config.client ?? new S3Client(clientConfig);
     this.bucket = config.bucket;
+    this.serverSideEncryption = config.serverSideEncryption;
+    this.kmsKeyId = config.kmsKeyId;
   }
 
   async put(
@@ -61,6 +71,11 @@ export class S3ObjectStorage implements ObjectStorage {
         Key: key,
         Body: body,
         ContentType: options?.contentType,
+        ServerSideEncryption: this.serverSideEncryption,
+        SSEKMSKeyId:
+          this.serverSideEncryption === "aws:kms"
+            ? this.kmsKeyId
+            : undefined,
       }),
     );
     return {
@@ -71,13 +86,29 @@ export class S3ObjectStorage implements ObjectStorage {
     };
   }
 
-  async get(key: string): Promise<Uint8Array | null> {
+  async get(key: string,options?:GetObjectOptions): Promise<Uint8Array | null> {
     assertValidObjectKey(key);
+    const maximum=boundedObjectReadLimit(options);
     try {
       const result = await this.client.send(
         new GetObjectCommand({ Bucket: this.bucket, Key: key }),
       );
       if (!result.Body) return null;
+      if(maximum!==undefined) {
+        const body=result.Body as AsyncIterable<Uint8Array> & {destroy?:()=>void};
+        try {
+          if(result.ContentLength!==undefined && result.ContentLength>maximum) throw new Error("Object exceeds bounded read");
+          if(typeof body[Symbol.asyncIterator]!=="function") throw new Error("Bounded object stream unsupported");
+          const output=new Uint8Array(maximum);
+          let offset=0;
+          for await(const chunk of body) {
+            if(!(chunk instanceof Uint8Array) || chunk.byteLength>maximum-offset) throw new Error("Object exceeds bounded read");
+            output.set(chunk,offset);offset+=chunk.byteLength;
+          }
+          if(result.ContentLength!==undefined && result.ContentLength!==offset) throw new Error("Object stream length mismatch");
+          return output.slice(0,offset);
+        } catch(error) {body.destroy?.();throw error;}
+      }
       return await result.Body.transformToByteArray();
     } catch (error) {
       if (isNotFound(error)) return null;

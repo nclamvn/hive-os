@@ -1,0 +1,240 @@
+{
+  "version": 1,
+  "date": "2026-10-07",
+  "purpose": "TIP081_PRODUCT_INVENTORY_COMPLETION_EVIDENCE",
+  "sourceBundle": {
+    "version": 1,
+    "purpose": "TIP081_READ_ONLY_PRODUCT_INVENTORY_SOURCE_EXTENSION",
+    "date": "2026-10-07",
+    "base": {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "digest": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    "sourcePins": {
+      "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+      "scripts/test/verify-tip081-inventory.mjs": "32e5123f82d280a5f1088d5f3a54482a281524dd58a9e9d1705474efd51b0446",
+      "tests/unit/evidence-studio-inventory.test.ts": "ab254765a82022b49795f3314399bf8125a3ca382fb863c4c5bbaa6f25a9ff13",
+      "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72"
+    },
+    "reviewReport": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+    "reviewDigest": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+    "scope": "FIXED_FAILED_BUILD4_READ_ONLY_INVENTORY",
+    "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+    "graphAccounting": "OPEN_GRAPH_ACCOUNTING_INTEGRATION",
+    "fullRuntimeClosure": "NOT_ACCEPTED",
+    "materializationAllowed": false,
+    "executionAllowed": false,
+    "legacyBundleChanged": false,
+    "newApplicationBuilds": 0,
+    "predecessorSourcePins": {
+      "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+      "scripts/test/verify-tip081-inventory.mjs": "4e816e3857f039272a4bd6727b78d06a57250b25c1ad461145adac8339cd80bb",
+      "tests/unit/evidence-studio-inventory.test.ts": "2beec825ba1b701ff1ffec520815b978497ae2ebe73181752d1599c3379b537e",
+      "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72"
+    }
+  },
+  "sourceBundleDigest": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+  "preflightPins": {
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+    "scripts/test/start-tip081-standalone.mjs": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+    "node_modules/next/dist/build/utils.js": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+    "node_modules/next/dist/build/collect-build-traces.js": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+    "node_modules/next/dist/compiled/@vercel/nft/index.js": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+    "next.config.ts": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+    "package.json": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+    "package-lock.json": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+    "tsconfig.json": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+    "node_modules/next/dist/compiled/acorn/acorn.js": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+    "node_modules/next/dist/compiled/acorn/package.json": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+    "scripts/test/acquire-tip081-inventory.mjs": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+    "scripts/test/verify-tip081-inventory.mjs": "32e5123f82d280a5f1088d5f3a54482a281524dd58a9e9d1705474efd51b0446",
+    "tests/unit/evidence-studio-inventory.test.ts": "ab254765a82022b49795f3314399bf8125a3ca382fb863c4c5bbaa6f25a9ff13",
+    "tests/unit/evidence-studio-inventory-verifier.test.ts": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72",
+    "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+    "scripts/test/runtime-tip081-manifest.mjs": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+    "scripts/test/verify-tip081-manifest.mjs": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+    "node_modules/next/package.json": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+    "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+    "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+    "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+  },
+  "previousCumulativeMilliseconds": 316204.78266500006,
+  "firstExecutionFailure": {
+    "artifact": "docs/verification/TIP-081A_PRODUCT_INVENTORY_FIRST_FAILURE.json",
+    "milliseconds": 46481.879084,
+    "rawAuthority": "Full stdout/stderr retained in this Codex tool transcript: write_stdin chunk d60502, session35697. This structured summary is not a verbatim raw log."
+  },
+  "finalChecks": {
+    "purpose": "TIP081_INVENTORY_CHECKS",
+    "before": {
+      "scripts/test/acquire-tip081-inventory.mjs": {
+        "digest": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+        "bytes": 24372
+      },
+      "scripts/test/verify-tip081-inventory.mjs": {
+        "digest": "32e5123f82d280a5f1088d5f3a54482a281524dd58a9e9d1705474efd51b0446",
+        "bytes": 21861
+      },
+      "tests/unit/evidence-studio-inventory.test.ts": {
+        "digest": "ab254765a82022b49795f3314399bf8125a3ca382fb863c4c5bbaa6f25a9ff13",
+        "bytes": 15260
+      },
+      "tests/unit/evidence-studio-inventory-verifier.test.ts": {
+        "digest": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72",
+        "bytes": 16214
+      }
+    },
+    "after": {
+      "scripts/test/acquire-tip081-inventory.mjs": {
+        "digest": "5a570c5d60cce499d8343118b0055f3ddef27ce6b787a757b659ad10ef501b31",
+        "bytes": 24372
+      },
+      "scripts/test/verify-tip081-inventory.mjs": {
+        "digest": "32e5123f82d280a5f1088d5f3a54482a281524dd58a9e9d1705474efd51b0446",
+        "bytes": 21861
+      },
+      "tests/unit/evidence-studio-inventory.test.ts": {
+        "digest": "ab254765a82022b49795f3314399bf8125a3ca382fb863c4c5bbaa6f25a9ff13",
+        "bytes": 15260
+      },
+      "tests/unit/evidence-studio-inventory-verifier.test.ts": {
+        "digest": "cb7588ff58cc70723fd1462fe480b31e2fc160ce7caec39dd16f49711c602c72",
+        "bytes": 16214
+      }
+    },
+    "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))",
+    "environmentKeys": [
+      "PATH",
+      "LANG",
+      "TMPDIR",
+      "NODE_ENV"
+    ],
+    "results": [
+      {
+        "name": "unit",
+        "args": [
+          "node_modules/vitest/vitest.mjs",
+          "run",
+          "--config",
+          "vitest-tip081.config.ts",
+          "--configLoader",
+          "runner",
+          "--project",
+          "tip081-unit",
+          "--no-cache",
+          "--no-color"
+        ],
+        "limitMilliseconds": 120000,
+        "milliseconds": 4982.183167,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "\n RUN  v4.1.10 /Users/os/hiveos\n\n ✓ |tip081-unit| tests/unit/evidence-studio-runtime-package.test.ts (54 tests) 434ms\n ✓ |tip081-unit| tests/unit/evidence-studio-manifest-verifier.test.ts (36 tests) 454ms\n ✓ |tip081-unit| tests/unit/evidence-studio-harness.test.ts (69 tests) 120ms\n ✓ |tip081-unit| tests/unit/evidence-studio-manifest.test.ts (36 tests) 435ms\n     ✓ M2-12 site growth refuses before exceeding the logical entry envelope  313ms\n ✓ |tip081-unit| tests/unit/evidence-studio-inventory-verifier.test.ts (22 tests) 841ms\n ✓ |tip081-unit| tests/unit/evidence-studio-inventory.test.ts (23 tests) 410ms\n ✓ |tip081-unit| tests/unit/evidence-studio.test.ts (48 tests) 305ms\n ✓ |tip081-unit| tests/unit/evidence-studio-packaging.test.ts (24 tests) 43ms\n ✓ |tip081-unit| tests/unit/evidence-studio-compiler.test.ts (11 tests) 24ms\n ✓ |tip081-unit| tests/unit/evidence-studio-source-boundary.test.ts (3 tests) 23ms\n\n Test Files  10 passed (10)\n      Tests  326 passed (326)\n   Start at  10:16:59\n   Duration  4.60s (transform 263ms, setup 0ms, import 526ms, tests 3.09s, environment 2ms)\n\n",
+        "stderr": ""
+      },
+      {
+        "name": "lint",
+        "args": [
+          "node_modules/eslint/bin/eslint.js",
+          "scripts/test/acquire-tip081-inventory.mjs",
+          "scripts/test/verify-tip081-inventory.mjs",
+          "tests/unit/evidence-studio-inventory.test.ts",
+          "tests/unit/evidence-studio-inventory-verifier.test.ts"
+        ],
+        "limitMilliseconds": 180000,
+        "milliseconds": 1867.8513329999996,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "name": "type",
+        "args": [
+          "node_modules/typescript/bin/tsc",
+          "--noEmit",
+          "--incremental",
+          "false"
+        ],
+        "limitMilliseconds": 180000,
+        "milliseconds": 30066.394958,
+        "exitCode": 0,
+        "signal": null,
+        "errorCode": null,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "actual": {
+    "sourceAdmission": {
+      "milliseconds": 259.7495,
+      "exitCode": 0,
+      "baseEntries": 121,
+      "manifestExtensionEntries": 6,
+      "inventoryExtensionEntries": 6,
+      "totalSourceEntries": 133,
+      "baseOwned": 23,
+      "oldPins": 79,
+      "assets": 16,
+      "assetBytes": 13117879,
+      "archive": {
+        "bytes": 120417,
+        "digest": "976246818165fdfc4a01b7d89123e5d7bcbe18a63600549e99059dc312df8df2"
+      }
+    },
+    "actualInventory": {
+      "milliseconds": 165.433875,
+      "exitCode": 0,
+      "result": {
+        "purpose": "TIP081_SINGLE_REAL_PRODUCT_INVENTORY_PROBE",
+        "beforePins": 25,
+        "afterPins": 25,
+        "mode": "FAILED_BUILD4_FEASIBILITY",
+        "outcome": {
+          "status": "PRODUCT_INVENTORY_REFUSED",
+          "code": "TIP081_INVENTORY_ROUTES_REFUSED",
+          "details": {
+            "stage": "DECLARATION_METADATA",
+            "readAttempts": 4,
+            "readBytes": 14627,
+            "declarationReadAttempts": 4,
+            "declarationReadBytes": 14627,
+            "metadataAttempts": 18798
+          }
+        },
+        "graphStatus": "ACQUIRED_GRAPH_UNRUN",
+        "graphAccounting": "OPEN_GRAPH_ACCOUNTING_INTEGRATION",
+        "fullRuntimeClosure": "NOT_ACCEPTED",
+        "execution": false,
+        "materialization": false,
+        "newApplicationBuilds": 0
+      }
+    },
+    "rawAuthority": "Immutable tool transcript chunk13dd11, exact stdout/stderr; structured fields transcribed without a second execution."
+  },
+  "cumulativeMilliseconds": 400028.27458200004,
+  "limitMilliseconds": 900000,
+  "remainingMilliseconds": 499971.72541799996,
+  "distinctControls": 326,
+  "newDistinctControls": 45,
+  "newControlGroups": {
+    "producer": 23,
+    "independentVerifier": 22
+  },
+  "allI1toI6Closed": false,
+  "graphIntegration": "OPEN_GRAPH_ACCOUNTING_INTEGRATION",
+  "independentActualVerification": "UNRUN_ACQUISITION_REFUSED",
+  "fullRuntimeClosure": "NOT_ACCEPTED",
+  "newBuilds": 0,
+  "newServers": 0,
+  "browserE2E": "UNRUN",
+  "mathWork": "NONE",
+  "gitWrites": "NONE",
+  "stop": "ACTUAL_DECLARATION_SCHEMA_REFUSAL_NO_AUTOMATIC_RETRY",
+  "finalIndependentConsistencyReview": "CLEAR_NO_MATERIAL_INCONSISTENCY; actual refusal and OPEN boundaries confirmed"
+}

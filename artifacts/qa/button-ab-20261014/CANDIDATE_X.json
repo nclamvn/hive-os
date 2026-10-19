@@ -1,0 +1,37 @@
+{
+  "title": "Đề xuất sơ bộ khảo sát 1.000 ha rừng bằng UAV",
+  "sections": [
+    {
+      "key": "need",
+      "body": "Đề nghị làm rõ yêu cầu và khảo sát khả thi trước khi duyệt triển khai. Theo đầu vào của người dùng, diện tích khảo sát là 1.000 ha; chưa đủ căn cứ chốt cảm biến, chất lượng, lịch hay kinh phí. Chủ nhiệm cần xác định ưu tiên: bản đồ bề mặt/tán rừng, địa hình dưới tán, cấu trúc rừng hay kiểm kê cây; mỗi mục tiêu cần phương án và tiêu chí nghiệm thu tương ứng."
+    },
+    {
+      "key": "scope",
+      "body": "Cần bổ sung: ranh giới AOI và địa điểm; địa hình, độ che phủ và trạng thái tán; sản phẩm, tỷ lệ sử dụng và độ chính xác yêu cầu; CRS ngang/dọc, mốc khống chế; tiếp cận hiện trường, quyền bay; thiết bị, nhân lực, báo giá và lịch khả dụng. Phạm vi đề xuất gồm khảo sát tiền trạm, thử nghiệm đại diện, thu nhận dữ liệu, xử lý, kiểm chứng độc lập và bàn giao. Danh mục sản phẩm chỉ chốt sau thử nghiệm; kiểm kê loài, sinh khối hoặc trữ lượng cần yêu cầu và dữ liệu thực địa riêng, không suy ra chỉ từ diện tích."
+    },
+    {
+      "key": "architecture",
+      "body": "Với ảnh trực giao và bề mặt tán nhìn thấy, xem xét UAV chụp ảnh RGB, xử lý bằng SfM. Với địa hình dưới tán hoặc cấu trúc đứng, ưu tiên thử UAV LiDAR, có thể bổ sung RGB. Đây là đề xuất có điều kiện: RGB không mặc nhiên thấy đất dưới tán; LiDAR cũng phải chứng minh đủ quan sát đất. cloud2trees nhận point cloud từ airborne LiDAR hoặc UAS SfM/laser, có luồng tạo địa hình, chiều cao tán, mây chuẩn hóa, đỉnh/crown cây; không bảo đảm hiệu năng tại hiện trường này.[@S2]"
+    },
+    {
+      "key": "methodology",
+      "body": "Quy trình đề xuất: chốt mục tiêu và tiêu chí chấp nhận → tiền trạm, rà soát quyền tiếp cận/quyền bay → chọn vùng thử đại diện các điều kiện rừng và địa hình → thu nhận thử, xử lý và đối chiếu thực địa → quyết định mở rộng → thu nhận toàn AOI, xử lý và bàn giao. Thống nhất CRS trước thu nhận, ghi đủ định nghĩa ngang/dọc.[@S3] Thiết kế bay và khống chế do nhóm đủ năng lực lập sau khi biết thiết bị, hiện trường và yêu cầu; chưa ấn định độ cao, mật độ hoặc năng suất. Kiểm tra dữ liệu tại hiện trường để phát hiện thiếu phủ và lỗi thu nhận. Giữ dữ liệu gốc, nhật ký, cấu hình xử lý và phiên bản sản phẩm để truy vết."
+    },
+    {
+      "key": "verification",
+      "body": "Trước thử nghiệm, thống nhất đối tượng đo, sai số cho phép, cách lấy mẫu và điều kiện loại/thu lại dữ liệu. Tách điểm kiểm chứng khỏi điểm dùng hiệu chỉnh; phân bố theo địa hình và trạng thái tán, ghi sai số tham chiếu và phần không thể tiếp cận. Kiểm tra độ phủ, ghép dải và độ chính xác tọa độ; riêng LiDAR đánh giá độ chính xác đứng tuyệt đối và tương đối và báo cáo trước phân loại hoặc tạo sản phẩm dẫn xuất, theo phương pháp tham khảo USGS.[@S3] Sau đó kiểm chứng riêng địa hình, chiều cao tán hoặc cây theo sản phẩm đã chọn. Không dùng độ khớp nội bộ thay cho kiểm chứng độc lập. Nếu quan sát đất không đủ, không nghiệm thu địa hình dưới tán như thể đã đo được; báo vùng thiếu và đề nghị bổ sung hoặc đổi phạm vi."
+    },
+    {
+      "key": "plan",
+      "body": "Tiến độ theo cổng, chưa gán số ngày: chủ nhiệm chốt yêu cầu; trưởng kỹ thuật hoàn tất tiền trạm và phương án thử; đơn vị vận hành xác nhận điều kiện bay; nhóm kiểm chứng báo cáo kết quả thử; chủ nhiệm duyệt mở rộng; nhóm dự án thu nhận, xử lý, nghiệm thu, bàn giao. Lịch phụ thuộc AOI, quyền bay, thời tiết, nguồn lực và kết quả thử.\nDự toán sơ bộ là khung tính: tổng chi phí = chuẩn bị + huy động/đi lại + thu nhận + khống chế/kiểm chứng + xử lý/lưu trữ + QA/bàn giao + thuế áp dụng + dự phòng được duyệt. Mỗi dòng cần khối lượng × đơn giá, nguồn và hiệu lực báo giá, điều kiện bao gồm/loại trừ. Khối lượng dựa trên AOI, phương án và năng suất thử; kiểm chứng dựa trên thiết kế mẫu. Tách chi phí cố định/biến phí; dự phòng gắn rủi ro, tránh cộng trùng thu lại dữ liệu. Thiếu báo giá và năng suất nên chưa thể đưa tổng tiền có căn cứ."
+    },
+    {
+      "key": "risk-limitations",
+      "body": "Rủi ro gồm tán che đất, địa hình khó, lỗi định vị, thời tiết, hạn chế bay và tiếp cận. Kiểm soát qua tiền trạm, thử nghiệm, kiểm tra dữ liệu và cổng phê duyệt. Không bay khi thiếu điều kiện; không mở rộng khi thử không đạt. Kết quả vùng thử chưa đủ để khẳng định hiệu năng trên toàn AOI. Tham khảo USGS không đồng nghĩa tuân thủ toàn bộ chuẩn hoặc được cấp quyền bay.[@S3] Đây chưa là thiết kế bay hay chào giá được duyệt."
+    },
+    {
+      "key": "references",
+      "body": "Chỉ sử dụng bản tóm tắt trong gói nguồn; không đọc thêm hoặc xác minh web trong lượt này.\n[@S1] Gatziolis & Andersen (2008), A guide to LIDAR data acquisition and processing for the forests of the Pacific Northwest, PNW-GTR-768. DOI: 10.2737/PNW-GTR-768. https://research.fs.usda.gov/treesearch/30652; chỉ metadata/abstract; nền tham khảo thu nhận, xử lý LiDAR lâm nghiệp, không dùng để định lượng.\n[@S2] USDA RMRS, cloud2trees. https://research.fs.usda.gov/rmrs/projects/cloud2trees; giới thiệu và luồng dữ liệu; chưa chạy công cụ cho nhiệm vụ.\n[@S3] USGS Lidar Base Specification 2025 rev. A, Data Processing and Handling. https://www.usgs.gov/ngp-standards-and-specifications/lidar-base-specification-data-processing-and-handling-requirements; chỉ phạm vi CRS và kiểm chứng nêu trong gói. Bản ghi nguồn không phải bản chụp bất biến."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "TIP108C_INDEPENDENT_ACTUAL_REFUSAL_V1",
+  "scope": "ACTUAL_ONE_WHOLE_ATTEMPT_FILE_REFUSAL_NOT_COMPLETE_REPLAY",
+  "certificate": "artifacts/research/tip108c/WHOLE_ATTEMPT_1.json",
+  "certificate_sha256": "4bc8d5ea74e5f68411e08259002c85927cd72f85e559cd254f1202c133c5db12",
+  "checker_sha256": "31b050be0f522e1b484a760dd74cbe4bc03efa407cdb5ffb31d1a3805b5df722",
+  "command": "python3 -B artifacts/research/tip108c/independent_checker.py artifacts/research/tip108c/WHOLE_ATTEMPT_1.json --seconds 24",
+  "exit_code": 1,
+  "actual_checker_output": {
+    "elapsed_seconds": 0.012909083015983924,
+    "reason": "INCOMPLETE is not proof",
+    "status": "REFUSED"
+  },
+  "tool_reported_process_seconds": 0.000008375,
+  "charged_seconds_conservative": 0.3,
+  "checker_initial_charge_seconds": 0.4,
+  "checker_total_charge_seconds": 0.7,
+  "checker_allocation_seconds": 25,
+  "checker_math_invocations_total": 3,
+  "initial_control_failures": 0,
+  "expected_nonzero_refusal_invocations": 1,
+  "complete_leaf_geometry_replay_performed": false,
+  "producer_counts_independently_verified": false,
+  "producer_metadata_UNVERIFIED": {
+    "status": "INCOMPLETE_MUST_REFUSE",
+    "processed_nodes": 131072,
+    "created_nodes": 172018,
+    "positive_leaves": 36246,
+    "domain_leaves": 8960,
+    "open_leaves": 40946,
+    "max_depth": 10,
+    "elapsed_seconds": 6.212456999986898,
+    "stopped_by": "NODE_CAP",
+    "peak_state_bytes": 68829184
+  },
+  "R1": "OPEN",
+  "R2_complete_certificate_replay": "NOT_PERFORMED_NO_COMPLETE_CERTIFICATE",
+  "global_K6": "OPEN",
+  "resumption": "NOT_AUTHORIZED_NO_AUTOMATIC_REUSE"
+}

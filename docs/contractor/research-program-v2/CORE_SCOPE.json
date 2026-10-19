@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "status": "PRE_SEAL_CONTRACTOR_REVIEW_REQUIRED",
+  "scopeId": "LRC_RESEARCH_PROGRAM_V2_CORE_SCOPE_V1",
+  "authority": { "G1": "APPROVED_OFFLINE_ONLY", "productCode": "AWAITING_EXPLICIT_SEAL_ACCEPTANCE", "G2": "NOT_AUTHORIZED", "providerCalls": 0, "forestExecution": false },
+  "incorporated": [
+    { "path": "docs/proposals/BLUEPRINT_MATH_RESEARCH_PROGRAM_V2.md", "sha256": "c0aac1b91d6f274f3d5e514c8bbac1ad44bbd115eda892158d0f4d1b1c3697e6" },
+    { "path": "docs/proposals/TIP-065_068_RESEARCH_PROGRAM_DRAFT_PACKS.md", "sha256": "b42ffff08dcca56ffa59d73963d15bfb6887c80bec63c68eefe9a3f848cd6c40" }
+  ],
+  "source": {
+    "author": "Jaan Allikvere",
+    "title": "Fourteen and fifteen lonely runners",
+    "id": "arXiv:2609.02604v2",
+    "url": "https://arxiv.org/html/2609.02604v2",
+    "date": "2026-09-24",
+    "locators": ["S2", "S3", "S4.SS1", "S4.SS2", "S4.SS3", "S4.SS4", "S5", "S6"],
+    "primaryBytes": "NOT_RETAINED_LOCALLY_BY_THIS_SCOPE",
+    "primaryStatementAlignment": "CONTRACTOR_READ_V2_S4_SS4_LEMMA_4_6_AND_ACCEPTED_QUANTIFIED_STATEMENT_2026_10_04",
+    "archived111PrimeBaseline": "NOT_SUBSTITUTABLE",
+    "identityIsMathematicalEvidence": false,
+    "localPins": [
+      { "path": "src/modules/research-sandbox/math-lrc-proof-plan.ts", "sha256": "650d55595ad689ce4726ca6c84f5772d543027c95df7121b1e6cc2747c335c9f", "use": "INERT_INSPECTION_OF_ENUMERATION_AND_23_AGGREGATES" },
+      { "path": "docs/research/lrc-allikvere-v2/retained-proof-arithmetic.json", "sha256": "8f0d79ea33d484bcbd9e966096e91b0af4f7081fe46b4e3fb554f38bd2108962", "use": "EXACT_RETAINED_PRIME_ENUMERATIONS_NOT_NEW_REPLAY" },
+      { "path": "src/modules/research-sandbox/math-lrc-properness.ts", "sha256": "c4f7caae3881a2eecae6af875479860559d070bdc1c90fba40237c011e462b73", "use": "HISTORICAL_COMPARISON_NOT_NEW_CHECKER_IMPLEMENTATION" },
+      { "path": "docs/research/lrc-allikvere-v2/retained-properness-bridge.json", "sha256": "caabe317e7bd8692e00a39e57f349255557701d568489613ade4f25a4b7f5d02", "use": "HISTORICAL_CONDITIONAL_FACTS_NOT_NEW_EXECUTION" }
+    ]
+  },
+  "baseline": {
+    "id": "ALLIKVERE_V2_INTEGER_SPEED_PROGRAM_V1",
+    "defaultMode": "REPRODUCTION",
+    "modes": ["REPRODUCTION", "DISCOVERY"],
+    "convention": "LRC(m) denotes m positive integer moving speeds and m+1 total runners, including the stationary runner",
+    "distance": "norm(x) = min_{z in Z}|x-z|",
+    "lowerStatement": "For each m in {1,...,12}, for every u in Z_{>0}^m, there exists t in R such that for every i in {1,...,m}, norm(t*u_i) >= 1/(m+1).",
+    "targets": [
+      {
+        "id": "ROOT_LRC_13_MOVING_14_TOTAL", "movingSpeeds": 13, "totalRunners": 14,
+        "statement": "For every u in Z_{>0}^{13}, there exists t in R such that for every i in {1,...,13}, norm(t*u_i) >= 1/14.",
+        "primeCount": 61,
+        "primes": [83,139,167,181,191,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547]
+      },
+      {
+        "id": "ROOT_LRC_14_MOVING_15_TOTAL", "movingSpeeds": 14, "totalRunners": 15,
+        "statement": "For every u in Z_{>0}^{14}, there exists t in R such that for every i in {1,...,14}, norm(t*u_i) >= 1/15.",
+        "primeCount": 71,
+        "primes": [89,131,149,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569]
+      }
+    ],
+    "trustPolicies": ["NO_SOURCE_ADOPTION", "EXPLICIT_PINNED_SOURCE_ASSUMPTIONS"],
+    "defaultTrustPolicy": "NO_SOURCE_ADOPTION",
+    "sourceAdoption": "Only exact premise or implication statements with immutable source/statement/scope pins may be explicitly adopted. Adoption retains source debt and never establishes independent reproduction. Adopting the target theorem itself is not mathematical advance or independent reproduction.",
+    "discovery": "A separately bound candidate states source differences, potential gain, falsification predicate, strongest objection, targeted obligation and novelty pending. No discovery success is predeclared.",
+    "realSpeedExtension": "NOT_ESTABLISHED_BY_THIS_INTEGER_BASELINE",
+    "freshCoverage": "NOT_ESTABLISHED",
+    "globalVerdict": "NOT_ESTABLISHED"
+  },
+  "master": {
+    "version": 1,
+    "construction": "DETERMINISTIC_FIXED_BASELINE_ONLY",
+    "aggregateIds": ["LOWER_LRC_THROUGH_12","PRIMITIVE_DISTINCT_REDUCTION_13","ELLIPSOID_COVOLUME_13","SEPARATED_POINTS_PREFIX_13","KZ_PRODUCT_MINIMIZATION_13","LATTICE_FLAG_BOUND_13","SHAPE_INEQUALITY_13","PRIME_DIVISIBILITY_CRITERION_13","LEVEL_ONE_COMPLETENESS_61_PRIMES","BINARY_LIFT_COMPLETENESS_61_PRIMES","TERMINAL_PROPERNESS_61_PRIMES","ESTABLISHED_LRC_13","PRIMITIVE_DISTINCT_REDUCTION_14","ELLIPSOID_COVOLUME_14","SEPARATED_POINTS_PREFIX_14","KZ_PRODUCT_MINIMIZATION_14","LATTICE_FLAG_BOUND_14","SHAPE_INEQUALITY_14","FORCED_DIVISOR_LEMMA_14","PRIME_DIVISIBILITY_CRITERION_14","LEVEL_ONE_COMPLETENESS_71_PRIMES","BINARY_LIFT_COMPLETENESS_71_PRIMES","CRT_SHIFT_TERMINAL_PROPERNESS_71_PRIMES"],
+    "additionalNodeCategories": [
+      { "ids": "LOWER_LRC_1 through LOWER_LRC_12", "count": 12 },
+      { "ids": "N{13|14}_P{prime}_GENERATION", "count": 132 },
+      { "ids": "N{13|14}_P{prime}_LIFT", "count": 132 },
+      { "ids": "N{13|14}_P{prime}_TERMINAL", "count": 132 },
+      { "ids": ["GLOBAL_LOG_CLOSURE_13","GLOBAL_LOG_CLOSURE_14"], "count": 2 },
+      { "ids": ["ROOT_LRC_13_MOVING_14_TOTAL","ROOT_LRC_14_MOVING_15_TOTAL"], "count": 2 },
+      { "ids": ["FEW_EXCEPTION_SHIFT_14"], "count": 1 }
+    ],
+    "plannedNodeCount": 436,
+    "edgeOrientation": "prerequisite -> dependent; multi-premise implications retain the complete ordered antecedent list",
+    "edgeTemplates": [
+      "Copy the frozen 23-aggregate dependency lists as SOURCE_REPORTED_DEPENDENCIES only, not evidence.",
+      "Each LOWER_LRC_m -> LOWER_LRC_THROUGH_12.",
+      "For every target-specific prime: GENERATION -> LIFT; LIFT plus matching PRIME_DIVISIBILITY_CRITERION -> TERMINAL.",
+      "Each per-prime stage -> its corresponding exact target aggregate, with the full prime-set denominator retained.",
+      "ROOT_LRC_13_MOVING_14_TOTAL -> ESTABLISHED_LRC_13, which remains a prerequisite of the 15-total target.",
+      "Matching analytic bound, prime divisibility, all terminal coverage, and forced-divisor evidence where needed -> GLOBAL_LOG_CLOSURE_n.",
+      "Matching primitive/distinct reduction, analytic reduction, all terminal stages, divisibility criterion and GLOBAL_LOG_CLOSURE_n -> ROOT_LRC_n_MOVING_(n+1)_TOTAL."
+    ],
+    "terminalMethod": "SOURCE_MATCH_REQUIRED_PER_PRIME; CRT/shift/common-level is not assigned to every prime by name",
+    "shiftNode": "A reusable conditional statement; cannot by itself discharge any prime terminal or global root",
+    "initialStates": "OPEN; historical admissible references may project separate finite/source dimensions but cannot silently discharge global obligations",
+    "coverageKey": ["movingSpeeds","totalRunners","prime","stage","sourceVersion","domainDigest","predecessorOutputDigest"],
+    "quotas": { "nodes": 512, "edges": 4096, "artifactRefs": 1024, "bytes": 524288 },
+    "modelReceivesFullMaster": false,
+    "arbitraryGraphAuthoring": false
+  },
+  "implicationAdmission": {
+    "requiredBindings": ["edgeId","orderedAntecedentStatementDigests","consequentStatementDigest","domainDigest","orderedQuantifiers","assumptionIds","artifactDigest","sourceOrCheckerVersion"],
+    "kinds": ["PINNED_SOURCE_ADOPTED_IMPLICATION","INDEPENDENTLY_REVIEWED_CONDITIONAL_ARGUMENT","ACTUAL_CHECKER_STATEMENT_ALIGNED"],
+    "schemaPassMeansTruth": false,
+    "hostTrust": "Host registry resolves an actually admitted artifact; a model may propose references but cannot author admission or PROVED.",
+    "conditionalRootRule": "Every critical node and complete implication edge is admitted under the same explicit assumption closure. Missing, false, mismatched, circular or incoherently scoped edges refuse closure even when all nodes say closed.",
+    "finiteRule": "Finite domain coverage never proves a universal real-time implication without separately admitted symbolic alignment.",
+    "independentRule": "No outstanding source-adopted premise/edge and actual statement-aligned independent evidence for every required obligation; NOT_ESTABLISHED in this initial release.",
+    "formalKernel": "NOT_INTEGRATED",
+    "externalAcceptance": "NOT_ESTABLISHED",
+    "novelty": "NOT_ESTABLISHED"
+  },
+  "shiftUnit": {
+    "id": "FEW_EXCEPTION_SHIFT_14_V1",
+    "mode": "REPRODUCTION",
+    "sourceLocator": "arXiv:2609.02604v2#S4.SS4, Lemma 4.6",
+    "statement": "Assume LRC(m) for every m in {1,...,12}. For every u in Z_{>0}^{14} and every prime d, let E={i in {1,...,14}: d does not divide u_i}, e=|E| and m_d=ceil(2d/15). If e>=2 and e*m_d<d, then there exists t in R such that for every i in {1,...,14}, norm(t*u_i)>=1/15.",
+    "repeatedAndNonprimitiveSpeeds": "Allowed by this statement; any distinct/primitive restriction for the larger source proof remains a separate reduction obligation",
+    "premiseIds": ["LOWER_LRC_1_TO_12","POSITIVE_INTEGER_14_SPEED_DOMAIN","PRIME_UNIT_EXCEPTION_PERMUTATION","STRICT_UNION_BOUND","LOWER_CONTINUOUS_WITNESS","PHASE_CELL_SYMBOLIC_ALIGNMENT"],
+    "stepIds": ["DIVISIBLE_SUBPROBLEM","LOWER_WITNESS","SHIFT_INVARIANCE","UNIT_PERMUTATION","BAD_ARC_COUNT","UNION_BOUND","COMMON_SHIFT_WITNESS"],
+    "analyticalDebt": ["Existence and domain alignment of the lower continuous witness", "Real-time phase partition argument and its independently admitted statement alignment"],
+    "ceiling": "REVIEWED_CONDITIONAL_ARGUMENT_PLUS_EXACT_FINITE_CONTROLS",
+    "global14Or15Closure": false,
+    "finitePredicateId": "SHIFT_PHASE_PARTITION_AND_COMMON_SHIFT_FINITE_V1",
+    "finiteDomain": { "totalRunners": 15, "dAndE": [{"d":3,"e":[2]},{"d":5,"e":[2,3,4]}], "shiftIndices": "j in {0,...,d-1}", "unitResidues": "a in {1,...,d-1}", "phases": "Canonical reduced rational offsets in [0,1); supplied tuple has exactly e entries", "bad": "norm(alpha_i+a_i*j/d)<1/15", "good": "norm(alpha_i+a_i*j/d)>=1/15", "equality": "GOOD" },
+    "quotas": { "inputAndCertificateBytes": 32768, "integerComponentBits": 256, "milliseconds": 5000, "chargedOperations": 2000000, "certificateBytes": 32768, "phasePartitions": 4, "boundariesPerPartition": 10, "cellsPerPartition": 20, "feedbackBytes": 8192, "summaryBytes": 32768 },
+    "capMeaning": "Explicit charged arithmetic/comparison/partition work model plus cooperative monotonic deadline; not hard OS preemption. Parse bytes and component lengths before BigInt work; refuse any intermediate component beyond 256 bits.",
+    "unsupported": "Well-formed d/e/domain outside the four sealed classes returns UNSUPPORTED without mathematical verdict; malformed data is REFUSED. No silent domain widening.",
+    "checkerVersion": "LRC_SHIFT_FINITE_CHECKER_V1_PENDING_IMPLEMENTATION_HASH",
+    "checkerMustNotImport": ["historical producer/verifier execution","author code","forest collectors","provider adapters","DB","source network"],
+    "resultKinds": ["FINITE_CERTIFICATE_ACCEPTED","CERTIFICATE_REFUSED","UNSUPPORTED","RESOURCE_REFUSED"],
+    "finiteResultIsUniversalProof": false
+  },
+  "finiteSchemas": {
+    "schemaVersion": "LRC_SHIFT_PHASE_CERTIFICATE_V1",
+    "strictUnknownKeys": true,
+    "canonicalRational": { "fields": { "numerator": "decimal unsigned canonical integer", "denominator": "decimal positive canonical integer" }, "maxComponentBits": 256, "reduced": true, "zero": {"numerator":"0","denominator":"1"} },
+    "input": {
+      "required": ["version","predicateId","d","e","unitResidues","offsets","certificate"],
+      "fields": { "version": 1, "predicateId": "SHIFT_PHASE_PARTITION_AND_COMMON_SHIFT_FINITE_V1", "d": "3 or 5", "e": "2 for d3; 2..4 for d5", "unitResidues": "ordered integers 1..d-1, exactly e", "offsets": "ordered canonical rationals in [0,1), exactly e", "certificate": "phase certificate below" },
+      "hash": "sha256(canonicalJson(complete input including certificateDigest))"
+    },
+    "certificate": {
+      "required": ["version","totalRunners","d","partitions","maximumBadPerException","m_d","tupleBadMasks","goodShiftIndices","certificateDigest"],
+      "fields": { "version": 1, "totalRunners": 15, "d": "equal input.d", "partitions": "one exact partition for each a in 1..d-1, ordered by a", "maximumBadPerException": "recomputed across all cells/units", "m_d": "exact ceil(2d/15)", "tupleBadMasks": "one recomputed sorted mask for each supplied offset/residue, exactly e", "goodShiftIndices": "exact sorted complement of tuple mask union in 0..d-1", "certificateDigest": "sha256(canonicalJson(body without certificateDigest))" }
+    },
+    "partition": {
+      "required": ["unitResidue","boundaries","cells"],
+      "fields": { "unitResidue": "a", "boundaries": "complete sorted distinct mod1(+/-1/15-a*j/d), j=0..d-1", "cells": "for each boundary, a singleton BOUNDARY then adjacent OPEN cell; last open cell wraps to first boundary+1" }
+    },
+    "cell": {
+      "required": ["kind","left","right","representative","badShiftIndices"],
+      "fields": { "kind": "BOUNDARY or OPEN", "left": "canonical rational boundary", "right": "left for singleton; next unwrapped boundary for OPEN", "representative": "boundary or exact midpoint reduced mod1 for OPEN", "badShiftIndices": "exact sorted unique j satisfying strict bad predicate" }
+    },
+    "independentConsumer": "Consumer derives all required boundaries, adjacency, wrap, masks, maxima, unit coverage and tuple good shifts independently from input; it does not call producer or accept coherent hash-only content.",
+    "continuityDebt": "Masks are constant between all predicate zeros by a written symbolic argument; representative arithmetic alone is not universal real-time proof.",
+    "jsonSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$ref": "#/$defs/input",
+      "$defs": {
+        "rational": { "type": "object", "additionalProperties": false, "required": ["numerator","denominator"], "properties": { "numerator": { "type":"string", "pattern":"^(0|[1-9][0-9]{0,77})$" }, "denominator": { "type":"string", "pattern":"^[1-9][0-9]{0,77}$" } } },
+        "mask": { "type":"array", "maxItems":5, "uniqueItems":true, "items": { "type":"integer", "minimum":0, "maximum":4 } },
+        "cell": { "type":"object", "additionalProperties":false, "required":["kind","left","right","representative","badShiftIndices"], "properties": { "kind":{"enum":["BOUNDARY","OPEN"]}, "left":{"$ref":"#/$defs/rational"}, "right":{"$ref":"#/$defs/rational"}, "representative":{"$ref":"#/$defs/rational"}, "badShiftIndices":{"$ref":"#/$defs/mask"} } },
+        "partition": { "type":"object", "additionalProperties":false, "required":["unitResidue","boundaries","cells"], "properties": { "unitResidue":{"type":"integer","minimum":1,"maximum":4}, "boundaries":{"type":"array","minItems":6,"maxItems":10,"items":{"$ref":"#/$defs/rational"}}, "cells":{"type":"array","minItems":12,"maxItems":20,"items":{"$ref":"#/$defs/cell"}} } },
+        "certificate": { "type":"object", "additionalProperties":false, "required":["version","totalRunners","d","partitions","maximumBadPerException","m_d","tupleBadMasks","goodShiftIndices","certificateDigest"], "properties": { "version":{"const":1}, "totalRunners":{"const":15}, "d":{"enum":[3,5]}, "partitions":{"type":"array","minItems":2,"maxItems":4,"items":{"$ref":"#/$defs/partition"}}, "maximumBadPerException":{"type":"integer","minimum":0,"maximum":5}, "m_d":{"const":1}, "tupleBadMasks":{"type":"array","minItems":2,"maxItems":4,"items":{"$ref":"#/$defs/mask"}}, "goodShiftIndices":{"$ref":"#/$defs/mask"}, "certificateDigest":{"type":"string","pattern":"^[a-f0-9]{64}$"} } },
+        "input": { "type":"object", "additionalProperties":false, "required":["version","predicateId","d","e","unitResidues","offsets","certificate"], "properties": { "version":{"const":1}, "predicateId":{"const":"SHIFT_PHASE_PARTITION_AND_COMMON_SHIFT_FINITE_V1"}, "d":{"enum":[3,5]}, "e":{"type":"integer","minimum":2,"maximum":4}, "unitResidues":{"type":"array","minItems":2,"maxItems":4,"items":{"type":"integer","minimum":1,"maximum":4}}, "offsets":{"type":"array","minItems":2,"maxItems":4,"items":{"$ref":"#/$defs/rational"}}, "certificate":{"$ref":"#/$defs/certificate"} }, "allOf":[ { "if":{"properties":{"d":{"const":3}}}, "then":{"properties":{"e":{"const":2},"unitResidues":{"minItems":2,"maxItems":2,"items":{"maximum":2}},"offsets":{"minItems":2,"maxItems":2}}} } ] }
+      }
+    },
+    "schemaSemanticRequirements": "Schema is shape-only. Host additionally checks exactly e tuple entries, certificate/input d match, a<d, j<d sorted masks, canonical reduced fractions/component bits, complete partitions and exact content against independently derived finite semantics.",
+    "speedToPhaseBinding": "An optional benchmark speed/t witness is separately bound and checked; phase certificate does not assert that arbitrary offsets arise from a common lower witness."
+  },
+  "methodCards": {
+    "families": ["ANALYTIC_BOUND_REDUCTION","COMPLETE_COVERING","MONOTONE_LIFTING","COMMON_LEVEL_CRT","FEW_EXCEPTION_SHIFT"],
+    "required": ["sourceLocator","sourceBytesOrLocalStatementPin","targetKind","premiseIds","toolCapabilityIds","expectedOutput","evidenceCeiling","estimatedCostRange","discrimination","noveltyCeiling","stopPivot","rejectedPredicateIds"],
+    "applicability": "SATISFIED/OPEN/REFUTED per exact premise evidence; source adoption remains a separate dimension; conditional policy may retain OPEN debts; unavailable tool DEFERRED; wrong convention/refuted premise REFUSED",
+    "heuristics": "Explained root contribution, discrimination, readiness, cost/uncertainty and distinct predicates; not truth probability"
+  },
+  "proposedApis": {
+    "modules": ["math-lrc-research-program.ts","math-lrc-method-unit.ts","math-lrc-method-unit-live.ts","math-lrc-method-unit-review.ts"],
+    "program": ["LRC_RESEARCH_PROGRAM_BASELINE","buildLrcMasterObligations","validateLrcResearchProgramBaseline","buildLrcResearchProgramProjection","evaluateLrcMethodApplicability"],
+    "unit": ["LRC_FEW_EXCEPTION_SHIFT_UNIT","lrcShiftFiniteInputSchema","lrcShiftPhaseCertificateSchema","buildLrcShiftPhaseCertificate","verifyLrcShiftFiniteCertificate"],
+    "live": ["prepareLrcMethodUnitSolverInput","prepareLrcMethodUnitReviewInput","validatePreparedLrcMethodUnitInput","assertLrcMethodUnitAttemptBinding"],
+    "review": ["evaluateLrcMethodUnitReview","validateRecordedLrcMethodUnitReview"],
+    "family": "LRC_METHOD_UNIT",
+    "contractVersion": 4,
+    "contractField": "lrcMethodUnitScope",
+    "contractScopeRequired": ["programBaselineDigest","mode","trustPolicy","unitId","unitDigest","predicateId","targetedObligationId","sourceAssumptionIds","discrimination","stopPivot","limits"],
+    "attemptHostField": "lrcMethodUnitEvidence",
+    "attemptModelField": "lrcMethodUnitFeedback",
+    "reviewHostField": "lrcMethodUnitInput",
+    "reviewModelField": "lrcMethodUnitFeedback",
+    "ledgerVersion": 7,
+    "ledgerSummaryField": "lrcMethodUnitAuditSummary",
+    "preparedFields": ["rendererVersion","role","contractDigest","caseId","runId","requestedModelName","unitDigest","sourceDataDigest","predicateId","targetedObligationId","solverAttemptDigest","finiteEvidenceDigest","stdin","schemaText","stdinDigest","schemaDigest","inputDigest","preparedBytes"],
+    "preparedBytesCap": 49152,
+    "preparedCapIncludes": "Exact UTF8 stdin plus schema plus canonical retained metadata; no duplicated full solver host envelope in reviewer stdin",
+    "solverMathBytesCap": 16384,
+    "solverHostEnvelopeBytesCap": 65536,
+    "roleFeedbackBytesCap": 8192,
+    "findingReasonBytesCap": 256,
+    "roleSummaryBytesCap": 1024,
+    "findingCoverage": "All 6 premise IDs and 7 step IDs exactly once for each role; CONDITIONAL/OPEN/MISSING/DISPUTED only; no PROVED",
+    "rootOutcomes": ["PARTIAL","INCONCLUSIVE"],
+    "separateSummary": "REVIEWED_CONDITIONAL, INCONCLUSIVE or REJECTED, plus finite checker result and unresolved debts; never global root PROVED",
+    "durableExternalIdentity": "All v4/ledger7 persistent guards require actual trusted caseId/runId/contractDigest and host-resolved unit/source/checker references",
+    "transientVsPersistent": "Transient model output can carry feedback only. Worker attaches host evidence after trusted adapter output; persistent v4 requires exact paired evidence and feedback. Legacy adapters do not accept or emit new fields.",
+    "usageAndContexts": "Actual transport usage and distinct context IDs retained; same model contexts are operationally separate, not independent mathematics",
+    "legacy": "Contracts1/2/3, ledger1..6 and absent optional fields retain byte-identical canonical encodings; never backfill or reinterpret v3/ledger6",
+    "cycles": "Old ES/LRC-proofunit exclusions remain; prospective method lane uses explicit authorized jobs and its own bounded policy, not guard removal",
+    "roleOrder": ["SOLVER","ADVERSARY","HOST_FINITE_CHECK","CRITIC"],
+    "criticInput": "Bound full solverAttemptDigest plus host finiteEvidenceDigest and compact typed summary. No adversary prose is supplied to critic; adversary digest remains host ledger lineage. Missing seed yields explicit MISSING finite record supplied to critic, never a manufactured check.",
+    "roleInputSignatures": "prepareLrcMethodUnitSolverInput({contractDigest,caseId,runId,requestedModelName}); prepareLrcMethodUnitReviewInput({role,contractDigest,caseId,runId,requestedModelName,solverAttempt,solverAttemptDigest,finiteEvidence?}). ADVERSARY forbids finiteEvidence; CRITIC requires a validated finiteEvidence record (including honest MISSING/UNSUPPORTED/refusal).",
+    "modelSeedField": "lrcMethodUnitFiniteSeed",
+    "finiteEvidenceHostField": "lrcMethodUnitFiniteEvidence",
+    "finiteEvidencePlacement": "ledger7 host-only; solver attempt remains immutable, not retroactively patched after finite check",
+    "finiteEvidenceApis": ["lrcMethodUnitFiniteSeedSchema","buildLrcMethodUnitFiniteEvidence","validateLrcMethodUnitFiniteEvidence"],
+    "finiteEvidenceRenderer": "A compact <=1024B summary plus report digest is part of exact critic stdin. Full finite input/certificate is host-retained in ledger evidence, not duplicated into critic stdin.",
+    "finiteEvidenceTrust": "Only review job host creates evidence after actual bounded producer and independently derived consumer return. Provider output schemas exclude evidence, checker/producer hashes, counters, dispatch IDs and receipts. Source hashes resolve the frozen host registry; recomputed content hashes are identity, not malicious-host cryptographic authenticity."
+  },
+  "finiteEvidence": {
+    "version": 1,
+    "seedBytesCap": 2048,
+    "seedSchema": { "$schema":"https://json-schema.org/draft/2020-12/schema", "type":"object", "additionalProperties":false, "required":["d","e","unitResidues","offsets"], "properties": { "d":{"enum":[3,5]}, "e":{"type":"integer","minimum":2,"maximum":4}, "unitResidues":{"type":"array","minItems":2,"maxItems":4,"items":{"type":"integer","minimum":1,"maximum":4}}, "offsets":{"type":"array","minItems":2,"maxItems":4,"items":{"$ref":"#/$defs/rational"}} }, "$defs":{"rational":{"type":"object","additionalProperties":false,"required":["numerator","denominator"],"properties":{"numerator":{"type":"string","pattern":"^(0|[1-9][0-9]{0,77})$"},"denominator":{"type":"string","pattern":"^[1-9][0-9]{0,77}$"}}}}, "allOf":[{"if":{"properties":{"d":{"const":3}}},"then":{"properties":{"e":{"const":2},"unitResidues":{"minItems":2,"maxItems":2,"items":{"maximum":2}},"offsets":{"minItems":2,"maxItems":2}}}}] },
+    "seedSemanticRequirements": "Exactly e entries; d3 requires e2/a<=2; d5 requires e2..4/a<=4; canonical reduced rationals/256bits; no certificate supplied by model",
+    "optionalSeed": "New solver model-authored payload may supply lrcMethodUnitFiniteSeed:null or a strict small seed. Its bytes count inside the aggregate16KiB solver math payload. No model checker receipt is accepted.",
+    "execution": "After trusted adversary return, host validates retained solver seed; creates full input/certificate; calls independent bounded consumer; retains actual result before critic preparation. Producer+consumer together share5s/2M charged operation budget; no subprocess/provider/forest.",
+    "recordRequired": ["version","status","predicateId","unitDigest","binding","seedDigest","input","inputDigest","certificateDigest","producer","checker","result","summary","recordDigest"],
+    "bindingRequired": ["caseId","runId","contractDigest","reviewJobId","solverAttemptDigest","adversaryReportDigest"],
+    "producerFields": ["version","sourceSha256"],
+    "checkerFields": ["version","sourceSha256","inputDigest","outputDigest","elapsedMs","chargedOperations"],
+    "status": ["CHECKED_FINITE","MISSING","UNSUPPORTED","CERTIFICATE_REFUSED","RESOURCE_REFUSED"],
+    "result": "Exact finite tupleBadMasks/goodShiftIndices, maximumBadPerException, m_d and coverage counts; no real-time/lower/global/proof flag except NOT_ESTABLISHED",
+    "noRun": "For missing/null seed: MISSING; seedDigest/input/inputDigest/certificateDigest/producer/checker/result are null, no fabricated zero elapsed/counters. Out-of-scope refusal never claims completed finite coverage. Any non-CHECKED_FINITE status prevents the aggregate method-unit audit from gaining REVIEWED_CONDITIONAL; MISSING remains INCONCLUSIVE even with unanimous conditional model findings.",
+    "recordBytesCap": 32768,
+    "summaryBytesCap": 1024,
+    "recordDigest": "sha256(canonicalJson(record without recordDigest)); inputDigest covers exact complete finite input; outputDigest covers actual canonical consumer result",
+    "passiveValidation": "Checks strict shape/status consistency, external record IDs/job lineage, registered source/version pins and all retained byte/content digests without executing producer/checker on GET. Host checker execution authenticity is local unsigned provenance, not external attestation.",
+    "criticRequiredBinding": "CRITIC prepared metadata and exact stdin contain finiteEvidenceDigest matching the retained ledger record; summary is recomputed from that record, not model supplied",
+    "ledger7RequiredBinding": "Full immutable attempt, both actual role reports/prepared inputs and finite evidence share exact case/run/contract/unit/predicate/obligation/source IDs; finite report lineage matches the same review job and preceding adversary digest"
+  },
+  "benchmarkPredicates": {
+    "known": "SHIFT_PHASE_PARTITION_AND_COMMON_SHIFT_FINITE_V1",
+    "falseCandidate": "SHIFT_SURVIVOR_LOWER_BOUND_PLUS_ONE_FINITE_V1",
+    "falseCandidateStatement": "For d=3,e=2, every admissible rational offset/unit tuple has at least d-e*ceil(2d/15)+1 good shift indices.",
+    "falseCandidateControl": { "d": 3, "e": 2, "unitResidues": [1,1], "offsets": [{"numerator":"1","denominator":"30"},{"numerator":"1","denominator":"3"}], "expectedDesignOnly": "Bad masks {0} and {2}; good set {1}; no checker executed in pre-seal phase" },
+    "discoveryCandidateId": "BAD_SHIFT_OVERLAP_STRUCTURAL_GAIN_V1",
+    "discoveryState": "NOVELTY_PENDING_NO_ANSWER_ORACLE",
+    "discoveryExecution": "NOT_DISPATCHABLE unless exact candidate/domain is admitted; the approved d/e checker may not widen to cases outside strict sufficient bound",
+    "incompleteCertificate": "Same known predicate with a required boundary/open cell or unit partition removed; refusal is certificate failure, not LRC refutation"
+  },
+  "preSealChecks": { "sourceIdentityHashes": "OBSERVED_MATCH", "primeArrays": "COPIED_EXACTLY_FROM_RETAINED_TARGETS; ORIGINAL_ENUMERATION_INSPECTED_INERTLY", "mathematicalCheckerRuns": 0, "tests": "NOT_RUN", "providerCalls": 0, "DB": "NOT_RUN", "browser": "NOT_RUN", "oldFilesEdited": 0 },
+  "remainingSealDecisions": ["Contractor accepts deterministic graph templates, quotas and no per-prime terminal-method inference", "Contractor accepts exact finite schema, conservative intermediate 256-bit refusal and charged operation model", "Contractor accepts additive v4/ledger7 API names and strict trusted artifact admission boundary", "Checker implementation hash and renderer-v1 registry are frozen after product implementation before any G2"]
+}

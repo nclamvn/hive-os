@@ -1,0 +1,4 @@
+Classify all positive integer pairs (a,b) such that some positive integers g,N
+make gcd(a^n+b, b^n+a)=g for EVERY integer n>=N.
+Give a complete necessity-and-sufficiency proof. The exponent n is on a and b,
+not multiplication by n.

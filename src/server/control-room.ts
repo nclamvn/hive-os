@@ -4,11 +4,26 @@ import {
 } from "@/modules/identity-workspace";
 import { requireExecutionCapability } from "@/modules/execution-fabric";
 import { requireMissionCapability } from "@/modules/mission-kernel";
+import { getWorkspaceOperationalProjection } from "@/modules/projections";
+import { searchGovernedObjects } from "@/modules/query-contracts";
 import { requireTruthCapability } from "@/modules/truth-kernel";
 import { requireVerificationCapability } from "@/modules/verification-governance";
 import { getDb } from "@/server/db";
 
 export interface ControlRoomProjection {
+  commands: {
+    authoringWrite: boolean;
+    missionsCreate: boolean;
+    researchRequest: boolean;
+    truthWrite: boolean;
+    verificationOperate: boolean;
+  };
+  freshness: {
+    status: string;
+    sourceWatermarkAt: string | null;
+    refreshedAt: string | null;
+    ageMs: number | null;
+  };
   counts: {
     missions: number;
     approvedMissions: number;
@@ -58,7 +73,14 @@ export interface ControlRoomProjection {
   }>;
   finderObjects: Array<{
     id: string;
-    kind: "evidence" | "claim" | "skill" | "execution" | "verification" | "release";
+    kind:
+      | "mission"
+      | "evidence"
+      | "claim"
+      | "skill"
+      | "execution"
+      | "verification"
+      | "release";
     code: string;
     title: string;
     description: string;
@@ -118,6 +140,7 @@ export interface ControlRoomProjection {
  */
 export async function getControlRoomProjection(
   ctx: WorkspaceContext,
+  searchQuery?: string,
 ): Promise<ControlRoomProjection> {
   requireMissionCapability(ctx, "missions.read");
   requireTruthCapability(ctx, "truth.read");
@@ -127,6 +150,41 @@ export async function getControlRoomProjection(
   const workspaceId = ctx.workspace.id;
   const auditAllowed = hasCapability(ctx.membership.role, "audit.read");
   const now = new Date();
+  const materialized = await getWorkspaceOperationalProjection(ctx, now);
+  const {
+    missions,
+    approvedMissions,
+    exploringMissions,
+    obligations,
+    decisionsRequired,
+    evidenceSources,
+    snapshots,
+    evidenceSpans,
+    claims,
+    disputes,
+    honestNulls,
+    provenanceEdges,
+    skills,
+    activeSkills,
+    skillVersions,
+    runtimeGates,
+    passedGates,
+    executionTips,
+    activeExecutionTips,
+    awaitingReports,
+    completionReports,
+    executionArtifacts,
+    openExecutionDeviations,
+    verificationScenarios,
+    activeVerificationRuns,
+    verificationReports,
+    notReadyVerificationReports,
+    governanceSignoffs,
+    evidenceCeilingAssessments,
+    governedReleases,
+    releaseManifests,
+    openEscalations,
+  } = materialized.counts;
   const finderObjectsPromise = Promise.all([
     getDb().evidenceSource.findMany({
       where: { workspaceId },
@@ -204,38 +262,6 @@ export async function getControlRoomProjection(
   ]);
 
   const [
-    missions,
-    approvedMissions,
-    exploringMissions,
-    obligations,
-    decisionsRequired,
-    evidenceSources,
-    snapshots,
-    evidenceSpans,
-    claims,
-    disputes,
-    honestNulls,
-    provenanceEdges,
-    skills,
-    activeSkills,
-    skillVersions,
-    runtimeGates,
-    passedGates,
-    executionTips,
-    activeExecutionTips,
-    awaitingReports,
-    completionReports,
-    executionArtifacts,
-    openExecutionDeviations,
-    verificationScenarios,
-    activeVerificationRuns,
-    verificationReports,
-    notReadyVerificationReports,
-    governanceSignoffs,
-    evidenceCeilingAssessments,
-    governedReleases,
-    releaseManifests,
-    openEscalations,
     reviewDue,
     recentMissions,
     recentExecutionTips,
@@ -243,51 +269,6 @@ export async function getControlRoomProjection(
     recentVerificationReports,
     auditEvents,
   ] = await Promise.all([
-    getDb().mission.count({ where: { workspaceId } }),
-    getDb().mission.count({ where: { workspaceId, status: "APPROVED" } }),
-    getDb().mission.count({ where: { workspaceId, status: "EXPLORING" } }),
-    getDb().runtimeObligation.count({ where: { workspaceId } }),
-    getDb().decision.count({ where: { workspaceId, status: "REQUIRED" } }),
-    getDb().evidenceSource.count({ where: { workspaceId } }),
-    getDb().snapshot.count({ where: { workspaceId } }),
-    getDb().evidenceSpan.count({ where: { workspaceId } }),
-    getDb().claim.count({ where: { workspaceId } }),
-    getDb().dispute.count({ where: { workspaceId } }),
-    getDb().honestNullRecord.count({ where: { workspaceId } }),
-    getDb().provenanceEdge.count({ where: { workspaceId } }),
-    getDb().skill.count({ where: { workspaceId } }),
-    getDb().skill.count({ where: { workspaceId, status: "ACTIVE" } }),
-    getDb().skillVersion.count({ where: { workspaceId } }),
-    getDb().runtimeGate.count({ where: { workspaceId } }),
-    getDb().runtimeGate.count({ where: { workspaceId, status: "PASSED" } }),
-    getDb().executionTip.count({ where: { workspaceId } }),
-    getDb().executionTip.count({
-      where: {
-        workspaceId,
-        status: { in: ["IN_PROGRESS", "BLOCKED", "BLOCKED_DEVIATION", "PARTIAL"] },
-      },
-    }),
-    getDb().agentRun.count({
-      where: { workspaceId, status: "AWAITING_REPORT" },
-    }),
-    getDb().completionReport.count({ where: { workspaceId } }),
-    getDb().executionArtifact.count({ where: { workspaceId } }),
-    getDb().executionDeviation.count({
-      where: { workspaceId, status: "OPEN" },
-    }),
-    getDb().verificationScenario.count({ where: { workspaceId } }),
-    getDb().verificationRun.count({
-      where: { workspaceId, status: "IN_PROGRESS" },
-    }),
-    getDb().verificationReport.count({ where: { workspaceId } }),
-    getDb().verificationReport.count({
-      where: { workspaceId, overallStatus: "NOT_READY" },
-    }),
-    getDb().governanceSignoff.count({ where: { workspaceId } }),
-    getDb().evidenceCeilingAssessment.count({ where: { workspaceId } }),
-    getDb().governedRelease.count({ where: { workspaceId } }),
-    getDb().releaseManifest.count({ where: { workspaceId } }),
-    getDb().escalation.count({ where: { workspaceId, status: { not: "RESOLVED" } } }),
     getDb().claim.count({
       where: {
         workspaceId,
@@ -384,6 +365,12 @@ export async function getControlRoomProjection(
   ]);
 
   const signals: ControlRoomProjection["signals"] = [];
+  const governedSearch = searchQuery?.trim()
+    ? await searchGovernedObjects(ctx, {
+        query: searchQuery,
+        first: 20,
+      })
+    : null;
   const [
     finderEvidence,
     finderClaims,
@@ -458,6 +445,17 @@ export async function getControlRoomProjection(
   }
 
   return {
+    commands: {
+      authoringWrite: hasCapability(ctx.membership.role, "authoring.write"),
+      missionsCreate: hasCapability(ctx.membership.role, "missions.create"),
+      researchRequest: hasCapability(ctx.membership.role, "research.request"),
+      truthWrite: hasCapability(ctx.membership.role, "truth.write"),
+      verificationOperate: hasCapability(
+        ctx.membership.role,
+        "verification.operate",
+      ),
+    },
+    freshness: materialized.freshness,
     counts: {
       missions,
       approvedMissions,
@@ -496,62 +494,72 @@ export async function getControlRoomProjection(
       ...mission,
       updatedAt: mission.updatedAt.toISOString(),
     })),
-    finderObjects: [
-      ...finderEvidence.map((source) => ({
-        id: source.id,
-        kind: "evidence" as const,
-        code: source.mission.referenceCode,
-        title: source.title,
-        description: source.sourceType,
-        status: source.accessLevel,
-        href: "evidence",
-      })),
-      ...finderClaims.map((claim) => ({
-        id: claim.id,
-        kind: "claim" as const,
-        code: claim.claimKey,
-        title: claim.versions[0]?.statement ?? claim.claimKey,
-        description: claim.mission.referenceCode,
-        status: claim.state,
-        href: "claims",
-      })),
-      ...finderSkills.map((skill) => ({
-        id: skill.id,
-        kind: "skill" as const,
-        code: skill.skillKey,
-        title: skill.displayName,
-        description: skill.description,
-        status: skill.status,
-        href: "skills",
-      })),
-      ...finderTips.map((tip) => ({
-        id: tip.id,
-        kind: "execution" as const,
-        code: tip.code,
-        title: tip.title,
-        description: tip.description,
-        status: tip.status,
-        href: "execution",
-      })),
-      ...finderReports.map((report) => ({
-        id: report.id,
-        kind: "verification" as const,
-        code: report.mission.referenceCode,
-        title: report.mission.title,
-        description: "Verify Report",
-        status: report.overallStatus,
-        href: "reports",
-      })),
-      ...finderReleases.map((release) => ({
-        id: release.id,
-        kind: "release" as const,
-        code: release.mission.referenceCode,
-        title: release.mission.title,
-        description: `${release.visibility} release`,
-        status: release.status,
-        href: "reports",
-      })),
-    ],
+    finderObjects: governedSearch
+      ? governedSearch.nodes.map((object) => ({
+          id: object.id,
+          kind: object.kind,
+          code: object.code,
+          title: object.title,
+          description: object.description,
+          status: object.status,
+          href: object.href,
+        }))
+      : [
+          ...finderEvidence.map((source) => ({
+            id: source.id,
+            kind: "evidence" as const,
+            code: source.mission.referenceCode,
+            title: source.title,
+            description: source.sourceType,
+            status: source.accessLevel,
+            href: "evidence",
+          })),
+          ...finderClaims.map((claim) => ({
+            id: claim.id,
+            kind: "claim" as const,
+            code: claim.claimKey,
+            title: claim.versions[0]?.statement ?? claim.claimKey,
+            description: claim.mission.referenceCode,
+            status: claim.state,
+            href: "claims",
+          })),
+          ...finderSkills.map((skill) => ({
+            id: skill.id,
+            kind: "skill" as const,
+            code: skill.skillKey,
+            title: skill.displayName,
+            description: skill.description,
+            status: skill.status,
+            href: "skills",
+          })),
+          ...finderTips.map((tip) => ({
+            id: tip.id,
+            kind: "execution" as const,
+            code: tip.code,
+            title: tip.title,
+            description: tip.description,
+            status: tip.status,
+            href: "execution",
+          })),
+          ...finderReports.map((report) => ({
+            id: report.id,
+            kind: "verification" as const,
+            code: report.mission.referenceCode,
+            title: report.mission.title,
+            description: "Verify Report",
+            status: report.overallStatus,
+            href: "reports",
+          })),
+          ...finderReleases.map((release) => ({
+            id: release.id,
+            kind: "release" as const,
+            code: release.mission.referenceCode,
+            title: release.mission.title,
+            description: `${release.visibility} release`,
+            status: release.status,
+            href: "reports",
+          })),
+        ],
     execution: {
       mode: "MANUAL_BRIDGE",
       disclaimer:

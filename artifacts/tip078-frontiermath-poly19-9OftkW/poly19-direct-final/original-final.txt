@@ -1,0 +1,145 @@
+```json
+{
+  "coefficients": [0, -19, 0, 285, 0, -1254, 0, 2508, 0, -2717, 0, 1729, 0, -665, 0, 152, 0, -19, 0, 1],
+  "claimed_value": 1876572071974094803391179
+}
+```
+
+## Proof
+
+Define
+\[
+D_0(x)=2,\qquad D_1(x)=x,\qquad
+D_n(x)=xD_{n-1}(x)-D_{n-2}(x)\quad(n\ge2),
+\]
+and take \(p=D_{19}\).
+
+Induction shows that every \(D_n\) has integer coefficients, that \(D_n\) is monic of degree \(n\) for \(n\ge1\), and that
+\[
+D_n(-x)=(-1)^nD_n(x).
+\]
+Thus \(p\) is odd, monic, and has real coefficients.
+
+The recurrence gives the formal generating function
+\[
+\sum_{n\ge0}D_n(x)t^n=\frac{2-xt}{1-xt+t^2}.
+\]
+Expanding the denominator as \(\sum_{m\ge0}(xt-t^2)^m\) and collecting coefficients yields, for \(n\ge1\),
+\[
+D_n(x)=\sum_{j=0}^{\lfloor n/2\rfloor}
+(-1)^j
+\left[
+\binom{n-j}{j}+\binom{n-j-1}{j-1}
+\right]x^{n-2j},
+\]
+where a binomial coefficient with lower index \(-1\) is zero. Consequently,
+\[
+\begin{aligned}
+p(x)={}&x^{19}-19x^{17}+152x^{15}-665x^{13}
++1729x^{11}\\
+&-2717x^9+2508x^7-1254x^5+285x^3-19x.
+\end{aligned}
+\]
+This establishes the coefficient list and the required linear coefficient \(-19\).
+
+We prove that the equality curve has ten irreducible components. The recurrence first gives the Laurent-polynomial identity
+\[
+D_n(u+u^{-1})=u^n+u^{-n}.
+\]
+It holds for \(n=0,1\); multiplication by \(u+u^{-1}\) and subtraction of the preceding term proves the induction step.
+
+Put
+\[
+\zeta=e^{2\pi i/19},\qquad
+c_k=\frac{\zeta^k+\zeta^{-k}}2
+=\cos\frac{2\pi k}{19}\quad(1\le k\le9),
+\]
+and define
+\[
+Q_k(x,y)=x^2+y^2-2c_kxy-4(1-c_k^2).
+\]
+We claim the polynomial identity
+\[
+p(y)-p(x)=(y-x)\prod_{k=1}^{9}Q_k(x,y). \tag{1}
+\]
+
+To prove it, let \(u\) be transcendental over \(\mathbb C\), set \(x=u+u^{-1}\), and work in \(\mathbb C(u)[y]\). The nineteen elements
+\[
+y_j=\zeta^ju+\zeta^{-j}u^{-1},
+\qquad 0\le j\le18,
+\]
+are distinct: for different indices their difference is a nonzero Laurent polynomial in \(u\). Moreover,
+\[
+p(y_j)=(\zeta^ju)^{19}+(\zeta^ju)^{-19}
+=u^{19}+u^{-19}=p(x).
+\]
+They therefore exhaust the roots of the monic degree-\(19\) polynomial \(p(y)-p(x)\). Since \(y_0=x\), pairing indices \(k\) and \(19-k\) gives
+\[
+y_k+y_{19-k}=2c_kx,\qquad
+y_ky_{19-k}=x^2-4(1-c_k^2),
+\]
+which proves (1) after substitution.
+
+This substitution proves an identity in \(\mathbb C[x,y]\): \(u+u^{-1}\) is transcendental over \(\mathbb C\), because otherwise the equation
+\[
+u^2-(u+u^{-1})u+1=0
+\]
+would make \(u\) algebraic over \(\mathbb C\). Substitution is consequently injective on \(\mathbb C[x,y]\).
+
+Each \(Q_k\) is irreducible over \(\mathbb C\). As a monic quadratic in \(y\), its discriminant is
+\[
+\Delta_k(x)=4(1-c_k^2)(4-x^2).
+\]
+For \(1\le k\le9\), the angle \(2\pi k/19\) lies strictly between \(0\) and \(\pi\), so \(1-c_k^2\ne0\). Hence \(\Delta_k\) has simple zeros at \(x=2\) and \(x=-2\). A rational square has even order at every zero and pole, so \(\Delta_k\) is not a square in \(\mathbb C(x)\). The quadratic discriminant criterion therefore proves irreducibility in \(\mathbb C(x)[y]\). A factorization in \(\mathbb C[x,y]\) would either persist in that field or have a nonconstant factor depending only on \(x\); the latter is impossible because the leading coefficient in \(y\) is \(1\).
+
+The \(c_k\) are distinct, since cosine is strictly decreasing on \((0,\pi)\). Thus (1) has ten distinct irreducible factors: the diagonal factor and nine irreducible quadratics.
+
+We now verify the projective interpretation. Write
+\[
+x=[X:Z],\qquad y=[Y:W],\qquad
+P(X,Z)=Z^{19}p(X/Z).
+\]
+The polynomial defines the everywhere-defined morphism
+\[
+[X:Z]\longmapsto[P(X,Z):Z^{19}],
+\]
+because \(P(X,0)=X^{19}\). Therefore its projective equality curve has equation
+\[
+P(Y,W)Z^{19}-P(X,Z)W^{19}=0. \tag{2}
+\]
+Bihomogenizing (1) factors (2) as
+\[
+(YZ-XW)\prod_{k=1}^{9}
+\left(
+X^2W^2+Y^2Z^2-2c_kXYZW
+-4(1-c_k^2)Z^2W^2
+\right).
+\]
+The bidegrees sum to \((1,1)+9(2,2)=(19,19)\), so no additional factor is introduced.
+
+Each quadratic factor has only one point outside the affine chart \(ZW\ne0\), namely \((\infty,\infty)\): setting \(Z=0\) forces \(W=0\), and conversely. This point belongs to its affine curve’s closure, as witnessed by
+\[
+x=u+u^{-1},\qquad
+y=\zeta^ku+\zeta^{-k}u^{-1}
+\]
+as \(u\to\infty\). Thus its projective zero set is precisely the closure of its irreducible affine curve, and is irreducible. The diagonal likewise closes to an irreducible component. The ten closures remain distinct because their affine parts are distinct.
+
+Consequently, the projective equality curve has exactly ten irreducible components. The nine quadratic components are not linear: their affine defining polynomials are irreducible of total degree two, and their projective closures have bidegree \((2,2)\).
+
+Finally, write \(p(x)=xR(x^2)\), where
+\[
+R(t)=t^9-19t^8+152t^7-665t^6+1729t^5
+-2717t^4+2508t^3-1254t^2+285t-19.
+\]
+Integer Horner evaluation gives
+\[
+R(361)=98766951156531305441641.
+\]
+Hence
+\[
+p(19)=19R(361)=1876572071974094803391179.
+\]
+
+## Scope and remaining gaps
+
+All requirements are satisfied. The coefficient magnitudes require at most 12 bits, and the claimed value requires 81 bits. There are no remaining essential gaps.

@@ -1,0 +1,37 @@
+{
+  "title": "Đề xuất sơ bộ khảo sát 1.000 ha rừng bằng UAV",
+  "sections": [
+    {
+      "key": "need",
+      "body": "Đầu vào xác nhận duy nhất là diện tích 1.000 ha; chưa đủ để chọn cảm biến, chốt lịch hoặc giá. Đề xuất này hỗ trợ quyết định bước tiếp, không phải thiết kế bay hay chào giá được duyệt. Cần bổ sung: AOI/địa điểm; địa hình, tán rừng; mục đích sử dụng và độ chính xác; CRS/khống chế; tiếp cận, quyền bay; thiết bị, nhân lực, báo giá và lịch. Kiến nghị cho phép chuẩn bị yêu cầu và phương án thử nghiệm, chưa triển khai toàn diện tích."
+    },
+    {
+      "key": "scope",
+      "body": "Phạm vi sản phẩm phải được chủ nhiệm chọn: bản đồ hiện trạng/tán; mô hình bề mặt; hoặc địa hình dưới tán và chiều cao tán. Không mặc định mọi mục tiêu đều khả thi. Bộ bàn giao dự kiến gồm dữ liệu gốc, dữ liệu xử lý, sản phẩm đã thống nhất, metadata, báo cáo kiểm chứng và vùng thiếu dữ liệu. Ranh giới 1.000 ha chưa xác định; phần đệm và vùng chồng phủ chỉ tính sau khi có AOI, không đồng nhất diện tích khảo sát với diện tích bay thực tế."
+    },
+    {
+      "key": "architecture",
+      "body": "Phương án chuyên môn có điều kiện: RGB/SfM nếu ưu tiên ảnh trực giao và bề mặt tán; không coi bề mặt dựng từ ảnh là địa hình dưới tán kín. Cân nhắc UAV LiDAR khi cần cấu trúc đứng hoặc địa hình, nhưng phải thử khả năng ghi nhận mặt đất tại hiện trường. S1 là hướng dẫn thu nhận/xử lý LiDAR lâm nghiệp, không bảo đảm hiệu năng cho nhiệm vụ này.[@S1] Cloud2trees là ứng viên xử lý point cloud từ airborne LiDAR hoặc UAS SfM/laser, tạo địa hình, chiều cao tán, đám mây chuẩn hóa và đỉnh/crown cây; chưa chạy hay kiểm chứng tại đây.[@S2] Chọn nền tảng bay, định vị và phần mềm sau khi đối chiếu mục tiêu, địa hình, tải trọng, tiếp cận và nguồn lực."
+    },
+    {
+      "key": "methodology",
+      "body": "• Chốt AOI, sản phẩm, tiêu chí nghiệm thu; khảo sát tiếp cận, cất/hạ cánh, chướng ngại, liên lạc và điều kiện pháp lý.\n• Thống nhất CRS trước thu nhận, ghi rõ hệ ngang/dọc theo phương pháp tham khảo S3.[@S3]\n• Thiết kế khống chế, điểm kiểm tra độc lập và vùng thử đại diện địa hình/tán. Chỉ bay khi đủ điều kiện an toàn và quyền thực hiện.\n• Thử nghiệm, đánh giá chất lượng/nguồn lực; trình quyết định tiếp tục, điều chỉnh hoặc dừng.\n• Thu nhận theo thiết kế được duyệt; kiểm độ phủ, định vị, chất lượng ảnh/point cloud và sao lưu tại hiện trường.\n• Xử lý định vị/căn chỉnh; kiểm chứng sai số trước phân loại và dẫn xuất theo trình tự tham khảo S3.[@S3] Tạo sản phẩm, ghi vùng bất định và lưu phiên bản xử lý."
+    },
+    {
+      "key": "verification",
+      "body": "Chốt ngưỡng và cách kiểm trước thu nhận. Điểm kiểm tra không dùng hiệu chỉnh; phân theo địa hình/tán, đo bằng phương pháp đủ tin cậy. Nếu không tiếp cận được lớp khó, báo giới hạn đại diện. Kiểm độ phủ, khoảng trống, sai lệch giữa dải; đối chiếu tọa độ/độ cao với tham chiếu độc lập, báo sai số và phân bố mẫu. S3 yêu cầu kiểm chứng độ chính xác đứng tuyệt đối/tương đối, báo cáo trước phân loại/sản phẩm dẫn xuất.[@S3] Chiều cao/crown cần kiểm riêng bằng mẫu thực địa; point cloud đạt không tự chứng minh mọi sản phẩm đạt. Không nghiệm thu vùng thiếu bằng chứng."
+    },
+    {
+      "key": "plan",
+      "body": "Tiến độ: đủ đầu vào → khảo sát/hoàn tất điều kiện bay → thử nghiệm → duyệt phương án → thu nhận → xử lý/kiểm chứng → bàn giao. Chưa chốt số ngày; lịch phụ thuộc tiếp cận, thời tiết, thủ tục và năng suất thử nghiệm. Vai trò đề xuất: chủ nhiệm duyệt; phụ trách bay/an toàn; đo kiểm; xử lý/kiểm soát chất lượng.\nDự toán: tổng chi phí gồm chuẩn bị, thực địa, thu nhận, xử lý, kiểm chứng, bàn giao, dự phòng và thuế/phí áp dụng. Mỗi khoản = khối lượng × đơn giá, ghi đơn vị và căn cứ. Ngày công, ngày thuê thiết bị, đi lại/lưu trú và khối lượng xử lý lấy từ phương án, tuyến tiếp cận và thử nghiệm; đơn giá từ báo giá còn hiệu lực hoặc chi phí nội bộ xác nhận. Tránh tính trùng thuê máy/người vận hành; thiết bị sở hữu tính chi phí phân bổ phù hợp. Dự phòng dựa trên rủi ro bay lại/thời tiết, chưa gán tỷ lệ. So sánh chi phí RGB/LiDAR khi đủ căn cứ; hiện chưa thể đưa tổng tiền đáng tin cậy."
+    },
+    {
+      "key": "risk-limitations",
+      "body": "Rủi ro chính: tán kín thiếu điểm đất; định vị suy giảm; địa hình che khuất; thời tiết, pin và tiếp cận; điều kiện bay chưa xác định. Giảm thiểu bằng khảo sát, thử nghiệm, kiểm tra sớm và quyền dừng của phụ trách an toàn. Chưa xác nhận dữ liệu mặt đất, năng suất, độ chính xác hay khả năng nhận dạng từng cây. Sinh khối/trữ lượng không suy ra đáng tin cậy nếu thiếu mô hình và mẫu kiểm phù hợp. S3 chỉ tham khảo phương pháp, không chứng nhận tuân thủ toàn bộ 3DEP hay cấp quyền bay.[@S3]"
+    },
+    {
+      "key": "references",
+      "body": "[@S1] Gatziolis & Andersen (2008), A guide to LIDAR data acquisition and processing for the forests of the Pacific Northwest, PNW-GTR-768. DOI: 10.2737/PNW-GTR-768. https://research.fs.usda.gov/treesearch/30652 — metadata/abstract.\n[@S2] USDA RMRS, cloud2trees. https://research.fs.usda.gov/rmrs/projects/cloud2trees — giới thiệu/luồng dữ liệu.\n[@S3] USGS, Lidar Base Specification 2025 rev. A, Data Processing and Handling. https://www.usgs.gov/ngp-standards-and-specifications/lidar-base-specification-data-processing-and-handling-requirements — CRS/kiểm chứng đứng.\nChỉ dùng tóm tắt nguồn được cấp, không đọc toàn văn hay duyệt web; bản chụp nguồn chưa bất biến. Lựa chọn triển khai là đề xuất có điều kiện, chưa phải kết quả thực nghiệm."
+    }
+  ]
+}

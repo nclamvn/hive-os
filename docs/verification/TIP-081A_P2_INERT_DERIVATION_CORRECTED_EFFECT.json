@@ -1,0 +1,9 @@
+{
+  "purpose": "P2_REVIEWED_CORRECTED_INERT_DERIVATION",
+  "status": 1,
+  "signal": null,
+  "errorCode": null,
+  "stdout": "",
+  "stderr": "/Users/os/hiveos/node_modules/typescript/lib/typescript.js:151822\n    Debug.assert(!positionIsSynthesized(this.pos) && !positionIsSynthesized(this.end), message || \"Node must have a real position for this operation\");\n          ^\n\nError: Debug Failure. False expression: Node must have a real position for this operation\n    at NodeObject.assertHasRealPosition (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:151822:11)\n    at NodeObject.getStart (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:151828:10)\n    at alternateWalk (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:665:26)\n    at visitNode2 (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32449:18)\n    at forEachChildInIfStatement (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32682:51)\n    at Object.forEachChild (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32970:35)\n    at alternateWalk (file:///Users/os/hiveos/scripts/test/derive-private-grammar-tip081-p2.mjs:673:10)\n    at visitNodes (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32457:22)\n    at forEachChildInBlock (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32927:10)\n    at Object.forEachChild (/Users/os/hiveos/node_modules/typescript/lib/typescript.js:32970:35)\n\nNode.js v24.14.1\n",
+  "milliseconds": 804.5357919999999
+}

@@ -1,0 +1,13 @@
+test_bad_navigation_and_gauge_inputs (__main__.K6Controls.test_bad_navigation_and_gauge_inputs) ... ok
+test_compatibility_arithmetic (__main__.K6Controls.test_compatibility_arithmetic) ... ok
+test_create_only_output_contract (__main__.K6Controls.test_create_only_output_contract) ... ok
+test_exact_local_symbolic_polynomial (__main__.K6Controls.test_exact_local_symbolic_polynomial) ... ok
+test_exact_witness_and_navigation_value (__main__.K6Controls.test_exact_witness_and_navigation_value) ... ok
+test_reflection (__main__.K6Controls.test_reflection) ... ok
+test_structured_seed_inventory (__main__.K6Controls.test_structured_seed_inventory) ... ok
+test_symmetric_benchmark (__main__.K6Controls.test_symmetric_benchmark) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.055s
+
+OK

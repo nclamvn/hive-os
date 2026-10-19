@@ -1,0 +1,10 @@
+{
+  "status": "REPLAY_PASS_WITHOUT_SIMPLEX",
+  "coverage": "ALL_ALLOWED_ATOMS_ALL_FIVE_BANDS_ONE_SIGNATURE_ONLY",
+  "coefficient_class": "NONNEGATIVE",
+  "atom_count": 186,
+  "band_cap_count": 30,
+  "scaled_area_lower_bound": "70/61",
+  "root_closed": false,
+  "elapsed_seconds": 0.04785837497911416
+}

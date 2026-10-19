@@ -1,0 +1,106 @@
+{
+  "driver": "import{readFileSync,statSync}from'node:fs';import{createHash}from'node:crypto';import{performance}from'node:perf_hooks';const start=performance.now(),files=[\"scripts/test/store-tip081-inventory-source.mjs\",\"scripts/test/verify-tip081-inventory-source.mjs\",\"scripts/test/runtime-tip081-manifest.mjs\",\"scripts/test/codec-tip081-source-v2.mjs\",\"scripts/test/admit-tip081-source-v2.mjs\",\"node_modules/next/dist/compiled/acorn/acorn.js\",\"node_modules/next/dist/compiled/acorn/package.json\",\"vitest-tip081.config.ts\",\"tsconfig.json\",\"next.config.ts\",\"tests/unit/evidence-studio-source-v2.test.ts\",\"scripts/test/guard-scanners-tip081-p1.mjs\",\"tests/unit/evidence-studio-p1-guard-scanners.test.ts\",\"vitest-tip081-p1.config.ts\",\"docs/verification/TIP-081A_P1_ALLOCATION.md\"],expected=[{\"path\":\"scripts/test/store-tip081-inventory-source.mjs\",\"hash\":\"3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069\",\"bytes\":15214},{\"path\":\"scripts/test/verify-tip081-inventory-source.mjs\",\"hash\":\"52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca\",\"bytes\":22118},{\"path\":\"scripts/test/runtime-tip081-manifest.mjs\",\"hash\":\"a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006\",\"bytes\":28909},{\"path\":\"scripts/test/codec-tip081-source-v2.mjs\",\"hash\":\"dc8cafe0f8c3951c56cf1955eeebfb7e994ca386b244b9422cda1e56b31c81ae\",\"bytes\":12768},{\"path\":\"scripts/test/admit-tip081-source-v2.mjs\",\"hash\":\"3128824b9e1ff8133585ee5a9d5768d0ff6e6ad6d81d53c040f8ebd8ed880a1e\",\"bytes\":9330},{\"path\":\"node_modules/next/dist/compiled/acorn/acorn.js\",\"hash\":\"3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d\",\"bytes\":121634},{\"path\":\"node_modules/next/dist/compiled/acorn/package.json\",\"hash\":\"aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca\",\"bytes\":51},{\"path\":\"vitest-tip081.config.ts\",\"hash\":\"f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13\",\"bytes\":594},{\"path\":\"tsconfig.json\",\"hash\":\"2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0\",\"bytes\":862},{\"path\":\"next.config.ts\",\"hash\":\"ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0\",\"bytes\":1831},{\"path\":\"tests/unit/evidence-studio-source-v2.test.ts\",\"hash\":\"22c6262baffd22e7a7e21fe9f74cbc83c967a5c0aab52e2a9bdca7f25c870e1b\",\"bytes\":17700},{\"path\":\"scripts/test/guard-scanners-tip081-p1.mjs\",\"hash\":\"ff48aea7c85d69e0db09aec37764b75586b3cfbfb276c9bb5b0e8cf9313a967e\",\"bytes\":18065},{\"path\":\"tests/unit/evidence-studio-p1-guard-scanners.test.ts\",\"hash\":\"287236975760b4ef7daa107f3a5776333e1e61b5c5df4eb0c7e0c0dca1a1cad2\",\"bytes\":20892},{\"path\":\"vitest-tip081-p1.config.ts\",\"hash\":\"dcd8bc0241e5c763ee79e05ff2012e1fff73e5007f6b8de2b6c957b68c0554a8\",\"bytes\":376}];let total=0;for(const path of files){const s=statSync(path);if(!s.isFile()||s.size>131072||s.size>1048576-total)throw Error('CAPTURE_BOUND_REFUSED');total+=s.size}const rows=files.map(path=>{const b=readFileSync(path),hash=createHash('sha256').update(b).digest('hex'),old=expected.find(r=>r.path===path);if(old&&(hash!==old.hash||b.length!==old.bytes))throw Error('PREDECESSOR_PIN_DRIFT');return{path,bytes:b.length,hash,predecessorMatch:old?true:null}});console.log(JSON.stringify({phase:'P2_FROZEN_BEFORE',rows,totalBytes:total,milliseconds:performance.now()-start,parserImported:false,actualRootRead:false}));",
+  "snapshot": {
+    "phase": "P2_FROZEN_BEFORE",
+    "rows": [
+      {
+        "path": "scripts/test/store-tip081-inventory-source.mjs",
+        "bytes": 15214,
+        "hash": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069",
+        "predecessorMatch": true
+      },
+      {
+        "path": "scripts/test/verify-tip081-inventory-source.mjs",
+        "bytes": 22118,
+        "hash": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca",
+        "predecessorMatch": true
+      },
+      {
+        "path": "scripts/test/runtime-tip081-manifest.mjs",
+        "bytes": 28909,
+        "hash": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+        "predecessorMatch": true
+      },
+      {
+        "path": "scripts/test/codec-tip081-source-v2.mjs",
+        "bytes": 12768,
+        "hash": "dc8cafe0f8c3951c56cf1955eeebfb7e994ca386b244b9422cda1e56b31c81ae",
+        "predecessorMatch": true
+      },
+      {
+        "path": "scripts/test/admit-tip081-source-v2.mjs",
+        "bytes": 9330,
+        "hash": "3128824b9e1ff8133585ee5a9d5768d0ff6e6ad6d81d53c040f8ebd8ed880a1e",
+        "predecessorMatch": true
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+        "bytes": 121634,
+        "hash": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+        "predecessorMatch": true
+      },
+      {
+        "path": "node_modules/next/dist/compiled/acorn/package.json",
+        "bytes": 51,
+        "hash": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+        "predecessorMatch": true
+      },
+      {
+        "path": "vitest-tip081.config.ts",
+        "bytes": 594,
+        "hash": "f6b52145587759151d0e3a6fabdb559043393b3bd132fbf9fef4edfcbc140d13",
+        "predecessorMatch": true
+      },
+      {
+        "path": "tsconfig.json",
+        "bytes": 862,
+        "hash": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+        "predecessorMatch": true
+      },
+      {
+        "path": "next.config.ts",
+        "bytes": 1831,
+        "hash": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+        "predecessorMatch": true
+      },
+      {
+        "path": "tests/unit/evidence-studio-source-v2.test.ts",
+        "bytes": 17700,
+        "hash": "22c6262baffd22e7a7e21fe9f74cbc83c967a5c0aab52e2a9bdca7f25c870e1b",
+        "predecessorMatch": true
+      },
+      {
+        "path": "scripts/test/guard-scanners-tip081-p1.mjs",
+        "bytes": 18065,
+        "hash": "ff48aea7c85d69e0db09aec37764b75586b3cfbfb276c9bb5b0e8cf9313a967e",
+        "predecessorMatch": true
+      },
+      {
+        "path": "tests/unit/evidence-studio-p1-guard-scanners.test.ts",
+        "bytes": 20892,
+        "hash": "287236975760b4ef7daa107f3a5776333e1e61b5c5df4eb0c7e0c0dca1a1cad2",
+        "predecessorMatch": true
+      },
+      {
+        "path": "vitest-tip081-p1.config.ts",
+        "bytes": 376,
+        "hash": "dcd8bc0241e5c763ee79e05ff2012e1fff73e5007f6b8de2b6c957b68c0554a8",
+        "predecessorMatch": true
+      },
+      {
+        "path": "docs/verification/TIP-081A_P1_ALLOCATION.md",
+        "bytes": 13321,
+        "hash": "e66966811133e521d54d8899840ac3ec8c911a2ab09492f76e52ca1db1d4acc5",
+        "predecessorMatch": null
+      }
+    ],
+    "totalBytes": 283665,
+    "milliseconds": 6.018791,
+    "parserImported": false,
+    "actualRootRead": false
+  },
+  "start": 793967.657875,
+  "conservativeAllowance": 1000,
+  "cumulativeUpper": 794973.676666,
+  "remaining": 105026.32333399996
+}

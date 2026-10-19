@@ -5,10 +5,11 @@ import { getDb } from "@/server/db";
 export async function getReportsProjection(ctx: WorkspaceContext) {
   requireVerificationCapability(ctx, "verification.read");
   const workspaceId = ctx.workspace.id;
-  const [reports, releases] = await Promise.all([
+  const [reports, releases, missions] = await Promise.all([
     getDb().verificationReport.findMany({
       where: { workspaceId },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: 100,
       select: {
         id: true,
         overallStatus: true,
@@ -21,14 +22,15 @@ export async function getReportsProjection(ctx: WorkspaceContext) {
         verificationRun: {
           select: {
             independenceStatus: true,
-            corruptionRuns: { select: { result: true } },
+            corruptionRuns: { select: { result: true }, take: 100 },
           },
         },
       },
     }),
     getDb().governedRelease.findMany({
       where: { workspaceId },
-      orderBy: { approvedAt: "desc" },
+      orderBy: [{ approvedAt: "desc" }, { id: "asc" }],
+      take: 100,
       select: {
         id: true,
         status: true,
@@ -50,6 +52,19 @@ export async function getReportsProjection(ctx: WorkspaceContext) {
         },
       },
     }),
+    getDb().mission.findMany({
+      where: { workspaceId },
+      orderBy: { updatedAt: "desc" },
+      take: 50,
+      select: {
+        id: true,
+        referenceCode: true,
+        title: true,
+        status: true,
+        assuranceProfile: true,
+        updatedAt: true,
+      },
+    }),
   ]);
-  return { reports, releases };
+  return { reports, releases, missions };
 }

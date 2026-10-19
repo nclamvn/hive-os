@@ -13,6 +13,9 @@ import {
   retryManualRunAction,
   type ExecutionActionResult,
 } from "@/app/actions/execution";
+import { usePreferences } from "@/components/preferences/preferences-provider";
+import { localizedActionError } from "@/i18n/action-errors";
+import { useExecutionCopy } from "@/i18n/use-core-copy";
 
 const field =
   "text-body text-ink border-line focus:border-line-strong h-10 w-full min-w-0 rounded-md border bg-surface-subtle px-3 outline-none";
@@ -24,9 +27,18 @@ interface Option {
   label: string;
 }
 
-function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) {
+function Label({
+  htmlFor,
+  children,
+}: {
+  htmlFor: string;
+  children: ReactNode;
+}) {
   return (
-    <label htmlFor={htmlFor} className="text-meta text-ink mb-1 block font-medium">
+    <label
+      htmlFor={htmlFor}
+      className="text-meta text-ink mb-1 block font-medium"
+    >
       {children}
     </label>
   );
@@ -45,11 +57,14 @@ function Select({
   options: Option[];
   optional?: boolean;
 }) {
+  const copy = useExecutionCopy();
   return (
     <div>
       <Label htmlFor={id}>{label}</Label>
       <select id={id} name={name} required={!optional} className={field}>
-        <option value="">{optional ? "No predecessor" : "Select…"}</option>
+        <option value="">
+          {optional ? copy.common.noPredecessor : copy.common.select}
+        </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.label}
@@ -74,6 +89,8 @@ function GovernedForm({
   children: ReactNode;
 }) {
   const router = useRouter();
+  const { locale } = usePreferences();
+  const copy = useExecutionCopy();
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<ExecutionActionResult | null>(null);
 
@@ -99,7 +116,7 @@ function GovernedForm({
           role={result.ok ? "status" : "alert"}
           className={`text-meta ${result.ok ? "text-success-600" : "text-danger-600"}`}
         >
-          {result.ok ? success : result.error}
+          {result.ok ? success : localizedActionError(locale, result)}
         </p>
       ) : null}
       <button
@@ -107,7 +124,7 @@ function GovernedForm({
         disabled={busy}
         className="text-body bg-navy-800 hover:bg-navy-900 inline-flex min-h-10 items-center rounded-md px-4 font-medium text-white disabled:opacity-50"
       >
-        {busy ? "Saving…" : button}
+        {busy ? copy.common.saving : button}
       </button>
     </form>
   );
@@ -143,24 +160,25 @@ const REPORT_TEMPLATE = JSON.stringify(
 );
 
 function ManualRunFields({ prefix }: { prefix: string }) {
+  const copy = useExecutionCopy();
   return (
     <>
       <div className="grid gap-3 min-[520px]:grid-cols-3">
         <div>
-          <Label htmlFor={`${prefix}-role`}>Execution role</Label>
+          <Label htmlFor={`${prefix}-role`}>{copy.manual.role}</Label>
           <select
             id={`${prefix}-role`}
             name="executionRole"
             defaultValue="BUILDER"
             className={field}
           >
-            <option value="CONTRACTOR">Contractor</option>
-            <option value="BUILDER">Builder</option>
-            <option value="VERIFIER">Verifier</option>
+            <option value="CONTRACTOR">{copy.manual.contractor}</option>
+            <option value="BUILDER">{copy.manual.builder}</option>
+            <option value="VERIFIER">{copy.manual.verifier}</option>
           </select>
         </div>
         <div>
-          <Label htmlFor={`${prefix}-provider`}>Provider name</Label>
+          <Label htmlFor={`${prefix}-provider`}>{copy.manual.provider}</Label>
           <input
             id={`${prefix}-provider`}
             name="providerName"
@@ -170,7 +188,7 @@ function ManualRunFields({ prefix }: { prefix: string }) {
           />
         </div>
         <div>
-          <Label htmlFor={`${prefix}-model`}>Model or operator</Label>
+          <Label htmlFor={`${prefix}-model`}>{copy.manual.model}</Label>
           <input
             id={`${prefix}-model`}
             name="modelName"
@@ -181,19 +199,19 @@ function ManualRunFields({ prefix }: { prefix: string }) {
         </div>
       </div>
       <div>
-        <Label htmlFor={`${prefix}-instruction`}>Immutable instruction</Label>
+        <Label htmlFor={`${prefix}-instruction`}>
+          {copy.manual.instruction}
+        </Label>
         <textarea
           id={`${prefix}-instruction`}
           name="instruction"
           rows={8}
           required
-          placeholder="# Work package&#10;State the accepted scope, output contract and evidence duties."
+          placeholder={copy.manual.instructionPlaceholder}
           className={`${area} font-mono text-[12px]`}
         />
       </div>
-      <p className="text-meta text-ink-muted">
-        Never paste API keys, passwords, bearer tokens or private keys.
-      </p>
+      <p className="text-meta text-ink-muted">{copy.manual.secretWarning}</p>
     </>
   );
 }
@@ -219,47 +237,47 @@ export function ExecutionOperationsForms({
   awaitingRuns: Option[];
   retryRuns: Option[];
 }) {
+  const copy = useExecutionCopy();
   return (
     <section aria-labelledby="execution-console-title">
       <div className="mb-3">
-        <h2 id="execution-console-title" className="text-section-title text-ink-strong">
-          Operator console
+        <h2
+          id="execution-console-title"
+          className="text-section-title text-ink-strong"
+        >
+          {copy.console.title}
         </h2>
-        <p className="text-meta text-ink-muted mt-1">
-          Open only the operation you are performing. Every save crosses a
-          governed kernel boundary.
-        </p>
+        <p className="text-meta text-ink-muted mt-1">{copy.console.hint}</p>
       </div>
       <div className="space-y-3">
         {approvedMissions.length ? (
           <details className="border-line bg-surface rounded-panel border p-5">
             <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-              Open Mission exploration
+              {copy.exploration.title}
             </summary>
             <p className="text-meta text-ink-muted mt-2 mb-4">
-              Moves an approved contract into governed exploration. It does not
-              create execution work automatically.
+              {copy.exploration.hint}
             </p>
             <GovernedForm
-              label="Open Mission exploration"
-              button="Open exploration"
-              success="Mission entered exploration"
+              label={copy.exploration.title}
+              button={copy.exploration.button}
+              success={copy.exploration.success}
               action={(data) => openExplorationAction(slug, data)}
             >
               <Select
                 id="exploration-mission"
                 name="missionId"
-                label="Approved Mission"
+                label={copy.exploration.mission}
                 options={approvedMissions}
               />
               <div>
-                <Label htmlFor="exploration-reason">Reason</Label>
+                <Label htmlFor="exploration-reason">{copy.common.reason}</Label>
                 <textarea
                   id="exploration-reason"
                   name="reason"
                   rows={2}
                   required
-                  defaultValue="Approved contract is ready for governed exploration."
+                  defaultValue={copy.exploration.defaultReason}
                   className={area}
                 />
               </div>
@@ -269,36 +287,35 @@ export function ExecutionOperationsForms({
 
         <details className="border-line bg-surface rounded-panel border p-5">
           <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-            Define execution work package
+            {copy.package.title}
           </summary>
           <p className="text-meta text-ink-muted mt-2 mb-4">
-            Binds one active compatible SkillVersion to a Mission. A predecessor
-            is optional and must belong to the same Mission.
+            {copy.package.hint}
           </p>
           {operatingMissions.length && skills.length ? (
             <GovernedForm
-              label="Define execution work package"
-              button="Create work package"
-              success="Execution work package created"
+              label={copy.package.title}
+              button={copy.package.button}
+              success={copy.package.success}
               action={(data) => createExecutionTipAction(slug, data)}
             >
               <div className="grid gap-3 min-[620px]:grid-cols-2">
                 <Select
                   id="tip-mission"
                   name="missionId"
-                  label="Exploring or building Mission"
+                  label={copy.package.mission}
                   options={operatingMissions}
                 />
                 <Select
                   id="tip-skill"
                   name="skillVersionId"
-                  label="Active skill contract"
+                  label={copy.package.skill}
                   options={skills}
                 />
               </div>
               <div className="grid gap-3 min-[620px]:grid-cols-[180px_1fr]">
                 <div>
-                  <Label htmlFor="tip-code">Package code</Label>
+                  <Label htmlFor="tip-code">{copy.package.code}</Label>
                   <input
                     id="tip-code"
                     name="code"
@@ -308,12 +325,19 @@ export function ExecutionOperationsForms({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="tip-title">Package title</Label>
-                  <input id="tip-title" name="title" required className={field} />
+                  <Label htmlFor="tip-title">{copy.package.name}</Label>
+                  <input
+                    id="tip-title"
+                    name="title"
+                    required
+                    className={field}
+                  />
                 </div>
               </div>
               <div>
-                <Label htmlFor="tip-description">Bounded description</Label>
+                <Label htmlFor="tip-description">
+                  {copy.package.description}
+                </Label>
                 <textarea
                   id="tip-description"
                   name="description"
@@ -325,72 +349,67 @@ export function ExecutionOperationsForms({
               <Select
                 id="tip-predecessor"
                 name="predecessorTipId"
-                label="Predecessor"
+                label={copy.package.predecessor}
                 options={tips}
                 optional
               />
             </GovernedForm>
           ) : (
             <p className="text-body text-ink-muted border-line rounded-md border p-4">
-              An exploring Mission and an active assurance-compatible skill are
-              required.
+              {copy.package.unavailable}
             </p>
           )}
         </details>
 
         <details className="border-line bg-surface rounded-panel border p-5">
           <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-            Issue immutable instruction
+            {copy.issue.title}
           </summary>
           <p className="text-meta text-ink-muted mt-2 mb-4">
-            Creates attempt 1 and the exact instruction artifact for the human
-            operator to exchange with an external provider.
+            {copy.issue.hint}
           </p>
           {unissuedTips.length ? (
             <GovernedForm
-              label="Issue manual instruction"
-              button="Issue instruction"
-              success="Instruction artifact and attempt 1 created"
+              label={copy.issue.form}
+              button={copy.issue.button}
+              success={copy.issue.success}
               action={(data) => issueManualRunAction(slug, data)}
             >
               <Select
                 id="issue-tip"
                 name="tipId"
-                label="Ready work package"
+                label={copy.issue.package}
                 options={unissuedTips}
               />
               <ManualRunFields prefix="issue" />
             </GovernedForm>
           ) : (
-            <p className="text-body text-ink-muted">
-              No unissued work package is ready.
-            </p>
+            <p className="text-body text-ink-muted">{copy.issue.empty}</p>
           )}
         </details>
 
         <details className="border-line bg-surface rounded-panel border p-5">
           <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-            Import Completion Report
+            {copy.report.title}
           </summary>
           <p className="text-meta text-ink-muted mt-2 mb-4">
-            Paste the provider response into the strict report contract. Missing
-            sections fail atomically and remain awaiting.
+            {copy.report.hint}
           </p>
           {awaitingRuns.length ? (
             <GovernedForm
-              label="Import Completion Report"
-              button="Import report"
-              success="Completion Report imported atomically"
+              label={copy.report.title}
+              button={copy.report.button}
+              success={copy.report.success}
               action={(data) => importCompletionReportAction(slug, data)}
             >
               <Select
                 id="report-run"
                 name="runId"
-                label="Awaiting attempt"
+                label={copy.report.attempt}
                 options={awaitingRuns}
               />
               <div>
-                <Label htmlFor="completion-report">Strict report JSON</Label>
+                <Label htmlFor="completion-report">{copy.report.json}</Label>
                 <textarea
                   id="completion-report"
                   name="report"
@@ -403,79 +422,71 @@ export function ExecutionOperationsForms({
               </div>
             </GovernedForm>
           ) : (
-            <p className="text-body text-ink-muted">
-              No attempt is awaiting a Completion Report.
-            </p>
+            <p className="text-body text-ink-muted">{copy.report.empty}</p>
           )}
         </details>
 
         <details className="border-line bg-surface rounded-panel border p-5">
           <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-            Append retry attempt
+            {copy.retry.title}
           </summary>
           <p className="text-meta text-ink-muted mt-2 mb-4">
-            Only the latest terminal attempt can be retried. Earlier artifacts
-            and reports remain unchanged.
+            {copy.retry.hint}
           </p>
           {retryRuns.length ? (
             <GovernedForm
-              label="Append execution retry"
-              button="Create retry"
-              success="New retry attempt appended"
+              label={copy.retry.form}
+              button={copy.retry.button}
+              success={copy.retry.success}
               action={(data) => retryManualRunAction(slug, data)}
             >
               <Select
                 id="retry-run"
                 name="previousRunId"
-                label="Latest terminal attempt"
+                label={copy.retry.attempt}
                 options={retryRuns}
               />
               <ManualRunFields prefix="retry" />
             </GovernedForm>
           ) : (
-            <p className="text-body text-ink-muted">
-              No terminal attempt is eligible for retry.
-            </p>
+            <p className="text-body text-ink-muted">{copy.retry.empty}</p>
           )}
         </details>
 
         <details className="border-line bg-surface rounded-panel border p-5">
           <summary className="text-body text-ink-strong cursor-pointer font-semibold">
-            Enter governed building
+            {copy.building.title}
           </summary>
           <p className="text-meta text-ink-muted mt-2 mb-4">
-            Mission Kernel permits this only when every execution package is
-            complete and no material deviation remains open.
+            {copy.building.hint}
           </p>
           {exploringMissions.length ? (
             <GovernedForm
-              label="Enter governed building"
-              button="Enter building"
-              success="Mission entered governed building"
+              label={copy.building.title}
+              button={copy.building.button}
+              success={copy.building.success}
               action={(data) => enterBuildingAction(slug, data)}
             >
               <Select
                 id="building-mission"
                 name="missionId"
-                label="Exploring Mission"
+                label={copy.building.mission}
                 options={exploringMissions}
               />
               <div>
-                <Label htmlFor="building-reason">Readiness reason</Label>
+                <Label htmlFor="building-reason">{copy.building.reason}</Label>
                 <textarea
                   id="building-reason"
                   name="reason"
                   rows={2}
                   required
-                  defaultValue="All execution packages are complete with no open material deviation."
+                  defaultValue={copy.building.defaultReason}
                   className={area}
                 />
               </div>
             </GovernedForm>
           ) : (
-            <p className="text-body text-ink-muted">
-              No exploring Mission is available for the readiness gate.
-            </p>
+            <p className="text-body text-ink-muted">{copy.building.empty}</p>
           )}
         </details>
       </div>
@@ -494,17 +505,20 @@ export function DeviationResolutionForm({
   version: number;
   code: string;
 }) {
+  const copy = useExecutionCopy();
   return (
     <GovernedForm
-      label={`Resolve execution deviation ${code}`}
-      button="Resolve deviation"
-      success="Deviation resolution retained"
+      label={`${copy.deviation.resolve} ${code}`}
+      button={copy.deviation.button}
+      success={copy.deviation.success}
       action={(data) => resolveExecutionDeviationAction(slug, data)}
     >
       <input type="hidden" name="deviationId" value={deviationId} />
       <input type="hidden" name="expectedVersion" value={version} />
       <div>
-        <Label htmlFor={`resolution-${deviationId}`}>Resolution record</Label>
+        <Label htmlFor={`resolution-${deviationId}`}>
+          {copy.deviation.record}
+        </Label>
         <textarea
           id={`resolution-${deviationId}`}
           name="resolution"

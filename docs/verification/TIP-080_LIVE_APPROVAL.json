@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "purpose": "OWNER_RECORDING_READY_ONE_RUN_080",
+  "runId": "8ec3fa5b-d423-4055-85ba-c2764ace4fdf",
+  "organizationId": "392166c0-cf16-444c-89eb-f08628bb6f37",
+  "workspaceId": "141f7870-1ef8-4f1c-bd48-e70be51332ef",
+  "missionId": "c999b840-3b6a-4b8b-b99d-b567072c007b",
+  "actorUserId": "50ea5500-6690-42da-ad3e-f3837823b1f1",
+  "sourceDigest": "ad93e61a826db1a584c8ded2a159876f39def30517c775b6f98195dc49592597",
+  "taskDigest": "7e31d58256accd055074c5a473af1588750ffadd1021bd10701c24cdb8019454",
+  "provenance": "CODEX_ASSISTED",
+  "wallSeconds": 900,
+  "maximumRuns": 1,
+  "freshRoles": 4,
+  "noPaidApi": true,
+  "recordingReady": true,
+  "expiresAt": "2026-10-06T07:15:00.000Z"
+}

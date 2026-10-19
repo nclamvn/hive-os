@@ -1,0 +1,126 @@
+The requested integer is 499999999972.
+
+First I determine the expected value exactly. For any word of distinct letters, take two letters a<b and consider the contiguous interval in the original word whose endpoints are a and b. The following observation follows from the recursive definition of F:
+
+If the maximum of this interval is b, then a precedes b in F(w). If the interval contains a letter greater than b, then the relative order of a and b in F(w) is their original relative order.
+
+Here is a justification that also handles letters outside the interval. At any step of the recursion, if the maximum of the current word lies outside the interval between the two letters, both letters belong to the same recursive subword. We can therefore descend into that subword. Eventually the maximum is in the interval. If it is b, the definition puts b after every letter of its current subword, including a. Otherwise the maximum lies strictly between the two endpoints and exceeds b. The two letters then lie in the two different recursive subwords, and F concatenates those subwords in their original left-to-right order. Their relative order is consequently preserved. This proves the observation.
+
+Apply it to a=i and b=i+1. The event that i+1 precedes i in F(sigma) occurs exactly when both of the following hold:
+
+(1) i+1 precedes i in sigma;
+(2) at least one letter greater than i+1 lies between them in sigma.
+
+Let k=n-i-1 be the number of letters greater than i+1. Delete all letters other than i, i+1, and these k greater letters. Their relative order is a uniform permutation of k+2 distinct letters. Condition (2) fails exactly when i and i+1 are adjacent in this reduced permutation. The probability of adjacency is
+
+\[
+\frac{2(k+1)!}{(k+2)!}=\frac{2}{k+2}.
+\]
+
+Swapping the labels i and i+1 preserves adjacency or nonadjacency and reverses which of them comes first. Therefore exactly half of the nonadjacent cases satisfy (1). It follows that
+
+\[
+\Pr\bigl(\operatorname{pos}_{F(\sigma)}(i+1)
+ <\operatorname{pos}_{F(\sigma)}(i)\bigr)
+=\frac12\left(1-\frac{2}{n-i+1}\right)
+=\frac12-\frac{1}{n-i+1}.
+\]
+
+By linearity of expectation, with H_n denoting the nth harmonic number,
+
+\[
+X=\sum_{i=1}^{n-1}\left(\frac12-\frac{1}{n-i+1}\right)
+=\frac{n-1}{2}-(H_n-1)
+=\frac{n+1}{2}-H_n.
+\]
+
+For completeness, I give elementary rigorous bounds sufficient to take the floor at the specified large n, without relying on floating-point evaluation. I will show
+
+\[
+\frac{55}{2}<H_{10^{12}}<\frac{57}{2}.
+\]
+
+The identity
+
+\[
+\log\frac{1+t}{1-t}
+=2\sum_{j=0}^{\infty}\frac{t^{2j+1}}{2j+1}
+\qquad (0<t<1)
+\]
+
+follows by integrating the geometric series for 2/(1-t^2). All its terms are positive. Substituting t=1/2 gives the series for log 3, while t=1/19 gives the series for log(10/9). Thus
+
+\[
+\begin{aligned}
+\log 10
+&=2\log 3+\log(10/9)\\
+&>2\left(1+\frac1{12}+\frac1{80}+\frac1{448}\right)+\frac2{19}\\
+&=\frac{23}{10}+\frac{89}{63840}
+>\frac{23}{10}.
+\end{aligned}
+\]
+
+For an upper bound, the tail of the log 3 series starting at j=2 is strictly less than the geometric bound obtained by replacing all its denominators by 5. Hence
+
+\[
+\log 3
+<1+\frac1{12}+\frac25\sum_{j=2}^{\infty}(1/2)^{2j+1}
+=1+\frac1{12}+\frac1{60}
+=\frac{11}{10}.
+\]
+
+Similarly, replacing all the denominators in the other series by 1 gives
+
+\[
+\log(10/9)
+<2\sum_{j=0}^{\infty}(1/19)^{2j+1}
+=\frac{19}{180}.
+\]
+
+Consequently
+
+\[
+\log 10<\frac{11}{5}+\frac{19}{180}=\frac{83}{36}.
+\]
+
+Since 1/x is decreasing, integral comparison gives
+
+\[
+H_n>\log n
+\quad\text{and}\quad
+H_n\leq H_{10}+\int_{10}^{n}\frac{dx}{x}
+=H_{10}+\log(n/10)
+\qquad(n\geq 10).
+\]
+
+At n=10^{12}, using H_10=7381/2520, these bounds imply
+
+\[
+H_n>12\cdot\frac{23}{10}=\frac{138}{5}>\frac{55}{2},
+\]
+
+and
+
+\[
+H_n<\frac{7381}{2520}+11\cdot\frac{83}{36}
+=\frac{71291}{2520}
+<\frac{71820}{2520}=\frac{57}{2}.
+\]
+
+Finally n/2=500000000000, so
+
+\[
+X=500000000000+\frac12-H_n.
+\]
+
+The bounds just proved give
+
+\[
+499999999972<X<499999999973.
+\]
+
+Therefore
+
+\[
+\boxed{\lfloor X\rfloor=499999999972}.
+\]

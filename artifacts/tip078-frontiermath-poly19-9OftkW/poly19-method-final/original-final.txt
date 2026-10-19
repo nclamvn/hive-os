@@ -1,0 +1,161 @@
+```json
+{
+  "coefficients": [0, -19, 0, 285, 0, -1254, 0, 2508, 0, -2717, 0, 1729, 0, -665, 0, 152, 0, -19, 0, 1],
+  "claimed_value": 1876572071974094803391179
+}
+```
+
+## Proof
+
+Define polynomials recursively by
+\[
+D_0(t)=2,\qquad D_1(t)=t,\qquad
+D_n(t)=tD_{n-1}(t)-D_{n-2}(t)\quad(n\ge2).
+\]
+Choose \(p=D_{19}\). Expanding this recurrence gives
+\[
+\begin{aligned}
+p(t)={}&t^{19}-19t^{17}+152t^{15}-665t^{13}
++1729t^{11}-2717t^9\\
+&+2508t^7-1254t^5+285t^3-19t.
+\end{aligned}
+\]
+Thus \(p\) has integer, hence real, coefficients. It is odd and monic, has degree \(19\), and its linear coefficient is \(-19\).
+
+We will factor \(p(y)-p(x)\), prove its factors irreducible, and check their projective closures.
+
+For an indeterminate \(z\), the recurrence implies
+\[
+D_n(z+z^{-1})=z^n+z^{-n}.
+\]
+Indeed, this holds for \(n=0,1\), and the induction step follows from
+\[
+(z+z^{-1})(z^{n-1}+z^{-(n-1)})
+-(z^{n-2}+z^{-(n-2)})=z^n+z^{-n}.
+\]
+
+Let \(\zeta=e^{2\pi i/19}\). In \(\mathbb C(z)\), put
+\[
+x=z+z^{-1},\qquad
+y_k=\zeta^kz+\zeta^{-k}z^{-1}\quad(0\le k\le18).
+\]
+Since \((\zeta^kz)^{19}=z^{19}\), the substitution identity gives
+\[
+p(y_k)=z^{19}+z^{-19}=p(x).
+\]
+The nineteen \(y_k\) are distinct: equality of two Laurent polynomials would force equality of their coefficients of \(z\), hence equality of their indices modulo \(19\). Because \(p(y)-p(x)\) is monic of degree \(19\) in \(y\), these are all its roots after substitution.
+
+For \(1\le k\le9\), define
+\[
+a_k=\zeta^k+\zeta^{-k},\qquad
+b_k=a_k^2-4=(\zeta^k-\zeta^{-k})^2.
+\]
+Pairing indices \(k\) and \(19-k\) gives
+\[
+y_k+y_{19-k}=a_kx
+\]
+and
+\[
+\begin{aligned}
+y_ky_{19-k}
+&=z^2+z^{-2}+\zeta^{2k}+\zeta^{-2k}\\
+&=x^2+a_k^2-4=x^2+b_k.
+\end{aligned}
+\]
+Also \(y_0=x\). Therefore
+\[
+p(y)-p(x)
+=(y-x)\prod_{k=1}^{9}Q_k(x,y),
+\qquad
+Q_k(x,y)=y^2-a_kxy+x^2+b_k.
+\tag{1}
+\]
+This is an identity in \(\mathbb C[x,y]\), not merely an identity after substitution. To see this, the substitution
+\[
+\mathbb C[x,y]\longrightarrow\mathbb C[z,z^{-1},y],
+\qquad x\longmapsto z+z^{-1},
+\]
+is injective. If a nonzero polynomial has degree \(d\) in \(x\), with leading coefficient \(c(y)\ne0\), its substituted Laurent polynomial has coefficient \(c(y)\) at \(z^d\), which cannot be canceled by terms of lower degree in \(x\).
+
+For each \(k=1,\ldots,9\), we have \(b_k\ne0\): otherwise \(\zeta^{2k}=1\), requiring \(19\mid2k\). The discriminant of \(Q_k\), viewed as a quadratic in \(y\), is
+\[
+\Delta_k(x)=a_k^2x^2-4(x^2+b_k)
+=b_k(x^2-4).
+\]
+It is not a square in \(\mathbb C(x)\), because it has a zero of order one at \(x=2\); every zero or pole of a rational square has even order. Over a field of characteristic zero, a quadratic is reducible exactly when its discriminant is a square, by the quadratic formula. Thus \(Q_k\) is irreducible over \(\mathbb C(x)\).
+
+It follows that \(Q_k\) is irreducible in \(\mathbb C[x,y]\). A factorization with both factors of positive degree in \(y\) would contradict the preceding field irreducibility. A factor independent of \(y\) would have to divide the leading coefficient \(1\), so would be constant.
+
+The nine quadratics are distinct. If \(a_k=a_\ell\), then \(\zeta^\ell\) must be one of the two roots \(\zeta^k,\zeta^{-k}\) of
+\[
+u^2-a_ku+1=0.
+\]
+Hence \(\ell\equiv k\) or \(\ell\equiv-k\pmod{19}\). For \(1\le k,\ell\le9\), this forces \(k=\ell\). Since the quadratics are monic in \(y\), they are also pairwise nonproportional. None equals the linear factor \(y-x\). Consequently, (1) gives ten distinct irreducible affine components.
+
+We now verify the statement in \(\mathbb P^1\times\mathbb P^1\). Write
+\[
+x=X_0/X_1,\qquad y=Y_0/Y_1,
+\]
+and let
+\[
+p_h(U,V)=V^{19}p(U/V).
+\]
+The polynomial extends to the projective map
+\[
+[U:V]\longmapsto[p_h(U,V):V^{19}].
+\]
+This map is defined everywhere: when \(V\ne0\), its second coordinate is nonzero; when \(V=0\), monicity gives \(p_h(U,0)=U^{19}\ne0\).
+
+Equality of the two projective values is therefore precisely
+\[
+p_h(Y_0,Y_1)X_1^{19}
+-p_h(X_0,X_1)Y_1^{19}=0.
+\tag{2}
+\]
+Bihomogenizing (1) factors its left side as
+\[
+(Y_0X_1-X_0Y_1)\prod_{k=1}^{9}\widetilde Q_k,
+\]
+where
+\[
+\widetilde Q_k=
+X_1^2Y_0^2-a_kX_0X_1Y_0Y_1
++X_0^2Y_1^2+b_kX_1^2Y_1^2.
+\tag{3}
+\]
+
+There are no additional boundary components. In (2), setting \(X_1=0\) forces \(Y_1=0\), and conversely. Thus the only point outside the affine chart is \((\infty,\infty)\), which already belongs to the diagonal.
+
+For completeness, each equation (3) defines exactly the closure of its affine quadratic. Its only possible boundary point is likewise \((\infty,\infty)\), and that point belongs to the closure: the points
+\[
+\left(z+z^{-1},\ \zeta^kz+\zeta^{-k}z^{-1}\right)
+\]
+lie on \(Q_k=0\) and tend to \((\infty,\infty)\) as \(z\to\infty\). Algebraic closed sets over \(\mathbb C\) are closed in the usual topology, so this limit lies in the Zariski closure.
+
+Each affine quadratic is irreducible, and the closure of an irreducible set remains irreducible: a decomposition of the closure into two closed subsets would restrict to such a decomposition of its dense affine part. The closures remain distinct because their affine intersections are distinct. Together with the diagonal, they exhaust (2). Hence \(X\) has exactly ten irreducible components over \(\mathbb C\).
+
+The nine quadratic components are nonlinear. Their affine equations are irreducible quadratics and therefore cannot define affine lines. Their projective closures have bidegree \((2,2)\), as (3) shows, so they are also distinct from graphs of projective linear transformations, which have bidegree \((1,1)\). This proves the required component condition.
+
+Finally, set \(v_n=D_n(19)\). Then
+\[
+v_0=2,\qquad v_1=19,\qquad
+v_n=19v_{n-1}-v_{n-2}.
+\]
+Successive integer arithmetic gives
+\[
+v_{17}=5227260815326346060059,\qquad
+v_{18}=99042070146811639444802.
+\]
+Therefore
+\[
+\begin{aligned}
+p(19)=v_{19}
+&=19(99042070146811639444802)
+-5227260815326346060059\\
+&=1876572071974094803391179.
+\end{aligned}
+\]
+
+## Scope and remaining gaps
+
+All requested properties are proved. The largest coefficient magnitude is \(2717<2^{12}\), and the claimed value has \(81\) bits, satisfying the size limits. There are ten irreducible components over \(\mathbb C\), nine nonlinear. No essential gaps remain.

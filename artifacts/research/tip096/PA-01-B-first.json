@@ -1,0 +1,13 @@
+{
+  "verdict": "REJECTED",
+  "targetDisposition": "TRUE",
+  "reasoning": "S1 is valid, but S2 incorrectly infers a lower bound on shaded mass from a lower bound on class cardinality. The shadings may have different volumes despite the underlying sets being congruent. Consequently, the selected largest-cardinality class need not satisfy either the mass bound used in S3 or the required density inequality. The target itself is true by selecting a class with maximal shaded mass.",
+  "issue": {
+    "step": "S2",
+    "explanation": "A class containing at least a 1/M fraction of the sets need not contain at least a 1/M fraction of the shaded mass. Averaging shaded mass guarantees such a bound for some class, not necessarily the largest-cardinality class selected in S1."
+  },
+  "witness": "Use Lebesgue measure on R. Let T1=[0,1), T2=[2,3), T3=[4,5), all of volume v=1. Let Y1=[0,1/100), Y2=[2,201/100), and Y3=T3. Partition into H={T1,T2} and K={T3}, so M=2. H is the unique largest-cardinality class and has positive shaded mass 1/50, whereas S=51/50 and S/M=51/100. Moreover, lambda(H)=1/100, while lambda(G)/M=17/100. Thus the class selected by the submitted proof fails the required density inequality.",
+  "revision": "Choose a class H with maximal shaded mass s_H. Since the M class masses sum to S>0, s_H>=S/M>0. Writing N=#G and n_H=#H<=N gives lambda(H)=s_H/(n_H v)>=S/(M N v)=lambda(G)/M. Let U_H=|union_H Y_i| and U_G=|union_G Y_i|. Both are positive, and U_H<=U_G. Hence mu(G)=S/U_G<=M s_H/U_G<=M s_H/U_H=M mu(H). This proves the original target under its unchanged hypotheses.",
+  "unresolvedObligation": null,
+  "toolEvidence": null
+}

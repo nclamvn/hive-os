@@ -1,0 +1,619 @@
+{
+  "registry": {
+    "AGMai recommendations": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "sourced",
+          "value": "Support human understanding and report formalization/compute details.",
+          "claims": [
+            {
+              "value": "Support human understanding and report formalization/compute details.",
+              "tier": "A",
+              "source": "AGMai",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "benchmark_kind": {
+          "state": "null",
+          "value": null
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "ArXivMath August2026": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "null",
+          "value": null
+        },
+        "benchmark_kind": {
+          "state": "sourced",
+          "value": "research-level final-answer benchmark",
+          "claims": [
+            {
+              "value": "research-level final-answer benchmark",
+              "tier": "A",
+              "source": "MathArena",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "BrokenArXiv August2026": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "sourced",
+          "value": "Published behavior rubric does not validate proof attempts.",
+          "claims": [
+            {
+              "value": "Published behavior rubric does not validate proof attempts.",
+              "tier": "A",
+              "source": "MathArena",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "benchmark_kind": {
+          "state": "sourced",
+          "value": "false-statement behavior benchmark",
+          "claims": [
+            {
+              "value": "false-statement behavior benchmark",
+              "tier": "A",
+              "source": "MathArena",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "Comparator supporting checks": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "sourced",
+          "value": "Listed support checks do not certify their papers' main theorems.",
+          "claims": [
+            {
+              "value": "Listed support checks do not certify their papers' main theorems.",
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "benchmark_kind": {
+          "state": "null",
+          "value": null
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "OpenAI catalogue fd4aeeb": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "sourced",
+          "value": 719,
+          "claims": [
+            {
+              "value": 719,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "reported_families": {
+          "state": "sourced",
+          "value": 372,
+          "claims": [
+            {
+              "value": 372,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "sourced",
+          "value": "unreleased internal model",
+          "claims": [
+            {
+              "value": "unreleased internal model",
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "compute_equivalent_hours": {
+          "state": "sourced",
+          "value": 3,
+          "claims": [
+            {
+              "value": 3,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "attempted_problems": {
+          "state": "sourced",
+          "value": 4000,
+          "claims": [
+            {
+              "value": 4000,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "formalized_top_line_percent": {
+          "state": "sourced",
+          "value": 42,
+          "claims": [
+            {
+              "value": 42,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "sourced",
+          "value": "Results have differing verification status; not independently audited here.",
+          "claims": [
+            {
+              "value": "Results have differing verification status; not independently audited here.",
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "benchmark_kind": {
+          "state": "null",
+          "value": null
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "OpenAI history 20261007": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "sourced",
+          "value": 3,
+          "claims": [
+            {
+              "value": 3,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "revised_manuscripts": {
+          "state": "sourced",
+          "value": 14,
+          "claims": [
+            {
+              "value": 14,
+              "tier": "A",
+              "source": "OpenAI",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "statement": {
+          "state": "null",
+          "value": null
+        },
+        "benchmark_kind": {
+          "state": "null",
+          "value": null
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "PutnamBench": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "null",
+          "value": null
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "sourced",
+          "value": "Formal task statements include Lean4, Isabelle and Coq; maintainers discourage public proof contamination.",
+          "claims": [
+            {
+              "value": "Formal task statements include Lean4, Isabelle and Coq; maintainers discourage public proof contamination.",
+              "tier": "A",
+              "source": "PutnamBench maintainers",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "benchmark_kind": {
+          "state": "sourced",
+          "value": "theorem-proving competition benchmark",
+          "claims": [
+            {
+              "value": "theorem-proving competition benchmark",
+              "tier": "A",
+              "source": "PutnamBench maintainers",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    },
+    "VnExpress report": {
+      "entity_type": null,
+      "fields": {
+        "reported_manuscripts": {
+          "state": "sourced",
+          "value": 722,
+          "claims": [
+            {
+              "value": 722,
+              "tier": "B",
+              "source": "VnExpress",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "reported_families": {
+          "state": "null",
+          "value": null
+        },
+        "reported_results": {
+          "state": "sourced",
+          "value": 372,
+          "claims": [
+            {
+              "value": 372,
+              "tier": "B",
+              "source": "VnExpress",
+              "extraction": "normalized"
+            }
+          ]
+        },
+        "model_access": {
+          "state": "null",
+          "value": null
+        },
+        "compute_equivalent_hours": {
+          "state": "null",
+          "value": null
+        },
+        "attempted_problems": {
+          "state": "null",
+          "value": null
+        },
+        "formalized_top_line_percent": {
+          "state": "null",
+          "value": null
+        },
+        "withdrawn_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "revised_manuscripts": {
+          "state": "null",
+          "value": null
+        },
+        "statement": {
+          "state": "null",
+          "value": null
+        },
+        "benchmark_kind": {
+          "state": "null",
+          "value": null
+        },
+        "independent_mathematical_acceptance": {
+          "state": "null",
+          "value": null
+        }
+      }
+    }
+  },
+  "aggregates": {
+    "n_entities": 8,
+    "universe_estimate": 8,
+    "coverage_pct": 100.0,
+    "cells_by_state": {
+      "null": 78,
+      "sourced": 18
+    },
+    "rollup_field": "benchmark_kind",
+    "rollup": {
+      "Chưa rõ": 5,
+      "false-statement behavior benchmark": 1,
+      "research-level final-answer benchmark": 1,
+      "theorem-proving competition benchmark": 1
+    }
+  },
+  "scope": "SOURCE_AUDIT_ONLY_NOT_MATHEMATICAL_VERIFICATION",
+  "claim_count": 18,
+  "captured_at": "2026-10-09T08:38:24Z",
+  "openai_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
+  "snapshots_sha256": {
+    "agmai.html": "24a9617dfa575ad12050a55f71d6ce00ca1e50573f61e32d6c52b8b64674f36e",
+    "arxivmath-README.md": "adb13372b563bf12853f64890258c1c8f920cd7fca57a4c0c3ae24796628bef3",
+    "brokenarxiv-README.md": "1cde481864881ac71ee002b4fe419a051c2497816ea2901c090aab31419e13a8",
+    "comparator-README.md": "2ed835b3c59709be6feffe0dec54fc9783fb26aa22d35517475a82ef5199c555",
+    "openai-README.md": "5e8878ee04866f52ec942852552b9c28db278f65691c7ab49a87c9e93a9199fd",
+    "openai-history.md": "41c2a2d470014b3628695c7aabf5fd0c93f6f687621fca172062f22b59ed6a1e",
+    "putnambench-README.md": "6a157e86321ea08a11766c18e20d28b6204a73cd5a96285fffc918120c976758",
+    "vnexpress.html": "603f4486022d4c137d0458648b778dac0105fa85e5e683435119e99e9635e0d4"
+  },
+  "validation": {
+    "clean_pipeline": "PASS",
+    "idempotence": "PASS",
+    "builtin_claim_rederive": "PASS",
+    "six_applicable_bites": "PASS",
+    "eight_other_bites": "NOT_APPLICABLE",
+    "independent_math_review": "NOT_PERFORMED"
+  },
+  "limitations": [
+    "Publisher assertions are sourced, not independently proven mathematical results.",
+    "VnExpress reported results and OpenAI result families are distinct units.",
+    "Catalogue/public solution access is not a blind benchmark.",
+    "No measured A/B math rerun or product/Lean build performed.",
+    "One source organization is never counted as multiple independent witnesses.",
+    "Coverage denominator is eight chosen source records, not global math repositories."
+  ],
+  "cleanup": "Owned empty codex-tmp-math-source-20261009.hXBkig removed; bite copies auto-removed."
+}

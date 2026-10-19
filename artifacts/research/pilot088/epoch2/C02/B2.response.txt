@@ -1,0 +1,27 @@
+**C02.** The draft is mathematically sound as a partial solution. It proves
+\[
+\boxed{30\le M\le36},
+\]
+where \(M\) is the largest possible cardinality, but does not determine \(M\).
+
+The upper bound is correct: projection onto any two coordinate positions must be injective, since otherwise two distinct tuples would agree in those two positions.
+
+The size-\(30\) construction also checks out:
+
+- The coefficient vectors of the five original coordinates are
+  \[
+  (1,0),(0,1),(1,1),(1,2),(1,3).
+  \]
+  Every pair is linearly independent over \(\mathbb Z_5\). Thus agreement in two coordinates forces equality of the underlying parameters \(x,y\).
+
+- The removed tuples \(T_t=(t,t,2t,3t,4t)\) differ in every coordinate for distinct \(t\), since all five multipliers are nonzero modulo \(5\).
+
+- A retained tuple contains no \(5\). Consequently, replacing entries of \(T_t\) by \(5\) cannot introduce any new agreement with a retained tuple.
+
+- For fixed \(t\), the replacement sets \(\{t-1,t+1\}\) and \(\{t-2,t+2\}\) are disjoint and cover every position except \(t\). Hence \(U_t\) and \(V_t\) agree in exactly one position.
+
+- The ten replacement sets are distinct. Indeed, an unordered pair \(\{a,b\}\) has the unique midpoint \(t=(a+b)/2\) modulo \(5\), and its offsets from that midpoint are either \(\pm1\) or \(\pm2\). For different parameters, modified tuples can agree only where both entries were replaced by \(5\); distinct replacement sets intersect in at most one position.
+
+These facts also establish that all ten inserted tuples are distinct, and none equals a retained tuple. Therefore the count \(25-5+10=30\) is justified.
+
+**The unresolved gap is exactly the one acknowledged in the draft:** there is no argument excluding cardinalities \(31,32,33,34,35,36\), nor a construction establishing an optimal value among them. Thus the draft contains no detected mathematical error, but remains incomplete as an answer to the requested maximum.

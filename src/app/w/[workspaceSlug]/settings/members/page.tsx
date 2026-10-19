@@ -11,6 +11,8 @@ import { InviteForm } from "@/components/settings/invite-form";
 import { MemberRowActions } from "@/components/settings/member-row-actions";
 import { SettingsNav } from "@/components/settings/settings-nav";
 import { loadWorkspacePage } from "@/server/auth/workspace-page";
+import { settingsCopy, settingsValueLabel } from "@/i18n/settings-copy";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +23,8 @@ export default async function MembersSettingsPage({
 }) {
   const { workspaceSlug } = await params;
   const data = await loadWorkspacePage(workspaceSlug);
+  const locale = await getLocale();
+  const copy = settingsCopy[locale];
   const role = data.ctx.membership.role;
 
   const members = await listMembers(data.ctx);
@@ -32,42 +36,56 @@ export default async function MembersSettingsPage({
   return (
     <WorkspaceShell
       data={data}
-      title="Members"
+      title={copy.members.pageTitle}
       subtitle={data.ctx.workspace.name}
     >
       <SettingsNav
         slug={workspaceSlug}
         active="members"
         showAudit={hasCapability(role, "audit.read")}
+        copy={copy.nav}
       />
 
       {canInvite ? (
         <Panel className="p-[var(--shell-card-padding)]">
-          <SectionHeader title="Invite a member" />
+          <SectionHeader title={copy.members.inviteTitle} />
           <p className="text-meta text-ink-muted mt-1">
-            The invitation link is shown once at creation and is never stored.
+            {copy.members.inviteHint}
           </p>
           <div className="mt-4">
-            <InviteForm slug={workspaceSlug} canInviteOwner={canManageOwner} />
+            <InviteForm
+              slug={workspaceSlug}
+              canInviteOwner={canManageOwner}
+              locale={locale}
+              copy={copy.members}
+            />
           </div>
         </Panel>
       ) : null}
 
       <Panel>
         <div className="p-[var(--shell-card-padding)] pb-3">
-          <SectionHeader title="Members" />
+          <SectionHeader title={copy.members.tableTitle} />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse">
             <thead>
               <tr className="border-t border-line">
-                {["Name", "Email", "Role", "Status", ""].map((c, i) => (
+                {[
+                  copy.members.name,
+                  copy.members.email,
+                  copy.members.role,
+                  copy.members.status,
+                  "",
+                ].map((c, i) => (
                   <th
                     key={c || `actions-${i}`}
                     scope="col"
                     className="text-meta text-ink-muted bg-surface-subtle px-5 py-2 text-left font-medium last:text-right"
                   >
-                    {c || <span className="sr-only">Actions</span>}
+                    {c || (
+                      <span className="sr-only">{copy.members.actions}</span>
+                    )}
                   </th>
                 ))}
               </tr>
@@ -79,7 +97,7 @@ export default async function MembersSettingsPage({
                     {m.name}
                     {m.isSelf ? (
                       <span className="text-meta text-ink-muted ml-2">
-                        (you)
+                        ({copy.members.you})
                       </span>
                     ) : null}
                   </td>
@@ -88,14 +106,14 @@ export default async function MembersSettingsPage({
                   </td>
                   <td className="px-5 py-3">
                     <StatusBadge tone={m.role === "OWNER" ? "info" : "neutral"}>
-                      {m.role.charAt(0) + m.role.slice(1).toLowerCase()}
+                      {settingsValueLabel(locale, m.role)}
                     </StatusBadge>
                   </td>
                   <td className="px-5 py-3">
                     <StatusBadge
                       tone={m.status === "ACTIVE" ? "success" : "warning"}
                     >
-                      {m.status.charAt(0) + m.status.slice(1).toLowerCase()}
+                      {settingsValueLabel(locale, m.status)}
                     </StatusBadge>
                   </td>
                   <td className="px-5 py-3 text-right">
@@ -107,6 +125,8 @@ export default async function MembersSettingsPage({
                       isSelf={m.isSelf}
                       canManageOwner={canManageOwner}
                       canManageOrdinary={canManageOrdinary}
+                      locale={locale}
+                      copy={copy.members}
                     />
                   </td>
                 </tr>
@@ -119,11 +139,11 @@ export default async function MembersSettingsPage({
       {canInvite ? (
         <Panel>
           <div className="p-[var(--shell-card-padding)] pb-3">
-            <SectionHeader title="Pending invitations" />
+            <SectionHeader title={copy.members.pendingTitle} />
           </div>
           {invitations.length === 0 ? (
             <div className="border-t border-line">
-              <EmptyState title="No pending invitations" />
+              <EmptyState title={copy.members.noPending} />
             </div>
           ) : (
             <ul className="border-t border-line">
@@ -137,11 +157,14 @@ export default async function MembersSettingsPage({
                       {inv.emailNormalized}
                     </span>
                     <span className="text-meta text-ink-muted">
-                      {inv.role.charAt(0) + inv.role.slice(1).toLowerCase()} ·
-                      expires {inv.expiresAt.toISOString().slice(0, 10)}
+                      {settingsValueLabel(locale, inv.role)} ·{" "}
+                      {copy.members.expires}{" "}
+                      {inv.expiresAt.toISOString().slice(0, 10)}
                     </span>
                   </span>
-                  <StatusBadge tone="neutral">Pending</StatusBadge>
+                  <StatusBadge tone="neutral">
+                    {copy.members.pending}
+                  </StatusBadge>
                 </li>
               ))}
             </ul>

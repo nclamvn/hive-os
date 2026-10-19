@@ -1,0 +1,565 @@
+{
+  "purpose": "TIP081_SOURCE_STORE_BOUNDED_REGRESSION",
+  "predecessorBefore": [
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json",
+      "status": "MATCH",
+      "expected": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+      "actual": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json",
+      "status": "MATCH",
+      "expected": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+      "actual": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json",
+      "status": "MATCH",
+      "expected": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+      "actual": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs",
+      "status": "MATCH",
+      "expected": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+      "actual": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+    },
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "status": "MATCH",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "status": "MATCH",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "status": "MATCH",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "status": "MATCH",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+    },
+    {
+      "path": "next.config.ts",
+      "status": "MATCH",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+    },
+    {
+      "path": "package.json",
+      "status": "MATCH",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "MATCH",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+    },
+    {
+      "path": "tsconfig.json",
+      "status": "MATCH",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "status": "MATCH",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "status": "MATCH",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "status": "MATCH",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "status": "MATCH",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+      "actual": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "status": "MATCH",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "status": "MATCH",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "status": "MATCH",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "status": "MATCH",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "status": "MATCH",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "status": "MATCH",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "status": "MATCH",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41"
+    }
+  ],
+  "predecessorAfter": [
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-consumed.json",
+      "status": "MATCH",
+      "expected": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814",
+      "actual": "c9d46b34e3d7aae5dc1af09529262da3f5070a4220293576ccfc17c712ce1814"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-build4-result.json",
+      "status": "MATCH",
+      "expected": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4",
+      "actual": "6c7871e1142efb870b7617de700a6d6828eac9359d7d57c4ed9565066dfc2ad4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/tip081-shadow.json",
+      "status": "MATCH",
+      "expected": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b",
+      "actual": "53f484a6e405b527217cf661285c4332baef160ff1803956f3b4a78e4ef0541b"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/next.config.mjs",
+      "status": "MATCH",
+      "expected": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7",
+      "actual": "dde63545bcfc73270f8772258e11a3b3aa75d46e80e8a95785abc0e60b3b57c7"
+    },
+    {
+      "path": "scripts/test/start-tip081-standalone.mjs",
+      "status": "MATCH",
+      "expected": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad",
+      "actual": "cbaaf6a041115949d311863035eb42d0cc6084a542868b28c92ed45402293cad"
+    },
+    {
+      "path": "node_modules/next/dist/build/utils.js",
+      "status": "MATCH",
+      "expected": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e",
+      "actual": "df5d27cf5100a99ad07e627158880d172617a2c28006a3488c3856995d30bc5e"
+    },
+    {
+      "path": "node_modules/next/dist/build/collect-build-traces.js",
+      "status": "MATCH",
+      "expected": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734",
+      "actual": "1ccc596a09d0eb13364e0b035706fb828b3a6244d27b1b6861554c7a71c0f734"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/@vercel/nft/index.js",
+      "status": "MATCH",
+      "expected": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e",
+      "actual": "19e4e6ea76d56deed0da625b0d9cbe5f5a761cf87a1c502bbb09c9406a70527e"
+    },
+    {
+      "path": "next.config.ts",
+      "status": "MATCH",
+      "expected": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0",
+      "actual": "ca474b237f02029949d58aa917bc9d6591072df75a365f5b735cf07338d849f0"
+    },
+    {
+      "path": "package.json",
+      "status": "MATCH",
+      "expected": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96",
+      "actual": "087e0081e2179ae190bf05f6a154e58030ed10f26d9c4a2f7835968b03d23b96"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "MATCH",
+      "expected": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c",
+      "actual": "aed2015f76a78798862770bcfc08f5dfee70dc95ba094f00be4cf3b6d79a751c"
+    },
+    {
+      "path": "tsconfig.json",
+      "status": "MATCH",
+      "expected": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0",
+      "actual": "2bd1e69ce3b1ff39a488433580202f07f268e48fd696f1b7f8b64227ec0a9cb0"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/acorn.js",
+      "status": "MATCH",
+      "expected": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d",
+      "actual": "3c141146168735659c30b29c925fbf9fdf4d12ad85eb83d68e2afb26a1cc248d"
+    },
+    {
+      "path": "node_modules/next/dist/compiled/acorn/package.json",
+      "status": "MATCH",
+      "expected": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca",
+      "actual": "aa6eff9593179bc7379017992eda314ce97bd7c6576869d82d514139ce612cca"
+    },
+    {
+      "path": "scripts/test/acquire-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806",
+      "actual": "c6281e3c46fdc0182c19d64642225c56feaa260b298334dbeecc1b2e4480d806"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory.mjs",
+      "status": "MATCH",
+      "expected": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5",
+      "actual": "b1ae6401bf668f371b7dca2a23e3b388a8bf6c26a830a7be6f5c9abf2018d9a5"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory.test.ts",
+      "status": "MATCH",
+      "expected": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503",
+      "actual": "70dfa13032f3d2e7f5e0ffad1a042077d088bcc55e776a79e363f1161efa3503"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64",
+      "actual": "fe70f112a31ecd0e1b420e0acaca90a9a4bef699b34f0539cccb1d5745361c64"
+    },
+    {
+      "path": "docs/verification/TIP-081A_MANIFEST_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2",
+      "actual": "11d3456c37603b0783693694f7fe8e1bf5bae5b465716045577306e48b1854c2"
+    },
+    {
+      "path": "scripts/test/runtime-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006",
+      "actual": "a3e4ce2be5d7a0a149ffd1c5b25a17c0c950b652386b0713fbd56bd40bd60006"
+    },
+    {
+      "path": "scripts/test/verify-tip081-manifest.mjs",
+      "status": "MATCH",
+      "expected": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa",
+      "actual": "3e001090d5c1b6d1c87d0232f2e6b1fb28b084a4844e786dbbafe325ddca59fa"
+    },
+    {
+      "path": "node_modules/next/package.json",
+      "status": "MATCH",
+      "expected": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79",
+      "actual": "a3e5748a888e72375ca43eb6ceaf7f76aeecea41afe4d51717ba33730c93ed79"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951",
+      "actual": "53c01c2860983ba39bcbc8c4386a0f9de90c75bf6adf2ecf1a7fac2190f15951"
+    },
+    {
+      "path": "docs/verification/TIP-081A_PRODUCT_INVENTORY_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4",
+      "actual": "ca395abd0ff9e2a4f5085e82f933603dc873f3d0e3ad24e05daf1e07b55b99e4"
+    },
+    {
+      "path": "/private/tmp/hiveos-tip081-shadow-QGsthQ/docs/verification/TIP-081A_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9",
+      "actual": "ea767fc39a4e7c0b09fb78e2f8d57b2f50ad05703e2b6dc62b69a9da09f279f9"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014",
+      "actual": "42d3f02bfa81d1d88f8b6c351df9eac5a9674d6a55df63fb2548565e7b448014"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c",
+      "actual": "af1f5d76c4e8c13e1a9992b0ec50a4f90dde918def5c338e784570d3c209e56c"
+    },
+    {
+      "path": "docs/verification/TIP-081A_ROUTE_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0",
+      "actual": "710e8a02987880e785c9bc504f341c0ae4d5a5cf003f84cc81f55a37f270acf0"
+    },
+    {
+      "path": "node_modules/next/dist/server/require.js",
+      "status": "MATCH",
+      "expected": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875",
+      "actual": "c4ea56c67a3f7a049f36c09d0a4ebc09ddf0ca30ea78885016033186410d3875"
+    },
+    {
+      "path": "node_modules/next/dist/build/index.js",
+      "status": "MATCH",
+      "expected": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539",
+      "actual": "a40fdcfd74b40fca55658497677ff37cf975b12a7650c4ecc23ac91170cc3539"
+    },
+    {
+      "path": "node_modules/next/dist/build/webpack/plugins/pages-manifest-plugin.js",
+      "status": "MATCH",
+      "expected": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d",
+      "actual": "9c4953694c990e6d2fd21ad8e8afff09e219506120eb045025062c503677a58d"
+    },
+    {
+      "path": "scripts/test/preflight-tip081-raw-traces.mjs",
+      "status": "MATCH",
+      "expected": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137",
+      "actual": "8c5c6c26a58b91894eddf863422e90b3450e13438efa2dfc86e04051cfe73137"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_PREDECESSOR.json",
+      "status": "MATCH",
+      "expected": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b",
+      "actual": "b37b4dad20764dc652f4aa6ec186d7e835f5cb222b59ce40afe9e635aef9f98b"
+    },
+    {
+      "path": "docs/verification/TIP-081A_EXACT_INPUTS_BINDING.json",
+      "status": "MATCH",
+      "expected": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c",
+      "actual": "2fe60223ff48f1139c4965a48db4dab86263ab72b10210711c408817deabf07c"
+    },
+    {
+      "path": "scripts/test/consume-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3",
+      "actual": "0c1571757c3f15ba16a46afc3dd7baa6629f28a8e610e763a0e7de1643b3e5d3"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph.test.ts",
+      "status": "MATCH",
+      "expected": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13",
+      "actual": "0c766414a8447f5d541b1494859b1d56c5df31fa83efbc8ef5f73d87cdc16d13"
+    },
+    {
+      "path": "scripts/test/verify-tip081-inventory-graph.mjs",
+      "status": "MATCH",
+      "expected": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1",
+      "actual": "9d4621718e8225e54f06976bbca42e14b57925d97a16d38421a43f3bdde033f1"
+    },
+    {
+      "path": "tests/unit/evidence-studio-inventory-graph-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4",
+      "actual": "d1fb22fd16e34ad4168a9e4478810d66c552236ef71aebdd136d8dd058e9f8c4"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest.test.ts",
+      "status": "MATCH",
+      "expected": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed",
+      "actual": "5b802e2048b7c0cd8c142c1e19589d34613c2294a06bb89c85d54879af1ed3ed"
+    },
+    {
+      "path": "tests/unit/evidence-studio-manifest-verifier.test.ts",
+      "status": "MATCH",
+      "expected": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8",
+      "actual": "ce5e4634946ca50f2188b7f252de5d992f9dc85b2c065536cd79f37e29488ea8"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_BUNDLE.json",
+      "status": "MATCH",
+      "expected": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0",
+      "actual": "1ebbcf49951b5b91076501222368640979cc607230b839969cb88f20c6b1b9d0"
+    },
+    {
+      "path": "docs/verification/TIP-081A_GRAPH_SOURCE_REVIEW.md",
+      "status": "MATCH",
+      "expected": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41",
+      "actual": "953b58dae8cccdb15b7a0484d1c7edb60e54044398828c78ac8f2547a1e24f41"
+    }
+  ],
+  "before": {
+    "scripts/test/store-tip081-inventory-source.mjs": {
+      "size": 15214,
+      "digest": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+    },
+    "tests/unit/evidence-studio-source-store.test.ts": {
+      "size": 16762,
+      "digest": "6e6964277514245ed321efb45999eeb2d4fd08d323914776936b5d5034ffe662"
+    },
+    "scripts/test/verify-tip081-inventory-source.mjs": {
+      "size": 22118,
+      "digest": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+    },
+    "tests/unit/evidence-studio-source-store-verifier.test.ts": {
+      "size": 11211,
+      "digest": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02"
+    }
+  },
+  "after": {
+    "scripts/test/store-tip081-inventory-source.mjs": {
+      "size": 15214,
+      "digest": "3197e77e78d561f18c00b3443b23f0807581b06ca11b9258e07bf76f3c232069"
+    },
+    "tests/unit/evidence-studio-source-store.test.ts": {
+      "size": 16762,
+      "digest": "6e6964277514245ed321efb45999eeb2d4fd08d323914776936b5d5034ffe662"
+    },
+    "scripts/test/verify-tip081-inventory-source.mjs": {
+      "size": 22118,
+      "digest": "52cfda3af018b59db9b3d11582567a200d8357d0557e12d59fa8720082360bca"
+    },
+    "tests/unit/evidence-studio-source-store-verifier.test.ts": {
+      "size": 11211,
+      "digest": "110957091768304eb6ebc728ae7a75d29e8d7f11a74abbdb26a02b2c114b7b02"
+    }
+  },
+  "unchanged": true,
+  "previousCumulativeMilliseconds": 665794.7219169999,
+  "cumulativeMilliseconds": 673821.1392089999,
+  "remainingMilliseconds": 226178.86079100007,
+  "results": [
+    {
+      "name": "unit",
+      "limitMilliseconds": 120000,
+      "milliseconds": 8026.417292,
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "stdout": "\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/Users/os/hiveos\u001b[39m\n\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-runtime-package.test.ts \u001b[2m(\u001b[22m\u001b[2m54 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 480\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m32 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 1227\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-manifest-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m36 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 484\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory.test.ts \u001b[2m(\u001b[22m\u001b[2m33 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 574\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-harness.test.ts \u001b[2m(\u001b[22m\u001b[2m69 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 132\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-manifest.test.ts \u001b[2m(\u001b[22m\u001b[2m36 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 478\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[33m\u001b[2m✓\u001b[22m\u001b[39m M2-12 site growth refuses before exceeding the logical entry envelope \u001b[33m 334\u001b[2mms\u001b[22m\u001b[39m\n \u001b[31m❯\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-store.test.ts \u001b[2m(\u001b[22m\u001b[2m17 tests\u001b[22m\u001b[2m | \u001b[22m\u001b[31m1 failed\u001b[39m\u001b[2m)\u001b[22m\u001b[33m 675\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS01 authentic constructor preserves the entire creation proof without payload or graph authority\u001b[32m 39\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS02 constructor refuses external adoption, getters, proxies and option extensions\u001b[32m 29\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS03 one process-global owner and lease prevent concurrent working sets\u001b[32m 43\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS04 opaque domains reject cloned owners/leases, wrong owners, non-JS and unknown paths\u001b[32m 28\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS05 lease descriptors bind full pinned identity, buffer hash and private decoded length\u001b[32m 28\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS06 BOM, astral and64KiB split sequences survive fatal private decoding exactly\u001b[32m 28\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS07 invalid UTF8 retires the staged lease and never exposes replacement text\u001b[32m 96\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS08 descriptor drift after outer stat refuses BEFORE changed-size buffer allocation and closes FD\u001b[32m 30\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS09 exact chunk copies and ArrayBuffer mutation cannot corrupt private source or text\u001b[32m 29\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS10 chunk APIs reject unsafe integers, overflow, negative zero, proxies and wrong argument counts\u001b[32m 30\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS11 scalar ledger includes receipt metadata and all simultaneous source/text/transient charges\u001b[32m 26\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS12 phased tiny working set succeeds without retaining the full declared body beside text\u001b[32m 45\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS13 a genuine oversized single-source lease refuses before opening or allocating\u001b[32m 28\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS14 current bytes, mode, hardlink and symlink drift cannot inherit creation freshness\u001b[32m 95\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS15 close and retirement invalidate handles yet permit the next controlled owner\u001b[32m 48\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[32m✓\u001b[39m SS16 deadline failures still permit authenticated cleanup, never deadline renewal\u001b[32m 48\u001b[2mms\u001b[22m\u001b[39m\n\u001b[31m     \u001b[31m×\u001b[31m SS17 retained source boundaries contain metadata only and no whole-read/parser/target callbacks\u001b[39m\u001b[32m 4\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio.test.ts \u001b[2m(\u001b[22m\u001b[2m48 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 294\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-graph.test.ts \u001b[2m(\u001b[22m\u001b[2m13 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 348\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-inventory-graph-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m14 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 420\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-store-verifier.test.ts \u001b[2m(\u001b[22m\u001b[2m12 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 431\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-packaging.test.ts \u001b[2m(\u001b[22m\u001b[2m24 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 40\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-boundary.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 24\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-compiler.test.ts \u001b[2m(\u001b[22m\u001b[2m11 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 20\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m13 passed\u001b[39m\u001b[22m\u001b[90m (14)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m1 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m401 passed\u001b[39m\u001b[22m\u001b[90m (402)\u001b[39m\n\u001b[2m   Start at \u001b[22m 12:14:21\n\u001b[2m   Duration \u001b[22m 7.59s\u001b[2m (transform 341ms, setup 0ms, import 686ms, tests 5.63s, environment 1ms)\u001b[22m\n\n",
+      "stderr": "\n\u001b[31m⎯⎯⎯⎯⎯⎯⎯\u001b[39m\u001b[1m\u001b[41m Failed Tests 1 \u001b[49m\u001b[22m\u001b[31m⎯⎯⎯⎯⎯⎯⎯\u001b[39m\n\n\u001b[41m\u001b[1m FAIL \u001b[22m\u001b[49m \u001b[30m\u001b[42m tip081-unit \u001b[49m\u001b[39m tests/unit/evidence-studio-source-store.test.ts\u001b[2m > \u001b[22mTIP081 metadata-only source store and private single-source leases\u001b[2m > \u001b[22mSS17 retained source boundaries contain metadata only and no whole-read/parser/target callbacks\n\u001b[31m\u001b[1mAssertionError\u001b[22m: expected '// Verified metadata lifetime, then o…' not to match /(?:Buffer\\.concat|\\.join\\(|pieces\\.pu…/\u001b[39m\n\n\u001b[32m- Expected:\u001b[39m\n/(?:Buffer\\.concat|\\.join\\(|pieces\\.push)/\n\n\u001b[31m+ Received:\u001b[39m\n\"// Verified metadata lifetime, then one private source working set. No target execution.\nimport fs from \\\"node:fs\\\";\nimport path from \\\"node:path\\\";\nimport {createHash} from \\\"node:crypto\\\";\nimport {types} from \\\"node:util\\\";\nimport {manifestDigest} from \\\"./runtime-tip081-manifest.mjs\\\";\nimport {acquireInventory,readAcquiredInventory,createInventoryAccess,statInventoryPath,inventoryPath} from \\\"./acquire-tip081-inventory.mjs\\\";\nimport {verifyInventory} from \\\"./verify-tip081-inventory.mjs\\\";\n\nconst stores=new WeakMap(),leases=new WeakMap(),chunkLimit=65536;\nconst allocateChunk=Buffer.alloc.bind(Buffer),copyChunk=Function.prototype.call.bind(Buffer.prototype.copy);\nlet activeStore=null,activeLease=null;\nconst integer=value=>Number.isSafeInteger(value)&&value>=0&&!Object.is(value,-0);\nconst identityKeys=[\\\"device\\\",\\\"inode\\\",\\\"mode\\\",\\\"nlink\\\",\\\"size\\\",\\\"uid\\\",\\\"mtimeMs\\\",\\\"ctimeMs\\\",\\\"type\\\"];\nfunction freeze(value){if(value&&typeof value===\\\"object\\\"){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;}\n/** @returns {never} */\nfunction fail(code,details={}){const error=new Error(code);error.code=code;error.details={graphStatus:\\\"ACQUIRED_GRAPH_UNRUN\\\",fullRuntimeClosure:\\\"NOT_ACCEPTED\\\",execution:false,materialization:false,...details};throw error;}\nfunction clock(started){const now=performance.now();if(!Number.isFinite(started)||!Number.isFinite(now)||now<started||now-started>120000)fail(\\\"TIP081_SOURCE_STORE_TIME_REFUSED\\\");}\nfunction ownerState(owner,timed=true){if(!owner||typeof owner!==\\\"object\\\"||types.isProxy(owner)||activeStore!==owner)fail(\\\"TIP081_SOURCE_STORE_AUTHORITY_REFUSED\\\");const state=stores.get(owner);if(!state)fail(\\\"TIP081_SOURCE_STORE_AUTHORITY_REFUSED\\\");if(timed)clock(state.started);return state;}\nfunction leaseState(owner,lease,timed=true){const state=ownerState(owner,timed);if(!lease||typeof lease!==\\\"object\\\"||types.isProxy(lease)||activeLease!==lease)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");const held=leases.get(lease);if(!held||held.owner!==owner)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");return {state,held};}\nfunction encodedStringBytes(value){let size=2;for(let i=0;i<value.length;i++){const c=value.charCodeAt(i);if(c===34||c===92||[8,9,10,12,13].includes(c))size+=2;else if(c<32)size+=6;else if(c<128)size++;else if(c<2048)size+=2;else if(c>=55296&&c<=56319){const next=value.charCodeAt(i+1);if(next>=56320&&next<=57343){size+=4;i++;}else size+=6;}else if(c>=56320&&c<=57343)size+=6;else size+=3;}return size;}\nfunction metadataBytes(value,started,limit){\n  let nodes=0;\n  function visit(item,depth){\n    clock(started);if(++nodes>1000000||depth>128)fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");\n    if(item===null)return 4;if(typeof item===\\\"boolean\\\")return item?4:5;\n    if(typeof item===\\\"string\\\"){if(item.length>8192)fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");return encodedStringBytes(item);}\n    if(typeof item===\\\"number\\\"){if(!Number.isFinite(item)||Object.is(item,-0))fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");return Buffer.byteLength(JSON.stringify(item));}\n    if(!item||typeof item!==\\\"object\\\"||types.isProxy(item))fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");\n    const array=Array.isArray(item);if(Object.getPrototypeOf(item)!==(array?Array.prototype:Object.prototype))fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");let size=2,count=0;\n    if(array){const length=Object.getOwnPropertyDescriptor(item,\\\"length\\\")?.value;if(!integer(length)||length>20000)fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");for(let i=0;i<length;i++){const descriptor=Object.getOwnPropertyDescriptor(item,String(i));if(!descriptor||!Object.hasOwn(descriptor,\\\"value\\\"))fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");size+=(count++?1:0)+visit(descriptor.value,depth+1);if(size>limit)fail(\\\"TIP081_SOURCE_STORE_CAP_REFUSED\\\");}}\n    else for(const key of Object.keys(item)){const descriptor=Object.getOwnPropertyDescriptor(item,key);if(!descriptor||!Object.hasOwn(descriptor,\\\"value\\\")||[\\\"__proto__\\\",\\\"constructor\\\",\\\"prototype\\\"].includes(key))fail(\\\"TIP081_SOURCE_STORE_METADATA_REFUSED\\\");size+=(count++?1:0)+encodedStringBytes(key)+1+visit(descriptor.value,depth+1);if(size>limit)fail(\\\"TIP081_SOURCE_STORE_CAP_REFUSED\\\");}\n    return size;\n  }return visit(value,0);\n}\n\n// This lexical stage is the only holder of the acquisition key. Its return has\n// metadata only; no body Map, Buffer, callback or closure can retain that key.\nfunction creationStage(options){\n  const transient=acquireInventory(options),creationReceipt=verifyInventory(transient);\n  const {record:creationRecord,snapshot:creationSnapshot}=readAcquiredInventory(transient);\n  return {creationRecord,creationSnapshot,creationReceipt};\n}\n\nexport function createInventorySourceStore(options){\n  if(arguments.length!==1)fail(\\\"TIP081_SOURCE_STORE_OPTIONS_REFUSED\\\");\n  if(activeStore!==null||activeLease!==null)fail(\\\"TIP081_SOURCE_STORE_BUSY\\\");\n  const started=performance.now();activeStore=Object.freeze({phase:\\\"CREATING_METADATA\\\"});\n  try{\n    const metadata=creationStage(options);clock(started);\n    const {creationRecord,creationSnapshot,creationReceipt}=metadata,mode=creationRecord.mode,limit=mode===\\\"SYNTHETIC\\\"?1048576:67108864,entryLimit=mode===\\\"SYNTHETIC\\\"?128:20000;\n    if(creationRecord.files.length+creationRecord.directories.length>entryLimit)fail(\\\"TIP081_SOURCE_STORE_ENTRY_REFUSED\\\");\n    const M=metadataBytes(creationRecord,started,limit)+metadataBytes(creationSnapshot,started,limit)+metadataBytes(creationReceipt,started,limit);\n    const accounting={metadataBytes:M,canonicalScratchBytes:3*M,controlBytes:8*M+4096*(creationRecord.files.length+creationRecord.directories.length)+65536+16384,chunkTransientBytes:131072,decoderTransientBytes:132096,baseBytes:0,limit,entryLimit};\n    accounting.baseBytes=M+accounting.canonicalScratchBytes+accounting.controlBytes+accounting.chunkTransientBytes+accounting.decoderTransientBytes;\n    if(!integer(accounting.baseBytes)||accounting.baseBytes>limit)fail(\\\"TIP081_SOURCE_STORE_CAP_REFUSED\\\",{baseBytes:accounting.baseBytes,limit});\n    const body={version:1,purpose:\\\"TIP081_VERIFIED_METADATA_SOURCE_STORE\\\",ownership:\\\"PRIVATE_METADATA_ONLY\\\",mode,profile:creationRecord.profile,epoch:creationRecord.epoch,inventoryDigest:creationRecord.digest,snapshotDigest:creationSnapshot.digest,creationReceiptDigest:creationReceipt.digest,fileCount:creationRecord.files.length,directoryCount:creationRecord.directories.length,entryCount:creationRecord.entries.length,retainedPayloadBytes:0,accounting,graphStatus:\\\"ACQUIRED_GRAPH_UNRUN\\\",fullRuntimeClosure:\\\"NOT_ACCEPTED\\\",execution:false,materialization:false};\n    if(metadataBytes(body,started,limit)+96>16384)fail(\\\"TIP081_SOURCE_STORE_SEAL_REFUSED\\\");\n    const view=freeze({...body,digest:manifestDigest(body)}),owner=Object.freeze({version:1,purpose:\\\"TIP081_OPAQUE_METADATA_OWNER\\\",storeDigest:view.digest});\n    // The control convention's 4096-per-file/directory slots cover this metadata\n    // index and independent catalogue/state reconstruction; there is no body index.\n    const index=new Map();for(const row of creationRecord.files){clock(started);index.set(row.path,row);}\n    stores.set(owner,{...metadata,view,index,started});activeStore=owner;return owner;\n  }catch(error){activeStore=null;throw error;}\n}\n\nexport function readInventorySourceStore(owner){if(arguments.length!==1)fail(\\\"TIP081_SOURCE_STORE_AUTHORITY_REFUSED\\\");const state=ownerState(owner);return Object.freeze({view:state.view,creationRecord:state.creationRecord,creationSnapshot:state.creationSnapshot,creationReceipt:state.creationReceipt});}\n\nfunction stat(stat){return {device:stat.dev,inode:stat.ino,mode:stat.mode,nlink:stat.nlink,size:stat.size,uid:stat.uid,mtimeMs:stat.mtimeMs,ctimeMs:stat.ctimeMs,type:stat.isFile()?\\\"file\\\":stat.isDirectory()?\\\"directory\\\":\\\"other\\\"};}\nfunction same(left,right){return identityKeys.every(key=>left[key]===right[key]);}\nfunction expectedIdentity(row){return {device:row.device,inode:row.inode,mode:row.mode,nlink:row.nlink,size:row.size,uid:row.uid,mtimeMs:row.mtimeMs,ctimeMs:row.ctimeMs,type:\\\"file\\\"};}\nfunction parentProof(file,started){const proof=[];let current=path.parse(file).root;for(const part of file.split(path.sep).filter(Boolean).slice(0,-1)){clock(started);current=path.join(current,part);const raw=fs.lstatSync(current),identity=stat(raw);if(raw.isSymbolicLink()||identity.type!==\\\"directory\\\")fail(\\\"TIP081_SOURCE_LEASE_PARENT_REFUSED\\\");proof.push({path:current,identity});}return proof;}\nfunction parentsStable(proof,started){for(const row of proof){clock(started);const raw=fs.lstatSync(row.path);if(raw.isSymbolicLink()||!same(stat(raw),row.identity))fail(\\\"TIP081_SOURCE_LEASE_PARENT_CHANGED\\\");}}\nfunction readExpectedSource(state,row){\n  const access=createInventoryAccess({mode:state.creationRecord.mode,...state.creationRecord.roots}),expected=expectedIdentity(row),before=statInventoryPath(access,row.source,row.sourcePath);\n  if(!same(before,expected)||before.nlink!==1)fail(\\\"TIP081_SOURCE_LEASE_IDENTITY_REFUSED\\\",{path:row.path});\n  const root=row.source===\\\"project\\\"?state.creationRecord.roots.projectRoot:state.creationRecord.roots.dependencyRoot,file=path.join(root,row.sourcePath),proof=parentProof(file,state.started);\n  let fd;\n  try{\n    fd=fs.openSync(file,fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW|fs.constants.O_NONBLOCK);\n    const opened=stat(fs.fstatSync(fd));if(!same(opened,expected)||opened.nlink!==1)fail(\\\"TIP081_SOURCE_LEASE_FD_IDENTITY_REFUSED\\\",{path:row.path});\n    // Expected descriptor identity is checked BEFORE this exact-size allocation.\n    clock(state.started);const bytes=Buffer.alloc(row.size);let offset=0;\n    while(offset<row.size){clock(state.started);const count=fs.readSync(fd,bytes,offset,Math.min(chunkLimit,row.size-offset),offset);if(!integer(count)||count===0)fail(\\\"TIP081_SOURCE_LEASE_READ_REFUSED\\\",{path:row.path});offset+=count;}\n    if(fs.readSync(fd,Buffer.alloc(1),0,1,offset)!==0||!same(stat(fs.fstatSync(fd)),expected))fail(\\\"TIP081_SOURCE_LEASE_FD_CHANGED\\\",{path:row.path});\n    if(!same(statInventoryPath(access,row.source,row.sourcePath),expected))fail(\\\"TIP081_SOURCE_LEASE_IDENTITY_REFUSED\\\",{path:row.path});parentsStable(proof,state.started);\n    const digest=createHash(\\\"sha256\\\").update(bytes).digest(\\\"hex\\\");if(digest!==row.digest)fail(\\\"TIP081_SOURCE_LEASE_HASH_REFUSED\\\",{path:row.path});return bytes;\n  }finally{if(fd!==undefined)fs.closeSync(fd);}\n}\nfunction measurePrivate(bytes,started,file){const decoder=new TextDecoder(\\\"utf-8\\\",{fatal:true,ignoreBOM:true});let units=0;for(let offset=0;offset<bytes.length;offset+=chunkLimit){clock(started);try{units+=decoder.decode(bytes.subarray(offset,Math.min(bytes.length,offset+chunkLimit)),{stream:true}).length;}catch{fail(\\\"TIP081_SOURCE_LEASE_UTF8_REFUSED\\\",{path:file});}}try{units+=decoder.decode().length;}catch{fail(\\\"TIP081_SOURCE_LEASE_UTF8_REFUSED\\\",{path:file});}return units;}\n\nexport function openInventorySourceLease(owner,file){\n  if(arguments.length!==2)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");const state=ownerState(owner);\n  if(activeLease!==null)fail(\\\"TIP081_SOURCE_LEASE_BUSY\\\");if(typeof file!==\\\"string\\\")fail(\\\"TIP081_SOURCE_LEASE_PATH_REFUSED\\\");inventoryPath(file);\n  const row=state.index.get(file),metadata=state.creationSnapshot.files.find(item=>item.path===file);\n  if(!row||!metadata||metadata.kind!==\\\"javascript\\\"||row.digest!==metadata.digest||row.size!==metadata.size)fail(\\\"TIP081_SOURCE_LEASE_DOMAIN_REFUSED\\\");\n  const sourceBufferBytes=row.size,worstDecodedBytes=2*row.size,reservedBytes=state.view.accounting.baseBytes+sourceBufferBytes+worstDecodedBytes;\n  if(!integer(reservedBytes)||reservedBytes>state.view.accounting.limit)fail(\\\"TIP081_SOURCE_LEASE_CAP_REFUSED\\\",{path:file,reservedBytes,limit:state.view.accounting.limit});\n  activeLease=Object.freeze({phase:\\\"OPENING_SOURCE\\\"});\n  let issued=null;\n  try{\n    const bytes=readExpectedSource(state,row),utf16Units=measurePrivate(bytes,state.started,file),decodedBytes=2*utf16Units,exactReservedBytes=state.view.accounting.baseBytes+bytes.length+decodedBytes;\n    if(!integer(exactReservedBytes)||exactReservedBytes>state.view.accounting.limit)fail(\\\"TIP081_SOURCE_LEASE_CAP_REFUSED\\\",{path:file,reservedBytes:exactReservedBytes,limit:state.view.accounting.limit});\n    clock(state.started);let text;try{text=new TextDecoder(\\\"utf-8\\\",{fatal:true,ignoreBOM:true}).decode(bytes);}catch{fail(\\\"TIP081_SOURCE_LEASE_UTF8_REFUSED\\\",{path:file});}\n    if(text.length!==utf16Units)fail(\\\"TIP081_SOURCE_LEASE_TEXT_REFUSED\\\");\n    const accounting={...state.view.accounting,sourceBufferBytes,worstDecodedBytes,decodedBytes,reservedBytes,exactReservedBytes};\n    const body={version:1,purpose:\\\"TIP081_PRIVATE_SOURCE_LEASE\\\",storeDigest:state.view.digest,inventoryDigest:state.creationRecord.digest,snapshotDigest:state.creationSnapshot.digest,creationReceiptDigest:state.creationReceipt.digest,path:file,source:row.source,sourcePath:row.sourcePath,size:row.size,digest:row.digest,identity:expectedIdentity(row),utf16Units,decodedBytes,textCodeUnits:text.length,accounting,scope:\\\"CURRENT_SELECTED_SOURCE_ONLY\\\",graphStatus:\\\"ACQUIRED_GRAPH_UNRUN\\\",fullRuntimeClosure:\\\"NOT_ACCEPTED\\\",execution:false,materialization:false};\n    if(metadataBytes(body,state.started,state.view.accounting.limit)+96>16384)fail(\\\"TIP081_SOURCE_LEASE_SEAL_REFUSED\\\");\n    const descriptor=freeze({...body,descriptorDigest:manifestDigest(body)}),lease=Object.freeze({version:1,purpose:\\\"TIP081_OPAQUE_SOURCE_LEASE\\\",storeDigest:state.view.digest,descriptorDigest:descriptor.descriptorDigest});\n    leases.set(lease,{owner,descriptor,bytes,text});issued=lease;activeLease=lease;clock(state.started);return lease;\n  }catch(error){if(issued!==null)clearLease(issued);else activeLease=null;if(error&&typeof error===\\\"object\\\"&&typeof error.code===\\\"string\\\"&&error.code.startsWith(\\\"TIP081_\\\"))throw error;fail(\\\"TIP081_SOURCE_LEASE_FILESYSTEM_REFUSED\\\",{path:file});}\n}\n\nexport function readInventorySourceLease(owner,lease){if(arguments.length!==2)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");return leaseState(owner,lease).held.descriptor;}\nexport function readInventorySourceLeaseChunk(owner,lease,offset,length){\n  if(arguments.length!==4)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");const {held}=leaseState(owner,lease);\n  if(!integer(offset)||!integer(length)||length>chunkLimit||offset>held.bytes.length||length>held.bytes.length-offset)fail(\\\"TIP081_SOURCE_LEASE_RANGE_REFUSED\\\");\n  const copy=allocateChunk(length);copyChunk(held.bytes,copy,0,offset,offset+length);return copy;\n}\nfunction clearLease(lease){const held=leases.get(lease);if(held){held.bytes=null;held.text=null;leases.delete(lease);}activeLease=null;}\n// Authenticated cleanup remains possible after expiry; it never renews a deadline.\nexport function closeInventorySourceLease(owner,lease){if(arguments.length!==2)fail(\\\"TIP081_SOURCE_LEASE_AUTHORITY_REFUSED\\\");leaseState(owner,lease,false);clearLease(lease);return Object.freeze({status:\\\"SOURCE_LEASE_CLOSED\\\"});}\nexport function retireInventorySourceStore(owner){if(arguments.length!==1)fail(\\\"TIP081_SOURCE_STORE_AUTHORITY_REFUSED\\\");const state=ownerState(owner,false);if(activeLease!==null)clearLease(activeLease);state.index.clear();stores.delete(owner);activeStore=null;return Object.freeze({status:\\\"SOURCE_STORE_RETIRED\\\"});}\n\"\n\n\u001b[36m \u001b[2m❯\u001b[22m tests/unit/evidence-studio-source-store.test.ts:\u001b[2m99:307\u001b[22m\u001b[39m\n\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m\n\n",
+      "policy": "(version 1)(allow default)(deny network*)(deny file-read* (literal \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5-grant.json\") (subpath \"/Users/os/hiveos/artifacts/research/lrc-p139-attempt5\") (regex #\"(^|/)\\\\.env($|[./])\"))(deny file-write* (require-not (require-any (subpath \"/private/tmp\") (literal \"/dev/null\"))))"
+    }
+  ],
+  "milliseconds": 8057.176875
+}

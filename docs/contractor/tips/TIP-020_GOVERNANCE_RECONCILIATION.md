@@ -1,6 +1,14 @@
 # TIP-020 — Governance Reconciliation & Remote Reproducibility
 
-Status: `PART A COMPLETE — PART B OPEN (BLOCKED_EXTERNAL)`
+Status: `PART A COMPLETE — OBL-FND-001 CLOSED — RC PACKAGING OPEN`
+
+> Closure addendum (2026-08-04): `OBL-FND-001` is CLOSED. GitHub Actions run
+> `30891944749` passed all quality steps on exact SHA
+> `e7fe2155363f3567ce9670b087407b8795b8f906`; DEC-009 is expired and the
+> `PASS_PROVISIONAL` suffixes are removed. The broader Remote RC packaging work
+> in Part B (branch protection confirmation, signed tag, SBOM and retained build
+> artifacts) remains open and is not implied by this obligation closure. The
+> original reconciliation record below is retained as historical context.
 
 Owner authorization: `2026-07-28 — Part A ratified`
 Owner approval: `RECORDED`
